@@ -51,19 +51,22 @@ export function FlashSaleBanner({
 
   return (
     <div className="relative overflow-hidden rounded-3xl border border-hairline bg-surface-deep text-on-dark shadow-premium-xl">
-      {/* Jersey image — bleeds in from the right, fades into the panel. */}
-      <div className="pointer-events-none absolute inset-y-0 right-0 w-3/5 sm:w-1/2">
+      {/* Jersey image.
+          - Mobile: full-width strip along the top, fading down into the
+            panel so the content below stays clear (no overlap).
+          - sm+: bleeds in from the right, fading left into the panel. */}
+      <div className="pointer-events-none absolute inset-x-0 top-0 h-44 sm:inset-y-0 sm:left-auto sm:right-0 sm:h-auto sm:w-1/2">
         <Image
           src={JERSEY_IMAGE}
           alt=""
           fill
           priority
-          sizes="(max-width: 640px) 60vw, 50vw"
+          sizes="(max-width: 640px) 100vw, 50vw"
           className="object-cover object-center opacity-70"
         />
-        {/* Left-to-right fade so text stays legible over the artwork. */}
+        {/* Fade direction flips with the layout so text stays legible. */}
         <div
-          className="absolute inset-0 bg-gradient-to-r from-surface-deep via-surface-deep/70 to-transparent"
+          className="absolute inset-0 bg-gradient-to-t from-surface-deep via-surface-deep/60 to-transparent sm:bg-gradient-to-r sm:from-surface-deep sm:via-surface-deep/70"
           aria-hidden="true"
         />
       </div>
@@ -74,8 +77,9 @@ export function FlashSaleBanner({
         aria-hidden="true"
       />
 
-      {/* ---- Content ---- */}
-      <div className="relative p-xl md:p-xxl">
+      {/* ---- Content ----
+          Extra top padding on mobile clears the image strip above. */}
+      <div className="relative p-xl pt-40 sm:pt-xl md:p-xxl">
         {/* Flash-sale pill */}
         <span className="inline-flex items-center gap-xs rounded-full bg-gradient-to-r from-danger to-primary px-md py-xs text-button-sm uppercase text-white shadow-premium-glow">
           <FlameIcon className="h-4 w-4" />
