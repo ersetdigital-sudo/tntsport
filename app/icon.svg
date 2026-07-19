@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64">
+  <!--
+    TNT SPORT favicon - brand monogram with the coral->magenta->violet
+    gradient used across the site. Used by Next.js as the default icon
+    (app/icon.svg convention) and as the favicon.
+  -->
+  <defs>
+    <linearGradient id="g" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#ff5a5f" />
+      <stop offset="50%" stop-color="#ff2d8a" />
+      <stop offset="100%" stop-color="#7c3aed" />
+    </linearGradient>
+  </defs>
+  <rect width="64" height="64" rx="14" fill="#11111c" />
+  <rect x="2" y="2" width="60" height="60" rx="12" fill="none" stroke="url(#g)" stroke-width="2" />
+  <text
+    x="32"
+    y="34"
+    text-anchor="middle"
+    dominant-baseline="central"
+    font-family="'Space Grotesk', ui-sans-serif, system-ui, sans-serif"
+    font-size="20"
+    font-weight="700"
+    fill="url(#g)"
+    letter-spacing="-0.5"
+  >TNT</text>
+</svg>
