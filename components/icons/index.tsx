@@ -122,6 +122,26 @@ export function BoltIcon(props: IconProps) {
   );
 }
 
+/** Flame / fire glyph (filled) — promo & flash-sale accent. */
+export function FlameIcon(props: IconProps) {
+  return (
+    <svg {...base} {...props} fill="currentColor" stroke="none" viewBox="0 0 24 24">
+      <path d="M12 2s5 3.6 5 9.5a5 5 0 0 1-2.02 4.02c.32-.66.52-1.4.52-2.02 0-2.3-2-4-2-4s-.5 1.3-1.6 2.4c-1.1 1.1-1.9 2.1-1.9 3.35a3.1 3.1 0 0 0 .78 2.06A5 5 0 0 1 7 13.5C7 9 10 6.5 10 6.5s-.5 2 .5 3c0-2.5 1.5-5 1.5-7.5Z" />
+    </svg>
+  );
+}
+
+/** Shopping cart glyph. */
+export function CartIcon(props: IconProps) {
+  return (
+    <svg {...base} {...props}>
+      <circle cx="9" cy="20" r="1.4" fill="currentColor" stroke="none" />
+      <circle cx="17" cy="20" r="1.4" fill="currentColor" stroke="none" />
+      <path d="M2.5 3h2l2.2 11.2a1.5 1.5 0 0 0 1.48 1.2h8.1a1.5 1.5 0 0 0 1.47-1.18L21 7H6" />
+    </svg>
+  );
+}
+
 /** Factory glyph. */
 export function FactoryIcon(props: IconProps) {
   return (

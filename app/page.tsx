@@ -1,5 +1,5 @@
-import { CountdownTimer } from "@/components/CountdownTimer";
 import { CTALinks } from "@/components/CTALinks";
+import { FlashSaleBanner } from "@/components/FlashSaleBanner";
 import { Footer } from "@/components/Footer";
 import { ProfileHeader } from "@/components/ProfileHeader";
 import { Reviews } from "@/components/Reviews";
@@ -139,8 +139,8 @@ export default async function Page() {
           <TrustBadges badges={trustBadges} />
           <StatsGrid stats={stats} />
 
-          <section aria-label="Promo berakhir" className="w-full">
-            <CountdownTimer />
+          <section aria-label="Flash sale" className="w-full">
+            <FlashSaleBanner whatsappNumber={brand.whatsappNumber} />
           </section>
 
           <CTALinks items={ctaLinks} />

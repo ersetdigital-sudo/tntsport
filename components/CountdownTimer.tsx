@@ -1,28 +1,36 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 
 /**
- * CountdownTimer - real-time promo countdown (client component).
+ * Evergreen countdown primitives (client-only).
  *
- * Target: end of the current month (23:59:59 local time). Recomputed on
- * mount so SSR renders a stable placeholder and the client takes over
- * ticking once per second.
+ * "Evergreen" = each visitor gets a fresh deadline computed as
+ * `now + durationHours` the first time they load the page. The deadline
+ * is persisted in localStorage (keyed per promo) so refreshing does NOT
+ * reset the timer — it keeps ticking down from where it was. When it
+ * hits zero it stays done until the stored deadline is cleared.
  *
- * Card uses the glass surface with a brand gradient top accent bar and
- * a subtle glow.
+ * SSR-safe: the hook returns a stable zeroed placeholder on the server
+ * and during the first client render, then takes over ticking once per
+ * second after mount (avoids hydration mismatch).
  */
-function getEndOfMonth(now: Date): Date {
-  return new Date(now.getFullYear(), now.getMonth() + 1, 0, 23, 59, 59, 999);
-}
 
-interface Remaining {
+export interface Remaining {
   days: number;
   hours: number;
   minutes: number;
   seconds: number;
   done: boolean;
 }
+
+const ZERO: Remaining = {
+  days: 0,
+  hours: 0,
+  minutes: 0,
+  seconds: 0,
+  done: false,
+};
 
 function diff(target: number, now: number): Remaining {
   const ms = Math.max(0, target - now);
@@ -36,27 +44,71 @@ function diff(target: number, now: number): Remaining {
   return { days, hours, minutes, seconds, done: false };
 }
 
-function pad(n: number): string {
+export function pad(n: number): string {
   return n.toString().padStart(2, "0");
 }
 
-export function CountdownTimer() {
-  const target = useMemo(() => getEndOfMonth(new Date()).getTime(), []);
-  const [remaining, setRemaining] = useState<Remaining>({
-    days: 0,
-    hours: 0,
-    minutes: 0,
-    seconds: 0,
-    done: false,
-  });
+/**
+ * Resolve (and lazily create) the persisted deadline for an evergreen
+ * promo. Falls back to an in-memory deadline when localStorage is
+ * unavailable (private mode, SSR guards, etc.).
+ */
+function resolveDeadline(storageKey: string, durationHours: number): number {
+  const fresh = Date.now() + durationHours * 3_600_000;
+  if (typeof window === "undefined") return fresh;
+
+  try {
+    const stored = window.localStorage.getItem(storageKey);
+    if (stored) {
+      const parsed = Number(stored);
+      if (Number.isFinite(parsed) && parsed > 0) return parsed;
+    }
+    window.localStorage.setItem(storageKey, String(fresh));
+  } catch {
+    // localStorage blocked — use the in-memory deadline instead.
+  }
+  return fresh;
+}
+
+/**
+ * useEvergreenCountdown - ticking remaining time to a per-visitor
+ * deadline. Returns a zeroed placeholder until mounted on the client.
+ */
+export function useEvergreenCountdown(
+  durationHours: number,
+  storageKey: string
+): Remaining {
+  const [remaining, setRemaining] = useState<Remaining>(ZERO);
 
   useEffect(() => {
-    setRemaining(diff(target, Date.now()));
+    const deadline = resolveDeadline(storageKey, durationHours);
+    setRemaining(diff(deadline, Date.now()));
     const id = setInterval(() => {
-      setRemaining(diff(target, Date.now()));
+      setRemaining(diff(deadline, Date.now()));
     }, 1000);
     return () => clearInterval(id);
-  }, [target]);
+  }, [durationHours, storageKey]);
+
+  return remaining;
+}
+
+interface CountdownTimerProps {
+  /** How long the promo lasts for each visitor. Default: 7 days. */
+  durationHours?: number;
+  /** localStorage key so the deadline survives refreshes. */
+  storageKey?: string;
+}
+
+/**
+ * CountdownTimer - standalone evergreen promo card (glass surface with a
+ * brand gradient accent bar). Kept for any page that wants the timer on
+ * its own; the flash-sale banner uses `useEvergreenCountdown` directly.
+ */
+export function CountdownTimer({
+  durationHours = 24 * 7,
+  storageKey = "tcc_promo_deadline",
+}: CountdownTimerProps = {}) {
+  const remaining = useEvergreenCountdown(durationHours, storageKey);
 
   const units = [
     { label: "Hari", value: pad(remaining.days) },
