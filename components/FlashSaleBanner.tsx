@@ -6,11 +6,15 @@ import { useEvergreenCountdown, pad } from "@/components/CountdownTimer";
 import { CartIcon, FlameIcon } from "@/components/icons";
 
 /**
- * FlashSaleBanner - dark red promo hero with an evergreen countdown.
+ * FlashSaleBanner - light promo card with a green brand accent and an
+ * evergreen countdown.
  *
- * Layout mirrors the reference: a "FLASH SALE" pill, a fiery headline,
- * a 4-cell countdown (Hari / Jam / Menit / Detik), a jersey image bleeding
- * in from the right, and a footer bar with a price-rise warning + order CTA.
+ * Layout mirrors the reference: a "FLASH SALE" pill, a headline, a 4-cell
+ * countdown (Hari / Jam / Menit / Detik), a jersey image bleeding in from
+ * the right, and a footer bar with a price-rise warning + order CTA.
+ *
+ * Colors come entirely from design-system tokens (primary/brand = green,
+ * warning = amber-red), so the card adapts automatically to light/dark.
  *
  * Countdown is evergreen (see useEvergreenCountdown): each visitor gets a
  * fresh deadline stored in localStorage so refreshing doesn't reset it.
@@ -50,11 +54,11 @@ export function FlashSaleBanner({
     : "#";
 
   return (
-    <div className="relative overflow-hidden rounded-3xl border border-hairline bg-surface-deep text-on-dark shadow-premium-xl">
+    <div className="relative overflow-hidden rounded-3xl border border-primary/30 bg-surface-card text-ink shadow-premium-lg">
       {/* Jersey image.
           - Mobile: full-width strip along the top, fading down into the
-            panel so the content below stays clear (no overlap).
-          - sm+: bleeds in from the right, fading left into the panel. */}
+            card so the content below stays clear (no overlap).
+          - sm+: bleeds in from the right, fading left into the card. */}
       <div className="pointer-events-none absolute inset-x-0 top-0 h-44 sm:inset-y-0 sm:left-auto sm:right-0 sm:h-auto sm:w-1/2">
         <Image
           src={JERSEY_IMAGE}
@@ -62,18 +66,18 @@ export function FlashSaleBanner({
           fill
           priority
           sizes="(max-width: 640px) 100vw, 50vw"
-          className="object-cover object-center opacity-70"
+          className="object-cover object-center"
         />
         {/* Fade direction flips with the layout so text stays legible. */}
         <div
-          className="absolute inset-0 bg-gradient-to-t from-surface-deep via-surface-deep/60 to-transparent sm:bg-gradient-to-r sm:from-surface-deep sm:via-surface-deep/70"
+          className="absolute inset-0 bg-gradient-to-t from-surface-card via-surface-card/70 to-transparent sm:bg-gradient-to-r sm:from-surface-card sm:via-surface-card/80"
           aria-hidden="true"
         />
       </div>
 
-      {/* Ambient red glow for the flash-sale mood. */}
+      {/* Soft green glow for the brand mood. */}
       <div
-        className="pointer-events-none absolute -right-16 top-1/2 h-72 w-72 -translate-y-1/2 rounded-full bg-danger/25 blur-3xl"
+        className="pointer-events-none absolute -right-16 top-1/2 h-72 w-72 -translate-y-1/2 rounded-full bg-primary/15 blur-3xl"
         aria-hidden="true"
       />
 
@@ -81,31 +85,31 @@ export function FlashSaleBanner({
           Extra top padding on mobile clears the image strip above. */}
       <div className="relative p-xl pt-40 sm:pt-xl md:p-xxl">
         {/* Flash-sale pill */}
-        <span className="inline-flex items-center gap-xs rounded-full bg-gradient-to-r from-danger to-primary px-md py-xs text-button-sm uppercase text-white shadow-premium-glow">
+        <span className="inline-flex items-center gap-xs rounded-full bg-gradient-brand px-md py-xs text-button-sm uppercase text-on-primary shadow-premium-glow">
           <FlameIcon className="h-4 w-4" />
           Flash Sale
         </span>
 
         {/* Headline */}
-        <h2 className="mt-lg flex items-center gap-sm text-heading-lg font-bold uppercase italic tracking-tight">
-          <FlameIcon className="h-7 w-7 text-danger" />
+        <h2 className="mt-lg flex items-center gap-sm text-heading-lg font-bold uppercase italic tracking-tight text-ink">
+          <FlameIcon className="h-7 w-7 text-primary" />
           Promo Berakhir Dalam:
         </h2>
-        <p className="mt-xs text-body-sm text-on-dark-mute">
+        <p className="mt-xs text-body-sm text-charcoal">
           Jangan sampai kelewatan! Diskon spesial terbatas.
         </p>
 
-        {/* Countdown */}
+        {/* Countdown — dark cells for punchy contrast on the light card. */}
         <div className="mt-xl flex max-w-lg gap-sm md:gap-md">
           {units.map((u) => (
             <div
               key={u.label}
-              className="flex flex-1 flex-col items-center gap-xxs rounded-xl border border-hairline bg-black/40 px-sm py-md backdrop-blur-xs"
+              className="flex flex-1 flex-col items-center gap-xxs rounded-xl bg-surface-dark px-sm py-md shadow-premium-sm"
             >
-              <span className="text-heading-lg font-bold tabular-nums leading-none text-white">
+              <span className="text-heading-lg font-bold tabular-nums leading-none text-on-dark">
                 {remaining.done ? "00" : u.value}
               </span>
-              <span className="text-button-sm uppercase text-danger">
+              <span className="text-button-sm uppercase text-primary">
                 {u.label}
               </span>
             </div>
@@ -114,17 +118,17 @@ export function FlashSaleBanner({
       </div>
 
       {/* ---- Footer bar ---- */}
-      <div className="relative border-t border-hairline bg-black/40 backdrop-blur-xs">
+      <div className="relative border-t border-hairline bg-background-canvas/80 backdrop-blur-xs">
         <div className="flex flex-col gap-md p-lg md:flex-row md:items-center md:justify-between md:p-xl">
           <div className="flex items-center gap-md">
-            <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-danger/20 text-danger">
+            <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-warning/15 text-warning">
               <FlameIcon className="h-5 w-5" />
             </span>
             <div>
-              <p className="text-body-sm font-semibold uppercase text-white">
+              <p className="text-body-sm font-semibold uppercase text-ink">
                 Harga naik setelah waktu habis!
               </p>
-              <p className="text-caption text-on-dark-mute">
+              <p className="text-caption text-charcoal">
                 Manfaatkan sekarang sebelum terlambat.
               </p>
             </div>
@@ -134,7 +138,7 @@ export function FlashSaleBanner({
             href={orderHref}
             target={whatsappNumber ? "_blank" : undefined}
             rel={whatsappNumber ? "noopener noreferrer" : undefined}
-            className="text-button-md inline-flex h-12 shrink-0 items-center justify-center gap-sm rounded-full bg-gradient-to-r from-danger to-primary px-xl text-white shadow-premium-glow lift-on-hover focus-visible:outline focus-visible:outline-2 focus-visible:outline-secondary focus-visible:outline-offset-2"
+            className="text-button-md inline-flex h-12 shrink-0 items-center justify-center gap-sm rounded-full bg-gradient-brand px-xl text-on-primary shadow-premium-glow lift-on-hover focus-visible:outline focus-visible:outline-2 focus-visible:outline-secondary focus-visible:outline-offset-2"
           >
             <CartIcon className="h-5 w-5" />
             Order Sekarang
