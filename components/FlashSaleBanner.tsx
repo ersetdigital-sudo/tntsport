@@ -67,6 +67,16 @@ export function FlashSaleBanner({
 
       {/* Main content */}
       <div className="relative z-10 p-6 sm:p-8 md:p-10">
+        <div className="pointer-events-none relative -mx-6 -mt-6 mb-6 h-44 overflow-hidden sm:hidden">
+          <Image
+            src={JERSEY_IMAGE}
+            alt=""
+            fill
+            sizes="100vw"
+            className="object-cover object-center"
+          />
+          <div className="absolute inset-0 bg-gradient-to-t from-white via-white/25 to-transparent dark:from-surface-card dark:via-surface-card/20" aria-hidden="true" />
+        </div>
         <div className="max-w-none sm:max-w-[53%] md:max-w-[55%]">
           
           {/* Flash Sale Badge - Clean and simple */}
