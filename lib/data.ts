@@ -8,7 +8,6 @@
  */
 import {
   BoltIcon,
-  CartIcon,
   CatalogIcon,
   CheckIcon,
   FacebookIcon,
@@ -21,6 +20,7 @@ import {
   TikTokIcon,
   WhatsAppIcon,
 } from "@/components/icons";
+import { ShoppingCart, Star, ShieldCheck } from "lucide-react";
 import type {
   Brand,
   CTALink,
@@ -50,9 +50,9 @@ export const trustBadges: TrustBadge[] = [
 ];
 
 export const stats: StatItem[] = [
-  { value: "350K+", label: "Order Selesai", icon: CartIcon },
-  { value: "4.9", label: "Rating", icon: StarIcon },
-  { value: "100%", label: "Garansi", icon: CheckIcon },
+  { value: "350K+", label: "Order Selesai", icon: ShoppingCart },
+  { value: "4.9", label: "Rating", icon: Star },
+  { value: "100%", label: "Garansi", icon: ShieldCheck },
 ];
 
 const waLink = `https://wa.me/${brand.whatsappNumber}?text=${encodeURIComponent(
