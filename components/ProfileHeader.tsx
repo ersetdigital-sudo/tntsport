@@ -2,54 +2,59 @@ import Image from "next/image";
 import type { Brand } from "@/lib/types";
 
 /**
- * ProfileHeader - brand identity block at the top of the page.
+ * ProfileHeader - hero section with left-aligned brand info and
+ * product jersey image on the right.
  *
- * Avatar: 96px circle with an animated conic gradient ring (brand
- * gradient: coral -> magenta -> electric). The logo image sits inside on
- * a surface-dark tile so it reads cleanly on any background.
- *
- * Brand name uses heading-lg typography. The `accentWord` ("SPORT")
- * is rendered with a brand gradient text fill - the only saturated note
- * in the heading. Tagline uses body-md + on-dark-mute.
- *
- * Uses next/image for the logo (explicit width/height, AVIF/WebP auto).
+ * Layout: [logo + name + tagline] ... [jersey image]
+ * Mobile: stacks vertically with image below text.
  */
+
+const JERSEY_IMAGE =
+  "https://res.cloudinary.com/dqjh7utdb/image/upload/v1784495791/hadepgirs684wzyeizza.png";
+
 export function ProfileHeader({ brand }: { brand: Brand }) {
   const { name, accentWord, tagline } = brand;
   const leading = name.replace(` ${accentWord}`, "");
 
   return (
-    <header className="flex flex-col items-center text-center gap-lg">
-      {/* Avatar with animated gradient ring */}
-      <div className="relative h-28 w-28">
-        {/* Rotating gradient ring */}
-        <div
-          className="absolute inset-0 rounded-full ring-conic-brand animate-spin-slow"
-          aria-hidden="true"
-        />
-        {/* Inner tile with logo */}
-        <div className="absolute inset-[4px] rounded-full overflow-hidden bg-surface-dark shadow-premium-md">
+    <header className="flex items-center justify-between gap-lg">
+      {/* Left: logo + brand name + tagline */}
+      <div className="flex items-start gap-md">
+        {/* Logo circle */}
+        <div className="relative h-14 w-14 shrink-0 overflow-hidden rounded-full border-2 border-primary shadow-premium-sm">
           <Image
             src="/logo.jpg"
             alt={`${brand.name} logo`}
-            width={96}
-            height={96}
+            width={56}
+            height={56}
             className="h-full w-full object-cover"
             priority
           />
         </div>
+
+        {/* Brand text */}
+        <div className="flex flex-col gap-xxs">
+          <h1 className="text-heading-lg leading-tight text-ink">
+            {leading}{" "}
+            <span className="font-bold text-primary">{accentWord}</span>
+          </h1>
+          <p className="text-body-sm text-charcoal whitespace-pre-line">
+            {tagline}
+          </p>
+        </div>
       </div>
 
-      {/* Brand name - h1 is the page's single primary heading */}
-      <h1 className="text-heading-lg text-ink">
-        {leading}{" "}
-        <span className="text-gradient-brand">{accentWord}</span>
-      </h1>
-
-      {/* Tagline - preserve the explicit line break from data */}
-      <p className="text-body-md text-on-dark-mute max-w-md whitespace-pre-line">
-        {tagline}
-      </p>
+      {/* Right: jersey product image */}
+      <div className="relative hidden h-36 w-32 shrink-0 sm:block md:h-44 md:w-40">
+        <Image
+          src={JERSEY_IMAGE}
+          alt="Jersey TNT SPORT"
+          fill
+          priority
+          sizes="160px"
+          className="object-contain object-center drop-shadow-lg"
+        />
+      </div>
     </header>
   );
 }

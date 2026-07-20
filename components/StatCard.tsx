@@ -1,23 +1,23 @@
 import type { StatItem } from "@/lib/types";
 
 /**
- * StatCard - glass card with a big gradient-text number + caption label.
+ * StatCard - single stat column inside the stats banner.
  *
- * The big number uses the brand gradient text utility so the value
- * pops without adding noise. Icon (when present) is tinted primary.
+ * Renders: green icon + bold green value + gray uppercase label.
+ * Used inside StatsGrid which provides the card container.
  */
 export function StatCard({ value, label, icon: Icon }: StatItem) {
   return (
-    <div className="glass lift-on-hover hover:shadow-premium-lg rounded-2xl p-xl flex flex-col gap-sm">
-      <div className="flex items-center gap-sm">
+    <div className="flex flex-col items-center gap-xs py-md text-center">
+      <div className="flex items-center gap-xs">
         {Icon ? (
           <Icon className="h-5 w-5 text-primary" aria-hidden="true" />
         ) : null}
-        <span className="text-heading-md text-gradient-brand font-semibold">
+        <span className="text-heading-md font-bold text-primary">
           {value}
         </span>
       </div>
-      <span className="text-button-sm text-on-dark-mute uppercase tracking-wider">
+      <span className="text-button-sm uppercase tracking-wide text-mute">
         {label}
       </span>
     </div>

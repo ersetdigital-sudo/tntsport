@@ -2,16 +2,23 @@ import { SocialLinkIcon } from "@/components/SocialLinkIcon";
 import type { SocialLink } from "@/lib/types";
 
 /**
- * SocialLinks — 5-up icon grid for social platforms.
- *
- * Uses a 5-column grid on desktop and a 3-column grid on mobile so
- * the 5 icons wrap to 3+2 cleanly. Each item is a SocialLinkIcon.
+ * SocialLinks — centered "IKUTI KAMI" header with decorative arrows
+ * and a 5-up grid of rounded-square social icons.
  */
 export function SocialLinks({ items }: { items: SocialLink[] }) {
   return (
     <section aria-label="Tautan media sosial" className="w-full">
-      <h2 className="text-heading-md text-ink mb-lg">Ikuti Kami</h2>
-      <div className="grid grid-cols-3 gap-lg md:grid-cols-5 md:gap-xl">
+      {/* Centered header with decorative arrows */}
+      <div className="mb-xl flex items-center justify-center gap-md">
+        <span className="h-px w-8 bg-hairline-strong" aria-hidden="true" />
+        <h2 className="text-body-md font-bold uppercase tracking-wide text-ink">
+          Ikuti Kami
+        </h2>
+        <span className="h-px w-8 bg-hairline-strong" aria-hidden="true" />
+      </div>
+
+      {/* Social icon grid */}
+      <div className="grid grid-cols-5 gap-md">
         {items.map((s) => (
           <SocialLinkIcon key={s.label} {...s} />
         ))}

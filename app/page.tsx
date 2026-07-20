@@ -2,7 +2,6 @@ import { CTALinks } from "@/components/CTALinks";
 import { FlashSaleBanner } from "@/components/FlashSaleBanner";
 import { Footer } from "@/components/Footer";
 import { ProfileHeader } from "@/components/ProfileHeader";
-import { Reviews } from "@/components/Reviews";
 import { SocialLinks } from "@/components/SocialLinks";
 import { StatsGrid } from "@/components/StatsGrid";
 import { ThemeToggle } from "@/components/ThemeToggle";
@@ -133,18 +132,17 @@ export default async function Page() {
 
       <ThemeToggle />
 
-      <main className="mx-auto max-w-[1440px] px-lg py-section md:px-xxl md:py-band">
-        <div className="mx-auto flex max-w-2xl flex-col items-stretch gap-xxxl">
+      <main className="mx-auto max-w-lg px-lg py-xl md:px-xl md:py-xxl">
+        <div className="flex flex-col items-stretch gap-xxl">
           <ProfileHeader brand={brand} />
-          <TrustBadges badges={trustBadges} />
           <StatsGrid stats={stats} />
+          <CTALinks items={ctaLinks} />
 
           <section aria-label="Flash sale" className="w-full">
             <FlashSaleBanner whatsappNumber={brand.whatsappNumber} />
           </section>
 
-          <CTALinks items={ctaLinks} />
-          <Reviews items={reviews} />
+          <TrustBadges badges={trustBadges} />
           <SocialLinks items={socialLinks} />
         </div>
       </main>

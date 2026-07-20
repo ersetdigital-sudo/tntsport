@@ -99,17 +99,17 @@ export function FlashSaleBanner({
           Jangan sampai kelewatan! Diskon spesial terbatas.
         </p>
 
-        {/* Countdown — dark cells for punchy contrast on the light card. */}
+        {/* Countdown — light cells with green digits for contrast. */}
         <div className="mt-xl flex max-w-lg gap-sm md:gap-md">
           {units.map((u) => (
             <div
               key={u.label}
-              className="flex flex-1 flex-col items-center gap-xxs rounded-xl bg-surface-dark px-sm py-md shadow-premium-sm"
+              className="flex flex-1 flex-col items-center gap-xxs rounded-xl border border-hairline bg-background-canvas px-sm py-md shadow-premium-sm"
             >
-              <span className="text-heading-lg font-bold tabular-nums leading-none text-on-dark">
+              <span className="text-heading-lg font-bold tabular-nums leading-none text-primary">
                 {remaining.done ? "00" : u.value}
               </span>
-              <span className="text-button-sm uppercase text-primary">
+              <span className="text-button-sm uppercase text-mute">
                 {u.label}
               </span>
             </div>

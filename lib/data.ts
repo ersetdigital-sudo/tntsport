@@ -8,6 +8,7 @@
  */
 import {
   BoltIcon,
+  CartIcon,
   CatalogIcon,
   CheckIcon,
   FacebookIcon,
@@ -42,16 +43,16 @@ export const brand: Brand = {
 };
 
 export const trustBadges: TrustBadge[] = [
-  { label: "Langsung Pabrik", icon: FactoryIcon, variant: "neutral" },
-  { label: "4.9 Rating", icon: StarIcon, variant: "info" },
-  { label: "350K+ Order Selesai", icon: CheckIcon, variant: "success" },
+  { label: "Bahan Premium", subtext: "Kualitas terbaik", icon: CheckIcon, variant: "success" },
+  { label: "Desain Bebas", subtext: "Sesuai keinginanmu", icon: StarIcon, variant: "info" },
+  { label: "Harga Pabrik", subtext: "Lebih hemat", icon: FactoryIcon, variant: "neutral" },
+  { label: "Kirim Se-Indonesia", subtext: "Aman & terpercaya", icon: BoltIcon, variant: "success" },
 ];
 
 export const stats: StatItem[] = [
-  { value: "350K+", label: "Order Selesai" },
-  { value: "9K+", label: "Klien Puas" },
-  { value: "65rb", label: "Mulai Dari" },
-  { value: "Tepat Waktu", label: "Produksi & Kirim", icon: BoltIcon },
+  { value: "350K+", label: "Order Selesai", icon: CartIcon },
+  { value: "4.9", label: "Rating", icon: StarIcon },
+  { value: "100%", label: "Garansi", icon: CheckIcon },
 ];
 
 const waLink = `https://wa.me/${brand.whatsappNumber}?text=${encodeURIComponent(

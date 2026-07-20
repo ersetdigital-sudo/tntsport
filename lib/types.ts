@@ -41,6 +41,7 @@ export interface DbBrand extends Omit<Brand, "whatsappNumber" | "logoPath" | "ac
 // ---------------------------------------------------------------------------
 export interface TrustBadge {
   label: string;
+  subtext?: string;
   icon?: ComponentType<SVGProps<SVGSVGElement>>;
   variant: "neutral" | "filled" | "success" | "warning" | "info";
 }
