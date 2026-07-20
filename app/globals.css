@@ -384,6 +384,11 @@
     text-transform: uppercase;
   }
 
+  .dark body {
+    background-color: var(--color-background);
+    background-image: var(--mesh-bg);
+  }
+
   .bio-stripes {
     background-image:
       linear-gradient(135deg, transparent 0 31%, rgba(0, 200, 83, .13) 31.2% 32%, transparent 32.2% 39%, rgba(0, 200, 83, .16) 39.2% 40%, transparent 40.2% 48%, rgba(0, 200, 83, .10) 48.2% 49%, transparent 49.2%),

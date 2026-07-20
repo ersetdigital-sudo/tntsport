@@ -63,7 +63,7 @@ export function CTALinkCard({
   const wrapperClasses =
     "rounded-2xl bg-transparent";
   const innerClasses =
-    "group/card relative flex min-h-[84px] items-center gap-3 rounded-2xl border border-black/[.055] bg-white p-4 md:gap-4 md:p-5 " +
+    "group/card relative flex min-h-[84px] items-center gap-3 rounded-2xl border border-black/[.055] bg-white p-4 dark:border-white/10 dark:bg-surface-card md:gap-4 md:p-5 " +
     "shadow-premium-md transition-all duration-normal ease-premium hover:-translate-y-1 hover:shadow-premium-lg active:scale-[0.98]";
 
   if (!href) {
