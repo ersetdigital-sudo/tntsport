@@ -10,6 +10,9 @@ import { MoonIcon, SunIcon } from "@/components/icons";
  * Glass pill button with smooth icon transition. A `mounted` guard
  * prevents hydration mismatch - next-themes can't know the theme on
  * the server, so we render a same-sized placeholder until mounted.
+ *
+ * Note: positioned inline (not fixed/sticky) so it scrolls with the
+ * page. The parent container in page.tsx places it in the top-right.
  */
 export function ThemeToggle() {
   const { resolvedTheme, setTheme } = useTheme();
@@ -27,7 +30,7 @@ export function ThemeToggle() {
       onClick={() => setTheme(next)}
       aria-label={label}
       title={label}
-      className="fixed right-lg top-lg z-50 flex h-12 w-12 items-center justify-center rounded-full glass shadow-premium-md lift-on-hover hover:shadow-premium-lg focus-visible:outline focus-visible:outline-2 focus-visible:outline-secondary focus-visible:outline-offset-2"
+      className="flex h-12 w-12 items-center justify-center rounded-full glass shadow-premium-md lift-on-hover hover:shadow-premium-lg focus-visible:outline focus-visible:outline-2 focus-visible:outline-secondary focus-visible:outline-offset-2"
     >
       {mounted ? (
         isDark ? (

@@ -20,7 +20,9 @@ export default async function Page() {
 
   return <main className="min-h-screen px-3 py-5 sm:px-6 sm:py-8">
     {jsonLd.map((schema, index) => <script key={index} type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }} />)}
-    <ThemeToggle />
+    <div className="flex justify-end pr-1 sm:pr-2">
+      <ThemeToggle />
+    </div>
     <div className="bio-page mx-auto max-w-[760px] overflow-hidden rounded-[32px] bg-white shadow-premium-xl dark:bg-surface-deep sm:rounded-[44px]">
       <HeroSection brand={brand} stats={stats} />
       <div className="space-y-5 px-5 pb-10 pt-5 sm:space-y-6 sm:px-8 sm:pb-12 sm:pt-7">
