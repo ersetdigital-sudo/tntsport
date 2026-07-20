@@ -21,7 +21,8 @@ import { BoltIcon, CartIcon, FlameIcon } from "@/components/icons";
  */
 
 // Jersey background art (Cloudinary — host allow-listed in next.config.mjs).
-const JERSEY_IMAGE = "/jersey-transparent.png";
+const JERSEY_IMAGE =
+  "https://res.cloudinary.com/dqjh7utdb/image/upload/v1784548755/ae4rmpsd23l2fcqq7thj.png";
 
 interface FlashSaleBannerProps {
   /** WhatsApp number (digits only) for the order CTA. */
