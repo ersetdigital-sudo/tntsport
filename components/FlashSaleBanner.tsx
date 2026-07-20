@@ -67,7 +67,7 @@ export function FlashSaleBanner({
 
       {/* Main content */}
       <div className="relative z-10 p-6 sm:p-8 md:p-10">
-        <div className="max-w-none sm:max-w-[58%]">
+        <div className="max-w-none sm:max-w-[53%] md:max-w-[55%]">
           
           {/* Flash Sale Badge - Clean and simple */}
           <div className="mb-4 inline-flex">
@@ -80,7 +80,7 @@ export function FlashSaleBanner({
           {/* Headline with flame icon */}
           <div className="mb-2 flex items-start gap-2 sm:mb-3 sm:gap-3">
             <FlameIcon className="mt-1 h-7 w-7 flex-shrink-0 text-danger sm:h-8 sm:w-8" />
-            <h2 className="text-[clamp(1.35rem,5vw,2rem)] font-extrabold uppercase leading-[1.05] text-ink dark:text-on-dark sm:text-[1.75rem] md:text-[2rem]">
+            <h2 className="break-words text-[clamp(1.35rem,4vw,1.75rem)] font-extrabold uppercase leading-[1.05] text-ink dark:text-on-dark sm:text-[1.5rem] md:text-[1.7rem]">
               Promo Berakhir Dalam:
             </h2>
           </div>
@@ -95,7 +95,7 @@ export function FlashSaleBanner({
             {units.map((u) => (
               <div key={u.label} className="flex min-h-[70px] flex-col items-center justify-center rounded-xl border border-primary/10 bg-primary/[.04] px-1 py-2 shadow-premium-sm dark:border-white/10 dark:bg-white/[.04]">
                 {/* Large countdown number */}
-                <div className="mb-1 text-[clamp(1.65rem,7vw,3rem)] font-black leading-none text-primary sm:mb-2 sm:text-[3.25rem] md:text-[3.75rem]">
+                <div className="mb-1 text-[clamp(1.7rem,6vw,2.5rem)] font-black leading-none text-primary sm:mb-2 sm:text-[2.1rem] md:text-[2.4rem]">
                   {remaining.done ? "00" : u.value}
                 </div>
                 {/* Label */}
