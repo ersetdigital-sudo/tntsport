@@ -51,21 +51,8 @@ export function FlashSaleBanner({
 
   return (
     <div className="relative overflow-hidden rounded-2xl bg-white shadow-premium-xl dark:bg-surface-card sm:rounded-3xl">
-      
-      {/* Diagonal stripe pattern background - subtle geometric accent */}
-      <div className="pointer-events-none absolute right-0 top-0 h-full w-full opacity-[0.07] dark:opacity-[0.12]" aria-hidden="true">
-        <svg className="h-full w-full" viewBox="0 0 800 400" fill="none" xmlns="http://www.w3.org/2000/svg">
-          {/* Diagonal stripes pattern */}
-          <path d="M600 0L800 200V0H600Z" fill="currentColor" className="text-primary" />
-          <path d="M650 0L800 150V0H650Z" fill="currentColor" className="text-primary" opacity="0.6" />
-          <path d="M700 0L800 100V0H700Z" fill="currentColor" className="text-primary" opacity="0.3" />
-          <path d="M500 400L800 100V400H500Z" fill="currentColor" className="text-secondary" opacity="0.5" />
-          <path d="M600 400L800 200V400H600Z" fill="currentColor" className="text-secondary" opacity="0.3" />
-        </svg>
-      </div>
-
       {/* Jersey image - positioned on right side */}
-      <div className="pointer-events-none absolute bottom-0 right-0 top-0 w-[45%] sm:w-[42%]">
+      <div className="pointer-events-none absolute bottom-0 right-0 top-0 hidden w-[42%] sm:block">
         <div className="relative h-full w-full">
           <Image
             src={JERSEY_IMAGE}
@@ -73,14 +60,14 @@ export function FlashSaleBanner({
             fill
             priority
             sizes="(max-width: 640px) 45vw, 42vw"
-            className="object-contain object-bottom drop-shadow-[0_10px_30px_rgba(0,0,0,.15)] dark:drop-shadow-[0_10px_40px_rgba(0,0,0,.4)] sm:object-right-bottom"
+            className="object-cover object-center drop-shadow-[0_10px_30px_rgba(0,0,0,.15)] dark:drop-shadow-[0_10px_40px_rgba(0,0,0,.4)]"
           />
         </div>
       </div>
 
       {/* Main content */}
       <div className="relative z-10 p-6 sm:p-8 md:p-10">
-        <div className="max-w-[52%] sm:max-w-[55%]">
+        <div className="max-w-none sm:max-w-[58%]">
           
           {/* Flash Sale Badge - Clean and simple */}
           <div className="mb-4 inline-flex">
@@ -93,7 +80,7 @@ export function FlashSaleBanner({
           {/* Headline with flame icon */}
           <div className="mb-2 flex items-start gap-2 sm:mb-3 sm:gap-3">
             <FlameIcon className="mt-1 h-7 w-7 flex-shrink-0 text-danger sm:h-8 sm:w-8" />
-            <h2 className="text-[1.35rem] font-extrabold uppercase leading-tight text-ink dark:text-on-dark sm:text-[1.75rem] md:text-[2rem]">
+            <h2 className="text-[clamp(1.35rem,5vw,2rem)] font-extrabold uppercase leading-[1.05] text-ink dark:text-on-dark sm:text-[1.75rem] md:text-[2rem]">
               Promo Berakhir Dalam:
             </h2>
           </div>
@@ -104,30 +91,24 @@ export function FlashSaleBanner({
           </p>
 
           {/* Countdown - Big bold numbers like reference */}
-          <div className="mb-5 grid grid-cols-4 gap-3 sm:mb-6 sm:gap-4 md:gap-5">
-            {units.map((u, idx) => (
-              <div key={u.label} className="flex flex-col items-center">
+          <div className="mb-5 grid grid-cols-4 gap-2 sm:mb-6 sm:gap-3 md:gap-4">
+            {units.map((u) => (
+              <div key={u.label} className="flex min-h-[70px] flex-col items-center justify-center rounded-xl border border-primary/10 bg-primary/[.04] px-1 py-2 shadow-premium-sm dark:border-white/10 dark:bg-white/[.04]">
                 {/* Large countdown number */}
-                <div className="mb-1 text-[2.5rem] font-black leading-none text-primary sm:mb-2 sm:text-[3.5rem] md:text-[4rem]">
+                <div className="mb-1 text-[clamp(1.65rem,7vw,3rem)] font-black leading-none text-primary sm:mb-2 sm:text-[3.25rem] md:text-[3.75rem]">
                   {remaining.done ? "00" : u.value}
                 </div>
                 {/* Label */}
                 <div className="text-[11px] font-bold uppercase tracking-wide text-primary sm:text-xs">
                   {u.label}
                 </div>
-                {/* Separator colon - hidden on last item */}
-                {idx < units.length - 1 && (
-                  <div className="absolute right-0 top-8 text-[2rem] font-black text-primary/30 sm:top-10 sm:text-[3rem] md:text-[3.5rem]">
-                    :
-                  </div>
-                )}
               </div>
             ))}
           </div>
         </div>
 
         {/* CTA Section - Warning + Button */}
-        <div className="relative z-10 flex flex-col gap-3 border-t border-hairline pt-5 sm:flex-row sm:items-center sm:justify-between sm:gap-4 sm:pt-6">
+        <div className="relative z-10 flex flex-col gap-3 border-t border-hairline bg-white pt-5 dark:bg-surface-card sm:flex-row sm:items-center sm:justify-between sm:gap-4 sm:pt-6">
           
           {/* Warning message with icon */}
           <div className="flex items-center gap-3">
