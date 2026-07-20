@@ -59,7 +59,7 @@ export function FlashSaleBanner({
           - Mobile: full-width strip along the top, fading down into the
             card so the content below stays clear (no overlap).
           - sm+: bleeds in from the right, fading left into the card. */}
-      <div className="pointer-events-none absolute inset-x-0 top-0 h-48 sm:inset-y-0 sm:left-auto sm:right-0 sm:h-auto sm:w-[48%]">
+      <div className="pointer-events-none absolute inset-x-0 top-0 h-48 sm:inset-y-0 sm:bottom-[92px] sm:left-auto sm:right-0 sm:h-auto sm:w-[46%]">
         <Image
           src={JERSEY_IMAGE}
           alt=""
@@ -84,6 +84,7 @@ export function FlashSaleBanner({
       {/* ---- Content ----
           Extra top padding on mobile clears the image strip above. */}
       <div className="relative p-5 pt-40 sm:p-xl sm:pt-xl md:p-xxl">
+        <div className="sm:max-w-[56%]">
         {/* Flash-sale badge — visually grouped and separated from headline. */}
         <div className="mb-4 md:mb-5">
           <span className="inline-flex w-fit items-center gap-xs rounded-full border border-primary/25 bg-primary/15 px-md py-xs text-button-sm uppercase text-primary shadow-premium-sm">
@@ -117,9 +118,10 @@ export function FlashSaleBanner({
             </div>
           ))}
         </div>
+        </div>
 
         {/* Footer: urgency warning + CTA */}
-        <div className="mt-5 flex flex-col items-stretch justify-between gap-4 border-t border-hairline pt-5 sm:mt-xl sm:flex-row sm:items-center sm:gap-lg sm:pt-0 sm:border-t-0">
+        <div className="mt-5 flex flex-col items-stretch justify-between gap-4 border-t border-hairline pt-5 sm:mt-xl sm:flex-row sm:items-center sm:gap-lg sm:pt-xl">
           <div className="flex items-center gap-md">
             <span
               className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-warning/15 text-warning"
