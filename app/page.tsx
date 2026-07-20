@@ -26,7 +26,7 @@ export default async function Page() {
       <div className="space-y-5 px-5 pb-10 pt-5 sm:space-y-6 sm:px-8 sm:pb-12 sm:pt-7">
         <CTALinks items={ctaLinks} />
         <FlashSaleBanner whatsappNumber={brand.whatsappNumber} />
-        <div className="rounded-2xl border border-black/[.06] bg-white px-3 py-5 shadow-premium-sm sm:rounded-3xl sm:px-5 sm:py-6"><TrustBadges badges={trustBadges} /></div>
+        <div className="rounded-2xl border border-black/[.06] bg-white px-3 py-5 shadow-premium-sm dark:border-white/10 dark:bg-surface-card sm:rounded-3xl sm:px-5 sm:py-6"><TrustBadges badges={trustBadges} /></div>
         <SocialLinks items={socialLinks} />
       </div>
       <Footer brand={brand} />

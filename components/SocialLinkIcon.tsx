@@ -1,4 +1,3 @@
-import { brandTileColor, SOCIAL_BRAND_COLORS } from "@/lib/icon-registry";
 import type { SocialLink } from "@/lib/types";
 
 /**
@@ -14,8 +13,13 @@ export function SocialLinkIcon({
   ariaLabel,
 }: SocialLink) {
   const iconName = Icon.displayName ?? "";
-  const brandColor = SOCIAL_BRAND_COLORS[iconName];
-  const tileBg = brandTileColor(iconName);
+  const tileClass: Record<string, string> = {
+    WhatsAppIcon: "bg-[#25D366]/10 text-[#25D366]",
+    InstagramIcon: "bg-white dark:bg-white/10",
+    TikTokIcon: "bg-black/10 text-black dark:bg-white/10 dark:text-white",
+    FacebookIcon: "bg-[#1877F2]/10 text-[#1877F2]",
+    MapsIcon: "bg-[#4285F4]/10 text-[#4285F4]",
+  };
 
   return (
     <a
@@ -26,11 +30,7 @@ export function SocialLinkIcon({
       className="group flex min-w-0 flex-col items-center gap-2"
     >
       <span
-        className="flex h-12 w-12 items-center justify-center rounded-2xl border border-hairline bg-white shadow-premium-sm lift-on-hover hover:shadow-premium-md sm:h-14 sm:w-14"
-        style={{
-          backgroundColor: tileBg,
-          color: brandColor,
-        }}
+        className={`flex h-12 w-12 items-center justify-center rounded-2xl border border-hairline shadow-premium-sm lift-on-hover hover:shadow-premium-md sm:h-14 sm:w-14 ${tileClass[iconName] ?? "bg-white text-primary dark:bg-white/10"}`}
       >
         <Icon className="h-5 w-5 sm:h-6 sm:w-6" aria-hidden="true" />
       </span>
