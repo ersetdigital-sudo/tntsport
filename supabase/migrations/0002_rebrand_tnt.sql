@@ -36,17 +36,18 @@ insert into public.stats (value, label, icon, sort_order) values
   ('Tepat Waktu', 'Produksi & Kirim', 'BoltIcon',  4);
 
 insert into public.cta_links (title, description, href, accent, icon, sort_order) values
-  ('Chat WhatsApp', 'Gratis konsultasi — tanya desain, harga, estimasi.',
+  ('Chat WhatsApp', 'Order & tanya desain langsung ke admin',
    'https://wa.me/6281234567890?text=Halo%20TNT%20SPORT%2C%20saya%20mau%20konsultasi%20soal%20jersey%20custom.',
    'whatsapp', 'WhatsAppIcon', 1),
-  ('Lihat Katalog & Harga Lengkap', 'Browse model jersey + harga mulai 65rb.',
+  ('Lihat Katalog & Harga', 'Pilihan model, bahan, dan harga terbaru',
    'https://tntsport.id/katalog',
-   'primary', 'CatalogIcon', 2),
-  ('Klaim Promo Beli 6 Gratis 1', 'Promo terbatas — klaim sebelum kuota habis.',
-   'https://wa.me/6281234567890?text=Halo%20TNT%20SPORT%2C%20saya%20mau%20klaim%20promo%20Beli%206%20Gratis%201.',
-   'warning', 'GiftIcon', 3),
-  ('Promo Beli 6 Gratis 1 — Detail', 'Belanja 6 jersey, dapatkan 1 jersey gratis. Berlaku semua model.',
-   null, 'neutral', 'InfoIcon', 4);
+   'neutral', 'GridIcon', 2),
+  ('Klaim Promo', 'Cek promo aktif & penawaran terbaik hari ini',
+   'https://wa.me/6281234567890?text=Halo%20TNT%20SPORT%2C%20saya%20mau%20klaim%20promo%20terbaik.',
+   'warning', 'FlameIcon', 3),
+  ('Order Sekarang', 'Proses pemesanan cepat untuk jersey custom',
+   'https://wa.me/6281234567890?text=Halo%20TNT%20SPORT%2C%20saya%20mau%20order%20jersey%20custom.',
+   'primary', 'BoltIcon', 4);
 
 insert into public.reviews (rating, quote, name, location, sort_order) values
   (5, 'Hasil printingnya rapi banget, warna sesuai desain. Anak tim langsung senang. Pasti repeat order!',
