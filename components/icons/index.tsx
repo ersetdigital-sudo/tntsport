@@ -113,6 +113,15 @@ export function ArrowRightIcon(props: IconProps) {
   );
 }
 
+/** Chevron right — compact arrow for card affordance. */
+export function ChevronRightIcon(props: IconProps) {
+  return (
+    <svg {...base} {...props}>
+      <path d="M9 18l6-6-6-6" />
+    </svg>
+  );
+}
+
 /** Lightning bolt. */
 export function BoltIcon(props: IconProps) {
   return (

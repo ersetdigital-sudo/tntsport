@@ -1,153 +1,37 @@
 import { CTALinks } from "@/components/CTALinks";
 import { FlashSaleBanner } from "@/components/FlashSaleBanner";
 import { Footer } from "@/components/Footer";
-import { ProfileHeader } from "@/components/ProfileHeader";
+import { HeroSection } from "@/components/HeroSection";
+import { Reviews } from "@/components/Reviews";
 import { SocialLinks } from "@/components/SocialLinks";
-import { StatsGrid } from "@/components/StatsGrid";
 import { ThemeToggle } from "@/components/ThemeToggle";
 import { TrustBadges } from "@/components/TrustBadges";
-import {
-  getBrand,
-  getCTALinks,
-  getReviews,
-  getSocialLinks,
-  getStats,
-  getTrustBadges,
-} from "@/lib/queries";
-import type { Brand, CTALink, Review, SocialLink, StatItem, TrustBadge } from "@/lib/types";
+import { getBrand, getCTALinks, getReviews, getSocialLinks, getStats, getTrustBadges } from "@/lib/queries";
+import type { Brand, SocialLink, Review } from "@/lib/types";
 
-/**
- * Landing page — Server Component.
- *
- * Fetches content from Supabase via lib/queries.ts (with graceful
- * fallback to lib/data.ts when the database is unreachable). Revalidated
- * every hour (ISR) so admin edits appear on the public site within ~1h
- * — or immediately when an admin save calls `revalidatePath('/')`.
- *
- * Only `ThemeToggle` and `CountdownTimer` are client components.
- */
-
-// Refresh the static page at most once per hour.
 export const revalidate = 3600;
 
-function buildJsonLd(
-  brand: Brand,
-  socialLinks: SocialLink[],
-  reviews: Review[]
-) {
-  const logoUrl = `${brand.url}${brand.logoPath}`;
-
-  // Organization schema. NOTE: aggregateRating is intentionally omitted
-  // — the 4.9 / 350K+ figures shown in the UI are not verifiable third-
-  // party data, so we do not expose them as structured data (per user
-  // guidance: avoid schema fabrication).
-  const organization = {
-    "@context": "https://schema.org",
-    "@type": "Organization",
-    name: brand.name,
-    description: brand.description,
-    url: brand.url,
-    logo: logoUrl,
-    image: logoUrl,
-    telephone: `+${brand.whatsappNumber}`,
-    areaServed: { "@type": "Country", name: "Indonesia" },
-    sameAs: socialLinks.map((s) => s.href),
-  };
-
-  // Product + Offer — the headline product with its starting price.
-  const product = {
-    "@context": "https://schema.org",
-    "@type": "Product",
-    name: "Jersey Custom Full Printing",
-    description:
-      "Jersey custom full printing desain bebas. Harga pabrik, kirim se-Indonesia.",
-    brand: { "@type": "Brand", name: brand.name },
-    manufacturer: { "@type": "Organization", name: brand.name },
-    offers: {
-      "@type": "Offer",
-      price: "65000",
-      priceCurrency: "IDR",
-      availability: "https://schema.org/InStock",
-      url: brand.url,
-      seller: { "@type": "Organization", name: brand.name },
-    },
-  };
-
-  // Review schema — one entry per testimonial shown in the UI.
-  const reviewSchema = {
-    "@context": "https://schema.org",
-    "@type": "ItemList",
-    itemListElement: reviews.map((r, i) => ({
-      "@type": "ListItem",
-      position: i + 1,
-      item: {
-        "@type": "Review",
-        reviewBody: r.quote,
-        author: { "@type": "Person", name: r.name },
-        reviewRating: {
-          "@type": "Rating",
-          ratingValue: r.rating,
-          bestRating: 5,
-          worstRating: 1,
-        },
-        itemReviewed: { "@type": "Organization", name: brand.name },
-      },
-    })),
-  };
-
-  return [organization, product, reviewSchema];
-}
-
-// Tiny indirection so server-side revalidation helpers can live in one
-// file without circular imports through lib/queries.ts.
-async function loadData() {
-  const [brand, stats, trustBadges, ctaLinks, reviews, socialLinks] =
-    await Promise.all([
-      getBrand(),
-      getStats(),
-      getTrustBadges(),
-      getCTALinks(),
-      getReviews(),
-      getSocialLinks(),
-    ]);
-  return { brand, stats, trustBadges, ctaLinks, reviews, socialLinks };
+function buildJsonLd(brand: Brand, socialLinks: SocialLink[], reviews: Review[]) {
+  return [{ "@context": "https://schema.org", "@type": "Organization", name: brand.name, description: brand.description, url: brand.url, logo: `${brand.url}${brand.logoPath}`, sameAs: socialLinks.map((item) => item.href) }, { "@context": "https://schema.org", "@type": "Product", name: "Jersey Custom Full Printing", description: "Jersey custom full printing desain bebas.", brand: { "@type": "Brand", name: brand.name }, offers: { "@type": "Offer", price: "65000", priceCurrency: "IDR", availability: "https://schema.org/InStock", url: brand.url } }, { "@context": "https://schema.org", "@type": "ItemList", itemListElement: reviews.map((review, index) => ({ "@type": "ListItem", position: index + 1, item: { "@type": "Review", reviewBody: review.quote, author: { "@type": "Person", name: review.name }, reviewRating: { "@type": "Rating", ratingValue: review.rating, bestRating: 5 }, itemReviewed: { "@type": "Organization", name: brand.name } } })) }];
 }
 
 export default async function Page() {
-  const { brand, stats, trustBadges, ctaLinks, reviews, socialLinks } =
-    await loadData();
+  const [brand, stats, trustBadges, ctaLinks, reviews, socialLinks] = await Promise.all([getBrand(), getStats(), getTrustBadges(), getCTALinks(), getReviews(), getSocialLinks()]);
   const jsonLd = buildJsonLd(brand, socialLinks, reviews);
 
-  // Hand the resolved content to section components via props so they
-  // stay pure (no async fetches inside them) and are easy to test.
-  return (
-    <>
-      {jsonLd.map((schema, i) => (
-        <script
-          key={i}
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
-        />
-      ))}
-
-      <ThemeToggle />
-
-      <main className="mx-auto max-w-lg px-lg py-xl md:px-xl md:py-xxl">
-        <div className="flex flex-col items-stretch gap-xxl">
-          <ProfileHeader brand={brand} />
-          <StatsGrid stats={stats} />
-          <CTALinks items={ctaLinks} />
-
-          <section aria-label="Flash sale" className="w-full">
-            <FlashSaleBanner whatsappNumber={brand.whatsappNumber} />
-          </section>
-
-          <TrustBadges badges={trustBadges} />
-          <SocialLinks items={socialLinks} />
-        </div>
-      </main>
-
-      <Footer brand={brand} />
-    </>
-  );
+  return <>
+    {jsonLd.map((schema, index) => <script key={index} type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }} />)}
+    <ThemeToggle />
+    <main className="mx-auto max-w-[1440px] px-4 py-4 sm:px-6 sm:py-6 lg:px-10 lg:py-10">
+      <HeroSection brand={brand} stats={stats} />
+      <div className="mx-auto mt-10 max-w-6xl space-y-12 sm:mt-14 sm:space-y-16 lg:mt-20">
+        <section className="text-center"><p className="section-kicker">Dipercaya komunitas & tim</p><div className="mt-4"><TrustBadges badges={trustBadges} /></div></section>
+        <section id="koleksi" className="grid gap-6 lg:grid-cols-[.85fr_1.15fr] lg:gap-10"><div className="lg:pt-4"><p className="section-kicker">Pilih caramu</p><h2 className="mt-3 text-display-lg text-ink">Mulai dari ide.<br /><span className="text-gradient-brand">Berakhir jadi kebanggaan.</span></h2><p className="mt-4 max-w-sm text-body-md text-charcoal">Tim kami siap membantu dari konsultasi desain hingga jersey tiba di tanganmu.</p></div><CTALinks items={ctaLinks} /></section>
+        <section aria-label="Penawaran terbatas"><FlashSaleBanner whatsappNumber={brand.whatsappNumber} /></section>
+        <Reviews items={reviews} />
+        <SocialLinks items={socialLinks} />
+      </div>
+    </main>
+    <Footer brand={brand} />
+  </>;
 }

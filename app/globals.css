@@ -161,6 +161,7 @@
     background-image: var(--mesh-bg);
     background-attachment: fixed;
     transition: background-color 300ms ease, color 300ms ease;
+    min-width: 320px;
   }
 
   /* Premium scrollbar */
@@ -366,5 +367,20 @@
   }
   .animate-spin-slow {
     animation: spin-slow 8s linear infinite;
+  }
+
+  .hero-grid {
+    background-image: linear-gradient(rgba(255,255,255,.055) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,.055) 1px, transparent 1px);
+    background-size: 44px 44px;
+    mask-image: linear-gradient(to bottom, black, transparent 82%);
+  }
+
+  .section-kicker {
+    color: var(--color-primary);
+    font-family: var(--font-mono), ui-monospace, monospace;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: .16em;
+    text-transform: uppercase;
   }
 }
