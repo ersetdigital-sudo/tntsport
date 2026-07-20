@@ -7,7 +7,6 @@ export function HeroSection({ brand, stats }: { brand: Brand; stats: StatItem[] 
 
   return (
     <section className="relative overflow-hidden rounded-[28px] bg-white px-5 pt-7 dark:bg-surface-card sm:rounded-[36px] sm:px-8 sm:pt-10">
-      <div className="bio-stripes pointer-events-none absolute inset-y-0 right-0 w-[64%] opacity-70" aria-hidden="true" />
       <div className="relative min-h-[360px] sm:min-h-[390px]">
         <div className="relative z-10 mx-auto max-w-xl text-center">
           <div className="mx-auto h-[76px] w-[76px] overflow-hidden rounded-full border-2 border-primary/60 bg-white p-1 shadow-premium-md dark:bg-surface-deep sm:h-24 sm:w-24">
