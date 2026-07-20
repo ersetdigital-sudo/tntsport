@@ -12,7 +12,7 @@ export function HeroSection({ brand, stats }: { brand: Brand; stats: StatItem[] 
   const taglineLines = brand.tagline.split("\n");
 
   return (
-    <section className="relative overflow-hidden bg-white dark:bg-surface-card">
+    <section className="relative overflow-hidden bg-white dark:bg-surface-deep">
       {/* Subtle diagonal stripe wash — decorative corner accent only. */}
       <div
         aria-hidden="true"
