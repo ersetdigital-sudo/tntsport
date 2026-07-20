@@ -53,7 +53,7 @@ export function FlashSaleBanner({
     : "#";
 
   return (
-    <div className="relative overflow-hidden rounded-2xl border border-black/[.06] bg-surface-card text-ink shadow-premium-md sm:rounded-3xl">
+    <div className="relative overflow-hidden rounded-2xl border border-primary/30 bg-gradient-to-br from-primary/[.12] via-surface-card to-surface-card text-ink shadow-premium-lg sm:rounded-3xl">
       {/* Jersey image.
           - Mobile: full-width strip along the top, fading down into the
             card so the content below stays clear (no overlap).
@@ -85,7 +85,7 @@ export function FlashSaleBanner({
       <div className="relative p-5 pt-36 sm:p-xl sm:pt-xl md:p-xxl">
         {/* Flash-sale badge — visually grouped and separated from headline. */}
         <div className="mb-4 md:mb-5">
-          <span className="inline-flex w-fit items-center gap-xs rounded-full bg-gradient-brand px-md py-xs text-button-sm uppercase text-on-primary shadow-premium-glow">
+          <span className="inline-flex w-fit items-center gap-xs rounded-full border border-primary/25 bg-primary/15 px-md py-xs text-button-sm uppercase text-primary shadow-premium-sm">
             <BoltIcon className="h-4 w-4" />
             Flash Sale
           </span>
@@ -105,7 +105,7 @@ export function FlashSaleBanner({
           {units.map((u) => (
             <div
               key={u.label}
-              className="flex flex-col items-center gap-1 rounded-xl border border-black/[.05] bg-white px-1 py-2 shadow-premium-sm sm:px-2 sm:py-3 md:px-sm md:py-md"
+              className="flex flex-col items-center gap-1 rounded-xl border border-black/[.05] bg-white px-1 py-2 shadow-premium-sm dark:border-white/10 dark:bg-[#0b0b14] sm:px-2 sm:py-3 md:px-sm md:py-md"
             >
               <span className="text-xl font-bold tabular-nums leading-none text-primary sm:text-2xl md:text-heading-lg">
                 {remaining.done ? "00" : u.value}
@@ -140,7 +140,7 @@ export function FlashSaleBanner({
             href={orderHref}
             target={whatsappNumber ? "_blank" : undefined}
             rel={whatsappNumber ? "noopener noreferrer" : undefined}
-            className="text-button-md inline-flex h-12 shrink-0 items-center justify-center gap-sm rounded-full bg-gradient-brand px-xl text-on-primary shadow-premium-glow lift-on-hover focus-visible:outline focus-visible:outline-2 focus-visible:outline-secondary focus-visible:outline-offset-2"
+            className="text-button-md inline-flex h-12 w-full shrink-0 items-center justify-center gap-sm rounded-full bg-gradient-brand px-xl text-on-primary shadow-premium-glow lift-on-hover focus-visible:outline focus-visible:outline-2 focus-visible:outline-secondary focus-visible:outline-offset-2 sm:w-auto"
           >
             <CartIcon className="h-5 w-5" />
             Order Sekarang
