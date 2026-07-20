@@ -1,8 +1,7 @@
 import Image from "next/image";
 import type { Brand, StatItem } from "@/lib/types";
 
-const JERSEY_IMAGE =
-  "https://res.cloudinary.com/dqjh7utdb/image/upload/v1784499783/mrwzuqt7soqdkydjvkrm.png";
+const JERSEY_IMAGE = "/jersey-transparent.png";
 
 /** Compact profile header for the link-in-bio landing page. */
 export function HeroSection({ brand, stats }: { brand: Brand; stats: StatItem[] }) {

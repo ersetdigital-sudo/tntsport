@@ -21,8 +21,7 @@ import { BoltIcon, CartIcon, FlameIcon } from "@/components/icons";
  */
 
 // Jersey background art (Cloudinary — host allow-listed in next.config.mjs).
-const JERSEY_IMAGE =
-  "https://res.cloudinary.com/dqjh7utdb/image/upload/v1784495791/hadepgirs684wzyeizza.png";
+const JERSEY_IMAGE = "/jersey-transparent.png";
 
 interface FlashSaleBannerProps {
   /** WhatsApp number (digits only) for the order CTA. */
@@ -66,7 +65,7 @@ export function FlashSaleBanner({
           fill
           priority
           sizes="(max-width: 640px) 100vw, 50vw"
-          className="object-cover object-center"
+          className="object-contain object-center"
         />
         {/* Darker overlay so text stays crisp on every screen size. */}
         <div
