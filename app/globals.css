@@ -369,6 +369,43 @@
     animation: spin-slow 8s linear infinite;
   }
 
+  /* Diagonal brand stripes — the signature TNT green slashes from the
+     reference art. Layered widths/opacities create the dynamic feel. */
+  .stripes-brand {
+    background-image: repeating-linear-gradient(
+      118deg,
+      transparent 0px,
+      transparent 28px,
+      rgba(0, 200, 83, 0.10) 28px,
+      rgba(0, 200, 83, 0.10) 52px,
+      transparent 52px,
+      transparent 68px,
+      rgba(0, 200, 83, 0.22) 68px,
+      rgba(0, 200, 83, 0.22) 82px,
+      transparent 82px,
+      transparent 112px,
+      rgba(0, 163, 68, 0.14) 112px,
+      rgba(0, 163, 68, 0.14) 148px
+    );
+  }
+  .dark .stripes-brand {
+    background-image: repeating-linear-gradient(
+      118deg,
+      transparent 0px,
+      transparent 28px,
+      rgba(34, 197, 94, 0.12) 28px,
+      rgba(34, 197, 94, 0.12) 52px,
+      transparent 52px,
+      transparent 68px,
+      rgba(34, 197, 94, 0.24) 68px,
+      rgba(34, 197, 94, 0.24) 82px,
+      transparent 82px,
+      transparent 112px,
+      rgba(22, 163, 74, 0.16) 112px,
+      rgba(22, 163, 74, 0.16) 148px
+    );
+  }
+
   .hero-grid {
     background-image: linear-gradient(rgba(255,255,255,.055) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,.055) 1px, transparent 1px);
     background-size: 44px 44px;

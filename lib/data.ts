@@ -7,20 +7,20 @@
  * of truth at runtime.
  */
 import {
-  BoltIcon,
-  CatalogIcon,
-  CheckIcon,
+  BagIcon,
   FacebookIcon,
-  FactoryIcon,
   GiftIcon,
-  InfoIcon,
+  GridIcon,
   InstagramIcon,
   MapsIcon,
+  PaletteIcon,
+  ShieldIcon,
   StarIcon,
+  TagIcon,
   TikTokIcon,
+  TruckIcon,
   WhatsAppIcon,
 } from "@/components/icons";
-import { ShoppingCart, Star, ShieldCheck } from "lucide-react";
 import type {
   Brand,
   CTALink,
@@ -43,16 +43,16 @@ export const brand: Brand = {
 };
 
 export const trustBadges: TrustBadge[] = [
-  { label: "Bahan Premium", subtext: "Kualitas terbaik", icon: CheckIcon, variant: "success" },
-  { label: "Desain Bebas", subtext: "Sesuai keinginanmu", icon: StarIcon, variant: "info" },
-  { label: "Harga Pabrik", subtext: "Lebih hemat", icon: FactoryIcon, variant: "neutral" },
-  { label: "Kirim Se-Indonesia", subtext: "Aman & terpercaya", icon: BoltIcon, variant: "success" },
+  { label: "Bahan Premium", subtext: "Kualitas terbaik", icon: ShieldIcon, variant: "success" },
+  { label: "Desain Bebas", subtext: "Sesuai keinginanmu", icon: PaletteIcon, variant: "info" },
+  { label: "Harga Pabrik", subtext: "Lebih hemat", icon: TagIcon, variant: "neutral" },
+  { label: "Kirim Se-Indonesia", subtext: "Aman & terpercaya", icon: TruckIcon, variant: "success" },
 ];
 
 export const stats: StatItem[] = [
-  { value: "350K+", label: "Order Selesai", icon: ShoppingCart },
-  { value: "4.9", label: "Rating", icon: Star },
-  { value: "100%", label: "Garansi", icon: ShieldCheck },
+  { value: "350K+", label: "Order Selesai", icon: BagIcon },
+  { value: "4.9", label: "Rating", icon: StarIcon },
+  { value: "100%", label: "Garansi", icon: ShieldIcon },
 ];
 
 const waLink = `https://wa.me/${brand.whatsappNumber}?text=${encodeURIComponent(
@@ -62,33 +62,35 @@ const waLink = `https://wa.me/${brand.whatsappNumber}?text=${encodeURIComponent(
 export const ctaLinks: CTALink[] = [
   {
     title: "Chat WhatsApp",
-    description: "Gratis konsultasi — tanya desain, harga, estimasi.",
+    description: "Konsultasi & Order cepat",
     icon: WhatsAppIcon,
     accent: "whatsapp",
     href: waLink,
     external: true,
   },
   {
-    title: "Lihat Katalog & Harga Lengkap",
-    description: "Browse model jersey + harga mulai 65rb.",
-    icon: CatalogIcon,
+    title: "Katalog & Harga",
+    description: "Lihat katalog & harga lengkap",
+    icon: GridIcon,
     accent: "primary",
     href: `${brand.url}/katalog`,
     external: true,
   },
   {
-    title: "Klaim Promo Beli 6 Gratis 1",
-    description: "Promo terbatas — klaim sebelum kuota habis.",
-    icon: GiftIcon,
+    title: "Promo & Diskon",
+    description: "Dapatkan promo terbaru",
+    icon: TagIcon,
     accent: "warning",
     href: waLink,
     external: true,
   },
   {
-    title: "Promo Beli 6 Gratis 1 — Detail",
-    description: "Belanja 6 jersey, dapatkan 1 jersey gratis. Berlaku semua model.",
-    icon: InfoIcon,
+    title: "Paket Bundle",
+    description: "Beli lebih banyak, lebih hemat",
+    icon: GiftIcon,
     accent: "neutral",
+    href: waLink,
+    external: true,
   },
 ];
 

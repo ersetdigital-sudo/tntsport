@@ -11,7 +11,7 @@
  * All functions are safe to call from Server Components and run at
  * request/build time (ISR controls re-frequency).
  */
-import { createClient } from "@/lib/supabase/server";
+import { createClient, supabaseConfigured } from "@/lib/supabase/server";
 import { resolveIcon } from "@/lib/icon-registry";
 import * as fallback from "@/lib/data";
 import type {
@@ -31,6 +31,7 @@ import type {
 // Brand
 // ---------------------------------------------------------------------------
 export async function getBrand(): Promise<Brand> {
+  if (!supabaseConfigured()) return fallback.brand;
   const supabase = await createClient();
   const { data, error } = await supabase
     .from("brand")
@@ -57,6 +58,7 @@ export async function getBrand(): Promise<Brand> {
 // Stats
 // ---------------------------------------------------------------------------
 export async function getStats(): Promise<StatItem[]> {
+  if (!supabaseConfigured()) return fallback.stats;
   const supabase = await createClient();
   const { data, error } = await supabase
     .from("stats")
@@ -87,6 +89,7 @@ export async function getTrustBadges() {
 // CTA links
 // ---------------------------------------------------------------------------
 export async function getCTALinks(): Promise<CTALink[]> {
+  if (!supabaseConfigured()) return fallback.ctaLinks;
   const supabase = await createClient();
   const { data, error } = await supabase
     .from("cta_links")
@@ -113,6 +116,7 @@ export async function getCTALinks(): Promise<CTALink[]> {
 // Reviews
 // ---------------------------------------------------------------------------
 export async function getReviews(): Promise<Review[]> {
+  if (!supabaseConfigured()) return fallback.reviews;
   const supabase = await createClient();
   const { data, error } = await supabase
     .from("reviews")
@@ -133,6 +137,7 @@ export async function getReviews(): Promise<Review[]> {
 // Social links
 // ---------------------------------------------------------------------------
 export async function getSocialLinks(): Promise<SocialLink[]> {
+  if (!supabaseConfigured()) return fallback.socialLinks;
   const supabase = await createClient();
   const { data, error } = await supabase
     .from("social_links")
@@ -153,6 +158,7 @@ export async function getSocialLinks(): Promise<SocialLink[]> {
 // Catalog (used by /katalog pages — implemented in Phase 7)
 // ---------------------------------------------------------------------------
 export async function getProducts() {
+  if (!supabaseConfigured()) return [];
   const supabase = await createClient();
   const { data, error } = await supabase
     .from("products")
@@ -164,6 +170,7 @@ export async function getProducts() {
 }
 
 export async function getCategories() {
+  if (!supabaseConfigured()) return [];
   const supabase = await createClient();
   const { data, error } = await supabase
     .from("product_categories")

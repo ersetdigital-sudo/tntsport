@@ -3,97 +3,64 @@ import { ChevronRightIcon } from "@/components/icons";
 import type { CTALink } from "@/lib/types";
 
 /**
- * CTALinkCard - full-width link-in-bio row, premium edition.
- *
- * Layout: [soft-tint icon tile] [title + description] [chevron in circle]
- * Hover state: lift (-2px), shadow expand, chevron shifts right.
- * Active state: subtle scale down for clear tap feedback on mobile.
- * When `href` is omitted the card renders as informational (non-link).
+ * CTALinkCard — link-in-bio row matching the reference:
+ * [solid green rounded icon tile] [UPPERCASE bold title + muted subtitle]
+ * [chevron in soft green circle].
  */
-
-/** Soft icon surface per accent — light + dark variants. */
-const iconSurface: Record<CTALink["accent"], string> = {
-  whatsapp:
-    "bg-gradient-brand text-white shadow-premium-sm",
-  primary:
-    "bg-gradient-brand text-white shadow-premium-sm",
-  warning:
-    "bg-gradient-brand text-white shadow-premium-sm",
-  neutral:
-    "bg-gradient-brand text-white shadow-premium-sm",
-};
-
 export function CTALinkCard({
   title,
   description,
   icon: Icon,
-  accent,
   href,
   external = true,
 }: CTALink) {
   const content = (
     <>
-      {/* Icon tile — soft tinted container matching the action context. */}
+      {/* Solid green icon tile. */}
       <span
-        className={`flex h-11 w-11 shrink-0 items-center justify-center rounded-xl md:h-14 md:w-14 ${iconSurface[accent]}`}
+        className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-primary text-white shadow-premium-sm sm:h-14 sm:w-14 sm:rounded-2xl"
         aria-hidden="true"
       >
-        <Icon className="h-[18px] w-[18px] md:h-6 md:w-6" />
+        <Icon className="h-6 w-6 sm:h-7 sm:w-7" />
       </span>
 
-      {/* Title + description — compact on mobile, readable on desktop. */}
+      {/* Title + description. */}
       <span className="flex min-w-0 flex-1 flex-col gap-0.5">
-        <span className="break-words text-[clamp(.98rem,4.2vw,1.2rem)] font-semibold leading-[1.12] tracking-[-.02em] text-ink md:text-xl lg:text-heading-md">
+        <span className="break-words text-[15px] font-extrabold uppercase leading-tight tracking-[-.01em] text-ink sm:text-lg">
           {title}
         </span>
-        <span className="break-words text-[clamp(.74rem,3.2vw,.9rem)] leading-snug text-charcoal md:text-body-sm">
+        <span className="break-words text-[13px] leading-snug text-charcoal sm:text-[15px]">
           {description}
         </span>
       </span>
 
-      {/* Arrow affordance (links only) — chevron inside a soft circle. */}
+      {/* Chevron affordance (links only). */}
       {href ? (
         <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-primary/10 text-primary transition-colors group-hover/card:bg-primary group-hover/card:text-white">
-          <ChevronRightIcon className="h-4 w-4 transition-transform duration-normal group-hover/card:translate-x-0.5" />
+          <ChevronRightIcon className="h-4 w-4 transition-transform group-hover/card:translate-x-0.5" />
         </span>
       ) : null}
     </>
   );
 
-  const wrapperClasses =
-    "rounded-2xl bg-transparent";
-  const innerClasses =
-    "group/card relative flex min-h-[84px] items-center gap-2.5 rounded-2xl border border-black/[.055] bg-white p-4 dark:border-white/10 dark:bg-surface-card md:gap-4 md:p-5 " +
-    "shadow-premium-md transition-all duration-normal ease-premium hover:-translate-y-1 hover:shadow-premium-lg active:scale-[0.98]";
+  const classes =
+    "group/card relative flex min-h-[80px] items-center gap-3.5 rounded-2xl border border-black/[.05] bg-white p-4 shadow-premium-md transition-all duration-200 hover:-translate-y-0.5 hover:shadow-premium-lg active:scale-[0.98] dark:border-white/10 dark:bg-surface-card sm:gap-4 sm:rounded-3xl sm:p-5";
 
   if (!href) {
-    return (
-      <div className={wrapperClasses}>
-        <div className={innerClasses}>{content}</div>
-      </div>
-    );
+    return <div className={classes}>{content}</div>;
   }
 
   if (external) {
     return (
-      <div className={wrapperClasses}>
-        <a
-          href={href}
-          target="_blank"
-          rel="noopener noreferrer"
-          className={innerClasses}
-        >
-          {content}
-        </a>
-      </div>
+      <a href={href} target="_blank" rel="noopener noreferrer" className={classes}>
+        {content}
+      </a>
     );
   }
 
   return (
-    <div className={wrapperClasses}>
-      <Link href={href} className={innerClasses}>
-        {content}
-      </Link>
-    </div>
+    <Link href={href} className={classes}>
+      {content}
+    </Link>
   );
 }

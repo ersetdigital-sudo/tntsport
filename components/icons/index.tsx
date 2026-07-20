@@ -221,3 +221,69 @@ export function LogoutIcon(props: IconProps) {
     </svg>
   );
 }
+
+/** Discount tag with percent — promo / diskon. */
+export function TagIcon(props: IconProps) {
+  return (
+    <svg {...base} {...props}>
+      <path d="M12.586 2.586A2 2 0 0 0 11.172 2H4a2 2 0 0 0-2 2v7.172a2 2 0 0 0 .586 1.414l8 8a2 2 0 0 0 2.828 0l7.172-7.172a2 2 0 0 0 0-2.828l-8-8Z" />
+      <path d="M9 13.5 13.5 9M9.25 9.25h.01M13.25 13.25h.01" />
+    </svg>
+  );
+}
+
+/** 2x2 grid — katalog. */
+export function GridIcon(props: IconProps) {
+  return (
+    <svg {...base} {...props}>
+      <rect x="3" y="3" width="7.5" height="7.5" rx="1.5" />
+      <rect x="13.5" y="3" width="7.5" height="7.5" rx="1.5" />
+      <rect x="3" y="13.5" width="7.5" height="7.5" rx="1.5" />
+      <rect x="13.5" y="13.5" width="7.5" height="7.5" rx="1.5" />
+    </svg>
+  );
+}
+
+/** Shopping bag — order stat. */
+export function BagIcon(props: IconProps) {
+  return (
+    <svg {...base} {...props}>
+      <path d="M6 7h12l1 13a1 1 0 0 1-1 1H6a1 1 0 0 1-1-1L6 7Z" />
+      <path d="M9 10V6a3 3 0 0 1 6 0v4" />
+    </svg>
+  );
+}
+
+/** Shield with check — garansi. */
+export function ShieldIcon(props: IconProps) {
+  return (
+    <svg {...base} {...props}>
+      <path d="M12 2 4.5 5v6c0 5 3.2 8.6 7.5 10 4.3-1.4 7.5-5 7.5-10V5L12 2Z" />
+      <path d="m9 11.5 2.2 2.2L15.5 9.5" />
+    </svg>
+  );
+}
+
+/** Delivery truck — pengiriman. */
+export function TruckIcon(props: IconProps) {
+  return (
+    <svg {...base} {...props}>
+      <path d="M1 4h13v12H1zM14 8h4l4 4v4h-8V8Z" />
+      <circle cx="5.5" cy="18.5" r="2" />
+      <circle cx="18.5" cy="18.5" r="2" />
+    </svg>
+  );
+}
+
+/** Palette — desain bebas. */
+export function PaletteIcon(props: IconProps) {
+  return (
+    <svg {...base} {...props}>
+      <path d="M12 21a9 9 0 1 1 9-9c0 2-1.5 3-3 3h-2a2 2 0 0 0-2 2c0 1 .5 1.5.5 2.5S13.5 21 12 21Z" />
+      <circle cx="7.5" cy="11" r="1" fill="currentColor" stroke="none" />
+      <circle cx="10" cy="7.5" r="1" fill="currentColor" stroke="none" />
+      <circle cx="14.5" cy="7" r="1" fill="currentColor" stroke="none" />
+      <circle cx="17" cy="10.5" r="1" fill="currentColor" stroke="none" />
+    </svg>
+  );
+}

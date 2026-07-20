@@ -18,6 +18,16 @@ const PUBLIC_ADMIN_PATHS = ["/admin/login"];
 export async function updateSession(request: NextRequest) {
   let response = NextResponse.next({ request });
 
+  // Supabase not configured (e.g. preview/local without env vars) —
+  // skip session handling entirely so the public site still renders
+  // from the static fallbacks in lib/data.ts.
+  if (
+    !process.env.NEXT_PUBLIC_SUPABASE_URL ||
+    !process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
+  ) {
+    return response;
+  }
+
   // Build a Supabase client bound to this request/response pair so cookie
   // updates flow through the response.
   const supabase = createServerClient(
