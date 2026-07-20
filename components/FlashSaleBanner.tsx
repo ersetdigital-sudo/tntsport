@@ -20,9 +20,9 @@ import { CartIcon, FlameIcon } from "@/components/icons";
  * fresh deadline stored in localStorage so refreshing doesn't reset it.
  */
 
-// Jersey background art (Cloudinary — host allow-listed in next.config.mjs).
+// Jersey background art (Cloudinary).
 const JERSEY_IMAGE =
-  "https://res.cloudinary.com/dqjh7utdb/image/upload/v1784495791/hadepgirs684wzyeizza.png";
+  "https://res.cloudinary.com/dqjh7utdb/image/upload/v1784499783/mrwzuqt7soqdkydjvkrm.png";
 
 interface FlashSaleBannerProps {
   /** WhatsApp number (digits only) for the order CTA. */
@@ -100,16 +100,16 @@ export function FlashSaleBanner({
         </p>
 
         {/* Countdown — light cells with green digits for contrast. */}
-        <div className="mt-xl flex max-w-lg gap-sm md:gap-md">
+        <div className="mt-lg flex max-w-lg gap-xs sm:gap-sm md:gap-md">
           {units.map((u) => (
             <div
               key={u.label}
-              className="flex flex-1 flex-col items-center gap-xxs rounded-xl border border-hairline bg-background-canvas px-sm py-md shadow-premium-sm"
+              className="flex flex-1 flex-col items-center gap-xxs rounded-lg border border-hairline bg-background-canvas px-xs py-sm shadow-premium-sm sm:rounded-xl sm:px-sm sm:py-md"
             >
-              <span className="text-heading-lg font-bold tabular-nums leading-none text-primary">
+              <span className="text-heading-md font-bold tabular-nums leading-none text-primary sm:text-heading-lg">
                 {remaining.done ? "00" : u.value}
               </span>
-              <span className="text-button-sm uppercase text-mute">
+              <span className="text-[10px] uppercase text-mute sm:text-button-sm">
                 {u.label}
               </span>
             </div>

@@ -41,7 +41,7 @@ export function CTALinkCard({
     </>
   );
 
-  const containerClasses = `group lift-on-hover hover:shadow-premium-md rounded-2xl bg-background-canvas border border-hairline p-lg flex items-center gap-lg ${
+  const containerClasses = `group lift-on-hover hover:shadow-premium-md rounded-2xl bg-surface-card border border-hairline p-lg flex items-center gap-lg ${
     href ? "cursor-pointer" : ""
   }`;
 

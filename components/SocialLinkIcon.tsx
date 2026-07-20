@@ -26,13 +26,13 @@ export function SocialLinkIcon({
       className="group flex flex-col items-center gap-sm"
     >
       <span
-        className="flex h-14 w-14 items-center justify-center rounded-2xl border border-hairline lift-on-hover hover:shadow-premium-md"
+        className="flex h-12 w-12 items-center justify-center rounded-2xl border border-hairline lift-on-hover hover:shadow-premium-md sm:h-14 sm:w-14"
         style={{
           backgroundColor: tileBg,
           color: brandColor,
         }}
       >
-        <Icon className="h-6 w-6" aria-hidden="true" />
+        <Icon className="h-5 w-5 sm:h-6 sm:w-6" aria-hidden="true" />
       </span>
       <span className="text-caption text-mute group-hover:text-ink transition-colors duration-normal">
         {label}

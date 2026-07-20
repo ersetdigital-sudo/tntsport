@@ -1,20 +1,19 @@
 import type { Metadata, Viewport } from "next";
-import { Space_Grotesk, IBM_Plex_Mono } from "next/font/google";
+import { Plus_Jakarta_Sans, IBM_Plex_Mono } from "next/font/google";
 import { ThemeProvider } from "next-themes";
 import { getBrand } from "@/lib/queries";
 import "./globals.css";
 
 /**
- * Fonts — Space Grotesk (display + body) and IBM Plex Mono (technical
- * labels). Both are loaded via next/font/google with display:"swap"
- * and latin subset only, exposed as CSS variables --font-sans and
- * --font-mono consumed by globals.css + tailwind.config.ts.
+ * Fonts — Plus Jakarta Sans (modern, highly readable display + body)
+ * and IBM Plex Mono (technical labels). Both loaded via next/font/google
+ * with display:"swap" and latin subset only.
  */
-const spaceGrotesk = Space_Grotesk({
+const plusJakarta = Plus_Jakarta_Sans({
   subsets: ["latin"],
   display: "swap",
   variable: "--font-sans",
-  weight: ["400", "500", "600", "700"],
+  weight: ["400", "500", "600", "700", "800"],
 });
 
 const ibmPlexMono = IBM_Plex_Mono({
@@ -106,12 +105,12 @@ export default function RootLayout({
     <html
       lang="id"
       suppressHydrationWarning
-      className={`${spaceGrotesk.variable} ${ibmPlexMono.variable}`}
+      className={`${plusJakarta.variable} ${ibmPlexMono.variable}`}
     >
       <body className="antialiased">
         <ThemeProvider
           attribute="class"
-          defaultTheme="dark"
+          defaultTheme="light"
           enableSystem={false}
           disableTransitionOnChange
         >
