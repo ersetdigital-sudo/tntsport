@@ -79,9 +79,9 @@ export const ctaLinks: CTALink[] = [
     external: true,
   },
   {
-    title: "Klaim Promo",
-    description: "Cek promo aktif & penawaran terbaik hari ini",
-    icon: FlameIcon,
+    title: "KLAIM PROMO BELI 6 GRATIS 1",
+    description: "Berlaku kelipatannya — 12 dapat 14, dst",
+    icon: GiftIcon,
     accent: "warning",
     href: waLink,
     external: true,
