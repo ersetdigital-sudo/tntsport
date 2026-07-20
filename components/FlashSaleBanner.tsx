@@ -50,9 +50,9 @@ export function FlashSaleBanner({
     : "#";
 
   return (
-    <div className="relative overflow-hidden rounded-2xl bg-white shadow-premium-xl dark:bg-surface-card sm:rounded-3xl">
+    <div className="relative overflow-hidden rounded-2xl border border-black/[.06] bg-white shadow-premium-xl dark:border-white/10 dark:bg-surface-card sm:rounded-3xl">
       {/* Jersey image - positioned on right side */}
-      <div className="pointer-events-none absolute bottom-0 right-0 top-0 hidden w-[42%] sm:block">
+      <div className="pointer-events-none absolute bottom-[108px] right-0 top-0 hidden w-[48%] sm:block">
         <div className="relative h-full w-full">
           <Image
             src={JERSEY_IMAGE}
@@ -108,7 +108,7 @@ export function FlashSaleBanner({
         </div>
 
         {/* CTA Section - Warning + Button */}
-        <div className="relative z-10 flex flex-col gap-3 border-t border-hairline bg-white pt-5 dark:bg-surface-card sm:flex-row sm:items-center sm:justify-between sm:gap-4 sm:pt-6">
+        <div className="relative z-10 -mx-6 -mb-6 flex flex-col gap-3 border-t border-hairline bg-white px-6 pb-6 pt-5 dark:bg-surface-card sm:-mx-8 sm:-mb-8 sm:flex-row sm:items-center sm:justify-between sm:gap-4 sm:px-8 sm:pb-8 sm:pt-6 md:-mx-10 md:-mb-10 md:px-10 md:pb-10">
           
           {/* Warning message with icon */}
           <div className="flex items-center gap-3">
