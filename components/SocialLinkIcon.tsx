@@ -23,10 +23,10 @@ export function SocialLinkIcon({
       target="_blank"
       rel="noopener noreferrer"
       aria-label={ariaLabel}
-      className="group flex flex-col items-center gap-sm"
+      className="group flex min-w-0 flex-col items-center gap-2"
     >
       <span
-        className="flex h-12 w-12 items-center justify-center rounded-2xl border border-hairline lift-on-hover hover:shadow-premium-md sm:h-14 sm:w-14"
+        className="flex h-12 w-12 items-center justify-center rounded-2xl border border-hairline bg-white shadow-premium-sm lift-on-hover hover:shadow-premium-md sm:h-14 sm:w-14"
         style={{
           backgroundColor: tileBg,
           color: brandColor,
@@ -34,7 +34,7 @@ export function SocialLinkIcon({
       >
         <Icon className="h-5 w-5 sm:h-6 sm:w-6" aria-hidden="true" />
       </span>
-      <span className="text-caption text-mute group-hover:text-ink transition-colors duration-normal">
+      <span className="truncate text-[9px] font-bold uppercase text-ink transition-colors duration-normal group-hover:text-primary sm:text-caption">
         {label}
       </span>
     </a>

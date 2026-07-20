@@ -14,13 +14,13 @@ import type { CTALink } from "@/lib/types";
 /** Soft icon surface per accent — light + dark variants. */
 const iconSurface: Record<CTALink["accent"], string> = {
   whatsapp:
-    "bg-green-500/15 text-green-500",
+    "bg-gradient-brand text-white shadow-premium-sm",
   primary:
-    "bg-primary/15 text-primary",
+    "bg-gradient-brand text-white shadow-premium-sm",
   warning:
-    "bg-warning/15 text-warning",
+    "bg-gradient-brand text-white shadow-premium-sm",
   neutral:
-    "bg-white/10 text-ash",
+    "bg-gradient-brand text-white shadow-premium-sm",
 };
 
 export function CTALinkCard({
@@ -46,14 +46,14 @@ export function CTALinkCard({
         <span className="text-base font-semibold leading-tight text-ink md:text-heading-md">
           {title}
         </span>
-        <span className="text-sm text-on-dark-mute md:text-body-sm">
+        <span className="text-sm text-charcoal md:text-body-sm">
           {description}
         </span>
       </span>
 
       {/* Arrow affordance (links only) — chevron inside a soft circle. */}
       {href ? (
-        <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-white/5 text-ash transition-colors group-hover/card:bg-primary/15 group-hover/card:text-primary">
+        <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-primary/10 text-primary transition-colors group-hover/card:bg-primary group-hover/card:text-white">
           <ChevronRightIcon className="h-4 w-4 transition-transform duration-normal group-hover/card:translate-x-0.5" />
         </span>
       ) : null}
@@ -61,11 +61,10 @@ export function CTALinkCard({
   );
 
   const wrapperClasses =
-    "rounded-2xl bg-gradient-to-br from-primary/35 via-white/10 to-transparent p-px";
+    "rounded-2xl bg-transparent";
   const innerClasses =
-    "group/card relative flex items-center gap-3 md:gap-4 rounded-[15px] bg-surface-card/90 p-4 md:p-5 " +
-    "shadow-premium-md transition-all duration-normal ease-premium hover:bg-surface-card " +
-    "hover:-translate-y-1 hover:shadow-premium-lg active:scale-[0.98]";
+    "group/card relative flex min-h-[84px] items-center gap-3 rounded-2xl border border-black/[.055] bg-white p-4 md:gap-4 md:p-5 " +
+    "shadow-premium-md transition-all duration-normal ease-premium hover:-translate-y-1 hover:shadow-premium-lg active:scale-[0.98]";
 
   if (!href) {
     return (

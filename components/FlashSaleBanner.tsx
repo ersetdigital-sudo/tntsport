@@ -54,7 +54,7 @@ export function FlashSaleBanner({
     : "#";
 
   return (
-    <div className="relative overflow-hidden rounded-3xl border border-primary/30 bg-surface-card text-ink shadow-premium-lg">
+    <div className="relative overflow-hidden rounded-2xl border border-black/[.06] bg-surface-card text-ink shadow-premium-md sm:rounded-3xl">
       {/* Jersey image.
           - Mobile: full-width strip along the top, fading down into the
             card so the content below stays clear (no overlap).
@@ -83,7 +83,7 @@ export function FlashSaleBanner({
 
       {/* ---- Content ----
           Extra top padding on mobile clears the image strip above. */}
-      <div className="relative p-xl pt-40 sm:pt-xl md:p-xxl">
+      <div className="relative p-5 pt-36 sm:p-xl sm:pt-xl md:p-xxl">
         {/* Flash-sale badge — visually grouped and separated from headline. */}
         <div className="mb-4 md:mb-5">
           <span className="inline-flex w-fit items-center gap-xs rounded-full bg-gradient-brand px-md py-xs text-button-sm uppercase text-on-primary shadow-premium-glow">
@@ -106,9 +106,9 @@ export function FlashSaleBanner({
           {units.map((u) => (
             <div
               key={u.label}
-              className="flex flex-col items-center gap-1 rounded-xl bg-surface-dark px-1 py-2 shadow-premium-sm sm:px-2 sm:py-3 md:px-sm md:py-md"
+              className="flex flex-col items-center gap-1 rounded-xl border border-black/[.05] bg-white px-1 py-2 shadow-premium-sm sm:px-2 sm:py-3 md:px-sm md:py-md"
             >
-              <span className="text-xl font-bold tabular-nums leading-none text-on-dark sm:text-2xl md:text-heading-lg">
+              <span className="text-xl font-bold tabular-nums leading-none text-primary sm:text-2xl md:text-heading-lg">
                 {remaining.done ? "00" : u.value}
               </span>
               <span className="text-[10px] uppercase text-primary sm:text-button-sm">

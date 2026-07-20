@@ -10,11 +10,8 @@ import type { SocialLink } from "@/lib/types";
 export function SocialLinks({ items }: { items: SocialLink[] }) {
   return (
     <section aria-label="Tautan media sosial" className="w-full">
-      <div className="text-center">
-        <p className="section-kicker">Jangan kehilangan momen</p>
-        <h2 className="mt-2 text-heading-lg text-ink">Ikuti perjalanan kami</h2>
-      </div>
-      <div className="mt-6 grid grid-cols-3 gap-lg md:grid-cols-5 md:gap-xl">
+      <div className="flex items-center justify-center gap-3 text-center"><span className="h-px w-10 bg-primary/40" /><p className="text-sm font-bold uppercase tracking-wide text-primary">Ikuti kami</p><span className="h-px w-10 bg-primary/40" /></div>
+      <div className="mt-5 grid grid-cols-5 gap-2 sm:gap-4">
         {items.map((s) => (
           <SocialLinkIcon key={s.label} {...s} />
         ))}
