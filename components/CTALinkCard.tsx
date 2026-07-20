@@ -43,10 +43,10 @@ export function CTALinkCard({
 
       {/* Title + description — compact on mobile, readable on desktop. */}
       <span className="flex min-w-0 flex-1 flex-col gap-0.5">
-        <span className="text-base font-semibold leading-tight text-ink md:text-heading-md">
+        <span className="break-words text-[clamp(.98rem,4.2vw,1.2rem)] font-semibold leading-[1.12] tracking-[-.02em] text-ink md:text-xl lg:text-heading-md">
           {title}
         </span>
-        <span className="text-sm text-charcoal md:text-body-sm">
+        <span className="break-words text-[clamp(.74rem,3.2vw,.9rem)] leading-snug text-charcoal md:text-body-sm">
           {description}
         </span>
       </span>
@@ -63,7 +63,7 @@ export function CTALinkCard({
   const wrapperClasses =
     "rounded-2xl bg-transparent";
   const innerClasses =
-    "group/card relative flex min-h-[84px] items-center gap-3 rounded-2xl border border-black/[.055] bg-white p-4 dark:border-white/10 dark:bg-surface-card md:gap-4 md:p-5 " +
+    "group/card relative flex min-h-[84px] items-center gap-2.5 rounded-2xl border border-black/[.055] bg-white p-4 dark:border-white/10 dark:bg-surface-card md:gap-4 md:p-5 " +
     "shadow-premium-md transition-all duration-normal ease-premium hover:-translate-y-1 hover:shadow-premium-lg active:scale-[0.98]";
 
   if (!href) {
