@@ -3,9 +3,7 @@ import type { StatItem } from "@/lib/types";
 
 /**
  * StatsGrid — single rounded card with 3 stat columns separated by
- * vertical dividers. Maintains 3 columns even on mobile for compactness.
- *
- * Card uses a subtle border + shadow so it reads as one distinct unit.
+ * vertical dividers. Clean white card with subtle shadow.
  */
 export function StatsGrid({ stats }: { stats: StatItem[] }) {
   return (
@@ -14,11 +12,9 @@ export function StatsGrid({ stats }: { stats: StatItem[] }) {
         {stats.map((s, index) => (
           <div
             key={s.label}
-            className={`px-xs sm:px-md ${
-              index !== stats.length - 1
-                ? "border-r border-hairline"
-                : ""
-            }`}
+            className={`px-1 sm:px-md ${
+              index !== stats.length - 1 ? "border-r border-hairline" : ""}
+            `}
           >
             <StatCard {...s} />
           </div>

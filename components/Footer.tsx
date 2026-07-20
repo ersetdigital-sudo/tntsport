@@ -2,7 +2,7 @@ import type { Brand } from "@/lib/types";
 
 /**
  * Footer - simple centered footer with brand name and copyright.
- * Matches the screenshot's minimal footer style.
+ * Matches the reference's minimal footer style.
  */
 export function Footer({ brand }: { brand: Brand }) {
   const year = new Date().getFullYear();
@@ -11,12 +11,11 @@ export function Footer({ brand }: { brand: Brand }) {
 
   return (
     <footer className="w-full border-t border-hairline bg-surface-card">
-      <div className="mx-auto flex max-w-lg flex-col items-center gap-sm px-lg py-xxxl text-center">
-        <span className="text-body-md font-bold text-ink">
-          {leading}{" "}
-          <span className="text-primary">{accentWord}</span>
+      <div className="mx-auto flex max-w-lg flex-col items-center gap-2 px-6 py-10 text-center">
+        <span className="text-lg font-bold text-primary">
+          {leading} <span className="text-ink">{accentWord}</span>
         </span>
-        <p className="text-caption text-mute">
+        <p className="text-xs text-mute">
           © {year} {brand.name}. All Rights Reserved.
         </p>
       </div>
