@@ -29,3 +29,10 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 .zcode/
+
+# screenshots / workspace artifacts
+/_tmp-*.png
+/fullpage-*.png
+/landing-page-*.png
+/stats-section-mobile.png
+/tntsport/
