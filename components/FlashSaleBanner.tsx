@@ -53,19 +53,19 @@ export function FlashSaleBanner({
     : "#";
 
   return (
-    <div className="relative overflow-hidden rounded-2xl border border-primary/30 bg-gradient-to-br from-primary/[.12] via-surface-card to-surface-card text-ink shadow-premium-lg sm:rounded-3xl">
+    <div className="relative overflow-hidden rounded-2xl border border-primary/25 bg-surface-card text-ink shadow-premium-xl sm:rounded-3xl">
       {/* Jersey image.
           - Mobile: full-width strip along the top, fading down into the
             card so the content below stays clear (no overlap).
           - sm+: bleeds in from the right, fading left into the card. */}
-      <div className="pointer-events-none absolute inset-x-0 top-0 h-44 sm:inset-y-0 sm:left-auto sm:right-0 sm:h-auto sm:w-1/2">
+      <div className="pointer-events-none absolute inset-x-0 top-0 h-48 sm:inset-y-0 sm:left-auto sm:right-0 sm:h-auto sm:w-[48%]">
         <Image
           src={JERSEY_IMAGE}
           alt=""
           fill
           priority
           sizes="(max-width: 640px) 100vw, 50vw"
-          className="object-contain object-center"
+          className="object-contain object-center drop-shadow-[0_18px_16px_rgba(0,0,0,.22)]"
         />
         {/* Darker overlay so text stays crisp on every screen size. */}
         <div
@@ -82,7 +82,7 @@ export function FlashSaleBanner({
 
       {/* ---- Content ----
           Extra top padding on mobile clears the image strip above. */}
-      <div className="relative p-5 pt-36 sm:p-xl sm:pt-xl md:p-xxl">
+      <div className="relative p-5 pt-40 sm:p-xl sm:pt-xl md:p-xxl">
         {/* Flash-sale badge — visually grouped and separated from headline. */}
         <div className="mb-4 md:mb-5">
           <span className="inline-flex w-fit items-center gap-xs rounded-full border border-primary/25 bg-primary/15 px-md py-xs text-button-sm uppercase text-primary shadow-premium-sm">
@@ -92,20 +92,20 @@ export function FlashSaleBanner({
         </div>
 
         {/* Headline */}
-        <h2 className="mt-lg flex items-center gap-sm text-heading-lg font-bold uppercase italic tracking-tight text-ink">
+        <h2 className="mt-lg flex items-center gap-sm text-[clamp(1.35rem,4vw,2.25rem)] font-extrabold uppercase italic leading-tight tracking-tight text-ink">
           <FlameIcon className="h-7 w-7 text-primary" />
           Promo Berakhir Dalam:
         </h2>
-        <p className="mt-xs text-body-sm text-charcoal">
+        <p className="mt-2 max-w-sm text-body-sm text-charcoal">
           Jangan sampai kelewatan! Diskon spesial terbatas.
         </p>
 
         {/* Countdown — dark cells for punchy contrast on the light card. */}
-        <div className="mt-xl grid grid-cols-4 gap-2 sm:gap-3 md:gap-4">
+        <div className="mt-5 grid grid-cols-4 gap-2 sm:mt-xl sm:gap-3 md:gap-4">
           {units.map((u) => (
             <div
               key={u.label}
-              className="flex flex-col items-center gap-1 rounded-xl border border-black/[.05] bg-white px-1 py-2 shadow-premium-sm dark:border-white/10 dark:bg-[#0b0b14] sm:px-2 sm:py-3 md:px-sm md:py-md"
+              className="flex flex-col items-center gap-1 rounded-xl border border-black/[.05] bg-white px-1 py-2.5 shadow-premium-sm dark:border-white/10 dark:bg-[#0b0b14] sm:px-2 sm:py-3 md:px-sm md:py-md"
             >
               <span className="text-xl font-bold tabular-nums leading-none text-primary sm:text-2xl md:text-heading-lg">
                 {remaining.done ? "00" : u.value}
@@ -118,7 +118,7 @@ export function FlashSaleBanner({
         </div>
 
         {/* Footer: urgency warning + CTA */}
-        <div className="mt-xl flex flex-col items-center justify-between gap-lg sm:flex-row">
+        <div className="mt-5 flex flex-col items-stretch justify-between gap-4 border-t border-hairline pt-5 sm:mt-xl sm:flex-row sm:items-center sm:gap-lg sm:pt-0 sm:border-t-0">
           <div className="flex items-center gap-md">
             <span
               className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-warning/15 text-warning"
