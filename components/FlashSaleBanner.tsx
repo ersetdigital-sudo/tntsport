@@ -6,15 +6,14 @@ import { useEvergreenCountdown, pad } from "@/components/CountdownTimer";
 import { BoltIcon, CartIcon, FlameIcon } from "@/components/icons";
 
 /**
- * FlashSaleBanner - Modern promo card with vibrant gradients and premium aesthetics.
+ * FlashSaleBanner - Clean modern promo card inspired by bundle promo design.
  * 
  * Features:
- * - Gradient backgrounds with dynamic glow effects
- * - Glass morphism design elements
- * - Fully responsive (mobile-first, stacks vertically on small screens)
- * - Adaptive light/dark mode with proper contrast
- * - Animated countdown with pulse effects
- * - Evergreen countdown stored in localStorage
+ * - Clean white/dark background with subtle geometric patterns
+ * - Large prominent countdown numbers in brand green
+ * - Jersey image with diagonal stripe accent pattern
+ * - Fully responsive mobile-first layout
+ * - Proper light/dark mode theming
  */
 
 // Jersey background art (Cloudinary — host allow-listed in next.config.mjs).
@@ -38,10 +37,10 @@ export function FlashSaleBanner({
   const remaining = useEvergreenCountdown(durationHours, storageKey);
 
   const units = [
-    { label: "Hari", value: pad(remaining.days) },
-    { label: "Jam", value: pad(remaining.hours) },
-    { label: "Menit", value: pad(remaining.minutes) },
-    { label: "Detik", value: pad(remaining.seconds) },
+    { label: "HARI", value: pad(remaining.days) },
+    { label: "JAM", value: pad(remaining.hours) },
+    { label: "MENIT", value: pad(remaining.minutes) },
+    { label: "DETIK", value: pad(remaining.seconds) },
   ];
 
   const orderHref = whatsappNumber
@@ -51,124 +50,111 @@ export function FlashSaleBanner({
     : "#";
 
   return (
-    <div className="group relative overflow-hidden rounded-2xl border border-primary/20 bg-gradient-to-br from-surface-card via-surface-card to-surface shadow-premium-xl transition-all duration-300 hover:shadow-premium-glow sm:rounded-3xl">
+    <div className="relative overflow-hidden rounded-2xl bg-white shadow-premium-xl dark:bg-surface-card sm:rounded-3xl">
       
-      {/* Animated gradient background layers */}
-      <div className="pointer-events-none absolute inset-0" aria-hidden="true">
-        {/* Primary glow - left side */}
-        <div className="absolute -left-20 top-0 h-[300px] w-[300px] rounded-full bg-primary/20 blur-3xl transition-all duration-700 group-hover:bg-primary/30 dark:bg-primary/30 dark:group-hover:bg-primary/40 sm:-left-32 sm:h-[400px] sm:w-[400px]" />
-        
-        {/* Secondary glow - right side */}
-        <div className="absolute -right-20 bottom-0 h-[280px] w-[280px] rounded-full bg-secondary/15 blur-3xl transition-all duration-700 group-hover:bg-secondary/25 dark:bg-secondary/25 dark:group-hover:bg-secondary/35 sm:-right-32 sm:h-[380px] sm:w-[380px]" />
-        
-        {/* Accent glow - center */}
-        <div className="absolute left-1/2 top-1/2 h-[200px] w-[200px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-accent/10 blur-3xl dark:bg-accent/20 sm:h-[250px] sm:w-[250px]" />
+      {/* Diagonal stripe pattern background - subtle geometric accent */}
+      <div className="pointer-events-none absolute right-0 top-0 h-full w-full opacity-[0.07] dark:opacity-[0.12]" aria-hidden="true">
+        <svg className="h-full w-full" viewBox="0 0 800 400" fill="none" xmlns="http://www.w3.org/2000/svg">
+          {/* Diagonal stripes pattern */}
+          <path d="M600 0L800 200V0H600Z" fill="currentColor" className="text-primary" />
+          <path d="M650 0L800 150V0H650Z" fill="currentColor" className="text-primary" opacity="0.6" />
+          <path d="M700 0L800 100V0H700Z" fill="currentColor" className="text-primary" opacity="0.3" />
+          <path d="M500 400L800 100V400H500Z" fill="currentColor" className="text-secondary" opacity="0.5" />
+          <path d="M600 400L800 200V400H600Z" fill="currentColor" className="text-secondary" opacity="0.3" />
+        </svg>
       </div>
 
-      {/* Jersey image with improved positioning */}
-      <div className="pointer-events-none absolute inset-0 sm:left-auto sm:w-[50%]">
+      {/* Jersey image - positioned on right side */}
+      <div className="pointer-events-none absolute bottom-0 right-0 top-0 w-[45%] sm:w-[42%]">
         <div className="relative h-full w-full">
           <Image
             src={JERSEY_IMAGE}
             alt=""
             fill
             priority
-            sizes="(max-width: 640px) 100vw, 50vw"
-            className="object-contain object-center opacity-90 drop-shadow-[0_20px_25px_rgba(0,0,0,.25)] transition-all duration-500 group-hover:scale-105 group-hover:opacity-100 dark:drop-shadow-[0_20px_35px_rgba(0,0,0,.5)] sm:object-right"
+            sizes="(max-width: 640px) 45vw, 42vw"
+            className="object-contain object-bottom drop-shadow-[0_10px_30px_rgba(0,0,0,.15)] dark:drop-shadow-[0_10px_40px_rgba(0,0,0,.4)] sm:object-right-bottom"
           />
-          {/* Gradient fade overlay */}
-          <div className="absolute inset-0 bg-gradient-to-t from-surface-card via-surface-card/80 to-transparent sm:bg-gradient-to-r sm:from-surface-card sm:via-surface-card/85 sm:to-transparent" />
         </div>
       </div>
 
       {/* Main content */}
-      <div className="relative z-10 p-6 sm:p-8 md:p-10 lg:p-12">
-        <div className="sm:max-w-[52%]">
+      <div className="relative z-10 p-6 sm:p-8 md:p-10">
+        <div className="max-w-[52%] sm:max-w-[55%]">
           
-          {/* Flash Sale Badge - More prominent */}
-          <div className="mb-5 inline-flex animate-pulse">
-            <span className="inline-flex items-center gap-2 rounded-full border border-primary/30 bg-gradient-to-r from-primary/20 via-primary/15 to-primary/10 px-4 py-2 shadow-lg shadow-primary/20 backdrop-blur-sm transition-all duration-300 hover:scale-105 dark:border-primary/40 dark:from-primary/30 dark:via-primary/20 dark:to-primary/15 dark:shadow-primary/30">
-              <BoltIcon className="h-5 w-5 text-primary drop-shadow-sm" />
-              <span className="text-button-sm font-bold uppercase tracking-wider text-primary">
-                Flash Sale
-              </span>
-              <span className="relative flex h-2 w-2">
-                <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-primary opacity-75"></span>
-                <span className="relative inline-flex h-2 w-2 rounded-full bg-primary"></span>
-              </span>
+          {/* Flash Sale Badge - Clean and simple */}
+          <div className="mb-4 inline-flex">
+            <span className="inline-flex items-center gap-1.5 rounded-full bg-primary px-3.5 py-1.5 text-[11px] font-bold uppercase tracking-wide text-white shadow-md sm:gap-2 sm:px-4 sm:py-2">
+              <BoltIcon className="h-4 w-4" />
+              Flash Sale
             </span>
           </div>
 
-          {/* Headline */}
-          <div className="mb-3">
-            <h2 className="flex flex-wrap items-center gap-3 text-[clamp(1.5rem,5vw,2.5rem)] font-extrabold uppercase leading-tight tracking-tight text-ink drop-shadow-sm dark:text-on-dark">
-              <FlameIcon className="h-8 w-8 flex-shrink-0 text-primary drop-shadow-md sm:h-9 sm:w-9" />
-              <span className="bg-gradient-to-r from-ink via-ink to-charcoal bg-clip-text text-transparent dark:from-on-dark dark:via-on-dark dark:to-on-dark-mute">
-                Promo Berakhir Dalam:
-              </span>
+          {/* Headline with flame icon */}
+          <div className="mb-2 flex items-start gap-2 sm:mb-3 sm:gap-3">
+            <FlameIcon className="mt-1 h-7 w-7 flex-shrink-0 text-danger sm:h-8 sm:w-8" />
+            <h2 className="text-[1.35rem] font-extrabold uppercase leading-tight text-ink dark:text-on-dark sm:text-[1.75rem] md:text-[2rem]">
+              Promo Berakhir Dalam:
             </h2>
           </div>
           
-          <p className="mb-6 max-w-md text-body-sm text-charcoal dark:text-on-dark-mute sm:text-body-md">
-            Jangan sampai kelewatan! Diskon spesial terbatas untuk kamu.
+          <p className="mb-5 text-body-sm text-charcoal dark:text-on-dark-mute sm:mb-6 sm:text-body-md">
+            Jangan sampai kelewatan!<br />
+            Diskon spesial terbatas.
           </p>
 
-          {/* Countdown - Modern glass cards */}
-          <div className="grid grid-cols-4 gap-2.5 sm:gap-3 md:gap-4">
+          {/* Countdown - Big bold numbers like reference */}
+          <div className="mb-5 grid grid-cols-4 gap-3 sm:mb-6 sm:gap-4 md:gap-5">
             {units.map((u, idx) => (
-              <div
-                key={u.label}
-                className="group/card relative overflow-hidden rounded-xl border border-primary/20 bg-white/60 backdrop-blur-md shadow-lg transition-all duration-300 hover:scale-105 hover:border-primary/40 hover:shadow-xl dark:border-primary/30 dark:bg-surface-dark/60 dark:shadow-primary/10 dark:hover:border-primary/50 dark:hover:shadow-primary/20"
-                style={{
-                  animationDelay: `${idx * 100}ms`,
-                }}
-              >
-                {/* Card glow effect */}
-                <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-transparent to-secondary/5 opacity-0 transition-opacity duration-300 group-hover/card:opacity-100" />
-                
-                <div className="relative flex flex-col items-center justify-center gap-1.5 px-2 py-3 sm:gap-2 sm:px-3 sm:py-4 md:px-4 md:py-5">
-                  <span className="text-gradient-brand text-2xl font-black tabular-nums leading-none sm:text-3xl md:text-4xl">
-                    {remaining.done ? "00" : u.value}
-                  </span>
-                  <span className="text-[10px] font-bold uppercase tracking-wider text-primary/80 dark:text-primary sm:text-[11px]">
-                    {u.label}
-                  </span>
+              <div key={u.label} className="flex flex-col items-center">
+                {/* Large countdown number */}
+                <div className="mb-1 text-[2.5rem] font-black leading-none text-primary sm:mb-2 sm:text-[3.5rem] md:text-[4rem]">
+                  {remaining.done ? "00" : u.value}
                 </div>
+                {/* Label */}
+                <div className="text-[11px] font-bold uppercase tracking-wide text-primary sm:text-xs">
+                  {u.label}
+                </div>
+                {/* Separator colon - hidden on last item */}
+                {idx < units.length - 1 && (
+                  <div className="absolute right-0 top-8 text-[2rem] font-black text-primary/30 sm:top-10 sm:text-[3rem] md:text-[3.5rem]">
+                    :
+                  </div>
+                )}
               </div>
             ))}
           </div>
         </div>
 
-        {/* CTA Section - Improved layout */}
-        <div className="mt-6 flex flex-col gap-4 border-t border-hairline/50 pt-6 sm:mt-8 sm:flex-row sm:items-center sm:justify-between sm:pt-8">
+        {/* CTA Section - Warning + Button */}
+        <div className="relative z-10 flex flex-col gap-3 border-t border-hairline pt-5 sm:flex-row sm:items-center sm:justify-between sm:gap-4 sm:pt-6">
           
-          {/* Urgency message */}
-          <div className="flex items-center gap-3 sm:gap-4">
-            <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-warning/20 to-danger/20 shadow-md dark:from-warning/30 dark:to-danger/30">
-              <FlameIcon className="h-5 w-5 animate-pulse text-warning dark:text-warning" />
-            </span>
+          {/* Warning message with icon */}
+          <div className="flex items-center gap-3">
+            <div className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-lg bg-primary/10 dark:bg-primary/20">
+              <svg className="h-5 w-5 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+              </svg>
+            </div>
             <div>
-              <p className="text-sm font-bold uppercase tracking-wide text-ink dark:text-on-dark sm:text-body-sm">
-                Harga Naik Setelah Waktu Habis!
+              <p className="text-sm font-bold text-ink dark:text-on-dark sm:text-body-sm">
+                HARGA NAIK SETELAH WAKTU HABIS!
               </p>
               <p className="text-caption text-charcoal dark:text-on-dark-mute">
-                Manfaatkan sekarang sebelum terlambat
+                Manfaatkan sekarang sebelum terlambat.
               </p>
             </div>
           </div>
 
-          {/* CTA Button */}
+          {/* CTA Button - Solid green like reference */}
           <Link
             href={orderHref}
             target={whatsappNumber ? "_blank" : undefined}
             rel={whatsappNumber ? "noopener noreferrer" : undefined}
-            className="group/btn relative inline-flex h-12 w-full items-center justify-center gap-2 overflow-hidden rounded-full bg-gradient-brand px-8 text-button-md font-bold text-on-primary shadow-premium-glow transition-all duration-300 hover:scale-105 hover:shadow-xl focus-visible:outline focus-visible:outline-2 focus-visible:outline-primary focus-visible:outline-offset-2 sm:w-auto sm:px-10"
+            className="inline-flex h-12 w-full items-center justify-center gap-2 rounded-full bg-primary px-8 text-body-md font-bold text-white shadow-lg transition-all duration-200 hover:bg-primary-strong hover:shadow-xl focus-visible:outline focus-visible:outline-2 focus-visible:outline-primary focus-visible:outline-offset-2 sm:w-auto sm:px-10"
           >
-            {/* Button shine effect */}
-            <div className="absolute inset-0 -translate-x-full bg-gradient-to-r from-transparent via-white/20 to-transparent transition-transform duration-500 group-hover/btn:translate-x-full" />
-            
-            <CartIcon className="relative h-5 w-5 transition-transform duration-300 group-hover/btn:scale-110" />
-            <span className="relative">Order Sekarang</span>
+            <CartIcon className="h-5 w-5" />
+            ORDER SEKARANG
           </Link>
         </div>
       </div>
