@@ -23,11 +23,11 @@ interface FlashSaleBannerProps {
 
 function CountdownBox({ value, label }: { value: string; label: string }) {
   return (
-    <div className="flex min-w-0 flex-1 flex-col items-center justify-center rounded-xl border border-white/15 bg-white/[.08] px-1 py-2.5 backdrop-blur-md sm:py-3">
-      <span className="text-[clamp(1.6rem,7vw,2.4rem)] font-black leading-none tracking-tight text-white tabular-nums">
+    <div className="flex min-w-0 flex-1 flex-col items-center justify-center rounded-lg border border-white/15 bg-white/[.08] px-1 py-2 backdrop-blur-md sm:rounded-xl sm:py-3">
+      <span className="text-[clamp(1.5rem,6.5vw,2.4rem)] font-black leading-none tracking-tight text-white tabular-nums">
         {value}
       </span>
-      <span className="mt-1.5 text-[10px] font-bold uppercase tracking-[.08em] text-primary sm:text-[11px]">
+      <span className="mt-1 text-[10px] font-bold uppercase tracking-[.08em] text-primary sm:mt-1.5 sm:text-[11px]">
         {label}
       </span>
     </div>
@@ -89,13 +89,13 @@ export function FlashSaleBanner({
 
       <div className="relative z-10 p-5 sm:p-7">
         {/* Flash sale pill — glassy with neon text. */}
-        <span className="inline-flex items-center gap-1.5 rounded-full border border-primary/40 bg-primary/15 px-3.5 py-1.5 text-[11px] font-bold uppercase tracking-[.08em] text-primary backdrop-blur-sm">
+        <span className="inline-flex items-center gap-1.5 rounded-full border border-primary/40 bg-primary/15 px-3 py-1 text-[11px] font-bold uppercase tracking-[.08em] text-primary backdrop-blur-sm sm:px-3.5 sm:py-1.5">
           <BoltIcon className="h-3.5 w-3.5" />
           Flash Sale
         </span>
 
         {/* Headline. */}
-        <div className="mt-4 flex items-start gap-2 sm:gap-2.5">
+        <div className="mt-3 flex items-start gap-2 sm:mt-4 sm:gap-2.5">
           <FlameIcon className="mt-0.5 h-6 w-6 shrink-0 text-danger sm:h-8 sm:w-8" aria-hidden="true" />
           <h2 className="max-w-[15ch] text-balance text-[clamp(1.15rem,4.6vw,1.7rem)] font-extrabold italic uppercase leading-[1.05] tracking-[-.02em] text-white">
             Promo Berakhir Dalam:
@@ -106,11 +106,11 @@ export function FlashSaleBanner({
         </p>
 
         {/* Countdown — frosted glass boxes with neon colons. */}
-        <div className="mt-6 flex items-end gap-1.5 sm:mt-7 sm:max-w-[70%] sm:gap-2">
+        <div className="mt-5 flex items-end gap-1 sm:mt-7 sm:max-w-[70%] sm:gap-2">
           <CountdownBox value={remaining.done ? "00" : units[0].value} label={units[0].label} />
           <Colon />
           <CountdownBox value={remaining.done ? "00" : units[1].value} label={units[1].label} />
-          <span aria-hidden="true" className="w-1 shrink-0 sm:w-2" />
+          <span aria-hidden="true" className="w-0.5 shrink-0 sm:w-2" />
           <CountdownBox value={remaining.done ? "00" : units[2].value} label={units[2].label} />
           <Colon />
           <CountdownBox value={remaining.done ? "00" : units[3].value} label={units[3].label} />
@@ -118,9 +118,9 @@ export function FlashSaleBanner({
       </div>
 
       {/* Bottom bar — urgency + solid neon CTA. */}
-      <div className="relative z-10 flex flex-col gap-4 border-t border-white/10 px-5 py-5 sm:flex-row sm:items-center sm:justify-between sm:px-7">
+      <div className="relative z-10 flex flex-col gap-3 border-t border-white/10 px-5 py-4 sm:flex-row sm:items-center sm:justify-between sm:gap-4 sm:px-7 sm:py-5">
         <div className="flex items-center gap-3">
-          <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full border border-primary/30 bg-primary/15 text-primary">
+          <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full border border-primary/30 bg-primary/15 text-primary sm:h-10 sm:w-10">
             <TagIcon className="h-5 w-5" aria-hidden="true" />
           </span>
           <div>
@@ -137,7 +137,7 @@ export function FlashSaleBanner({
           href={orderHref}
           target={whatsappNumber ? "_blank" : undefined}
           rel={whatsappNumber ? "noopener noreferrer" : undefined}
-          className="inline-flex h-12 w-full items-center justify-center gap-2.5 rounded-xl bg-primary text-[15px] font-extrabold uppercase tracking-wide text-white shadow-[0_8px_24px_rgba(0,200,83,.35)] transition-all duration-200 hover:brightness-110 active:scale-[0.98] sm:w-auto sm:px-7"
+          className="inline-flex h-12 w-full touch-manipulation items-center justify-center gap-2.5 rounded-xl bg-primary text-[15px] font-extrabold uppercase tracking-wide text-white shadow-[0_8px_24px_rgba(0,200,83,.35)] transition-all duration-200 hover:brightness-110 active:scale-[0.97] sm:w-auto sm:px-7"
         >
           <CartIcon className="h-5 w-5" aria-hidden="true" />
           Order Sekarang
