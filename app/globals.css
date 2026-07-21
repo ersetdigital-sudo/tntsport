@@ -9,74 +9,74 @@
    only swaps variables.
    ============================================================ */
 :root {
-  /* Brand gradient stops — vibrant TNT green */
-  --color-brand-from: #34d399;
-  --color-brand-via: #00c853;
-  --color-brand-to: #00a344;
+  /* Brand gradient stops — refined TNT green (softer than neon) */
+  --color-brand-from: #22c55e;
+  --color-brand-via: #16a34a;
+  --color-brand-to: #15803d;
 
-  /* Primary (CTA) — bright TNT green */
-  --color-primary: #00c853;
-  --color-primary-strong: #00a344;
-  /* Secondary — deep green */
-  --color-secondary: #00a344;
-  --color-secondary-strong: #008f3a;
+  /* Primary (CTA) — deep emerald, premium not neon */
+  --color-primary: #16a34a;
+  --color-primary-strong: #15803d;
+  /* Secondary — accent green for highlights */
+  --color-secondary: #22c55e;
+  --color-secondary-strong: #16a34a;
 
   /* Accent gold for promo / warning */
-  --color-accent: #f59e0b;
+  --color-accent: #d97706;
 
-  /* Backgrounds (light) */
-  --color-background: #f7f7fb;
-  --color-background-canvas: #f7f7fb;
-  --color-background-bone: #ffffff;
+  /* Backgrounds (light) — soft warm gray, not pure white */
+  --color-background: #f4f5f7;
+  --color-background-canvas: #f4f5f7;
+  --color-background-bone: #eef0f3;
 
-  /* Surfaces (light) */
+  /* Surfaces (light) — layered hierarchy */
   --color-surface: #ffffff;
   --color-surface-card: #ffffff;
-  --color-surface-glass: rgba(255, 255, 255, 0.7);
-  --color-surface-glass-border: rgba(0, 0, 0, 0.06);
-  --color-surface-dark: #0b0b14;
-  --color-surface-deep: #050509;
+  --color-surface-glass: rgba(255, 255, 255, 0.85);
+  --color-surface-glass-border: rgba(0, 0, 0, 0.05);
+  --color-surface-dark: #111827;
+  --color-surface-deep: #0b0f1a;
 
-  /* Text (light) */
-  --color-foreground: #0b0b14;
-  --color-ink: #0b0b14;
-  --color-body: #2a2a3a;
-  --color-charcoal: #525266;
-  --color-mute: #8a8a9a;
-  --color-ash: #6a6a7a;
-  --color-stone: #b0b0c0;
+  /* Text (light) — charcoal hierarchy, not pure black */
+  --color-foreground: #111827;
+  --color-ink: #111827;
+  --color-body: #374151;
+  --color-charcoal: #4b5563;
+  --color-mute: #9ca3af;
+  --color-ash: #6b7280;
+  --color-stone: #d1d5db;
 
   /* On-color */
   --color-on-primary: #ffffff;
   --color-on-secondary: #ffffff;
   --color-on-dark: #ffffff;
-  --color-on-dark-mute: #b9b9c9;
+  --color-on-dark-mute: #9ca3af;
 
-  /* Borders / dividers */
-  --color-hairline: rgba(0, 0, 0, 0.08);
-  --color-hairline-strong: rgba(0, 0, 0, 0.16);
-  --color-divider: rgba(0, 0, 0, 0.08);
+  /* Borders / dividers — very subtle */
+  --color-hairline: rgba(0, 0, 0, 0.06);
+  --color-hairline-strong: rgba(0, 0, 0, 0.10);
+  --color-divider: rgba(0, 0, 0, 0.06);
 
-  /* Semantic */
-  --color-success: #10b981;
-  --color-warning: #f59e0b;
-  --color-info: #3b82f6;
-  --color-danger: #ef4444;
-  --color-link: #00c853;
-  --color-ring-focus: rgba(0, 200, 83, 0.45);
+  /* Semantic — toned down for calm feel */
+  --color-success: #059669;
+  --color-warning: #d97706;
+  --color-info: #2563eb;
+  --color-danger: #dc2626;
+  --color-link: #16a34a;
+  --color-ring-focus: rgba(22, 163, 74, 0.3);
 
-  /* Premium shadows */
-  --shadow-sm: 0 1px 2px rgba(15, 15, 30, 0.06), 0 1px 1px rgba(15, 15, 30, 0.04);
-  --shadow-md: 0 4px 12px rgba(15, 15, 30, 0.08), 0 2px 4px rgba(15, 15, 30, 0.04);
-  --shadow-lg: 0 12px 32px rgba(15, 15, 30, 0.10), 0 4px 8px rgba(15, 15, 30, 0.06);
-  --shadow-xl: 0 24px 56px rgba(15, 15, 30, 0.14), 0 8px 16px rgba(15, 15, 30, 0.08);
-  --shadow-glow: 0 0 0 1px rgba(22, 163, 74, 0.3), 0 8px 24px rgba(22, 163, 74, 0.25);
+  /* Premium shadows — soft, layered depth */
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.04), 0 1px 3px rgba(0, 0, 0, 0.06);
+  --shadow-md: 0 2px 8px rgba(0, 0, 0, 0.06), 0 4px 16px rgba(0, 0, 0, 0.04);
+  --shadow-lg: 0 4px 16px rgba(0, 0, 0, 0.08), 0 12px 32px rgba(0, 0, 0, 0.06);
+  --shadow-xl: 0 8px 24px rgba(0, 0, 0, 0.10), 0 24px 48px rgba(0, 0, 0, 0.08);
+  --shadow-glow: 0 0 0 1px rgba(22, 163, 74, 0.15), 0 4px 16px rgba(22, 163, 74, 0.12);
 
-  /* Mesh background (light) */
+  /* Mesh background (light) — very subtle, barely visible */
   --mesh-bg:
-    radial-gradient(60% 50% at 20% 10%, rgba(52, 211, 153, 0.10), transparent 60%),
-    radial-gradient(50% 50% at 85% 20%, rgba(21, 128, 61, 0.10), transparent 60%),
-    radial-gradient(60% 60% at 50% 100%, rgba(22, 163, 74, 0.08), transparent 60%);
+    radial-gradient(60% 50% at 20% 10%, rgba(34, 197, 94, 0.04), transparent 60%),
+    radial-gradient(50% 50% at 85% 20%, rgba(22, 163, 74, 0.03), transparent 60%),
+    radial-gradient(60% 60% at 50% 100%, rgba(21, 128, 61, 0.03), transparent 60%);
 }
 
 .dark {
@@ -159,10 +159,10 @@
   }
 
   body {
-    background-color: #f2f4f2;
+    background-color: var(--color-background);
     color: var(--color-ink);
     font-family: var(--font-sans), ui-sans-serif, system-ui, sans-serif;
-    background-image: radial-gradient(circle at 50% 0%, rgba(0, 200, 83, 0.10), transparent 26rem), var(--mesh-bg);
+    background-image: var(--mesh-bg);
     background-attachment: fixed;
     transition: background-color 300ms ease, color 300ms ease;
     min-width: 320px;
@@ -428,6 +428,14 @@
   .dark body {
     background-color: var(--color-background);
     background-image: var(--mesh-bg);
+  }
+
+  /* Light mode: sidebar slightly warmer than main content */
+  .min-h-dvh aside {
+    background-color: #f9fafb;
+  }
+  .dark .min-h-dvh aside {
+    background-color: var(--color-surface-card);
   }
 
 }
