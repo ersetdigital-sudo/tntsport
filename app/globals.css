@@ -42,15 +42,15 @@
   --color-ink: #111827;
   --color-body: #374151;
   --color-charcoal: #4b5563;
-  --color-mute: #9ca3af;
+  --color-mute: #7b8591;
   --color-ash: #6b7280;
-  --color-stone: #d1d5db;
+  --color-stone: #8a919a;
 
   /* On-color */
   --color-on-primary: #ffffff;
   --color-on-secondary: #ffffff;
   --color-on-dark: #ffffff;
-  --color-on-dark-mute: #9ca3af;
+  --color-on-dark-mute: #6b7280;
 
   /* Borders / dividers — very subtle */
   --color-hairline: rgba(0, 0, 0, 0.06);
