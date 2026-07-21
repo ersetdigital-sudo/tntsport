@@ -161,7 +161,11 @@ export function CrudManager({
     setError(null);
     startTransition(async () => {
       const supabase = createClient();
-      const { id, ...data } = editing;
+      const { id, ...raw } = editing;
+      // Strip virtual display fields (_title, _subtitle, etc.) — not real DB columns
+      const data = Object.fromEntries(
+        Object.entries(raw).filter(([k]) => !k.startsWith("_"))
+      );
       if (id) {
         const { error: err } = await supabase
           .from(table)
