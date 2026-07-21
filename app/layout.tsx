@@ -34,7 +34,7 @@ export async function generateMetadata(): Promise<Metadata> {
   const taglineFirstLine = brand.tagline.split("\n")[0];
 
   return {
-    metadataBase: new URL(brand.url),
+    metadataBase: brand.url ? new URL(brand.url) : undefined,
     title: {
       default: `${brand.name} — ${taglineFirstLine}`,
       template: `%s · ${brand.name}`,

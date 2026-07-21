@@ -8,12 +8,15 @@ import { getBrand } from "@/lib/queries";
  */
 export default async function robots(): Promise<MetadataRoute.Robots> {
   const brand = await getBrand();
-  return {
+  const base: MetadataRoute.Robots = {
     rules: {
       userAgent: "*",
       allow: "/",
     },
-    sitemap: `${brand.url}/sitemap.xml`,
-    host: brand.url,
   };
+  if (brand.url) {
+    base.sitemap = `${brand.url}/sitemap.xml`;
+    base.host = brand.url;
+  }
+  return base;
 }

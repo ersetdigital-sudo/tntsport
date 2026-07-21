@@ -10,6 +10,7 @@ import { getBrand } from "@/lib/queries";
  */
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const brand = await getBrand();
+  if (!brand.url) return [];
   return [
     {
       url: brand.url,

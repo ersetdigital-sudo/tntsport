@@ -32,11 +32,20 @@ export function BrandEditor({ brand }: BrandEditorProps) {
   function save() {
     setError(null);
     setSaved(false);
+
+    // Validate URL format only if filled
+    const trimmedUrl = form.url.trim();
+    if (trimmedUrl && !/^https?:\/\/.+/.test(trimmedUrl)) {
+      setError("URL Situs harus diawali http:// atau https://");
+      return;
+    }
+
     startTransition(async () => {
       const supabase = createClient();
+      const payload = { ...form, url: trimmedUrl || "" };
       const { error: err } = await supabase
         .from("brand")
-        .update(form)
+        .update(payload)
         .eq("id", 1);
       if (err) {
         setError(err.message);
@@ -95,6 +104,7 @@ export function BrandEditor({ brand }: BrandEditorProps) {
               className={inputClass}
               placeholder="https://tntsport.id"
             />
+            <small className="text-caption text-mute">Opsional. Isi jika ingin dipakai untuk metadata / tautan situs utama.</small>
           </label>
           <label className="flex flex-col gap-xs">
             <span className={labelClass}>Nomor WhatsApp</span>
