@@ -51,16 +51,29 @@ export function SignupForm() {
   }
 
   return (
-    <form onSubmit={onSubmit} className="flex flex-col gap-lg w-full">
-      {/* Name */}
-      <label className="flex flex-col gap-xs">
-        <span className="text-button-sm text-on-dark-mute uppercase tracking-wider">
-          Nama Lengkap
-        </span>
+    <div className="flex flex-col items-center gap-xl w-full">
+      {/* Logo & Title */}
+      <div className="flex flex-col items-center gap-md mb-md">
+        <div className="w-20 h-20 rounded-full bg-white/20 backdrop-blur-sm flex items-center justify-center">
+          <span className="text-3xl font-extrabold text-white tracking-tight">
+            TNT
+          </span>
+        </div>
+        <div className="text-center">
+          <h1 className="text-2xl font-bold text-white">Buat Akun Baru</h1>
+          <p className="text-sm text-white/70 mt-xs">
+            Daftar untuk mengelola TNT SPORT
+          </p>
+        </div>
+      </div>
+
+      {/* Form */}
+      <form onSubmit={onSubmit} className="flex flex-col gap-md w-full">
+        {/* Name */}
         <div className="relative">
           <User
             size={16}
-            className="absolute left-md top-1/2 -translate-y-1/2 text-stone"
+            className="absolute left-md top-1/2 -translate-y-1/2 text-white/50"
           />
           <input
             type="text"
@@ -68,21 +81,16 @@ export function SignupForm() {
             autoComplete="name"
             value={name}
             onChange={(e) => setName(e.target.value)}
-            className="w-full bg-surface-dark text-on-dark rounded-xs pl-xl pr-md py-sm border border-hairline focus-visible:outline focus-visible:outline-2 focus-visible:outline-secondary focus-visible:outline-offset-2"
+            className="w-full bg-white/10 backdrop-blur-sm text-white rounded-xl pl-xl pr-md py-3.5 border border-white/20 text-sm placeholder:text-white/40 focus:outline-none focus:border-white/40 transition-colors"
             placeholder="Nama lengkap"
           />
         </div>
-      </label>
 
-      {/* Email */}
-      <label className="flex flex-col gap-xs">
-        <span className="text-button-sm text-on-dark-mute uppercase tracking-wider">
-          Email
-        </span>
+        {/* Email */}
         <div className="relative">
           <Mail
             size={16}
-            className="absolute left-md top-1/2 -translate-y-1/2 text-stone"
+            className="absolute left-md top-1/2 -translate-y-1/2 text-white/50"
           />
           <input
             type="email"
@@ -90,21 +98,16 @@ export function SignupForm() {
             autoComplete="email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
-            className="w-full bg-surface-dark text-on-dark rounded-xs pl-xl pr-md py-sm border border-hairline focus-visible:outline focus-visible:outline-2 focus-visible:outline-secondary focus-visible:outline-offset-2"
-            placeholder="admin@tnt-sport.com"
+            className="w-full bg-white/10 backdrop-blur-sm text-white rounded-xl pl-xl pr-md py-3.5 border border-white/20 text-sm placeholder:text-white/40 focus:outline-none focus:border-white/40 transition-colors"
+            placeholder="Email"
           />
         </div>
-      </label>
 
-      {/* Password */}
-      <label className="flex flex-col gap-xs">
-        <span className="text-button-sm text-on-dark-mute uppercase tracking-wider">
-          Password
-        </span>
+        {/* Password */}
         <div className="relative">
           <Lock
             size={16}
-            className="absolute left-md top-1/2 -translate-y-1/2 text-stone"
+            className="absolute left-md top-1/2 -translate-y-1/2 text-white/50"
           />
           <input
             type={showPassword ? "text" : "password"}
@@ -112,29 +115,24 @@ export function SignupForm() {
             autoComplete="new-password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
-            className="w-full bg-surface-dark text-on-dark rounded-xs pl-xl pr-xxl py-sm border border-hairline focus-visible:outline focus-visible:outline-2 focus-visible:outline-secondary focus-visible:outline-offset-2"
+            className="w-full bg-white/10 backdrop-blur-sm text-white rounded-xl pl-xl pr-xxl py-3.5 border border-white/20 text-sm placeholder:text-white/40 focus:outline-none focus:border-white/40 transition-colors"
             placeholder="Min. 8 karakter"
             minLength={8}
           />
           <button
             type="button"
             onClick={() => setShowPassword(!showPassword)}
-            className="absolute right-md top-1/2 -translate-y-1/2 text-stone hover:text-ink transition-colors"
+            className="absolute right-md top-1/2 -translate-y-1/2 text-white/50 hover:text-white/80 transition-colors"
           >
             {showPassword ? <EyeOff size={16} /> : <Eye size={16} />}
           </button>
         </div>
-      </label>
 
-      {/* Confirm Password */}
-      <label className="flex flex-col gap-xs">
-        <span className="text-button-sm text-on-dark-mute uppercase tracking-wider">
-          Konfirmasi Password
-        </span>
+        {/* Confirm Password */}
         <div className="relative">
           <Lock
             size={16}
-            className="absolute left-md top-1/2 -translate-y-1/2 text-stone"
+            className="absolute left-md top-1/2 -translate-y-1/2 text-white/50"
           />
           <input
             type={showConfirm ? "text" : "password"}
@@ -142,62 +140,63 @@ export function SignupForm() {
             autoComplete="new-password"
             value={confirmPassword}
             onChange={(e) => setConfirmPassword(e.target.value)}
-            className="w-full bg-surface-dark text-on-dark rounded-xs pl-xl pr-xxl py-sm border border-hairline focus-visible:outline focus-visible:outline-2 focus-visible:outline-secondary focus-visible:outline-offset-2"
+            className="w-full bg-white/10 backdrop-blur-sm text-white rounded-xl pl-xl pr-xxl py-3.5 border border-white/20 text-sm placeholder:text-white/40 focus:outline-none focus:border-white/40 transition-colors"
             placeholder="Ulangi password"
             minLength={8}
           />
           <button
             type="button"
             onClick={() => setShowConfirm(!showConfirm)}
-            className="absolute right-md top-1/2 -translate-y-1/2 text-stone hover:text-ink transition-colors"
+            className="absolute right-md top-1/2 -translate-y-1/2 text-white/50 hover:text-white/80 transition-colors"
           >
             {showConfirm ? <EyeOff size={16} /> : <Eye size={16} />}
           </button>
         </div>
-      </label>
 
-      {/* Terms checkbox */}
-      <label className="flex items-start gap-sm cursor-pointer">
-        <input
-          type="checkbox"
-          checked={agreed}
-          onChange={(e) => setAgreed(e.target.checked)}
-          className="mt-xxs h-4 w-4 rounded border-hairline accent-primary"
-        />
-        <span className="text-caption text-on-dark-mute">
-          Saya setuju dengan{" "}
-          <span className="text-secondary font-medium cursor-pointer hover:underline">
-            Syarat & Ketentuan
+        {/* Terms checkbox */}
+        <label className="flex items-start gap-sm cursor-pointer px-xs">
+          <input
+            type="checkbox"
+            checked={agreed}
+            onChange={(e) => setAgreed(e.target.checked)}
+            className="mt-xxs h-4 w-4 rounded border-white/30 accent-white"
+          />
+          <span className="text-xs text-white/60">
+            Saya setuju dengan{" "}
+            <span className="text-white font-medium hover:underline">
+              Syarat & Ketentuan
+            </span>
           </span>
-        </span>
-      </label>
+        </label>
 
-      {error ? (
-        <p
-          role="alert"
-          className="text-caption text-primary border border-primary bg-surface-card rounded-md px-md py-sm"
+        {error ? (
+          <p
+            role="alert"
+            className="text-xs text-red-300 bg-red-500/20 border border-red-500/30 rounded-lg px-md py-sm"
+          >
+            {error}
+          </p>
+        ) : null}
+
+        <button
+          type="submit"
+          disabled={pending}
+          className="w-full py-3.5 px-lg rounded-full bg-white text-green-700 text-sm font-bold hover:bg-white/90 transition-colors shadow-lg disabled:opacity-50"
         >
-          {error}
-        </p>
-      ) : null}
+          {pending ? "Membuat Akun…" : "Buat Akun"}
+        </button>
+      </form>
 
-      <button
-        type="submit"
-        disabled={pending}
-        className="text-button-md inline-flex h-11 items-center justify-center rounded-full bg-primary px-lg text-on-primary hover:bg-secondary transition-colors duration-normal disabled:opacity-40 disabled:hover:bg-primary focus-visible:outline focus-visible:outline-2 focus-visible:outline-secondary focus-visible:outline-offset-2"
-      >
-        {pending ? "Membuat Akun…" : "Buat Akun"}
-      </button>
-
-      <p className="text-caption text-on-dark-mute text-center">
+      {/* Login link */}
+      <p className="text-sm text-white/60">
         Sudah punya akun?{" "}
         <Link
           href="/admin/login"
-          className="text-secondary font-medium hover:underline"
+          className="text-white font-semibold hover:underline"
         >
           Masuk
         </Link>
       </p>
-    </form>
+    </div>
   );
 }
