@@ -104,6 +104,38 @@ export function CheckIcon(props: IconProps) {
   );
 }
 
+/**
+ * Verified badge — blue circle with white check (social-media verified
+ * style, like Instagram/Twitter). Carries its own accessible label
+ * (role="img" + aria-label) since it conveys trust status on its own,
+ * unlike decorative glyphs. Color is fixed (verified blue) regardless
+ * of theme — this is a universal trust signal, not a brand element.
+ */
+export function VerifiedBadgeIcon(props: IconProps) {
+  return (
+    <svg
+      width={24}
+      height={24}
+      viewBox="0 0 24 24"
+      fill="none"
+      role="img"
+      aria-label="Customer terverifikasi"
+      focusable={false}
+      {...props}
+    >
+      <circle cx="12" cy="12" r="10" fill="#1D9BF0" />
+      <path
+        d="M7.5 12.5l3 3 6.5-6.5"
+        fill="none"
+        stroke="#fff"
+        strokeWidth="2.2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </svg>
+  );
+}
+
 /** Right-pointing arrow (CTA affordance). */
 export function ArrowRightIcon(props: IconProps) {
   return (
