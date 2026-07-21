@@ -2,6 +2,7 @@
 
 import { usePathname } from "next/navigation";
 import { Bell, Search, ChevronRight } from "lucide-react";
+import { ThemeToggle } from "./ThemeToggle";
 
 /**
  * AdminHeader — top bar with breadcrumb, search, and notifications.
@@ -66,6 +67,9 @@ export function AdminHeader({
             className="h-9 w-48 md:w-64 pl-xl pr-md bg-surface text-ink rounded-md border border-hairline text-body-sm outline-none transition-colors duration-normal focus:border-primary placeholder:text-stone"
           />
         </div>
+
+        {/* Theme toggle */}
+        <ThemeToggle />
 
         {/* Notifications */}
         <button
