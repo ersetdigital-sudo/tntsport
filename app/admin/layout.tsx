@@ -43,15 +43,16 @@ export default async function AdminLayout({
   }
 
   return (
-    <div className="min-h-dvh bg-background">
-      <div className="flex min-h-dvh">
-        {/* Sidebar — fixed full-height rail on desktop, horizontal on mobile */}
-        <aside className="md:w-64 md:shrink-0 md:border-r md:border-hairline bg-surface-card">
+    // h-dvh + overflow-hidden locks the viewport. Only the <main> area scrolls.
+    <div className="h-dvh bg-background overflow-hidden">
+      <div className="flex h-full">
+        {/* Sidebar — full-height on desktop, hidden on mobile (bottom nav handles mobile) */}
+        <aside className="hidden md:block md:w-64 md:shrink-0 md:border-r md:border-hairline bg-surface-card">
           <AdminSidebar email={user?.email} />
         </aside>
 
-        {/* Main content — header + scrollable page body */}
-        <div className="flex-1 min-w-0 flex flex-col">
+        {/* Main content — header (sticky top) + scrollable page body */}
+        <div className="flex-1 min-w-0 flex flex-col overflow-hidden">
           <AdminHeader title="Admin" email={user?.email} />
           <main className="flex-1 overflow-y-auto p-lg md:p-xxl">
             {children}

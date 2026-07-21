@@ -100,7 +100,7 @@ export function AdminSidebar({ email }: { email?: string | null }) {
   }
 
   return (
-    <div className="flex md:flex-col h-full md:h-dvh">
+    <div className="flex md:flex-col h-full">
       {/* Brand header — logo + name only, no "Agency" label */}
       <div className="hidden md:flex items-center gap-sm p-lg border-b border-hairline">
         <div className="w-8 h-8 rounded-lg bg-gradient-brand flex items-center justify-center">
