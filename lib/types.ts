@@ -68,6 +68,8 @@ export interface Review {
   quote: string;
   name: string;
   location: string;
+  /** Short identity descriptor, e.g. "Kapten Tim Futsal". */
+  identity?: string;
 }
 
 export interface SocialLink {
@@ -99,6 +101,7 @@ export interface DbReview {
   quote: string;
   name: string;
   location: string;
+  identity?: string;
   sort_order: number;
 }
 

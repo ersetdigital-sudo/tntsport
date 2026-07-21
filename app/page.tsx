@@ -1,7 +1,9 @@
+import { ClosingCTA } from "@/components/ClosingCTA";
 import { CTALinks } from "@/components/CTALinks";
 import { FlashSaleBanner } from "@/components/FlashSaleBanner";
 import { Footer } from "@/components/Footer";
 import { HeroSection } from "@/components/HeroSection";
+import { Reviews } from "@/components/Reviews";
 import { SocialLinks } from "@/components/SocialLinks";
 import { ThemeToggle } from "@/components/ThemeToggle";
 import { TrustBadges } from "@/components/TrustBadges";
@@ -26,9 +28,17 @@ export default async function Page() {
     <div className="bio-page mx-auto max-w-[760px] overflow-hidden rounded-[32px] bg-white shadow-premium-xl dark:bg-surface-deep sm:rounded-[44px]">
       <HeroSection brand={brand} stats={stats} />
       <div className="space-y-5 px-5 pb-10 pt-5 sm:space-y-6 sm:px-8 sm:pb-12 sm:pt-7">
-        <CTALinks items={ctaLinks} />
-        <FlashSaleBanner whatsappNumber={brand.whatsappNumber} />
+        {/* Trust indicator */}
         <div className="rounded-2xl border border-black/[.06] bg-white px-3 py-5 shadow-premium-sm dark:border-white/10 dark:bg-surface-card sm:rounded-3xl sm:px-5 sm:py-6"><TrustBadges badges={trustBadges} /></div>
+        {/* CTA katalog */}
+        <CTALinks items={ctaLinks} />
+        {/* Promo */}
+        <FlashSaleBanner whatsappNumber={brand.whatsappNumber} />
+        {/* Testimoni */}
+        <Reviews items={reviews} />
+        {/* CTA penutup */}
+        <ClosingCTA brand={brand} />
+        {/* Social */}
         <SocialLinks items={socialLinks} />
       </div>
       <Footer brand={brand} />

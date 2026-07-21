@@ -10,7 +10,6 @@ import {
   BagIcon,
   BoltIcon,
   FacebookIcon,
-  FlameIcon,
   GiftIcon,
   GridIcon,
   InstagramIcon,
@@ -63,19 +62,19 @@ const waLink = `https://wa.me/${brand.whatsappNumber}?text=${encodeURIComponent(
 
 export const ctaLinks: CTALink[] = [
   {
+    title: "Lihat Katalog & Harga Lengkap",
+    description: "Pilihan model, bahan, dan harga terbaru",
+    icon: GridIcon,
+    accent: "primary",
+    href: `${brand.url}/katalog`,
+    external: true,
+  },
+  {
     title: "Chat WhatsApp",
     description: "Order & tanya desain langsung ke admin",
     icon: WhatsAppIcon,
     accent: "whatsapp",
     href: waLink,
-    external: true,
-  },
-  {
-    title: "Lihat Katalog & Harga",
-    description: "Pilihan model, bahan, dan harga terbaru",
-    icon: GridIcon,
-    accent: "neutral",
-    href: `${brand.url}/katalog`,
     external: true,
   },
   {
@@ -90,7 +89,7 @@ export const ctaLinks: CTALink[] = [
     title: "Order Sekarang",
     description: "Proses pemesanan cepat untuk jersey custom",
     icon: BoltIcon,
-    accent: "primary",
+    accent: "neutral",
     href: waLink,
     external: true,
   },
@@ -103,6 +102,7 @@ export const reviews: Review[] = [
       "Hasil printingnya rapi banget, warna sesuai desain. Anak tim langsung senang. Pasti repeat order!",
     name: "Dimas Pratama",
     location: "Jakarta",
+    identity: "Kapten Tim Futsal",
   },
   {
     rating: 5,
@@ -110,6 +110,7 @@ export const reviews: Review[] = [
       "Harga pabrik beneran. Order 30 jersey buat komunitas, semua ukuran pas. Recommended pol.",
     name: "Rizky Maulana",
     location: "Surabaya",
+    identity: "Koordinator Komunitas",
   },
   {
     rating: 5,
@@ -117,6 +118,7 @@ export const reviews: Review[] = [
       "CS-nya responsif, desain direvisi sampe cocok. Pengiriman cepat ke Bandung. Top.",
     name: "Andi Saputra",
     location: "Bandung",
+    identity: "Tim Hockey Bandung",
   },
 ];
 

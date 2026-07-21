@@ -130,6 +130,7 @@ export async function getReviews(): Promise<Review[]> {
     quote: row.quote,
     name: row.name,
     location: row.location,
+    identity: row.identity ?? undefined,
   }));
 }
 
