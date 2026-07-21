@@ -32,20 +32,11 @@ export function BrandEditor({ brand }: BrandEditorProps) {
   function save() {
     setError(null);
     setSaved(false);
-
-    // Validate URL format only if filled
-    const trimmedUrl = form.url.trim();
-    if (trimmedUrl && !/^https?:\/\/.+/.test(trimmedUrl)) {
-      setError("URL Situs harus diawali http:// atau https://");
-      return;
-    }
-
     startTransition(async () => {
       const supabase = createClient();
-      const payload = { ...form, url: trimmedUrl || "" };
       const { error: err } = await supabase
         .from("brand")
-        .update(payload)
+        .update(form)
         .eq("id", 1);
       if (err) {
         setError(err.message);
@@ -57,14 +48,14 @@ export function BrandEditor({ brand }: BrandEditorProps) {
   }
 
   const inputClass =
-    "bg-surface-dark text-on-dark rounded-xs px-md py-sm border border-hairline focus-visible:outline focus-visible:outline-2 focus-visible:outline-secondary focus-visible:outline-offset-2 w-full";
-  const labelClass = "text-button-sm text-on-dark-mute uppercase tracking-wider";
+    "bg-white text-ink rounded-lg px-md py-[10px] border border-hairline-strong text-body-sm placeholder:text-stone focus-visible:outline focus-visible:outline-2 focus-visible:outline-secondary focus-visible:outline-offset-1 dark:bg-surface-dark dark:text-on-dark dark:border-hairline dark:placeholder:text-on-dark-mute w-full";
+  const labelClass = "text-caption font-semibold text-ink dark:text-on-dark-mute uppercase tracking-wider";
 
   return (
     <div className="flex flex-col gap-lg">
-      <div className="bg-surface-card rounded-md p-xl border border-hairline flex flex-col gap-md">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-md">
-          <label className="flex flex-col gap-xs">
+      <div className="bg-surface-card rounded-2xl p-xl border border-hairline shadow-premium-sm dark:border-white/10 flex flex-col gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+          <label className="flex flex-col gap-1.5">
             <span className={labelClass}>Nama Brand</span>
             <input
               type="text"
@@ -74,7 +65,7 @@ export function BrandEditor({ brand }: BrandEditorProps) {
               placeholder="TNT SPORT"
             />
           </label>
-          <label className="flex flex-col gap-xs">
+          <label className="flex flex-col gap-1.5">
             <span className={labelClass}>Accent Word</span>
             <input
               type="text"
@@ -83,9 +74,9 @@ export function BrandEditor({ brand }: BrandEditorProps) {
               className={inputClass}
               placeholder="SPORT"
             />
-            <small className="text-caption text-mute">Kata yang di-highlight di nama brand</small>
+            <small className="text-caption text-charcoal dark:text-mute">Kata yang di-highlight di nama brand</small>
           </label>
-          <label className="flex flex-col gap-xs">
+          <label className="flex flex-col gap-1.5">
             <span className={labelClass}>Monogram</span>
             <input
               type="text"
@@ -95,18 +86,7 @@ export function BrandEditor({ brand }: BrandEditorProps) {
               placeholder="TNT"
             />
           </label>
-          <label className="flex flex-col gap-xs">
-            <span className={labelClass}>URL Situs</span>
-            <input
-              type="text"
-              value={form.url}
-              onChange={(e) => update("url", e.target.value)}
-              className={inputClass}
-              placeholder="https://tntsport.id"
-            />
-            <small className="text-caption text-mute">Opsional. Isi jika ingin dipakai untuk metadata / tautan situs utama.</small>
-          </label>
-          <label className="flex flex-col gap-xs">
+          <label className="flex flex-col gap-1.5">
             <span className={labelClass}>Nomor WhatsApp</span>
             <input
               type="text"
@@ -115,9 +95,9 @@ export function BrandEditor({ brand }: BrandEditorProps) {
               className={inputClass}
               placeholder="6281234567890"
             />
-            <small className="text-caption text-mute">Format: 62xxx (tanpa tanda + atau spasi)</small>
+            <small className="text-caption text-charcoal dark:text-mute">Format: 62xxx (tanpa tanda + atau spasi)</small>
           </label>
-          <label className="flex flex-col gap-xs">
+          <label className="flex flex-col gap-1.5">
             <span className={labelClass}>Logo Path</span>
             <input
               type="text"
@@ -129,7 +109,7 @@ export function BrandEditor({ brand }: BrandEditorProps) {
           </label>
         </div>
 
-        <label className="flex flex-col gap-xs">
+        <label className="flex flex-col gap-1.5">
           <span className={labelClass}>Tagline</span>
           <textarea
             value={form.tagline}
@@ -140,7 +120,7 @@ export function BrandEditor({ brand }: BrandEditorProps) {
           />
         </label>
 
-        <label className="flex flex-col gap-xs">
+        <label className="flex flex-col gap-1.5">
           <span className={labelClass}>Description (SEO)</span>
           <textarea
             value={form.description}
@@ -154,7 +134,7 @@ export function BrandEditor({ brand }: BrandEditorProps) {
         {error ? (
           <p
             role="alert"
-            className="text-caption text-primary border border-primary bg-surface-card rounded-md px-md py-sm"
+            className="text-caption text-danger border border-danger/30 bg-danger/5 rounded-lg px-md py-sm"
           >
             {error}
           </p>
