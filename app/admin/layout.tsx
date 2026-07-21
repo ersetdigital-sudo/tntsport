@@ -24,21 +24,21 @@ export default async function AdminLayout({
   const headerList = await headers();
   const pathname = headerList.get("x-pathname") ?? "";
 
-  // Skip auth guard for the login page itself — otherwise we get an
+  // Skip auth guard for public auth pages — otherwise we get an
   // infinite redirect loop (login page → redirect to login → ...).
-  const isLoginPage = pathname === "/admin/login";
+  const isAuthPage = pathname === "/admin/login" || pathname === "/admin/signup";
 
   const supabase = await createClient();
   const {
     data: { user },
   } = await supabase.auth.getUser();
 
-  if (!user && !isLoginPage) {
+  if (!user && !isAuthPage) {
     redirect("/admin/login");
   }
 
-  // On the login page, render children without the admin shell.
-  if (isLoginPage) {
+  // On auth pages, render children without the admin shell.
+  if (isAuthPage) {
     return <>{children}</>;
   }
 

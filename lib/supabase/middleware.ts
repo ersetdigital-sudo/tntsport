@@ -13,7 +13,7 @@
 import { createServerClient } from "@supabase/ssr";
 import { NextResponse, type NextRequest } from "next/server";
 
-const PUBLIC_ADMIN_PATHS = ["/admin/login"];
+const PUBLIC_ADMIN_PATHS = ["/admin/login", "/admin/signup"];
 
 export async function updateSession(request: NextRequest) {
   let response = NextResponse.next({ request });
@@ -61,8 +61,8 @@ export async function updateSession(request: NextRequest) {
   const isAdminRoute = pathname.startsWith("/admin");
   const isPublicAdmin = PUBLIC_ADMIN_PATHS.some((p) => pathname === p);
 
-  // Redirect authenticated users away from the login page.
-  if (user && pathname === "/admin/login") {
+  // Redirect authenticated users away from auth pages.
+  if (user && (pathname === "/admin/login" || pathname === "/admin/signup")) {
     const url = request.nextUrl.clone();
     url.pathname = "/admin";
     return NextResponse.redirect(url);
