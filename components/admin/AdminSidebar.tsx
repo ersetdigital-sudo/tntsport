@@ -83,8 +83,19 @@ export function AdminSidebar({ email }: { email?: string | null }) {
     startTransition(async () => {
       const supabase = createClient();
       await supabase.auth.signOut();
-      router.refresh();
-      router.replace("/admin/login");
+
+      // FIX: Pakai window.location.href untuk force full page reload.
+      // router.refresh() + router.replace() tidak cukup karena:
+      // 1. router.refresh() async tapi tidak di-await
+      // 2. router.replace() jalan sebelum session ter-clear di server
+      // 3. Next.js client-side navigation tidak rebuild layout
+      //    → sidebar/header tetap ter-render walaupun user sudah logout
+      //
+      // Dengan window.location.href:
+      // - Browser kirim request baru ke /admin/login
+      // - Middleware cek session → user sudah logout → render auth page
+      // - Layout dibangun ulang dari nol (tanpa sidebar)
+      window.location.href = "/admin/login";
     });
   }
 
