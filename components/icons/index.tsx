@@ -319,3 +319,216 @@ export function PaletteIcon(props: IconProps) {
     </svg>
   );
 }
+
+/** Phone — telepon / call. */
+export function PhoneIcon(props: IconProps) {
+  return (
+    <svg {...base} {...props}>
+      <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.8 19.8 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.8 19.8 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.81.36 1.6.68 2.35a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.75.32 1.54.55 2.35.68A2 2 0 0 1 22 16.92Z" />
+    </svg>
+  );
+}
+
+/** Email / surat. */
+export function EmailIcon(props: IconProps) {
+  return (
+    <svg {...base} {...props}>
+      <rect x="2" y="4" width="20" height="16" rx="2" />
+      <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7" />
+    </svg>
+  );
+}
+
+/** Chat bubble — live chat. */
+export function ChatIcon(props: IconProps) {
+  return (
+    <svg {...base} {...props}>
+      <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2Z" />
+    </svg>
+  );
+}
+
+/** Megaphone — pengumuman / promo. */
+export function MegaphoneIcon(props: IconProps) {
+  return (
+    <svg {...base} {...props}>
+      <path d="m3 11 18-5v12L3 13v-2Z" />
+      <path d="M11.6 16.8a3 3 0 1 1-5.8-1.6" />
+    </svg>
+  );
+}
+
+/** Heart — favorit / cinta. */
+export function HeartIcon(props: IconProps) {
+  return (
+    <svg {...base} {...props} fill="currentColor" stroke="none" viewBox="0 0 24 24">
+      <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35Z" />
+    </svg>
+  );
+}
+
+/** Clock — waktu / jam. */
+export function ClockIcon(props: IconProps) {
+  return (
+    <svg {...base} {...props}>
+      <circle cx="12" cy="12" r="9" />
+      <path d="M12 7v5l3 3" />
+    </svg>
+  );
+}
+
+/** Map pin — lokasi. */
+export function PinIcon(props: IconProps) {
+  return (
+    <svg {...base} {...props}>
+      <path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z" />
+      <circle cx="12" cy="10" r="3" />
+    </svg>
+  );
+}
+
+/** Package — paket / box. */
+export function PackageIcon(props: IconProps) {
+  return (
+    <svg {...base} {...props}>
+      <path d="m16.5 9.4-9-5.19M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16Z" />
+      <path d="M3.27 6.96 12 12.01l8.73-5.05M12 22.08V12" />
+    </svg>
+  );
+}
+
+/** T-shirt / jersey — apparel. */
+export function JerseyIcon(props: IconProps) {
+  return (
+    <svg {...base} {...props}>
+      <path d="M20.38 3.46 16 2a4 4 0 0 1-8 0L3.62 3.46a2 2 0 0 0-1.34 2.23l.58 3.47a1 1 0 0 0 .99.84H6v10c0 1.1.9 2 2 2h8a2 2 0 0 0 2-2V10h2.15a1 1 0 0 0 .99-.84l.58-3.47a2 2 0 0 0-1.34-2.23Z" />
+    </svg>
+  );
+}
+
+/** Scissors — potong / jahit. */
+export function ScissorsIcon(props: IconProps) {
+  return (
+    <svg {...base} {...props}>
+      <circle cx="6" cy="6" r="3" />
+      <circle cx="6" cy="18" r="3" />
+      <path d="M20 4 8.12 15.88M14.47 14.48 20 20M8.12 8.12 12 12" />
+    </svg>
+  );
+}
+
+/** Printer — printing / cetak. */
+export function PrinterIcon(props: IconProps) {
+  return (
+    <svg {...base} {...props}>
+      <path d="M6 9V2h12v7M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2" />
+      <rect x="6" y="14" width="12" height="8" />
+    </svg>
+  );
+}
+
+/** Ruler — ukuran. */
+export function RulerIcon(props: IconProps) {
+  return (
+    <svg {...base} {...props}>
+      <path d="M21.3 15.3a2.4 2.4 0 0 1 0 3.4l-2.6 2.6a2.4 2.4 0 0 1-3.4 0L2.7 8.7a2.4 2.4 0 0 1 0-3.4l2.6-2.6a2.4 2.4 0 0 1 3.4 0Z" />
+      <path d="m14.5 12.5 2-2M11.5 9.5l2-2M8.5 6.5l2-2M17.5 15.5l2-2" />
+    </svg>
+  );
+}
+
+/** Percentage — diskon / promo. */
+export function PercentIcon(props: IconProps) {
+  return (
+    <svg {...base} {...props}>
+      <path d="M19 5 5 19" />
+      <circle cx="6.5" cy="6.5" r="2.5" />
+      <circle cx="17.5" cy="17.5" r="2.5" />
+    </svg>
+  );
+}
+
+/** Globe — website / global. */
+export function GlobeIcon(props: IconProps) {
+  return (
+    <svg {...base} {...props}>
+      <circle cx="12" cy="12" r="9" />
+      <path d="M12 2a15.3 15.3 0 0 1 4 9 15.3 15.3 0 0 1-4 9 15.3 15.3 0 0 1-4-9 15.3 15.3 0 0 1 4-9Z" />
+      <path d="M2 12h20" />
+    </svg>
+  );
+}
+
+/** Sparkles — kilau / premium. */
+export function SparklesIcon(props: IconProps) {
+  return (
+    <svg {...base} {...props} fill="currentColor" stroke="none" viewBox="0 0 24 24">
+      <path d="M12 2l1.09 3.36L16.36 6.5l-3.27 1.14L12 11l-1.09-3.36L7.64 6.5l3.27-1.14L12 2Z" />
+      <path d="M18 12l.72 2.24 2.24.72-2.24.72L18 18l-.72-2.24L15 15l2.24-.72L18 12Z" />
+      <path d="M7 16l.5 1.5 1.5.5-1.5.5L7 20l-.5-1.5L5 18l1.5-.5L7 16Z" />
+    </svg>
+  );
+}
+
+/** Crown — premium / juara. */
+export function CrownIcon(props: IconProps) {
+  return (
+    <svg {...base} {...props} fill="currentColor" stroke="none" viewBox="0 0 24 24">
+      <path d="M2 20h20L19 8l-5 5-2-7-2 7-5-5-3 12Z" />
+      <path d="M2 20h20" stroke="currentColor" strokeWidth="1.75" fill="none" />
+    </svg>
+  );
+}
+
+/** Users — tim / pelanggan. */
+export function UsersIcon(props: IconProps) {
+  return (
+    <svg {...base} {...props}>
+      <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" />
+      <circle cx="9" cy="7" r="4" />
+      <path d="M22 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75" />
+    </svg>
+  );
+}
+
+/** Layers — tumpukan / lapisan. */
+export function LayersIcon(props: IconProps) {
+  return (
+    <svg {...base} {...props}>
+      <path d="m12 2 10 6.5-10 6.5L2 8.5 12 2Z" />
+      <path d="m2 15.5 10 6.5 10-6.5" />
+      <path d="m2 12 10 6.5L22 12" />
+    </svg>
+  );
+}
+
+/** Truck fast — pengiriman kilat. */
+export function TruckFastIcon(props: IconProps) {
+  return (
+    <svg {...base} {...props}>
+      <path d="M1 3h15v13H1zM16 8h4l4 4v4h-8V8Z" />
+      <circle cx="5.5" cy="18.5" r="2" />
+      <circle cx="18.5" cy="18.5" r="2" />
+      <path d="M10 3v5" />
+    </svg>
+  );
+}
+
+/** Headset — customer service. */
+export function HeadsetIcon(props: IconProps) {
+  return (
+    <svg {...base} {...props}>
+      <path d="M3 18v-6a9 9 0 0 1 18 0v6" />
+      <path d="M21 19a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3v5ZM3 19a2 2 0 0 0 2 2h1a2 2 0 0 0 2-2v-3a2 2 0 0 0-2-2H3v5Z" />
+    </svg>
+  );
+}
+
+/** List — daftar. */
+export function ListIcon(props: IconProps) {
+  return (
+    <svg {...base} {...props}>
+      <path d="M8 6h13M8 12h13M8 18h13M3 6h.01M3 12h.01M3 18h.01" />
+    </svg>
+  );
+}

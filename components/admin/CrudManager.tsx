@@ -3,7 +3,7 @@
 import { useState, useTransition } from "react";
 import { useRouter } from "next/navigation";
 import { createClient } from "@/lib/supabase/client";
-import { ICON_NAMES } from "@/lib/icon-registry";
+import { ICON_NAMES, groupedIcons, resolveIcon, iconLabel } from "@/lib/icon-registry";
 
 export type FieldType = "text" | "textarea" | "number" | "select" | "icon";
 
@@ -77,19 +77,39 @@ function FieldInput({
   }
 
   if (field.type === "icon") {
+    const groups = groupedIcons();
+    const PreviewIcon = resolveIcon(String(value));
     return (
-      <select
-        value={value}
-        onChange={(e) => onChange(e.target.value)}
-        className={baseClass}
-      >
-        <option value="">— Tanpa icon —</option>
-        {ICON_NAMES.map((name) => (
-          <option key={name} value={name}>
-            {name}
-          </option>
-        ))}
-      </select>
+      <div className="flex flex-col gap-1.5">
+        <div className="flex items-center gap-sm">
+          <select
+            value={value}
+            onChange={(e) => onChange(e.target.value)}
+            className={baseClass}
+          >
+            <option value="">— Tanpa icon —</option>
+            {groups.map((g) => (
+              <optgroup key={g.category} label={g.category}>
+                {g.items.map((m) => (
+                  <option key={m.key} value={m.key}>
+                    {m.label}
+                  </option>
+                ))}
+              </optgroup>
+            ))}
+          </select>
+          {PreviewIcon ? (
+            <span className="inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-md border border-hairline-strong bg-white text-ink dark:bg-surface-dark dark:text-on-dark dark:border-hairline">
+              <PreviewIcon className="h-4.5 w-4.5" />
+            </span>
+          ) : null}
+        </div>
+        {value ? (
+          <small className="text-caption text-charcoal dark:text-mute">
+            Key: {String(value)}
+          </small>
+        ) : null}
+      </div>
     );
   }
 

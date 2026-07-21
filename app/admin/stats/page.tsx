@@ -1,5 +1,6 @@
 import { createClient } from "@/lib/supabase/server";
 import { CrudManager, type Field } from "@/components/admin/CrudManager";
+import { iconLabel } from "@/lib/icon-registry";
 
 export const dynamic = "force-dynamic";
 
@@ -20,7 +21,7 @@ export default async function StatsAdminPage() {
   const items = (data ?? []).map((item) => ({
     ...item,
     _title: `${item.value} — ${item.label}`,
-    _subtitle: item.icon ? `Icon: ${item.icon}` : "Tanpa icon",
+    _subtitle: item.icon ? `Icon: ${iconLabel(item.icon)}` : "Tanpa icon",
   }));
 
   return (

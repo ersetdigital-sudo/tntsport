@@ -1,5 +1,6 @@
 import { createClient } from "@/lib/supabase/server";
 import { CrudManager, type Field } from "@/components/admin/CrudManager";
+import { iconLabel } from "@/lib/icon-registry";
 
 export const dynamic = "force-dynamic";
 
@@ -21,7 +22,7 @@ export default async function SocialLinksAdminPage() {
   const items = (data ?? []).map((item) => ({
     ...item,
     _title: `${item.label} — ${item.href}`,
-    _subtitle: `Icon: ${item.icon}`,
+    _subtitle: `Icon: ${iconLabel(item.icon)}`,
   }));
 
   return (
