@@ -24,7 +24,12 @@ interface CrudManagerProps {
   description?: string;
   fields: Field[];
   items: Record<string, any>[];
-  renderItem: (item: Record<string, any>) => { title: string; subtitle?: string };
+  /** Field name(s) to display as the item title. Supports dot notation. */
+  titleField?: string;
+  /** Field name(s) to display as the item subtitle. Supports dot notation. */
+  subtitleField?: string;
+  /** @deprecated Use titleField/subtitleField instead. Kept for backward compat. */
+  renderItem?: (item: Record<string, any>) => { title: string; subtitle?: string };
   orderColumn?: string;
 }
 
@@ -108,9 +113,19 @@ export function CrudManager({
   description,
   fields,
   items,
+  titleField,
+  subtitleField,
   renderItem,
   orderColumn = "sort_order",
 }: CrudManagerProps) {
+  // Default render: use titleField/subtitleField or fall back to first two fields
+  function defaultRenderItem(item: Record<string, any>) {
+    const tField = titleField ?? fields[0]?.name ?? "id";
+    const sField = subtitleField;
+    const t = String(item[tField] ?? "");
+    const s = sField ? String(item[sField] ?? "") : undefined;
+    return { title: t, subtitle: s };
+  }
   const router = useRouter();
   const [editing, setEditing] = useState<Record<string, any> | null>(null);
   const [showForm, setShowForm] = useState(false);
@@ -262,7 +277,7 @@ export function CrudManager({
           </p>
         ) : (
           items.map((item) => {
-            const r = renderItem(item);
+            const r = renderItem ? renderItem(item) : defaultRenderItem(item);
             return (
               <div
                 key={item.id}

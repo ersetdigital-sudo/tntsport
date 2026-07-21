@@ -24,9 +24,6 @@ const fields: Field[] = [
   { name: "sort_order", label: "Urutan", type: "number", default: 1 },
 ];
 
-/**
- * /admin/cta-links — CRUD for the link-in-bio style CTA cards.
- */
 export default async function CTALinksAdminPage() {
   const supabase = await createClient();
   const { data } = await supabase
@@ -34,17 +31,21 @@ export default async function CTALinksAdminPage() {
     .select("*")
     .order("sort_order", { ascending: true });
 
+  const items = (data ?? []).map((item) => ({
+    ...item,
+    _title: item.title,
+    _subtitle: `${item.accent} · ${item.href ?? "no link"}`,
+  }));
+
   return (
     <CrudManager
       table="cta_links"
       title="CTA Links"
       description="Tombol CTA di landing page (Chat WhatsApp, Katalog, Promo, dll)."
       fields={fields}
-      items={data ?? []}
-      renderItem={(item) => ({
-        title: item.title,
-        subtitle: `${item.accent} · ${item.href ?? "no link"}`,
-      })}
+      items={items}
+      titleField="_title"
+      subtitleField="_subtitle"
     />
   );
 }

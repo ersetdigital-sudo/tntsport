@@ -16,7 +16,6 @@ function ErrorState({ title, desc }: { title: string; desc: string }) {
 }
 
 export default async function TrustBadgesAdminPage() {
-  // Outer guard: never crash this page
   try {
     if (!supabaseConfigured()) {
       return <ErrorState title="Supabase Belum Dikonfigurasi" desc="Set environment variables di Vercel." />;
@@ -54,9 +53,8 @@ export default async function TrustBadgesAdminPage() {
       return <ErrorState title="Gagal Memuat Data" desc={queryError} />;
     }
 
-    // Import CrudManager dynamically to avoid import-chain crashes
+    // Dynamic import to avoid import-chain crashes
     const { CrudManager } = await import("@/components/admin/CrudManager");
-    const { ICON_NAMES } = await import("@/lib/icon-registry");
 
     const fields = [
       { name: "label", label: "Label", type: "text" as const, required: true, placeholder: "Bahan Premium" },
@@ -86,10 +84,8 @@ export default async function TrustBadgesAdminPage() {
         description="Grid keunggulan di landing page (Bahan Premium, Desain Bebas, Harga Pabrik, dll)."
         fields={fields}
         items={items}
-        renderItem={(item: Record<string, any>) => ({
-          title: `${item.label} — ${item.variant}`,
-          subtitle: item.subtext ?? "Tanpa subtext",
-        })}
+        titleField="label"
+        subtitleField="variant"
       />
     );
   } catch (err) {

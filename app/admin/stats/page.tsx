@@ -10,9 +10,6 @@ const fields: Field[] = [
   { name: "sort_order", label: "Urutan", type: "number", default: 1 },
 ];
 
-/**
- * /admin/stats — CRUD for the 4 stat cards on the landing page.
- */
 export default async function StatsAdminPage() {
   const supabase = await createClient();
   const { data } = await supabase
@@ -20,17 +17,21 @@ export default async function StatsAdminPage() {
     .select("*")
     .order("sort_order", { ascending: true });
 
+  const items = (data ?? []).map((item) => ({
+    ...item,
+    _title: `${item.value} — ${item.label}`,
+    _subtitle: item.icon ? `Icon: ${item.icon}` : "Tanpa icon",
+  }));
+
   return (
     <CrudManager
       table="stats"
       title="Stats"
       description="4 kartu statistik di landing page (Order Selesai, Rating, dll)."
       fields={fields}
-      items={data ?? []}
-      renderItem={(item) => ({
-        title: `${item.value} — ${item.label}`,
-        subtitle: item.icon ? `Icon: ${item.icon}` : "Tanpa icon",
-      })}
+      items={items}
+      titleField="_title"
+      subtitleField="_subtitle"
     />
   );
 }

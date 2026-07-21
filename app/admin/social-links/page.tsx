@@ -11,9 +11,6 @@ const fields: Field[] = [
   { name: "sort_order", label: "Urutan", type: "number", default: 1 },
 ];
 
-/**
- * /admin/social-links — CRUD for the 5-icon social media grid.
- */
 export default async function SocialLinksAdminPage() {
   const supabase = await createClient();
   const { data } = await supabase
@@ -21,17 +18,21 @@ export default async function SocialLinksAdminPage() {
     .select("*")
     .order("sort_order", { ascending: true });
 
+  const items = (data ?? []).map((item) => ({
+    ...item,
+    _title: `${item.label} — ${item.href}`,
+    _subtitle: `Icon: ${item.icon}`,
+  }));
+
   return (
     <CrudManager
       table="social_links"
       title="Social Links"
       description="Grid 5 icon social media di landing page (WhatsApp, Instagram, TikTok, Facebook, Maps)."
       fields={fields}
-      items={data ?? []}
-      renderItem={(item) => ({
-        title: `${item.label} — ${item.href}`,
-        subtitle: `Icon: ${item.icon}`,
-      })}
+      items={items}
+      titleField="_title"
+      subtitleField="_subtitle"
     />
   );
 }
