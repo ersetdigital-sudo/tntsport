@@ -11,9 +11,9 @@ import type { Review } from "@/lib/types";
  *    a clean initial avatar fused with the name, a blue social-style
  *    verified badge, and a neat role · location line beneath.
  *
- * `highlight` marks the featured testimonial: brand-tinted surface, an
- * accent left rule, and a subtle "Ulasan utama" tag. Other cards stay
- * on the default white/surface-card background.
+ * `highlight` marks the featured testimonial: brand-tinted surface and
+ * a gradient avatar. Other cards stay on the default white/surface-card
+ * background.
  */
 type ReviewCardProps = Review & {
   highlight?: boolean;
@@ -30,14 +30,6 @@ export function ReviewCard({ rating, quote, name, location, identity, highlight 
           : "border-hairline bg-white shadow-premium-sm hover:shadow-premium-lg dark:border-white/10 dark:bg-surface-card",
       ].join(" ")}
     >
-      {/* Accent left rule on highlight card */}
-      {highlight && (
-        <span
-          aria-hidden="true"
-          className="absolute inset-y-0 left-0 w-1 bg-gradient-brand"
-        />
-      )}
-
       {/* Rating */}
       <div
         className="flex gap-xxs text-primary"
