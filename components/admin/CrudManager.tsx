@@ -276,8 +276,8 @@ export function CrudManager({
 
       <div className="flex flex-col gap-sm">
         {items.length === 0 ? (
-          <p className="text-body-sm text-on-dark-mute bg-surface-card rounded-md p-xl border border-hairline">
-            Belum ada data. Klik "+ Tambah" untuk membuat.
+          <p className="text-body-sm text-charcoal bg-surface-card rounded-md p-xl border border-hairline">
+            Belum ada data. Klik &quot;+ Tambah&quot; untuk membuat.
           </p>
         ) : (
           items.map((item) => {
@@ -290,7 +290,7 @@ export function CrudManager({
                 <div className="min-w-0 flex-1">
                   <p className="text-body-md text-ink truncate">{r.title}</p>
                   {r.subtitle ? (
-                    <p className="text-caption text-on-dark-mute truncate">
+                    <p className="text-caption text-charcoal dark:text-on-dark-mute truncate">
                       {r.subtitle}
                     </p>
                   ) : null}
@@ -298,13 +298,13 @@ export function CrudManager({
                 <div className="flex gap-xs shrink-0">
                   <button
                     onClick={() => startEdit(item)}
-                    className="text-button-sm inline-flex h-8 items-center justify-center rounded-md bg-surface-dark px-md text-on-dark-mute hover:bg-secondary hover:text-on-primary transition-colors duration-normal"
+                    className="text-button-sm inline-flex h-8 items-center justify-center rounded-md border border-hairline-strong bg-white px-md text-charcoal hover:bg-surface hover:text-ink transition-colors duration-normal dark:bg-surface-dark dark:text-on-dark-mute dark:border-hairline dark:hover:bg-secondary dark:hover:text-on-primary"
                   >
                     Edit
                   </button>
                   <button
                     onClick={() => remove(item.id)}
-                    className="text-button-sm inline-flex h-8 items-center justify-center rounded-md bg-surface-dark px-md text-primary hover:bg-primary hover:text-on-primary transition-colors duration-normal"
+                    className="text-button-sm inline-flex h-8 items-center justify-center rounded-md border border-danger/20 bg-white px-md text-danger hover:bg-danger/5 transition-colors duration-normal dark:bg-surface-dark dark:text-primary dark:border-hairline dark:hover:bg-primary dark:hover:text-on-primary"
                   >
                     Hapus
                   </button>
