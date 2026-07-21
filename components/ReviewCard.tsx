@@ -78,15 +78,12 @@ export function ReviewCard({ rating, quote, name, location, identity, highlight 
         <span className="flex min-w-0 flex-col gap-0.5">
           <span className="flex items-center gap-1.5">
             <span className="truncate text-button-md text-ink">{name}</span>
-            <VerifiedBadgeIcon
-              className="h-[18px] w-[18px] shrink-0"
-              aria-label="Customer terverifikasi"
-            />
+            <VerifiedBadgeIcon className="h-[18px] w-[18px] shrink-0" />
           </span>
           <span className="flex items-center gap-1.5 truncate text-caption text-mute">
             {identity && (
               <>
-                <span className="truncate font-medium text-charcoal dark:text-charcoal">
+                <span className="truncate font-medium text-charcoal">
                   {identity}
                 </span>
                 <span aria-hidden="true" className="text-stone">·</span>
