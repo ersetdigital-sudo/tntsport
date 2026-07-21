@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from "next";
-import { Plus_Jakarta_Sans, IBM_Plex_Mono } from "next/font/google";
+import { Space_Grotesk, Plus_Jakarta_Sans, IBM_Plex_Mono } from "next/font/google";
 import { ThemeProvider } from "next-themes";
 import { getBrand } from "@/lib/queries";
 import "./globals.css";
@@ -9,6 +9,13 @@ import "./globals.css";
  * and IBM Plex Mono (technical labels). Both loaded via next/font/google
  * with display:"swap" and latin subset only.
  */
+const spaceGrotesk = Space_Grotesk({
+  subsets: ["latin"],
+  display: "swap",
+  variable: "--font-display",
+  weight: ["400", "500", "600", "700"],
+});
+
 const plusJakarta = Plus_Jakarta_Sans({
   subsets: ["latin"],
   display: "swap",
@@ -107,7 +114,7 @@ export default function RootLayout({
     <html
       lang="id"
       suppressHydrationWarning
-      className={`${plusJakarta.variable} ${ibmPlexMono.variable}`}
+      className={`${spaceGrotesk.variable} ${plusJakarta.variable} ${ibmPlexMono.variable}`}
     >
       <body className="antialiased">
         <ThemeProvider
