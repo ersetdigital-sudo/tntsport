@@ -84,7 +84,7 @@ export function MobileSidebar({
         </div>
         {/* Nav — reuse AdminSidebar with mobile prop */}
         <div className="flex-1 overflow-y-auto">
-          <AdminSidebar email={email} mobile />
+          <AdminSidebar email={email} mobile onNavigate={onClose} />
         </div>
       </div>
     </div>

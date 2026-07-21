@@ -74,7 +74,7 @@ const NAV_GROUPS: NavGroup[] = [
   },
 ];
 
-export function AdminSidebar({ email, mobile }: { email?: string | null; mobile?: boolean }) {
+export function AdminSidebar({ email, mobile, onNavigate }: { email?: string | null; mobile?: boolean; onNavigate?: () => void }) {
   const pathname = usePathname();
   const router = useRouter();
   const [pending, startTransition] = useTransition();
@@ -134,7 +134,7 @@ export function AdminSidebar({ email, mobile }: { email?: string | null; mobile?
                   <Link
                     key={item.href}
                     href={item.href}
-                    onClick={mobile ? undefined : undefined}
+                    onClick={mobile ? onNavigate : undefined}
                     className={`text-button-md whitespace-nowrap inline-flex items-center gap-sm rounded-md px-md py-md transition-colors duration-normal ${
                       isActive
                         ? "bg-secondary text-on-primary"
