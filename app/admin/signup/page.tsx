@@ -8,10 +8,14 @@ export const metadata: Metadata = {
 
 export default function AdminSignupPage() {
   return (
-    <main className="min-h-dvh flex items-center justify-center bg-gradient-brand px-lg py-section">
-      <div className="w-full max-w-sm">
-        <SignupForm />
-      </div>
+    <main
+      className="min-h-dvh flex items-center justify-center px-4 py-8 sm:px-6"
+      style={{
+        background:
+          "radial-gradient(ellipse at 30% 20%, rgba(34,197,94,0.35) 0%, transparent 50%), radial-gradient(ellipse at 70% 80%, rgba(22,163,74,0.25) 0%, transparent 50%), linear-gradient(135deg, #052e16 0%, #0a1a0f 30%, #071510 60%, #052e16 100%)",
+      }}
+    >
+      <SignupForm />
     </main>
   );
 }
