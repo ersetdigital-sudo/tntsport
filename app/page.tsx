@@ -1,12 +1,10 @@
 import { ClosingCTA } from "@/components/ClosingCTA";
 import { CTALinks } from "@/components/CTALinks";
-import { FAQ } from "@/components/FAQ";
 import { FAQ_SCHEMA_ITEMS } from "@/components/FAQ";
 import { FlashSaleBanner } from "@/components/FlashSaleBanner";
 import { Footer } from "@/components/Footer";
 import { HeroSection } from "@/components/HeroSection";
 import { Reviews } from "@/components/Reviews";
-import { SEOContent } from "@/components/SEOContent";
 import { SocialLinks } from "@/components/SocialLinks";
 import { ThemeToggle } from "@/components/ThemeToggle";
 import { TrustBadges } from "@/components/TrustBadges";
@@ -107,16 +105,12 @@ export default async function Page() {
       <div className="space-y-5 px-5 pb-10 pt-5 sm:space-y-6 sm:px-8 sm:pb-12 sm:pt-7">
         {/* Trust indicator */}
         <div className="rounded-2xl border border-black/[.06] bg-white px-3 py-5 shadow-premium-sm dark:border-white/10 dark:bg-surface-card sm:rounded-3xl sm:px-5 sm:py-6"><TrustBadges badges={trustBadges} /></div>
-        {/* SEO content — crawlable text answering search intent */}
-        <SEOContent />
         {/* CTA katalog */}
         <CTALinks items={ctaLinks} />
         {/* Promo */}
         <FlashSaleBanner whatsappNumber={brand.whatsappNumber} />
         {/* Testimoni */}
         <Reviews items={reviews} />
-        {/* FAQ */}
-        <FAQ />
         {/* CTA penutup */}
         <ClosingCTA brand={brand} />
         {/* Social */}
