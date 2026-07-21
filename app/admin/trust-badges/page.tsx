@@ -29,10 +29,22 @@ const fields: Field[] = [
  */
 export default async function TrustBadgesAdminPage() {
   const supabase = await createClient();
-  const { data } = await supabase
-    .from("trust_badges")
-    .select("*")
-    .order("sort_order", { ascending: true });
+
+  let items: Record<string, any>[] = [];
+  try {
+    const { data, error } = await supabase
+      .from("trust_badges")
+      .select("*")
+      .order("sort_order", { ascending: true });
+
+    if (error) {
+      console.error("trust_badges query error:", error.message);
+    } else {
+      items = data ?? [];
+    }
+  } catch (err) {
+    console.error("trust_badges fetch failed:", err);
+  }
 
   return (
     <CrudManager
@@ -40,7 +52,7 @@ export default async function TrustBadgesAdminPage() {
       title="Trust Badges"
       description="Grid keunggulan di landing page (Bahan Premium, Desain Bebas, Harga Pabrik, dll)."
       fields={fields}
-      items={data ?? []}
+      items={items}
       renderItem={(item) => ({
         title: `${item.label} — ${item.variant}`,
         subtitle: item.subtext ?? "Tanpa subtext",
