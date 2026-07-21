@@ -231,12 +231,12 @@ export function CrudManager({
       ) : null}
 
       {showForm && editing ? (
-        <div className="bg-surface-card rounded-md p-xl border border-hairline flex flex-col gap-md">
+        <div className="bg-surface-card rounded-2xl p-xl border border-hairline shadow-premium-sm dark:border-white/10 flex flex-col gap-5">
           <h3 className="text-button-md text-ink">
             {editing.id ? "Edit item" : "Tambah item baru"}
           </h3>
           {fields.map((f) => (
-            <label key={f.name} className="flex flex-col gap-xs">
+            <label key={f.name} className="flex flex-col gap-1.5">
               <span className="text-caption font-semibold text-ink dark:text-on-dark-mute uppercase tracking-wider">
                 {f.label}
                 {f.required ? " *" : ""}
@@ -247,7 +247,7 @@ export function CrudManager({
                 onChange={(v) => updateField(f.name, v)}
               />
               {f.help ? (
-                <span className="text-caption text-mute">{f.help}</span>
+                <span className="text-caption text-charcoal dark:text-mute">{f.help}</span>
               ) : null}
             </label>
           ))}
