@@ -76,5 +76,10 @@ export async function updateSession(request: NextRequest) {
     return NextResponse.redirect(url);
   }
 
+  // Stamp the pathname into a response header so the admin layout
+  // (which runs in the Node runtime, not the edge) can read it to
+  // detect the login page and skip the auth guard there.
+  response.headers.set("x-pathname", pathname);
+
   return response;
 }

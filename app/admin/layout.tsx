@@ -1,4 +1,5 @@
 import { redirect } from "next/navigation";
+import { headers } from "next/headers";
 import { createClient } from "@/lib/supabase/server";
 import { AdminSidebar } from "@/components/admin/AdminSidebar";
 import { AdminHeader } from "@/components/admin/AdminHeader";
@@ -20,17 +21,27 @@ export default async function AdminLayout({
 }: {
   children: React.ReactNode;
 }) {
+  const headerList = await headers();
+  const pathname = headerList.get("x-pathname") ?? "";
+
+  // Skip auth guard for the login page itself — otherwise we get an
+  // infinite redirect loop (login page → redirect to login → ...).
+  const isLoginPage = pathname === "/admin/login";
+
   const supabase = await createClient();
   const {
     data: { user },
   } = await supabase.auth.getUser();
 
-  if (!user) {
+  if (!user && !isLoginPage) {
     redirect("/admin/login");
   }
 
-  // Derive the page title from the current segment for a lightweight
-  // breadcrumb feel without a separate metadata call per route.
+  // On the login page, render children without the admin shell.
+  if (isLoginPage) {
+    return <>{children}</>;
+  }
+
   return (
     <div className="min-h-dvh bg-background">
       <div className="mx-auto flex max-w-[1440px] flex-col md:flex-row px-lg md:px-xxl">
@@ -39,7 +50,7 @@ export default async function AdminLayout({
         </aside>
 
         <div className="flex-1 min-w-0 py-lg md:py-xl">
-          <AdminHeader title="Admin" email={user.email} />
+          <AdminHeader title="Admin" email={user?.email} />
           <div className="mt-xl">{children}</div>
         </div>
       </div>
