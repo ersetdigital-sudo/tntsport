@@ -31,8 +31,18 @@ export function LoginForm() {
         setError(error.message);
         return;
       }
-      router.refresh();
-      router.replace(next);
+      // Gunakan window.location.href untuk force full page reload.
+      // router.refresh() + router.replace() tidak cukup karena:
+      // 1. router.refresh() async tapi tidak di-await
+      // 2. router.replace() jalan sebelum session cookie ter-update di server
+      // 3. Dashboard render dengan state lama (belum auth)
+      //
+      // Dengan window.location.href:
+      // - Browser kirim request baru ke /admin
+      // - Middleware jalan, baca session cookie yang baru
+      // - Server render dashboard dengan state auth yang benar
+      // - Tidak perlu manual refresh lagi
+      window.location.href = next;
     });
   }
 
