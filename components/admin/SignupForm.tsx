@@ -51,31 +51,34 @@ export function SignupForm() {
   }
 
   return (
-    <div className="w-full max-w-[460px] mx-auto">
-      {/* Card */}
+    <div className="w-full max-w-[460px] lg:max-w-[480px] mx-auto">
+      {/* Card — mobile: same as now; desktop: slightly larger with more padding */}
       <div
-        className="rounded-2xl p-8 sm:p-10"
+        className="rounded-2xl p-8 sm:p-10 lg:p-12"
         style={{
           backgroundColor: "rgba(16, 24, 32, 0.92)",
           boxShadow:
-            "0 25px 60px rgba(0,0,0,0.4), 0 8px 20px rgba(0,0,0,0.3)",
+            "0 25px 60px rgba(0,0,0,0.4), 0 8px 20px rgba(0,0,0,0.3), inset 0 1px 0 rgba(255,255,255,0.03)",
+          border: "1px solid rgba(255,255,255,0.06)",
         }}
       >
-        {/* Logo & Title */}
-        <div className="flex flex-col items-center gap-3 mb-8">
+        {/* Logo & Title — desktop: left-aligned, mobile: centered */}
+        <div className="flex flex-col items-center lg:items-start gap-3 mb-8 lg:mb-10">
           <div
-            className="w-14 h-14 rounded-full flex items-center justify-center"
+            className="w-14 h-14 lg:w-16 lg:h-16 rounded-full flex items-center justify-center"
             style={{
               background:
                 "linear-gradient(135deg, #22c55e 0%, #16a34a 100%)",
             }}
           >
-            <span className="text-lg font-extrabold text-white tracking-tight">
+            <span className="text-lg lg:text-xl font-extrabold text-white tracking-tight">
               TNT
             </span>
           </div>
-          <div className="text-center">
-            <h1 className="text-xl font-bold text-white">Buat Akun Baru</h1>
+          <div className="text-center lg:text-left">
+            <h1 className="text-xl lg:text-2xl font-bold text-white">
+              Buat Akun Baru
+            </h1>
             <p className="text-sm text-gray-400 mt-1">
               Daftar untuk mengelola TNT SPORT
             </p>
@@ -83,7 +86,7 @@ export function SignupForm() {
         </div>
 
         {/* Form */}
-        <form onSubmit={onSubmit} className="flex flex-col gap-4">
+        <form onSubmit={onSubmit} className="flex flex-col gap-4 lg:gap-5">
           {/* Name */}
           <div className="relative">
             <User
@@ -96,7 +99,7 @@ export function SignupForm() {
               autoComplete="name"
               value={name}
               onChange={(e) => setName(e.target.value)}
-              className="w-full bg-gray-800/60 text-white rounded-xl pl-10 pr-4 py-3 border border-gray-700 text-sm placeholder:text-gray-500 focus:outline-none focus:border-green-500/50 transition-colors"
+              className="w-full bg-gray-800/60 text-white rounded-xl pl-10 pr-4 py-3 lg:py-3.5 border border-gray-700 text-sm placeholder:text-gray-500 focus:outline-none focus:border-green-500/50 transition-colors"
               placeholder="Nama lengkap"
             />
           </div>
@@ -113,7 +116,7 @@ export function SignupForm() {
               autoComplete="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              className="w-full bg-gray-800/60 text-white rounded-xl pl-10 pr-4 py-3 border border-gray-700 text-sm placeholder:text-gray-500 focus:outline-none focus:border-green-500/50 transition-colors"
+              className="w-full bg-gray-800/60 text-white rounded-xl pl-10 pr-4 py-3 lg:py-3.5 border border-gray-700 text-sm placeholder:text-gray-500 focus:outline-none focus:border-green-500/50 transition-colors"
               placeholder="Email"
             />
           </div>
@@ -130,7 +133,7 @@ export function SignupForm() {
               autoComplete="new-password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              className="w-full bg-gray-800/60 text-white rounded-xl pl-10 pr-11 py-3 border border-gray-700 text-sm placeholder:text-gray-500 focus:outline-none focus:border-green-500/50 transition-colors"
+              className="w-full bg-gray-800/60 text-white rounded-xl pl-10 pr-11 py-3 lg:py-3.5 border border-gray-700 text-sm placeholder:text-gray-500 focus:outline-none focus:border-green-500/50 transition-colors"
               placeholder="Min. 8 karakter"
               minLength={8}
             />
@@ -155,7 +158,7 @@ export function SignupForm() {
               autoComplete="new-password"
               value={confirmPassword}
               onChange={(e) => setConfirmPassword(e.target.value)}
-              className="w-full bg-gray-800/60 text-white rounded-xl pl-10 pr-11 py-3 border border-gray-700 text-sm placeholder:text-gray-500 focus:outline-none focus:border-green-500/50 transition-colors"
+              className="w-full bg-gray-800/60 text-white rounded-xl pl-10 pr-11 py-3 lg:py-3.5 border border-gray-700 text-sm placeholder:text-gray-500 focus:outline-none focus:border-green-500/50 transition-colors"
               placeholder="Ulangi password"
               minLength={8}
             />
@@ -196,7 +199,7 @@ export function SignupForm() {
           <button
             type="submit"
             disabled={pending}
-            className="w-full py-3.5 rounded-xl text-sm font-bold transition-all duration-200 shadow-lg disabled:opacity-50"
+            className="w-full py-3.5 lg:py-4 rounded-xl text-sm font-bold transition-all duration-200 shadow-lg disabled:opacity-50"
             style={{
               background:
                 "linear-gradient(135deg, #22c55e 0%, #16a34a 100%)",
@@ -216,7 +219,7 @@ export function SignupForm() {
         </form>
 
         {/* Login link */}
-        <p className="text-sm text-gray-400 text-center mt-6">
+        <p className="text-sm text-gray-400 text-center mt-6 lg:mt-8">
           Sudah punya akun?{" "}
           <Link
             href="/admin/login"
