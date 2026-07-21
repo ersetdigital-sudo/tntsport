@@ -373,6 +373,8 @@
     animation: spin-slow 8s linear infinite;
   }
 
+
+
   /* Diagonal brand stripes — the signature TNT green slashes from the
      reference art. Layered widths/opacities create the dynamic feel. */
   .stripes-brand {
@@ -438,4 +440,17 @@
     background-color: var(--color-surface-card);
   }
 
+}
+
+/* ============================================================
+   Keyframes — outside @layer so Tailwind JIT can reference them
+   ============================================================ */
+@keyframes slide-in {
+  from { transform: translateX(-100%); }
+  to { transform: translateX(0); }
+}
+
+@keyframes fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
 }

@@ -53,7 +53,7 @@ export default async function AdminLayout({
 
         {/* Main content — header (sticky top) + scrollable page body */}
         <div className="flex-1 min-w-0 flex flex-col overflow-hidden">
-          <AdminHeader title="Admin" />
+          <AdminHeader title="Admin" email={user?.email} />
           <main className="flex-1 overflow-y-auto p-lg md:p-xxl">
             {children}
           </main>

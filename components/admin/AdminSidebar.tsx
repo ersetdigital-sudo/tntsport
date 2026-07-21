@@ -74,7 +74,7 @@ const NAV_GROUPS: NavGroup[] = [
   },
 ];
 
-export function AdminSidebar({ email }: { email?: string | null }) {
+export function AdminSidebar({ email, mobile }: { email?: string | null; mobile?: boolean }) {
   const pathname = usePathname();
   const router = useRouter();
   const [pending, startTransition] = useTransition();
@@ -100,26 +100,28 @@ export function AdminSidebar({ email }: { email?: string | null }) {
   }
 
   return (
-    <div className="flex md:flex-col h-full">
-      {/* Brand header — logo + name only, no "Agency" label */}
-      <div className="hidden md:flex items-center gap-sm p-lg border-b border-hairline">
-        <div className="w-8 h-8 rounded-lg bg-gradient-brand flex items-center justify-center">
-          <span className="text-on-primary font-bold text-body-md">T</span>
+    <div className={mobile ? "flex flex-col h-full" : "flex md:flex-col h-full"}>
+      {/* Brand header — desktop only (mobile drawer has its own header) */}
+      {!mobile && (
+        <div className="hidden md:flex items-center gap-sm p-lg border-b border-hairline">
+          <div className="w-8 h-8 rounded-lg bg-gradient-brand flex items-center justify-center">
+            <span className="text-on-primary font-bold text-body-md">T</span>
+          </div>
+          <h1 className="text-body-sm text-ink font-bold">TNT SPORT</h1>
         </div>
-        <h1 className="text-body-sm text-ink font-bold">TNT SPORT</h1>
-      </div>
+      )}
 
       {/* Navigation */}
       <nav
         aria-label="Admin navigation"
-        className="flex-1 flex md:flex-col gap-xl overflow-x-auto md:overflow-y-auto md:overflow-x-hidden px-md md:px-sm py-md md:py-lg scrollbar-hide"
+        className={`flex-1 ${mobile ? "flex flex-col gap-xl overflow-y-auto px-md py-lg" : "flex md:flex-col gap-xl overflow-x-auto md:overflow-y-auto md:overflow-x-hidden px-md md:px-sm py-md md:py-lg scrollbar-hide"}`}
       >
         {NAV_GROUPS.map((group) => (
-          <div key={group.title} className="flex md:flex-col gap-xs">
-            <p className="hidden md:block px-md text-button-sm text-stone uppercase tracking-wider mb-xs">
+          <div key={group.title} className={mobile ? "flex flex-col gap-xs" : "flex md:flex-col gap-xs"}>
+            <p className={mobile ? "px-md text-button-sm text-stone uppercase tracking-wider mb-xs" : "hidden md:block px-md text-button-sm text-stone uppercase tracking-wider mb-xs"}>
               {group.title}
             </p>
-            <div className="flex md:flex-col gap-xs">
+            <div className={mobile ? "flex flex-col gap-xs" : "flex md:flex-col gap-xs"}>
               {group.items.map((item) => {
                 const prefix = item.activePrefix ?? item.href;
                 // Exact match for /admin, startsWith for everything else.
@@ -132,6 +134,7 @@ export function AdminSidebar({ email }: { email?: string | null }) {
                   <Link
                     key={item.href}
                     href={item.href}
+                    onClick={mobile ? undefined : undefined}
                     className={`text-button-md whitespace-nowrap inline-flex items-center gap-sm rounded-md px-md py-md transition-colors duration-normal ${
                       isActive
                         ? "bg-secondary text-on-primary"
@@ -148,8 +151,8 @@ export function AdminSidebar({ email }: { email?: string | null }) {
         ))}
       </nav>
 
-      {/* User profile + sign out */}
-      <div className="hidden md:block p-lg border-t border-hairline">
+      {/* User profile + sign out — desktop only */}
+      <div className={mobile ? "p-lg border-t border-hairline" : "hidden md:block p-lg border-t border-hairline"}>
         <div className="flex items-center p-sm bg-surface rounded-lg border border-hairline">
           <div className="w-9 h-9 rounded-lg bg-gradient-brand flex items-center justify-center shrink-0">
             <span className="text-on-primary font-bold text-body-sm">
