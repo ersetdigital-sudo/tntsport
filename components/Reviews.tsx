@@ -23,8 +23,8 @@ export function Reviews({ items }: { items: Review[] }) {
         <span className="inline-flex shrink-0 items-center gap-1.5 rounded-full border border-hairline bg-white/60 px-3 py-1.5 text-caption text-charcoal shadow-premium-sm dark:border-white/10 dark:bg-surface-card/60">
           <StarIcon className="h-3.5 w-3.5 text-primary" aria-hidden="true" />
           <span className="font-semibold text-ink">{avgLabel}/5</span>
-          <span className="text-mute" aria-hidden="true">·</span>
-          <span className="text-mute">dari ratusan pemesanan</span>
+          <span className="text-charcoal" aria-hidden="true">·</span>
+          <span className="text-charcoal">dari ratusan pemesanan</span>
         </span>
       </div>
       <div className="grid grid-cols-1 gap-4 sm:gap-lg md:grid-cols-3 md:gap-xl items-stretch">
