@@ -1,26 +1,13 @@
 "use client";
 
 import { usePathname } from "next/navigation";
-import { Bell, Search, ChevronRight } from "lucide-react";
+import { Search, ChevronRight } from "lucide-react";
 import { ThemeToggle } from "./ThemeToggle";
 
 /**
- * AdminHeader — top bar with breadcrumb, search, and notifications.
- *
- * Visual design follows the NeedMCP "dashboard-sidebar-overview"
- * wireframe: a sticky header with breadcrumb navigation on the left
- * and a search input + notification bell + avatar on the right.
- *
- * The sign-out action now lives in the sidebar user profile card,
- * keeping the header focused on navigation and search.
+ * AdminHeader — top bar with breadcrumb, search, and theme toggle.
  */
-export function AdminHeader({
-  title,
-  email,
-}: {
-  title: string;
-  email?: string | null;
-}) {
+export function AdminHeader({ title }: { title: string }) {
   const pathname = usePathname();
 
   // Build a simple breadcrumb from the pathname.
@@ -53,7 +40,7 @@ export function AdminHeader({
         ))}
       </div>
 
-      {/* Right side: search + notifications + avatar */}
+      {/* Right side: search + theme toggle */}
       <div className="flex items-center gap-md">
         {/* Search */}
         <div className="relative hidden sm:block">
@@ -70,22 +57,6 @@ export function AdminHeader({
 
         {/* Theme toggle */}
         <ThemeToggle />
-
-        {/* Notifications */}
-        <button
-          type="button"
-          aria-label="Notifications"
-          className="p-sm text-stone hover:text-ink transition-colors duration-normal"
-        >
-          <Bell size={18} />
-        </button>
-
-        {/* Avatar */}
-        <div className="w-8 h-8 rounded-full bg-gradient-brand flex items-center justify-center shrink-0">
-          <span className="text-on-primary font-bold text-caption">
-            {(email?.[0] ?? "A").toUpperCase()}
-          </span>
-        </div>
       </div>
     </header>
   );

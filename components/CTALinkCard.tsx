@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { ArrowRightIcon, StarIcon } from "@/components/icons";
+import { ArrowRightIcon } from "@/components/icons";
 import type { CTAAccent, CTALink } from "@/lib/types";
 
 /**
@@ -13,7 +13,7 @@ import type { CTAAccent, CTALink } from "@/lib/types";
  */
 const accentStyles: Record<
   CTAAccent,
-  { card: string; iconBadge: string; arrow: string; badge?: string }
+  { card: string; iconBadge: string; arrow: string }
 > = {
   whatsapp: {
     card: "bg-whatsapp text-white dark:bg-surface-card dark:text-white dark:ring-1 dark:ring-whatsapp/30",
@@ -24,7 +24,6 @@ const accentStyles: Record<
     card: "bg-primary text-white shadow-premium-lg dark:bg-surface-card dark:text-white dark:ring-1 dark:ring-primary/30 dark:shadow-premium-glow",
     iconBadge: "bg-white/20 dark:bg-primary dark:text-white",
     arrow: "bg-white/20 group-hover/card:bg-white/30 dark:bg-primary/15 dark:text-primary dark:group-hover/card:bg-primary dark:group-hover/card:text-white",
-    badge: "UTAMA",
   },
   warning: {
     card: "bg-warning text-white dark:bg-surface-card dark:text-white dark:ring-1 dark:ring-warning/30",
@@ -58,18 +57,10 @@ export function CTALinkCard({
         <Icon className="h-5 w-5 sm:h-6 sm:w-6" />
       </span>
 
-      {/* Title + description + optional UTAMA badge */}
+      {/* Title + description */}
       <span className="flex min-w-0 flex-1 flex-col gap-0.5">
-        <span className="flex flex-wrap items-center gap-1.5">
-          <span className="break-words text-sm font-extrabold uppercase leading-tight tracking-[-.01em] sm:text-base">
-            {title}
-          </span>
-          {styles.badge ? (
-            <span className="inline-flex shrink-0 items-center gap-1 rounded-full bg-white/15 px-2 py-0.5 text-[10px] font-bold uppercase tracking-[.08em] text-white backdrop-blur-sm">
-              <StarIcon className="h-2.5 w-2.5" aria-hidden="true" />
-              {styles.badge}
-            </span>
-          ) : null}
+        <span className="break-words text-sm font-extrabold uppercase leading-tight tracking-[-.01em] sm:text-base">
+          {title}
         </span>
         <span className="break-words text-xs font-medium leading-snug text-white/75 dark:text-white/60 sm:text-sm">
           {description}

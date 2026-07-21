@@ -47,13 +47,13 @@ export default async function AdminLayout({
     <div className="h-dvh bg-background overflow-hidden">
       <div className="flex h-full">
         {/* Sidebar — full-height on desktop, hidden on mobile (bottom nav handles mobile) */}
-        <aside className="hidden md:block md:w-64 md:shrink-0 md:border-r md:border-hairline bg-surface-card">
+        <aside className="hidden md:block md:w-56 md:shrink-0 md:border-r md:border-hairline bg-surface-card">
           <AdminSidebar email={user?.email} />
         </aside>
 
         {/* Main content — header (sticky top) + scrollable page body */}
         <div className="flex-1 min-w-0 flex flex-col overflow-hidden">
-          <AdminHeader title="Admin" email={user?.email} />
+          <AdminHeader title="Admin" />
           <main className="flex-1 overflow-y-auto p-lg md:p-xxl">
             {children}
           </main>
