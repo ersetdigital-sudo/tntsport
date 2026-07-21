@@ -33,7 +33,7 @@ export function ClosingCTA({ brand }: { brand: Brand }) {
             Pesan jersey custom tim kamu sekarang
           </h2>
           <p className="mt-1 text-pretty text-xs leading-relaxed text-white/85 sm:mt-1.5 sm:text-sm">
-            Konsultasi gratis via WhatsApp. Desain bebas, harga pabrik, kirim se-Indonesia.
+            Konsultasi desain gratis, revisi sampai puas. Harga pabrik, kirim ke seluruh Indonesia.
           </p>
         </div>
         <div className="flex w-full flex-col gap-2.5 sm:w-auto sm:flex-row sm:items-center sm:gap-3">

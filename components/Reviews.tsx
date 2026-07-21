@@ -19,12 +19,13 @@ export function Reviews({ items }: { items: Review[] }) {
         <div>
           <p className="section-kicker">Cerita dari lapangan</p>
           <h2 className="mt-2 text-heading-lg text-ink">Ulasan pelanggan</h2>
+          <p className="mt-1 text-caption text-charcoal dark:text-white/50">Review asli dari tim yang sudah pesan di TNT SPORT.</p>
         </div>
-        <span className="inline-flex shrink-0 items-center gap-1.5 rounded-full border border-hairline bg-white/60 px-3 py-1.5 text-caption text-charcoal shadow-premium-sm dark:border-white/10 dark:bg-surface-card/60">
+        <span className="inline-flex shrink-0 items-center gap-1.5 rounded-full border border-hairline bg-white/60 px-3 py-1.5 text-caption shadow-premium-sm dark:border-white/15 dark:bg-white/[0.08]">
           <StarIcon className="h-3.5 w-3.5 text-primary" aria-hidden="true" />
-          <span className="font-semibold text-ink">{avgLabel}/5</span>
-          <span className="text-charcoal" aria-hidden="true">·</span>
-          <span className="text-charcoal">dari ratusan pemesanan</span>
+          <span className="font-semibold text-ink dark:text-white">Rating {avgLabel}</span>
+          <span className="text-charcoal dark:text-white/60" aria-hidden="true">·</span>
+          <span className="text-charcoal dark:text-white/70">dipercaya ratusan tim</span>
         </span>
       </div>
       <div className="grid grid-cols-1 gap-4 sm:gap-lg md:grid-cols-3 md:gap-xl items-stretch">
