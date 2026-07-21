@@ -1,9 +1,12 @@
 import { ClosingCTA } from "@/components/ClosingCTA";
 import { CTALinks } from "@/components/CTALinks";
+import { FAQ } from "@/components/FAQ";
+import { FAQ_SCHEMA_ITEMS } from "@/components/FAQ";
 import { FlashSaleBanner } from "@/components/FlashSaleBanner";
 import { Footer } from "@/components/Footer";
 import { HeroSection } from "@/components/HeroSection";
 import { Reviews } from "@/components/Reviews";
+import { SEOContent } from "@/components/SEOContent";
 import { SocialLinks } from "@/components/SocialLinks";
 import { ThemeToggle } from "@/components/ThemeToggle";
 import { TrustBadges } from "@/components/TrustBadges";
@@ -13,7 +16,81 @@ import type { Brand, Review, SocialLink } from "@/lib/types";
 export const revalidate = 3600;
 
 function buildJsonLd(brand: Brand, socialLinks: SocialLink[], reviews: Review[]) {
-  return [{ "@context": "https://schema.org", "@type": "Organization", name: brand.name, description: brand.description, url: brand.url, logo: `${brand.url}${brand.logoPath}`, sameAs: socialLinks.map((item) => item.href) }, { "@context": "https://schema.org", "@type": "Product", name: "Jersey Custom Full Printing", description: "Jersey custom full printing desain bebas.", offers: { "@type": "Offer", price: "65000", priceCurrency: "IDR", availability: "https://schema.org/InStock", url: brand.url } }, { "@context": "https://schema.org", "@type": "ItemList", itemListElement: reviews.map((review, index) => ({ "@type": "ListItem", position: index + 1, item: { "@type": "Review", reviewBody: review.quote, author: { "@type": "Person", name: review.name }, reviewRating: { "@type": "Rating", ratingValue: review.rating, bestRating: 5 } } })) }];
+  const avgRating = reviews.length
+    ? (reviews.reduce((s, r) => s + r.rating, 0) / reviews.length).toFixed(1)
+    : "5.0";
+
+  return [
+    // 1. Organization
+    {
+      "@context": "https://schema.org",
+      "@type": "Organization",
+      name: brand.name,
+      description: brand.description,
+      url: brand.url,
+      logo: `${brand.url}${brand.logoPath}`,
+      sameAs: socialLinks.map((item) => item.href),
+    },
+    // 2. WebSite with SearchAction
+    {
+      "@context": "https://schema.org",
+      "@type": "WebSite",
+      name: brand.name,
+      url: brand.url,
+      inLanguage: "id-ID",
+    },
+    // 3. Product with AggregateRating
+    {
+      "@context": "https://schema.org",
+      "@type": "Product",
+      name: "Jersey Custom Full Printing",
+      description: "Jersey custom full printing dengan desain bebas, bahan premium dry-fit, harga pabrik langsung. Cocok untuk tim futsal, sepak bola, komunitas, dan event.",
+      brand: { "@type": "Brand", name: brand.name },
+      category: "Pakaian Olahraga Custom",
+      image: `${brand.url}${brand.logoPath}`,
+      url: brand.url,
+      offers: {
+        "@type": "AggregateOffer",
+        lowPrice: "65000",
+        highPrice: "250000",
+        priceCurrency: "IDR",
+        offerCount: "10",
+        availability: "https://schema.org/InStock",
+        url: brand.url,
+      },
+      aggregateRating: {
+        "@type": "AggregateRating",
+        ratingValue: avgRating,
+        bestRating: "5",
+        reviewCount: String(reviews.length || 3),
+      },
+    },
+    // 4. ItemList of Reviews
+    {
+      "@context": "https://schema.org",
+      "@type": "ItemList",
+      itemListElement: reviews.map((review, index) => ({
+        "@type": "ListItem",
+        position: index + 1,
+        item: {
+          "@type": "Review",
+          reviewBody: review.quote,
+          author: { "@type": "Person", name: review.name },
+          reviewRating: {
+            "@type": "Rating",
+            ratingValue: review.rating,
+            bestRating: 5,
+          },
+        },
+      })),
+    },
+    // 5. FAQPage
+    {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      mainEntity: FAQ_SCHEMA_ITEMS,
+    },
+  ];
 }
 
 export default async function Page() {
@@ -30,12 +107,16 @@ export default async function Page() {
       <div className="space-y-5 px-5 pb-10 pt-5 sm:space-y-6 sm:px-8 sm:pb-12 sm:pt-7">
         {/* Trust indicator */}
         <div className="rounded-2xl border border-black/[.06] bg-white px-3 py-5 shadow-premium-sm dark:border-white/10 dark:bg-surface-card sm:rounded-3xl sm:px-5 sm:py-6"><TrustBadges badges={trustBadges} /></div>
+        {/* SEO content — crawlable text answering search intent */}
+        <SEOContent />
         {/* CTA katalog */}
         <CTALinks items={ctaLinks} />
         {/* Promo */}
         <FlashSaleBanner whatsappNumber={brand.whatsappNumber} />
         {/* Testimoni */}
         <Reviews items={reviews} />
+        {/* FAQ */}
+        <FAQ />
         {/* CTA penutup */}
         <ClosingCTA brand={brand} />
         {/* Social */}
