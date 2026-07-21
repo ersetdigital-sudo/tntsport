@@ -1,97 +1,100 @@
 import { createClient, supabaseConfigured } from "@/lib/supabase/server";
+import { ShieldCheck } from "lucide-react";
 
 export const dynamic = "force-dynamic";
 
-export default async function TrustBadgesAdminPage() {
-  // STEP 1: Check env vars
-  if (!supabaseConfigured()) {
-    return (
-      <div style={{ padding: 32 }}>
-        <h1>Trust Badges</h1>
-        <p style={{ color: "#f59e0b" }}>Supabase belum dikonfigurasi. Cek environment variables di Vercel.</p>
-      </div>
-    );
-  }
-
-  // STEP 2: Try to create client
-  let supabase;
-  try {
-    supabase = await createClient();
-  } catch (err) {
-    const msg = err instanceof Error ? err.message : String(err);
-    console.error("[trust-badges] createClient error:", msg);
-    return (
-      <div style={{ padding: 32 }}>
-        <h1>Trust Badges</h1>
-        <p style={{ color: "#ef4444" }}>Gagal koneksi ke database: {msg}</p>
-      </div>
-    );
-  }
-
-  // STEP 3: Try to query
-  let items: any[] = [];
-  let queryError: string | null = null;
-  try {
-    const { data, error } = await supabase
-      .from("trust_badges")
-      .select("*")
-      .order("sort_order", { ascending: true });
-
-    if (error) {
-      queryError = `${error.code ?? "?"}: ${error.message}`;
-      console.error("[trust-badges] query error:", queryError);
-    } else {
-      items = data ?? [];
-    }
-  } catch (err) {
-    queryError = err instanceof Error ? err.message : String(err);
-    console.error("[trust-badges] query exception:", queryError);
-  }
-
-  // STEP 4: Render
+function ErrorState({ title, desc }: { title: string; desc: string }) {
   return (
-    <div style={{ padding: 32 }}>
-      <h1 style={{ fontSize: 24, fontWeight: 700, marginBottom: 16 }}>Trust Badges</h1>
-      <p style={{ color: "#6b7280", marginBottom: 24 }}>
-        Grid keunggulan di landing page
-      </p>
-
-      {queryError ? (
-        <div style={{ background: "#fef2f2", border: "1px solid #fecaca", borderRadius: 8, padding: 16 }}>
-          <p style={{ color: "#dc2626", fontWeight: 600 }}>Error querying trust_badges:</p>
-          <code style={{ fontSize: 13 }}>{queryError}</code>
-        </div>
-      ) : items.length === 0 ? (
-        <div style={{ background: "#f9fafb", border: "1px solid #e5e7eb", borderRadius: 8, padding: 16 }}>
-          <p style={{ color: "#6b7280" }}>Belum ada data trust badges.</p>
-        </div>
-      ) : (
-        <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
-          {items.map((item) => (
-            <div
-              key={item.id}
-              style={{
-                background: "white",
-                border: "1px solid #e5e7eb",
-                borderRadius: 8,
-                padding: "12px 16px",
-                display: "flex",
-                justifyContent: "space-between",
-              }}
-            >
-              <div>
-                <strong>{item.label}</strong>
-                <span style={{ color: "#6b7280", marginLeft: 8 }}>— {item.variant}</span>
-              </div>
-              <span style={{ color: "#9ca3af" }}>{item.subtext}</span>
-            </div>
-          ))}
-        </div>
-      )}
-
-      <p style={{ color: "#d1d5db", fontSize: 12, marginTop: 24 }}>
-        Debug: {items.length} items loaded | Config: OK | Query: {queryError ?? "OK"}
-      </p>
+    <div className="flex flex-col items-center justify-center py-xxl px-xl text-center">
+      <div className="w-14 h-14 rounded-full bg-warning/10 flex items-center justify-center mb-lg">
+        <ShieldCheck size={28} className="text-warning" />
+      </div>
+      <h2 className="text-heading-md text-ink mb-sm">{title}</h2>
+      <p className="text-body-sm text-charcoal max-w-md">{desc}</p>
     </div>
   );
+}
+
+export default async function TrustBadgesAdminPage() {
+  // Outer guard: never crash this page
+  try {
+    if (!supabaseConfigured()) {
+      return <ErrorState title="Supabase Belum Dikonfigurasi" desc="Set environment variables di Vercel." />;
+    }
+
+    let supabase;
+    try {
+      supabase = await createClient();
+    } catch (err) {
+      console.error("[trust-badges] createClient failed:", err);
+      return <ErrorState title="Gagal Terhubung ke Database" desc="Cek server logs." />;
+    }
+
+    let items: Record<string, any>[] = [];
+    let queryError: string | null = null;
+
+    try {
+      const { data, error } = await supabase
+        .from("trust_badges")
+        .select("*")
+        .order("sort_order", { ascending: true });
+
+      if (error) {
+        queryError = `${error.code ?? "?"}: ${error.message}`;
+        console.error("[trust-badges] query error:", queryError);
+      } else {
+        items = data ?? [];
+      }
+    } catch (err) {
+      queryError = err instanceof Error ? err.message : String(err);
+      console.error("[trust-badges] query exception:", queryError);
+    }
+
+    if (queryError) {
+      return <ErrorState title="Gagal Memuat Data" desc={queryError} />;
+    }
+
+    // Import CrudManager dynamically to avoid import-chain crashes
+    const { CrudManager } = await import("@/components/admin/CrudManager");
+    const { ICON_NAMES } = await import("@/lib/icon-registry");
+
+    const fields = [
+      { name: "label", label: "Label", type: "text" as const, required: true, placeholder: "Bahan Premium" },
+      { name: "subtext", label: "Subtext", type: "text" as const, placeholder: "Kualitas terbaik" },
+      { name: "icon", label: "Icon", type: "icon" as const },
+      {
+        name: "variant",
+        label: "Warna",
+        type: "select" as const,
+        required: true,
+        default: "neutral",
+        options: [
+          { value: "neutral", label: "Neutral" },
+          { value: "filled", label: "Filled" },
+          { value: "success", label: "Success (hijau)" },
+          { value: "warning", label: "Warning (kuning)" },
+          { value: "info", label: "Info (biru)" },
+        ],
+      },
+      { name: "sort_order", label: "Urutan", type: "number" as const, default: 1 },
+    ];
+
+    return (
+      <CrudManager
+        table="trust_badges"
+        title="Trust Badges"
+        description="Grid keunggulan di landing page (Bahan Premium, Desain Bebas, Harga Pabrik, dll)."
+        fields={fields}
+        items={items}
+        renderItem={(item: Record<string, any>) => ({
+          title: `${item.label} — ${item.variant}`,
+          subtitle: item.subtext ?? "Tanpa subtext",
+        })}
+      />
+    );
+  } catch (err) {
+    const msg = err instanceof Error ? err.message : String(err);
+    console.error("[trust-badges] unexpected error:", msg);
+    return <ErrorState title="Terjadi Kesalahan" desc="Gagal memuat halaman. Cek server logs." />;
+  }
 }
