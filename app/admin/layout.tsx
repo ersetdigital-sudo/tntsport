@@ -44,14 +44,18 @@ export default async function AdminLayout({
 
   return (
     <div className="min-h-dvh bg-background">
-      <div className="mx-auto flex max-w-[1440px] flex-col md:flex-row px-lg md:px-xxl">
-        <aside className="py-lg md:py-xl md:pr-xl">
-          <AdminSidebar />
+      <div className="flex min-h-dvh">
+        {/* Sidebar — fixed full-height rail on desktop, horizontal on mobile */}
+        <aside className="md:w-64 md:shrink-0 md:border-r md:border-hairline bg-surface-card">
+          <AdminSidebar email={user?.email} />
         </aside>
 
-        <div className="flex-1 min-w-0 py-lg md:py-xl">
+        {/* Main content — header + scrollable page body */}
+        <div className="flex-1 min-w-0 flex flex-col">
           <AdminHeader title="Admin" email={user?.email} />
-          <div className="mt-xl">{children}</div>
+          <main className="flex-1 overflow-y-auto p-lg md:p-xxl">
+            {children}
+          </main>
         </div>
       </div>
     </div>

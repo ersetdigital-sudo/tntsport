@@ -1,14 +1,17 @@
 "use client";
 
-import { useRouter } from "next/navigation";
-import { useState, useTransition } from "react";
-import { createClient } from "@/lib/supabase/client";
+import { usePathname } from "next/navigation";
+import { Bell, Search, ChevronRight } from "lucide-react";
 
 /**
- * AdminHeader — top bar with the page title and a sign-out button.
+ * AdminHeader — top bar with breadcrumb, search, and notifications.
  *
- * Logout calls Supabase Auth then refreshes so middleware clears the
- * session cookie and redirects to /admin/login.
+ * Visual design follows the NeedMCP "dashboard-sidebar-overview"
+ * wireframe: a sticky header with breadcrumb navigation on the left
+ * and a search input + notification bell + avatar on the right.
+ *
+ * The sign-out action now lives in the sidebar user profile card,
+ * keeping the header focused on navigation and search.
  */
 export function AdminHeader({
   title,
@@ -17,35 +20,68 @@ export function AdminHeader({
   title: string;
   email?: string | null;
 }) {
-  const router = useRouter();
-  const [pending, startTransition] = useTransition();
+  const pathname = usePathname();
 
-  function signOut() {
-    startTransition(async () => {
-      const supabase = createClient();
-      await supabase.auth.signOut();
-      router.refresh();
-      router.replace("/admin/login");
-    });
-  }
+  // Build a simple breadcrumb from the pathname.
+  const segments = pathname.split("/").filter(Boolean);
+  const breadcrumb = segments.map((seg, i) => {
+    const isLast = i === segments.length - 1;
+    const label = seg.charAt(0).toUpperCase() + seg.slice(1);
+    return { label, isLast };
+  });
 
   return (
-    <header className="flex items-center justify-between gap-lg border-b border-hairline py-lg">
-      <h1 className="text-heading-md text-ink">{title}</h1>
-      <div className="flex items-center gap-md">
-        {email ? (
-          <span className="text-caption text-on-dark-mute hidden sm:inline">
-            {email}
+    <header className="sticky top-0 z-10 flex items-center justify-between gap-lg border-b border-hairline bg-surface-card px-lg md:px-xxl py-md">
+      {/* Breadcrumb */}
+      <div className="flex items-center text-body-sm text-stone">
+        {breadcrumb.map((crumb, i) => (
+          <span key={i} className="flex items-center">
+            {i > 0 && (
+              <ChevronRight size={12} className="mx-xs text-stone" />
+            )}
+            <span
+              className={
+                crumb.isLast
+                  ? "text-ink font-medium"
+                  : "text-stone"
+              }
+            >
+              {crumb.label}
+            </span>
           </span>
-        ) : null}
+        ))}
+      </div>
+
+      {/* Right side: search + notifications + avatar */}
+      <div className="flex items-center gap-md">
+        {/* Search */}
+        <div className="relative hidden sm:block">
+          <Search
+            size={14}
+            className="absolute left-md top-1/2 -translate-y-1/2 text-stone"
+          />
+          <input
+            type="text"
+            placeholder="Search..."
+            className="h-9 w-48 md:w-64 pl-xl pr-md bg-surface text-ink rounded-md border border-hairline text-body-sm outline-none transition-colors duration-normal focus:border-primary placeholder:text-stone"
+          />
+        </div>
+
+        {/* Notifications */}
         <button
           type="button"
-          onClick={signOut}
-          disabled={pending}
-          className="text-button-md inline-flex h-9 items-center justify-center rounded-full bg-surface-dark px-md text-on-dark-mute hover:bg-secondary hover:text-on-primary transition-colors duration-normal disabled:opacity-40 focus-visible:outline focus-visible:outline-2 focus-visible:outline-secondary focus-visible:outline-offset-2"
+          aria-label="Notifications"
+          className="p-sm text-stone hover:text-ink transition-colors duration-normal"
         >
-          {pending ? "Keluar…" : "Keluar"}
+          <Bell size={18} />
         </button>
+
+        {/* Avatar */}
+        <div className="w-8 h-8 rounded-full bg-gradient-brand flex items-center justify-center shrink-0">
+          <span className="text-on-primary font-bold text-caption">
+            {(email?.[0] ?? "A").toUpperCase()}
+          </span>
+        </div>
       </div>
     </header>
   );
