@@ -78,7 +78,7 @@ export const ctaLinks: CTALink[] = [
     external: true,
   },
   {
-    title: "KLAIM PROMO BELI 6 GRATIS 1",
+    title: "PROMO BELI 6 GRATIS 1",
     description: "Berlaku kelipatannya — 12 dapat 14, dst",
     icon: GiftIcon,
     accent: "warning",
