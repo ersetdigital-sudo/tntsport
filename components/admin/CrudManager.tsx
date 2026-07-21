@@ -43,7 +43,7 @@ function FieldInput({
   onChange: (v: string | number) => void;
 }) {
   const baseClass =
-    "bg-surface-dark text-on-dark rounded-xs px-md py-sm border border-hairline focus-visible:outline focus-visible:outline-2 focus-visible:outline-secondary focus-visible:outline-offset-2 w-full";
+    "bg-white text-ink rounded-lg px-md py-[10px] border border-hairline-strong text-body-sm placeholder:text-stone focus-visible:outline focus-visible:outline-2 focus-visible:outline-secondary focus-visible:outline-offset-1 dark:bg-surface-dark dark:text-on-dark dark:border-hairline w-full";
 
   if (field.type === "textarea") {
     return (
@@ -208,7 +208,7 @@ export function CrudManager({
         <div>
           <h2 className="text-heading-md text-ink">{title}</h2>
           {description ? (
-            <p className="text-body-sm text-on-dark-mute mt-xs">{description}</p>
+            <p className="text-body-sm text-charcoal dark:text-on-dark-mute mt-xs">{description}</p>
           ) : null}
         </div>
         {!showForm ? (
@@ -224,7 +224,7 @@ export function CrudManager({
       {error ? (
         <p
           role="alert"
-          className="text-caption text-primary border border-primary bg-surface-card rounded-md px-md py-sm"
+          className="text-caption text-danger border border-danger/30 bg-danger/5 rounded-lg px-md py-sm"
         >
           {error}
         </p>
@@ -237,7 +237,7 @@ export function CrudManager({
           </h3>
           {fields.map((f) => (
             <label key={f.name} className="flex flex-col gap-xs">
-              <span className="text-button-sm text-on-dark-mute uppercase tracking-wider">
+              <span className="text-caption font-semibold text-ink dark:text-on-dark-mute uppercase tracking-wider">
                 {f.label}
                 {f.required ? " *" : ""}
               </span>
@@ -266,7 +266,7 @@ export function CrudManager({
                 setError(null);
               }}
               disabled={pending}
-              className="text-button-md inline-flex h-10 items-center justify-center rounded-full bg-surface-dark px-lg text-on-dark-mute hover:bg-secondary hover:text-on-primary transition-colors duration-normal"
+              className="text-button-md inline-flex h-10 items-center justify-center rounded-full border border-hairline-strong bg-white px-lg text-charcoal hover:bg-surface hover:text-ink transition-colors duration-normal dark:bg-surface-dark dark:text-on-dark-mute dark:border-hairline dark:hover:bg-secondary dark:hover:text-on-primary"
             >
               Batal
             </button>

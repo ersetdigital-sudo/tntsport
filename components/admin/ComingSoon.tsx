@@ -23,12 +23,12 @@ export function ComingSoon({
           {phase}
         </span>
         <h2 className="text-heading-md text-ink mt-sm">{title}</h2>
-        <p className="text-body-md text-on-dark-mute mt-md">{description}</p>
+        <p className="text-body-md text-charcoal dark:text-on-dark-mute mt-md">{description}</p>
       </div>
 
       <Link
         href="/admin"
-        className="text-button-md inline-flex h-11 items-center justify-center rounded-full bg-surface-dark px-lg text-on-dark-mute hover:bg-secondary hover:text-on-primary transition-colors duration-normal self-start"
+        className="text-button-md inline-flex h-11 items-center justify-center rounded-full border border-hairline-strong bg-white px-lg text-charcoal hover:bg-surface hover:text-ink transition-colors duration-normal dark:bg-surface-dark dark:text-on-dark-mute dark:border-hairline dark:hover:bg-secondary dark:hover:text-on-primary self-start"
       >
         ← Kembali ke Dashboard
       </Link>

@@ -16,7 +16,7 @@ export default async function BrandAdminPage() {
 
   if (!data) {
     return (
-      <p className="text-body-md text-on-dark-mute">
+      <p className="text-body-md text-charcoal dark:text-on-dark-mute">
         Brand belum di-setup. Jalankan SQL migration dulu.
       </p>
     );

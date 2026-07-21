@@ -74,7 +74,7 @@ export default async function AdminDashboard() {
           </button>
           <button
             type="button"
-            className="inline-flex items-center gap-xs bg-surface-dark text-on-dark text-button-md rounded-md px-md py-sm hover:bg-surface-deep transition-colors duration-normal"
+            className="inline-flex items-center gap-xs border border-hairline-strong bg-white text-ink text-button-md rounded-md px-md py-sm hover:bg-surface transition-colors duration-normal dark:bg-surface-dark dark:text-on-dark dark:border-hairline dark:hover:bg-surface-deep"
           >
             <Download size={14} />
             <span className="hidden sm:inline">Export CSV</span>
