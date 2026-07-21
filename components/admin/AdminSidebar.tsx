@@ -25,6 +25,7 @@ const NAV: NavItem[] = [
   { href: "/admin/cta-links", label: "CTA Links" },
   { href: "/admin/reviews", label: "Reviews" },
   { href: "/admin/social-links", label: "Social Links" },
+  { href: "/admin/trust-badges", label: "Trust Badges" },
   { href: "/admin/categories", label: "Kategori" },
   { href: "/admin/products", label: "Produk" },
 ];

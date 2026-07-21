@@ -1,13 +1,26 @@
-import { ComingSoon } from "@/components/admin/ComingSoon";
+import { createClient } from "@/lib/supabase/server";
+import { BrandEditor } from "@/components/admin/BrandEditor";
 
 export const dynamic = "force-dynamic";
 
-export default function BrandAdminPage() {
-  return (
-    <ComingSoon
-      title="Brand Identity"
-      phase="Phase 5"
-      description="Form untuk edit nama brand, tagline, nomor WhatsApp, URL situs, dan logo. Saat ini masih memakai data seed dari migration SQL."
-    />
-  );
+/**
+ * /admin/brand — edit the single brand row (name, tagline, WhatsApp, etc).
+ */
+export default async function BrandAdminPage() {
+  const supabase = await createClient();
+  const { data } = await supabase
+    .from("brand")
+    .select("*")
+    .eq("id", 1)
+    .maybeSingle();
+
+  if (!data) {
+    return (
+      <p className="text-body-md text-on-dark-mute">
+        Brand belum di-setup. Jalankan SQL migration dulu.
+      </p>
+    );
+  }
+
+  return <BrandEditor brand={data} />;
 }

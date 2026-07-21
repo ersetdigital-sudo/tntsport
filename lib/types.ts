@@ -46,6 +46,15 @@ export interface TrustBadge {
   variant: "neutral" | "filled" | "success" | "warning" | "info";
 }
 
+export interface DbTrustBadge {
+  id: string;
+  label: string;
+  subtext: string | null;
+  icon: string | null;
+  variant: "neutral" | "filled" | "success" | "warning" | "info";
+  sort_order: number;
+}
+
 export interface StatItem {
   value: string;
   label: string;

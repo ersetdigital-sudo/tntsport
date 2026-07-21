@@ -22,9 +22,11 @@ import type {
   DbReview,
   DbSocialLink,
   DbStat,
+  DbTrustBadge,
   Review,
   SocialLink,
   StatItem,
+  TrustBadge,
 } from "@/lib/types";
 
 // ---------------------------------------------------------------------------
@@ -77,12 +79,22 @@ export async function getStats(): Promise<StatItem[]> {
 // ---------------------------------------------------------------------------
 // Trust badges
 // ---------------------------------------------------------------------------
-// Trust badges are derived from a fixed set of stats/reviews rather than
-// stored separately — keeping them in sync with real numbers matters more
-// than per-badge editability. If you want admin-editable trust badges
-// later, add a `trust_badges` table mirroring the stats shape.
-export async function getTrustBadges() {
-  return fallback.trustBadges;
+export async function getTrustBadges(): Promise<TrustBadge[]> {
+  if (!supabaseConfigured()) return fallback.trustBadges;
+  const supabase = await createClient();
+  const { data, error } = await supabase
+    .from("trust_badges")
+    .select("*")
+    .order("sort_order", { ascending: true });
+
+  if (error || !data || data.length === 0) return fallback.trustBadges;
+
+  return (data as DbTrustBadge[]).map((row) => ({
+    label: row.label,
+    subtext: row.subtext ?? undefined,
+    icon: resolveIcon(row.icon),
+    variant: row.variant,
+  }));
 }
 
 // ---------------------------------------------------------------------------

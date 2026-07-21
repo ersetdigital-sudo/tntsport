@@ -4,9 +4,9 @@ import { createClient } from "@/lib/supabase/server";
 /**
  * /admin — dashboard overview.
  *
- * Shows quick counts (products, reviews, stats, CTA links) and links
- * into each management section. Read-only; all mutations live in the
- * dedicated section pages.
+ * Shows quick counts (products, reviews, stats, CTA links, trust badges)
+ * and links into each management section. Read-only; all mutations live
+ * in the dedicated section pages.
  */
 export const dynamic = "force-dynamic";
 
@@ -20,13 +20,14 @@ async function getCount(table: string): Promise<number> {
 }
 
 export default async function AdminDashboard() {
-  const [products, reviews, stats, ctaLinks, socialLinks, categories] =
+  const [products, reviews, stats, ctaLinks, socialLinks, trustBadges, categories] =
     await Promise.all([
       getCount("products"),
       getCount("reviews"),
       getCount("stats"),
       getCount("cta_links"),
       getCount("social_links"),
+      getCount("trust_badges"),
       getCount("product_categories"),
     ]);
 
@@ -37,13 +38,15 @@ export default async function AdminDashboard() {
     { label: "Stats", count: stats, href: "/admin/stats" },
     { label: "CTA Links", count: ctaLinks, href: "/admin/cta-links" },
     { label: "Social Links", count: socialLinks, href: "/admin/social-links" },
+    { label: "Trust Badges", count: trustBadges, href: "/admin/trust-badges" },
   ];
 
   return (
     <div className="flex flex-col gap-xl">
       <p className="text-body-md text-on-dark-mute">
-        Selamat datang di panel admin TCC Jersey. Kelola konten landing page
-        dan katalog produk dari sini.
+        Selamat datang di panel admin TNT SPORT. Kelola konten landing page
+        dan katalog produk dari sini — ubah teks, gambar, link, testimoni,
+        stats, dan social media langsung tanpa perlu coding.
       </p>
 
       <div className="grid grid-cols-2 gap-lg md:grid-cols-3 md:gap-xl">
@@ -81,10 +84,10 @@ export default async function AdminDashboard() {
           </li>
           <li>
             <Link
-              href="/admin/products/new"
+              href="/admin/reviews"
               className="text-secondary hover:underline"
             >
-              → Tambah produk baru
+              → Kelola testimoni pelanggan
             </Link>
           </li>
         </ul>
