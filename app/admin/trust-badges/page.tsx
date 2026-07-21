@@ -25,94 +25,111 @@ const fields: Field[] = [
   { name: "sort_order", label: "Urutan", type: "number", default: 1 },
 ];
 
-type FetchResult =
-  | { ok: true; items: Record<string, any>[] }
-  | { ok: false; reason: "not_configured" | "table_missing" | "permission_denied" | "unknown"; detail: string };
-
-async function fetchTrustBadges(): Promise<FetchResult> {
-  // 1. Check if Supabase env vars are set
-  if (!supabaseConfigured()) {
-    return { ok: false, reason: "not_configured", detail: "Supabase environment variables not set." };
-  }
-
-  const supabase = await createClient();
-
-  // 2. Query with error handling
-  const { data, error, status } = await supabase
-    .from("trust_badges")
-    .select("*")
-    .order("sort_order", { ascending: true });
-
-  if (error) {
-    // 42P01 = undefined_table (table doesn't exist)
-    if (error.code === "42P01" || error.message?.includes("does not exist")) {
-      console.error(`[trust-badges] Table not found (status ${status}). Run migration 0003_landing_admin.sql.`);
-      return { ok: false, reason: "table_missing", detail: error.message };
-    }
-    // 42501 = insufficient_privilege / RLS permission denied
-    if (error.code === "42501" || status === 403 || error.message?.includes("permission")) {
-      console.error(`[trust-badges] Permission denied (status ${status}, code ${error.code}).`);
-      return { ok: false, reason: "permission_denied", detail: error.message };
-    }
-    console.error(`[trust-badges] Query error (status ${status}, code ${error.code}):`, error.message);
-    return { ok: false, reason: "unknown", detail: error.message };
-  }
-
-  return { ok: true, items: data ?? [] };
-}
-
-function ErrorState({ reason, detail }: { reason: string; detail: string }) {
-  const messages: Record<string, { title: string; desc: string }> = {
-    not_configured: {
-      title: "Supabase Belum Dikonfigurasi",
-      desc: "Environment variable NEXT_PUBLIC_SUPABASE_URL dan NEXT_PUBLIC_SUPABASE_ANON_KEY belum di-set di Vercel.",
-    },
-    table_missing: {
-      title: "Tabel Trust Badges Belum Ada",
-      desc: "Jalankan migrasi 0003_landing_admin.sql di Supabase Dashboard → SQL Editor untuk membuat tabel trust_badges.",
-    },
-    permission_denied: {
-      title: "Akses Ditolak",
-      desc: "Tidak memiliki izin untuk mengakses tabel trust_badges. Pastikan RLS policy sudah benar dan user sudah login.",
-    },
-    unknown: {
-      title: "Terjadi Kesalahan",
-      desc: "Gagal memuat data Trust Badges. Cek server logs untuk detail lebih lanjut.",
-    },
-  };
-
-  const msg = messages[reason] ?? messages.unknown;
-
+function ErrorState({ title, desc, id }: { title: string; desc: string; id: string }) {
   return (
     <div className="flex flex-col items-center justify-center py-xxl px-xl text-center">
       <div className="w-14 h-14 rounded-full bg-warning/10 flex items-center justify-center mb-lg">
         <ShieldCheck size={28} className="text-warning" />
       </div>
-      <h2 className="text-heading-md text-ink mb-sm">{msg.title}</h2>
-      <p className="text-body-sm text-charcoal max-w-md mb-lg">{msg.desc}</p>
-      <p className="text-caption text-stone font-mono">Error ID: trust-badges-{reason}</p>
+      <h2 className="text-heading-md text-ink mb-sm">{title}</h2>
+      <p className="text-body-sm text-charcoal max-w-md mb-lg">{desc}</p>
+      <p className="text-caption text-stone font-mono">{id}</p>
     </div>
   );
 }
 
 export default async function TrustBadgesAdminPage() {
-  const result = await fetchTrustBadges();
+  // Wrap everything in try-catch — never let this page crash.
+  try {
+    if (!supabaseConfigured()) {
+      return (
+        <ErrorState
+          title="Supabase Belum Dikonfigurasi"
+          desc="Environment variable NEXT_PUBLIC_SUPABASE_URL dan NEXT_PUBLIC_SUPABASE_ANON_KEY belum di-set."
+          id="ERR_NOT_CONFIGURED"
+        />
+      );
+    }
 
-  if (!result.ok) {
-    return <ErrorState reason={result.reason} detail={result.detail} />;
+    let supabase;
+    try {
+      supabase = await createClient();
+    } catch (err) {
+      console.error("[trust-badges] createClient failed:", err);
+      return (
+        <ErrorState
+          title="Gagal Terhubung ke Database"
+          desc="Tidak dapat membuat koneksi ke Supabase. Cek server logs."
+          id="ERR_CLIENT_CREATE"
+        />
+      );
+    }
+
+    const { data, error, status } = await supabase
+      .from("trust_badges")
+      .select("*")
+      .order("sort_order", { ascending: true });
+
+    if (error) {
+      const code = error.code ?? "UNKNOWN";
+      const msg = error.message ?? "No message";
+      console.error(`[trust-badges] Query error: code=${code} status=${status} msg=${msg}`);
+
+      // Table doesn't exist
+      if (code === "42P01" || msg.includes("does not exist")) {
+        return (
+          <ErrorState
+            title="Tabel Trust Badges Belum Ada"
+            desc="Jalankan migrasi 0003_landing_admin.sql di Supabase Dashboard → SQL Editor."
+            id="ERR_TABLE_MISSING"
+          />
+        );
+      }
+
+      // Permission denied
+      if (code === "42501" || status === 403 || msg.includes("permission")) {
+        return (
+          <ErrorState
+            title="Akses Ditolak"
+            desc="Tidak memiliki izin untuk mengakses tabel trust_badges. Pastikan RLS policy sudah benar."
+            id="ERR_PERMISSION_DENIED"
+          />
+        );
+      }
+
+      // Other Supabase error
+      return (
+        <ErrorState
+          title="Gagal Memuat Data"
+          desc={`Supabase error: ${msg}`}
+          id={`ERR_DB_${code}`}
+        />
+      );
+    }
+
+    return (
+      <CrudManager
+        table="trust_badges"
+        title="Trust Badges"
+        description="Grid keunggulan di landing page (Bahan Premium, Desain Bebas, Harga Pabrik, dll)."
+        fields={fields}
+        items={data ?? []}
+        renderItem={(item) => ({
+          title: `${item.label} — ${item.variant}`,
+          subtitle: item.subtext ?? "Tanpa subtext",
+        })}
+      />
+    );
+  } catch (err) {
+    // Catch ANY unexpected error — never crash the page
+    const msg = err instanceof Error ? err.message : String(err);
+    console.error("[trust-badges] Unexpected error:", msg);
+    return (
+      <ErrorState
+        title="Terjadi Kesalahan"
+        desc="Gagal memuat halaman Trust Badges. Cek server logs untuk detail."
+        id="ERR_UNEXPECTED"
+      />
+    );
   }
-
-  return (
-    <CrudManager
-      table="trust_badges"
-      title="Trust Badges"
-      description="Grid keunggulan di landing page (Bahan Premium, Desain Bebas, Harga Pabrik, dll)."
-      fields={fields}
-      items={result.items}
-      renderItem={(item) => ({
-        title: `${item.label} — ${item.variant}`,
-        subtitle: item.subtext ?? "Tanpa subtext",
-      })}
-    />
-  );
 }
