@@ -101,17 +101,12 @@ export function AdminSidebar({ email }: { email?: string | null }) {
 
   return (
     <div className="flex md:flex-col h-full md:h-dvh">
-      {/* Brand header */}
+      {/* Brand header — logo + name only, no "Agency" label */}
       <div className="hidden md:flex items-center gap-sm p-lg border-b border-hairline">
         <div className="w-8 h-8 rounded-lg bg-gradient-brand flex items-center justify-center">
           <span className="text-on-primary font-bold text-body-md">T</span>
         </div>
-        <div>
-          <p className="text-button-sm text-stone uppercase tracking-wider">
-            Agency
-          </p>
-          <h1 className="text-body-sm text-ink font-bold">TNT SPORT</h1>
-        </div>
+        <h1 className="text-body-sm text-ink font-bold">TNT SPORT</h1>
       </div>
 
       {/* Navigation */}
@@ -140,7 +135,7 @@ export function AdminSidebar({ email }: { email?: string | null }) {
                     className={`text-button-md whitespace-nowrap inline-flex items-center gap-sm rounded-md px-md py-md transition-colors duration-normal ${
                       isActive
                         ? "bg-secondary text-on-primary"
-                        : "text-on-dark-mute hover:bg-surface-dark hover:text-on-dark"
+                        : "text-charcoal hover:bg-gray-100 dark:hover:bg-surface-dark hover:text-ink dark:hover:text-on-dark"
                     }`}
                   >
                     <Icon size={16} />
