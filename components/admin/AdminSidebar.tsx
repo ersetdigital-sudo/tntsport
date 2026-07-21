@@ -62,7 +62,7 @@ const NAV_GROUPS: NavGroup[] = [
     ],
   },
   {
-    title: "Konten",
+    title: "Atur Bio Link",
     items: [
       { href: "/admin/brand", label: "Brand", icon: Image },
       { href: "/admin/stats", label: "Stats", icon: BarChart3 },
