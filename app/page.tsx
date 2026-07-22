@@ -95,7 +95,13 @@ export default async function Page() {
   const [brand, stats, trustBadges, ctaLinks, reviews, socialLinks] = await Promise.all([getBrand(), getStats(), getTrustBadges(), getCTALinks(), getReviews(), getSocialLinks()]);
   const jsonLd = buildJsonLd(brand, socialLinks, reviews);
 
-  return <main className="min-h-screen px-3 py-5 sm:px-6 sm:py-8">
+  return <main className="relative min-h-screen px-3 py-5 sm:px-6 sm:py-8">
+    {/* Grid pattern background */}
+    <div className="pointer-events-none fixed inset-0 opacity-[0.035] dark:opacity-[0.06]"
+         style={{
+           backgroundImage: "linear-gradient(rgba(0,0,0,0.3) 1px, transparent 1px), linear-gradient(90deg, rgba(0,0,0,0.3) 1px, transparent 1px)",
+           backgroundSize: "32px 32px",
+         }} />
     {jsonLd.map((schema, index) => <script key={index} type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }} />)}
     <div className="flex justify-end pr-1 sm:pr-2">
       <ThemeToggle />
