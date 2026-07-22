@@ -456,77 +456,29 @@
 }
 
 /* ============================================================
-   Katalog · Bold Sporty Landing
-   theme: dark + cream contrast · orange accent · acid highlight
-   display: Barlow Condensed · body: Barlow
+   Katalog Page Styles
    ============================================================ */
 
 .katalog-page {
-  /* Paper (dark) */
-  --k-paper: #11110f;
-  --k-paper-2: #1a1a17;
-  --k-paper-3: #222220;
-
-  /* Cream (light sections) */
-  --k-cream: #f5f1e8;
-  --k-cream-2: #ebe6da;
-
-  /* Ink */
-  --k-ink: #11110f;
-  --k-ink-2: #3d3d38;
-  --k-ink-light: #ffffff;
-
-  /* Neutrals */
-  --k-rule: rgba(255,255,255,0.12);
-  --k-rule-dark: rgba(0,0,0,0.12);
-  --k-muted: #7a7a72;
-  --k-muted-light: rgba(255,255,255,0.5);
-
-  /* Accent — Orange */
-  --k-accent: #ff5a1f;
-  --k-accent-dim: #e65100;
-  --k-accent-ink: #11110f;
-
-  /* Highlight — Acid Yellow */
-  --k-highlight: #dfff00;
-  --k-highlight-dim: #c8e600;
-
-  /* Focus */
-  --k-focus: #ff5a1f;
-
-  /* Surface */
-  --k-surface: #1c1c19;
-  --k-surface-hover: #252522;
-  --k-surface-light: #ffffff;
-
-  /* Motion */
-  --k-ease-out: cubic-bezier(0.16, 1, 0.3, 1);
-  --k-ease-in: cubic-bezier(0.7, 0, 0.84, 0);
-  --k-ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
-  --k-dur-micro: 120ms;
-  --k-dur-short: 220ms;
-  --k-dur-long: 420ms;
-
-  /* Spacing */
-  --k-gutter: clamp(1rem, 4vw, 2rem);
-  --k-max: 1280px;
-
-  /* Typography */
-  --k-font-display: 'Barlow Condensed', var(--font-sans), system-ui, sans-serif;
-  --k-font-body: 'Barlow', var(--font-sans), system-ui, sans-serif;
-  --k-font-mono: var(--font-mono), ui-monospace, monospace;
-
-  /* Z-index */
-  --k-z-nav: 200;
-
-  /* Page base */
-  background-color: var(--k-paper);
-  color: var(--k-ink);
-  font-family: var(--k-font-body);
+  background-color: var(--color-background);
+  color: var(--color-ink);
   overflow-x: clip;
 }
 
 .katalog-page * { box-sizing: border-box; }
+
+/* Catalog tab active state */
+.catalog-tab[aria-selected="true"] {
+  background: #0b0b0b;
+  color: #fff;
+  border-color: #0b0b0b;
+  box-shadow: 0 8px 24px rgba(11,11,11,.15);
+}
+
+/* Catalog image transition */
+.catalog-image {
+  transition: opacity 0.25s ease, transform 0.45s ease;
+}
 
 /* ================================================================
    NAVBAR
