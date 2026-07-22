@@ -102,7 +102,7 @@ function ZoomModal({
       onClick={onClose}
     >
       <div
-        className="relative my-auto w-[92vw] max-w-[500px] rounded-2xl bg-white shadow-2xl sm:rounded-3xl"
+        className="relative my-auto w-[92vw] max-w-[500px] rounded-2xl bg-[#131611] shadow-2xl sm:rounded-3xl"
         onClick={(e) => e.stopPropagation()}
       >
         {/* Image — no fixed aspect ratio, let image size naturally */}
@@ -117,20 +117,20 @@ function ZoomModal({
         </div>
 
         {/* Info bar */}
-        <div className="border-t border-black/10 bg-white p-4 sm:p-5">
+        <div className="border-t border-white/10 bg-[#131611] p-4 sm:p-5">
           <div className="flex items-center justify-between gap-4">
             <div>
-              <p className="text-xs font-bold uppercase tracking-wider text-[#16a34a]"
+              <p className="text-xs font-bold uppercase tracking-wider text-[#c5f518]"
                  style={{ fontFamily: "var(--font-mono)" }}>
                 {product.catalogue}
               </p>
-              <p className="mt-1 text-sm text-[#666]">{categoryLabel}</p>
+              <p className="mt-1 text-sm text-[#a7ad9e]">{categoryLabel}</p>
             </div>
             <a
               href={getWhatsAppLink(categoryLabel, product.catalogue)}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex shrink-0 items-center gap-2 rounded-full bg-[#16a34a] px-4 py-2.5 text-xs font-black text-white transition hover:bg-green-500 sm:px-5 sm:text-sm"
+              className="inline-flex shrink-0 items-center gap-2 rounded-full bg-[#c5f518] px-4 py-2.5 text-xs font-black text-[#080a07] transition hover:bg-[#d4ff33] sm:px-5 sm:text-sm"
             >
               Order Sekarang
             </a>
@@ -166,11 +166,11 @@ function ProductCard({
   onSelect: (product: CatalogProduct) => void;
 }) {
   return (
-    <article className="group relative overflow-hidden rounded-2xl bg-white shadow-sm transition duration-300 hover:-translate-y-1 hover:shadow-lg sm:rounded-3xl">
+    <article className="group relative overflow-hidden rounded-2xl border border-white/10 bg-[#131611] shadow-2xl shadow-black/20 transition duration-300 hover:-translate-y-1 hover:border-[#c5f518]/35 sm:rounded-3xl">
       {/* Image */}
       <button
         onClick={() => onSelect(product)}
-        className="relative aspect-[4/5] w-full cursor-pointer overflow-hidden bg-[#f7f7f7]"
+        className="relative aspect-[4/5] w-full cursor-pointer overflow-hidden bg-[#181c15]"
       >
         <Image
           src={product.image}
@@ -181,7 +181,7 @@ function ProductCard({
         />
         {/* Hover overlay */}
         <div className="absolute inset-0 flex items-center justify-center bg-black/0 transition group-hover:bg-black/20">
-          <span className="rounded-full bg-white/90 px-4 py-2 text-xs font-bold text-[#111] opacity-0 shadow-lg transition group-hover:opacity-100">
+          <span className="rounded-full bg-white/90 px-4 py-2 text-xs font-bold text-[#080a07] opacity-0 shadow-lg transition group-hover:opacity-100">
             Klik untuk zoom
           </span>
         </div>
@@ -189,7 +189,7 @@ function ProductCard({
 
       {/* Info */}
       <div className="p-3 sm:p-4">
-        <p className="text-[10px] font-bold uppercase tracking-wider text-[#16a34a] sm:text-[11px]"
+        <p className="text-[10px] font-bold uppercase tracking-wider text-[#c5f518] sm:text-[11px]"
            style={{ fontFamily: "var(--font-mono)" }}>
           {product.catalogue}
         </p>
@@ -197,7 +197,7 @@ function ProductCard({
           href={getWhatsAppLink(categoryLabel, product.catalogue)}
           target="_blank"
           rel="noopener noreferrer"
-          className="mt-2 block w-full rounded-full bg-[#0b0b0b] py-2 text-center text-[10px] font-black uppercase tracking-wide text-white transition hover:bg-[#16a34a] sm:py-2.5 sm:text-xs"
+          className="mt-2 block w-full rounded-full bg-[#c5f518] py-2 text-center text-[10px] font-black uppercase tracking-wide text-[#080a07] transition hover:bg-[#d4ff33] sm:py-2.5 sm:text-xs"
         >
           Pilih Desain Ini
         </a>
@@ -213,10 +213,10 @@ function ProductCard({
 function ProductSkeleton() {
   return (
     <div className="animate-pulse">
-      <div className="aspect-[4/5] rounded-2xl bg-[#e5e5e5] sm:rounded-3xl" />
+      <div className="aspect-[4/5] rounded-2xl bg-[#1a1e17] sm:rounded-3xl" />
       <div className="mt-3 space-y-2 p-1">
-        <div className="h-3 w-16 rounded bg-[#e5e5e5]" />
-        <div className="h-8 w-full rounded-full bg-[#e5e5e5]" />
+        <div className="h-3 w-16 rounded bg-[#1a1e17]" />
+        <div className="h-8 w-full rounded-full bg-[#1a1e17]" />
       </div>
     </div>
   );
@@ -274,15 +274,15 @@ export function ProductCatalog({ categories: propCategories }: ProductCatalogPro
               role="tab"
               className={`catalog-tab inline-flex shrink-0 items-center gap-1.5 rounded-full border px-2.5 py-1.5 text-[10px] font-bold transition sm:gap-2 sm:px-4 sm:py-2 sm:text-xs ${
                 cat.id === activeCategory
-                  ? "border-[#16a34a] bg-[#16a34a] text-white shadow-[0_4px_16px_rgba(22,163,74,.25)]"
-                  : "border-black/10 bg-[#f7f7f7] text-[#111] hover:border-[#16a34a]"
+                  ? "border-[#c5f518] bg-[#c5f518] text-[#080a07] shadow-[0_10px_30px_rgba(197,245,24,.16)]"
+                  : "border-white/10 bg-[#181c15] text-[#b9beaf] hover:border-[#c5f518]/50"
               }`}
               aria-selected={cat.id === activeCategory}
               onClick={() => handleCategoryChange(cat.id)}
             >
               <CategoryIcon
                 slug={cat.id}
-                className={cat.id === activeCategory ? "text-white" : "text-[#666]"}
+                className={cat.id === activeCategory ? "text-[#080a07]" : "text-[#92998b]"}
               />
               {cat.label}
             </button>
@@ -292,12 +292,12 @@ export function ProductCatalog({ categories: propCategories }: ProductCatalogPro
 
       {/* Active category info */}
       <div className="mt-4 flex items-center gap-3 sm:mt-6">
-        <span className="inline-flex items-center gap-2 rounded-full bg-[#16a34a]/10 px-3 py-1.5 text-[10px] font-bold uppercase tracking-wider text-[#16a34a] sm:text-[11px]"
+        <span className="inline-flex items-center gap-2 rounded-full bg-[#c5f518]/10 px-3 py-1.5 text-[10px] font-bold uppercase tracking-wider text-[#c5f518] sm:text-[11px]"
               style={{ fontFamily: "var(--font-mono)" }}>
-          <span className="h-1.5 w-1.5 rounded-full bg-[#16a34a]" />
+          <span className="h-1.5 w-1.5 rounded-full bg-[#c5f518]" />
           {activeCategoryData.label}
         </span>
-        <span className="text-[10px] text-[#999] sm:text-xs">
+        <span className="text-[10px] text-[#a7ad9e] sm:text-xs">
           {activeCategoryData.products.length} desain tersedia
         </span>
       </div>
