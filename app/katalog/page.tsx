@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Image from "next/image";
+import { ProductCatalog } from "@/components/ProductCatalog";
 
 export async function generateMetadata(): Promise<Metadata> {
   return {
@@ -24,69 +25,6 @@ export async function generateMetadata(): Promise<Metadata> {
 
 const WA_LINK =
   "https://wa.me/6281234567890?text=Halo%20TNT%20SPORT%2C%20saya%20mau%20tanya%20jersey%20custom";
-
-const CATALOG_DATA = [
-  {
-    id: "football",
-    title: "Sepak Bola / Futsal",
-    alt: "Katalog jersey Sepak Bola dan Futsal",
-    image: "https://api.moda.app/api/v2/images/ref/2d52a662-f209-4e4d-a098-09349a486e93?v=fb24fb940f674a71&s=90b809c3f731926dfbc07b6c00da717c",
-  },
-  {
-    id: "volley",
-    title: "Voli",
-    alt: "Katalog jersey Voli",
-    image: "https://api.moda.app/api/v2/images/ref/4b9f52f4-3857-4574-b5ca-c0121aa049af?v=f74c0bb6556b9352&s=4b3926ab038f34b05bcab1ae86cc45f0",
-  },
-  {
-    id: "basket",
-    title: "Basket",
-    alt: "Katalog jersey Basket",
-    image: "https://api.moda.app/api/v2/images/ref/29b00367-56b1-4d02-84ed-fd4127488008?v=dda6ad0954c8d316&s=e9b81b7936628059564687a7ca51446b",
-  },
-  {
-    id: "fishing",
-    title: "Mancing",
-    alt: "Katalog jersey Mancing",
-    image: "https://api.moda.app/api/v2/images/ref/48b04ca0-5bfa-4cd0-9557-30a64821c221?v=ac4e0035848b8bb3&s=1edadc737b1c5805c79ba7aef0e5689d",
-  },
-  {
-    id: "racing",
-    title: "Racing",
-    alt: "Katalog jersey Racing",
-    image: "https://api.moda.app/api/v2/images/ref/e618cb28-455b-40a5-9d68-2c8ffdfbda35?v=d398832b4649ba12&s=ef4d858e15fe04be04f7f55b7ebec3e4",
-  },
-  {
-    id: "running",
-    title: "Running",
-    alt: "Katalog jersey Running",
-    image: "https://api.moda.app/api/v2/images/ref/88b996b6-6eda-4166-91bf-0bbc7d8194d4?v=244e6bf7de26a60e&s=9da6b59784f94e34bcc450d52c6d6626",
-  },
-  {
-    id: "army",
-    title: "Army",
-    alt: "Katalog jersey Army",
-    image: "https://api.moda.app/api/v2/images/ref/4b84b73b-7b99-4197-afb0-6317c89492cc?v=ee0d9e529ccdda0d&s=a4939dd299c06ef0cdf93591e49d3d4c",
-  },
-  {
-    id: "badminton",
-    title: "Badminton",
-    alt: "Katalog jersey Badminton",
-    image: "https://api.moda.app/api/v2/images/ref/96538b74-a519-48d6-943d-fbafb49c7ed7?v=cd10446eef8d7624&s=367d1607c3ba08785f584c56fdd15590",
-  },
-  {
-    id: "fantasy",
-    title: "Fantasy Club",
-    alt: "Katalog jersey Fantasy Club",
-    image: "https://api.moda.app/api/v2/images/ref/523d56af-d1c7-4d5c-ad4e-d075c5d71a80?v=1abc999fc56d6aa2&s=cf1fccaefba4434e5f4dd0913a5d1293",
-  },
-  {
-    id: "corporate",
-    title: "Instansi/Corporate",
-    alt: "Katalog jersey Instansi dan Corporate",
-    image: "https://api.moda.app/api/v2/images/ref/7d80f03a-6fe1-4213-8bac-d02e35e57ad7?v=9629e3d8de6b3c9e&s=80e84b9cf7a6b0b69c2a31755961861b",
-  },
-];
 
 const KEUNGGULAN = [
   {
@@ -127,19 +65,6 @@ const INFO_CARDS = [
     title: "Pelayanan profesional",
     desc: "Didampingi dari konsultasi sampai kirim.",
   },
-];
-
-const CATEGORIES = [
-  { id: "football", label: "Sepak Bola / Futsal" },
-  { id: "volley", label: "Voli" },
-  { id: "basket", label: "Basket" },
-  { id: "fishing", label: "Mancing" },
-  { id: "racing", label: "Racing" },
-  { id: "running", label: "Running" },
-  { id: "army", label: "Army" },
-  { id: "badminton", label: "Badminton" },
-  { id: "fantasy", label: "Fantasy Club" },
-  { id: "corporate", label: "Instansi/Corporate" },
 ];
 
 const STEPS = [
@@ -470,62 +395,22 @@ function Keunggulan() {
 /* ------------------------------------------------------------------ */
 
 function Kategori() {
-  const defaultImage = CATALOG_DATA[0];
-
   return (
     <section id="kategori" className="bg-white py-16 sm:py-24">
       <div className="mx-auto max-w-7xl px-5 lg:px-8">
-        <div className="grid items-start gap-8 lg:grid-cols-[.9fr_1.1fr] lg:gap-16">
-          <div>
-            <p className="text-[10px] font-black uppercase tracking-[.22em] text-[#16a34a]"
-               style={{ fontFamily: "var(--font-mono)" }}>
-              Jersey untuk semua
-            </p>
-            <h2 className="mt-3 text-3xl font-black uppercase leading-[.9] tracking-tight text-[#111] sm:mt-4 sm:text-5xl lg:text-6xl"
-                style={{ fontFamily: "var(--font-sans)", fontStretch: "condensed", fontStyle: "italic" }}>
-              Satu tim.<br />Karakter tanpa batas.
-            </h2>
-            <p className="mt-4 max-w-xl text-sm leading-relaxed text-[#666] sm:mt-6 sm:text-base">
-              Kirim referensi, logo, atau warna tim. Kami bantu ubah jadi desain jersey yang siap diproduksi.
-            </p>
-            <div className="mt-5 flex flex-wrap gap-2 sm:mt-8 sm:gap-2.5" role="tablist" aria-label="Kategori katalog jersey">
-              {CATEGORIES.map((cat) => (
-                <button
-                  key={cat.id}
-                  type="button"
-                  className="catalog-tab rounded-full border border-black/10 bg-[#f7f7f7] px-3 py-1.5 text-[10px] font-bold text-[#111] transition hover:border-[#16a34a] sm:px-4 sm:py-2 sm:text-xs"
-                  data-catalog={cat.id}
-                  aria-selected={cat.id === "football"}
-                >
-                  {cat.label}
-                </button>
-              ))}
-            </div>
-            <p className="mt-3 text-[9px] uppercase tracking-[.18em] text-[#999] sm:mt-5"
-               style={{ fontFamily: "var(--font-mono)" }}>
-              Klik kategori untuk melihat koleksi
-            </p>
-          </div>
-          <div className="relative overflow-hidden rounded-2xl bg-[#0b0b0b] shadow-2xl shadow-black/15 sm:rounded-[2rem]">
-            <Image
-              id="catalogImage"
-              src={defaultImage.image}
-              alt={defaultImage.alt}
-              width={800}
-              height={600}
-              className="catalog-image aspect-[4/3] h-full w-full object-cover"
-            />
-            <div className="pointer-events-none absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/85 to-transparent p-4 pt-16 text-white sm:p-6 sm:pt-20">
-              <span className="text-[8px] uppercase tracking-[.2em] text-green-400 sm:text-[9px]"
-                    style={{ fontFamily: "var(--font-mono)" }}>
-                Koleksi pilihan
-              </span>
-              <p id="catalogTitle" className="mt-1 text-lg font-black sm:mt-2 sm:text-xl">{defaultImage.title}</p>
-            </div>
-            <div className="pointer-events-none absolute right-3 top-3 rounded-full border border-white/15 bg-black/40 px-2 py-1 text-[8px] font-bold uppercase tracking-wider text-white backdrop-blur sm:right-5 sm:top-5 sm:px-3 sm:py-1.5 sm:text-[9px]">
-              Full custom
-            </div>
-          </div>
+        <div>
+          <p className="text-[10px] font-black uppercase tracking-[.22em] text-[#16a34a]"
+             style={{ fontFamily: "var(--font-mono)" }}>
+            Jersey untuk semua
+          </p>
+          <h2 className="mt-3 text-3xl font-black uppercase leading-[.9] tracking-tight text-[#111] sm:mt-4 sm:text-5xl lg:text-6xl"
+              style={{ fontFamily: "var(--font-sans)", fontStretch: "condensed", fontStyle: "italic" }}>
+            Satu tim.<br />Karakter tanpa batas.
+          </h2>
+          <p className="mt-4 max-w-xl text-sm leading-relaxed text-[#666] sm:mt-6 sm:text-base">
+            Kirim referensi, logo, atau warna tim. Kami bantu ubah jadi desain jersey yang siap diproduksi.
+          </p>
+          <ProductCatalog />
         </div>
       </div>
     </section>
@@ -881,46 +766,6 @@ function Footer() {
 }
 
 /* ------------------------------------------------------------------ */
-/* Catalog Tab Script (Client Component)                                */
-/* ------------------------------------------------------------------ */
-
-function CatalogScript() {
-  const script = `
-    document.querySelectorAll('[data-catalog]').forEach(button => {
-      button.addEventListener('click', () => {
-        const catalogData = ${JSON.stringify(CATALOG_DATA)};
-        const item = catalogData.find(c => c.id === button.dataset.catalog);
-        if (!item) return;
-        document.querySelectorAll('[data-catalog]').forEach(tab => tab.setAttribute('aria-selected', String(tab === button)));
-        const img = document.getElementById('catalogImage');
-        const title = document.getElementById('catalogTitle');
-        if (img && title) {
-          img.style.opacity = '0.2';
-          img.style.transform = 'scale(1.025)';
-          const preload = new Image();
-          preload.onload = () => {
-            img.src = item.image;
-            img.alt = item.alt;
-            title.textContent = item.title;
-            requestAnimationFrame(() => {
-              img.style.opacity = '1';
-              img.style.transform = 'none';
-            });
-          };
-          preload.src = item.image;
-        }
-      });
-    });
-  `;
-
-  return (
-    <script
-      dangerouslySetInnerHTML={{ __html: script }}
-    />
-  );
-}
-
-/* ------------------------------------------------------------------ */
 /* Ticker Animation CSS                                                 */
 /* ------------------------------------------------------------------ */
 
@@ -939,9 +784,6 @@ function TickerStyles() {
       }
       @media (prefers-reduced-motion: reduce) {
         .ticker { animation: none; }
-      }
-      .catalog-image {
-        transition: opacity 0.25s ease, transform 0.45s ease;
       }
       .hero-photo {
         mask-image: linear-gradient(to right, transparent 0%, #000 20%, #000 100%);
@@ -979,7 +821,6 @@ export default function KatalogPage() {
         <CTASection />
       </main>
       <Footer />
-      <CatalogScript />
     </div>
   );
 }
