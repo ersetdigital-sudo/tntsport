@@ -22,64 +22,42 @@ interface CatalogCategory {
 }
 
 /* ------------------------------------------------------------------ */
-/* Category Icons (outline/line style, 16px)                            */
+/* Category Icons (SVG images)                                          */
 /* ------------------------------------------------------------------ */
 
-function CategoryIcon({ slug, className }: { slug: string; className?: string }) {
-  const props = { width: 16, height: 16, viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", strokeWidth: 1.8, strokeLinecap: "round" as const, strokeLinejoin: "round" as const, className };
+const CATEGORY_ICON_MAP: Record<string, string> = {
+  // Supabase slugs
+  "sepak-bola-futsal": "/dba325f3-aa25-43c1-bf79-c97cac27beb0.svg",
+  "voli": "/fdd593d3-725a-4970-9c5b-50346939a377.svg",
+  "basket": "/b4d1d695-3820-4c3b-9593-2018b49634ab.svg",
+  "mancing": "/0040a5e9-73c7-4575-a3f3-fc0de36354ac.svg",
+  "racing": "/5dedcffe-5ed1-43c3-99c4-93cb8638a435.svg",
+  "running": "/b909ca73-c7d0-47ee-8c6c-4ec4ede8b3f9.svg",
+  "army": "/5e3bd6f8-d7f3-4b74-9d7e-a7f21d006754.svg",
+  "badminton": "/002ba172-c237-4b45-a942-9b370ac9ec58.svg",
+  "fantasy-club": "/378b562a-d8ba-4fd6-b19a-b05c96238007.svg",
+  "instansi-corporate": "/9e768942-684b-4bfe-acb8-4f69a788ead6.svg",
+  // Static fallback slugs
+  "football": "/dba325f3-aa25-43c1-bf79-c97cac27beb0.svg",
+  "volley": "/fdd593d3-725a-4970-9c5b-50346939a377.svg",
+  "fishing": "/0040a5e9-73c7-4575-a3f3-fc0de36354ac.svg",
+  "fantasy": "/378b562a-d8ba-4fd6-b19a-b05c96238007.svg",
+  "corporate": "/9e768942-684b-4bfe-acb8-4f69a788ead6.svg",
+};
 
-  const icons: Record<string, React.JSX.Element> = {
-    // Supabase slugs
-    "sepak-bola-futsal": (
-      <svg {...props}><circle cx="12" cy="12" r="10" /><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20" /><path d="M2 12h20" /></svg>
-    ),
-    // Static fallback slugs
-    "football": (
-      <svg {...props}><circle cx="12" cy="12" r="10" /><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20" /><path d="M2 12h20" /></svg>
-    ),
-    "voli": (
-      <svg {...props}><circle cx="12" cy="12" r="10" /><path d="M12 2c4.5 4 5 10 0 20" /><path d="M12 2c-4.5 4-5 10 0 20" /><path d="M2 12h20" /></svg>
-    ),
-    "volley": (
-      <svg {...props}><circle cx="12" cy="12" r="10" /><path d="M12 2c4.5 4 5 10 0 20" /><path d="M12 2c-4.5 4-5 10 0 20" /><path d="M2 12h20" /></svg>
-    ),
-    "basket": (
-      <svg {...props}><circle cx="12" cy="12" r="10" /><path d="M12 2v20" /><path d="M2 12h20" /><path d="M4.93 4.93c4.08 2.52 4.08 11.62 0 14.14" /><path d="M19.07 4.93c-4.08 2.52-4.08 11.62 0 14.14" /></svg>
-    ),
-    "mancing": (
-      <svg {...props}><path d="M12 2v8" /><path d="M8 6l4 4 4-4" /><path d="M17 14c0 3-2.5 5-5 5s-5-2-5-5" /><circle cx="12" cy="14" r="1" fill="currentColor" /><path d="M6 20c0-3 2-5 6-8 4 3 6 5 6 8" /></svg>
-    ),
-    "fishing": (
-      <svg {...props}><path d="M12 2v8" /><path d="M8 6l4 4 4-4" /><path d="M17 14c0 3-2.5 5-5 5s-5-2-5-5" /><circle cx="12" cy="14" r="1" fill="currentColor" /><path d="M6 20c0-3 2-5 6-8 4 3 6 5 6 8" /></svg>
-    ),
-    "racing": (
-      <svg {...props}><path d="M22 12h-4l-3 9L9 3l-3 9H2" /></svg>
-    ),
-    "running": (
-      <svg {...props}><circle cx="14" cy="4" r="2" /><path d="M4 17l3.5-5.5L10 13l4-6 4 3" /><path d="M18 14l-2 6-4-2-2 4" /></svg>
-    ),
-    "army": (
-      <svg {...props}><path d="M12 2l3 5h5l-4 4 1.5 5.5L12 13l-5.5 3.5L8 11 4 7h5z" /></svg>
-    ),
-    "badminton": (
-      <svg {...props}><path d="M12 2v6" /><circle cx="12" cy="10" r="4" /><path d="M8 14l-4 6" /><path d="M16 14l4 6" /><path d="M10 14l-1 6" /><path d="M14 14l1 6" /></svg>
-    ),
-    "fantasy-club": (
-      <svg {...props}><path d="M12 2L3 7v6c0 5.5 3.8 10.7 9 12 5.2-1.3 9-6.5 9-12V7z" /><path d="M12 8v4" /><circle cx="12" cy="15" r="0.5" fill="currentColor" /></svg>
-    ),
-    "fantasy": (
-      <svg {...props}><path d="M12 2L3 7v6c0 5.5 3.8 10.7 9 12 5.2-1.3 9-6.5 9-12V7z" /><path d="M12 8v4" /><circle cx="12" cy="15" r="0.5" fill="currentColor" /></svg>
-    ),
-    "instansi-corporate": (
-      <svg {...props}><rect x="4" y="2" width="16" height="20" rx="2" /><path d="M9 22V12h6v10" /><path d="M8 6h.01" /><path d="M16 6h.01" /><path d="M8 10h.01" /><path d="M16 10h.01" /><path d="M12 6h.01" /><path d="M12 10h.01" /></svg>
-    ),
-    "corporate": (
-      <svg {...props}><rect x="4" y="2" width="16" height="20" rx="2" /><path d="M9 22V12h6v10" /><path d="M8 6h.01" /><path d="M16 6h.01" /><path d="M8 10h.01" /><path d="M16 10h.01" /><path d="M12 6h.01" /><path d="M12 10h.01" /></svg>
-    ),
-  };
+function CategoryIcon({ slug, isActive }: { slug: string; isActive: boolean }) {
+  const src = CATEGORY_ICON_MAP[slug];
+  if (!src) return null;
 
-  return icons[slug] ?? (
-    <svg {...props}><circle cx="12" cy="12" r="10" /><path d="M12 8v4l2 2" /></svg>
+  return (
+    // eslint-disable-next-line @next/next/no-img-element
+    <img
+      src={src}
+      alt=""
+      className={`h-5 w-5 shrink-0 object-contain transition ${
+        isActive ? "opacity-100" : "opacity-70 invert"
+      }`}
+    />
   );
 }
 
@@ -282,7 +260,7 @@ export function ProductCatalog({ categories: propCategories }: ProductCatalogPro
             >
               <CategoryIcon
                 slug={cat.id}
-                className={`shrink-0 ${cat.id === activeCategory ? "text-[#080a07]" : "text-[#92998b]"}`}
+                isActive={cat.id === activeCategory}
               />
               <span className="truncate">{cat.label}</span>
             </button>
