@@ -727,11 +727,14 @@ function FAQ() {
 function CTASection() {
   return (
     <section id="order" className="relative overflow-hidden border-t border-white/10 bg-[#080a07] px-5 py-16 text-[#f0f2ec] sm:py-24">
-      <div className="absolute inset-0 opacity-30"
+      {/* Grid pattern */}
+      <div className="absolute inset-0 opacity-[0.15]"
            style={{
-             backgroundImage: "linear-gradient(rgba(255,255,255,.045) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.045) 1px,transparent 1px)",
-             backgroundSize: "42px 42px",
+             backgroundImage: "linear-gradient(rgba(197,245,24,.08) 1px, transparent 1px), linear-gradient(90deg, rgba(197,245,24,.08) 1px, transparent 1px)",
+             backgroundSize: "40px 40px",
            }} />
+      {/* Lime glow */}
+      <div className="pointer-events-none absolute left-1/2 top-1/2 h-[500px] w-[500px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-[#c5f518]/15 blur-[160px]" />
       <div className="relative mx-auto max-w-4xl text-center">
         <p className="text-[10px] font-bold uppercase tracking-[.2em] text-[#c5f518] sm:text-xs"
            style={{ fontFamily: "var(--font-mono)" }}>
@@ -748,7 +751,7 @@ function CTASection() {
           href={WA_LINK}
           target="_blank"
           rel="noopener noreferrer"
-          className="mt-5 inline-flex items-center gap-2 rounded-full bg-[#c5f518] px-6 py-3 font-black text-[#080a07] shadow-[0_14px_50px_rgba(197,245,24,.18)] transition hover:-translate-y-1 sm:mt-8 sm:gap-3 sm:px-8 sm:py-4"
+          className="mt-5 inline-flex items-center gap-2 rounded-full bg-[#c5f518] px-6 py-3 font-black text-[#080a07] shadow-[0_14px_50px_rgba(197,245,24,.25)] transition hover:-translate-y-1 hover:shadow-[0_20px_60px_rgba(197,245,24,.35)] sm:mt-8 sm:gap-3 sm:px-8 sm:py-4"
         >
           <WhatsAppIcon /> Chat WhatsApp Sekarang
         </a>

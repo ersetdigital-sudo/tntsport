@@ -469,10 +469,10 @@
 
 /* Catalog tab active state */
 .catalog-tab[aria-selected="true"] {
-  background: #0b0b0b;
-  color: #fff;
-  border-color: #0b0b0b;
-  box-shadow: 0 8px 24px rgba(11,11,11,.15);
+  background: #c5f518;
+  color: #080a07;
+  border-color: #c5f518;
+  box-shadow: 0 10px 30px rgba(197,245,24,.16);
 }
 
 /* Catalog image transition */
