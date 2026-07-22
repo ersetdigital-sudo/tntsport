@@ -590,7 +590,8 @@ function Promo() {
 
 function CaraOrder() {
   return (
-    <section id="cara-order" className="mx-auto max-w-7xl bg-[#0d100c] px-5 py-16 sm:py-24 lg:px-8">
+    <section id="cara-order" className="bg-[#0d100c] py-16 sm:py-24">
+      <div className="mx-auto max-w-7xl px-5 lg:px-8">
       <div className="mb-8 sm:mb-12">
         <p className="text-xs font-bold uppercase tracking-[.2em] text-[#c5f518]"
            style={{ fontFamily: "var(--font-mono)" }}>
@@ -624,6 +625,7 @@ function CaraOrder() {
             </div>
           );
         })}
+      </div>
       </div>
     </section>
   );
