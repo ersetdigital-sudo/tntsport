@@ -28,7 +28,7 @@ interface CatalogCategory {
 function CategoryIcon({ slug, className }: { slug: string; className?: string }) {
   const props = { width: 16, height: 16, viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", strokeWidth: 1.8, strokeLinecap: "round" as const, strokeLinejoin: "round" as const, className };
 
-  const icons: Record<string, JSX.Element> = {
+  const icons: Record<string, React.JSX.Element> = {
     // Supabase slugs
     "sepak-bola-futsal": (
       <svg {...props}><circle cx="12" cy="12" r="10" /><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20" /><path d="M2 12h20" /></svg>
