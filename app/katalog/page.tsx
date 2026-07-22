@@ -281,7 +281,7 @@ function Navbar() {
     <header className="fixed inset-x-0 top-0 z-50 border-b border-white/10 bg-[#11110f]/90 text-white backdrop-blur-xl">
       <nav className="mx-auto flex h-20 max-w-7xl items-center justify-between px-5 lg:px-8">
         <a href="/" className="flex items-center gap-3">
-          <span className="grid h-11 w-11 place-items-center overflow-hidden rounded-xl bg-[#ff5a1f]">
+          <span className="grid h-11 w-11 place-items-center overflow-hidden rounded-xl bg-[#dfff00]">
             <Image
               src="/logo.jpg"
               alt="TNT SPORT logo"
