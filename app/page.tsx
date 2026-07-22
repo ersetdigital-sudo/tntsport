@@ -96,10 +96,16 @@ export default async function Page() {
   const jsonLd = buildJsonLd(brand, socialLinks, reviews);
 
   return <main className="relative min-h-screen px-3 py-5 sm:px-6 sm:py-8">
-    {/* Grid pattern background */}
-    <div className="pointer-events-none fixed inset-0 opacity-[0.08] dark:opacity-[0.12]"
+    {/* Grid pattern background — light mode */}
+    <div className="pointer-events-none fixed inset-0 opacity-[0.08] dark:hidden"
          style={{
            backgroundImage: "linear-gradient(rgba(0,0,0,0.4) 1px, transparent 1px), linear-gradient(90deg, rgba(0,0,0,0.4) 1px, transparent 1px)",
+           backgroundSize: "24px 24px",
+         }} />
+    {/* Grid pattern background — dark mode */}
+    <div className="pointer-events-none fixed inset-0 hidden opacity-[0.12] dark:block"
+         style={{
+           backgroundImage: "linear-gradient(rgba(255,255,255,0.15) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.15) 1px, transparent 1px)",
            backgroundSize: "24px 24px",
          }} />
     {jsonLd.map((schema, index) => <script key={index} type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }} />)}
