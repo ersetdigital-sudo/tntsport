@@ -428,7 +428,7 @@ function Keunggulan() {
                style={{ fontFamily: "var(--font-mono)" }}>
               Kenapa TNT Sport?
             </p>
-            <h2 className="mt-3 max-w-3xl text-3xl font-black uppercase leading-[.92] tracking-tight sm:text-5xl lg:text-6xl"
+            <h2 className="mt-3 max-w-3xl text-3xl font-black uppercase leading-[.92] tracking-tight text-[#111] sm:text-5xl lg:text-6xl"
                 style={{ fontFamily: "var(--font-sans)", fontStretch: "condensed", fontStyle: "italic" }}>
               Dibuat untuk tim yang mau tampil maksimal.
             </h2>
@@ -488,7 +488,7 @@ function Kategori() {
                style={{ fontFamily: "var(--font-mono)" }}>
               Jersey untuk semua
             </p>
-            <h2 className="mt-3 text-3xl font-black uppercase leading-[.9] tracking-tight sm:mt-4 sm:text-5xl lg:text-6xl"
+            <h2 className="mt-3 text-3xl font-black uppercase leading-[.9] tracking-tight text-[#111] sm:mt-4 sm:text-5xl lg:text-6xl"
                 style={{ fontFamily: "var(--font-sans)", fontStretch: "condensed", fontStyle: "italic" }}>
               Satu tim.<br />Karakter tanpa batas.
             </h2>
@@ -708,7 +708,7 @@ function CaraOrder() {
            style={{ fontFamily: "var(--font-mono)" }}>
           Cuma 5 langkah
         </p>
-        <h2 className="mt-2 text-3xl font-black uppercase sm:mt-3 sm:text-5xl lg:text-6xl"
+        <h2 className="mt-2 text-3xl font-black uppercase text-[#111] sm:mt-3 sm:text-5xl lg:text-6xl"
             style={{ fontFamily: "var(--font-sans)", fontStretch: "condensed", fontStyle: "italic" }}>
           Cara order—mudah!
         </h2>
@@ -754,7 +754,7 @@ function Ulasan() {
              style={{ fontFamily: "var(--font-mono)" }}>
             Verified buyer
           </p>
-          <h2 className="mt-2 text-3xl font-black uppercase sm:mt-3 sm:text-5xl lg:text-6xl"
+          <h2 className="mt-2 text-3xl font-black uppercase text-[#111] sm:mt-3 sm:text-5xl lg:text-6xl"
               style={{ fontFamily: "var(--font-sans)", fontStretch: "condensed", fontStyle: "italic" }}>
             Dipercaya ribuan tim
           </h2>
@@ -798,7 +798,7 @@ function FAQ() {
              style={{ fontFamily: "var(--font-mono)" }}>
             FAQ
           </p>
-          <h2 className="mt-3 max-w-sm text-3xl font-black uppercase leading-[.88] tracking-[-.04em] sm:mt-4 sm:text-5xl lg:text-6xl"
+          <h2 className="mt-3 max-w-sm text-3xl font-black uppercase leading-[.88] tracking-[-.04em] text-[#111] sm:mt-4 sm:text-5xl lg:text-6xl"
               style={{ fontFamily: "var(--font-sans)", fontStretch: "condensed", fontStyle: "italic" }}>
             Yang sering ditanyakan.
           </h2>
