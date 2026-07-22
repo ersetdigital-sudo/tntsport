@@ -49,7 +49,7 @@ export default async function EditProductPage({ params }: { params: Promise<{ id
           Edit data produk dan kelola foto jersey.
         </p>
       </div>
-      <ProductEditor product={product} categories={categories} />
+      <ProductEditor product={product} categories={categories ?? []} />
     </div>
   );
 }

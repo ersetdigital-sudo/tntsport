@@ -35,7 +35,7 @@ export default async function NewProductPage() {
           Isi data produk dan upload foto jersey.
         </p>
       </div>
-      <ProductEditor categories={categories} />
+      <ProductEditor categories={categories ?? []} />
     </div>
   );
 }
