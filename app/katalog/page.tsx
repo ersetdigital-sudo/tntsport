@@ -82,7 +82,7 @@ const CATALOG_DATA = [
   },
   {
     id: "corporate",
-    title: "Instansi / Corporate",
+    title: "Instansi/Corporate",
     alt: "Katalog jersey Instansi dan Corporate",
     image: "https://api.moda.app/api/v2/images/ref/7d80f03a-6fe1-4213-8bac-d02e35e57ad7?v=9629e3d8de6b3c9e&s=80e84b9cf7a6b0b69c2a31755961861b",
   },
@@ -139,7 +139,7 @@ const CATEGORIES = [
   { id: "army", label: "Army" },
   { id: "badminton", label: "Badminton" },
   { id: "fantasy", label: "Fantasy Club" },
-  { id: "corporate", label: "Instansi / Corporate" },
+  { id: "corporate", label: "Instansi/Corporate" },
 ];
 
 const STEPS = [
