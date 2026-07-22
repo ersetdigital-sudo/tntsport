@@ -603,6 +603,38 @@
   gap: var(--space-md);
 }
 
+/* ---- Intro (catalogue) ---- */
+.katalog-intro {
+  padding: var(--space-3xl) var(--k-gutter) var(--space-xl);
+  max-width: 52rem;
+}
+.katalog-intro__label {
+  font-family: var(--k-font-mono);
+  font-size: 0.6875rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--k-accent);
+  margin-bottom: var(--space-md);
+}
+.katalog-intro__title {
+  font-family: var(--k-font-display);
+  font-size: clamp(2rem, 4.5vw + 0.5rem, 3.5rem);
+  font-weight: 700;
+  line-height: 1.05;
+  letter-spacing: -0.03em;
+  color: var(--k-ink);
+  margin: 0 0 var(--space-lg);
+  overflow-wrap: anywhere;
+}
+.katalog-intro__sub {
+  font-size: clamp(1rem, 1.5vw, 1.125rem);
+  line-height: 1.6;
+  color: var(--k-ink-2);
+  max-width: 44ch;
+  margin: 0;
+}
+
 .katalog-cta-primary {
   display: inline-flex;
   align-items: center;
@@ -704,8 +736,13 @@
 }
 .katalog-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  grid-template-columns: 1fr;
   gap: var(--space-lg);
+}
+@media (min-width: 48rem) {
+  .katalog-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
 }
 @media (min-width: 60rem) {
   .katalog-grid {
@@ -980,6 +1017,9 @@
 
 /* ---- Mobile Adjustments ---- */
 @media (max-width: 40rem) {
+  .katalog-intro {
+    padding: var(--space-2xl) var(--k-gutter) var(--space-lg);
+  }
   .katalog-hero {
     padding: var(--space-2xl) var(--k-gutter) var(--space-xl);
   }
