@@ -1676,3 +1676,26 @@
     align-items: flex-start;
   }
 }
+
+/* ================================================================
+   TICKER ANIMATION
+   ================================================================ */
+.ticker {
+  animation: ticker-scroll 26s linear infinite;
+  will-change: transform;
+}
+
+@keyframes ticker-scroll {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ticker {
+    animation-play-state: paused;
+  }
+}

@@ -247,17 +247,25 @@ function Ticker() {
     { icon: <PenIcon />, text: "Desain Bebas" },
     { icon: <CheckCircleIcon />, text: "Bisa Satuan" },
   ];
-  const doubled = [...items, ...items];
+
+  const TickerItem = ({ icon, text }: { icon: React.ReactNode; text: string }) => (
+    <span className="flex items-center gap-2 pr-8">
+      {icon}
+      {text}
+    </span>
+  );
 
   return (
     <div className="overflow-hidden border-y-4 border-[#11110f] bg-[#ff5a1f] py-4 text-black">
       <div className="ticker flex w-max items-center whitespace-nowrap text-xl font-black uppercase italic tracking-wide sm:text-2xl"
            style={{ fontFamily: "var(--k-font-display)" }}>
-        {doubled.map((item, i) => (
-          <span key={i} className="flex items-center gap-2 pr-8">
-            {item.icon}
-            {item.text}
-          </span>
+        {/* First set */}
+        {items.map((item, i) => (
+          <TickerItem key={`a-${i}`} icon={item.icon} text={item.text} />
+        ))}
+        {/* Duplicate set for seamless loop */}
+        {items.map((item, i) => (
+          <TickerItem key={`b-${i}`} icon={item.icon} text={item.text} />
         ))}
       </div>
     </div>
