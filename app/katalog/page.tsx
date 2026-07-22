@@ -271,15 +271,15 @@ function Navbar() {
   return (
     <header className="sticky top-0 z-50 border-b border-white/10 bg-[#0b0b0b]/95 text-white backdrop-blur-xl">
       <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:h-18 sm:px-5 lg:px-8">
-        <a href="/" className="flex items-center gap-2 sm:gap-3" aria-label="TNT Sport Home">
+        <a href="/" className="flex items-center gap-2.5" aria-label="TNT Sport Home">
           <Image
             src="/af7bb11e-1e11-423d-809a-1d5c75fbe91f.png"
             alt="TNT Sport"
             width={40}
             height={40}
-            className="h-8 w-8 rounded-lg object-contain sm:h-10 sm:w-10 sm:rounded-xl"
+            className="h-9 w-9 rounded-xl object-contain sm:h-10 sm:w-10"
           />
-          <div className="hidden text-lg font-black italic tracking-tight sm:block sm:text-xl">
+          <div className="text-base font-black italic tracking-tight sm:text-xl">
             TNT <span className="text-[#16a34a]">SPORT</span>
           </div>
         </a>
@@ -294,10 +294,9 @@ function Navbar() {
           href={WA_LINK}
           target="_blank"
           rel="noopener noreferrer"
-          className="rounded-full bg-[#16a34a] px-3 py-2 text-[11px] font-black text-white transition hover:bg-green-500 sm:px-5 sm:py-2.5 sm:text-sm"
+          className="rounded-full bg-[#16a34a] px-4 py-2 text-xs font-black text-white transition hover:bg-green-500 sm:px-5 sm:py-2.5 sm:text-sm"
         >
-          <span className="hidden sm:inline">Konsultasi Gratis</span>
-          <span className="sm:hidden">Chat</span>
+          Konsultasi Gratis
         </a>
       </div>
     </header>
