@@ -260,10 +260,10 @@ export function ProductCatalog({ categories: propCategories }: ProductCatalogPro
 
   return (
     <>
-      {/* Category tabs */}
+      {/* Category tabs — 2x2 grid on mobile */}
       <div className="relative mt-5 sm:mt-8">
         <div
-          className="flex flex-wrap gap-2 sm:gap-2.5"
+          className="grid grid-cols-2 gap-2 sm:flex sm:flex-wrap sm:gap-2.5"
           role="tablist"
           aria-label="Kategori katalog jersey"
         >
@@ -272,19 +272,19 @@ export function ProductCatalog({ categories: propCategories }: ProductCatalogPro
               key={cat.id}
               type="button"
               role="tab"
-              className={`catalog-tab inline-flex shrink-0 items-center gap-1.5 rounded-full border px-2.5 py-1.5 text-[10px] font-bold transition sm:gap-2 sm:px-4 sm:py-2 sm:text-xs ${
+              className={`catalog-tab flex min-h-[44px] items-center gap-2 rounded-lg border px-3 py-2.5 text-left text-[10px] font-black uppercase leading-tight transition duration-200 sm:rounded-full sm:px-4 sm:py-2 sm:text-xs ${
                 cat.id === activeCategory
                   ? "border-[#c5f518] bg-[#c5f518] text-[#080a07] shadow-[0_10px_30px_rgba(197,245,24,.16)]"
-                  : "border-white/10 bg-[#181c15] text-[#b9beaf] hover:border-[#c5f518]/50"
+                  : "border-white/10 bg-[#181c15] text-[#b9beaf] hover:border-[#c5f518]/50 hover:bg-[#1a1e17]"
               }`}
               aria-selected={cat.id === activeCategory}
               onClick={() => handleCategoryChange(cat.id)}
             >
               <CategoryIcon
                 slug={cat.id}
-                className={cat.id === activeCategory ? "text-[#080a07]" : "text-[#92998b]"}
+                className={`shrink-0 ${cat.id === activeCategory ? "text-[#080a07]" : "text-[#92998b]"}`}
               />
-              {cat.label}
+              <span className="truncate">{cat.label}</span>
             </button>
           ))}
         </div>
