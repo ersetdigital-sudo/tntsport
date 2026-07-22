@@ -184,6 +184,18 @@ function JsonLd() {
       availability: "https://schema.org/InStock",
     },
   };
+  const faqSchema = {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    mainEntity: FAQ_ITEMS.map((item) => ({
+      "@type": "Question",
+      name: item.q,
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: item.a,
+      },
+    })),
+  };
   return (
     <>
       <script
@@ -193,6 +205,10 @@ function JsonLd() {
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(productSchema) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
       />
     </>
   );
@@ -626,6 +642,75 @@ function Testimonials() {
 }
 
 /* ------------------------------------------------------------------ */
+/* FAQ                                                                  */
+/* ------------------------------------------------------------------ */
+
+const FAQ_ITEMS = [
+  {
+    q: "Apa itu jersey custom full printing?",
+    a: "Jersey custom full printing adalah jersey yang dicetak menggunakan teknik printing sublimasi, sehingga desain menutupi seluruh permukaan kain tanpa batasan warna. Cocok untuk tim futsal, sepak bola, komunitas, event, dan seragam kantor.",
+  },
+  {
+    q: "Berapa harga jersey custom di TNT SPORT?",
+    a: "Harga mulai dari Rp65.000 per pcs dengan harga pabrik langsung tanpa perantara. Semakin banyak jumlah pesanan, semakin hemat harga per pcs-nya. Konsultasi via WhatsApp untuk estimasi harga sesuai desain dan jumlah.",
+  },
+  {
+    q: "Berapa lama proses produksi jersey custom?",
+    a: "Estimasi produksi 5–10 hari kerja tergantung jumlah pesanan dan kompleksitas desain. Pengiriman ke seluruh Indonesia via ekspedisi terpercaya.",
+  },
+  {
+    q: "Apakah bisa request desain sendiri?",
+    a: "Bisa. Tim desainer TNT SPORT siap membantu membuatkan desain dari nol atau memakai desain yang sudah kamu punya. Konsultasi dan revisi desain gratis sampai cocok.",
+  },
+  {
+    q: "Apakah ada garansi untuk jersey yang dipesan?",
+    a: "Ya, semua pesanan dilindungi garansi 100%. Jika ada cacat produksi atau kesalahan, akan diganti tanpa biaya tambahan.",
+  },
+  {
+    q: "Mengapa harus pilih TNT SPORT untuk bikin jersey custom?",
+    a: "TNT SPORT adalah pabrik jersey custom dengan pengalaman melayani 350.000+ pesanan. Keunggulan kami: bahan premium dry-fit, printing sublimasi full color tanpa batasan, harga pabrik langsung, desain gratis, dan garansi 100%.",
+  },
+];
+
+function FAQ() {
+  return (
+    <section id="faq" className="ks-faq">
+      <div className="ks-faq__inner">
+        <h2 className="ks-section-title">Pertanyaan yang Sering Diajukan</h2>
+        <p className="ks-section-sub">
+          Masih bingung? Cek jawaban dari pertanyaan yang paling sering ditanyakan.
+        </p>
+        <div className="ks-faq__list">
+          {FAQ_ITEMS.map((item, i) => (
+            <details key={i} className="ks-faq-item">
+              <summary className="ks-faq-item__q">
+                {item.q}
+                <ChevronRight />
+              </summary>
+              <p className="ks-faq-item__a">{item.a}</p>
+            </details>
+          ))}
+        </div>
+        <div className="ks-faq__cta">
+          <p className="ks-faq__cta-text">
+            Masih ada pertanyaan lain?
+          </p>
+          <a
+            href={WA_LINK}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="ks-btn-outline"
+          >
+            <WhatsAppIcon />
+            Tanya Admin Langsung
+          </a>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+/* ------------------------------------------------------------------ */
 /* CTA                                                                  */
 /* ------------------------------------------------------------------ */
 
@@ -677,28 +762,79 @@ function Footer() {
             TNT SPORT
           </span>
           <p className="ks-footer__tagline">
-            Jersey custom full printing untuk tim kamu.
+            Pabrik jersey custom full printing. Harga pabrik langsung, desain bebas, garansi 100%.
           </p>
+          <div className="ks-footer__social">
+            <a
+              href={WA_LINK}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="ks-footer__social-link ks-footer__social-link--wa"
+              aria-label="WhatsApp"
+            >
+              <WhatsAppIcon />
+            </a>
+            <a
+              href="https://instagram.com/tntsport"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="ks-footer__social-link ks-footer__social-link--ig"
+              aria-label="Instagram"
+            >
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden>
+                <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
+              </svg>
+            </a>
+            <a
+              href="https://tiktok.com/@tntsport"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="ks-footer__social-link ks-footer__social-link--tt"
+              aria-label="TikTok"
+            >
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden>
+                <path d="M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-.97-.57-.26-1.1-.59-1.62-.93-.01 2.92.01 5.84-.02 8.75-.08 1.4-.54 2.79-1.35 3.94-1.31 1.92-3.58 3.17-5.91 3.21-1.43.08-2.86-.31-4.08-1.03-2.02-1.19-3.44-3.37-3.65-5.71-.02-.5-.03-1-.01-1.49.18-1.9 1.12-3.72 2.58-4.96 1.66-1.44 3.98-2.13 6.15-1.72.02 1.48-.04 2.96-.04 4.44-.99-.32-2.15-.23-3.02.37-.63.41-1.11 1.04-1.36 1.75-.21.51-.15 1.07-.14 1.61.24 1.64 1.82 3.02 3.5 2.87 1.12-.01 2.19-.66 2.77-1.61.19-.33.4-.67.41-1.06.1-1.79.06-3.57.07-5.36.01-4.03-.01-8.05.02-12.07z"/>
+              </svg>
+            </a>
+          </div>
         </div>
         <div className="ks-footer__links">
           <div className="ks-footer__col">
             <h4 className="ks-footer__heading">Navigasi</h4>
-            <a href="#katalog" className="ks-footer__link">Katalog</a>
+            <a href="#katalog" className="ks-footer__link">Katalog Model</a>
             <a href="#keunggulan" className="ks-footer__link">Keunggulan</a>
             <a href="#proses" className="ks-footer__link">Proses Order</a>
             <a href="#testimoni" className="ks-footer__link">Testimoni</a>
+            <a href="#faq" className="ks-footer__link">FAQ</a>
           </div>
           <div className="ks-footer__col">
             <h4 className="ks-footer__heading">Layanan</h4>
             <a href={WA_LINK} target="_blank" rel="noopener noreferrer" className="ks-footer__link">
-              Chat Admin
+              Chat Admin WhatsApp
             </a>
-            <a href="/katalog" className="ks-footer__link">Katalog Model</a>
+            <a href="/katalog" className="ks-footer__link">Katalog Lengkap</a>
+            <a href="/" className="ks-footer__link">Halaman Utama</a>
+          </div>
+          <div className="ks-footer__col">
+            <h4 className="ks-footer__heading">Kontak</h4>
+            <span className="ks-footer__link ks-footer__link--static">
+              <WhatsAppIcon /> +62 812-3456-7890
+            </span>
+            <span className="ks-footer__link ks-footer__link--static">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden>
+                <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/>
+                <circle cx="12" cy="10" r="3"/>
+              </svg>
+              Indonesia
+            </span>
           </div>
         </div>
         <div className="ks-footer__bottom">
           <span className="ks-footer__copy">
-            TNT SPORT &middot; Full Printing &middot; Indonesia
+            &copy; {new Date().getFullYear()} TNT SPORT. All Rights Reserved.
+          </span>
+          <span className="ks-footer__copy">
+            Jersey Custom &middot; Full Printing &middot; Harga Pabrik
           </span>
         </div>
       </div>
@@ -724,6 +860,7 @@ export default function KatalogPage() {
         <KatalogGrid />
         <BentoGrid />
         <Testimonials />
+        <FAQ />
         <CTASection />
       </main>
       <Footer />
