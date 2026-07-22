@@ -319,95 +319,91 @@ function Hero() {
       {/* Glow */}
       <div className="absolute left-[38%] top-1/2 h-[520px] w-[520px] -translate-y-1/2 rounded-full bg-[#16a34a]/10 blur-[120px]" />
 
-      <div className="relative mx-auto min-h-[760px] max-w-7xl px-5 lg:min-h-[790px] lg:px-8">
-        <div className="relative z-20 flex max-w-2xl flex-col justify-center pb-[430px] pt-16 lg:min-h-[790px] lg:pb-16 lg:pt-12">
-          <div className="mb-6 inline-flex w-fit items-center gap-2 rounded-full border border-[#16a34a]/35 bg-[#16a34a]/10 px-4 py-2 text-[11px] font-bold uppercase tracking-[.18em] text-green-400"
+      <div className="relative mx-auto min-h-[600px] max-w-7xl px-5 sm:min-h-[700px] lg:min-h-[790px] lg:px-8">
+        <div className="relative z-20 flex max-w-2xl flex-col justify-center pb-[350px] pt-12 sm:pb-[400px] sm:pt-16 lg:min-h-[790px] lg:pb-16 lg:pt-12">
+          <div className="mb-4 inline-flex w-fit items-center gap-2 rounded-full border border-[#16a34a]/35 bg-[#16a34a]/10 px-3 py-1.5 text-[10px] font-bold uppercase tracking-[.18em] text-green-400 sm:mb-6 sm:px-4 sm:py-2 sm:text-[11px]"
                style={{ fontFamily: "var(--font-mono)" }}>
-            <span className="h-2 w-2 animate-pulse rounded-full bg-[#16a34a]" />
+            <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-[#16a34a] sm:h-2 sm:w-2" />
             Langsung dari pabrik
           </div>
-          <h1 className="max-w-3xl text-[58px] font-black uppercase leading-[.88] tracking-[-.055em] sm:text-7xl lg:text-[90px]"
+          <h1 className="max-w-3xl text-[36px] font-black uppercase leading-[.88] tracking-[-.055em] sm:text-[58px] lg:text-[90px]"
               style={{ fontFamily: "var(--font-sans)", fontStretch: "condensed", fontStyle: "italic" }}>
             Bikin Jersey<br />
             <span className="text-[#16a34a]">Full Printing</span><br />
             Cuma 50 Ribu!
           </h1>
-          <p className="mt-6 max-w-lg text-base leading-relaxed text-white/65 sm:text-lg">
+          <p className="mt-4 max-w-lg text-sm leading-relaxed text-white/65 sm:mt-6 sm:text-base lg:text-lg">
             Custom jersey sesukamu dengan hasil premium. Gratis desain, nama, nomor dan logo—bahkan untuk order satuan.
           </p>
-          <div className="mt-5 flex flex-wrap gap-x-5 gap-y-2 text-xs font-bold text-white/70">
+          <div className="mt-4 flex flex-wrap gap-x-4 gap-y-2 text-[10px] font-bold text-white/70 sm:mt-5 sm:gap-x-5 sm:text-xs">
             <span className="flex items-center gap-2"><CheckIcon /> Free desain</span>
             <span className="flex items-center gap-2"><CheckIcon /> Tanpa minimal order</span>
             <span className="flex items-center gap-2"><CheckIcon /> Revisi bebas</span>
           </div>
-          <div className="mt-8 flex flex-col gap-3 sm:flex-row">
+          <div className="mt-6 flex flex-col gap-3 sm:mt-8 sm:flex-row">
             <a
               href="#harga"
-              className="inline-flex items-center justify-center gap-3 rounded-full bg-[#16a34a] px-7 py-4 font-black text-white shadow-[0_12px_45px_rgba(22,163,74,.35)] transition hover:-translate-y-1 hover:bg-green-500"
+              className="inline-flex items-center justify-center gap-2 rounded-full bg-[#16a34a] px-5 py-3 font-black text-white shadow-[0_12px_45px_rgba(22,163,74,.35)] transition hover:-translate-y-1 hover:bg-green-500 sm:px-7 sm:py-4"
             >
               Lihat Harga <span aria-hidden="true">↗</span>
             </a>
             <a
               href="#cara-order"
-              className="inline-flex items-center justify-center rounded-full border border-white/20 bg-black/20 px-7 py-4 font-bold text-white backdrop-blur hover:border-white/50"
+              className="inline-flex items-center justify-center rounded-full border border-white/20 bg-black/20 px-5 py-3 font-bold text-white backdrop-blur hover:border-white/50 sm:px-7 sm:py-4"
             >
               Cara Order
             </a>
           </div>
-          <div className="mt-9 grid max-w-lg grid-cols-3 gap-3 border-t border-white/10 pt-6">
+          <div className="mt-6 grid max-w-xs grid-cols-3 gap-2 border-t border-white/10 pt-5 sm:mt-9 sm:max-w-lg sm:gap-3 sm:pt-6">
             <div>
-              <strong className="text-2xl font-black sm:text-3xl">350K+</strong>
-              <span className="mt-1 block text-[9px] uppercase tracking-widest text-white/45 sm:text-[10px]">Order selesai</span>
+              <strong className="text-xl font-black sm:text-2xl lg:text-3xl">350K+</strong>
+              <span className="mt-1 block text-[8px] uppercase tracking-widest text-white/45 sm:text-[9px] lg:text-[10px]">Order selesai</span>
             </div>
             <div>
-              <strong className="text-2xl font-black sm:text-3xl">9K+</strong>
-              <span className="mt-1 block text-[9px] uppercase tracking-widest text-white/45 sm:text-[10px]">Klien puas</span>
+              <strong className="text-xl font-black sm:text-2xl lg:text-3xl">9K+</strong>
+              <span className="mt-1 block text-[8px] uppercase tracking-widest text-white/45 sm:text-[9px] lg:text-[10px]">Klien puas</span>
             </div>
             <div>
-              <strong className="text-2xl font-black text-[#16a34a] sm:text-3xl">4.9</strong>
-              <span className="mt-1 block text-[9px] uppercase tracking-widest text-white/45 sm:text-[10px]">Rating ★</span>
+              <strong className="text-xl font-black text-[#16a34a] sm:text-2xl lg:text-3xl">4.9</strong>
+              <span className="mt-1 block text-[8px] uppercase tracking-widest text-white/45 sm:text-[9px] lg:text-[10px]">Rating ★</span>
             </div>
           </div>
         </div>
 
         {/* Hero image */}
-        <div className="pointer-events-none absolute inset-x-0 bottom-0 z-10 h-[490px] lg:bottom-0 lg:left-[44%] lg:right-[-8%] lg:top-0 lg:h-full">
+        <div className="pointer-events-none absolute inset-x-0 bottom-0 z-10 h-[300px] sm:h-[400px] lg:bottom-0 lg:left-[44%] lg:right-[-8%] lg:top-0 lg:h-full">
           <Image
             src="/37759e58-8f9f-45d9-a4be-7899929c6a95.png"
             alt="Tim mengenakan jersey custom TNT Sport"
             fill
             className="object-cover object-top lg:object-center"
             style={{
-              maskImage: "linear-gradient(to right,transparent 0%,#000 20%,#000 100%)",
-              WebkitMaskImage: "linear-gradient(to right,transparent 0%,#000 20%,#000 100%)",
+              maskImage: "linear-gradient(to bottom,transparent 0%,#000 18%,#000 84%,transparent 100%)",
+              WebkitMaskImage: "linear-gradient(to bottom,transparent 0%,#000 18%,#000 84%,transparent 100%)",
             }}
           />
-          <div className="absolute inset-0 bg-gradient-to-t from-[#0b0b0b] via-transparent to-transparent lg:bg-gradient-to-r lg:from-[#0b0b0b]/20 lg:via-transparent lg:to-transparent" />
+          <div className="absolute inset-0 bg-gradient-to-t from-[#0b0b0b] via-[#0b0b0b]/50 to-transparent lg:bg-gradient-to-r lg:from-[#0b0b0b]/20 lg:via-transparent lg:to-transparent" />
         </div>
       </div>
 
       {/* Ticker */}
-      <div className="relative z-30 overflow-hidden border-y border-[#16a34a]/30 bg-[#0b0b0b] py-3.5 text-white"
-           style={{
-             maskImage: "linear-gradient(90deg,transparent,#000 72px,#000 calc(100% - 72px),transparent)",
-             WebkitMaskImage: "linear-gradient(90deg,transparent,#000 72px,#000 calc(100% - 72px),transparent)",
-           }}>
-        <div className="ticker flex w-max items-center gap-10 whitespace-nowrap pr-10">
-          <div className="flex items-center gap-8 text-[10px] font-bold uppercase tracking-[.16em] text-white/65"
+      <div className="relative z-30 overflow-hidden border-y border-[#16a34a]/30 bg-[#0b0b0b] py-3 text-white sm:py-3.5">
+        <div className="ticker flex w-max items-center gap-8 whitespace-nowrap pr-8 sm:gap-10 sm:pr-10">
+          <div className="flex items-center gap-6 text-[9px] font-bold uppercase tracking-[.16em] text-white/65 sm:gap-8 sm:text-[10px]"
                style={{ fontFamily: "var(--font-mono)" }}>
             {TICKER_ITEMS.map((item, i) => (
-              <span key={i} className="flex items-center gap-3">
-                <i className="h-1.5 w-1.5 rounded-full bg-[#16a34a] shadow-[0_0_10px_#16a34a]" />
+              <span key={i} className="flex items-center gap-2 sm:gap-3">
+                <i className="h-1 w-1 rounded-full bg-[#16a34a] shadow-[0_0_10px_#16a34a] sm:h-1.5 sm:w-1.5" />
                 {item}
               </span>
             ))}
           </div>
-          <div className="flex items-center gap-8 text-[10px] font-bold uppercase tracking-[.16em] text-white/65"
+          <div className="flex items-center gap-6 text-[9px] font-bold uppercase tracking-[.16em] text-white/65 sm:gap-8 sm:text-[10px]"
                style={{ fontFamily: "var(--font-mono)" }}
                aria-hidden="true">
             {TICKER_ITEMS.map((item, i) => (
-              <span key={i} className="flex items-center gap-3">
-                <i className="h-1.5 w-1.5 rounded-full bg-[#16a34a] shadow-[0_0_10px_#16a34a]" />
+              <span key={i} className="flex items-center gap-2 sm:gap-3">
+                <i className="h-1 w-1 rounded-full bg-[#16a34a] shadow-[0_0_10px_#16a34a] sm:h-1.5 sm:w-1.5" />
                 {item}
               </span>
             ))}
@@ -424,49 +420,49 @@ function Hero() {
 
 function Keunggulan() {
   return (
-    <section id="keunggulan" className="bg-[#f7f7f7] py-24">
+    <section id="keunggulan" className="bg-[#f7f7f7] py-16 sm:py-24">
       <div className="mx-auto max-w-7xl px-5 lg:px-8">
-        <div className="mb-12 grid gap-6 lg:grid-cols-[1.1fr_.9fr] lg:items-end">
+        <div className="mb-8 grid gap-6 lg:mb-12 lg:grid-cols-[1.1fr_.9fr] lg:items-end">
           <div>
             <p className="text-xs font-bold uppercase tracking-[.2em] text-[#16a34a]"
                style={{ fontFamily: "var(--font-mono)" }}>
               Kenapa TNT Sport?
             </p>
-            <h2 className="mt-3 max-w-3xl text-5xl font-black uppercase leading-[.92] tracking-tight sm:text-6xl"
+            <h2 className="mt-3 max-w-3xl text-3xl font-black uppercase leading-[.92] tracking-tight sm:text-5xl lg:text-6xl"
                 style={{ fontFamily: "var(--font-sans)", fontStretch: "condensed", fontStyle: "italic" }}>
               Dibuat untuk tim yang mau tampil maksimal.
             </h2>
           </div>
-          <p className="max-w-xl text-base leading-relaxed text-[#4a4a4a] lg:justify-self-end">
+          <p className="max-w-xl text-sm leading-relaxed text-[#4a4a4a] sm:text-base lg:justify-self-end">
             Dari konsultasi desain sampai pengiriman, semua dikerjakan tim profesional dengan material pilihan dan mesin produksi modern.
           </p>
         </div>
 
         {/* Feature cards */}
-        <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
+        <div className="grid gap-3 sm:grid-cols-2 sm:gap-4 lg:grid-cols-4">
           {KEUNGGULAN.map((item, i) => (
-            <article key={i} className="rounded-3xl border border-black/[.06] bg-white p-6 shadow-sm transition duration-300 hover:-translate-y-1 hover:shadow-lg">
-              <div className="mb-8 flex h-11 w-11 items-center justify-center rounded-xl bg-[#16a34a] shadow-[0_8px_24px_rgba(22,163,74,.2)]">
-                <Image src={item.icon} alt="" width={20} height={20} className="h-5 w-5 invert" />
+            <article key={i} className="rounded-3xl border border-black/[.06] bg-white p-5 shadow-sm transition duration-300 hover:-translate-y-1 hover:shadow-lg sm:p-6">
+              <div className="mb-6 flex h-10 w-10 items-center justify-center rounded-xl bg-[#16a34a] shadow-[0_8px_24px_rgba(22,163,74,.2)] sm:mb-8 sm:h-11 sm:w-11">
+                <Image src={item.icon} alt="" width={20} height={20} className="h-4 w-4 invert sm:h-5 sm:w-5" />
               </div>
-              <h3 className="text-base font-black uppercase">{item.title}</h3>
-              <p className="mt-3 text-sm leading-relaxed text-[#666]">{item.desc}</p>
+              <h3 className="text-sm font-black uppercase sm:text-base">{item.title}</h3>
+              <p className="mt-2 text-xs leading-relaxed text-[#666] sm:mt-3 sm:text-sm">{item.desc}</p>
             </article>
           ))}
         </div>
 
         {/* Info cards */}
-        <div className="mt-4 grid gap-3 md:grid-cols-3">
+        <div className="mt-4 grid gap-3 sm:grid-cols-2 md:grid-cols-3">
           {INFO_CARDS.map((item, i) => (
-            <div key={i} className="flex items-center gap-4 rounded-2xl bg-[#111] px-5 py-4 text-white">
+            <div key={i} className="flex items-center gap-3 rounded-2xl bg-[#111] px-4 py-3 text-white sm:gap-4 sm:px-5 sm:py-4">
               {item.icon ? (
-                <Image src={item.icon} alt="" width={24} height={24} className="h-6 w-6 shrink-0 invert" />
+                <Image src={item.icon} alt="" width={24} height={24} className="h-5 w-5 shrink-0 invert sm:h-6 sm:w-6" />
               ) : (
-                <span className="flex h-6 w-6 shrink-0 items-center justify-center text-lg text-white">◇</span>
+                <span className="flex h-5 w-5 shrink-0 items-center justify-center text-base text-white sm:h-6 sm:w-6 sm:text-lg">◇</span>
               )}
               <div>
-                <strong className="block text-sm font-black">{item.title}</strong>
-                <span className="mt-1 block text-xs text-white/50">{item.desc}</span>
+                <strong className="block text-xs font-black sm:text-sm">{item.title}</strong>
+                <span className="mt-0.5 block text-[10px] text-white/50 sm:text-xs">{item.desc}</span>
               </div>
             </div>
           ))}
@@ -484,27 +480,27 @@ function Kategori() {
   const defaultImage = CATALOG_DATA[0];
 
   return (
-    <section id="kategori" className="bg-white py-24">
+    <section id="kategori" className="bg-white py-16 sm:py-24">
       <div className="mx-auto max-w-7xl px-5 lg:px-8">
-        <div className="grid items-center gap-10 lg:grid-cols-[.9fr_1.1fr] lg:gap-16">
+        <div className="grid items-start gap-8 lg:grid-cols-[.9fr_1.1fr] lg:gap-16">
           <div>
             <p className="text-[10px] font-black uppercase tracking-[.22em] text-[#16a34a]"
                style={{ fontFamily: "var(--font-mono)" }}>
               Jersey untuk semua
             </p>
-            <h2 className="mt-4 text-5xl font-black uppercase leading-[.9] tracking-tight sm:text-6xl"
+            <h2 className="mt-3 text-3xl font-black uppercase leading-[.9] tracking-tight sm:mt-4 sm:text-5xl lg:text-6xl"
                 style={{ fontFamily: "var(--font-sans)", fontStretch: "condensed", fontStyle: "italic" }}>
               Satu tim.<br />Karakter tanpa batas.
             </h2>
-            <p className="mt-6 max-w-xl text-base leading-relaxed text-[#666]">
+            <p className="mt-4 max-w-xl text-sm leading-relaxed text-[#666] sm:mt-6 sm:text-base">
               Kirim referensi, logo, atau warna tim. Kami bantu ubah jadi desain jersey yang siap diproduksi.
             </p>
-            <div className="mt-8 flex flex-wrap gap-2.5" role="tablist" aria-label="Kategori katalog jersey">
+            <div className="mt-5 flex flex-wrap gap-2 sm:mt-8 sm:gap-2.5" role="tablist" aria-label="Kategori katalog jersey">
               {CATEGORIES.map((cat) => (
                 <button
                   key={cat.id}
                   type="button"
-                  className="catalog-tab rounded-full border border-black/10 bg-[#f7f7f7] px-4 py-2 text-xs font-bold transition hover:border-[#16a34a]"
+                  className="catalog-tab rounded-full border border-black/10 bg-[#f7f7f7] px-3 py-1.5 text-[10px] font-bold transition hover:border-[#16a34a] sm:px-4 sm:py-2 sm:text-xs"
                   data-catalog={cat.id}
                   aria-selected={cat.id === "football"}
                 >
@@ -512,12 +508,12 @@ function Kategori() {
                 </button>
               ))}
             </div>
-            <p className="mt-5 text-[9px] uppercase tracking-[.18em] text-[#999]"
+            <p className="mt-3 text-[9px] uppercase tracking-[.18em] text-[#999] sm:mt-5"
                style={{ fontFamily: "var(--font-mono)" }}>
               Klik kategori untuk melihat koleksi
             </p>
           </div>
-          <div className="relative overflow-hidden rounded-[2rem] bg-[#0b0b0b] shadow-2xl shadow-black/15">
+          <div className="relative overflow-hidden rounded-2xl bg-[#0b0b0b] shadow-2xl shadow-black/15 sm:rounded-[2rem]">
             <Image
               id="catalogImage"
               src={defaultImage.image}
@@ -526,14 +522,14 @@ function Kategori() {
               height={600}
               className="catalog-image aspect-[4/3] h-full w-full object-cover"
             />
-            <div className="pointer-events-none absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/85 to-transparent p-6 pt-20 text-white">
-              <span className="text-[9px] uppercase tracking-[.2em] text-green-400"
+            <div className="pointer-events-none absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/85 to-transparent p-4 pt-16 text-white sm:p-6 sm:pt-20">
+              <span className="text-[8px] uppercase tracking-[.2em] text-green-400 sm:text-[9px]"
                     style={{ fontFamily: "var(--font-mono)" }}>
                 Koleksi pilihan
               </span>
-              <p id="catalogTitle" className="mt-2 text-xl font-black">{defaultImage.title}</p>
+              <p id="catalogTitle" className="mt-1 text-lg font-black sm:mt-2 sm:text-xl">{defaultImage.title}</p>
             </div>
-            <div className="pointer-events-none absolute right-5 top-5 rounded-full border border-white/15 bg-black/40 px-3 py-1.5 text-[9px] font-bold uppercase tracking-wider text-white backdrop-blur">
+            <div className="pointer-events-none absolute right-3 top-3 rounded-full border border-white/15 bg-black/40 px-2 py-1 text-[8px] font-bold uppercase tracking-wider text-white backdrop-blur sm:right-5 sm:top-5 sm:px-3 sm:py-1.5 sm:text-[9px]">
               Full custom
             </div>
           </div>
@@ -549,41 +545,41 @@ function Kategori() {
 
 function Harga() {
   return (
-    <section id="harga" className="bg-[#0b0b0b] py-24 text-white">
+    <section id="harga" className="bg-[#0b0b0b] py-16 text-white sm:py-24">
       <div className="mx-auto max-w-7xl px-5 lg:px-8">
         <div className="text-center">
           <p className="text-xs font-bold uppercase tracking-[.2em] text-green-400"
              style={{ fontFamily: "var(--font-mono)" }}>
             Harga transparan
           </p>
-          <h2 className="mt-3 text-5xl font-black uppercase sm:text-6xl"
+          <h2 className="mt-2 text-3xl font-black uppercase sm:mt-3 sm:text-5xl lg:text-6xl"
               style={{ fontFamily: "var(--font-sans)", fontStretch: "condensed", fontStyle: "italic" }}>
             Pilih paket timmu
           </h2>
-          <p className="mx-auto mt-4 max-w-xl text-white/55">
+          <p className="mx-auto mt-3 max-w-xl text-sm text-white/55 sm:mt-4 sm:text-base">
             Langsung pabrik = harga lebih terjangkau dari toko retail.
           </p>
         </div>
 
-        <div className="mx-auto mt-12 grid max-w-4xl gap-5 lg:grid-cols-2">
+        <div className="mx-auto mt-8 grid max-w-4xl gap-4 sm:mt-12 sm:gap-5 lg:grid-cols-2">
           {/* Atasan */}
-          <article className="rounded-[2rem] border border-white/10 bg-[#171717] p-7 sm:p-9">
+          <article className="rounded-2xl border border-white/10 bg-[#171717] p-5 sm:rounded-[2rem] sm:p-7 lg:p-9">
             <div className="flex items-start justify-between">
               <div>
-                <p className="text-[11px] uppercase tracking-widest text-white/45"
+                <p className="text-[10px] uppercase tracking-widest text-white/45 sm:text-[11px]"
                    style={{ fontFamily: "var(--font-mono)" }}>
                   Jersey atasan
                 </p>
-                <h3 className="mt-2 text-3xl font-black">Atasan Saja</h3>
+                <h3 className="mt-1 text-2xl font-black sm:mt-2 sm:text-3xl">Atasan Saja</h3>
               </div>
-              <span className="rounded-full border border-white/15 px-3 py-1 text-xs">Bisa ecer</span>
+              <span className="rounded-full border border-white/15 px-2 py-0.5 text-[10px] sm:px-3 sm:py-1 sm:text-xs">Bisa ecer</span>
             </div>
-            <div className="mt-8 flex items-end gap-2">
-              <span className="text-5xl font-black">50rb</span>
-              <span className="mb-2 text-white/45">/pcs • lusin</span>
+            <div className="mt-5 flex items-end gap-2 sm:mt-8">
+              <span className="text-4xl font-black sm:text-5xl">50rb</span>
+              <span className="mb-1 text-xs text-white/45 sm:mb-2">/pcs • lusin</span>
             </div>
-            <p className="mt-2 text-sm text-white/45">Ecer mulai Rp65rb/pcs</p>
-            <ul className="mt-7 space-y-3 text-sm text-white/75">
+            <p className="mt-1 text-xs text-white/45 sm:mt-2 sm:text-sm">Ecer mulai Rp65rb/pcs</p>
+            <ul className="mt-5 space-y-2 text-xs text-white/75 sm:mt-7 sm:space-y-3 sm:text-sm">
               <li>✓ Full printing &amp; desain bebas</li>
               <li>✓ Nama dan nomor punggung</li>
               <li>✓ Proses cepat &amp; tepat waktu</li>
@@ -592,30 +588,30 @@ function Harga() {
               href={WA_LINK}
               target="_blank"
               rel="noopener noreferrer"
-              className="mt-8 block rounded-full border border-white/20 py-3.5 text-center font-black hover:border-[#16a34a] hover:text-green-400"
+              className="mt-5 block rounded-full border border-white/20 py-3 text-center font-black sm:mt-8 sm:py-3.5 hover:border-[#16a34a] hover:text-green-400"
             >
               Pilih Atasan
             </a>
           </article>
 
           {/* Setelan */}
-          <article className="relative overflow-hidden rounded-[2rem] border border-[#16a34a]/55 bg-[#16a34a] p-7 text-white shadow-[0_20px_80px_rgba(22,163,74,.25)] sm:p-9">
-            <div className="absolute right-0 top-0 bg-white px-5 py-2 text-[10px] font-black uppercase tracking-widest text-black">
+          <article className="relative overflow-hidden rounded-2xl border border-[#16a34a]/55 bg-[#16a34a] p-5 text-white shadow-[0_20px_80px_rgba(22,163,74,.25)] sm:rounded-[2rem] sm:p-7 lg:p-9">
+            <div className="absolute right-0 top-0 bg-white px-3 py-1 text-[9px] font-black uppercase tracking-widest text-black sm:px-5 sm:py-2 sm:text-[10px]">
               Paling diminati
             </div>
             <div>
-              <p className="text-[11px] uppercase tracking-widest text-white/70"
+              <p className="text-[10px] uppercase tracking-widest text-white/70 sm:text-[11px]"
                  style={{ fontFamily: "var(--font-mono)" }}>
                 Atasan + celana
               </p>
-              <h3 className="mt-2 text-3xl font-black">Jersey Setelan</h3>
+              <h3 className="mt-1 text-2xl font-black sm:mt-2 sm:text-3xl">Jersey Setelan</h3>
             </div>
-            <div className="mt-8 flex items-end gap-2">
-              <span className="text-5xl font-black">110rb</span>
-              <span className="mb-2 text-white/70">/set • lusin</span>
+            <div className="mt-5 flex items-end gap-2 sm:mt-8">
+              <span className="text-4xl font-black sm:text-5xl">110rb</span>
+              <span className="mb-1 text-xs text-white/70 sm:mb-2">/set • lusin</span>
             </div>
-            <p className="mt-2 text-sm text-white/70">Ecer mulai Rp115rb/set</p>
-            <ul className="mt-7 space-y-3 text-sm font-medium">
+            <p className="mt-1 text-xs text-white/70 sm:mt-2 sm:text-sm">Ecer mulai Rp115rb/set</p>
+            <ul className="mt-5 space-y-2 text-xs font-medium sm:mt-7 sm:space-y-3 sm:text-sm">
               <li>✓ Full custom desain bebas</li>
               <li>✓ Nama, nomor &amp; logo klub</li>
               <li>✓ Atasan + celana siap tanding</li>
@@ -624,7 +620,7 @@ function Harga() {
               href={WA_LINK}
               target="_blank"
               rel="noopener noreferrer"
-              className="mt-8 block rounded-full bg-white py-3.5 text-center font-black text-black transition hover:-translate-y-1"
+              className="mt-5 block rounded-full bg-white py-3 text-center font-black text-black transition hover:-translate-y-1 sm:mt-8 sm:py-3.5"
             >
               Pilih Setelan
             </a>
@@ -632,16 +628,16 @@ function Harga() {
         </div>
 
         {/* Bulk promo */}
-        <div className="mx-auto mt-8 max-w-4xl rounded-3xl border border-[#f36458]/40 bg-[#f36458]/10 p-6 text-center sm:flex sm:items-center sm:justify-between sm:text-left">
+        <div className="mx-auto mt-6 max-w-4xl rounded-2xl border border-[#f36458]/40 bg-[#f36458]/10 p-4 text-center sm:mt-8 sm:rounded-3xl sm:p-6 sm:text-left md:flex md:items-center md:justify-between">
           <div>
-            <strong className="text-xl">Pembelian partai besar?</strong>
-            <p className="mt-1 text-sm text-white/55">Tersedia penawaran harga khusus yang lebih kompetitif.</p>
+            <strong className="text-base sm:text-xl">Pembelian partai besar?</strong>
+            <p className="mt-1 text-xs text-white/55 sm:text-sm">Tersedia penawaran harga khusus yang lebih kompetitif.</p>
           </div>
           <a
             href={WA_LINK}
             target="_blank"
             rel="noopener noreferrer"
-            className="mt-4 inline-flex rounded-full bg-[#f36458] px-5 py-3 text-sm font-black sm:mt-0"
+            className="mt-3 inline-flex rounded-full bg-[#f36458] px-4 py-2 text-xs font-black sm:mt-0 sm:px-5 sm:py-3 sm:text-sm"
           >
             Minta Harga Khusus
           </a>
@@ -657,22 +653,22 @@ function Harga() {
 
 function Promo() {
   return (
-    <section className="bg-[#0b0b0b] px-5 pb-24 text-white lg:px-8">
+    <section className="bg-[#0b0b0b] px-5 pb-16 text-white sm:pb-24 lg:px-8">
       <div className="mx-auto max-w-7xl">
-        <div className="relative overflow-hidden rounded-[2rem] border border-[#16a34a]/25 bg-[#111] px-6 py-10 shadow-[0_24px_80px_rgba(22,163,74,.08)] sm:px-10 lg:px-12 lg:py-12">
-          <div className="pointer-events-none absolute -right-2 -top-16 select-none text-[220px] font-black leading-none text-white/[.025] sm:right-8">7</div>
-          <div className="pointer-events-none absolute -left-20 bottom-0 h-48 w-48 rounded-full bg-[#16a34a]/10 blur-3xl" />
-          <div className="relative z-10 flex flex-col gap-8 lg:flex-row lg:items-center lg:justify-between">
+        <div className="relative overflow-hidden rounded-2xl border border-[#16a34a]/25 bg-[#111] px-5 py-8 shadow-[0_24px_80px_rgba(22,163,74,.08)] sm:rounded-[2rem] sm:px-10 sm:py-10 lg:px-12 lg:py-12">
+          <div className="pointer-events-none absolute -right-2 -top-16 select-none text-[120px] font-black leading-none text-white/[.025] sm:right-8 sm:text-[220px]">7</div>
+          <div className="pointer-events-none absolute -left-20 bottom-0 h-32 w-32 rounded-full bg-[#16a34a]/10 blur-3xl sm:h-48 sm:w-48" />
+          <div className="relative z-10 flex flex-col gap-6 lg:flex-row lg:items-center lg:justify-between">
             <div>
-              <span className="inline-flex rounded-full bg-[#16a34a] px-4 py-2 text-[9px] font-bold uppercase tracking-[.18em] text-white"
+              <span className="inline-flex rounded-full bg-[#16a34a] px-3 py-1.5 text-[8px] font-bold uppercase tracking-[.18em] text-white sm:px-4 sm:py-2 sm:text-[9px]"
                     style={{ fontFamily: "var(--font-mono)" }}>
                 Promo spesial
               </span>
-              <h2 className="mt-5 text-4xl font-black uppercase tracking-tight sm:text-6xl"
+              <h2 className="mt-3 text-3xl font-black uppercase tracking-tight sm:mt-5 sm:text-4xl lg:text-6xl"
                   style={{ fontFamily: "var(--font-sans)", fontStretch: "condensed", fontStyle: "italic" }}>
                 Beli 6, Gratis 1.
               </h2>
-              <p className="mt-4 max-w-3xl text-sm leading-relaxed text-white/55">
+              <p className="mt-3 max-w-3xl text-xs leading-relaxed text-white/55 sm:mt-4 sm:text-sm">
                 Berlaku kelipatannya: order 6 dapat 7, order 12 dapat 14, order 18 dapat 21. Berlaku untuk atasan maupun setelan.
               </p>
             </div>
@@ -680,7 +676,7 @@ function Promo() {
               href={WA_LINK}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex shrink-0 items-center justify-center rounded-full bg-white px-7 py-4 text-sm font-black uppercase tracking-wide text-black transition hover:-translate-y-1 hover:bg-[#16a34a] hover:text-white"
+              className="inline-flex shrink-0 items-center justify-center rounded-full bg-white px-5 py-3 text-xs font-black uppercase tracking-wide text-black transition hover:-translate-y-1 hover:bg-[#16a34a] hover:text-white sm:px-7 sm:py-4 sm:text-sm"
             >
               Klaim Promo
             </a>
@@ -688,10 +684,10 @@ function Promo() {
         </div>
 
         {/* Guarantee badges */}
-        <div className="mt-4 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+        <div className="mt-4 grid grid-cols-2 gap-2 sm:grid-cols-2 sm:gap-3 lg:grid-cols-4">
           {["Garansi harga terbaik", "Garansi tepat waktu", "Garansi kualitas jahitan", "Revisi gratis"].map((item, i) => (
-            <div key={i} className="rounded-xl border border-white/10 bg-[#111] px-4 py-4 text-center text-[10px] font-black uppercase tracking-[.12em] text-white/70">
-              <span className="mr-2 text-[#16a34a]">✓</span> {item}
+            <div key={i} className="rounded-lg border border-white/10 bg-[#111] px-3 py-2 text-center text-[9px] font-black uppercase tracking-[.12em] text-white/70 sm:rounded-xl sm:px-4 sm:py-4 sm:text-[10px]">
+              <span className="mr-1 text-[#16a34a] sm:mr-2">✓</span> {item}
             </div>
           ))}
         </div>
@@ -706,35 +702,35 @@ function Promo() {
 
 function CaraOrder() {
   return (
-    <section id="cara-order" className="mx-auto max-w-7xl px-5 py-24 lg:px-8">
-      <div className="mb-12">
+    <section id="cara-order" className="mx-auto max-w-7xl px-5 py-16 sm:py-24 lg:px-8">
+      <div className="mb-8 sm:mb-12">
         <p className="text-xs font-bold uppercase tracking-[.2em] text-[#16a34a]"
            style={{ fontFamily: "var(--font-mono)" }}>
           Cuma 5 langkah
         </p>
-        <h2 className="mt-3 text-5xl font-black uppercase sm:text-6xl"
+        <h2 className="mt-2 text-3xl font-black uppercase sm:mt-3 sm:text-5xl lg:text-6xl"
             style={{ fontFamily: "var(--font-sans)", fontStretch: "condensed", fontStyle: "italic" }}>
           Cara order—mudah!
         </h2>
       </div>
-      <div className="grid gap-4 md:grid-cols-5">
+      <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 sm:gap-4 lg:grid-cols-5">
         {STEPS.map((step, i) => {
           const isLast = i === STEPS.length - 1;
           return (
             <div
               key={i}
-              className={`rounded-3xl p-6 ${
+              className={`rounded-2xl p-4 sm:rounded-3xl sm:p-6 ${
                 isLast
-                  ? "bg-[#16a34a] text-white"
-                  : "bg-white p-6 ring-1 ring-black/10"
+                  ? "bg-[#16a34a] text-white col-span-2 sm:col-span-1"
+                  : "bg-white ring-1 ring-black/10"
               }`}
             >
-              <span className={`text-4xl font-black ${isLast ? "text-white/55" : "text-[#16a34a]"}`}
+              <span className={`text-3xl font-black sm:text-4xl ${isLast ? "text-white/55" : "text-[#16a34a]"}`}
                     style={{ fontFamily: "var(--font-mono)" }}>
                 {step.num}
               </span>
-              <h3 className="mt-8 font-black">{step.title}</h3>
-              <p className={`mt-2 text-sm ${isLast ? "text-white/75" : "text-[#4a4a4a]"}`}>
+              <h3 className="mt-4 font-black sm:mt-8">{step.title}</h3>
+              <p className={`mt-1 text-xs sm:mt-2 sm:text-sm ${isLast ? "text-white/75" : "text-[#4a4a4a]"}`}>
                 {step.desc}
               </p>
             </div>
@@ -751,33 +747,33 @@ function CaraOrder() {
 
 function Ulasan() {
   return (
-    <section id="ulasan" className="bg-[#efefef] py-24">
+    <section id="ulasan" className="bg-[#efefef] py-16 sm:py-24">
       <div className="mx-auto max-w-7xl px-5 lg:px-8">
         <div className="text-center">
           <p className="text-xs font-bold uppercase tracking-[.2em] text-[#16a34a]"
              style={{ fontFamily: "var(--font-mono)" }}>
             Verified buyer
           </p>
-          <h2 className="mt-3 text-5xl font-black uppercase sm:text-6xl"
+          <h2 className="mt-2 text-3xl font-black uppercase sm:mt-3 sm:text-5xl lg:text-6xl"
               style={{ fontFamily: "var(--font-sans)", fontStretch: "condensed", fontStyle: "italic" }}>
             Dipercaya ribuan tim
           </h2>
         </div>
-        <div className="mt-12 grid gap-5 md:grid-cols-3">
+        <div className="mt-8 grid gap-4 sm:mt-12 sm:gap-5 md:grid-cols-3">
           {TESTIMONIALS.map((t, i) => (
             <blockquote
               key={i}
-              className={`rounded-3xl p-7 ${
+              className={`rounded-2xl p-5 sm:rounded-3xl sm:p-7 ${
                 t.dark
                   ? "bg-[#0b0b0b] text-white"
                   : "bg-white"
               }`}
             >
               <div className="text-[#16a34a]">★★★★★</div>
-              <p className="mt-5 leading-relaxed">&ldquo;{t.quote}&rdquo;</p>
-              <footer className={`mt-8 border-t pt-5 ${t.dark ? "border-white/10" : "border-black/10"}`}>
-                <strong>{t.name}</strong>
-                <span className={`block text-sm ${t.dark ? "text-white/45" : "text-[#888]"}`}>
+              <p className="mt-3 text-sm leading-relaxed sm:mt-5 sm:text-base">&ldquo;{t.quote}&rdquo;</p>
+              <footer className={`mt-4 border-t pt-3 sm:mt-8 sm:pt-5 ${t.dark ? "border-white/10" : "border-black/10"}`}>
+                <strong className="text-sm sm:text-base">{t.name}</strong>
+                <span className={`block text-xs sm:text-sm ${t.dark ? "text-white/45" : "text-[#888]"}`}>
                   {t.location}
                 </span>
               </footer>
@@ -795,30 +791,30 @@ function Ulasan() {
 
 function FAQ() {
   return (
-    <section className="bg-[#f7f7f7] py-24">
-      <div className="mx-auto grid max-w-7xl gap-12 px-5 lg:grid-cols-[.72fr_1.28fr] lg:gap-20 lg:px-8">
+    <section className="bg-[#f7f7f7] py-16 sm:py-24">
+      <div className="mx-auto grid max-w-7xl gap-8 px-5 lg:grid-cols-[.72fr_1.28fr] lg:gap-20 lg:px-8">
         <div>
           <p className="text-[10px] font-black uppercase tracking-[.22em] text-[#16a34a]"
              style={{ fontFamily: "var(--font-mono)" }}>
             FAQ
           </p>
-          <h2 className="mt-4 max-w-sm text-5xl font-black uppercase leading-[.88] tracking-[-.04em] sm:text-6xl"
+          <h2 className="mt-3 max-w-sm text-3xl font-black uppercase leading-[.88] tracking-[-.04em] sm:mt-4 sm:text-5xl lg:text-6xl"
               style={{ fontFamily: "var(--font-sans)", fontStretch: "condensed", fontStyle: "italic" }}>
             Yang sering ditanyakan.
           </h2>
-          <p className="mt-6 max-w-xs text-sm leading-relaxed text-[#666]">
+          <p className="mt-4 max-w-xs text-xs leading-relaxed text-[#666] sm:mt-6 sm:text-sm">
             Jawaban singkat untuk membantu kamu pesan dengan lebih tenang.
           </p>
         </div>
 
         <div className="divide-y divide-black/10 border-y border-black/10">
           {FAQ_ITEMS.map((item, i) => (
-            <details key={i} className="group py-5">
-              <summary className="flex cursor-pointer list-none items-center justify-between gap-6 text-xs font-black uppercase tracking-wide sm:text-sm">
+            <details key={i} className="group py-4 sm:py-5">
+              <summary className="flex cursor-pointer list-none items-center justify-between gap-4 text-xs font-black uppercase tracking-wide sm:gap-6 sm:text-sm">
                 {item.q}
-                <span className="text-lg font-medium text-[#16a34a] transition group-open:rotate-45">+</span>
+                <span className="text-base font-medium text-[#16a34a] transition group-open:rotate-45 sm:text-lg">+</span>
               </summary>
-              <p className="max-w-2xl pt-4 text-sm leading-relaxed text-[#666]">{item.a}</p>
+              <p className="max-w-2xl pt-3 text-xs leading-relaxed text-[#666] sm:pt-4 sm:text-sm">{item.a}</p>
             </details>
           ))}
         </div>
@@ -833,33 +829,33 @@ function FAQ() {
 
 function CTASection() {
   return (
-    <section id="order" className="relative overflow-hidden bg-[#16a34a] px-5 py-24 text-white">
+    <section id="order" className="relative overflow-hidden bg-[#16a34a] px-5 py-16 text-white sm:py-24">
       <div className="absolute inset-0 opacity-30"
            style={{
              backgroundImage: "linear-gradient(rgba(255,255,255,.045) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.045) 1px,transparent 1px)",
              backgroundSize: "42px 42px",
            }} />
       <div className="relative mx-auto max-w-4xl text-center">
-        <p className="text-xs font-bold uppercase tracking-[.2em] text-white/70"
+        <p className="text-[10px] font-bold uppercase tracking-[.2em] text-white/70 sm:text-xs"
            style={{ fontFamily: "var(--font-mono)" }}>
           Konsultasi gratis • tanpa syarat
         </p>
-        <h2 className="mt-4 text-6xl font-black uppercase leading-[.9] sm:text-8xl"
+        <h2 className="mt-3 text-4xl font-black uppercase leading-[.9] sm:mt-4 sm:text-6xl lg:text-8xl"
             style={{ fontFamily: "var(--font-sans)", fontStretch: "condensed", fontStyle: "italic" }}>
           Siap bikin<br />jersey custom?
         </h2>
-        <p className="mx-auto mt-6 max-w-xl text-lg text-white/80">
+        <p className="mx-auto mt-4 max-w-xl text-sm text-white/80 sm:mt-6 sm:text-lg">
           Tim kami siap bantu dari desain sampai pengiriman. Ceritakan kebutuhanmu, kami urus sisanya.
         </p>
         <a
           href={WA_LINK}
           target="_blank"
           rel="noopener noreferrer"
-          className="mt-8 inline-flex items-center gap-3 rounded-full bg-white px-8 py-4 font-black text-black shadow-xl transition hover:-translate-y-1"
+          className="mt-5 inline-flex items-center gap-2 rounded-full bg-white px-6 py-3 font-black text-black shadow-xl transition hover:-translate-y-1 sm:mt-8 sm:gap-3 sm:px-8 sm:py-4"
         >
           <WhatsAppIcon /> Chat WhatsApp Sekarang
         </a>
-        <div className="mt-7 flex flex-wrap justify-center gap-5 text-[10px] uppercase tracking-widest text-white/70"
+        <div className="mt-5 flex flex-wrap justify-center gap-3 text-[9px] uppercase tracking-widest text-white/70 sm:mt-7 sm:gap-5 sm:text-[10px]"
              style={{ fontFamily: "var(--font-mono)" }}>
           <span>✓ Garansi harga</span>
           <span>✓ Garansi jahitan</span>
