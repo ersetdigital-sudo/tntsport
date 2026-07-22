@@ -81,21 +81,21 @@ function ZoomModal({
 }) {
   return (
     <div
-      className="fixed inset-0 z-[100] flex items-center justify-center bg-black/80 backdrop-blur-sm p-4"
+      className="fixed inset-0 z-[100] flex items-start justify-center overflow-y-auto bg-black/80 backdrop-blur-sm p-4 sm:items-center"
       onClick={onClose}
     >
       <div
-        className="relative max-h-[90vh] max-w-[90vw] overflow-hidden rounded-2xl bg-white shadow-2xl sm:rounded-3xl"
+        className="relative my-auto w-[92vw] max-w-[500px] rounded-2xl bg-white shadow-2xl sm:rounded-3xl"
         onClick={(e) => e.stopPropagation()}
       >
-        {/* Image */}
-        <div className="relative aspect-[4/5] w-[85vw] max-w-[500px] overflow-hidden">
-          <Image
+        {/* Image — no fixed aspect ratio, let image size naturally */}
+        <div className="relative w-full overflow-hidden rounded-t-2xl sm:rounded-t-3xl">
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
             src={product.image}
             alt={product.alt}
-            fill
-            className="object-contain"
-            sizes="(max-width: 640px) 85vw, 500px"
+            className="block h-auto w-full object-contain"
+            style={{ maxHeight: "70vh" }}
           />
         </div>
 
