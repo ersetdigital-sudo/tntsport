@@ -29,16 +29,27 @@ function CategoryIcon({ slug, className }: { slug: string; className?: string })
   const props = { width: 16, height: 16, viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", strokeWidth: 1.8, strokeLinecap: "round" as const, strokeLinejoin: "round" as const, className };
 
   const icons: Record<string, JSX.Element> = {
+    // Supabase slugs
     "sepak-bola-futsal": (
       <svg {...props}><circle cx="12" cy="12" r="10" /><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20" /><path d="M2 12h20" /></svg>
     ),
+    // Static fallback slugs
+    "football": (
+      <svg {...props}><circle cx="12" cy="12" r="10" /><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20" /><path d="M2 12h20" /></svg>
+    ),
     "voli": (
+      <svg {...props}><circle cx="12" cy="12" r="10" /><path d="M12 2c4.5 4 5 10 0 20" /><path d="M12 2c-4.5 4-5 10 0 20" /><path d="M2 12h20" /></svg>
+    ),
+    "volley": (
       <svg {...props}><circle cx="12" cy="12" r="10" /><path d="M12 2c4.5 4 5 10 0 20" /><path d="M12 2c-4.5 4-5 10 0 20" /><path d="M2 12h20" /></svg>
     ),
     "basket": (
       <svg {...props}><circle cx="12" cy="12" r="10" /><path d="M12 2v20" /><path d="M2 12h20" /><path d="M4.93 4.93c4.08 2.52 4.08 11.62 0 14.14" /><path d="M19.07 4.93c-4.08 2.52-4.08 11.62 0 14.14" /></svg>
     ),
     "mancing": (
+      <svg {...props}><path d="M12 2v8" /><path d="M8 6l4 4 4-4" /><path d="M17 14c0 3-2.5 5-5 5s-5-2-5-5" /><circle cx="12" cy="14" r="1" fill="currentColor" /><path d="M6 20c0-3 2-5 6-8 4 3 6 5 6 8" /></svg>
+    ),
+    "fishing": (
       <svg {...props}><path d="M12 2v8" /><path d="M8 6l4 4 4-4" /><path d="M17 14c0 3-2.5 5-5 5s-5-2-5-5" /><circle cx="12" cy="14" r="1" fill="currentColor" /><path d="M6 20c0-3 2-5 6-8 4 3 6 5 6 8" /></svg>
     ),
     "racing": (
@@ -56,7 +67,13 @@ function CategoryIcon({ slug, className }: { slug: string; className?: string })
     "fantasy-club": (
       <svg {...props}><path d="M12 2L3 7v6c0 5.5 3.8 10.7 9 12 5.2-1.3 9-6.5 9-12V7z" /><path d="M12 8v4" /><circle cx="12" cy="15" r="0.5" fill="currentColor" /></svg>
     ),
+    "fantasy": (
+      <svg {...props}><path d="M12 2L3 7v6c0 5.5 3.8 10.7 9 12 5.2-1.3 9-6.5 9-12V7z" /><path d="M12 8v4" /><circle cx="12" cy="15" r="0.5" fill="currentColor" /></svg>
+    ),
     "instansi-corporate": (
+      <svg {...props}><rect x="4" y="2" width="16" height="20" rx="2" /><path d="M9 22V12h6v10" /><path d="M8 6h.01" /><path d="M16 6h.01" /><path d="M8 10h.01" /><path d="M16 10h.01" /><path d="M12 6h.01" /><path d="M12 10h.01" /></svg>
+    ),
+    "corporate": (
       <svg {...props}><rect x="4" y="2" width="16" height="20" rx="2" /><path d="M9 22V12h6v10" /><path d="M8 6h.01" /><path d="M16 6h.01" /><path d="M8 10h.01" /><path d="M16 10h.01" /><path d="M12 6h.01" /><path d="M12 10h.01" /></svg>
     ),
   };
