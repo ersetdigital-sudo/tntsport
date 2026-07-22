@@ -445,7 +445,7 @@ function Keunggulan() {
               <div className="mb-6 flex h-10 w-10 items-center justify-center rounded-xl bg-[#16a34a] shadow-[0_8px_24px_rgba(22,163,74,.2)] sm:mb-8 sm:h-11 sm:w-11">
                 <Image src={item.icon} alt="" width={20} height={20} className="h-4 w-4 invert sm:h-5 sm:w-5" />
               </div>
-              <h3 className="text-sm font-black uppercase sm:text-base">{item.title}</h3>
+              <h3 className="text-sm font-black uppercase text-[#111] sm:text-base">{item.title}</h3>
               <p className="mt-2 text-xs leading-relaxed text-[#666] sm:mt-3 sm:text-sm">{item.desc}</p>
             </article>
           ))}
@@ -500,7 +500,7 @@ function Kategori() {
                 <button
                   key={cat.id}
                   type="button"
-                  className="catalog-tab rounded-full border border-black/10 bg-[#f7f7f7] px-3 py-1.5 text-[10px] font-bold transition hover:border-[#16a34a] sm:px-4 sm:py-2 sm:text-xs"
+                  className="catalog-tab rounded-full border border-black/10 bg-[#f7f7f7] px-3 py-1.5 text-[10px] font-bold text-[#111] transition hover:border-[#16a34a] sm:px-4 sm:py-2 sm:text-xs"
                   data-catalog={cat.id}
                   aria-selected={cat.id === "football"}
                 >
@@ -729,7 +729,7 @@ function CaraOrder() {
                     style={{ fontFamily: "var(--font-mono)" }}>
                 {step.num}
               </span>
-              <h3 className="mt-4 font-black sm:mt-8">{step.title}</h3>
+              <h3 className={`mt-4 font-black sm:mt-8 ${isLast ? "text-white" : "text-[#111]"}`}>{step.title}</h3>
               <p className={`mt-1 text-xs sm:mt-2 sm:text-sm ${isLast ? "text-white/75" : "text-[#4a4a4a]"}`}>
                 {step.desc}
               </p>
@@ -770,9 +770,9 @@ function Ulasan() {
               }`}
             >
               <div className="text-[#16a34a]">★★★★★</div>
-              <p className="mt-3 text-sm leading-relaxed sm:mt-5 sm:text-base">&ldquo;{t.quote}&rdquo;</p>
+              <p className={`mt-3 text-sm leading-relaxed sm:mt-5 sm:text-base ${t.dark ? "text-white" : "text-[#333]"}`}>&ldquo;{t.quote}&rdquo;</p>
               <footer className={`mt-4 border-t pt-3 sm:mt-8 sm:pt-5 ${t.dark ? "border-white/10" : "border-black/10"}`}>
-                <strong className="text-sm sm:text-base">{t.name}</strong>
+                <strong className={`text-sm sm:text-base ${t.dark ? "text-white" : "text-[#111]"}`}>{t.name}</strong>
                 <span className={`block text-xs sm:text-sm ${t.dark ? "text-white/45" : "text-[#888]"}`}>
                   {t.location}
                 </span>
@@ -810,7 +810,7 @@ function FAQ() {
         <div className="divide-y divide-black/10 border-y border-black/10">
           {FAQ_ITEMS.map((item, i) => (
             <details key={i} className="group py-4 sm:py-5">
-              <summary className="flex cursor-pointer list-none items-center justify-between gap-4 text-xs font-black uppercase tracking-wide sm:gap-6 sm:text-sm">
+              <summary className="flex cursor-pointer list-none items-center justify-between gap-4 text-xs font-black uppercase tracking-wide text-[#111] sm:gap-6 sm:text-sm">
                 {item.q}
                 <span className="text-base font-medium text-[#16a34a] transition group-open:rotate-45 sm:text-lg">+</span>
               </summary>
