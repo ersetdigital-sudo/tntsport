@@ -788,6 +788,8 @@ function TickerStyles() {
       @media (prefers-reduced-motion: reduce) {
         .ticker { animation: none; }
       }
+      .scrollbar-hide::-webkit-scrollbar { display: none; }
+      .scrollbar-hide { -ms-overflow-style: none; scrollbar-width: none; }
       .hero-photo {
         mask-image: linear-gradient(to right, transparent 0%, #000 20%, #000 100%);
         -webkit-mask-image: linear-gradient(to right, transparent 0%, #000 20%, #000 100%);

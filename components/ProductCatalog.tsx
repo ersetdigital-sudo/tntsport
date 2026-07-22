@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useCallback } from "react";
+import { useState, useCallback, useRef, useEffect } from "react";
 import Image from "next/image";
 import { CATALOG_PRODUCTS, getWhatsAppLink, type Product } from "@/lib/products";
 
@@ -19,6 +19,51 @@ interface CatalogCategory {
   id: string;
   label: string;
   products: CatalogProduct[];
+}
+
+/* ------------------------------------------------------------------ */
+/* Category Icons (outline/line style, 16px)                            */
+/* ------------------------------------------------------------------ */
+
+function CategoryIcon({ slug, className }: { slug: string; className?: string }) {
+  const props = { width: 16, height: 16, viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", strokeWidth: 1.8, strokeLinecap: "round" as const, strokeLinejoin: "round" as const, className };
+
+  const icons: Record<string, JSX.Element> = {
+    "sepak-bola-futsal": (
+      <svg {...props}><circle cx="12" cy="12" r="10" /><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20" /><path d="M2 12h20" /></svg>
+    ),
+    "voli": (
+      <svg {...props}><circle cx="12" cy="12" r="10" /><path d="M12 2c4.5 4 5 10 0 20" /><path d="M12 2c-4.5 4-5 10 0 20" /><path d="M2 12h20" /></svg>
+    ),
+    "basket": (
+      <svg {...props}><circle cx="12" cy="12" r="10" /><path d="M12 2v20" /><path d="M2 12h20" /><path d="M4.93 4.93c4.08 2.52 4.08 11.62 0 14.14" /><path d="M19.07 4.93c-4.08 2.52-4.08 11.62 0 14.14" /></svg>
+    ),
+    "mancing": (
+      <svg {...props}><path d="M12 2v8" /><path d="M8 6l4 4 4-4" /><path d="M17 14c0 3-2.5 5-5 5s-5-2-5-5" /><circle cx="12" cy="14" r="1" fill="currentColor" /><path d="M6 20c0-3 2-5 6-8 4 3 6 5 6 8" /></svg>
+    ),
+    "racing": (
+      <svg {...props}><path d="M22 12h-4l-3 9L9 3l-3 9H2" /></svg>
+    ),
+    "running": (
+      <svg {...props}><circle cx="14" cy="4" r="2" /><path d="M4 17l3.5-5.5L10 13l4-6 4 3" /><path d="M18 14l-2 6-4-2-2 4" /></svg>
+    ),
+    "army": (
+      <svg {...props}><path d="M12 2l3 5h5l-4 4 1.5 5.5L12 13l-5.5 3.5L8 11 4 7h5z" /></svg>
+    ),
+    "badminton": (
+      <svg {...props}><path d="M12 2v6" /><circle cx="12" cy="10" r="4" /><path d="M8 14l-4 6" /><path d="M16 14l4 6" /><path d="M10 14l-1 6" /><path d="M14 14l1 6" /></svg>
+    ),
+    "fantasy-club": (
+      <svg {...props}><path d="M12 2L3 7v6c0 5.5 3.8 10.7 9 12 5.2-1.3 9-6.5 9-12V7z" /><path d="M12 8v4" /><circle cx="12" cy="15" r="0.5" fill="currentColor" /></svg>
+    ),
+    "instansi-corporate": (
+      <svg {...props}><rect x="4" y="2" width="16" height="20" rx="2" /><path d="M9 22V12h6v10" /><path d="M8 6h.01" /><path d="M16 6h.01" /><path d="M8 10h.01" /><path d="M16 10h.01" /><path d="M12 6h.01" /><path d="M12 10h.01" /></svg>
+    ),
+  };
+
+  return icons[slug] ?? (
+    <svg {...props}><circle cx="12" cy="12" r="10" /><path d="M12 8v4l2 2" /></svg>
+  );
 }
 
 /* ------------------------------------------------------------------ */
@@ -198,24 +243,37 @@ export function ProductCatalog({ categories: propCategories }: ProductCatalogPro
 
   return (
     <>
-      {/* Category tabs */}
-      <div className="mt-5 flex flex-wrap gap-2 sm:mt-8 sm:gap-2.5" role="tablist" aria-label="Kategori katalog jersey">
-        {categories.map((cat) => (
-          <button
-            key={cat.id}
-            type="button"
-            role="tab"
-            className={`catalog-tab rounded-full border px-3 py-1.5 text-[10px] font-bold transition sm:px-4 sm:py-2 sm:text-xs ${
-              cat.id === activeCategory
-                ? "border-[#16a34a] bg-[#16a34a] text-white shadow-[0_4px_16px_rgba(22,163,74,.25)]"
-                : "border-black/10 bg-[#f7f7f7] text-[#111] hover:border-[#16a34a]"
-            }`}
-            aria-selected={cat.id === activeCategory}
-            onClick={() => handleCategoryChange(cat.id)}
-          >
-            {cat.label}
-          </button>
-        ))}
+      {/* Category tabs — horizontal scroll on mobile, wrap on desktop */}
+      <div className="relative mt-5 sm:mt-8">
+        <div
+          className="flex gap-2 overflow-x-auto pb-2 sm:flex-wrap sm:overflow-x-visible sm:gap-2.5 scrollbar-hide snap-x snap-mandatory"
+          role="tablist"
+          aria-label="Kategori katalog jersey"
+          style={{ WebkitOverflowScrolling: "touch" }}
+        >
+          {categories.map((cat) => (
+            <button
+              key={cat.id}
+              type="button"
+              role="tab"
+              className={`catalog-tab inline-flex shrink-0 items-center gap-1.5 rounded-full border px-2.5 py-1.5 text-[10px] font-bold transition snap-start sm:gap-2 sm:px-4 sm:py-2 sm:text-xs ${
+                cat.id === activeCategory
+                  ? "border-[#16a34a] bg-[#16a34a] text-white shadow-[0_4px_16px_rgba(22,163,74,.25)]"
+                  : "border-black/10 bg-[#f7f7f7] text-[#111] hover:border-[#16a34a]"
+              }`}
+              aria-selected={cat.id === activeCategory}
+              onClick={() => handleCategoryChange(cat.id)}
+            >
+              <CategoryIcon
+                slug={cat.id}
+                className={cat.id === activeCategory ? "text-white" : "text-[#666]"}
+              />
+              {cat.label}
+            </button>
+          ))}
+        </div>
+        {/* Fade gradient on right edge — mobile only */}
+        <div className="pointer-events-none absolute right-0 top-0 bottom-2 w-12 bg-gradient-to-l from-white to-transparent sm:hidden" />
       </div>
 
       {/* Active category info */}
