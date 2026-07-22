@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Image from "next/image";
 import { getBrand } from "@/lib/queries";
 
 export async function generateMetadata(): Promise<Metadata> {
@@ -245,6 +246,16 @@ function Navbar() {
     <header className="ks-nav">
       <div className="ks-nav__inner">
         <a href="/" className="ks-nav__logo">
+          <span className="ks-nav__logo-img">
+            <Image
+              src="/logo.jpg"
+              alt="TNT SPORT logo"
+              width={36}
+              height={36}
+              className="h-full w-full rounded-full object-cover"
+              priority
+            />
+          </span>
           TNT SPORT
         </a>
         <nav className="ks-nav__links" aria-label="Navigasi utama">
@@ -348,14 +359,15 @@ function HeroSplit() {
                 </div>
               </div>
               <div className="ks-hero__mockup-jersey">
-                <div className="ks-hero__jersey-svg">
-                  <svg viewBox="0 0 200 220" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M60 40L40 55L30 100L50 105V190H150V105L170 100L160 55L140 40H130L115 55H85L70 40H60Z" fill="var(--k-accent)" opacity="0.9" />
-                    <path d="M60 40L40 55L30 100L50 105V190H150V105L170 100L160 55L140 40H130L115 55H85L70 40H60Z" stroke="var(--k-ink)" strokeWidth="1.5" />
-                    <path d="M70 40L85 55H115L130 40" stroke="var(--k-ink)" strokeWidth="1" opacity="0.5" />
-                    <text x="100" y="130" textAnchor="middle" fill="var(--k-ink)" fontSize="28" fontWeight="700" fontFamily="var(--k-font-display)">TNT</text>
-                    <text x="100" y="155" textAnchor="middle" fill="var(--k-ink)" fontSize="12" fontWeight="600" fontFamily="var(--k-font-mono)" letterSpacing="3">SPORT</text>
-                  </svg>
+                <div className="ks-hero__jersey-img">
+                  <Image
+                    src="/jersey-transparent.png"
+                    alt="Jersey custom TNT SPORT"
+                    width={200}
+                    height={200}
+                    className="h-auto w-full object-contain"
+                    priority
+                  />
                 </div>
               </div>
               <div className="ks-hero__mockup-tags">
@@ -652,7 +664,18 @@ function Footer() {
     <footer className="ks-footer">
       <div className="ks-footer__inner">
         <div className="ks-footer__brand">
-          <span className="ks-footer__logo">TNT SPORT</span>
+          <span className="ks-footer__logo">
+            <span className="ks-footer__logo-img">
+              <Image
+                src="/logo.jpg"
+                alt="TNT SPORT logo"
+                width={28}
+                height={28}
+                className="h-full w-full rounded-full object-cover"
+              />
+            </span>
+            TNT SPORT
+          </span>
           <p className="ks-footer__tagline">
             Jersey custom full printing untuk tim kamu.
           </p>

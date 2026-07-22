@@ -548,6 +548,17 @@
   color: var(--k-ink);
   text-decoration: none;
   white-space: nowrap;
+  display: flex;
+  align-items: center;
+  gap: 0.625rem;
+}
+.ks-nav__logo-img {
+  width: 36px;
+  height: 36px;
+  border-radius: 9999px;
+  overflow: hidden;
+  border: 2px solid var(--k-accent);
+  flex-shrink: 0;
 }
 .ks-nav__links {
   display: flex;
@@ -759,10 +770,10 @@
   justify-content: center;
   padding: 1rem 0;
 }
-.ks-hero__jersey-svg {
-  width: 160px;
+.ks-hero__jersey-img {
+  width: 180px;
 }
-.ks-hero__jersey-svg svg {
+.ks-hero__jersey-img img {
   width: 100%;
   height: auto;
 }
@@ -1442,8 +1453,18 @@
   font-weight: 700;
   color: var(--k-ink);
   letter-spacing: -0.02em;
-  display: block;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
   margin-bottom: 0.5rem;
+}
+.ks-footer__logo-img {
+  width: 28px;
+  height: 28px;
+  border-radius: 9999px;
+  overflow: hidden;
+  border: 2px solid var(--k-accent);
+  flex-shrink: 0;
 }
 .ks-footer__tagline {
   font-size: 0.875rem;
