@@ -347,19 +347,27 @@ function FeatureIcon({ iconName, fallbackSrc }: { iconName: string | null; fallb
   if (iconName && iconName.startsWith("http")) {
     return (
       // eslint-disable-next-line @next/next/no-img-element
-      <img src={iconName} alt="" className="h-5 w-5 object-contain sm:h-6 sm:w-6" />
+      <img src={iconName} alt="" className="h-8 w-8 object-contain sm:h-10 sm:w-10" />
     );
   }
   // If icon is a Lucide icon name
   if (iconName && LUCIDE_ICON_MAP[iconName]) {
     const Icon = LUCIDE_ICON_MAP[iconName];
-    return <Icon size={20} className="text-white" />;
+    return <Icon size={24} className="text-white" />;
   }
-  // Fallback to static SVG
+  // Fallback to static image
   if (fallbackSrc) {
-    return <Image src={fallbackSrc} alt="" width={20} height={20} className="h-4 w-4 invert sm:h-5 sm:w-5" />;
+    const isPng = fallbackSrc.endsWith(".png");
+    return (
+      // eslint-disable-next-line @next/next/no-img-element
+      <img
+        src={fallbackSrc}
+        alt=""
+        className={`h-8 w-8 object-contain sm:h-10 sm:w-10 ${isPng ? "" : "invert"}`}
+      />
+    );
   }
-  return <Sparkles size={20} className="text-white" />;
+  return <Sparkles size={24} className="text-white" />;
 }
 
 async function Keunggulan() {
@@ -396,7 +404,7 @@ async function Keunggulan() {
         <div className="grid gap-3 sm:grid-cols-2 sm:gap-4 lg:grid-cols-4">
           {featureCards.map((item, i) => (
             <article key={i} className="rounded-3xl border border-white/10 bg-[#131611] p-5 shadow-2xl shadow-black/20 transition duration-300 hover:-translate-y-1 hover:border-[#c5f518]/35 sm:p-6">
-              <div className="mb-6 flex h-10 w-10 items-center justify-center rounded-xl bg-[#16a34a] shadow-[0_8px_24px_rgba(22,163,74,.2)] sm:mb-8 sm:h-11 sm:w-11">
+              <div className="mb-6 flex h-14 w-14 items-center justify-center rounded-xl bg-[#16a34a] shadow-[0_8px_24px_rgba(22,163,74,.2)] sm:mb-8 sm:h-16 sm:w-16">
                 <FeatureIcon iconName={item.icon} fallbackSrc={KEUNGGULAN[i]?.icon} />
               </div>
               <h3 className="text-sm font-black uppercase text-[#f0f2ec] sm:text-base">{item.title}</h3>
@@ -413,7 +421,7 @@ async function Keunggulan() {
             <div key={i} className="group relative overflow-hidden rounded-2xl border border-white/10 bg-gradient-to-br from-[#171b14] to-[#10120f] p-5 transition duration-300 hover:-translate-y-1 hover:border-[#c5f518]/35">
               <div className="absolute -right-8 -top-8 h-24 w-24 rounded-full bg-[#c5f518]/[.04] blur-2xl transition group-hover:bg-[#c5f518]/10" />
               <div className="relative flex items-center gap-4">
-                <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl border border-[#c5f518]/25 bg-[#c5f518]/10 shadow-[inset_0_1px_0_rgba(255,255,255,.08)]">
+                <div className="flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl border border-[#c5f518]/25 bg-[#c5f518]/10 shadow-[inset_0_1px_0_rgba(255,255,255,.08)]">
                   <FeatureIcon iconName={item.icon} fallbackSrc={fallbackIcon} />
                 </div>
                 <div>
