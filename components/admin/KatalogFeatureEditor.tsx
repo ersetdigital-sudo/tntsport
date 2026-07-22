@@ -5,6 +5,11 @@ import { useRouter } from "next/navigation";
 import { createClient } from "@/lib/supabase/client";
 import { getCloudinarySignature } from "@/app/admin/actions/cloudinary";
 import { uploadToCloudinary } from "@/lib/cloudinary";
+import {
+  Thermometer, Palette, Scissors, Clock, Cog, Droplets,
+  Headphones, Sparkles, Star, Shield, Zap, Heart,
+  Award, Check, Target, Layers, Globe, Truck,
+} from "lucide-react";
 
 interface KatalogFeature {
   id?: string;
@@ -20,9 +25,24 @@ interface KatalogFeatureEditorProps {
 }
 
 const LUCIDE_ICONS = [
-  "Thermometer", "Palette", "Scissors", "Clock", "Cog", "Droplets",
-  "Headphones", "Sparkles", "Star", "Shield", "Zap", "Heart",
-  "Award", "Check", "Target", "Layers", "Globe", "Truck",
+  { name: "Thermometer", Icon: Thermometer },
+  { name: "Palette", Icon: Palette },
+  { name: "Scissors", Icon: Scissors },
+  { name: "Clock", Icon: Clock },
+  { name: "Cog", Icon: Cog },
+  { name: "Droplets", Icon: Droplets },
+  { name: "Headphones", Icon: Headphones },
+  { name: "Sparkles", Icon: Sparkles },
+  { name: "Star", Icon: Star },
+  { name: "Shield", Icon: Shield },
+  { name: "Zap", Icon: Zap },
+  { name: "Heart", Icon: Heart },
+  { name: "Award", Icon: Award },
+  { name: "Check", Icon: Check },
+  { name: "Target", Icon: Target },
+  { name: "Layers", Icon: Layers },
+  { name: "Globe", Icon: Globe },
+  { name: "Truck", Icon: Truck },
 ];
 
 const SVG_ICONS = [
@@ -200,20 +220,20 @@ export function KatalogFeatureEditor({ feature }: KatalogFeatureEditorProps) {
             <div>
               <p className="text-xs font-semibold text-ink mb-2">Icon Lucide</p>
               <div className="grid grid-cols-4 gap-2 sm:grid-cols-6">
-                {LUCIDE_ICONS.map((icon) => (
+                {LUCIDE_ICONS.map(({ name, Icon }) => (
                   <button
-                    key={icon}
+                    key={name}
                     type="button"
-                    onClick={() => setIconName(icon)}
-                    className={`flex flex-col items-center justify-center gap-1 rounded-xl border-2 p-3 transition ${
-                      iconName === icon
+                    onClick={() => setIconName(name)}
+                    className={`flex flex-col items-center justify-center gap-1.5 rounded-xl border-2 p-3 transition ${
+                      iconName === name
                         ? "border-primary bg-primary/10 text-primary shadow-sm"
                         : "border-hairline bg-white text-charcoal hover:border-primary/50 hover:bg-primary/5"
                     }`}
-                    title={icon}
+                    title={name}
                   >
-                    <span className="text-sm font-bold">{icon.substring(0, 3)}</span>
-                    <span className="text-[8px] text-mute truncate w-full text-center">{icon}</span>
+                    <Icon size={20} />
+                    <span className="text-[8px] text-mute truncate w-full text-center">{name}</span>
                   </button>
                 ))}
               </div>
