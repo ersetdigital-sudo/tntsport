@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Image from "next/image";
 import { ProductCatalog } from "@/components/ProductCatalog";
+import { PriceCards } from "@/components/PriceCards";
 import { getCatalogData, getKatalogFeatures } from "@/lib/queries";
 
 export async function generateMetadata(): Promise<Metadata> {
@@ -456,11 +457,11 @@ async function Kategori() {
 function Harga() {
   return (
     <section id="harga" className="relative overflow-hidden bg-[#080a07] py-16 text-[#f0f2ec] sm:py-24">
-      {/* Grid pattern — full section */}
-      <div className="absolute inset-0 opacity-[0.12]"
+      {/* Grid noise pattern */}
+      <div className="absolute inset-0 opacity-30"
            style={{
-             backgroundImage: "linear-gradient(rgba(255,255,255,.1) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,.1) 1px, transparent 1px)",
-             backgroundSize: "40px 40px",
+             backgroundImage: "linear-gradient(rgba(255,255,255,.045) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,.045) 1px, transparent 1px)",
+             backgroundSize: "42px 42px",
            }} />
       {/* Lime glow */}
       <div className="pointer-events-none absolute left-1/2 top-24 h-96 w-96 -translate-x-1/2 rounded-full bg-[#c5f518]/10 blur-[140px]" />
@@ -479,83 +480,16 @@ function Harga() {
           </p>
         </div>
 
-        <div className="mx-auto mt-8 grid max-w-5xl gap-5 lg:grid-cols-2">
-          {/* Atasan */}
-          <article className="price-card flex flex-col rounded-[2rem] border border-white/10 p-5 sm:p-7 lg:p-9">
-            <div className="flex items-start justify-between gap-5">
-              <div>
-                <p className="text-[10px] uppercase tracking-[.18em] text-[#7f8678] sm:text-[11px]"
-                   style={{ fontFamily: "var(--font-mono)" }}>
-                  Jersey atasan
-                </p>
-                <h3 className="mt-1 text-2xl font-black sm:mt-2 sm:text-3xl">Atasan Saja</h3>
-              </div>
-              <span className="rounded-full border border-white/10 bg-white/5 px-3 py-1 text-[10px] font-bold uppercase tracking-wider text-[#b4baac]">Fleksibel</span>
-            </div>
-            <div className="mt-5 flex items-baseline gap-2 sm:mt-8">
-              <span className="text-sm text-[#c5f518]" style={{ fontFamily: "var(--font-mono)" }}>Rp</span>
-              <span className="text-5xl font-black tracking-tight sm:text-6xl">50rb</span>
-              <span className="text-[#777e71]">/pcs</span>
-            </div>
-            <p className="mt-3 text-sm text-[#8f9688]">Minimal pembelian 12 pcs / set</p>
-            <div className="my-7 h-px bg-white/10" />
-            <ul className="space-y-3.5 text-sm text-[#c5c9c0]">
-              <li><span className="mr-2 text-[#c5f518]">✓</span> Full printing &amp; desain bebas</li>
-              <li><span className="mr-2 text-[#c5f518]">✓</span> Nama dan nomor punggung</li>
-              <li><span className="mr-2 text-[#c5f518]">✓</span> Revisi desain tanpa batas</li>
-            </ul>
-            <a
-              href={`${WA_LINK.replace("saya%20mau%20tanya%20jersey%20custom", encodeURIComponent("saya tertarik dengan paket Atasan Saja. Bisa info lebih lanjut?"))}`}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="mt-auto flex items-center justify-between gap-3 rounded-xl border border-white/15 bg-white/5 px-6 py-4 font-black text-[#f0f2ec] transition hover:border-[#c5f518] hover:text-[#c5f518]"
-            >
-              <span>Pilih Atasan</span>
-              <span>↗</span>
-            </a>
-          </article>
-
-          {/* Setelan */}
-          <article className="price-card featured relative flex flex-col overflow-hidden rounded-[2rem] border border-[#c5f518]/45 p-5 shadow-[0_24px_100px_rgba(197,245,24,.11)] sm:p-7 lg:p-9">
-            <div className="absolute right-0 top-0 rounded-bl-2xl bg-[#c5f518] px-5 py-2.5 text-[9px] font-black uppercase tracking-[.15em] text-[#080a07]">
-              Paling diminati
-            </div>
-            <div>
-              <p className="text-[10px] uppercase tracking-[.18em] text-[#c5f518]/70 sm:text-[11px]"
-                 style={{ fontFamily: "var(--font-mono)" }}>
-                Atasan + celana
-              </p>
-              <h3 className="mt-1 text-2xl font-black sm:mt-2 sm:text-3xl">Jersey Setelan</h3>
-            </div>
-            <div className="mt-5 flex items-baseline gap-2 sm:mt-8">
-              <span className="text-sm text-[#c5f518]" style={{ fontFamily: "var(--font-mono)" }}>Rp</span>
-              <span className="text-5xl font-black tracking-tight sm:text-6xl">110rb</span>
-              <span className="text-[#777e71]">/set</span>
-            </div>
-            <p className="mt-3 text-sm text-[#8f9688]">Minimal pembelian 12 pcs / set</p>
-            <div className="my-7 h-px bg-white/10" />
-            <ul className="space-y-3.5 text-sm text-[#d5d8d0]">
-              <li><span className="mr-2 text-[#c5f518]">✓</span> Semua benefit paket atasan</li>
-              <li><span className="mr-2 text-[#c5f518]">✓</span> Celana full custom siap tanding</li>
-              <li><span className="mr-2 text-[#c5f518]">✓</span> Prioritas jadwal produksi</li>
-            </ul>
-            <a
-              href={`${WA_LINK.replace("saya%20mau%20tanya%20jersey%20custom", encodeURIComponent("saya tertarik dengan paket Jersey Setelan. Bisa info lebih lanjut?"))}`}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="mt-auto flex items-center justify-between gap-3 rounded-xl bg-[#c5f518] px-6 py-4 font-black text-[#080a07] shadow-[0_10px_35px_rgba(197,245,24,.18)] transition hover:-translate-y-1"
-            >
-              <span>Pilih Setelan</span>
-              <span>↗</span>
-            </a>
-          </article>
-        </div>
+        <PriceCards />
 
         {/* Bulk promo */}
         <div className="mx-auto mt-8 flex max-w-5xl flex-col gap-4 rounded-3xl border border-[#f36458]/25 bg-[#f36458]/[.07] p-6 sm:flex-row sm:items-center sm:justify-between">
           <div>
-            <strong className="text-lg">Butuh lebih dari 50 pcs?</strong>
-            <p className="mt-1 text-sm text-[#92998b]">Dapatkan harga proyek khusus untuk komunitas, sekolah, dan event.</p>
+            <strong className="block text-4xl font-black uppercase leading-[.9] tracking-tight text-white sm:text-6xl"
+                    style={{ fontFamily: "var(--font-sans)", fontStretch: "condensed", fontStyle: "italic" }}>
+              Butuh lebih dari 50 pcs?
+            </strong>
+            <p className="mt-3 text-sm text-[#92998b]">Dapatkan harga proyek khusus untuk komunitas, sekolah, dan event.</p>
           </div>
           <a
             href={WA_LINK}
