@@ -227,3 +227,36 @@ export async function getCatalogData(): Promise<CatalogCategory[] | null> {
       })),
   }));
 }
+
+// ---------------------------------------------------------------------------
+// Katalog Features (Keunggulan section)
+// ---------------------------------------------------------------------------
+export interface KatalogFeature {
+  id: string;
+  section: "feature" | "info";
+  icon: string | null;
+  title: string;
+  description: string;
+  sortOrder: number;
+}
+
+export async function getKatalogFeatures(): Promise<KatalogFeature[] | null> {
+  if (!supabaseConfigured()) return null;
+  const supabase = await createClient();
+  const { data, error } = await supabase
+    .from("katalog_features")
+    .select("*")
+    .order("section")
+    .order("sort_order", { ascending: true });
+
+  if (error || !data?.length) return null;
+
+  return data.map((row) => ({
+    id: row.id,
+    section: row.section as "feature" | "info",
+    icon: row.icon,
+    title: row.title,
+    description: row.description,
+    sortOrder: row.sort_order,
+  }));
+}

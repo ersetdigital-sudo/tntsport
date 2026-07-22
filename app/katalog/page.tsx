@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Image from "next/image";
 import { ProductCatalog } from "@/components/ProductCatalog";
-import { getCatalogData } from "@/lib/queries";
+import { getCatalogData, getKatalogFeatures } from "@/lib/queries";
 
 export async function generateMetadata(): Promise<Metadata> {
   return {
@@ -334,7 +334,35 @@ function Hero() {
 /* Keunggulan                                                           */
 /* ------------------------------------------------------------------ */
 
-function Keunggulan() {
+// Lucide icon map for dynamic features
+import { Thermometer, Palette, Scissors, Clock, Cog, Droplets, Headphones, Sparkles } from "lucide-react";
+
+const LUCIDE_ICON_MAP: Record<string, React.ComponentType<{ size?: number; className?: string }>> = {
+  Thermometer, Palette, Scissors, Clock, Cog, Droplets, Headphones, Sparkles,
+};
+
+function FeatureIcon({ iconName, fallbackSrc }: { iconName: string | null; fallbackSrc?: string }) {
+  if (iconName && LUCIDE_ICON_MAP[iconName]) {
+    const Icon = LUCIDE_ICON_MAP[iconName];
+    return <Icon size={20} className="text-white" />;
+  }
+  if (fallbackSrc) {
+    return <Image src={fallbackSrc} alt="" width={20} height={20} className="h-4 w-4 invert sm:h-5 sm:w-5" />;
+  }
+  return <Sparkles size={20} className="text-white" />;
+}
+
+async function Keunggulan() {
+  const features = await getKatalogFeatures();
+
+  const featureCards = features
+    ?.filter((f) => f.section === "feature")
+    .map((f) => ({ icon: f.icon, title: f.title, desc: f.description })) ?? KEUNGGULAN;
+
+  const infoCards = features
+    ?.filter((f) => f.section === "info")
+    .map((f) => ({ icon: f.icon, title: f.title, desc: f.description })) ?? INFO_CARDS;
+
   return (
     <section id="keunggulan" className="border-b border-white/10 bg-[#0a0c09] py-16 sm:py-24">
       <div className="mx-auto max-w-7xl px-5 lg:px-8">
@@ -356,10 +384,10 @@ function Keunggulan() {
 
         {/* Feature cards */}
         <div className="grid gap-3 sm:grid-cols-2 sm:gap-4 lg:grid-cols-4">
-          {KEUNGGULAN.map((item, i) => (
+          {featureCards.map((item, i) => (
             <article key={i} className="rounded-3xl border border-white/10 bg-[#131611] p-5 shadow-2xl shadow-black/20 transition duration-300 hover:-translate-y-1 hover:border-[#c5f518]/35 sm:p-6">
               <div className="mb-6 flex h-10 w-10 items-center justify-center rounded-xl bg-[#16a34a] shadow-[0_8px_24px_rgba(22,163,74,.2)] sm:mb-8 sm:h-11 sm:w-11">
-                <Image src={item.icon} alt="" width={20} height={20} className="h-4 w-4 invert sm:h-5 sm:w-5" />
+                <FeatureIcon iconName={item.icon} fallbackSrc={KEUNGGULAN[i]?.icon} />
               </div>
               <h3 className="text-sm font-black uppercase text-[#f0f2ec] sm:text-base">{item.title}</h3>
               <p className="mt-2 text-xs leading-relaxed text-[#92998b] sm:mt-3 sm:text-sm">{item.desc}</p>
@@ -369,16 +397,12 @@ function Keunggulan() {
 
         {/* Info cards */}
         <div className="mt-5 grid gap-3 sm:grid-cols-2 md:grid-cols-3">
-          {INFO_CARDS.map((item, i) => (
+          {infoCards.map((item, i) => (
             <div key={i} className="group relative overflow-hidden rounded-2xl border border-white/10 bg-gradient-to-br from-[#171b14] to-[#10120f] p-5 transition duration-300 hover:-translate-y-1 hover:border-[#c5f518]/35">
               <div className="absolute -right-8 -top-8 h-24 w-24 rounded-full bg-[#c5f518]/[.04] blur-2xl transition group-hover:bg-[#c5f518]/10" />
               <div className="relative flex items-center gap-4">
                 <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl border border-[#c5f518]/25 bg-[#c5f518]/10 shadow-[inset_0_1px_0_rgba(255,255,255,.08)]">
-                  {item.icon ? (
-                    <Image src={item.icon} alt="" width={24} height={24} className="h-6 w-6 invert" />
-                  ) : (
-                    <span className="flex h-6 w-6 items-center justify-center text-lg text-[#c5f518]">◇</span>
-                  )}
+                  <FeatureIcon iconName={item.icon} fallbackSrc={INFO_CARDS[i]?.icon} />
                 </div>
                 <div>
                   <strong className="block text-sm font-black text-[#f0f2ec]">{item.title}</strong>

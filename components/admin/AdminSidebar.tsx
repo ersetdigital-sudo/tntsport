@@ -14,6 +14,7 @@ import {
   ShieldCheck,
   Tag,
   Shirt,
+  Sparkles,
   LogOut,
 } from "lucide-react";
 
@@ -59,6 +60,7 @@ const NAV_GROUPS: NavGroup[] = [
     items: [
       { href: "/admin/products", label: "Produk", icon: Shirt },
       { href: "/admin/categories", label: "Kategori", icon: Tag },
+      { href: "/admin/katalog-features", label: "Keunggulan", icon: Sparkles },
     ],
   },
   {
