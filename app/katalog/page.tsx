@@ -195,10 +195,8 @@ function Navbar() {
   return (
     <header className="sticky top-0 z-50 border-b border-white/10 bg-[#0b0b0b]/95 text-white backdrop-blur-xl">
       <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:h-18 sm:px-5 lg:px-8">
-        <a href="/" className="flex items-center gap-2.5" aria-label="TNT Sport Home">
-          <div className="text-base font-black italic tracking-tight sm:text-xl">
-            TNT <span className="text-[#c5f518]">SPORT</span>
-          </div>
+        <a href="/" className="text-base font-black italic tracking-tight sm:text-xl" aria-label="TNT Sport Home">
+          TNT <span className="text-[#c5f518]">SPORT</span>
         </a>
         <nav className="hidden items-center gap-6 text-xs font-semibold text-white/70 lg:flex lg:gap-8 lg:text-sm">
           <a href="#keunggulan" className="hover:text-[#c5f518]">Keunggulan</a>
@@ -207,14 +205,6 @@ function Navbar() {
           <a href="#cara-order" className="hover:text-[#c5f518]">Cara Order</a>
           <a href="#ulasan" className="hover:text-[#c5f518]">Ulasan</a>
         </nav>
-        <a
-          href={WA_LINK}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="rounded-full bg-[#c5f518] px-4 py-2 text-xs font-black text-[#080a07] transition hover:bg-[#d4ff33] sm:px-5 sm:py-2.5 sm:text-sm"
-        >
-          Konsultasi Gratis
-        </a>
       </div>
     </header>
   );
