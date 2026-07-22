@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Image from "next/image";
 import { ProductCatalog } from "@/components/ProductCatalog";
+import { getCatalogData } from "@/lib/queries";
 
 export async function generateMetadata(): Promise<Metadata> {
   return {
@@ -394,7 +395,9 @@ function Keunggulan() {
 /* Kategori (Catalog Tabs)                                              */
 /* ------------------------------------------------------------------ */
 
-function Kategori() {
+async function Kategori() {
+  const catalogData = await getCatalogData();
+
   return (
     <section id="kategori" className="bg-white py-16 sm:py-24">
       <div className="mx-auto max-w-7xl px-5 lg:px-8">
@@ -410,7 +413,7 @@ function Kategori() {
           <p className="mt-4 max-w-xl text-sm leading-relaxed text-[#666] sm:mt-6 sm:text-base">
             Kirim referensi, logo, atau warna tim. Kami bantu ubah jadi desain jersey yang siap diproduksi.
           </p>
-          <ProductCatalog />
+          <ProductCatalog categories={catalogData ?? undefined} />
         </div>
       </div>
     </section>

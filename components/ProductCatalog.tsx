@@ -4,10 +4,22 @@ import { useState, useCallback } from "react";
 import Image from "next/image";
 import { CATALOG_PRODUCTS, getWhatsAppLink, type Product } from "@/lib/products";
 
-const CATEGORIES = CATALOG_PRODUCTS.map((cat) => ({
-  id: cat.id,
-  label: cat.label,
-}));
+/* ------------------------------------------------------------------ */
+/* Types                                                                */
+/* ------------------------------------------------------------------ */
+
+interface CatalogProduct {
+  id: string;
+  catalogue: string;
+  image: string;
+  alt: string;
+}
+
+interface CatalogCategory {
+  id: string;
+  label: string;
+  products: CatalogProduct[];
+}
 
 /* ------------------------------------------------------------------ */
 /* Zoom Preview Modal                                                   */
@@ -18,7 +30,7 @@ function ZoomModal({
   categoryLabel,
   onClose,
 }: {
-  product: Product;
+  product: CatalogProduct;
   categoryLabel: string;
   onClose: () => void;
 }) {
@@ -87,9 +99,9 @@ function ProductCard({
   categoryLabel,
   onSelect,
 }: {
-  product: Product;
+  product: CatalogProduct;
   categoryLabel: string;
-  onSelect: (product: Product) => void;
+  onSelect: (product: CatalogProduct) => void;
 }) {
   return (
     <article className="group relative overflow-hidden rounded-2xl bg-white shadow-sm transition duration-300 hover:-translate-y-1 hover:shadow-lg sm:rounded-3xl">
@@ -152,26 +164,43 @@ function ProductSkeleton() {
 /* Main Catalog Component                                               */
 /* ------------------------------------------------------------------ */
 
-export function ProductCatalog() {
-  const [activeCategory, setActiveCategory] = useState(CATEGORIES[0].id);
-  const [isLoading, setIsLoading] = useState(false);
-  const [zoomedProduct, setZoomedProduct] = useState<Product | null>(null);
+interface ProductCatalogProps {
+  categories?: CatalogCategory[];
+}
 
-  const activeCategoryData = CATALOG_PRODUCTS.find((c) => c.id === activeCategory)!;
+export function ProductCatalog({ categories: propCategories }: ProductCatalogProps) {
+  // Use prop data if provided, otherwise fall back to static data
+  const categories: CatalogCategory[] = propCategories ?? CATALOG_PRODUCTS.map((cat) => ({
+    id: cat.id,
+    label: cat.label,
+    products: cat.products.map((p) => ({
+      id: p.id,
+      catalogue: p.catalogue,
+      image: p.image,
+      alt: p.alt,
+    })),
+  }));
+
+  const [activeCategory, setActiveCategory] = useState(categories[0]?.id ?? "");
+  const [isLoading, setIsLoading] = useState(false);
+  const [zoomedProduct, setZoomedProduct] = useState<CatalogProduct | null>(null);
+
+  const activeCategoryData = categories.find((c) => c.id === activeCategory) ?? categories[0];
 
   const handleCategoryChange = useCallback((categoryId: string) => {
     if (categoryId === activeCategory) return;
     setIsLoading(true);
     setActiveCategory(categoryId);
-    // Simulate brief loading for smooth transition
     setTimeout(() => setIsLoading(false), 300);
   }, [activeCategory]);
+
+  if (!activeCategoryData) return null;
 
   return (
     <>
       {/* Category tabs */}
       <div className="mt-5 flex flex-wrap gap-2 sm:mt-8 sm:gap-2.5" role="tablist" aria-label="Kategori katalog jersey">
-        {CATEGORIES.map((cat) => (
+        {categories.map((cat) => (
           <button
             key={cat.id}
             type="button"

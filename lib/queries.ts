@@ -168,7 +168,7 @@ export async function getSocialLinks(): Promise<SocialLink[]> {
 }
 
 // ---------------------------------------------------------------------------
-// Catalog (used by /katalog pages — implemented in Phase 7)
+// Catalog (used by /katalog pages)
 // ---------------------------------------------------------------------------
 export async function getProducts() {
   if (!supabaseConfigured()) return [];
@@ -192,4 +192,38 @@ export async function getCategories() {
 
   if (error || !data) return [];
   return data;
+}
+
+export interface CatalogCategory {
+  id: string;
+  label: string;
+  products: { id: string; catalogue: string; image: string; alt: string }[];
+}
+
+export async function getCatalogData(): Promise<CatalogCategory[] | null> {
+  if (!supabaseConfigured()) return null;
+  const supabase = await createClient();
+
+  const [{ data: categories, error: catErr }, { data: products, error: prodErr }] = await Promise.all([
+    supabase.from("product_categories").select("id, name, slug").order("sort_order"),
+    supabase
+      .from("products")
+      .select("id, name, slug, category_id, product_images(url, alt, sort_order)")
+      .order("sort_order"),
+  ]);
+
+  if (catErr || prodErr || !categories?.length) return null;
+
+  return categories.map((cat) => ({
+    id: cat.slug,
+    label: cat.name,
+    products: (products ?? [])
+      .filter((p) => p.category_id === cat.id)
+      .map((p) => ({
+        id: p.id,
+        catalogue: p.name,
+        image: (p as any).product_images?.sort((a: any, b: any) => a.sort_order - b.sort_order)?.[0]?.url ?? "/products/placeholder.svg",
+        alt: p.name,
+      })),
+  }));
 }
