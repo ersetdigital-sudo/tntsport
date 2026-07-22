@@ -270,20 +270,20 @@ function CheckIcon() {
 function Navbar() {
   return (
     <header className="sticky top-0 z-50 border-b border-white/10 bg-[#0b0b0b]/95 text-white backdrop-blur-xl">
-      <div className="mx-auto flex h-18 max-w-7xl items-center justify-between px-5 lg:px-8">
-        <a href="/" className="flex items-center gap-3" aria-label="TNT Sport Home">
+      <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:h-18 sm:px-5 lg:px-8">
+        <a href="/" className="flex items-center gap-2 sm:gap-3" aria-label="TNT Sport Home">
           <Image
             src="/af7bb11e-1e11-423d-809a-1d5c75fbe91f.png"
             alt="TNT Sport"
             width={40}
             height={40}
-            className="h-10 w-10 rounded-xl object-contain"
+            className="h-8 w-8 rounded-lg object-contain sm:h-10 sm:w-10 sm:rounded-xl"
           />
-          <div className="text-xl font-black italic tracking-tight">
+          <div className="hidden text-lg font-black italic tracking-tight sm:block sm:text-xl">
             TNT <span className="text-[#16a34a]">SPORT</span>
           </div>
         </a>
-        <nav className="hidden items-center gap-8 text-sm font-semibold text-white/70 md:flex">
+        <nav className="hidden items-center gap-6 text-xs font-semibold text-white/70 lg:flex lg:gap-8 lg:text-sm">
           <a href="#keunggulan" className="hover:text-[#16a34a]">Keunggulan</a>
           <a href="#kategori" className="hover:text-[#16a34a]">Katalog</a>
           <a href="#harga" className="hover:text-[#16a34a]">Harga</a>
@@ -294,9 +294,10 @@ function Navbar() {
           href={WA_LINK}
           target="_blank"
           rel="noopener noreferrer"
-          className="rounded-full bg-[#16a34a] px-5 py-2.5 text-sm font-black text-white transition hover:bg-green-500"
+          className="rounded-full bg-[#16a34a] px-3 py-2 text-[11px] font-black text-white transition hover:bg-green-500 sm:px-5 sm:py-2.5 sm:text-sm"
         >
-          Konsultasi Gratis
+          <span className="hidden sm:inline">Konsultasi Gratis</span>
+          <span className="sm:hidden">Chat</span>
         </a>
       </div>
     </header>
