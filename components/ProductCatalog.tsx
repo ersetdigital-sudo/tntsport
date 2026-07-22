@@ -242,6 +242,7 @@ export function ProductCatalog({ categories: propCategories }: ProductCatalogPro
                 onSelect={setZoomedProduct}
               />
             ))
+        }
       </div>
 
       {/* Zoom modal */}
