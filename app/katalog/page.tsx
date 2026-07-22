@@ -1,19 +1,17 @@
 import type { Metadata } from "next";
 import Image from "next/image";
-import { getBrand } from "@/lib/queries";
 
 export async function generateMetadata(): Promise<Metadata> {
-  const brand = await getBrand();
   return {
-    title: "Katalog Jersey Custom Full Printing",
+    title: "Katalog Jersey Custom Full Printing — TNT SPORT",
     description:
-      "Jelajahi model jersey custom full printing TNT SPORT untuk tim futsal, sepak bola, komunitas, sekolah, dan event. Desain bebas, bahan nyaman, produksi rapi.",
+      "Jelajahi katalog jersey custom full printing TNT SPORT. Mulai 65 ribuan, bebas desain, tanpa minimal order. Untuk futsal, sepak bola, komunitas, sekolah, dan event.",
     alternates: { canonical: "/katalog" },
     openGraph: {
-      title: `Katalog Jersey Custom Full Printing · ${brand.name}`,
+      title: "Katalog Jersey Custom Full Printing · TNT SPORT",
       description:
-        "Pilih model jersey custom favoritmu. Full printing, desain bebas, proses order simpel lewat WhatsApp.",
-      url: `${brand.url ?? ""}/katalog`,
+        "Jersey full printing mulai 65 ribuan. Bebas desain, bebas tambah nama & nomor, dan bisa order satuan.",
+      url: "https://tntsport.id/katalog",
       type: "website",
       locale: "id_ID",
     },
@@ -24,139 +22,97 @@ export async function generateMetadata(): Promise<Metadata> {
 /* Data                                                                 */
 /* ------------------------------------------------------------------ */
 
-interface JerseyModel {
-  name: string;
-  tag: string;
-  desc: string;
-  accent: string;
-}
-
-const MODELS: JerseyModel[] = [
-  {
-    name: "Striker Neon",
-    tag: "Futsal & Sepak Bola",
-    desc: "Desain bold dengan aksen neon yang menonjol di lapangan. Cocok untuk tim yang mau tampil mencolok.",
-    accent: "var(--k-accent)",
-  },
-  {
-    name: "Street Futsal",
-    tag: "Futsal & Komunitas",
-    desc: "Grafis street-style yang kasual dan modern. Pas untuk komunitas futsal dan tim kampus.",
-    accent: "#e600ff",
-  },
-  {
-    name: "Classic League",
-    tag: "Liga & Turnamen",
-    desc: "Desain clean dan profesional untuk pertandingan resmi. Elegan di lapangan, rapi di foto tim.",
-    accent: "#55beff",
-  },
-  {
-    name: "Training Squad",
-    tag: "Latihan & Sekolah",
-    desc: "Simpel, nyaman, dan tahan cuci berulang. Dirancang untuk pemakaian harian.",
-    accent: "#f59e0b",
-  },
-  {
-    name: "Retro 90s",
-    tag: "Koleksi & Event",
-    desc: "Nostalgia era 90-an dengan warna-warna berani. Cocok untuk event, reunian, atau tim yang suka gaya klasik.",
-    accent: "#f36458",
-  },
-  {
-    name: "Tournament Pro",
-    tag: "Turnamen Profesional",
-    desc: "Konstruksi premium untuk pertandingan intens. Bahan cepat kering, jahitan rapi, detail presisi.",
-    accent: "var(--k-accent)",
-  },
-];
-
 const WA_LINK =
   "https://wa.me/6281234567890?text=Halo%20TNT%20SPORT%2C%20saya%20mau%20tanya%20jersey%20custom";
 
-const STEPS = [
+const KATALOG_ITEMS = [
   {
-    num: "01",
-    title: "Konsultasi",
-    desc: "Chat admin, kirim referensi desain, dan diskusi kebutuhan tim kamu.",
+    code: "BOLA-54",
+    title: "Futsal / Bola",
+    image: "https://api.moda.app/api/v2/images/ref/defb6388-ebe3-40a0-b457-d08334b6baae?v=d9c4edb32255a94c&s=131d426c96ffb7ed53b81319bf6dd905",
+    alt: "Jersey futsal putih",
   },
   {
-    num: "02",
-    title: "Desain",
-    desc: "Tim desain TNT SPORT buatkan mockup jersey sesuai brief kamu.",
-  },
-  {
-    num: "03",
-    title: "Produksi",
-    desc: "Setelah approve, jersey diproduksi full printing dan dikirim ke alamat.",
+    code: "BOLA-53",
+    title: "Custom Team",
+    image: "https://api.moda.app/api/v2/images/ref/9ad7f29b-74cc-4583-b40b-b77d39d5049a?v=ebde868f4a24317d&s=ffa3a6f7caa47c4febd51c697148a90a",
+    alt: "Jersey futsal merah",
   },
 ];
 
-const FEATURES = [
+const KEUNGGULAN = [
   {
-    icon: "01",
-    title: "Full Printing",
-    desc: "Seluruh permukaan jersey dicetak penuh tanpa batasan warna atau gradasi.",
+    num: "01",
+    title: "Free Custom Design",
+    desc: "Desainer kami bantu wujudkan ide kamu, revisi sampai puas tanpa biaya tambahan.",
   },
   {
-    icon: "02",
-    title: "Desain Bebas",
-    desc: "Mau pakai desain sendiri atau dibuatkan tim kami — semua bisa.",
+    num: "02",
+    title: "Bahan Adem",
+    desc: "Material ringan, menyerap keringat, dan nyaman untuk aktivitas intens.",
   },
   {
-    icon: "03",
-    title: "Bahan Premium",
-    desc: "Dry-fit, breathable, dan tahan cuci berulang. Nyaman dipakai seharian.",
+    num: "03",
+    title: "Jahitan Bergaransi",
+    desc: "Dijahit presisi dengan mesin modern agar rapi, kuat, dan tahan lama.",
   },
   {
-    icon: "04",
-    title: "Proses Cepat",
-    desc: "Produksi 5–7 hari kerja. Untuk urgent, tersedia layanan ekspres.",
+    num: "04",
+    title: "Produksi Cepat",
+    desc: "Proses tepat waktu dengan kontrol kualitas sebelum jersey dikirim.",
   },
-  {
-    icon: "05",
-    title: "Harga Transparan",
-    desc: "Tidak ada biaya tersembunyi. Harga sudah termasuk desain dan revisi.",
-  },
-  {
-    icon: "06",
-    title: "Garansi Kualitas",
-    desc: "Jersey cacat produksi? Kami ganti baru tanpa biaya tambahan.",
-  },
+];
+
+const STEPS = [
+  { num: "01", title: "Chat", desc: "Ceritakan kebutuhan jersey kamu via WhatsApp." },
+  { num: "02", title: "Desain", desc: "Kami buatkan mockup sesuai keinginan." },
+  { num: "03", title: "ACC & DP", desc: "Setujui desain dan lakukan DP 50%." },
+  { num: "04", title: "Produksi", desc: "Jersey diproduksi dan dicek kualitasnya." },
+  { num: "05", title: "Kirim", desc: "Dikemas aman dan dikirim ke alamatmu." },
 ];
 
 const TESTIMONIALS = [
   {
     quote:
-      "Jersey tim futsal kami hasilnya luar biasa. Teman-teman pada puas, bahkan lawan tanya beli di mana.",
-    name: "Rizky Pratama",
-    role: "Kapten Tim Futsal Garuda",
-    rating: 5,
+      "Sudah 3x order jersey futsal di sini. Kualitas konsisten bagus, jahitan kuat, bahan adem. CS juga fast response.",
+    name: "Budi Santoso",
+    location: "Jakarta — Tim Futsal RW",
   },
   {
     quote:
-      "Prosesnya cepat dan adminnya sabar banget revisi desain sampai cocok. Harga juga fair.",
-    name: "Dewi Lestari",
-    role: "Manajer Komunitas Runner ID",
-    rating: 5,
-  },
-  {
-    quote:
-      "Sudah 3x order di TNT SPORT. Kualitas konsisten, pengiriman tepat waktu. Recommended!",
-    name: "Ahmad Fauzi",
-    role: "Guru Olahraga SMPN 12",
-    rating: 5,
+      "Order 40 pcs untuk sekolah, selesai tepat waktu sebelum kompetisi. Anak-anak senang banget sama hasilnya.",
+    name: "Siti Rahayu",
+    location: "Bandung — Guru Olahraga SMA",
   },
 ];
 
-const MARQUEE_TEAMS = [
-  "FC GARUDA",
-  "RUNNER ID",
-  "SMPN 12",
-  "FUTSAL KAMPUS",
-  "KOMUNITAS SEPEDA",
-  "TIM VOLI NUSANTARA",
-  "JERSEY EVENT 2025",
-  "LIGA FUTSAL INDONESIA",
+const FAQ_ITEMS = [
+  {
+    q: "Apakah ada minimal order?",
+    a: "Tidak ada. Kamu bisa order satuan. Kalau order 6 pcs, kamu dapat bonus 1 pcs gratis dan berlaku kelipatannya.",
+  },
+  {
+    q: "Apakah bisa request desain sendiri?",
+    a: "Bisa. Kirim referensi, logo, atau ide kamu via WhatsApp. Tim desain akan bantu membuat mockup dan revisi sebelum produksi.",
+  },
+  {
+    q: "Bagaimana sistem pembayarannya?",
+    a: "DP 50% setelah desain disetujui, lalu pelunasan sebelum barang dikirim.",
+  },
+  {
+    q: "Bahan jersey apa yang tersedia?",
+    a: "Tersedia Dryfit Brazil, Milano, Embos, Jacquard, Benzema, Serena, dan bahan khusus sesuai kebutuhan.",
+  },
+];
+
+const CATEGORIES = [
+  { emoji: "⚽", label: "Futsal" },
+  { emoji: "🏸", label: "Badminton" },
+  { emoji: "🏐", label: "Voli" },
+  { emoji: "🏀", label: "Basket" },
+  { emoji: "🎮", label: "Esport" },
+  { emoji: "🚴", label: "Road Bike" },
+  { emoji: "+", label: "Lainnya" },
 ];
 
 /* ------------------------------------------------------------------ */
@@ -169,6 +125,7 @@ function JsonLd() {
     "@type": "Organization",
     name: "TNT SPORT",
     url: "https://tntsport.id",
+    logo: "https://tntsport.id/logo.jpg",
     sameAs: [],
   };
   const productSchema = {
@@ -176,10 +133,12 @@ function JsonLd() {
     "@type": "Product",
     name: "Jersey Custom Full Printing TNT SPORT",
     description:
-      "Jersey custom full printing untuk tim futsal, sepak bola, komunitas, dan event. Desain bebas, bahan premium, proses cepat.",
+      "Jersey custom full printing untuk tim futsal, sepak bola, komunitas, dan event. Desain bebas, bahan premium, harga mulai 65 ribu.",
     brand: { "@type": "Brand", name: "TNT SPORT" },
     offers: {
       "@type": "AggregateOffer",
+      lowPrice: "65000",
+      highPrice: "250000",
       priceCurrency: "IDR",
       availability: "https://schema.org/InStock",
     },
@@ -218,38 +177,90 @@ function JsonLd() {
 /* Icons (inline SVG)                                                   */
 /* ------------------------------------------------------------------ */
 
-function ChevronRight() {
-  return (
-    <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden>
-      <path
-        d="M6 3l5 5-5 5"
-        stroke="currentColor"
-        strokeWidth="1.5"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
-    </svg>
-  );
-}
-
-function StarIcon({ filled }: { filled?: boolean }) {
-  return (
-    <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden>
-      <path
-        d="M7 1l1.76 3.57 3.94.57-2.85 2.78.67 3.93L7 10.27 3.48 11.85l.67-3.93L1.3 5.14l3.94-.57L7 1z"
-        fill={filled ? "var(--k-accent)" : "none"}
-        stroke="var(--k-accent)"
-        strokeWidth="1"
-      />
-    </svg>
-  );
-}
-
 function WhatsAppIcon() {
   return (
-    <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden>
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden>
       <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z" />
     </svg>
+  );
+}
+
+function LightningIcon() {
+  return (
+    <svg className="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
+      <path d="m13 2-9 12h8l-1 8 9-12h-8l1-8Z" />
+    </svg>
+  );
+}
+
+function FactoryIcon() {
+  return (
+    <svg className="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
+      <path d="M3 21h18M5 21V8l7-4v17M12 10l7-3v14M8 10v2M8 15v2M15 11v2M18 10v2M15 16v2M18 15v2" />
+    </svg>
+  );
+}
+
+function GiftIcon() {
+  return (
+    <svg className="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
+      <path d="M20 12v10H4V12M2 7h20v5H2zM12 22V7M12 7H7.5a2.5 2.5 0 1 1 2.4-3.2L12 7Zm0 0h4.5a2.5 2.5 0 1 0-2.4-3.2L12 7Z" />
+    </svg>
+  );
+}
+
+function PenIcon() {
+  return (
+    <svg className="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
+      <path d="m4 20 4.5-1 10-10a2.1 2.1 0 0 0-3-3l-10 10L4 20Z" />
+      <path d="m13.5 8 3 3" />
+    </svg>
+  );
+}
+
+function CheckCircleIcon() {
+  return (
+    <svg className="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
+      <circle cx="12" cy="12" r="9" />
+      <path d="m8 12 2.5 2.5L16 9" />
+    </svg>
+  );
+}
+
+function StarIcon() {
+  return (
+    <svg className="h-5 w-5" viewBox="0 0 24 24" fill="currentColor">
+      <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
+    </svg>
+  );
+}
+
+/* ------------------------------------------------------------------ */
+/* Ticker                                                               */
+/* ------------------------------------------------------------------ */
+
+function Ticker() {
+  const items = [
+    { icon: <LightningIcon />, text: "Proses Cepat" },
+    { icon: <FactoryIcon />, text: "Langsung Pabrik" },
+    { icon: <GiftIcon />, text: "Beli 6 Gratis 1" },
+    { icon: <PenIcon />, text: "Desain Bebas" },
+    { icon: <CheckCircleIcon />, text: "Bisa Satuan" },
+  ];
+  const doubled = [...items, ...items];
+
+  return (
+    <div className="overflow-hidden border-y-4 border-[#11110f] bg-[#ff5a1f] py-4 text-black">
+      <div className="ticker flex w-max items-center whitespace-nowrap text-xl font-black uppercase italic tracking-wide sm:text-2xl"
+           style={{ fontFamily: "var(--k-font-display)" }}>
+        {doubled.map((item, i) => (
+          <span key={i} className="flex items-center gap-2 pr-8">
+            {item.icon}
+            {item.text}
+          </span>
+        ))}
+      </div>
+    </div>
   );
 }
 
@@ -259,139 +270,137 @@ function WhatsAppIcon() {
 
 function Navbar() {
   return (
-    <header className="ks-nav">
-      <div className="ks-nav__inner">
-        <a href="/" className="ks-nav__logo">
-          <span className="ks-nav__logo-img">
+    <header className="fixed inset-x-0 top-0 z-50 border-b border-white/10 bg-[#11110f]/90 text-white backdrop-blur-xl">
+      <nav className="mx-auto flex h-20 max-w-7xl items-center justify-between px-5 lg:px-8">
+        <a href="/" className="flex items-center gap-3">
+          <span className="grid h-11 w-11 place-items-center overflow-hidden rounded-xl bg-[#ff5a1f]">
             <Image
               src="/logo.jpg"
               alt="TNT SPORT logo"
-              width={36}
-              height={36}
-              className="h-full w-full rounded-full object-cover"
+              width={44}
+              height={44}
+              className="h-full w-full object-cover"
               priority
             />
           </span>
-          TNT SPORT
+          <span className="text-2xl font-black uppercase tracking-tight"
+                style={{ fontFamily: "var(--k-font-display)" }}>
+            TNT SPORT
+          </span>
         </a>
-        <nav className="ks-nav__links" aria-label="Navigasi utama">
-          <a href="#katalog" className="ks-nav__link">
-            Katalog
-          </a>
-          <a href="#keunggulan" className="ks-nav__link">
-            Keunggulan
-          </a>
-          <a href="#proses" className="ks-nav__link">
-            Proses
-          </a>
-          <a href="#testimoni" className="ks-nav__link">
-            Testimoni
-          </a>
-        </nav>
+        <div className="hidden items-center gap-8 text-sm font-semibold lg:flex">
+          <a href="#keunggulan" className="transition hover:text-[#ff5a1f]">Keunggulan</a>
+          <a href="#katalog" className="transition hover:text-[#ff5a1f]">Katalog</a>
+          <a href="#harga" className="transition hover:text-[#ff5a1f]">Harga</a>
+          <a href="#cara-order" className="transition hover:text-[#ff5a1f]">Cara Order</a>
+        </div>
         <a
           href={WA_LINK}
           target="_blank"
           rel="noopener noreferrer"
-          className="ks-nav__cta"
+          className="hidden rounded-full bg-[#dfff00] px-6 py-3 text-sm font-extrabold text-black transition hover:-translate-y-0.5 hover:bg-white lg:inline-flex"
         >
-          <WhatsAppIcon />
-          Chat Admin
+          KONSULTASI GRATIS ↗
         </a>
-      </div>
+      </nav>
     </header>
   );
 }
 
 /* ------------------------------------------------------------------ */
-/* Hero Split                                                           */
+/* Hero                                                                 */
 /* ------------------------------------------------------------------ */
 
-function HeroSplit() {
+function Hero() {
   return (
-    <section className="ks-hero">
-      <div className="ks-hero__grid">
+    <section id="home" className="relative min-h-screen overflow-hidden bg-[#11110f] pt-20 text-white">
+      {/* Grid noise */}
+      <div className="absolute inset-0 opacity-40"
+           style={{
+             backgroundImage: "linear-gradient(rgba(255,255,255,.07) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.07) 1px,transparent 1px)",
+             backgroundSize: "44px 44px",
+           }} />
+      {/* Glow orb */}
+      <div className="absolute -right-32 top-32 h-96 w-96 rounded-full bg-[#ff5a1f]/30 blur-[120px]" />
+
+      <div className="relative mx-auto grid max-w-7xl items-center gap-14 px-5 py-20 lg:min-h-[calc(100vh-80px)] lg:grid-cols-[1.05fr_.95fr] lg:px-8 lg:py-24">
         {/* Left: Content */}
-        <div className="ks-hero__content">
-          <span className="ks-badge">JERSEY CUSTOM</span>
-          <h1 className="ks-hero__title">
-            Desain Jersey
-            <br />
-            Impian Tim Kamu
+        <div>
+          <div className="mb-7 inline-flex items-center gap-2 rounded-full border border-[#dfff00]/30 bg-[#dfff00]/10 px-4 py-2 text-xs font-bold uppercase tracking-[.18em] text-[#dfff00]">
+            <span className="h-2 w-2 animate-pulse rounded-full bg-[#dfff00]" />
+            #1 Pabrik Jersey Terpercaya
+          </div>
+          <h1 className="max-w-3xl text-[4.3rem] font-black uppercase italic leading-[.84] tracking-[-.04em] sm:text-8xl lg:text-[7.2rem]"
+              style={{ fontFamily: "var(--k-font-display)" }}>
+            Bikin Tim Lo <span className="text-[#ff5a1f]">Tampil Beda.</span>
           </h1>
-          <p className="ks-hero__desc">
-            Jersey custom full printing untuk tim futsal, sepak bola, komunitas,
-            sekolah, dan event. Desain bebas, bahan premium, proses cepat.
+          <p className="mt-8 max-w-xl text-lg leading-relaxed text-white/65 sm:text-xl">
+            Jersey full printing mulai <strong className="text-white">65 ribuan</strong>. Bebas desain, bebas tambah nama &amp; nomor, dan bisa order satuan.
           </p>
-          <div className="ks-hero__actions">
-            <a href="#katalog" className="ks-btn-primary">
-              Lihat Katalog
-              <ChevronRight />
-            </a>
+          <div className="mt-9 flex flex-col gap-3 sm:flex-row">
             <a
               href={WA_LINK}
               target="_blank"
               rel="noopener noreferrer"
-              className="ks-btn-outline"
+              className="rounded-full bg-[#ff5a1f] px-8 py-4 text-center font-extrabold uppercase transition hover:-translate-y-1 hover:bg-[#dfff00] hover:text-black"
             >
-              Chat Admin
+              Bikin Jersey Sekarang ↗
+            </a>
+            <a
+              href="#katalog"
+              className="rounded-full border border-white/20 px-8 py-4 text-center font-bold uppercase transition hover:border-white hover:bg-white hover:text-black"
+            >
+              Lihat Katalog
             </a>
           </div>
-          <div className="ks-hero__proof">
-            <div className="ks-hero__avatars">
-              <span className="ks-hero__avatar" style={{ background: "var(--k-accent)" }}>
-                RP
-              </span>
-              <span className="ks-hero__avatar" style={{ background: "#e600ff" }}>
-                DL
-              </span>
-              <span className="ks-hero__avatar" style={{ background: "#55beff" }}>
-                AF
-              </span>
+          {/* Stats */}
+          <div className="mt-12 grid max-w-lg grid-cols-3 border-t border-white/15 pt-7">
+            <div>
+              <strong className="block text-3xl font-black sm:text-4xl" style={{ fontFamily: "var(--k-font-display)" }}>350K+</strong>
+              <span className="text-xs text-white/50">Order selesai</span>
             </div>
-            <p className="ks-hero__proof-text">
-              Dipercaya <strong>500+</strong> tim di seluruh Indonesia
-            </p>
+            <div>
+              <strong className="block text-3xl font-black sm:text-4xl" style={{ fontFamily: "var(--k-font-display)" }}>9K+</strong>
+              <span className="text-xs text-white/50">Klien puas</span>
+            </div>
+            <div>
+              <strong className="block text-3xl font-black text-[#dfff00] sm:text-4xl" style={{ fontFamily: "var(--k-font-display)" }}>4.9★</strong>
+              <span className="text-xs text-white/50">Rating pelanggan</span>
+            </div>
           </div>
         </div>
 
         {/* Right: Visual */}
-        <div className="ks-hero__visual">
-          <div className="ks-hero__mockup">
-            <div className="ks-hero__mockup-bar">
-              <span className="ks-hero__dot ks-hero__dot--red" />
-              <span className="ks-hero__dot ks-hero__dot--gold" />
-              <span className="ks-hero__dot ks-hero__dot--green" />
-              <span className="ks-hero__mockup-url">tntsport.id/katalog</span>
-            </div>
-            <div className="ks-hero__mockup-body">
-              <div className="ks-hero__mockup-stats">
-                <div className="ks-hero__mockup-stat">
-                  <span className="ks-hero__mockup-stat-num">500+</span>
-                  <span className="ks-hero__mockup-stat-label">Tim Dilayani</span>
-                </div>
-                <div className="ks-hero__mockup-stat">
-                  <span className="ks-hero__mockup-stat-num">4.9</span>
-                  <span className="ks-hero__mockup-stat-label">Rating</span>
-                </div>
-              </div>
-              <div className="ks-hero__mockup-jersey">
-                <div className="ks-hero__jersey-img">
-                  <Image
-                    src="/jersey-transparent.png"
-                    alt="Jersey custom TNT SPORT"
-                    width={200}
-                    height={200}
-                    className="h-auto w-full object-contain"
-                    priority
-                  />
-                </div>
-              </div>
-              <div className="ks-hero__mockup-tags">
-                <span className="ks-hero__mockup-tag">Full Printing</span>
-                <span className="ks-hero__mockup-tag">Custom Design</span>
-                <span className="ks-hero__mockup-tag">Premium Fabric</span>
-              </div>
-            </div>
+        <div className="relative mx-auto h-[480px] w-full max-w-lg sm:h-[600px]">
+          {/* Image 1 - white jersey */}
+          <div className="absolute left-0 top-16 w-[62%] -rotate-6 overflow-hidden rounded-[2rem] border border-white/20 bg-white p-2 shadow-2xl">
+            <Image
+              src="https://api.moda.app/api/v2/images/ref/defb6388-ebe3-40a0-b457-d08334b6baae?v=d9c4edb32255a94c&s=131d426c96ffb7ed53b81319bf6dd905"
+              alt="Desain jersey custom putih"
+              width={400}
+              height={400}
+              className="aspect-square w-full rounded-[1.55rem] object-cover"
+            />
+          </div>
+          {/* Image 2 - red jersey */}
+          <div className="absolute bottom-10 right-0 w-[65%] rotate-6 overflow-hidden rounded-[2rem] border border-white/20 bg-[#ff5a1f] p-2 shadow-2xl">
+            <Image
+              src="https://api.moda.app/api/v2/images/ref/9ad7f29b-74cc-4583-b40b-b77d39d5049a?v=ebde868f4a24317d&s=ffa3a6f7caa47c4febd51c697148a90a"
+              alt="Desain jersey custom merah"
+              width={400}
+              height={400}
+              className="aspect-square w-full rounded-[1.55rem] object-cover"
+            />
+          </div>
+          {/* Promo badge */}
+          <div className="absolute right-3 top-2 rotate-3 rounded-2xl bg-[#dfff00] px-5 py-4 text-black shadow-xl">
+            <span className="block text-3xl font-black" style={{ fontFamily: "var(--k-font-display)" }}>BELI 6</span>
+            <span className="text-xs font-extrabold uppercase tracking-wider">Gratis 1 Jersey</span>
+          </div>
+          {/* Price badge */}
+          <div className="absolute bottom-0 left-3 -rotate-3 rounded-2xl border border-white/15 bg-white/10 px-5 py-4 backdrop-blur-lg">
+            <span className="text-xs font-bold uppercase tracking-widest text-white/50">Mulai dari</span>
+            <span className="block text-4xl font-black" style={{ fontFamily: "var(--k-font-display)" }}>Rp65K</span>
           </div>
         </div>
       </div>
@@ -400,153 +409,117 @@ function HeroSplit() {
 }
 
 /* ------------------------------------------------------------------ */
-/* Marquee                                                              */
+/* Keunggulan                                                           */
 /* ------------------------------------------------------------------ */
 
-function Marquee() {
-  const items = [...MARQUEE_TEAMS, ...MARQUEE_TEAMS];
+function Keunggulan() {
   return (
-    <div className="ks-marquee" aria-hidden>
-      <div className="ks-marquee__track">
-        {items.map((t, i) => (
-          <span key={i} className="ks-marquee__item">
-            {t}
-          </span>
-        ))}
-      </div>
-    </div>
-  );
-}
-
-/* ------------------------------------------------------------------ */
-/* Comparison                                                           */
-/* ------------------------------------------------------------------ */
-
-function Comparison() {
-  return (
-    <section className="ks-comparison">
-      <div className="ks-comparison__inner">
-        <h2 className="ks-section-title">Kenapa Pilih TNT SPORT?</h2>
-        <div className="ks-comparison__grid">
-          <div className="ks-comparison__card ks-comparison__card--problem">
-            <span className="ks-comparison__badge ks-comparison__badge--problem">
-              Order Manual
-            </span>
-            <ul className="ks-comparison__list">
-              <li>Desain terbatas, tidak bisa request bebas</li>
-              <li>Bahan tipis, gampang rusak setelah beberapa kali cuci</li>
-              <li>Proses lama, tidak ada kejelasan timeline</li>
-              <li>Harga tidak transparan, banyak biaya tambahan</li>
-            </ul>
+    <section id="keunggulan" className="bg-[#f5f1e8] px-5 py-24 lg:px-8 lg:py-32">
+      <div className="mx-auto max-w-7xl">
+        <div className="grid gap-10 lg:grid-cols-[.75fr_1.25fr]">
+          <div>
+            <span className="text-sm font-extrabold uppercase tracking-[.2em] text-[#ff5a1f]">Kenapa TNT SPORT?</span>
+            <h2 className="mt-4 text-5xl font-black uppercase leading-none sm:text-7xl"
+                style={{ fontFamily: "var(--k-font-display)" }}>
+              Kualitas Nggak Harus <span className="italic text-[#ff5a1f]">Mahal.</span>
+            </h2>
           </div>
-          <div className="ks-comparison__card ks-comparison__card--solution">
-            <span className="ks-comparison__badge ks-comparison__badge--solution">
-              Dengan TNT SPORT
-            </span>
-            <ul className="ks-comparison__list">
-              <li>Desain bebas — request sendiri atau dibuatkan</li>
-              <li>Bahan premium dry-fit, tahan cuci berulang</li>
-              <li>Proses 5–7 hari, update progress real-time</li>
-              <li>Harga flat, sudah termasuk desain dan revisi</li>
-            </ul>
-          </div>
-        </div>
-      </div>
-    </section>
-  );
-}
-
-/* ------------------------------------------------------------------ */
-/* Features                                                             */
-/* ------------------------------------------------------------------ */
-
-function Features() {
-  return (
-    <section id="keunggulan" className="ks-features">
-      <div className="ks-features__inner">
-        <h2 className="ks-section-title">Keunggulan Kami</h2>
-        <p className="ks-section-sub">
-          Setiap jersey dibuat dengan standar kualitas tinggi dan perhatian pada detail.
-        </p>
-        <div className="ks-features__grid">
-          {FEATURES.map((f, i) => (
-            <article key={i} className="ks-feature-card">
-              <span className="ks-feature-card__icon">{f.icon}</span>
-              <h3 className="ks-feature-card__title">{f.title}</h3>
-              <p className="ks-feature-card__desc">{f.desc}</p>
-            </article>
-          ))}
-        </div>
-      </div>
-    </section>
-  );
-}
-
-/* ------------------------------------------------------------------ */
-/* How It Works                                                         */
-/* ------------------------------------------------------------------ */
-
-function HowItWorks() {
-  return (
-    <section id="proses" className="ks-hiw">
-      <div className="ks-hiw__inner">
-        <h2 className="ks-section-title ks-section-title--light">
-          Cara Order di TNT SPORT
-        </h2>
-        <div className="ks-hiw__grid">
-          {STEPS.map((s, i) => (
-            <article key={i} className="ks-step">
-              <span className="ks-step__num">{s.num}</span>
-              <h3 className="ks-step__title">{s.title}</h3>
-              <p className="ks-step__desc">{s.desc}</p>
-            </article>
-          ))}
-        </div>
-      </div>
-    </section>
-  );
-}
-
-/* ------------------------------------------------------------------ */
-/* Katalog Grid                                                         */
-/* ------------------------------------------------------------------ */
-
-function KatalogGrid() {
-  return (
-    <section id="katalog" className="ks-katalog">
-      <div className="ks-katalog__inner">
-        <h2 className="ks-section-title">Model Jersey Kami</h2>
-        <p className="ks-section-sub">
-          Pilih model sebagai inspirasi. Semua bisa disesuaikan — warna, logo, nama, dan sponsor.
-        </p>
-        <div className="ks-katalog__grid">
-          {MODELS.map((m, i) => (
-            <article key={i} className="ks-kard">
-              <div className="ks-kard__visual" style={{ borderColor: m.accent }}>
-                <span className="ks-kard__index">
-                  {String(i + 1).padStart(2, "0")}
+          <div className="grid gap-px overflow-hidden rounded-3xl sm:grid-cols-2"
+               style={{ backgroundColor: "rgba(0,0,0,0.1)" }}>
+            {KEUNGGULAN.map((item) => (
+              <article key={item.num} className="bg-white p-8">
+                <span className="block text-5xl font-black text-[#ff5a1f]"
+                      style={{ fontFamily: "var(--k-font-display)" }}>
+                  {item.num}
                 </span>
-                <div className="ks-kard__jersey" style={{ color: m.accent }}>
-                  <svg viewBox="0 0 120 140" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M35 25L22 35L16 65L30 68V120H90V68L104 65L98 35L85 25H78L68 35H52L42 25H35Z" fill="currentColor" opacity="0.85" />
-                    <path d="M35 25L22 35L16 65L30 68V120H90V68L104 65L98 35L85 25H78L68 35H52L42 25H35Z" stroke="var(--k-ink)" strokeWidth="0.8" opacity="0.4" />
-                  </svg>
+                <h3 className="mt-8 text-2xl font-black uppercase"
+                    style={{ fontFamily: "var(--k-font-display)" }}>
+                  {item.title}
+                </h3>
+                <p className="mt-3 leading-relaxed text-black/55">{item.desc}</p>
+              </article>
+            ))}
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+/* ------------------------------------------------------------------ */
+/* Katalog                                                               */
+/* ------------------------------------------------------------------ */
+
+function KatalogSection() {
+  return (
+    <section id="katalog" className="bg-[#11110f] px-5 py-24 text-white lg:px-8 lg:py-32">
+      <div className="mx-auto max-w-7xl">
+        <div className="flex flex-col justify-between gap-6 sm:flex-row sm:items-end">
+          <div>
+            <span className="text-sm font-extrabold uppercase tracking-[.2em] text-[#dfff00]">Katalog Pilihan</span>
+            <h2 className="mt-4 text-5xl font-black uppercase sm:text-7xl"
+                style={{ fontFamily: "var(--k-font-display)" }}>
+              Jersey Buat <span className="italic text-[#ff5a1f]">Semua Tim.</span>
+            </h2>
+          </div>
+          <p className="max-w-sm text-white/50">
+            Futsal, badminton, voli, basket, esport, road bike, hingga komunitas.
+          </p>
+        </div>
+
+        <div className="mt-12 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+          {KATALOG_ITEMS.map((item) => (
+            <article key={item.code} className="group relative overflow-hidden rounded-3xl">
+              <div className="relative">
+                <Image
+                  src={item.image}
+                  alt={item.alt}
+                  width={600}
+                  height={600}
+                  className="aspect-square w-full object-cover transition duration-500 group-hover:scale-105"
+                />
+                {/* Gradient overlay */}
+                <div className="absolute inset-0"
+                     style={{ background: "linear-gradient(180deg,transparent 50%,rgba(0,0,0,.8))" }} />
+                <div className="absolute inset-x-0 bottom-0 z-10 p-6">
+                  <p className="text-xs font-bold uppercase tracking-[.2em] text-[#dfff00]">{item.code}</p>
+                  <h3 className="text-3xl font-black uppercase" style={{ fontFamily: "var(--k-font-display)" }}>
+                    {item.title}
+                  </h3>
                 </div>
               </div>
-              <div className="ks-kard__body">
-                <span className="ks-kard__tag">{m.tag}</span>
-                <h3 className="ks-kard__name">{m.name}</h3>
-                <p className="ks-kard__desc">{m.desc}</p>
-                <a
-                  href={WA_LINK}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="ks-kard__link"
-                >
-                  Konsultasi Model Ini <ChevronRight />
-                </a>
-              </div>
             </article>
+          ))}
+
+          {/* CTA Card */}
+          <article className="relative flex min-h-80 flex-col justify-between overflow-hidden rounded-3xl bg-[#ff5a1f] p-8 text-black">
+            <div className="absolute -right-16 -top-16 h-52 w-52 rounded-full border-[32px] border-black/10" />
+            <span className="text-7xl font-black" style={{ fontFamily: "var(--k-font-display)" }}>15+</span>
+            <div>
+              <h3 className="text-4xl font-black uppercase leading-none" style={{ fontFamily: "var(--k-font-display)" }}>
+                Kategori Jersey
+              </h3>
+              <p className="mt-4 max-w-xs text-black/65">
+                Punya desain sendiri? Kirim referensinya, kami bantu jadiin jersey.
+              </p>
+              <a
+                href={WA_LINK}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="mt-7 inline-flex rounded-full bg-black px-6 py-3 font-bold text-white"
+              >
+                Lihat Semua Desain ↗
+              </a>
+            </div>
+          </article>
+        </div>
+
+        {/* Category tags */}
+        <div className="mt-8 flex flex-wrap gap-2 text-sm font-semibold text-white/70">
+          {CATEGORIES.map((cat) => (
+            <span key={cat.label} className="rounded-full border border-white/15 px-4 py-2">
+              {cat.emoji} {cat.label}
+            </span>
           ))}
         </div>
       </div>
@@ -555,36 +528,84 @@ function KatalogGrid() {
 }
 
 /* ------------------------------------------------------------------ */
-/* Bento Grid                                                           */
+/* Harga                                                                */
 /* ------------------------------------------------------------------ */
 
-function BentoGrid() {
+function Harga() {
   return (
-    <section className="ks-bento">
-      <div className="ks-bento__inner">
-        <h2 className="ks-section-title">Untuk Siapa Saja</h2>
-        <div className="ks-bento__grid">
-          <article className="ks-bento__card ks-bento__card--primary">
-            <span className="ks-bento__badge">Tim Olahraga</span>
-            <h3 className="ks-bento__title">Futsal, Sepak Bola, Voli</h3>
-            <p className="ks-bento__desc">
-              Jersey tim dengan nama dan nomor punggung. Cocok untuk liga, turnamen, atau latihan rutin.
-            </p>
+    <section id="harga" className="bg-[#f5f1e8] px-5 py-24 lg:px-8 lg:py-32">
+      <div className="mx-auto max-w-7xl">
+        <div className="text-center">
+          <span className="text-sm font-extrabold uppercase tracking-[.2em] text-[#ff5a1f]">Harga Transparan</span>
+          <h2 className="mt-4 text-5xl font-black uppercase sm:text-7xl"
+              style={{ fontFamily: "var(--k-font-display)" }}>
+            Langsung dari <span className="italic text-[#ff5a1f]">Pabrik.</span>
+          </h2>
+          <p className="mx-auto mt-4 max-w-lg text-black/55">
+            Tanpa biaya tersembunyi. Sudah termasuk custom desain, nama, nomor, dan logo.
+          </p>
+        </div>
+
+        <div className="mx-auto mt-12 grid max-w-5xl gap-6 lg:grid-cols-2">
+          {/* Card 1 - Atasan Saja */}
+          <article className="rounded-[2rem] border border-black/10 bg-white p-8 sm:p-10">
+            <p className="font-bold uppercase tracking-widest text-black/40">Atasan Saja</p>
+            <h3 className="mt-3 text-4xl font-black uppercase" style={{ fontFamily: "var(--k-font-display)" }}>
+              Jersey Full Print
+            </h3>
+            <div className="my-8 flex items-end gap-2">
+              <span className="text-7xl font-black" style={{ fontFamily: "var(--k-font-display)" }}>65K</span>
+              <span className="pb-3 text-black/45">/ pcs (lusin)</span>
+            </div>
+            <ul className="space-y-4 text-black/65">
+              <li>✓ Full custom desain bebas</li>
+              <li>✓ Nama &amp; nomor punggung</li>
+              <li>✓ Bisa order satuan</li>
+              <li>✓ Garansi kualitas jahitan</li>
+            </ul>
+            <a
+              href={WA_LINK}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="mt-9 block rounded-full border-2 border-black px-6 py-4 text-center font-extrabold uppercase transition hover:bg-black hover:text-white"
+            >
+              Pesan Atasan ↗
+            </a>
           </article>
-          <article className="ks-bento__card ks-bento__card--secondary">
-            <span className="ks-bento__badge">Komunitas</span>
-            <h3 className="ks-bento__title">Runner, Sepeda, Event</h3>
-            <p className="ks-bento__desc">
-              Jersey komunitas untuk event, gathering, atau identitas grup. Desain unik, harga ramah.
-            </p>
+
+          {/* Card 2 - Setelan */}
+          <article className="relative overflow-hidden rounded-[2rem] bg-[#ff5a1f] p-8 text-black sm:p-10">
+            <div className="absolute right-0 top-0 rounded-bl-2xl bg-[#dfff00] px-5 py-3 text-xs font-black uppercase tracking-wider">
+              Paling Diminati
+            </div>
+            <p className="font-bold uppercase tracking-widest text-black/50">Atasan + Celana</p>
+            <h3 className="mt-3 text-4xl font-black uppercase" style={{ fontFamily: "var(--k-font-display)" }}>
+              Jersey Setelan
+            </h3>
+            <div className="my-8 flex items-end gap-2">
+              <span className="text-7xl font-black" style={{ fontFamily: "var(--k-font-display)" }}>110K</span>
+              <span className="pb-3 text-black/55">/ stel (lusin)</span>
+            </div>
+            <ul className="space-y-4 text-black/70">
+              <li>✓ Atasan + celana full printing</li>
+              <li>✓ Full custom desain bebas</li>
+              <li>✓ Nama, nomor &amp; logo klub</li>
+              <li>✓ Bisa order satuan</li>
+            </ul>
+            <a
+              href={WA_LINK}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="mt-9 block rounded-full bg-black px-6 py-4 text-center font-extrabold uppercase text-white transition hover:bg-[#dfff00] hover:text-black"
+            >
+              Pesan Setelan ↗
+            </a>
           </article>
-          <article className="ks-bento__card ks-bento__card--outline">
-            <span className="ks-bento__badge">Sekolah & Kampus</span>
-            <h3 className="ks-bento__title">Olahraga, Paskibra, Ekstrakurikuler</h3>
-            <p className="ks-bento__desc">
-              Jersey untuk kegiatan sekolah dan kampus. Tahan cuci, nyaman dipakai, dan harga terjangkau.
-            </p>
-          </article>
+        </div>
+
+        {/* Promo banner */}
+        <div className="mx-auto mt-6 max-w-5xl rounded-2xl bg-[#dfff00] px-6 py-5 text-center font-bold">
+          🎁 PROMO: Beli 6 gratis 1 — berlaku kelipatannya untuk atasan maupun setelan.
         </div>
       </div>
     </section>
@@ -592,49 +613,93 @@ function BentoGrid() {
 }
 
 /* ------------------------------------------------------------------ */
-/* Testimonials                                                         */
+/* Cara Order                                                           */
+/* ------------------------------------------------------------------ */
+
+function CaraOrder() {
+  return (
+    <section id="cara-order" className="bg-[#ff5a1f] px-5 py-24 lg:px-8 lg:py-32">
+      <div className="mx-auto max-w-7xl">
+        <div className="max-w-2xl">
+          <span className="text-sm font-extrabold uppercase tracking-[.2em]">Cara Order</span>
+          <h2 className="mt-4 text-5xl font-black uppercase leading-none sm:text-7xl"
+              style={{ fontFamily: "var(--k-font-display)" }}>
+            Dari Ide ke Jersey, <span className="italic text-white">Cuma 5 Langkah.</span>
+          </h2>
+        </div>
+
+        <div className="mt-14 grid gap-4 sm:grid-cols-2 lg:grid-cols-5">
+          {STEPS.map((step, i) => {
+            const isFirst = i === 0;
+            const isLast = i === STEPS.length - 1;
+            return (
+              <article
+                key={step.num}
+                className={`rounded-3xl p-6 ${
+                  isFirst
+                    ? "bg-black text-white"
+                    : isLast
+                      ? "bg-[#dfff00] text-black"
+                      : "bg-white/20 text-black"
+                }`}
+              >
+                <span className={`block text-5xl font-black ${isFirst ? "text-[#dfff00]" : ""}`}
+                      style={{ fontFamily: "var(--k-font-display)" }}>
+                  {step.num}
+                </span>
+                <h3 className="mt-10 text-2xl font-black uppercase"
+                    style={{ fontFamily: "var(--k-font-display)" }}>
+                  {step.title}
+                </h3>
+                <p className={`mt-2 text-sm ${isFirst ? "text-white/55" : "text-black/60"}`}>
+                  {step.desc}
+                </p>
+              </article>
+            );
+          })}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+/* ------------------------------------------------------------------ */
+/* Testimonials                                                          */
 /* ------------------------------------------------------------------ */
 
 function Testimonials() {
   return (
-    <section id="testimoni" className="ks-testi">
-      <div className="ks-testi__inner">
-        <h2 className="ks-section-title">Kata Mereka</h2>
-        <div className="ks-testi__grid">
-          {TESTIMONIALS.map((t, i) => (
-            <article key={i} className="ks-testi__card">
-              <div className="ks-testi__stars">
-                {Array.from({ length: t.rating }).map((_, j) => (
-                  <StarIcon key={j} filled />
-                ))}
-              </div>
-              <blockquote className="ks-testi__quote">
-                &ldquo;{t.quote}&rdquo;
-              </blockquote>
-              <div className="ks-testi__author">
-                <span
-                  className="ks-testi__avatar"
-                  style={{
-                    background:
-                      i === 0
-                        ? "var(--k-accent)"
-                        : i === 1
-                          ? "#e600ff"
-                          : "#55beff",
-                  }}
-                >
-                  {t.name
-                    .split(" ")
-                    .map((w) => w[0])
-                    .join("")}
-                </span>
-                <div>
-                  <p className="ks-testi__name">{t.name}</p>
-                  <p className="ks-testi__role">{t.role}</p>
+    <section className="bg-[#11110f] px-5 py-24 text-white lg:px-8 lg:py-32">
+      <div className="mx-auto max-w-7xl">
+        <div className="grid gap-12 lg:grid-cols-[.7fr_1.3fr]">
+          <div>
+            <span className="text-sm font-extrabold uppercase tracking-[.2em] text-[#dfff00]">Ulasan Pelanggan</span>
+            <h2 className="mt-4 text-5xl font-black uppercase leading-none sm:text-7xl"
+                style={{ fontFamily: "var(--k-font-display)" }}>
+              Dipercaya <span className="italic text-[#ff5a1f]">Ribuan Tim.</span>
+            </h2>
+            <div className="mt-8 flex text-3xl text-[#dfff00]">
+              {[...Array(5)].map((_, i) => <StarIcon key={i} />)}
+            </div>
+            <p className="mt-2 text-white/45">4.9 dari ribuan pelanggan</p>
+          </div>
+
+          <div className="grid gap-5 sm:grid-cols-2">
+            {TESTIMONIALS.map((t, i) => (
+              <blockquote key={i} className="rounded-3xl border border-white/10 bg-white/5 p-7">
+                <div className="flex text-[#dfff00]">
+                  {[...Array(5)].map((_, j) => <StarIcon key={j} />)}
                 </div>
-              </div>
-            </article>
-          ))}
+                <p className="mt-5 text-lg leading-relaxed text-white/75">
+                  &ldquo;{t.quote}&rdquo;
+                </p>
+                <footer className="mt-7 font-bold">
+                  {t.name}
+                  <span className="block text-sm font-normal text-white/35">{t.location}</span>
+                </footer>
+              </blockquote>
+            ))}
+          </div>
         </div>
       </div>
     </section>
@@ -645,65 +710,27 @@ function Testimonials() {
 /* FAQ                                                                  */
 /* ------------------------------------------------------------------ */
 
-const FAQ_ITEMS = [
-  {
-    q: "Apa itu jersey custom full printing?",
-    a: "Jersey custom full printing adalah jersey yang dicetak menggunakan teknik printing sublimasi, sehingga desain menutupi seluruh permukaan kain tanpa batasan warna. Cocok untuk tim futsal, sepak bola, komunitas, event, dan seragam kantor.",
-  },
-  {
-    q: "Berapa harga jersey custom di TNT SPORT?",
-    a: "Harga mulai dari Rp65.000 per pcs dengan harga pabrik langsung tanpa perantara. Semakin banyak jumlah pesanan, semakin hemat harga per pcs-nya. Konsultasi via WhatsApp untuk estimasi harga sesuai desain dan jumlah.",
-  },
-  {
-    q: "Berapa lama proses produksi jersey custom?",
-    a: "Estimasi produksi 5–10 hari kerja tergantung jumlah pesanan dan kompleksitas desain. Pengiriman ke seluruh Indonesia via ekspedisi terpercaya.",
-  },
-  {
-    q: "Apakah bisa request desain sendiri?",
-    a: "Bisa. Tim desainer TNT SPORT siap membantu membuatkan desain dari nol atau memakai desain yang sudah kamu punya. Konsultasi dan revisi desain gratis sampai cocok.",
-  },
-  {
-    q: "Apakah ada garansi untuk jersey yang dipesan?",
-    a: "Ya, semua pesanan dilindungi garansi 100%. Jika ada cacat produksi atau kesalahan, akan diganti tanpa biaya tambahan.",
-  },
-  {
-    q: "Mengapa harus pilih TNT SPORT untuk bikin jersey custom?",
-    a: "TNT SPORT adalah pabrik jersey custom dengan pengalaman melayani 350.000+ pesanan. Keunggulan kami: bahan premium dry-fit, printing sublimasi full color tanpa batasan, harga pabrik langsung, desain gratis, dan garansi 100%.",
-  },
-];
-
 function FAQ() {
   return (
-    <section id="faq" className="ks-faq">
-      <div className="ks-faq__inner">
-        <h2 className="ks-section-title">Pertanyaan yang Sering Diajukan</h2>
-        <p className="ks-section-sub">
-          Masih bingung? Cek jawaban dari pertanyaan yang paling sering ditanyakan.
-        </p>
-        <div className="ks-faq__list">
+    <section className="bg-[#f5f1e8] px-5 py-24 lg:px-8 lg:py-32">
+      <div className="mx-auto grid max-w-6xl gap-12 lg:grid-cols-[.7fr_1.3fr]">
+        <div>
+          <span className="text-sm font-extrabold uppercase tracking-[.2em] text-[#ff5a1f]">FAQ</span>
+          <h2 className="mt-4 text-5xl font-black uppercase leading-none sm:text-7xl"
+              style={{ fontFamily: "var(--k-font-display)" }}>
+            Masih Ada <span className="italic text-[#ff5a1f]">Pertanyaan?</span>
+          </h2>
+        </div>
+        <div className="divide-y divide-black/15 border-y border-black/15">
           {FAQ_ITEMS.map((item, i) => (
-            <details key={i} className="ks-faq-item">
-              <summary className="ks-faq-item__q">
+            <details key={i} className="group py-6">
+              <summary className="flex cursor-pointer items-center justify-between gap-4 text-xl font-bold">
                 {item.q}
-                <ChevronRight />
+                <span className="plus text-3xl transition group-open:rotate-45">+</span>
               </summary>
-              <p className="ks-faq-item__a">{item.a}</p>
+              <p className="max-w-2xl pt-4 leading-relaxed text-black/55">{item.a}</p>
             </details>
           ))}
-        </div>
-        <div className="ks-faq__cta">
-          <p className="ks-faq__cta-text">
-            Masih ada pertanyaan lain?
-          </p>
-          <a
-            href={WA_LINK}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="ks-btn-outline"
-          >
-            <WhatsAppIcon />
-            Tanya Admin Langsung
-          </a>
         </div>
       </div>
     </section>
@@ -716,25 +743,27 @@ function FAQ() {
 
 function CTASection() {
   return (
-    <section className="ks-cta">
-      <div className="ks-cta__inner">
-        <h2 className="ks-cta__title">
-          Siap Bikin Jersey Custom untuk Tim Kamu?
-        </h2>
-        <p className="ks-cta__desc">
-          Chat admin TNT SPORT sekarang. Kirim ide, foto referensi, atau brief
-          sederhana — tim desain kami bantu wujudkan.
-        </p>
-        <a
-          href={WA_LINK}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="ks-btn-primary ks-btn-primary--lg"
-        >
-          <WhatsAppIcon />
-          Chat Admin & Konsultasi Desain
-        </a>
-        <p className="ks-cta__note">Gratis konsultasi &middot; Revisi desain sampai cocok</p>
+    <section className="px-5 pb-8 lg:px-8">
+      <div className="relative mx-auto max-w-7xl overflow-hidden rounded-[2.5rem] bg-[#ff5a1f] px-6 py-20 text-center sm:px-12 lg:py-28">
+        {/* Decorative circles */}
+        <div className="absolute -left-24 -top-24 h-72 w-72 rounded-full border-[45px] border-black/10" />
+        <div className="absolute -bottom-28 -right-20 h-80 w-80 rounded-full border-[50px] border-[#dfff00]/40" />
+
+        <div className="relative">
+          <p className="font-extrabold uppercase tracking-[.2em]">Konsultasi Gratis • Tanpa Syarat</p>
+          <h2 className="mx-auto mt-5 max-w-4xl text-6xl font-black uppercase leading-[.9] sm:text-8xl"
+              style={{ fontFamily: "var(--k-font-display)" }}>
+            Siap Bikin Jersey <span className="italic text-white">Tim Kamu?</span>
+          </h2>
+          <a
+            href={WA_LINK}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="mt-10 inline-flex rounded-full bg-black px-9 py-5 font-extrabold uppercase text-white transition hover:-translate-y-1 hover:bg-[#dfff00] hover:text-black"
+          >
+            Chat Admin Sekarang ↗
+          </a>
+        </div>
       </div>
     </section>
   );
@@ -746,99 +775,46 @@ function CTASection() {
 
 function Footer() {
   return (
-    <footer className="ks-footer">
-      <div className="ks-footer__inner">
-        <div className="ks-footer__brand">
-          <span className="ks-footer__logo">
-            <span className="ks-footer__logo-img">
-              <Image
-                src="/logo.jpg"
-                alt="TNT SPORT logo"
-                width={28}
-                height={28}
-                className="h-full w-full rounded-full object-cover"
-              />
-            </span>
+    <footer className="bg-[#11110f] px-5 pb-28 pt-16 text-white lg:px-8 lg:pb-10">
+      <div className="mx-auto flex max-w-7xl flex-col justify-between gap-10 border-b border-white/10 pb-12 sm:flex-row">
+        <div>
+          <div className="text-3xl font-black uppercase" style={{ fontFamily: "var(--k-font-display)" }}>
             TNT SPORT
-          </span>
-          <p className="ks-footer__tagline">
-            Pabrik jersey custom full printing. Harga pabrik langsung, desain bebas, garansi 100%.
+          </div>
+          <p className="mt-3 max-w-sm text-white/45">
+            Pabrik jersey custom full printing untuk tim, klub, sekolah, dan komunitas di seluruh Indonesia.
           </p>
-          <div className="ks-footer__social">
-            <a
-              href={WA_LINK}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="ks-footer__social-link ks-footer__social-link--wa"
-              aria-label="WhatsApp"
-            >
-              <WhatsAppIcon />
-            </a>
-            <a
-              href="https://instagram.com/tntsport"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="ks-footer__social-link ks-footer__social-link--ig"
-              aria-label="Instagram"
-            >
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden>
-                <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
-              </svg>
-            </a>
-            <a
-              href="https://tiktok.com/@tntsport"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="ks-footer__social-link ks-footer__social-link--tt"
-              aria-label="TikTok"
-            >
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden>
-                <path d="M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-.97-.57-.26-1.1-.59-1.62-.93-.01 2.92.01 5.84-.02 8.75-.08 1.4-.54 2.79-1.35 3.94-1.31 1.92-3.58 3.17-5.91 3.21-1.43.08-2.86-.31-4.08-1.03-2.02-1.19-3.44-3.37-3.65-5.71-.02-.5-.03-1-.01-1.49.18-1.9 1.12-3.72 2.58-4.96 1.66-1.44 3.98-2.13 6.15-1.72.02 1.48-.04 2.96-.04 4.44-.99-.32-2.15-.23-3.02.37-.63.41-1.11 1.04-1.36 1.75-.21.51-.15 1.07-.14 1.61.24 1.64 1.82 3.02 3.5 2.87 1.12-.01 2.19-.66 2.77-1.61.19-.33.4-.67.41-1.06.1-1.79.06-3.57.07-5.36.01-4.03-.01-8.05.02-12.07z"/>
-              </svg>
-            </a>
-          </div>
         </div>
-        <div className="ks-footer__links">
-          <div className="ks-footer__col">
-            <h4 className="ks-footer__heading">Navigasi</h4>
-            <a href="#katalog" className="ks-footer__link">Katalog Model</a>
-            <a href="#keunggulan" className="ks-footer__link">Keunggulan</a>
-            <a href="#proses" className="ks-footer__link">Proses Order</a>
-            <a href="#testimoni" className="ks-footer__link">Testimoni</a>
-            <a href="#faq" className="ks-footer__link">FAQ</a>
-          </div>
-          <div className="ks-footer__col">
-            <h4 className="ks-footer__heading">Layanan</h4>
-            <a href={WA_LINK} target="_blank" rel="noopener noreferrer" className="ks-footer__link">
-              Chat Admin WhatsApp
-            </a>
-            <a href="/katalog" className="ks-footer__link">Katalog Lengkap</a>
-            <a href="/" className="ks-footer__link">Halaman Utama</a>
-          </div>
-          <div className="ks-footer__col">
-            <h4 className="ks-footer__heading">Kontak</h4>
-            <span className="ks-footer__link ks-footer__link--static">
-              <WhatsAppIcon /> +62 812-3456-7890
-            </span>
-            <span className="ks-footer__link ks-footer__link--static">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden>
-                <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/>
-                <circle cx="12" cy="10" r="3"/>
-              </svg>
-              Indonesia
-            </span>
-          </div>
-        </div>
-        <div className="ks-footer__bottom">
-          <span className="ks-footer__copy">
-            &copy; {new Date().getFullYear()} TNT SPORT. All Rights Reserved.
-          </span>
-          <span className="ks-footer__copy">
-            Jersey Custom &middot; Full Printing &middot; Harga Pabrik
-          </span>
+        <div className="grid grid-cols-2 gap-x-12 gap-y-3 text-sm text-white/60">
+          <a href="#keunggulan" className="hover:text-white transition">Keunggulan</a>
+          <a href="#katalog" className="hover:text-white transition">Katalog</a>
+          <a href="#harga" className="hover:text-white transition">Harga</a>
+          <a href="#cara-order" className="hover:text-white transition">Cara Order</a>
         </div>
       </div>
+      <div className="mx-auto flex max-w-7xl flex-col gap-2 pt-8 text-xs text-white/30 sm:flex-row sm:justify-between">
+        <p>© {new Date().getFullYear()} TNT SPORT. All rights reserved.</p>
+        <p>Jersey custom, langsung dari pabrik.</p>
+      </div>
     </footer>
+  );
+}
+
+/* ------------------------------------------------------------------ */
+/* Floating WA Button                                                   */
+/* ------------------------------------------------------------------ */
+
+function FloatingWA() {
+  return (
+    <a
+      href={WA_LINK}
+      target="_blank"
+      rel="noopener noreferrer"
+      className="fixed bottom-5 right-5 z-40 flex items-center gap-3 rounded-full bg-[#dfff00] px-5 py-4 font-extrabold text-black shadow-2xl transition hover:-translate-y-1"
+    >
+      <span className="text-xl">💬</span>
+      <span className="hidden sm:inline">Chat Admin</span>
+    </a>
   );
 }
 
@@ -848,22 +824,22 @@ function Footer() {
 
 export default function KatalogPage() {
   return (
-    <div className="katalog-page">
+    <div className="katalog-page overflow-x-hidden">
       <JsonLd />
       <Navbar />
       <main>
-        <HeroSplit />
-        <Marquee />
-        <Comparison />
-        <Features />
-        <HowItWorks />
-        <KatalogGrid />
-        <BentoGrid />
+        <Hero />
+        <Ticker />
+        <Keunggulan />
+        <KatalogSection />
+        <Harga />
+        <CaraOrder />
         <Testimonials />
         <FAQ />
         <CTASection />
       </main>
       <Footer />
+      <FloatingWA />
     </div>
   );
 }

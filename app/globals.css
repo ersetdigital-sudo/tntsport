@@ -456,37 +456,48 @@
 }
 
 /* ============================================================
-   Katalog · Hero Split Landing wireframe
-   theme: dark premium sporty · neon green accent
-   paper: oklch(14% 0.012 250) · accent: oklch(72% 0.18 145)
-   display: Space Grotesk · body: Plus Jakarta Sans
+   Katalog · Bold Sporty Landing
+   theme: dark + cream contrast · orange accent · acid highlight
+   display: Barlow Condensed · body: Barlow
    ============================================================ */
 
 .katalog-page {
-  /* Paper */
-  --k-paper: oklch(14% 0.012 250);
-  --k-paper-2: oklch(18% 0.014 250);
-  --k-paper-3: oklch(22% 0.014 250);
+  /* Paper (dark) */
+  --k-paper: #11110f;
+  --k-paper-2: #1a1a17;
+  --k-paper-3: #222220;
+
+  /* Cream (light sections) */
+  --k-cream: #f5f1e8;
+  --k-cream-2: #ebe6da;
 
   /* Ink */
-  --k-ink: oklch(94% 0.008 250);
-  --k-ink-2: oklch(72% 0.010 250);
+  --k-ink: #11110f;
+  --k-ink-2: #3d3d38;
+  --k-ink-light: #ffffff;
 
   /* Neutrals */
-  --k-rule: oklch(30% 0.012 250);
-  --k-muted: oklch(52% 0.012 250);
+  --k-rule: rgba(255,255,255,0.12);
+  --k-rule-dark: rgba(0,0,0,0.12);
+  --k-muted: #7a7a72;
+  --k-muted-light: rgba(255,255,255,0.5);
 
-  /* Accent */
-  --k-accent: oklch(72% 0.18 145);
-  --k-accent-dim: oklch(58% 0.14 145);
-  --k-accent-ink: oklch(14% 0.012 250);
+  /* Accent — Orange */
+  --k-accent: #ff5a1f;
+  --k-accent-dim: #e65100;
+  --k-accent-ink: #11110f;
+
+  /* Highlight — Acid Yellow */
+  --k-highlight: #dfff00;
+  --k-highlight-dim: #c8e600;
 
   /* Focus */
-  --k-focus: oklch(70% 0.22 145);
+  --k-focus: #ff5a1f;
 
   /* Surface */
-  --k-surface: oklch(17% 0.014 250);
-  --k-surface-hover: oklch(20% 0.014 250);
+  --k-surface: #1c1c19;
+  --k-surface-hover: #252522;
+  --k-surface-light: #ffffff;
 
   /* Motion */
   --k-ease-out: cubic-bezier(0.16, 1, 0.3, 1);
@@ -501,8 +512,8 @@
   --k-max: 1280px;
 
   /* Typography */
-  --k-font-display: var(--font-display), var(--font-sans), system-ui, sans-serif;
-  --k-font-body: var(--font-sans), system-ui, sans-serif;
+  --k-font-display: 'Barlow Condensed', var(--font-sans), system-ui, sans-serif;
+  --k-font-body: 'Barlow', var(--font-sans), system-ui, sans-serif;
   --k-font-mono: var(--font-mono), ui-monospace, monospace;
 
   /* Z-index */

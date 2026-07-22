@@ -1,26 +1,25 @@
 import type { Metadata, Viewport } from "next";
-import { Space_Grotesk, Plus_Jakarta_Sans, IBM_Plex_Mono } from "next/font/google";
+import { Barlow, Barlow_Condensed, IBM_Plex_Mono } from "next/font/google";
 import { ThemeProvider } from "next-themes";
 import { getBrand } from "@/lib/queries";
 import "./globals.css";
 
 /**
- * Fonts — Plus Jakarta Sans (modern, highly readable display + body)
- * and IBM Plex Mono (technical labels). Both loaded via next/font/google
- * with display:"swap" and latin subset only.
+ * Fonts — Barlow (body) + Barlow Condensed (display/headings)
+ * for the bold sporty katalog design. IBM Plex Mono for technical labels.
  */
-const spaceGrotesk = Space_Grotesk({
-  subsets: ["latin"],
-  display: "swap",
-  variable: "--font-display",
-  weight: ["400", "500", "600", "700"],
-});
-
-const plusJakarta = Plus_Jakarta_Sans({
+const barlow = Barlow({
   subsets: ["latin"],
   display: "swap",
   variable: "--font-sans",
   weight: ["400", "500", "600", "700", "800"],
+});
+
+const barlowCondensed = Barlow_Condensed({
+  subsets: ["latin"],
+  display: "swap",
+  variable: "--font-display",
+  weight: ["600", "700", "800", "900"],
 });
 
 const ibmPlexMono = IBM_Plex_Mono({
@@ -114,7 +113,7 @@ export default function RootLayout({
     <html
       lang="id"
       suppressHydrationWarning
-      className={`${spaceGrotesk.variable} ${plusJakarta.variable} ${ibmPlexMono.variable}`}
+      className={`${barlow.variable} ${barlowCondensed.variable} ${ibmPlexMono.variable}`}
     >
       <body className="antialiased">
         <ThemeProvider
