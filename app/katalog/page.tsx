@@ -423,12 +423,19 @@ async function Kategori() {
 }
 
 /* ------------------------------------------------------------------ */
-/* Harga (client component for price toggle)                           */
+/* Harga                                                                */
 /* ------------------------------------------------------------------ */
 
 function Harga() {
   return (
-    <section id="harga" className="grid-noise relative overflow-hidden bg-[#080a07] py-16 text-[#f0f2ec] sm:py-24">
+    <section id="harga" className="relative overflow-hidden bg-[#080a07] py-16 text-[#f0f2ec] sm:py-24">
+      {/* Grid pattern — full section */}
+      <div className="absolute inset-0 opacity-[0.12]"
+           style={{
+             backgroundImage: "linear-gradient(rgba(255,255,255,.1) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,.1) 1px, transparent 1px)",
+             backgroundSize: "40px 40px",
+           }} />
+      {/* Lime glow */}
       <div className="pointer-events-none absolute left-1/2 top-24 h-96 w-96 -translate-x-1/2 rounded-full bg-[#c5f518]/10 blur-[140px]" />
       <div className="relative mx-auto max-w-7xl px-5 lg:px-8">
         <div className="text-center">
@@ -447,7 +454,7 @@ function Harga() {
 
         <div className="mx-auto mt-8 grid max-w-5xl gap-5 lg:grid-cols-2">
           {/* Atasan */}
-          <article className="price-card rounded-[2rem] border border-white/10 p-5 sm:p-7 lg:p-9">
+          <article className="price-card flex flex-col rounded-[2rem] border border-white/10 p-5 sm:p-7 lg:p-9">
             <div className="flex items-start justify-between gap-5">
               <div>
                 <p className="text-[10px] uppercase tracking-[.18em] text-[#7f8678] sm:text-[11px]"
@@ -463,7 +470,7 @@ function Harga() {
               <span className="text-5xl font-black tracking-tight sm:text-6xl">50rb</span>
               <span className="text-[#777e71]">/pcs</span>
             </div>
-            <p className="mt-3 text-sm text-[#8f9688]">Minimal pembelian 12 pcs</p>
+            <p className="mt-3 text-sm text-[#8f9688]">Minimal pembelian 12 pcs / set</p>
             <div className="my-7 h-px bg-white/10" />
             <ul className="space-y-3.5 text-sm text-[#c5c9c0]">
               <li><span className="mr-2 text-[#c5f518]">✓</span> Full printing &amp; desain bebas</li>
@@ -471,17 +478,18 @@ function Harga() {
               <li><span className="mr-2 text-[#c5f518]">✓</span> Revisi desain tanpa batas</li>
             </ul>
             <a
-              href={WA_LINK}
+              href={`${WA_LINK.replace("saya%20mau%20tanya%20jersey%20custom", encodeURIComponent("saya tertarik dengan paket Atasan Saja. Bisa info lebih lanjut?"))}`}
               target="_blank"
               rel="noopener noreferrer"
-              className="mt-9 flex items-center justify-between rounded-full border border-white/15 px-6 py-4 font-black transition hover:border-[#c5f518] hover:text-[#c5f518]"
+              className="mt-auto flex items-center justify-between gap-3 rounded-xl border border-white/15 bg-white/5 px-6 py-4 font-black text-[#f0f2ec] transition hover:border-[#c5f518] hover:text-[#c5f518]"
             >
-              <span>Pilih Atasan</span><span>↗</span>
+              <span>Pilih Atasan</span>
+              <span>↗</span>
             </a>
           </article>
 
           {/* Setelan */}
-          <article className="price-card featured relative overflow-hidden rounded-[2rem] border border-[#c5f518]/45 p-5 shadow-[0_24px_100px_rgba(197,245,24,.11)] sm:p-7 lg:p-9">
+          <article className="price-card featured relative flex flex-col overflow-hidden rounded-[2rem] border border-[#c5f518]/45 p-5 shadow-[0_24px_100px_rgba(197,245,24,.11)] sm:p-7 lg:p-9">
             <div className="absolute right-0 top-0 rounded-bl-2xl bg-[#c5f518] px-5 py-2.5 text-[9px] font-black uppercase tracking-[.15em] text-[#080a07]">
               Paling diminati
             </div>
@@ -497,7 +505,7 @@ function Harga() {
               <span className="text-5xl font-black tracking-tight sm:text-6xl">110rb</span>
               <span className="text-[#777e71]">/set</span>
             </div>
-            <p className="mt-3 text-sm text-[#8f9688]">Minimal pembelian 12 set</p>
+            <p className="mt-3 text-sm text-[#8f9688]">Minimal pembelian 12 pcs / set</p>
             <div className="my-7 h-px bg-white/10" />
             <ul className="space-y-3.5 text-sm text-[#d5d8d0]">
               <li><span className="mr-2 text-[#c5f518]">✓</span> Semua benefit paket atasan</li>
@@ -505,12 +513,13 @@ function Harga() {
               <li><span className="mr-2 text-[#c5f518]">✓</span> Prioritas jadwal produksi</li>
             </ul>
             <a
-              href={WA_LINK}
+              href={`${WA_LINK.replace("saya%20mau%20tanya%20jersey%20custom", encodeURIComponent("saya tertarik dengan paket Jersey Setelan. Bisa info lebih lanjut?"))}`}
               target="_blank"
               rel="noopener noreferrer"
-              className="mt-9 flex items-center justify-between rounded-full bg-[#c5f518] px-6 py-4 font-black text-[#080a07] shadow-[0_10px_35px_rgba(197,245,24,.18)] transition hover:-translate-y-1"
+              className="mt-auto flex items-center justify-between gap-3 rounded-xl bg-[#c5f518] px-6 py-4 font-black text-[#080a07] shadow-[0_10px_35px_rgba(197,245,24,.18)] transition hover:-translate-y-1"
             >
-              <span>Pilih Setelan</span><span>↗</span>
+              <span>Pilih Setelan</span>
+              <span>↗</span>
             </a>
           </article>
         </div>
