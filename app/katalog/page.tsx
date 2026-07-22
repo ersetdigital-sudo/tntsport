@@ -702,7 +702,7 @@ function Promo() {
 
 function CaraOrder() {
   return (
-    <section id="cara-order" className="mx-auto max-w-7xl px-5 py-16 sm:py-24 lg:px-8">
+    <section id="cara-order" className="mx-auto max-w-7xl bg-[#f7f7f7] px-5 py-16 sm:py-24 lg:px-8">
       <div className="mb-8 sm:mb-12">
         <p className="text-xs font-bold uppercase tracking-[.2em] text-[#16a34a]"
            style={{ fontFamily: "var(--font-mono)" }}>
