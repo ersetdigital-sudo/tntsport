@@ -196,13 +196,6 @@ function Navbar() {
     <header className="sticky top-0 z-50 border-b border-white/10 bg-[#0b0b0b]/95 text-white backdrop-blur-xl">
       <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:h-18 sm:px-5 lg:px-8">
         <a href="/" className="flex items-center gap-2.5" aria-label="TNT Sport Home">
-          <Image
-            src="/af7bb11e-1e11-423d-809a-1d5c75fbe91f.png"
-            alt="TNT Sport"
-            width={40}
-            height={40}
-            className="h-9 w-9 rounded-xl object-contain sm:h-10 sm:w-10"
-          />
           <div className="text-base font-black italic tracking-tight sm:text-xl">
             TNT <span className="text-[#c5f518]">SPORT</span>
           </div>
