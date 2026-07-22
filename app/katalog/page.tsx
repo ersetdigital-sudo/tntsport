@@ -30,22 +30,22 @@ const WA_LINK =
 
 const KEUNGGULAN = [
   {
-    icon: "/378b562a-d8ba-4fd6-b19a-b05c96238007.svg",
+    icon: "/adem-nyaman.png",
     title: "Adem & Nyaman",
     desc: "Bahan ringan, menyerap keringat, dan nyaman untuk aktivitas fisik intens.",
   },
   {
-    icon: "/a9338ee8-b3e8-4859-a2ca-e69aa12edda9.svg",
+    icon: "/free-custom-design.png",
     title: "Free Custom Design",
     desc: "Tim desainer siap mewujudkan ide jersey dengan revisi tanpa batas.",
   },
   {
-    icon: "/50636280-ac18-44e1-9637-f960e68658c3.svg",
+    icon: "/jahitan-kuat-rapi.png",
     title: "Jahitan Kuat & Rapi",
     desc: "Dijahit presisi dengan mesin modern agar awet untuk jangka panjang.",
   },
   {
-    icon: "/3c0197de-fbae-45be-a3c6-1e3d206e874c.svg",
+    icon: "/cepat-tepat.png",
     title: "Cepat & Tepat",
     desc: "Proses produksi terjadwal, cocok bahkan untuk turnamen mendadak.",
   },

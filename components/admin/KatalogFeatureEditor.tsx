@@ -60,6 +60,10 @@ const SVG_ICONS = [
   { name: "Mesin", src: "/a31d0d8a-03fa-4f96-997d-30c2f73614ae.svg" },
   { name: "Tinta", src: "/1a2aef64-2025-4099-a8e3-b39feb08511e.svg" },
   { name: "Layanan", src: "/6266d3d8-3e9e-46b3-a2cf-2d6a5cf908fa.svg" },
+  { name: "Adem & Nyaman", src: "/adem-nyaman.png" },
+  { name: "Free Custom Design", src: "/free-custom-design.png" },
+  { name: "Jahitan Kuat & Rapi", src: "/jahitan-kuat-rapi.png" },
+  { name: "Cepat & Tepat", src: "/cepat-tepat.png" },
 ];
 
 export function KatalogFeatureEditor({ feature }: KatalogFeatureEditorProps) {
