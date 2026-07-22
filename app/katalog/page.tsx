@@ -343,10 +343,19 @@ const LUCIDE_ICON_MAP: Record<string, React.ComponentType<{ size?: number; class
 };
 
 function FeatureIcon({ iconName, fallbackSrc }: { iconName: string | null; fallbackSrc?: string }) {
+  // If icon is a URL (uploaded image from Cloudinary)
+  if (iconName && iconName.startsWith("http")) {
+    return (
+      // eslint-disable-next-line @next/next/no-img-element
+      <img src={iconName} alt="" className="h-5 w-5 object-contain sm:h-6 sm:w-6" />
+    );
+  }
+  // If icon is a Lucide icon name
   if (iconName && LUCIDE_ICON_MAP[iconName]) {
     const Icon = LUCIDE_ICON_MAP[iconName];
     return <Icon size={20} className="text-white" />;
   }
+  // Fallback to static SVG
   if (fallbackSrc) {
     return <Image src={fallbackSrc} alt="" width={20} height={20} className="h-4 w-4 invert sm:h-5 sm:w-5" />;
   }
