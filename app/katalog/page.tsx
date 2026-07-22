@@ -188,29 +188,6 @@ function CheckIcon() {
 }
 
 /* ------------------------------------------------------------------ */
-/* Navbar                                                               */
-/* ------------------------------------------------------------------ */
-
-function Navbar() {
-  return (
-    <header className="sticky top-0 z-50 border-b border-white/10 bg-[#0b0b0b]/95 text-white backdrop-blur-xl">
-      <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:h-18 sm:px-5 lg:px-8">
-        <a href="/" className="text-base font-black italic tracking-tight sm:text-xl" aria-label="TNT Sport Home">
-          TNT <span className="text-[#c5f518]">SPORT</span>
-        </a>
-        <nav className="hidden items-center gap-6 text-xs font-semibold text-white/70 lg:flex lg:gap-8 lg:text-sm">
-          <a href="#keunggulan" className="hover:text-[#c5f518]">Keunggulan</a>
-          <a href="#kategori" className="hover:text-[#c5f518]">Katalog</a>
-          <a href="#harga" className="hover:text-[#c5f518]">Harga</a>
-          <a href="#cara-order" className="hover:text-[#c5f518]">Cara Order</a>
-          <a href="#ulasan" className="hover:text-[#c5f518]">Ulasan</a>
-        </nav>
-      </div>
-    </header>
-  );
-}
-
-/* ------------------------------------------------------------------ */
 /* Hero — KEPT AS-IS from original                                      */
 /* ------------------------------------------------------------------ */
 
@@ -839,7 +816,6 @@ export default function KatalogPage() {
     <div className="overflow-x-hidden antialiased">
       <TickerStyles />
       <JsonLd />
-      <Navbar />
       <main>
         <Hero />
         <Keunggulan />
