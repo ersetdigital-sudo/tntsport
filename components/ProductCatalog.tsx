@@ -260,20 +260,19 @@ export function ProductCatalog({ categories: propCategories }: ProductCatalogPro
 
   return (
     <>
-      {/* Category tabs — horizontal scroll on mobile, wrap on desktop */}
+      {/* Category tabs */}
       <div className="relative mt-5 sm:mt-8">
         <div
-          className="flex gap-2 overflow-x-auto pb-2 sm:flex-wrap sm:overflow-x-visible sm:gap-2.5 scrollbar-hide snap-x snap-mandatory"
+          className="flex flex-wrap gap-2 sm:gap-2.5"
           role="tablist"
           aria-label="Kategori katalog jersey"
-          style={{ WebkitOverflowScrolling: "touch" }}
         >
           {categories.map((cat) => (
             <button
               key={cat.id}
               type="button"
               role="tab"
-              className={`catalog-tab inline-flex shrink-0 items-center gap-1.5 rounded-full border px-2.5 py-1.5 text-[10px] font-bold transition snap-start sm:gap-2 sm:px-4 sm:py-2 sm:text-xs ${
+              className={`catalog-tab inline-flex shrink-0 items-center gap-1.5 rounded-full border px-2.5 py-1.5 text-[10px] font-bold transition sm:gap-2 sm:px-4 sm:py-2 sm:text-xs ${
                 cat.id === activeCategory
                   ? "border-[#16a34a] bg-[#16a34a] text-white shadow-[0_4px_16px_rgba(22,163,74,.25)]"
                   : "border-black/10 bg-[#f7f7f7] text-[#111] hover:border-[#16a34a]"
@@ -289,8 +288,6 @@ export function ProductCatalog({ categories: propCategories }: ProductCatalogPro
             </button>
           ))}
         </div>
-        {/* Fade gradient on right edge — mobile only */}
-        <div className="pointer-events-none absolute right-0 top-0 bottom-2 w-12 bg-gradient-to-l from-white to-transparent sm:hidden" />
       </div>
 
       {/* Active category info */}
