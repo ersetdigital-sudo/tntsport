@@ -197,7 +197,7 @@ const TICKER_ITEMS = [
   "Gratis Desain",
   "Revisi Tanpa Batas",
   "Tanpa Minimal Order",
-  "Beli 6 Gratis 1",
+  { text: "Beli 6 Gratis 1", badge: true },
   "Produksi Cepat",
 ];
 
@@ -320,7 +320,7 @@ function Hero() {
       <div className="absolute left-[38%] top-1/2 h-[520px] w-[520px] -translate-y-1/2 rounded-full bg-[#16a34a]/10 blur-[120px]" />
 
       <div className="relative mx-auto min-h-[600px] max-w-7xl px-5 sm:min-h-[700px] lg:min-h-[790px] lg:px-8">
-        <div className="relative z-20 flex max-w-2xl flex-col justify-center pb-[350px] pt-12 sm:pb-[400px] sm:pt-16 lg:min-h-[790px] lg:pb-16 lg:pt-12">
+        <div className="relative z-20 flex max-w-2xl flex-col justify-center pb-[430px] pt-16 lg:min-h-[790px] lg:pb-16 lg:pt-12">
           <div className="mb-4 inline-flex w-fit items-center gap-2 rounded-full border border-[#16a34a]/35 bg-[#16a34a]/10 px-3 py-1.5 text-[10px] font-bold uppercase tracking-[.18em] text-green-400 sm:mb-6 sm:px-4 sm:py-2 sm:text-[11px]"
                style={{ fontFamily: "var(--font-mono)" }}>
             <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-[#16a34a] sm:h-2 sm:w-2" />
@@ -354,7 +354,7 @@ function Hero() {
               Cara Order
             </a>
           </div>
-          <div className="mt-6 grid max-w-xs grid-cols-3 gap-2 border-t border-white/10 pt-5 sm:mt-9 sm:max-w-lg sm:gap-3 sm:pt-6">
+          <div className="mt-9 grid max-w-lg grid-cols-3 gap-3 border-t border-white/10 pt-6">
             <div>
               <strong className="text-xl font-black sm:text-2xl lg:text-3xl">350K+</strong>
               <span className="mt-1 block text-[8px] uppercase tracking-widest text-white/45 sm:text-[9px] lg:text-[10px]">Order selesai</span>
@@ -371,43 +371,36 @@ function Hero() {
         </div>
 
         {/* Hero image */}
-        <div className="pointer-events-none absolute inset-x-0 bottom-0 z-10 h-[300px] sm:h-[400px] lg:bottom-0 lg:left-[44%] lg:right-[-8%] lg:top-0 lg:h-full">
+        <div className="hero-photo pointer-events-none absolute inset-x-0 bottom-0 z-10 h-[490px] lg:bottom-0 lg:left-[44%] lg:right-[-8%] lg:top-0 lg:h-full">
           <Image
             src="/37759e58-8f9f-45d9-a4be-7899929c6a95.png"
             alt="Tim mengenakan jersey custom TNT Sport"
             fill
             className="object-cover object-top lg:object-center"
-            style={{
-              maskImage: "linear-gradient(to bottom,transparent 0%,#000 18%,#000 84%,transparent 100%)",
-              WebkitMaskImage: "linear-gradient(to bottom,transparent 0%,#000 18%,#000 84%,transparent 100%)",
-            }}
           />
-          <div className="absolute inset-0 bg-gradient-to-t from-[#0b0b0b] via-[#0b0b0b]/50 to-transparent lg:bg-gradient-to-r lg:from-[#0b0b0b]/20 lg:via-transparent lg:to-transparent" />
+          <div className="absolute inset-0 bg-gradient-to-t from-[#0b0b0b] via-transparent to-transparent lg:bg-gradient-to-r lg:from-[#0b0b0b]/20 lg:via-transparent lg:to-transparent" />
         </div>
       </div>
 
       {/* Ticker */}
       <div className="relative z-30 overflow-hidden border-y border-[#16a34a]/30 bg-[#0b0b0b] py-3 text-white sm:py-3.5">
         <div className="ticker flex w-max items-center gap-8 whitespace-nowrap pr-8 sm:gap-10 sm:pr-10">
-          <div className="flex items-center gap-6 text-[9px] font-bold uppercase tracking-[.16em] text-white/65 sm:gap-8 sm:text-[10px]"
-               style={{ fontFamily: "var(--font-mono)" }}>
-            {TICKER_ITEMS.map((item, i) => (
-              <span key={i} className="flex items-center gap-2 sm:gap-3">
-                <i className="h-1 w-1 rounded-full bg-[#16a34a] shadow-[0_0_10px_#16a34a] sm:h-1.5 sm:w-1.5" />
-                {item}
-              </span>
-            ))}
-          </div>
-          <div className="flex items-center gap-6 text-[9px] font-bold uppercase tracking-[.16em] text-white/65 sm:gap-8 sm:text-[10px]"
-               style={{ fontFamily: "var(--font-mono)" }}
-               aria-hidden="true">
-            {TICKER_ITEMS.map((item, i) => (
-              <span key={i} className="flex items-center gap-2 sm:gap-3">
-                <i className="h-1 w-1 rounded-full bg-[#16a34a] shadow-[0_0_10px_#16a34a] sm:h-1.5 sm:w-1.5" />
-                {item}
-              </span>
-            ))}
-          </div>
+          {[0, 1].map((dup) => (
+            <div key={dup} className="flex items-center gap-6 text-[9px] font-bold uppercase tracking-[.16em] text-white/65 sm:gap-8 sm:text-[10px]"
+                 style={{ fontFamily: "var(--font-mono)" }}
+                 aria-hidden={dup === 1 ? true : undefined}>
+              {TICKER_ITEMS.map((item, i) => (
+                typeof item === "object" && item.badge ? (
+                  <span key={i} className="rounded-full border border-[#16a34a]/50 bg-[#16a34a]/10 px-4 py-1.5 text-green-400">{item.text}</span>
+                ) : (
+                  <span key={i} className="flex items-center gap-2 sm:gap-3">
+                    <i className="h-1 w-1 rounded-full bg-[#16a34a] shadow-[0_0_10px_#16a34a] sm:h-1.5 sm:w-1.5" />
+                    {item as string}
+                  </span>
+                )
+              ))}
+            </div>
+          ))}
         </div>
       </div>
     </section>
@@ -949,6 +942,16 @@ function TickerStyles() {
       }
       .catalog-image {
         transition: opacity 0.25s ease, transform 0.45s ease;
+      }
+      .hero-photo {
+        mask-image: linear-gradient(to right, transparent 0%, #000 20%, #000 100%);
+        -webkit-mask-image: linear-gradient(to right, transparent 0%, #000 20%, #000 100%);
+      }
+      @media (max-width: 1023px) {
+        .hero-photo {
+          mask-image: linear-gradient(to bottom, transparent 0%, #000 18%, #000 84%, transparent 100%);
+          -webkit-mask-image: linear-gradient(to bottom, transparent 0%, #000 18%, #000 84%, transparent 100%);
+        }
       }
     `}</style>
   );
