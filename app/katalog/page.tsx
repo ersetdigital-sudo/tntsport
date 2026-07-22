@@ -397,12 +397,14 @@ async function Keunggulan() {
 
         {/* Info cards */}
         <div className="mt-5 grid gap-3 sm:grid-cols-2 md:grid-cols-3">
-          {infoCards.map((item, i) => (
+          {infoCards.map((item, i) => {
+            const fallbackIcon = INFO_CARDS[i]?.icon ?? undefined;
+            return (
             <div key={i} className="group relative overflow-hidden rounded-2xl border border-white/10 bg-gradient-to-br from-[#171b14] to-[#10120f] p-5 transition duration-300 hover:-translate-y-1 hover:border-[#c5f518]/35">
               <div className="absolute -right-8 -top-8 h-24 w-24 rounded-full bg-[#c5f518]/[.04] blur-2xl transition group-hover:bg-[#c5f518]/10" />
               <div className="relative flex items-center gap-4">
                 <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl border border-[#c5f518]/25 bg-[#c5f518]/10 shadow-[inset_0_1px_0_rgba(255,255,255,.08)]">
-                  <FeatureIcon iconName={item.icon} fallbackSrc={INFO_CARDS[i]?.icon} />
+                  <FeatureIcon iconName={item.icon} fallbackSrc={fallbackIcon} />
                 </div>
                 <div>
                   <strong className="block text-sm font-black text-[#f0f2ec]">{item.title}</strong>
@@ -410,7 +412,8 @@ async function Keunggulan() {
                 </div>
               </div>
             </div>
-          ))}
+            );
+          })}
         </div>
       </div>
     </section>
