@@ -25,6 +25,23 @@ const LUCIDE_ICONS = [
   "Award", "Check", "Target", "Layers", "Globe", "Truck",
 ];
 
+const SVG_ICONS = [
+  { name: "Sepak Bola", src: "/dba325f3-aa25-43c1-bf79-c97cac27beb0.svg" },
+  { name: "Basket", src: "/b4d1d695-3820-4c3b-9593-2018b49634ab.svg" },
+  { name: "Voli", src: "/fdd593d3-725a-4970-9c5b-50346939a377.svg" },
+  { name: "Racing", src: "/5dedcffe-5ed1-43c3-99c4-93cb8638a435.svg" },
+  { name: "Mancing", src: "/0040a5e9-73c7-4575-a3f3-fc0de36354ac.svg" },
+  { name: "Running", src: "/b909ca73-c7d0-47ee-8c6c-4ec4ede8b3f9.svg" },
+  { name: "Badminton", src: "/002ba172-c237-4b45-a942-9b370ac9ec58.svg" },
+  { name: "Army", src: "/5e3bd6f8-d7f3-4b74-9d7e-a7f21d006754.svg" },
+  { name: "Fantasy Club", src: "/378b562a-d8ba-4fd6-b19a-b05c96238007.svg" },
+  { name: "Corporate", src: "/9e768942-684b-4bfe-acb8-4f69a788ead6.svg" },
+  { name: "WhatsApp", src: "/ff97df23-7887-4ec6-9c5f-07a52fe12325.svg" },
+  { name: "Mesin", src: "/a31d0d8a-03fa-4f96-997d-30c2f73614ae.svg" },
+  { name: "Tinta", src: "/1a2aef64-2025-4099-a8e3-b39feb08511e.svg" },
+  { name: "Layanan", src: "/6266d3d8-3e9e-46b3-a2cf-2d6a5cf908fa.svg" },
+];
+
 export function KatalogFeatureEditor({ feature }: KatalogFeatureEditorProps) {
   const router = useRouter();
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -162,31 +179,69 @@ export function KatalogFeatureEditor({ feature }: KatalogFeatureEditorProps) {
                 : "bg-surface border border-hairline text-charcoal hover:border-primary"
             }`}
           >
-            Pilih Icon
+            Icon Bawaan
           </button>
           <button
             type="button"
-            onClick={() => setIconType("upload")}
+            onClick={() => { setIconType("upload"); setIconName(""); }}
             className={`rounded-lg px-3 py-2 text-xs font-bold transition ${
               iconType === "upload"
                 ? "bg-primary text-white"
                 : "bg-surface border border-hairline text-charcoal hover:border-primary"
             }`}
           >
-            Upload Gambar
+            Icon Kustom
           </button>
         </div>
 
         {iconType === "lucide" ? (
-          <select
-            value={iconName}
-            onChange={(e) => setIconName(e.target.value)}
-            className="w-full rounded-lg border border-hairline bg-surface px-3 py-2.5 text-sm text-ink focus:border-primary focus:ring-1 focus:ring-primary/30"
-          >
-            {LUCIDE_ICONS.map((icon) => (
-              <option key={icon} value={icon}>{icon}</option>
-            ))}
-          </select>
+          <div className="space-y-3">
+            {/* Lucide icons */}
+            <div>
+              <p className="text-[10px] text-mute mb-2">Icon Lucide</p>
+              <div className="grid grid-cols-6 gap-2 sm:grid-cols-9">
+                {LUCIDE_ICONS.map((icon) => (
+                  <button
+                    key={icon}
+                    type="button"
+                    onClick={() => setIconName(icon)}
+                    className={`flex h-10 w-10 items-center justify-center rounded-lg border transition ${
+                      iconName === icon
+                        ? "border-primary bg-primary/10 text-primary"
+                        : "border-hairline bg-surface text-charcoal hover:border-primary"
+                    }`}
+                    title={icon}
+                  >
+                    <span className="text-[8px] font-bold">{icon.substring(0, 2)}</span>
+                  </button>
+                ))}
+              </div>
+              <p className="mt-1 text-[10px] text-stone">Dipilih: {iconName || "Belum ada"}</p>
+            </div>
+
+            {/* SVG icons */}
+            <div>
+              <p className="text-[10px] text-mute mb-2">Icon SVG (Kategori & Lainnya)</p>
+              <div className="grid grid-cols-6 gap-2 sm:grid-cols-9">
+                {SVG_ICONS.map((icon) => (
+                  <button
+                    key={icon.src}
+                    type="button"
+                    onClick={() => { setIconName(icon.src); setIconType("upload"); setIconUrl(icon.src); }}
+                    className={`flex h-10 w-10 items-center justify-center rounded-lg border transition ${
+                      iconUrl === icon.src
+                        ? "border-primary bg-primary/10"
+                        : "border-hairline bg-surface hover:border-primary"
+                    }`}
+                    title={icon.name}
+                  >
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img src={icon.src} alt={icon.name} className="h-6 w-6 object-contain" />
+                  </button>
+                ))}
+              </div>
+            </div>
+          </div>
         ) : (
           <div>
             {iconUrl ? (
