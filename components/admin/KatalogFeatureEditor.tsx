@@ -195,48 +195,50 @@ export function KatalogFeatureEditor({ feature }: KatalogFeatureEditorProps) {
         </div>
 
         {iconType === "lucide" ? (
-          <div className="space-y-3">
+          <div className="space-y-4">
             {/* Lucide icons */}
             <div>
-              <p className="text-[10px] text-mute mb-2">Icon Lucide</p>
-              <div className="grid grid-cols-6 gap-2 sm:grid-cols-9">
+              <p className="text-xs font-semibold text-ink mb-2">Icon Lucide</p>
+              <div className="grid grid-cols-4 gap-2 sm:grid-cols-6">
                 {LUCIDE_ICONS.map((icon) => (
                   <button
                     key={icon}
                     type="button"
                     onClick={() => setIconName(icon)}
-                    className={`flex h-10 w-10 items-center justify-center rounded-lg border transition ${
+                    className={`flex flex-col items-center justify-center gap-1 rounded-xl border-2 p-3 transition ${
                       iconName === icon
-                        ? "border-primary bg-primary/10 text-primary"
-                        : "border-hairline bg-surface text-charcoal hover:border-primary"
+                        ? "border-primary bg-primary/10 text-primary shadow-sm"
+                        : "border-hairline bg-white text-charcoal hover:border-primary/50 hover:bg-primary/5"
                     }`}
                     title={icon}
                   >
-                    <span className="text-[8px] font-bold">{icon.substring(0, 2)}</span>
+                    <span className="text-sm font-bold">{icon.substring(0, 3)}</span>
+                    <span className="text-[8px] text-mute truncate w-full text-center">{icon}</span>
                   </button>
                 ))}
               </div>
-              <p className="mt-1 text-[10px] text-stone">Dipilih: {iconName || "Belum ada"}</p>
+              <p className="mt-2 text-xs text-stone">Dipilih: <strong className="text-ink">{iconName || "Belum ada"}</strong></p>
             </div>
 
             {/* SVG icons */}
             <div>
-              <p className="text-[10px] text-mute mb-2">Icon SVG (Kategori & Lainnya)</p>
-              <div className="grid grid-cols-6 gap-2 sm:grid-cols-9">
+              <p className="text-xs font-semibold text-ink mb-2">Icon SVG (Kategori & Lainnya)</p>
+              <div className="grid grid-cols-4 gap-2 sm:grid-cols-6">
                 {SVG_ICONS.map((icon) => (
                   <button
                     key={icon.src}
                     type="button"
                     onClick={() => { setIconName(icon.src); setIconType("upload"); setIconUrl(icon.src); }}
-                    className={`flex h-10 w-10 items-center justify-center rounded-lg border transition ${
+                    className={`flex flex-col items-center justify-center gap-1 rounded-xl border-2 p-3 transition ${
                       iconUrl === icon.src
-                        ? "border-primary bg-primary/10"
-                        : "border-hairline bg-surface hover:border-primary"
+                        ? "border-primary bg-primary/10 shadow-sm"
+                        : "border-hairline bg-white hover:border-primary/50 hover:bg-primary/5"
                     }`}
                     title={icon.name}
                   >
                     {/* eslint-disable-next-line @next/next/no-img-element */}
-                    <img src={icon.src} alt={icon.name} className="h-6 w-6 object-contain" />
+                    <img src={icon.src} alt={icon.name} className="h-7 w-7 object-contain" />
+                    <span className="text-[8px] text-mute truncate w-full text-center">{icon.name}</span>
                   </button>
                 ))}
               </div>
