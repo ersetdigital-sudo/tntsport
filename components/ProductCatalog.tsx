@@ -70,10 +70,12 @@ function ZoomModal({
   product,
   categoryLabel,
   onClose,
+  waNumber,
 }: {
   product: CatalogProduct;
   categoryLabel: string;
   onClose: () => void;
+  waNumber?: string;
 }) {
   return (
     <div
@@ -140,10 +142,12 @@ function ProductCard({
   product,
   categoryLabel,
   onSelect,
+  waNumber,
 }: {
   product: CatalogProduct;
   categoryLabel: string;
   onSelect: (product: CatalogProduct) => void;
+  waNumber?: string;
 }) {
   return (
     <article className="group relative overflow-hidden rounded-2xl border border-white/10 bg-[#131611] shadow-2xl shadow-black/20 transition duration-300 hover:-translate-y-1 hover:border-[#00aa13]/35 sm:rounded-3xl">
@@ -297,6 +301,7 @@ export function ProductCatalog({ categories: propCategories, waNumber }: Product
                 product={product}
                 categoryLabel={activeCategoryData.label}
                 onSelect={setZoomedProduct}
+                waNumber={waNumber}
               />
             ))
         }
@@ -308,6 +313,7 @@ export function ProductCatalog({ categories: propCategories, waNumber }: Product
           product={zoomedProduct}
           categoryLabel={activeCategoryData.label}
           onClose={() => setZoomedProduct(null)}
+          waNumber={waNumber}
         />
       )}
     </>
