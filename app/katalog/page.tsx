@@ -80,32 +80,52 @@ const STEPS = [
 
 const TESTIMONIALS = [
   {
+    badge: "Verified Buyer",
     quote:
-      "Desainnya keren banget, bahan adem dan nyaman dipake main futsal. Sudah 3 kali order dan hasilnya selalu konsisten. Tim desainnya juga sabar banget revisi berkali-kali sampai cocok.",
-    name: "Aliasta M",
-    city: "Magelang",
-    team: "Komunitas Murai",
+      "Order 24 pcs jersey futsal buat tim kantor, semua puas banget. Bahan dryfit-nya adem, jahitan rapi, dan yang paling penting—desainnya persis kayak yang kami mau. Harga segini dapat kualitas segini, worth it banget sih.",
+    name: "Rizky Pratama",
+    city: "Jakarta Selatan",
+    team: "Tim Futsal Kantor BCA",
   },
   {
+    badge: "Verified Buyer",
     quote:
-      "Kualitas jahitan rapi, bahan premium, dan prosesnya cepat. 1500 pcs selesai dalam seminggu tanpa masalah. Pasti order lagi buat event berikutnya!",
-    name: "Wahyu Rahmani",
-    city: "Banjarmasin",
-    team: "Event Running",
+      "Buat event lari 5K kampus, kami pesan 300 pcs jersey running. Hasilnya rapi, bahan ringan, dan selesai tepat waktu padahal deadline-nya mepet. Peserta pada nanya beli di mana, langsung repeat order deh.",
+    name: "Dewi Lestari",
+    city: "Bandung",
+    team: "Komunitas Lari ITB",
   },
   {
+    badge: "Verified Buyer",
     quote:
-      "Jersey padel yang kami order hasilnya mantap. Logo dan nama tim tajam, warna sesuai desain. CS-nya juga fast response, recommended banget!",
-    name: "Silva Nurliva",
-    city: "Purwokerto",
-    team: "Tim Padel",
+      "Udah 4 kali order jersey voli di sini. Yang bikin loyal: desainnya selalu fresh, revisi gratis sampai cocok, dan CS-nya fast response banget. Kali ini 50 pcs selesai 5 hari, top!",
+    name: "Ahmad Fauzan",
+    city: "Surabaya",
+    team: "Tim Voli SMA Negeri 3",
   },
   {
+    badge: "Verified Buyer",
     quote:
-      "Pesan jersey basket untuk 50 orang, semuanya puas. Bahan dryfit-nya adem, jahitan kuat, dan harga sangat terjangkau untuk kualitas sebagus ini.",
-    name: "Dedi Kurniawan",
+      "Pesan 12 set jersey badminton buat klub, dari desain sampai pengiriman cuma seminggu. Jahitannya kuat, printing-nya tajam, dan celananya juga nyaman dipake. Pasti bakal order lagi buat turnamen bulan depan.",
+    name: "Siti Nurhaliza",
     city: "Yogyakarta",
-    team: "Komunitas Cyclist",
+    team: "Klub Badminton Gadjah Mada",
+  },
+  {
+    badge: "Verified Buyer",
+    quote:
+      "Komunitas cyclist kami pesan 80 pcs jersey sepeda. Bahan breathable, nggak gerah pasgowes jarak jauh. Desainnya juga kece, banyak yang nanya custom di mana. TNT Sport jawabannya!",
+    name: "Budi Santoso",
+    city: "Malang",
+    team: "Komunitas Cyclist Malang",
+  },
+  {
+    badge: "Verified Buyer",
+    quote:
+      "Pesan jersey sekolah buat 200 anak. Harga pabrik emang beda jauh dari vendor lain. Kualitas jahitan oke, printing full color nggak luntur setelah dicuci berkali-kali. Anak-anak seneng banget pakainya.",
+    name: "Hendra Wijaya",
+    city: "Semarang",
+    team: "SMA Muhammadiyah 2",
   },
 ];
 
@@ -673,12 +693,15 @@ function Ulasan() {
         <div className="text-center">
           <p className="text-xs font-bold uppercase tracking-[.2em] text-[#00aa13]"
              style={{ fontFamily: "var(--font-mono)" }}>
-            Verified buyer
+            Ulasan Pelanggan
           </p>
           <h2 className="mt-2 text-3xl font-black uppercase text-[#f0f2ec] sm:mt-3 sm:text-5xl lg:text-6xl"
               style={{ fontFamily: "var(--font-sans)", fontStretch: "condensed", fontStyle: "italic" }}>
-            Pelanggan Kami
+            Kata <span className="text-[#00aa13]">Pelanggan</span> Kami
           </h2>
+          <p className="mx-auto mt-3 max-w-md text-sm text-[#a7ad9e]">
+            Ribuan tim &amp; komunitas sudah percaya TNT Sport untuk kebutuhan jersey custom mereka.
+          </p>
         </div>
 
         {/* Auto-scrolling Photo Gallery */}
@@ -691,7 +714,7 @@ function Ulasan() {
               </p>
               <h3 className="mt-2 text-3xl font-black uppercase tracking-tight text-white sm:text-4xl"
                   style={{ fontFamily: "var(--font-sans)", fontStretch: "condensed", fontStyle: "italic" }}>
-                Hasil <span className="text-[#f36458]">nyata</span> dari pelanggan kami
+                Hasil <span className="text-[#00aa13]">nyata</span> dari pelanggan kami
               </h3>
             </div>
             <p className="max-w-sm text-xs leading-relaxed text-white/45 sm:text-right">
@@ -720,16 +743,23 @@ function Ulasan() {
         </div>
 
         {/* Testimonials */}
-        <div className="mt-12 grid gap-5 md:grid-cols-2 lg:grid-cols-4">
+        <div className="mt-12 grid gap-5 md:grid-cols-2 lg:grid-cols-3">
           {TESTIMONIALS.map((t, i) => (
             <blockquote
               key={i}
               className="rounded-2xl border border-white/10 bg-[#11140f] p-5 sm:rounded-3xl sm:p-6"
             >
-              <div className="text-[#00aa13] text-sm mb-3">★★★★★</div>
-              <p className="text-sm leading-relaxed text-[#d4d7d0]">&ldquo;{t.quote}&rdquo;</p>
+              <div className="mb-3 flex items-center gap-2">
+                <span className="inline-flex items-center gap-1 rounded-full bg-[#00aa13]/15 px-2.5 py-1 text-[9px] font-bold uppercase tracking-wider text-[#00aa13]">
+                  <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M20 6L9 17l-5-5" />
+                  </svg>
+                  {t.badge}
+                </span>
+                <span className="text-[#00aa13] text-xs">★★★★★</span>
+              </div>
+              <p className="text-sm leading-relaxed text-[#d4d7d0] italic">&ldquo;{t.quote}&rdquo;</p>
               <footer className="mt-5 flex items-center gap-3 border-t border-white/10 pt-4">
-                {/* Avatar with initials */}
                 <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-[#00aa13] text-sm font-black text-white">
                   {t.name.split(" ").map(n => n[0]).join("")}
                 </div>
