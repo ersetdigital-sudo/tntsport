@@ -552,28 +552,23 @@ function CaraOrder() {
       </div>
       <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 sm:gap-4 lg:grid-cols-5">
         {STEPS.map((step, i) => {
-          const isLast = i === STEPS.length - 1;
           return (
             <div
               key={i}
-              className={`rounded-2xl border p-4 sm:rounded-3xl sm:p-6 ${
-                isLast
-                  ? "bg-[#c5f518] text-[#080a07] border-[#c5f518] col-span-2 sm:col-span-1 shadow-[0_20px_55px_rgba(197,245,24,.12)]"
-                  : "border-white/10 bg-[#151914]"
-              }`}
+              className="rounded-2xl border border-white/10 bg-[#151914] p-4 sm:rounded-3xl sm:p-6"
             >
               <div className="flex items-center gap-3">
                 {(() => {
                   const IconComponent = LUCIDE_ICON_MAP[step.icon];
-                  return IconComponent ? <IconComponent size={24} className={isLast ? "text-[#080a07] opacity-60" : "text-[#c5f518]"} /> : null;
+                  return IconComponent ? <IconComponent size={24} className="text-[#c5f518]" /> : null;
                 })()}
-                <span className={`text-2xl font-black sm:text-3xl ${isLast ? "opacity-40" : "text-[#c5f518]"}`}
+                <span className="text-2xl font-black text-[#c5f518] sm:text-3xl"
                       style={{ fontFamily: "var(--font-mono)" }}>
                   {step.num}
                 </span>
               </div>
-              <h3 className={`mt-4 font-black sm:mt-6 ${isLast ? "text-[#080a07]" : "text-[#f0f2ec]"}`}>{step.title}</h3>
-              <p className={`mt-1 text-xs sm:mt-2 sm:text-sm ${isLast ? "opacity-65" : "text-[#92998b]"}`}>
+              <h3 className="mt-4 font-black text-[#f0f2ec] sm:mt-6">{step.title}</h3>
+              <p className="mt-1 text-xs text-[#92998b] sm:mt-2 sm:text-sm">
                 {step.desc}
               </p>
             </div>
