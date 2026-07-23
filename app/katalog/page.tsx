@@ -3,6 +3,7 @@ import Image from "next/image";
 import { ProductCatalog } from "@/components/ProductCatalog";
 import { PriceCards } from "@/components/PriceCards";
 import { FlashSaleTimer } from "@/components/FlashSaleTimer";
+import { SocialProof } from "@/components/SocialProof";
 import { getCatalogData, getKatalogFeatures } from "@/lib/queries";
 
 export async function generateMetadata(): Promise<Metadata> {
@@ -1002,6 +1003,7 @@ export default function KatalogPage() {
         <FAQ />
         <CTASection />
       </main>
+      <SocialProof />
       <Footer />
     </div>
   );
