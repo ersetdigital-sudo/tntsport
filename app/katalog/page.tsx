@@ -965,7 +965,7 @@ function TickerStyles() {
       .scrollbar-hide::-webkit-scrollbar { display: none; }
       .scrollbar-hide { -ms-overflow-style: none; scrollbar-width: none; }
       .gallery-scroll .gallery-track {
-        animation: gallery-scroll 30s linear infinite;
+        animation: gallery-scroll 20s linear infinite;
         will-change: transform;
       }
       .gallery-scroll:hover .gallery-track {

@@ -75,22 +75,22 @@ export function SocialProof() {
     setVisible(true);
     setIndex(prev => prev + 1);
 
-    // Hide after 5 seconds
+    // Hide after 7 seconds
     setTimeout(() => {
       setVisible(false);
-    }, 5000);
+    }, 7000);
   }, [index, dismissed]);
 
   useEffect(() => {
-    // First notification after 3 seconds
+    // First notification after 8 seconds
     const firstTimer = setTimeout(() => {
       showNext();
-    }, 3000);
+    }, 8000);
 
-    // Then every 8 seconds
+    // Then every 15 seconds
     const interval = setInterval(() => {
       showNext();
-    }, 8000);
+    }, 15000);
 
     return () => {
       clearTimeout(firstTimer);
