@@ -292,6 +292,61 @@ function Hero() {
 }
 
 /* ------------------------------------------------------------------ */
+/* Flash Sale                                                           */
+/* ------------------------------------------------------------------ */
+
+function FlashSale() {
+  return (
+    <section className="relative overflow-hidden bg-[#080a07] py-10 sm:py-14">
+      {/* Glow effect */}
+      <div className="pointer-events-none absolute left-1/2 top-1/2 h-[300px] w-[500px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-[#f36458]/15 blur-[100px]" />
+
+      <div className="relative mx-auto max-w-4xl px-5 text-center lg:px-8">
+        {/* Badge */}
+        <div className="inline-flex items-center gap-2 rounded-full border border-[#f36458]/40 bg-[#f36458]/15 px-4 py-2">
+          <span className="relative flex h-2 w-2">
+            <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-[#f36458] opacity-75"></span>
+            <span className="relative inline-flex h-2 w-2 rounded-full bg-[#f36458]"></span>
+          </span>
+          <span className="text-[10px] font-black uppercase tracking-[.15em] text-[#f36458] sm:text-xs"
+                style={{ fontFamily: "var(--font-mono)" }}>
+            Flash Sale Berlangsung
+          </span>
+        </div>
+
+        {/* Heading */}
+        <h2 className="mt-4 text-4xl font-black uppercase leading-[.9] text-white sm:mt-5 sm:text-5xl lg:text-7xl"
+            style={{ fontFamily: "var(--font-sans)", fontStretch: "condensed", fontStyle: "italic" }}>
+          Diskon <span className="text-[#f36458]">Spesial</span><br />
+          <span className="text-[#c5f518]">Beli 6 Gratis 1</span>
+        </h2>
+
+        {/* Description */}
+        <p className="mx-auto mt-4 max-w-lg text-sm leading-relaxed text-[#a7ad9e] sm:mt-5 sm:text-base">
+          Berlaku kelipatannya! Order 6 dapat 7, order 12 dapat 14. Berlaku untuk atasan maupun setelan.
+        </p>
+
+        {/* CTA */}
+        <a
+          href={WA_LINK}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="mt-6 inline-flex items-center gap-2 rounded-full bg-[#f36458] px-6 py-3 text-sm font-black text-white shadow-[0_10px_40px_rgba(243,100,88,.3)] transition hover:-translate-y-1 hover:bg-[#e5554a] sm:mt-8 sm:px-8 sm:py-4"
+        >
+          <WhatsAppIcon /> Klaim Promo
+        </a>
+
+        {/* Timer hint */}
+        <p className="mt-4 text-[10px] uppercase tracking-widest text-white/40 sm:text-xs"
+           style={{ fontFamily: "var(--font-mono)" }}>
+          Promo terbatas • Selama persediaan masih ada
+        </p>
+      </div>
+    </section>
+  );
+}
+
+/* ------------------------------------------------------------------ */
 /* Keunggulan                                                           */
 /* ------------------------------------------------------------------ */
 
@@ -820,6 +875,7 @@ export default function KatalogPage() {
       <JsonLd />
       <main>
         <Hero />
+        <FlashSale />
         <Keunggulan />
         <Kategori />
         <Harga />
