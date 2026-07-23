@@ -70,11 +70,11 @@ const INFO_CARDS = [
 ];
 
 const STEPS = [
-  { num: "01", title: "Chat Admin", desc: "Ceritakan kebutuhan jersey kamu." },
-  { num: "02", title: "Desain", desc: "Kami buatkan mockup sesuai brief." },
-  { num: "03", title: "ACC & DP", desc: "Setujui desain dan DP 50%." },
-  { num: "04", title: "Produksi", desc: "Dikerjakan cepat di pabrik kami." },
-  { num: "05", title: "Kirim", desc: "Dikemas aman, jersey siap dipakai!" },
+  { num: "01", title: "Chat Admin", desc: "Ceritakan kebutuhan jersey kamu.", icon: "MessageCircle" },
+  { num: "02", title: "Desain", desc: "Kami buatkan mockup sesuai brief.", icon: "Palette" },
+  { num: "03", title: "ACC & DP", desc: "Setujui desain dan DP 50%.", icon: "CheckCircle" },
+  { num: "04", title: "Produksi", desc: "Dikerjakan cepat di pabrik kami.", icon: "Cog" },
+  { num: "05", title: "Kirim", desc: "Dikemas aman, jersey siap dipakai!", icon: "Truck" },
 ];
 
 const TESTIMONIALS = [
@@ -296,10 +296,11 @@ function Hero() {
 /* ------------------------------------------------------------------ */
 
 // Lucide icon map for dynamic features
-import { Thermometer, Palette, Scissors, Clock, Cog, Droplets, Headphones, Sparkles } from "lucide-react";
+import { Thermometer, Palette, Scissors, Clock, Cog, Droplets, Headphones, Sparkles, MessageCircle, CheckCircle, Truck } from "lucide-react";
 
 const LUCIDE_ICON_MAP: Record<string, React.ComponentType<{ size?: number; className?: string }>> = {
   Thermometer, Palette, Scissors, Clock, Cog, Droplets, Headphones, Sparkles,
+  MessageCircle, CheckCircle, Truck,
 };
 
 function FeatureIcon({ iconName, fallbackSrc }: { iconName: string | null; fallbackSrc?: string }) {
@@ -561,11 +562,17 @@ function CaraOrder() {
                   : "border-white/10 bg-[#151914]"
               }`}
             >
-              <span className={`text-3xl font-black sm:text-4xl ${isLast ? "opacity-40" : "text-[#c5f518]"}`}
-                    style={{ fontFamily: "var(--font-mono)" }}>
-                {step.num}
-              </span>
-              <h3 className={`mt-4 font-black sm:mt-8 ${isLast ? "text-[#080a07]" : "text-[#f0f2ec]"}`}>{step.title}</h3>
+              <div className="flex items-center gap-3">
+                {(() => {
+                  const IconComponent = LUCIDE_ICON_MAP[step.icon];
+                  return IconComponent ? <IconComponent size={24} className={isLast ? "text-[#080a07] opacity-60" : "text-[#c5f518]"} /> : null;
+                })()}
+                <span className={`text-2xl font-black sm:text-3xl ${isLast ? "opacity-40" : "text-[#c5f518]"}`}
+                      style={{ fontFamily: "var(--font-mono)" }}>
+                  {step.num}
+                </span>
+              </div>
+              <h3 className={`mt-4 font-black sm:mt-6 ${isLast ? "text-[#080a07]" : "text-[#f0f2ec]"}`}>{step.title}</h3>
               <p className={`mt-1 text-xs sm:mt-2 sm:text-sm ${isLast ? "opacity-65" : "text-[#92998b]"}`}>
                 {step.desc}
               </p>
