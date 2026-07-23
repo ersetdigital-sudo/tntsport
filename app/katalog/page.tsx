@@ -4,7 +4,7 @@ import { ProductCatalog } from "@/components/ProductCatalog";
 import { PriceCards } from "@/components/PriceCards";
 import { FlashSaleTimer } from "@/components/FlashSaleTimer";
 import { SocialProof } from "@/components/SocialProof";
-import { getCatalogData, getKatalogFeatures } from "@/lib/queries";
+import { getCatalogData, getKatalogFeatures, getKatalogTestimonials } from "@/lib/queries";
 
 export async function generateMetadata(): Promise<Metadata> {
   return {
@@ -687,7 +687,18 @@ function CaraOrder() {
 /* Ulasan                                                               */
 /* ------------------------------------------------------------------ */
 
-function Ulasan() {
+async function Ulasan() {
+  const dbTestimonials = await getKatalogTestimonials();
+  const testimonials = dbTestimonials?.map((t) => ({
+    badge: t.badge,
+    quote: t.quote,
+    name: t.name,
+    city: t.city,
+    team: t.team,
+    imageUrl: t.imageUrl,
+    rating: t.rating,
+  })) ?? TESTIMONIALS;
+
   return (
     <section id="ulasan" className="border-y border-white/10 bg-[#090b08] py-16 sm:py-24">
       <div className="mx-auto max-w-7xl px-5 lg:px-8">
@@ -745,7 +756,7 @@ function Ulasan() {
 
         {/* Testimonials */}
         <div className="mt-12 grid gap-5 md:grid-cols-2 lg:grid-cols-3">
-          {TESTIMONIALS.map((t, i) => (
+          {testimonials.map((t, i) => (
             <blockquote
               key={i}
               className="rounded-2xl border border-white/10 bg-[#11140f] p-5 sm:rounded-3xl sm:p-6"
@@ -757,14 +768,19 @@ function Ulasan() {
                   </svg>
                   {t.badge}
                 </span>
-                <span className="text-[#00aa13] text-xs">★★★★★</span>
+                <span className="text-[#00aa13] text-xs">{"★".repeat(t.rating ?? 5)}</span>
               </div>
               <p className="text-sm leading-relaxed text-[#d4d7d0] italic">&ldquo;{t.quote}&rdquo;</p>
               <footer className="mt-5 flex items-center gap-3 border-t border-white/10 pt-4">
-                <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-[#00aa13] text-sm font-black text-white">
-                  {t.name.split(" ").map(n => n[0]).join("")}
-                </div>
-                <div>
+                {/* Avatar with image or initials */}
+                {(t as any).imageUrl ? (
+                  // eslint-disable-next-line @next/next/no-img-element
+                  <img src={(t as any).imageUrl} alt={t.name} className="h-10 w-10 shrink-0 rounded-full object-cover" />
+                ) : (
+                  <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-[#00aa13] text-sm font-black text-white">
+                    {t.name.split(" ").map(n => n[0]).join("")}
+                  </div>
+                )}
                   <strong className="block text-sm font-black uppercase text-[#f0f2ec]">{t.name}</strong>
                   <span className="flex items-center gap-1 text-xs text-[#7f8678]">
                     <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">

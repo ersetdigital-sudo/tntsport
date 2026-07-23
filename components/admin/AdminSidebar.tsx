@@ -15,6 +15,7 @@ import {
   Tag,
   Shirt,
   Sparkles,
+  MessageSquareQuote,
   LogOut,
 } from "lucide-react";
 
@@ -61,6 +62,7 @@ const NAV_GROUPS: NavGroup[] = [
       { href: "/admin/products", label: "Produk", icon: Shirt },
       { href: "/admin/categories", label: "Kategori", icon: Tag },
       { href: "/admin/katalog-features", label: "Keunggulan", icon: Sparkles },
+      { href: "/admin/katalog-testimonials", label: "Testimoni", icon: MessageSquareQuote },
     ],
   },
   {

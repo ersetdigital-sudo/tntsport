@@ -260,3 +260,39 @@ export async function getKatalogFeatures(): Promise<KatalogFeature[] | null> {
     sortOrder: row.sort_order,
   }));
 }
+
+// ---------------------------------------------------------------------------
+// Katalog Testimonials
+// ---------------------------------------------------------------------------
+export interface KatalogTestimonial {
+  id: string;
+  name: string;
+  city: string;
+  team: string;
+  quote: string;
+  imageUrl: string | null;
+  rating: number;
+  badge: string;
+}
+
+export async function getKatalogTestimonials(): Promise<KatalogTestimonial[] | null> {
+  if (!supabaseConfigured()) return null;
+  const supabase = await createClient();
+  const { data, error } = await supabase
+    .from("katalog_testimonials")
+    .select("*")
+    .order("sort_order", { ascending: true });
+
+  if (error || !data?.length) return null;
+
+  return data.map((row) => ({
+    id: row.id,
+    name: row.name,
+    city: row.city,
+    team: row.team,
+    quote: row.quote,
+    imageUrl: row.image_url,
+    rating: row.rating,
+    badge: row.badge ?? "Verified Buyer",
+  }));
+}
