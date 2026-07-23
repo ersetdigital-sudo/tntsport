@@ -106,7 +106,7 @@ function ZoomModal({
               <p className="mt-1 text-sm text-[#a7ad9e]">{categoryLabel}</p>
             </div>
             <a
-              href={getWhatsAppLink(categoryLabel, product.catalogue)}
+              href={getWhatsAppLink(categoryLabel, product.catalogue, waNumber)}
               target="_blank"
               rel="noopener noreferrer"
               onClick={() => trackLead(product.catalogue)}
@@ -177,7 +177,7 @@ function ProductCard({
           {product.catalogue}
         </p>
         <a
-          href={getWhatsAppLink(categoryLabel, product.catalogue)}
+          href={getWhatsAppLink(categoryLabel, product.catalogue, waNumber)}
           target="_blank"
           rel="noopener noreferrer"
           onClick={() => trackLead(product.catalogue)}
@@ -212,9 +212,10 @@ function ProductSkeleton() {
 
 interface ProductCatalogProps {
   categories?: CatalogCategory[];
+  waNumber?: string;
 }
 
-export function ProductCatalog({ categories: propCategories }: ProductCatalogProps) {
+export function ProductCatalog({ categories: propCategories, waNumber }: ProductCatalogProps) {
   // Use prop data if provided, otherwise fall back to static data
   const categories: CatalogCategory[] = propCategories ?? CATALOG_PRODUCTS.map((cat) => ({
     id: cat.id,

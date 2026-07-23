@@ -510,7 +510,7 @@ async function Keunggulan() {
 /* Kategori                                                             */
 /* ------------------------------------------------------------------ */
 
-async function Kategori() {
+async function Kategori({ waNumber }: { waNumber: string }) {
   const catalogData = await getCatalogData();
 
   return (
@@ -528,7 +528,7 @@ async function Kategori() {
           <p className="mt-4 max-w-xl text-sm leading-relaxed text-[#a7ad9e] sm:mt-6 sm:text-base">
             Kirim referensi, logo, atau warna tim. Kami bantu ubah jadi desain jersey yang siap diproduksi.
           </p>
-          <ProductCatalog categories={catalogData ?? undefined} />
+          <ProductCatalog categories={catalogData ?? undefined} waNumber={waNumber} />
         </div>
       </div>
     </section>
@@ -1013,7 +1013,7 @@ export default async function KatalogPage() {
         <Hero waLink={waLink} />
         <FlashSale waLink={waLink} />
         <Keunggulan />
-        <Kategori />
+        <Kategori waNumber={waNumber} />
         <Harga waLink={waLink} />
         <Promo waLink={waLink} />
         <CaraOrder />

@@ -17,11 +17,10 @@ export interface CategoryProducts {
   products: Product[];
 }
 
-const WA_BASE = "https://wa.me/6281234567890?text=";
-
-export function getWhatsAppLink(categoryLabel: string, catalogue: string): string {
+export function getWhatsAppLink(categoryLabel: string, catalogue: string, waNumber?: string): string {
+  const number = waNumber || "628115491117";
   const message = `Halo TNT SPORT, saya tertarik dengan desain *${catalogue}* di kategori *${categoryLabel}*. Bisa info lebih lanjut?`;
-  return `${WA_BASE}${encodeURIComponent(message)}`;
+  return `https://wa.me/${number}?text=${encodeURIComponent(message)}`;
 }
 
 /*
