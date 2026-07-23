@@ -4,6 +4,7 @@ import { ProductCatalog } from "@/components/ProductCatalog";
 import { PriceCards } from "@/components/PriceCards";
 import { FlashSaleTimer } from "@/components/FlashSaleTimer";
 import { SocialProof } from "@/components/SocialProof";
+import { PhotoGallery } from "@/components/PhotoGallery";
 import { getCatalogData, getKatalogFeatures, getKatalogTestimonials } from "@/lib/queries";
 
 export async function generateMetadata(): Promise<Metadata> {
@@ -734,16 +735,8 @@ async function Ulasan() {
             </p>
           </div>
 
-          {/* Auto-scrolling marquee gallery */}
-          <div className="gallery-scroll group overflow-hidden">
-            <div className="gallery-track flex gap-3">
-              {[...GALLERY_IMAGES, ...GALLERY_IMAGES].map((img, i) => (
-                <figure key={i} className="relative h-[200px] w-[280px] shrink-0 overflow-hidden rounded-xl border border-white/10 sm:h-[240px] sm:w-[340px]">
-                  <Image src={img.src} alt={img.alt} fill className="object-cover" />
-                </figure>
-              ))}
-            </div>
-          </div>
+          {/* Auto-scrolling marquee gallery with zoom */}
+          <PhotoGallery images={GALLERY_IMAGES} />
           <a
             href={WA_LINK}
             target="_blank"
@@ -965,7 +958,7 @@ function TickerStyles() {
       .scrollbar-hide::-webkit-scrollbar { display: none; }
       .scrollbar-hide { -ms-overflow-style: none; scrollbar-width: none; }
       .gallery-scroll .gallery-track {
-        animation: gallery-scroll 20s linear infinite;
+        animation: gallery-scroll 16s linear infinite;
         will-change: transform;
       }
       .gallery-scroll:hover .gallery-track {
