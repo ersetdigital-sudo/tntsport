@@ -31,12 +31,12 @@ const WA_LINK =
 
 const KEUNGGULAN = [
   {
-    icon: "/adem-nyaman.png",
+    icon: "/478b7ee7-e7d0-445e-94d7-d63f1e4484d4.svg",
     title: "Adem & Nyaman",
     desc: "Bahan ringan, menyerap keringat, dan nyaman untuk aktivitas fisik intens.",
   },
   {
-    icon: "/free-custom-design.png",
+    icon: "/a9338ee8-b3e8-4859-a2ca-e69aa12edda9.svg",
     title: "Free Custom Design",
     desc: "Tim desainer siap mewujudkan ide jersey dengan revisi tanpa batas.",
   },
@@ -46,7 +46,7 @@ const KEUNGGULAN = [
     desc: "Dijahit presisi dengan mesin modern agar awet untuk jangka panjang.",
   },
   {
-    icon: "/cepat-tepat.png",
+    icon: "/98907d3f-8c1b-41ae-8cf1-9b3d483dace9.svg",
     title: "Cepat & Tepat",
     desc: "Proses produksi terjadwal, cocok bahkan untuk turnamen mendadak.",
   },
@@ -185,7 +185,7 @@ function WhatsAppIcon() {
 }
 
 function CheckIcon() {
-  return <span className="text-[#c5f518]">✓</span>;
+  return <span className="text-[#00aa13]">✓</span>;
 }
 
 /* ------------------------------------------------------------------ */
@@ -258,8 +258,8 @@ function Hero() {
         {/* Hero image */}
         <div className="hero-photo pointer-events-none absolute inset-x-0 bottom-0 z-10 h-[490px] lg:bottom-0 lg:left-[44%] lg:right-[-8%] lg:top-0 lg:h-full">
           <Image
-            src="/37759e58-8f9f-45d9-a4be-7899929c6a95.png"
-            alt="Tim mengenakan jersey custom TNT Sport"
+            src="/0df8a74d-b39f-4bc5-8d55-0be10a01cbe2.png"
+            alt="Tiga atlet mengenakan jersey custom TNT Sport"
             fill
             className="object-cover object-top lg:object-center"
           />
@@ -268,7 +268,7 @@ function Hero() {
       </div>
 
       {/* Ticker */}
-      <div className="relative z-30 overflow-hidden border-y border-[#c5f518]/30 bg-[#0b0b0b] py-3 text-white sm:py-3.5">
+      <div className="relative z-30 overflow-hidden border-y border-[#00aa13]/30 bg-[#0b0b0b] py-3 text-white sm:py-3.5">
         <div className="ticker flex w-max items-center gap-8 whitespace-nowrap pr-8 sm:gap-10 sm:pr-10">
           {[0, 1].map((dup) => (
             <div key={dup} className="flex items-center gap-6 text-[9px] font-bold uppercase tracking-[.16em] text-white/65 sm:gap-8 sm:text-[10px]"
@@ -276,10 +276,10 @@ function Hero() {
                  aria-hidden={dup === 1 ? true : undefined}>
               {TICKER_ITEMS.map((item, i) => (
                 typeof item === "object" && item.badge ? (
-                  <span key={i} className="rounded-full border border-[#c5f518]/50 bg-[#c5f518]/10 px-4 py-1.5 text-[#c5f518]">{item.text}</span>
+                  <span key={i} className="rounded-full border border-[#00aa13]/50 bg-[#00aa13]/10 px-4 py-1.5 text-[#00aa13]">{item.text}</span>
                 ) : (
                   <span key={i} className="flex items-center gap-2 sm:gap-3">
-                    <i className="h-1 w-1 rounded-full bg-[#c5f518] shadow-[0_0_10px_#c5f518] sm:h-1.5 sm:w-1.5" />
+                    <i className="h-1 w-1 rounded-full bg-[#00aa13] shadow-[0_0_10px_#00aa13] sm:h-1.5 sm:w-1.5" />
                     {item as string}
                   </span>
                 )
@@ -298,44 +298,56 @@ function Hero() {
 
 function FlashSale() {
   return (
-    <section className="relative overflow-hidden bg-gradient-to-r from-[#f36458] via-[#e5554a] to-[#d4443a] py-6 sm:py-8">
-      {/* Decorative elements */}
-      <div className="pointer-events-none absolute -left-10 top-0 h-32 w-32 rounded-full bg-white/10 blur-2xl" />
-      <div className="pointer-events-none absolute -right-10 bottom-0 h-32 w-32 rounded-full bg-white/10 blur-2xl" />
+    <section id="flash-sale" className="grid-noise relative overflow-hidden border-b border-white/10 bg-[#080a07] px-5 py-10 text-white lg:px-8 lg:py-14">
+      <div className="pointer-events-none absolute left-1/2 top-1/2 h-72 w-72 -translate-x-1/2 -translate-y-1/2 rounded-full bg-[#00aa13]/15 blur-[110px]" />
+      <div className="relative mx-auto max-w-7xl overflow-hidden rounded-[1.75rem] border border-[#00aa13]/35 bg-[#11140f] shadow-[0_28px_90px_rgba(0,170,19,.12)]">
+        <div className="absolute inset-x-0 top-0 h-1 bg-[#00aa13] shadow-[0_0_24px_rgba(0,170,19,.8)]" />
+        <div className="pointer-events-none absolute -right-8 -top-20 select-none text-[170px] font-black italic leading-none text-white/[.025] sm:text-[240px]">TNT</div>
+        <div className="pointer-events-none absolute -bottom-24 -left-20 h-56 w-56 rounded-full border-[42px] border-[#00aa13]/5" />
 
-      <div className="relative mx-auto max-w-5xl px-5 lg:px-8">
-        <div className="flex flex-col items-center gap-4 sm:flex-row sm:justify-between sm:gap-6">
-          {/* Left: Title + Description */}
-          <div className="flex items-center gap-3 sm:gap-4">
-            {/* Flash icon */}
-            <div className="flex h-10 w-10 items-center justify-center rounded-full bg-white/20 backdrop-blur sm:h-12 sm:w-12">
-              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" className="text-white">
-                <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z" fill="currentColor"/>
-              </svg>
+        <div className="relative grid gap-9 px-6 py-9 sm:px-9 sm:py-11 lg:grid-cols-[1fr_1.05fr] lg:items-center lg:px-12">
+          <div>
+            <div className="inline-flex items-center gap-2 rounded-full border border-[#00aa13]/30 bg-[#00aa13]/10 px-3.5 py-2 text-[9px] font-black uppercase tracking-[.2em] text-[#00c317] sm:text-[10px]"
+                 style={{ fontFamily: "var(--font-mono)" }}>
+              <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-[#00aa13] shadow-[0_0_10px_#00aa13]" />
+              TNT Sport Flash Deal
             </div>
-            <div>
-              <h2 className="text-lg font-black uppercase tracking-tight text-white sm:text-2xl"
-                  style={{ fontFamily: "var(--font-sans)", fontStretch: "condensed", fontStyle: "italic" }}>
-                Flash Sale
-              </h2>
-              <p className="text-[10px] uppercase tracking-wider text-white/70 sm:text-xs">
-                Beli 6 Gratis 1 • Berlaku Kelipatan
-              </p>
+            <h2 className="mt-5 text-5xl font-black uppercase leading-[.88] tracking-[-.035em] sm:text-6xl"
+                style={{ fontFamily: "var(--font-sans)", fontStretch: "condensed", fontStyle: "italic" }}>
+              Waktunya<br /><span className="text-[#00aa13]">Gas Order!</span>
+            </h2>
+            <p className="mt-4 max-w-md text-sm leading-relaxed text-white/55 sm:text-base">
+              Amankan harga jersey full printing mulai <strong className="text-white">50 ribuan</strong> sebelum promo berakhir. Desain bebas, tanpa minimal order.
+            </p>
+            <div className="mt-5 flex flex-wrap gap-x-5 gap-y-2 text-[10px] font-bold uppercase tracking-wider text-white/60">
+              <span><b className="mr-1.5 text-[#00aa13]">✓</b>Gratis desain</span>
+              <span><b className="mr-1.5 text-[#00aa13]">✓</b>Revisi bebas</span>
+              <span><b className="mr-1.5 text-[#00aa13]">✓</b>Full custom</span>
             </div>
           </div>
 
-          {/* Center: Timer */}
-          <FlashSaleTimer />
-
-          {/* Right: CTA */}
-          <a
-            href={WA_LINK}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-flex items-center gap-2 rounded-full bg-white px-5 py-2.5 text-xs font-black text-[#f36458] shadow-lg transition hover:-translate-y-0.5 hover:shadow-xl sm:px-6 sm:py-3 sm:text-sm"
-          >
-            <WhatsAppIcon /> Klaim Sekarang
-          </a>
+          <div className="rounded-2xl border border-white/10 bg-[#090b08]/80 p-4 shadow-[inset_0_1px_0_rgba(255,255,255,.05)] sm:p-6">
+            <div className="flex items-center justify-between gap-3">
+              <p className="text-[9px] font-black uppercase tracking-[.18em] text-white/55 sm:text-[10px]"
+                 style={{ fontFamily: "var(--font-mono)" }}>
+                Deal berakhir dalam
+              </p>
+              <span className="rounded-full bg-[#f36458]/10 px-2.5 py-1 text-[8px] font-bold uppercase tracking-wider text-[#ff8278]"
+                    style={{ fontFamily: "var(--font-mono)" }}>
+                Stok promo terbatas
+              </span>
+            </div>
+            <FlashSaleTimer />
+            <a
+              href={WA_LINK}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="mt-4 flex w-full items-center justify-between rounded-xl bg-[#00aa13] px-5 py-4 text-sm font-black uppercase tracking-wide text-white shadow-[0_12px_35px_rgba(0,170,19,.22)] transition hover:-translate-y-1 hover:bg-[#00c317]"
+            >
+              <span>Konsultasi &amp; Order Sekarang</span>
+              <span aria-hidden="true">↗</span>
+            </a>
+          </div>
         </div>
       </div>
     </section>
@@ -398,7 +410,7 @@ async function Keunggulan() {
       <div className="mx-auto max-w-7xl px-5 lg:px-8">
         <div className="mb-8 grid gap-6 lg:mb-12 lg:grid-cols-[1.1fr_.9fr] lg:items-end">
           <div>
-            <p className="text-xs font-bold uppercase tracking-[.2em] text-[#c5f518]"
+            <p className="text-xs font-bold uppercase tracking-[.2em] text-[#00aa13]"
                style={{ fontFamily: "var(--font-mono)" }}>
               Kenapa TNT Sport?
             </p>
@@ -415,7 +427,7 @@ async function Keunggulan() {
         {/* Feature cards */}
         <div className="grid gap-3 sm:grid-cols-2 sm:gap-4 lg:grid-cols-4">
           {featureCards.map((item, i) => (
-            <article key={i} className="rounded-3xl border border-white/10 bg-[#131611] p-5 shadow-2xl shadow-black/20 transition duration-300 hover:-translate-y-1 hover:border-[#c5f518]/35 sm:p-6">
+            <article key={i} className="rounded-3xl border border-white/10 bg-[#131611] p-5 shadow-2xl shadow-black/20 transition duration-300 hover:-translate-y-1 hover:border-[#00aa13]/35 sm:p-6">
               <div className="mb-6 flex h-14 w-14 items-center justify-center rounded-xl bg-[#16a34a] shadow-[0_8px_24px_rgba(22,163,74,.2)] sm:mb-8 sm:h-16 sm:w-16">
                 <FeatureIcon iconName={item.icon} fallbackSrc={KEUNGGULAN[i]?.icon} />
               </div>
@@ -430,10 +442,10 @@ async function Keunggulan() {
           {infoCards.map((item, i) => {
             const fallbackIcon = INFO_CARDS[i]?.icon ?? undefined;
             return (
-            <div key={i} className="group relative overflow-hidden rounded-2xl border border-white/10 bg-gradient-to-br from-[#171b14] to-[#10120f] p-5 transition duration-300 hover:-translate-y-1 hover:border-[#c5f518]/35">
-              <div className="absolute -right-8 -top-8 h-24 w-24 rounded-full bg-[#c5f518]/[.04] blur-2xl transition group-hover:bg-[#c5f518]/10" />
+            <div key={i} className="group relative overflow-hidden rounded-2xl border border-white/10 bg-gradient-to-br from-[#171b14] to-[#10120f] p-5 transition duration-300 hover:-translate-y-1 hover:border-[#00aa13]/35">
+              <div className="absolute -right-8 -top-8 h-24 w-24 rounded-full bg-[#00aa13]/[.04] blur-2xl transition group-hover:bg-[#00aa13]/10" />
               <div className="relative flex items-center gap-4">
-                <div className="flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl border border-[#c5f518]/25 bg-[#c5f518]/10 shadow-[inset_0_1px_0_rgba(255,255,255,.08)]">
+                <div className="flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl border border-[#00aa13]/25 bg-[#00aa13]/10 shadow-[inset_0_1px_0_rgba(255,255,255,.08)]">
                   <FeatureIcon iconName={item.icon} fallbackSrc={fallbackIcon} />
                 </div>
                 <div>
@@ -461,7 +473,7 @@ async function Kategori() {
     <section id="kategori" className="border-b border-white/10 bg-[#0d100c] py-16 sm:py-24">
       <div className="mx-auto max-w-7xl px-5 lg:px-8">
         <div>
-          <p className="text-[10px] font-black uppercase tracking-[.22em] text-[#c5f518]"
+          <p className="text-[10px] font-black uppercase tracking-[.22em] text-[#00aa13]"
              style={{ fontFamily: "var(--font-mono)" }}>
             Jersey untuk semua
           </p>
@@ -493,10 +505,10 @@ function Harga() {
              backgroundSize: "42px 42px",
            }} />
       {/* Lime glow */}
-      <div className="pointer-events-none absolute left-1/2 top-24 h-96 w-96 -translate-x-1/2 rounded-full bg-[#c5f518]/10 blur-[140px]" />
+      <div className="pointer-events-none absolute left-1/2 top-24 h-96 w-96 -translate-x-1/2 rounded-full bg-[#00aa13]/10 blur-[140px]" />
       <div className="relative mx-auto max-w-7xl px-5 lg:px-8">
         <div className="text-center">
-          <p className="text-xs font-bold uppercase tracking-[.2em] text-[#c5f518]"
+          <p className="text-xs font-bold uppercase tracking-[.2em] text-[#00aa13]"
              style={{ fontFamily: "var(--font-mono)" }}>
             Harga transparan
           </p>
@@ -542,12 +554,12 @@ function Promo() {
   return (
     <section className="bg-[#0b0b0b] px-5 pb-16 text-white sm:pb-24 lg:px-8">
       <div className="mx-auto max-w-7xl">
-        <div className="relative overflow-hidden rounded-[2rem] border border-[#c5f518]/25 bg-[#111] px-5 py-8 shadow-[0_24px_80px_rgba(197,245,24,.08)] sm:px-10 sm:py-10 lg:px-12 lg:py-12">
+        <div className="relative overflow-hidden rounded-[2rem] border border-[#00aa13]/25 bg-[#111] px-5 py-8 shadow-[0_24px_80px_rgba(0,170,19,.08)] sm:px-10 sm:py-10 lg:px-12 lg:py-12">
           <div className="pointer-events-none absolute -right-2 -top-16 select-none text-[120px] font-black leading-none text-white/[.025] sm:right-8 sm:text-[220px]">7</div>
-          <div className="pointer-events-none absolute -left-20 bottom-0 h-32 w-32 rounded-full bg-[#c5f518]/10 blur-3xl sm:h-48 sm:w-48" />
+          <div className="pointer-events-none absolute -left-20 bottom-0 h-32 w-32 rounded-full bg-[#00aa13]/10 blur-3xl sm:h-48 sm:w-48" />
           <div className="relative z-10 flex flex-col gap-6 lg:flex-row lg:items-center lg:justify-between">
             <div>
-              <span className="inline-flex rounded-full bg-[#c5f518] px-3 py-1.5 text-[8px] font-bold uppercase tracking-[.18em] text-[#080a07] sm:px-4 sm:py-2 sm:text-[9px]"
+              <span className="inline-flex rounded-full bg-[#00aa13] px-3 py-1.5 text-[8px] font-bold uppercase tracking-[.18em] text-[#080a07] sm:px-4 sm:py-2 sm:text-[9px]"
                     style={{ fontFamily: "var(--font-mono)" }}>
                 Promo spesial
               </span>
@@ -563,7 +575,7 @@ function Promo() {
               href={WA_LINK}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex shrink-0 items-center justify-center rounded-full bg-[#c5f518] px-5 py-3 text-xs font-black uppercase tracking-wide text-[#080a07] shadow-[0_10px_35px_rgba(197,245,24,.16)] transition hover:-translate-y-1 sm:px-7 sm:py-4 sm:text-sm"
+              className="inline-flex shrink-0 items-center justify-center rounded-full bg-[#00aa13] px-5 py-3 text-xs font-black uppercase tracking-wide text-[#080a07] shadow-[0_10px_35px_rgba(0,170,19,.16)] transition hover:-translate-y-1 sm:px-7 sm:py-4 sm:text-sm"
             >
               Klaim Promo
             </a>
@@ -574,7 +586,7 @@ function Promo() {
         <div className="mt-4 grid grid-cols-2 gap-2 sm:grid-cols-2 sm:gap-3 lg:grid-cols-4">
           {["Garansi harga terbaik", "Garansi tepat waktu", "Garansi kualitas jahitan", "Revisi gratis"].map((item, i) => (
             <div key={i} className="rounded-xl border border-white/10 bg-[#111] px-3 py-2 text-center text-[9px] font-black uppercase tracking-[.12em] text-white/70 sm:px-4 sm:py-4 sm:text-[10px]">
-              <span className="mr-1 text-[#c5f518] sm:mr-2">✓</span> {item}
+              <span className="mr-1 text-[#00aa13] sm:mr-2">✓</span> {item}
             </div>
           ))}
         </div>
@@ -592,7 +604,7 @@ function CaraOrder() {
     <section id="cara-order" className="bg-[#0d100c] py-16 sm:py-24">
       <div className="mx-auto max-w-7xl px-5 lg:px-8">
       <div className="mb-8 sm:mb-12">
-        <p className="text-xs font-bold uppercase tracking-[.2em] text-[#c5f518]"
+        <p className="text-xs font-bold uppercase tracking-[.2em] text-[#00aa13]"
            style={{ fontFamily: "var(--font-mono)" }}>
           Cuma 5 langkah
         </p>
@@ -611,9 +623,9 @@ function CaraOrder() {
               <div className="flex items-center gap-3">
                 {(() => {
                   const IconComponent = LUCIDE_ICON_MAP[step.icon];
-                  return IconComponent ? <IconComponent size={24} className="text-[#c5f518]" /> : null;
+                  return IconComponent ? <IconComponent size={24} className="text-[#00aa13]" /> : null;
                 })()}
-                <span className="text-2xl font-black text-[#c5f518] sm:text-3xl"
+                <span className="text-2xl font-black text-[#00aa13] sm:text-3xl"
                       style={{ fontFamily: "var(--font-mono)" }}>
                   {step.num}
                 </span>
@@ -640,28 +652,30 @@ function Ulasan() {
     <section id="ulasan" className="border-y border-white/10 bg-[#090b08] py-16 sm:py-24">
       <div className="mx-auto max-w-7xl px-5 lg:px-8">
         <div className="text-center">
-          <p className="text-xs font-bold uppercase tracking-[.2em] text-[#c5f518]"
+          <p className="text-xs font-bold uppercase tracking-[.2em] text-[#00aa13]"
              style={{ fontFamily: "var(--font-mono)" }}>
             Verified buyer
           </p>
           <h2 className="mt-2 text-3xl font-black uppercase text-[#f0f2ec] sm:mt-3 sm:text-5xl lg:text-6xl"
               style={{ fontFamily: "var(--font-sans)", fontStretch: "condensed", fontStyle: "italic" }}>
-            Dipercaya ribuan tim
+            Pelanggan Kami
           </h2>
         </div>
-        <div className="mt-8 grid gap-4 sm:mt-12 sm:gap-5 md:grid-cols-3">
+
+        {/* Testimonials */}
+        <div className="mt-12 grid gap-5 md:grid-cols-3">
           {TESTIMONIALS.map((t, i) => (
             <blockquote
               key={i}
-              className={`rounded-2xl border border-white/10 p-5 sm:rounded-3xl sm:p-7 ${
+              className={`rounded-3xl border border-white/10 p-7 ${
                 i === 1 ? "bg-[#0b0b0b]" : "bg-[#141713]"
               }`}
             >
-              <div className="text-[#c5f518]">★★★★★</div>
-              <p className="mt-3 text-sm leading-relaxed text-[#d4d7d0] sm:mt-5 sm:text-base">&ldquo;{t.quote}&rdquo;</p>
-              <footer className="mt-4 border-t border-white/10 pt-3 sm:mt-8 sm:pt-5">
-                <strong className="text-sm text-[#f0f2ec] sm:text-base">{t.name}</strong>
-                <span className="block text-xs text-[#7f8678] sm:text-sm">
+              <div className="text-[#00aa13]">★★★★★</div>
+              <p className="mt-5 leading-relaxed text-[#d4d7d0]">&ldquo;{t.quote}&rdquo;</p>
+              <footer className="mt-8 border-t border-white/10 pt-5">
+                <strong className="text-[#f0f2ec]">{t.name}</strong>
+                <span className="block text-sm text-[#7f8678]">
                   {t.location}
                 </span>
               </footer>
@@ -682,7 +696,7 @@ function FAQ() {
     <section className="bg-[#0d100c] py-16 sm:py-24">
       <div className="mx-auto grid max-w-7xl gap-8 px-5 lg:grid-cols-[.72fr_1.28fr] lg:gap-20 lg:px-8">
         <div>
-          <p className="text-[10px] font-black uppercase tracking-[.22em] text-[#c5f518]"
+          <p className="text-[10px] font-black uppercase tracking-[.22em] text-[#00aa13]"
              style={{ fontFamily: "var(--font-mono)" }}>
             FAQ
           </p>
@@ -700,7 +714,7 @@ function FAQ() {
             <details key={i} className="group py-4 sm:py-5">
               <summary className="flex cursor-pointer list-none items-center justify-between gap-4 text-xs font-black uppercase tracking-wide text-[#f0f2ec] sm:gap-6 sm:text-sm">
                 {item.q}
-                <span className="text-base font-medium text-[#c5f518] transition group-open:rotate-45 sm:text-lg">+</span>
+                <span className="text-base font-medium text-[#00aa13] transition group-open:rotate-45 sm:text-lg">+</span>
               </summary>
               <p className="max-w-2xl pt-3 text-xs leading-relaxed text-[#a7ad9e] sm:pt-4 sm:text-sm">{item.a}</p>
             </details>
@@ -721,19 +735,19 @@ function CTASection() {
       {/* Grid pattern */}
       <div className="absolute inset-0 opacity-[0.15]"
            style={{
-             backgroundImage: "linear-gradient(rgba(197,245,24,.08) 1px, transparent 1px), linear-gradient(90deg, rgba(197,245,24,.08) 1px, transparent 1px)",
+             backgroundImage: "linear-gradient(rgba(0,170,19,.08) 1px, transparent 1px), linear-gradient(90deg, rgba(0,170,19,.08) 1px, transparent 1px)",
              backgroundSize: "40px 40px",
            }} />
       {/* Lime glow */}
-      <div className="pointer-events-none absolute left-1/2 top-1/2 h-[500px] w-[500px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-[#c5f518]/15 blur-[160px]" />
+      <div className="pointer-events-none absolute left-1/2 top-1/2 h-[500px] w-[500px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-[#00aa13]/15 blur-[160px]" />
       <div className="relative mx-auto max-w-4xl text-center">
-        <p className="text-[10px] font-bold uppercase tracking-[.2em] text-[#c5f518] sm:text-xs"
+        <p className="text-[10px] font-bold uppercase tracking-[.2em] text-[#00aa13] sm:text-xs"
            style={{ fontFamily: "var(--font-mono)" }}>
           Konsultasi gratis • tanpa syarat
         </p>
         <h2 className="mt-3 text-4xl font-black uppercase leading-[.9] sm:mt-4 sm:text-6xl lg:text-8xl"
             style={{ fontFamily: "var(--font-sans)", fontStretch: "condensed", fontStyle: "italic" }}>
-          Siap bikin<br /><span className="text-[#c5f518]">jersey custom?</span>
+          Siap bikin<br /><span className="text-[#00aa13]">jersey custom?</span>
         </h2>
         <p className="mx-auto mt-4 max-w-xl text-sm text-[#a7ad9e] sm:mt-6 sm:text-lg">
           Tim kami siap bantu dari desain sampai pengiriman. Ceritakan kebutuhanmu, kami urus sisanya.
@@ -742,7 +756,7 @@ function CTASection() {
           href={WA_LINK}
           target="_blank"
           rel="noopener noreferrer"
-          className="mt-5 inline-flex items-center gap-2 rounded-full bg-[#c5f518] px-6 py-3 font-black text-[#080a07] shadow-[0_14px_50px_rgba(197,245,24,.25)] transition hover:-translate-y-1 hover:shadow-[0_20px_60px_rgba(197,245,24,.35)] sm:mt-8 sm:gap-3 sm:px-8 sm:py-4"
+          className="mt-5 inline-flex items-center gap-2 rounded-full bg-[#00aa13] px-6 py-3 font-black text-[#080a07] shadow-[0_14px_50px_rgba(0,170,19,.25)] transition hover:-translate-y-1 hover:shadow-[0_20px_60px_rgba(0,170,19,.35)] sm:mt-8 sm:gap-3 sm:px-8 sm:py-4"
         >
           <WhatsAppIcon /> Chat WhatsApp Sekarang
         </a>
@@ -777,7 +791,7 @@ function Footer() {
             />
             <div className="text-center sm:text-left">
               <div className="text-lg font-black italic tracking-tight">
-                TNT <span className="text-[#c5f518]">SPORT</span>
+                TNT <span className="text-[#00aa13]">SPORT</span>
               </div>
               <p className="text-xs text-white/40">Jersey Custom Full Printing</p>
             </div>
@@ -854,7 +868,7 @@ function TickerStyles() {
         box-shadow: inset 0 1px 0 rgba(255,255,255,.06), 0 28px 80px rgba(0,0,0,.24);
       }
       .price-card.featured {
-        background: linear-gradient(145deg, rgba(197,245,24,.16), rgba(197,245,24,.035));
+        background: linear-gradient(145deg, rgba(0,170,19,.16), rgba(0,170,19,.035));
       }
     `}</style>
   );

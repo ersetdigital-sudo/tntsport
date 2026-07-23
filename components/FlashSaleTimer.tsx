@@ -2,78 +2,90 @@
 
 import { useState, useEffect } from "react";
 
-function getTimeRemaining(endTime: Date) {
-  const total = endTime.getTime() - Date.now();
-  if (total <= 0) return { hours: 0, minutes: 0, seconds: 0 };
+const SALE_KEY = "tntFlashSaleEnd";
+const SALE_DURATION = 72 * 60 * 60 * 1000; // 72 hours
 
+function getEndTime(): number {
+  if (typeof window === "undefined") return Date.now() + SALE_DURATION;
+
+  const stored = localStorage.getItem(SALE_KEY);
+  let end = stored ? Number(stored) : 0;
+
+  if (!end || end <= Date.now()) {
+    end = Date.now() + SALE_DURATION;
+    localStorage.setItem(SALE_KEY, String(end));
+  }
+
+  return end;
+}
+
+function getTimeRemaining(endTime: number) {
+  const remaining = Math.max(0, endTime - Date.now());
   return {
-    hours: Math.floor(total / (1000 * 60 * 60)),
-    minutes: Math.floor((total / (1000 * 60)) % 60),
-    seconds: Math.floor((total / 1000) % 60),
+    days: Math.floor(remaining / 86400000),
+    hours: Math.floor((remaining % 86400000) / 3600000),
+    minutes: Math.floor((remaining % 3600000) / 60000),
+    seconds: Math.floor((remaining % 60000) / 1000),
   };
 }
 
 function TimeBlock({ value, label }: { value: number; label: string }) {
   return (
-    <div className="flex flex-col items-center">
-      <div className="flex h-12 w-12 items-center justify-center rounded-lg bg-white/10 backdrop-blur sm:h-14 sm:w-14">
-        <span className="text-xl font-black text-white sm:text-2xl"
+    <div className="min-w-0 flex-1 rounded-xl border border-[#00aa13]/20 bg-[#171b14] px-2 py-3.5 text-center sm:px-3">
+      <strong className="block text-3xl font-black leading-none text-[#00aa13] sm:text-4xl"
               style={{ fontFamily: "var(--font-mono)" }}>
-          {String(value).padStart(2, "0")}
-        </span>
-      </div>
-      <span className="mt-1 text-[8px] uppercase tracking-wider text-white/50 sm:text-[9px]">{label}</span>
+        {String(value).padStart(2, "0")}
+      </strong>
+      <span className="mt-1.5 block text-[7px] font-bold uppercase tracking-widest text-white/40 sm:text-[8px]"
+            style={{ fontFamily: "var(--font-mono)" }}>
+        {label}
+      </span>
     </div>
   );
 }
 
+function Separator() {
+  return (
+    <span className="shrink-0 text-lg font-black text-[#00aa13]/45 sm:text-xl"
+          style={{ fontFamily: "var(--font-mono)" }}>
+      :
+    </span>
+  );
+}
+
 export function FlashSaleTimer() {
-  const [endTime, setEndTime] = useState<Date | null>(null);
-  const [time, setTime] = useState({ hours: 0, minutes: 0, seconds: 0 });
+  const [endTime, setEndTime] = useState<number>(0);
+  const [time, setTime] = useState({ days: 0, hours: 0, minutes: 0, seconds: 0 });
 
   useEffect(() => {
-    // Set end time to end of today (midnight)
-    const now = new Date();
-    const end = new Date(now);
-    end.setHours(23, 59, 59, 999);
+    const end = getEndTime();
     setEndTime(end);
-  }, []);
-
-  useEffect(() => {
-    if (!endTime) return;
-
-    setTime(getTimeRemaining(endTime));
+    setTime(getTimeRemaining(end));
 
     const interval = setInterval(() => {
-      const remaining = getTimeRemaining(endTime);
+      const remaining = getTimeRemaining(end);
       setTime(remaining);
 
-      if (remaining.hours === 0 && remaining.minutes === 0 && remaining.seconds === 0) {
-        clearInterval(interval);
+      if (remaining.days === 0 && remaining.hours === 0 && remaining.minutes === 0 && remaining.seconds === 0) {
+        // Reset timer when it reaches zero
+        const newEnd = Date.now() + SALE_DURATION;
+        localStorage.setItem(SALE_KEY, String(newEnd));
+        setEndTime(newEnd);
       }
     }, 1000);
 
     return () => clearInterval(interval);
-  }, [endTime]);
-
-  if (!endTime) {
-    return (
-      <div className="flex items-center justify-center gap-2 sm:gap-3">
-        <TimeBlock value={0} label="Jam" />
-        <span className="text-xl font-black text-[#f36458]">:</span>
-        <TimeBlock value={0} label="Menit" />
-        <span className="text-xl font-black text-[#f36458]">:</span>
-        <TimeBlock value={0} label="Detik" />
-      </div>
-    );
-  }
+  }, []);
 
   return (
-    <div className="flex items-center justify-center gap-2 sm:gap-3">
+    <div className="mt-4 flex items-center justify-center gap-1.5 sm:gap-2.5"
+         aria-label="Hitung mundur flash sale">
+      <TimeBlock value={time.days} label="Hari" />
+      <Separator />
       <TimeBlock value={time.hours} label="Jam" />
-      <span className="text-xl font-black text-[#f36458]">:</span>
+      <Separator />
       <TimeBlock value={time.minutes} label="Menit" />
-      <span className="text-xl font-black text-[#f36458]">:</span>
+      <Separator />
       <TimeBlock value={time.seconds} label="Detik" />
     </div>
   );
