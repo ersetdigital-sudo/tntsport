@@ -662,6 +662,60 @@ function Ulasan() {
           </h2>
         </div>
 
+        {/* Photo Gallery */}
+        <div className="mt-12 overflow-hidden rounded-[2rem] border border-white/10 bg-[#11140f] p-4 shadow-[0_28px_80px_rgba(0,0,0,.28)] sm:p-6">
+          <div className="mb-6 flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
+            <div>
+              <p className="text-[10px] font-black uppercase tracking-[.2em] text-[#00aa13]"
+                 style={{ fontFamily: "var(--font-mono)" }}>
+                📸 Bukti bukan janji
+              </p>
+              <h3 className="mt-2 text-3xl font-black uppercase tracking-tight text-white sm:text-4xl"
+                  style={{ fontFamily: "var(--font-sans)", fontStretch: "condensed", fontStyle: "italic" }}>
+                Hasil <span className="text-[#00aa13]">nyata</span> dari pelanggan kami
+              </h3>
+            </div>
+            <p className="max-w-sm text-xs leading-relaxed text-white/45 sm:text-right">
+              Foto asli jersey yang sudah diterima dan dipakai pelanggan—bukan edit, bukan rekayasa.
+            </p>
+          </div>
+
+          <div className="grid auto-rows-[190px] grid-cols-2 gap-3 sm:auto-rows-[230px] lg:grid-cols-4">
+            <figure className="group relative col-span-2 overflow-hidden rounded-2xl border border-white/10 lg:col-span-2 lg:row-span-2">
+              <Image src="/b2fe362c-daed-4c7c-82af-a78c1e9da0cc.jpg" alt="Tim sepak bola pelanggan TNT Sport memakai jersey merah custom" fill className="object-cover transition duration-500 group-hover:scale-105" />
+              <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/80 to-transparent p-4">
+                <span className="text-[8px] font-bold uppercase tracking-widest text-[#00aa13]"
+                      style={{ fontFamily: "var(--font-mono)" }}>
+                  Jersey tim custom
+                </span>
+              </div>
+            </figure>
+            <figure className="group relative overflow-hidden rounded-2xl border border-white/10">
+              <Image src="/a66a21ab-a0c6-44d6-9b52-d5596a15fcc6.jpg" alt="Tim junior pelanggan TNT Sport memakai jersey kuning" fill className="object-cover transition duration-500 group-hover:scale-105" />
+            </figure>
+            <figure className="group relative overflow-hidden rounded-2xl border border-white/10">
+              <Image src="/0696556a-f40d-4067-a896-0524dcfe4a36.jpg" alt="Pelanggan TNT Sport memakai jersey merah custom" fill className="object-cover object-top transition duration-500 group-hover:scale-105" />
+            </figure>
+            <figure className="group relative col-span-2 overflow-hidden rounded-2xl border border-white/10">
+              <Image src="/1537d016-3b7d-4c45-9f20-6c2c9ac9ebdf.jpg" alt="Tim sepak bola pelanggan TNT Sport dalam turnamen" fill className="object-cover transition duration-500 group-hover:scale-105" />
+            </figure>
+            <figure className="group relative overflow-hidden rounded-2xl border border-white/10">
+              <Image src="/37de4d36-d677-43f0-ae3c-8f5ac22298f8.jpg" alt="Tim junior pelanggan TNT Sport menerima penghargaan" fill className="object-cover transition duration-500 group-hover:scale-105" />
+            </figure>
+            <figure className="group relative overflow-hidden rounded-2xl border border-white/10">
+              <Image src="/1fa04ec7-8832-45d4-b869-3f25ffdef9ca.jpg" alt="Tim junior pelanggan TNT Sport di kejuaraan" fill className="object-cover transition duration-500 group-hover:scale-105" />
+            </figure>
+          </div>
+          <a
+            href={WA_LINK}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="mt-5 flex w-full items-center justify-center gap-3 rounded-xl bg-[#00aa13] px-6 py-4 text-sm font-black uppercase tracking-wide text-white transition hover:-translate-y-1 hover:bg-[#00c317] sm:mx-auto sm:w-fit sm:rounded-full sm:px-8"
+          >
+            Mau Jersey Seperti Ini? Order Sekarang <span aria-hidden="true">→</span>
+          </a>
+        </div>
+
         {/* Testimonials */}
         <div className="mt-12 grid gap-5 md:grid-cols-3">
           {TESTIMONIALS.map((t, i) => (
