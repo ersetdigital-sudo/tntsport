@@ -342,43 +342,43 @@ function Hero({ waLink }: { waLink: string }) {
 
 function FlashSale({ waLink }: { waLink: string }) {
   return (
-    <section id="flash-sale" className="grid-noise relative overflow-hidden border-b border-white/10 bg-[#080a07] px-5 py-10 text-white lg:px-8 lg:py-14">
+    <section id="flash-sale" className="grid-noise relative overflow-hidden border-b border-white/10 bg-[#080a07] px-4 py-8 text-white sm:px-5 sm:py-10 lg:px-8 lg:py-14">
       <div className="pointer-events-none absolute left-1/2 top-1/2 h-72 w-72 -translate-x-1/2 -translate-y-1/2 rounded-full bg-[#00aa13]/15 blur-[110px]" />
-      <div className="relative mx-auto max-w-7xl overflow-hidden rounded-[1.75rem] border border-[#00aa13]/35 bg-[#11140f] shadow-[0_28px_90px_rgba(0,170,19,.12)]">
+      <div className="relative mx-auto max-w-7xl overflow-hidden rounded-2xl border border-[#00aa13]/35 bg-[#11140f] shadow-[0_28px_90px_rgba(0,170,19,.12)] sm:rounded-[1.75rem]">
         <div className="absolute inset-x-0 top-0 h-1 bg-[#00aa13] shadow-[0_0_24px_rgba(0,170,19,.8)]" />
         <div className="pointer-events-none absolute -right-8 -top-20 select-none text-[170px] font-black italic leading-none text-white/[.025] sm:text-[240px]">TNT</div>
         <div className="pointer-events-none absolute -bottom-24 -left-20 h-56 w-56 rounded-full border-[42px] border-[#00aa13]/5" />
 
-        <div className="relative grid gap-9 px-6 py-9 sm:px-9 sm:py-11 lg:grid-cols-[1fr_1.05fr] lg:items-center lg:px-12">
+        <div className="relative grid gap-6 px-5 py-7 sm:px-9 sm:py-11 lg:grid-cols-[1fr_1.05fr] lg:items-center lg:gap-9 lg:px-12">
           <div>
-            <div className="inline-flex items-center gap-2 rounded-full border border-[#00aa13]/30 bg-[#00aa13]/10 px-3.5 py-2 text-[9px] font-black uppercase tracking-[.2em] text-[#00c317] sm:text-[10px]"
+            <div className="inline-flex items-center gap-2 rounded-full border border-[#00aa13]/30 bg-[#00aa13]/10 px-3 py-1.5 text-[8px] font-black uppercase tracking-[.2em] text-[#00c317] sm:px-3.5 sm:py-2 sm:text-[10px]"
                  style={{ fontFamily: "var(--font-mono)" }}>
               <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-[#00aa13] shadow-[0_0_10px_#00aa13]" />
               TNT Sport Flash Deal
             </div>
-            <h2 className="mt-5 text-5xl font-black uppercase leading-[.88] tracking-[-.035em] sm:text-6xl"
+            <h2 className="mt-4 text-4xl font-black uppercase leading-[.88] tracking-[-.035em] sm:mt-5 sm:text-5xl lg:text-6xl"
                 style={{ fontFamily: "var(--font-sans)", fontStretch: "condensed", fontStyle: "italic" }}>
               Waktunya<br /><span className="text-[#00aa13]">Gas Order!</span>
             </h2>
-            <p className="mt-4 max-w-md text-sm leading-relaxed text-white/55 sm:text-base">
+            <p className="mt-3 max-w-md text-xs leading-relaxed text-white/55 sm:mt-4 sm:text-sm lg:text-base">
               Amankan harga jersey full printing mulai <strong className="text-white">50 ribuan</strong> sebelum promo berakhir. Desain bebas, tanpa minimal order.
             </p>
-            <div className="mt-5 flex flex-wrap gap-x-5 gap-y-2 text-[10px] font-bold uppercase tracking-wider text-white/60">
-              <span><b className="mr-1.5 text-[#00aa13]">✓</b>Gratis desain</span>
-              <span><b className="mr-1.5 text-[#00aa13]">✓</b>Revisi bebas</span>
-              <span><b className="mr-1.5 text-[#00aa13]">✓</b>Full custom</span>
+            <div className="mt-4 flex flex-wrap gap-x-4 gap-y-1.5 text-[9px] font-bold uppercase tracking-wider text-white/60 sm:mt-5 sm:gap-x-5 sm:text-[10px]">
+              <span><b className="mr-1 text-[#00aa13] sm:mr-1.5">✓</b>Gratis desain</span>
+              <span><b className="mr-1 text-[#00aa13] sm:mr-1.5">✓</b>Revisi bebas</span>
+              <span><b className="mr-1 text-[#00aa13] sm:mr-1.5">✓</b>Full custom</span>
             </div>
           </div>
 
-          <div className="rounded-2xl border border-white/10 bg-[#090b08]/80 p-4 shadow-[inset_0_1px_0_rgba(255,255,255,.05)] sm:p-6">
-            <div className="flex items-center justify-between gap-3">
-              <p className="text-[9px] font-black uppercase tracking-[.18em] text-white/55 sm:text-[10px]"
+          <div className="rounded-xl border border-white/10 bg-[#090b08]/80 p-3 shadow-[inset_0_1px_0_rgba(255,255,255,.05)] sm:rounded-2xl sm:p-5 lg:p-6">
+            <div className="flex items-center justify-between gap-2">
+              <p className="text-[8px] font-black uppercase tracking-[.18em] text-white/55 sm:text-[10px]"
                  style={{ fontFamily: "var(--font-mono)" }}>
                 Deal berakhir dalam
               </p>
-              <span className="rounded-full bg-[#f36458]/10 px-2.5 py-1 text-[8px] font-bold uppercase tracking-wider text-[#ff8278]"
+              <span className="rounded-full bg-[#f36458]/10 px-2 py-0.5 text-[7px] font-bold uppercase tracking-wider text-[#ff8278] sm:px-2.5 sm:py-1 sm:text-[8px]"
                     style={{ fontFamily: "var(--font-mono)" }}>
-                Stok promo terbatas
+                Stok terbatas
               </span>
             </div>
             <FlashSaleTimer />
@@ -386,9 +386,9 @@ function FlashSale({ waLink }: { waLink: string }) {
               href={waLink}
               target="_blank"
               rel="noopener noreferrer"
-              className="mt-4 flex w-full items-center justify-between rounded-xl bg-[#00aa13] px-5 py-4 text-sm font-black uppercase tracking-wide text-white shadow-[0_12px_35px_rgba(0,170,19,.22)] transition hover:-translate-y-1 hover:bg-[#00c317]"
+              className="mt-3 flex w-full items-center justify-between rounded-lg bg-[#00aa13] px-4 py-3 text-xs font-black uppercase tracking-wide text-white shadow-[0_12px_35px_rgba(0,170,19,.22)] transition hover:-translate-y-1 hover:bg-[#00c317] sm:mt-4 sm:rounded-xl sm:px-5 sm:py-4 sm:text-sm"
             >
-              <span>Konsultasi &amp; Order Sekarang</span>
+              <span>Konsultasi &amp; Order</span>
               <span aria-hidden="true">↗</span>
             </a>
           </div>

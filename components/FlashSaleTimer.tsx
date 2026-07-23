@@ -31,12 +31,12 @@ function getTimeRemaining(endTime: number) {
 
 function TimeBlock({ value, label }: { value: number; label: string }) {
   return (
-    <div className="min-w-0 flex-1 rounded-xl border border-[#00aa13]/20 bg-[#171b14] px-2 py-3.5 text-center sm:px-3">
-      <strong className="block text-3xl font-black leading-none text-[#00aa13] sm:text-4xl"
+    <div className="min-w-0 flex-1 rounded-lg border border-[#00aa13]/20 bg-[#171b14] px-1.5 py-2.5 text-center sm:rounded-xl sm:px-3 sm:py-3.5">
+      <strong className="block text-2xl font-black leading-none text-[#00aa13] sm:text-3xl lg:text-4xl"
               style={{ fontFamily: "var(--font-mono)" }}>
         {String(value).padStart(2, "0")}
       </strong>
-      <span className="mt-1.5 block text-[7px] font-bold uppercase tracking-widest text-white/40 sm:text-[8px]"
+      <span className="mt-1 block text-[6px] font-bold uppercase tracking-widest text-white/40 sm:mt-1.5 sm:text-[7px] lg:text-[8px]"
             style={{ fontFamily: "var(--font-mono)" }}>
         {label}
       </span>
@@ -46,7 +46,7 @@ function TimeBlock({ value, label }: { value: number; label: string }) {
 
 function Separator() {
   return (
-    <span className="shrink-0 text-lg font-black text-[#00aa13]/45 sm:text-xl"
+    <span className="shrink-0 text-base font-black text-[#00aa13]/45 sm:text-lg lg:text-xl"
           style={{ fontFamily: "var(--font-mono)" }}>
       :
     </span>
@@ -78,7 +78,7 @@ export function FlashSaleTimer() {
   }, []);
 
   return (
-    <div className="mt-4 flex items-center justify-center gap-1.5 sm:gap-2.5"
+    <div className="mt-3 flex items-center justify-center gap-1 sm:mt-4 sm:gap-2 lg:gap-2.5"
          aria-label="Hitung mundur flash sale">
       <TimeBlock value={time.days} label="Hari" />
       <Separator />
