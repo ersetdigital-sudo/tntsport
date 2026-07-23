@@ -83,6 +83,7 @@ const STEPS = [
 const TESTIMONIALS = [
   {
     badge: "Verified Buyer",
+    rating: 5,
     quote:
       "Order 24 pcs jersey futsal buat tim kantor, semua puas banget. Bahan dryfit-nya adem, jahitan rapi, dan yang paling penting—desainnya persis kayak yang kami mau. Harga segini dapat kualitas segini, worth it banget sih.",
     name: "Rizky Pratama",
@@ -91,6 +92,7 @@ const TESTIMONIALS = [
   },
   {
     badge: "Verified Buyer",
+    rating: 5,
     quote:
       "Buat event lari 5K kampus, kami pesan 300 pcs jersey running. Hasilnya rapi, bahan ringan, dan selesai tepat waktu padahal deadline-nya mepet. Peserta pada nanya beli di mana, langsung repeat order deh.",
     name: "Dewi Lestari",
@@ -99,6 +101,7 @@ const TESTIMONIALS = [
   },
   {
     badge: "Verified Buyer",
+    rating: 5,
     quote:
       "Udah 4 kali order jersey voli di sini. Yang bikin loyal: desainnya selalu fresh, revisi gratis sampai cocok, dan CS-nya fast response banget. Kali ini 50 pcs selesai 5 hari, top!",
     name: "Ahmad Fauzan",
@@ -107,6 +110,7 @@ const TESTIMONIALS = [
   },
   {
     badge: "Verified Buyer",
+    rating: 5,
     quote:
       "Pesan 12 set jersey badminton buat klub, dari desain sampai pengiriman cuma seminggu. Jahitannya kuat, printing-nya tajam, dan celananya juga nyaman dipake. Pasti bakal order lagi buat turnamen bulan depan.",
     name: "Siti Nurhaliza",
@@ -115,6 +119,7 @@ const TESTIMONIALS = [
   },
   {
     badge: "Verified Buyer",
+    rating: 5,
     quote:
       "Komunitas cyclist kami pesan 80 pcs jersey sepeda. Bahan breathable, nggak gerah pasgowes jarak jauh. Desainnya juga kece, banyak yang nanya custom di mana. TNT Sport jawabannya!",
     name: "Budi Santoso",
@@ -123,6 +128,7 @@ const TESTIMONIALS = [
   },
   {
     badge: "Verified Buyer",
+    rating: 5,
     quote:
       "Pesan jersey sekolah buat 200 anak. Harga pabrik emang beda jauh dari vendor lain. Kualitas jahitan oke, printing full color nggak luntur setelah dicuci berkali-kali. Anak-anak seneng banget pakainya.",
     name: "Hendra Wijaya",
