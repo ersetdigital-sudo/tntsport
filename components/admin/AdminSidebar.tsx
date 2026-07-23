@@ -16,6 +16,7 @@ import {
   Shirt,
   Sparkles,
   MessageSquareQuote,
+  Settings,
   LogOut,
 } from "lucide-react";
 
@@ -68,7 +69,7 @@ const NAV_GROUPS: NavGroup[] = [
   {
     title: "Atur Bio Link",
     items: [
-      { href: "/admin/brand", label: "Brand", icon: Image },
+      { href: "/admin/brand", label: "Brand & Pixel", icon: Settings },
       { href: "/admin/stats", label: "Stats", icon: BarChart3 },
       { href: "/admin/cta-links", label: "CTA Links", icon: Link2 },
       { href: "/admin/reviews", label: "Reviews", icon: Star },

@@ -3,6 +3,7 @@
 import { useState, useCallback, useRef, useEffect } from "react";
 import Image from "next/image";
 import { CATALOG_PRODUCTS, getWhatsAppLink, type Product } from "@/lib/products";
+import { trackViewContent, trackLead } from "@/components/MetaPixel";
 
 /* ------------------------------------------------------------------ */
 /* Types                                                                */
@@ -108,6 +109,7 @@ function ZoomModal({
               href={getWhatsAppLink(categoryLabel, product.catalogue)}
               target="_blank"
               rel="noopener noreferrer"
+              onClick={() => trackLead(product.catalogue)}
               className="inline-flex shrink-0 items-center gap-2 rounded-full bg-[#00aa13] px-4 py-2.5 text-xs font-black text-[#080a07] transition hover:bg-[#00c317] sm:px-5 sm:text-sm"
             >
               Order Sekarang
@@ -147,7 +149,10 @@ function ProductCard({
     <article className="group relative overflow-hidden rounded-2xl border border-white/10 bg-[#131611] shadow-2xl shadow-black/20 transition duration-300 hover:-translate-y-1 hover:border-[#00aa13]/35 sm:rounded-3xl">
       {/* Image */}
       <button
-        onClick={() => onSelect(product)}
+        onClick={() => {
+          trackViewContent(product.catalogue, categoryLabel);
+          onSelect(product);
+        }}
         className="relative aspect-[4/5] w-full cursor-pointer overflow-hidden bg-[#181c15]"
       >
         <Image
@@ -175,6 +180,7 @@ function ProductCard({
           href={getWhatsAppLink(categoryLabel, product.catalogue)}
           target="_blank"
           rel="noopener noreferrer"
+          onClick={() => trackLead(product.catalogue)}
           className="mt-2 block w-full rounded-full bg-[#00aa13] py-2 text-center text-[10px] font-black uppercase tracking-wide text-white transition hover:bg-[#00c317] sm:py-2.5 sm:text-xs"
         >
           Pilih Desain Ini

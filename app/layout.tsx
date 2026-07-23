@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from "next";
 import { Barlow, Barlow_Condensed, IBM_Plex_Mono } from "next/font/google";
 import { ThemeProvider } from "next-themes";
 import { getBrand } from "@/lib/queries";
+import { MetaPixel } from "@/components/MetaPixel";
 import "./globals.css";
 
 /**
@@ -104,11 +105,13 @@ export const viewport: Viewport = {
   initialScale: 1,
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
+  const brand = await getBrand();
+
   return (
     <html
       lang="id"
@@ -116,6 +119,7 @@ export default function RootLayout({
       className={`${barlow.variable} ${barlowCondensed.variable} ${ibmPlexMono.variable}`}
     >
       <body className="antialiased">
+        <MetaPixel pixelId={brand.metaPixelId} enabled={brand.metaPixelEnabled} />
         <ThemeProvider
           attribute="class"
           defaultTheme="dark"

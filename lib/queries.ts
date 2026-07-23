@@ -53,6 +53,8 @@ export async function getBrand(): Promise<Brand> {
     description: row.description,
     whatsappNumber: row.whatsapp_number,
     logoPath: row.logo_path,
+    metaPixelId: row.meta_pixel_id ?? "",
+    metaPixelEnabled: row.meta_pixel_enabled ?? false,
   };
 }
 
