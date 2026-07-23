@@ -81,22 +81,41 @@ const STEPS = [
 const TESTIMONIALS = [
   {
     quote:
-      "Design mantap. Tadinya belum ada ide sama sekali, tapi tim desainnya keren dan mau revisi berkali-kali.",
+      "Desainnya keren banget, bahan adem dan nyaman dipake main futsal. Sudah 3 kali order dan hasilnya selalu konsisten. Tim desainnya juga sabar banget revisi berkali-kali sampai cocok.",
     name: "Aliasta M",
-    location: "Magelang • Komunitas Murai",
+    city: "Magelang",
+    team: "Komunitas Murai",
   },
   {
     quote:
-      "Sudah 3x order jersey padel. Kualitas konsisten, jahitan kuat, bahan adem dan CS fast response.",
-    name: "Silva Nurliva",
-    location: "Purwokerto • Tim Padel",
-  },
-  {
-    quote:
-      "1500 pcs dikebut satu minggu, hasil mantap dan event berjalan sesuai harapan. Makasih bantuannya!",
+      "Kualitas jahitan rapi, bahan premium, dan prosesnya cepat. 1500 pcs selesai dalam seminggu tanpa masalah. Pasti order lagi buat event berikutnya!",
     name: "Wahyu Rahmani",
-    location: "Banjarmasin • Event Running",
+    city: "Banjarmasin",
+    team: "Event Running",
   },
+  {
+    quote:
+      "Jersey padel yang kami order hasilnya mantap. Logo dan nama tim tajam, warna sesuai desain. CS-nya juga fast response, recommended banget!",
+    name: "Silva Nurliva",
+    city: "Purwokerto",
+    team: "Tim Padel",
+  },
+  {
+    quote:
+      "Pesan jersey basket untuk 50 orang, semuanya puas. Bahan dryfit-nya adem, jahitan kuat, dan harga sangat terjangkau untuk kualitas sebagus ini.",
+    name: "Dedi Kurniawan",
+    city: "Yogyakarta",
+    team: "Komunitas Cyclist",
+  },
+];
+
+const GALLERY_IMAGES = [
+  { src: "/b2fe362c-daed-4c7c-82af-a78c1e9da0cc.jpg", alt: "Tim sepak bola memakai jersey custom merah" },
+  { src: "/a66a21ab-a0c6-44d6-9b52-d5596a15fcc6.jpg", alt: "Tim junior memakai jersey kuning custom" },
+  { src: "/0696556a-f40d-4067-a896-0524dcfe4a36.jpg", alt: "Pelanggan memakai jersey merah custom" },
+  { src: "/1537d016-3b7d-4c45-9f20-6c2c9ac9ebdf.jpg", alt: "Tim dalam turnamen dengan jersey custom" },
+  { src: "/37de4d36-d677-43f0-ae3c-8f5ac22298f8.jpg", alt: "Tim menerima penghargaan" },
+  { src: "/1fa04ec7-8832-45d4-b869-3f25ffdef9ca.jpg", alt: "Tim di kejuaraan" },
 ];
 
 const FAQ_ITEMS = [
@@ -662,7 +681,7 @@ function Ulasan() {
           </h2>
         </div>
 
-        {/* Photo Gallery */}
+        {/* Auto-scrolling Photo Gallery */}
         <div className="mt-12 overflow-hidden rounded-[2rem] border border-white/10 bg-[#11140f] p-4 shadow-[0_28px_80px_rgba(0,0,0,.28)] sm:p-6">
           <div className="mb-6 flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
             <div>
@@ -672,39 +691,23 @@ function Ulasan() {
               </p>
               <h3 className="mt-2 text-3xl font-black uppercase tracking-tight text-white sm:text-4xl"
                   style={{ fontFamily: "var(--font-sans)", fontStretch: "condensed", fontStyle: "italic" }}>
-                Hasil <span className="text-[#00aa13]">nyata</span> dari pelanggan kami
+                Hasil <span className="text-[#f36458]">nyata</span> dari pelanggan kami
               </h3>
             </div>
             <p className="max-w-sm text-xs leading-relaxed text-white/45 sm:text-right">
-              Foto asli jersey yang sudah diterima dan dipakai pelanggan—bukan edit, bukan rekayasa.
+              Foto asli jersey yang sudah diterima pelanggan — bukan edit, bukan rekayasa
             </p>
           </div>
 
-          <div className="grid auto-rows-[190px] grid-cols-2 gap-3 sm:auto-rows-[230px] lg:grid-cols-4">
-            <figure className="group relative col-span-2 overflow-hidden rounded-2xl border border-white/10 lg:col-span-2 lg:row-span-2">
-              <Image src="/b2fe362c-daed-4c7c-82af-a78c1e9da0cc.jpg" alt="Tim sepak bola pelanggan TNT Sport memakai jersey merah custom" fill className="object-cover transition duration-500 group-hover:scale-105" />
-              <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/80 to-transparent p-4">
-                <span className="text-[8px] font-bold uppercase tracking-widest text-[#00aa13]"
-                      style={{ fontFamily: "var(--font-mono)" }}>
-                  Jersey tim custom
-                </span>
-              </div>
-            </figure>
-            <figure className="group relative overflow-hidden rounded-2xl border border-white/10">
-              <Image src="/a66a21ab-a0c6-44d6-9b52-d5596a15fcc6.jpg" alt="Tim junior pelanggan TNT Sport memakai jersey kuning" fill className="object-cover transition duration-500 group-hover:scale-105" />
-            </figure>
-            <figure className="group relative overflow-hidden rounded-2xl border border-white/10">
-              <Image src="/0696556a-f40d-4067-a896-0524dcfe4a36.jpg" alt="Pelanggan TNT Sport memakai jersey merah custom" fill className="object-cover object-top transition duration-500 group-hover:scale-105" />
-            </figure>
-            <figure className="group relative col-span-2 overflow-hidden rounded-2xl border border-white/10">
-              <Image src="/1537d016-3b7d-4c45-9f20-6c2c9ac9ebdf.jpg" alt="Tim sepak bola pelanggan TNT Sport dalam turnamen" fill className="object-cover transition duration-500 group-hover:scale-105" />
-            </figure>
-            <figure className="group relative overflow-hidden rounded-2xl border border-white/10">
-              <Image src="/37de4d36-d677-43f0-ae3c-8f5ac22298f8.jpg" alt="Tim junior pelanggan TNT Sport menerima penghargaan" fill className="object-cover transition duration-500 group-hover:scale-105" />
-            </figure>
-            <figure className="group relative overflow-hidden rounded-2xl border border-white/10">
-              <Image src="/1fa04ec7-8832-45d4-b869-3f25ffdef9ca.jpg" alt="Tim junior pelanggan TNT Sport di kejuaraan" fill className="object-cover transition duration-500 group-hover:scale-105" />
-            </figure>
+          {/* Auto-scrolling marquee gallery */}
+          <div className="gallery-scroll group overflow-hidden">
+            <div className="gallery-track flex gap-3">
+              {[...GALLERY_IMAGES, ...GALLERY_IMAGES].map((img, i) => (
+                <figure key={i} className="relative h-[200px] w-[280px] shrink-0 overflow-hidden rounded-xl border border-white/10 sm:h-[240px] sm:w-[340px]">
+                  <Image src={img.src} alt={img.alt} fill className="object-cover" />
+                </figure>
+              ))}
+            </div>
           </div>
           <a
             href={WA_LINK}
@@ -717,21 +720,28 @@ function Ulasan() {
         </div>
 
         {/* Testimonials */}
-        <div className="mt-12 grid gap-5 md:grid-cols-3">
+        <div className="mt-12 grid gap-5 md:grid-cols-2 lg:grid-cols-4">
           {TESTIMONIALS.map((t, i) => (
             <blockquote
               key={i}
-              className={`rounded-3xl border border-white/10 p-7 ${
-                i === 1 ? "bg-[#0b0b0b]" : "bg-[#141713]"
-              }`}
+              className="rounded-2xl border border-white/10 bg-[#11140f] p-5 sm:rounded-3xl sm:p-6"
             >
-              <div className="text-[#00aa13]">★★★★★</div>
-              <p className="mt-5 leading-relaxed text-[#d4d7d0]">&ldquo;{t.quote}&rdquo;</p>
-              <footer className="mt-8 border-t border-white/10 pt-5">
-                <strong className="text-[#f0f2ec]">{t.name}</strong>
-                <span className="block text-sm text-[#7f8678]">
-                  {t.location}
-                </span>
+              <div className="text-[#00aa13] text-sm mb-3">★★★★★</div>
+              <p className="text-sm leading-relaxed text-[#d4d7d0]">&ldquo;{t.quote}&rdquo;</p>
+              <footer className="mt-5 flex items-center gap-3 border-t border-white/10 pt-4">
+                {/* Avatar with initials */}
+                <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-[#00aa13] text-sm font-black text-white">
+                  {t.name.split(" ").map(n => n[0]).join("")}
+                </div>
+                <div>
+                  <strong className="block text-sm font-black uppercase text-[#f0f2ec]">{t.name}</strong>
+                  <span className="flex items-center gap-1 text-xs text-[#7f8678]">
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                      <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" /><circle cx="12" cy="10" r="3" />
+                    </svg>
+                    {t.city} — {t.team}
+                  </span>
+                </div>
               </footer>
             </blockquote>
           ))}
@@ -907,6 +917,19 @@ function TickerStyles() {
       }
       .scrollbar-hide::-webkit-scrollbar { display: none; }
       .scrollbar-hide { -ms-overflow-style: none; scrollbar-width: none; }
+      .gallery-scroll .gallery-track {
+        animation: gallery-scroll 30s linear infinite;
+        will-change: transform;
+      }
+      .gallery-scroll:hover .gallery-track {
+        animation-play-state: paused;
+      }
+      @keyframes gallery-scroll {
+        to { transform: translateX(-50%); }
+      }
+      @media (prefers-reduced-motion: reduce) {
+        .gallery-scroll .gallery-track { animation: none; }
+      }
       .hero-photo {
         mask-image: linear-gradient(to right, transparent 0%, #000 20%, #000 100%);
         -webkit-mask-image: linear-gradient(to right, transparent 0%, #000 20%, #000 100%);
