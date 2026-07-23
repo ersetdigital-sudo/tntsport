@@ -774,6 +774,7 @@ async function Ulasan() {
                     {t.name.split(" ").map(n => n[0]).join("")}
                   </div>
                 )}
+                <div>
                   <strong className="block text-sm font-black uppercase text-[#f0f2ec]">{t.name}</strong>
                   <span className="flex items-center gap-1 text-xs text-[#7f8678]">
                     <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
