@@ -5,7 +5,7 @@ import { PriceCards } from "@/components/PriceCards";
 import { FlashSaleTimer } from "@/components/FlashSaleTimer";
 import { SocialProof } from "@/components/SocialProof";
 import { PhotoGallery } from "@/components/PhotoGallery";
-import { getCatalogData, getKatalogFeatures, getKatalogTestimonials } from "@/lib/queries";
+import { getCatalogData, getKatalogFeatures, getKatalogTestimonials, getBrand } from "@/lib/queries";
 
 export async function generateMetadata(): Promise<Metadata> {
   return {
@@ -27,9 +27,6 @@ export async function generateMetadata(): Promise<Metadata> {
 /* ------------------------------------------------------------------ */
 /* Data                                                                 */
 /* ------------------------------------------------------------------ */
-
-const WA_LINK =
-  "https://wa.me/6281234567890?text=Halo%20TNT%20SPORT%2C%20saya%20mau%20tanya%20jersey%20custom";
 
 const KEUNGGULAN = [
   {
@@ -239,7 +236,7 @@ function CheckIcon() {
 /* Hero — KEPT AS-IS from original                                      */
 /* ------------------------------------------------------------------ */
 
-function Hero() {
+function Hero({ waLink }: { waLink: string }) {
   return (
     <section id="home" className="relative overflow-hidden bg-[#0b0b0b] text-white">
       {/* Grid noise */}
@@ -343,7 +340,7 @@ function Hero() {
 /* Flash Sale                                                           */
 /* ------------------------------------------------------------------ */
 
-function FlashSale() {
+function FlashSale({ waLink }: { waLink: string }) {
   return (
     <section id="flash-sale" className="grid-noise relative overflow-hidden border-b border-white/10 bg-[#080a07] px-5 py-10 text-white lg:px-8 lg:py-14">
       <div className="pointer-events-none absolute left-1/2 top-1/2 h-72 w-72 -translate-x-1/2 -translate-y-1/2 rounded-full bg-[#00aa13]/15 blur-[110px]" />
@@ -386,7 +383,7 @@ function FlashSale() {
             </div>
             <FlashSaleTimer />
             <a
-              href={WA_LINK}
+              href={waLink}
               target="_blank"
               rel="noopener noreferrer"
               className="mt-4 flex w-full items-center justify-between rounded-xl bg-[#00aa13] px-5 py-4 text-sm font-black uppercase tracking-wide text-white shadow-[0_12px_35px_rgba(0,170,19,.22)] transition hover:-translate-y-1 hover:bg-[#00c317]"
@@ -542,7 +539,7 @@ async function Kategori() {
 /* Harga                                                                */
 /* ------------------------------------------------------------------ */
 
-function Harga() {
+function Harga({ waLink }: { waLink: string }) {
   return (
     <section id="harga" className="relative overflow-hidden bg-[#080a07] py-16 text-[#f0f2ec] sm:py-24">
       {/* Grid noise pattern */}
@@ -568,7 +565,7 @@ function Harga() {
           </p>
         </div>
 
-        <PriceCards />
+        <PriceCards waLink={waLink} />
 
         {/* Bulk promo */}
         <div className="mx-auto mt-8 flex max-w-5xl flex-col gap-4 rounded-3xl border border-[#f36458]/25 bg-[#f36458]/[.07] p-6 sm:flex-row sm:items-center sm:justify-between">
@@ -580,7 +577,7 @@ function Harga() {
             <p className="mt-3 text-sm text-[#92998b]">Dapatkan harga proyek khusus untuk komunitas, sekolah, dan event.</p>
           </div>
           <a
-            href={WA_LINK}
+            href={waLink}
             target="_blank"
             rel="noopener noreferrer"
             className="inline-flex shrink-0 items-center justify-center rounded-full border border-[#f36458]/50 px-5 py-3 text-sm font-black text-[#ff8278] transition hover:bg-[#f36458] hover:text-[#080a07]"
@@ -597,7 +594,7 @@ function Harga() {
 /* Promo                                                                */
 /* ------------------------------------------------------------------ */
 
-function Promo() {
+function Promo({ waLink }: { waLink: string }) {
   return (
     <section className="bg-[#0b0b0b] px-5 pb-16 text-white sm:pb-24 lg:px-8">
       <div className="mx-auto max-w-7xl">
@@ -619,7 +616,7 @@ function Promo() {
               </p>
             </div>
             <a
-              href={WA_LINK}
+              href={waLink}
               target="_blank"
               rel="noopener noreferrer"
               className="inline-flex shrink-0 items-center justify-center rounded-full bg-[#00aa13] px-5 py-3 text-xs font-black uppercase tracking-wide text-[#080a07] shadow-[0_10px_35px_rgba(0,170,19,.16)] transition hover:-translate-y-1 sm:px-7 sm:py-4 sm:text-sm"
@@ -694,7 +691,7 @@ function CaraOrder() {
 /* Ulasan                                                               */
 /* ------------------------------------------------------------------ */
 
-async function Ulasan() {
+async function Ulasan({ waLink }: { waLink: string }) {
   const dbTestimonials = await getKatalogTestimonials();
   const testimonials = dbTestimonials?.map((t) => ({
     badge: t.badge,
@@ -744,7 +741,7 @@ async function Ulasan() {
           {/* Auto-scrolling marquee gallery with zoom */}
           <PhotoGallery images={GALLERY_IMAGES} />
           <a
-            href={WA_LINK}
+            href={waLink}
             target="_blank"
             rel="noopener noreferrer"
             className="mt-5 flex w-full items-center justify-center gap-3 rounded-xl bg-[#00aa13] px-6 py-4 text-sm font-black uppercase tracking-wide text-white transition hover:-translate-y-1 hover:bg-[#00c317] sm:mx-auto sm:w-fit sm:rounded-full sm:px-8"
@@ -840,7 +837,7 @@ function FAQ() {
 /* CTA                                                                  */
 /* ------------------------------------------------------------------ */
 
-function CTASection() {
+function CTASection({ waLink }: { waLink: string }) {
   return (
     <section id="order" className="relative overflow-hidden border-t border-white/10 bg-[#080a07] px-5 py-16 text-[#f0f2ec] sm:py-24">
       {/* Grid pattern */}
@@ -864,7 +861,7 @@ function CTASection() {
           Tim kami siap bantu dari desain sampai pengiriman. Ceritakan kebutuhanmu, kami urus sisanya.
         </p>
         <a
-          href={WA_LINK}
+          href={waLink}
           target="_blank"
           rel="noopener noreferrer"
           className="mt-5 inline-flex items-center gap-2 rounded-full bg-[#00aa13] px-6 py-3 font-black text-[#080a07] shadow-[0_14px_50px_rgba(0,170,19,.25)] transition hover:-translate-y-1 hover:shadow-[0_20px_60px_rgba(0,170,19,.35)] sm:mt-8 sm:gap-3 sm:px-8 sm:py-4"
@@ -908,7 +905,7 @@ function Footer() {
             </div>
           </div>
           <div className="flex gap-2.5">
-            <a href={WA_LINK} target="_blank" rel="noopener noreferrer"
+            <a href={waLink} target="_blank" rel="noopener noreferrer"
                className="flex h-9 w-9 items-center justify-center rounded-full border border-white/15 text-white/50 transition-all hover:border-white hover:text-white"
                aria-label="WhatsApp">
               <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
@@ -1002,22 +999,27 @@ function TickerStyles() {
 /* Page                                                                 */
 /* ------------------------------------------------------------------ */
 
-export default function KatalogPage() {
+export default async function KatalogPage() {
+  const brand = await getBrand();
+  const waNumber = brand.whatsappNumber || "628115491117";
+  const waMessage = "Halo TNT SPORT, saya mau tanya jersey custom";
+  const waLink = `https://wa.me/${waNumber}?text=${encodeURIComponent(waMessage)}`;
+
   return (
     <div className="overflow-x-hidden antialiased">
       <TickerStyles />
       <JsonLd />
       <main>
-        <Hero />
-        <FlashSale />
+        <Hero waLink={waLink} />
+        <FlashSale waLink={waLink} />
         <Keunggulan />
         <Kategori />
-        <Harga />
-        <Promo />
+        <Harga waLink={waLink} />
+        <Promo waLink={waLink} />
         <CaraOrder />
-        <Ulasan />
+        <Ulasan waLink={waLink} />
         <FAQ />
-        <CTASection />
+        <CTASection waLink={waLink} />
       </main>
       <SocialProof />
       <Footer />

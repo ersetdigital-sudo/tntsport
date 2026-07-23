@@ -2,10 +2,7 @@
 
 import { useState } from "react";
 
-const WA_LINK =
-  "https://wa.me/6281234567890?text=Halo%20TNT%20SPORT%2C%20saya%20mau%20tanya%20jersey%20custom";
-
-export function PriceCards() {
+export function PriceCards({ waLink }: { waLink: string }) {
   const [mode, setMode] = useState<"ecer" | "lusin">("lusin");
 
   const prices = {
@@ -68,7 +65,7 @@ export function PriceCards() {
             <li><span className="mr-2 text-[#00aa13]">✓</span> Revisi desain tanpa batas</li>
           </ul>
           <a
-            href={`${WA_LINK.replace("saya%20mau%20tanya%20jersey%20custom", encodeURIComponent("saya tertarik dengan paket Atasan Saja. Bisa info lebih lanjut?"))}`}
+            href={`${waLink.replace("saya%20mau%20tanya%20jersey%20custom", encodeURIComponent("saya tertarik dengan paket Atasan Saja. Bisa info lebih lanjut?"))}`}
             target="_blank"
             rel="noopener noreferrer"
             className="mt-9 flex items-center justify-between rounded-full border border-white/15 px-6 py-4 font-black transition hover:border-[#00aa13] hover:text-[#00aa13]"
@@ -102,7 +99,7 @@ export function PriceCards() {
             <li><span className="mr-2 text-[#00aa13]">✓</span> Prioritas jadwal produksi</li>
           </ul>
           <a
-            href={`${WA_LINK.replace("saya%20mau%20tanya%20jersey%20custom", encodeURIComponent("saya tertarik dengan paket Jersey Setelan. Bisa info lebih lanjut?"))}`}
+            href={`${waLink.replace("saya%20mau%20tanya%20jersey%20custom", encodeURIComponent("saya tertarik dengan paket Jersey Setelan. Bisa info lebih lanjut?"))}`}
             target="_blank"
             rel="noopener noreferrer"
             className="mt-9 flex items-center justify-between rounded-full bg-[#00aa13] px-6 py-4 font-black text-[#080a07] shadow-[0_10px_35px_rgba(0,170,19,.18)] transition hover:-translate-y-1"

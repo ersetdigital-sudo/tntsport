@@ -39,7 +39,7 @@ export const brand: Brand = {
   url: "https://tntsport.id",
   description:
     "TNT SPORT — pabrik jersey custom full printing. Desain bebas, harga mulai 65rb, kirim se-Indonesia. Konsultasi gratis via WhatsApp.",
-  whatsappNumber: "6281234567890",
+  whatsappNumber: "628115491117",
   logoPath: "/logo.jpg",
 };
 
