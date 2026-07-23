@@ -175,7 +175,7 @@ function ProductCard({
           href={getWhatsAppLink(categoryLabel, product.catalogue)}
           target="_blank"
           rel="noopener noreferrer"
-          className="mt-2 block w-full rounded-full bg-[#00aa13] py-2 text-center text-[10px] font-black uppercase tracking-wide text-[#080a07] transition hover:bg-[#00c317] sm:py-2.5 sm:text-xs"
+          className="mt-2 block w-full rounded-full bg-[#00aa13] py-2 text-center text-[10px] font-black uppercase tracking-wide text-white transition hover:bg-[#00c317] sm:py-2.5 sm:text-xs"
         >
           Pilih Desain Ini
         </a>
