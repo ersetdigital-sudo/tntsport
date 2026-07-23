@@ -883,7 +883,7 @@ function CTASection({ waLink }: { waLink: string }) {
 /* Footer                                                               */
 /* ------------------------------------------------------------------ */
 
-function Footer() {
+function Footer({ waLink = "https://wa.me/628115491117" }: { waLink?: string }) {
   return (
     <footer className="bg-black px-5 py-10 text-white lg:px-8">
       <div className="mx-auto max-w-7xl">
@@ -1022,7 +1022,7 @@ export default async function KatalogPage() {
         <CTASection waLink={waLink} />
       </main>
       <SocialProof />
-      <Footer />
+      <Footer waLink={waLink} />
     </div>
   );
 }
