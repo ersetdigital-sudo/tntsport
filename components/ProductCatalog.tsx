@@ -98,7 +98,7 @@ function ZoomModal({
         <div className="border-t border-white/10 bg-[#131611] p-4 sm:p-5">
           <div className="flex items-center justify-between gap-4">
             <div>
-              <p className="text-xs font-bold uppercase tracking-wider text-[#c5f518]"
+              <p className="text-xs font-bold uppercase tracking-wider text-[#00aa13]"
                  style={{ fontFamily: "var(--font-mono)" }}>
                 {product.catalogue}
               </p>
@@ -108,7 +108,7 @@ function ZoomModal({
               href={getWhatsAppLink(categoryLabel, product.catalogue)}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex shrink-0 items-center gap-2 rounded-full bg-[#c5f518] px-4 py-2.5 text-xs font-black text-[#080a07] transition hover:bg-[#d4ff33] sm:px-5 sm:text-sm"
+              className="inline-flex shrink-0 items-center gap-2 rounded-full bg-[#00aa13] px-4 py-2.5 text-xs font-black text-[#080a07] transition hover:bg-[#00c317] sm:px-5 sm:text-sm"
             >
               Order Sekarang
             </a>
@@ -144,7 +144,7 @@ function ProductCard({
   onSelect: (product: CatalogProduct) => void;
 }) {
   return (
-    <article className="group relative overflow-hidden rounded-2xl border border-white/10 bg-[#131611] shadow-2xl shadow-black/20 transition duration-300 hover:-translate-y-1 hover:border-[#c5f518]/35 sm:rounded-3xl">
+    <article className="group relative overflow-hidden rounded-2xl border border-white/10 bg-[#131611] shadow-2xl shadow-black/20 transition duration-300 hover:-translate-y-1 hover:border-[#00aa13]/35 sm:rounded-3xl">
       {/* Image */}
       <button
         onClick={() => onSelect(product)}
@@ -167,7 +167,7 @@ function ProductCard({
 
       {/* Info */}
       <div className="p-3 sm:p-4">
-        <p className="text-[10px] font-bold uppercase tracking-wider text-[#c5f518] sm:text-[11px]"
+        <p className="text-[10px] font-bold uppercase tracking-wider text-[#00aa13] sm:text-[11px]"
            style={{ fontFamily: "var(--font-mono)" }}>
           {product.catalogue}
         </p>
@@ -175,7 +175,7 @@ function ProductCard({
           href={getWhatsAppLink(categoryLabel, product.catalogue)}
           target="_blank"
           rel="noopener noreferrer"
-          className="mt-2 block w-full rounded-full bg-[#c5f518] py-2 text-center text-[10px] font-black uppercase tracking-wide text-[#080a07] transition hover:bg-[#d4ff33] sm:py-2.5 sm:text-xs"
+          className="mt-2 block w-full rounded-full bg-[#00aa13] py-2 text-center text-[10px] font-black uppercase tracking-wide text-[#080a07] transition hover:bg-[#00c317] sm:py-2.5 sm:text-xs"
         >
           Pilih Desain Ini
         </a>
@@ -252,8 +252,8 @@ export function ProductCatalog({ categories: propCategories }: ProductCatalogPro
               role="tab"
               className={`catalog-tab flex min-h-[44px] items-center gap-2 rounded-lg border px-3 py-2.5 text-left text-[10px] font-black uppercase leading-tight transition duration-200 sm:rounded-full sm:px-4 sm:py-2 sm:text-xs ${
                 cat.id === activeCategory
-                  ? "border-[#c5f518] bg-[#c5f518] text-[#080a07] shadow-[0_10px_30px_rgba(197,245,24,.16)]"
-                  : "border-white/10 bg-[#181c15] text-[#b9beaf] hover:border-[#c5f518]/50 hover:bg-[#1a1e17]"
+                  ? "border-[#00aa13] bg-[#00aa13] text-[#080a07] shadow-[0_10px_30px_rgba(0,170,19,.16)]"
+                  : "border-white/10 bg-[#181c15] text-[#b9beaf] hover:border-[#00aa13]/50 hover:bg-[#1a1e17]"
               }`}
               aria-selected={cat.id === activeCategory}
               onClick={() => handleCategoryChange(cat.id)}
@@ -270,9 +270,9 @@ export function ProductCatalog({ categories: propCategories }: ProductCatalogPro
 
       {/* Active category info */}
       <div className="mt-4 flex items-center gap-3 sm:mt-6">
-        <span className="inline-flex items-center gap-2 rounded-full bg-[#c5f518]/10 px-3 py-1.5 text-[10px] font-bold uppercase tracking-wider text-[#c5f518] sm:text-[11px]"
+        <span className="inline-flex items-center gap-2 rounded-full bg-[#00aa13]/10 px-3 py-1.5 text-[10px] font-bold uppercase tracking-wider text-[#00aa13] sm:text-[11px]"
               style={{ fontFamily: "var(--font-mono)" }}>
-          <span className="h-1.5 w-1.5 rounded-full bg-[#c5f518]" />
+          <span className="h-1.5 w-1.5 rounded-full bg-[#00aa13]" />
           {activeCategoryData.label}
         </span>
         <span className="text-[10px] text-[#a7ad9e] sm:text-xs">
