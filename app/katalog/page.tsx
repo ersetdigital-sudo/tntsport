@@ -12,6 +12,7 @@ const SocialProof = dynamic(() => import("@/components/SocialProof").then(m => m
 const PhotoGallery = dynamic(() => import("@/components/PhotoGallery").then(m => m.PhotoGallery));
 const FabricCatalog = dynamic(() => import("@/components/FabricCatalog").then(m => m.FabricCatalog));
 const PageViewTracker = dynamic(() => import("@/components/PageViewTracker").then(m => m.PageViewTracker));
+const ViewContentTracker = dynamic(() => import("@/components/ViewContentTracker").then(m => m.ViewContentTracker));
 
 const baseSiteUrl = "https://www.tntsportapparel.id";
 
@@ -1165,6 +1166,7 @@ export default async function KatalogPage({
     <div className="overflow-x-hidden antialiased">
       <TickerStyles />
       <JsonLd seo={seo} />
+      <ViewContentTracker contentName="Katalog Jersey" contentCategory="Catalog" />
       <PageViewTracker page="katalog" />
       <main>
         <Hero waLink={waLink} />

@@ -9,6 +9,7 @@ import { getBrand, getKatalogTestimonials } from "@/lib/queries";
 const PromoDesignGrid = dynamic(() => import("@/components/PromoDesignGrid").then(m => m.PromoDesignGrid));
 const PageViewTracker = dynamic(() => import("@/components/PageViewTracker").then(m => m.PageViewTracker));
 const PhotoGallery = dynamic(() => import("@/components/PhotoGallery").then(m => m.PhotoGallery));
+const ViewContentTracker = dynamic(() => import("@/components/ViewContentTracker").then(m => m.ViewContentTracker));
 
 export const revalidate = 3600;
 
@@ -185,6 +186,7 @@ export default async function PromoBulanIniPage() {
 
       <main>
         <PageViewTracker page="promo-bulan-ini" />
+        <ViewContentTracker contentName="Promo Kemerdekaan" contentCategory="Promo" />
         {/* HERO */}
         <section id="home" className="relative min-h-[900px] overflow-hidden bg-[#09090b] text-white lg:min-h-[850px]">
           {/* Latar */}
