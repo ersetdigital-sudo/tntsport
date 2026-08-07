@@ -176,9 +176,10 @@ export default async function PromoBulanIniPage() {
                 Langsung dari pabrik
               </div>
               <h1 className="pdisplay max-w-3xl text-[clamp(3.25rem,7vw,6.35rem)] uppercase leading-[.86] text-white">
-                Bikin jersey<br />
-                <span className="text-[#ef233c]">full printing</span>
-                <br />cuma 50 ribu!
+                Promo<br />
+                <span className="text-[#ef233c]">Kemerdekaan</span><br />
+                Jersey custom<br />
+                mulai 50 ribu!
               </h1>
               <p className="mt-6 max-w-lg text-base leading-relaxed text-zinc-300 sm:text-lg">
                 Promo spesial HUT RI! Gratis desain, nama, nomor &amp; logo. Tanpa minimum order, kualitas premium langsung dari pabrik.
