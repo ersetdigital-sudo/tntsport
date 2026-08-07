@@ -7,6 +7,10 @@ import {
   Calendar,
   Download,
   ChevronDown,
+  BarChart3,
+  Home,
+  BookOpen,
+  Flame,
 } from "lucide-react";
 import { MetricCard } from "@/components/admin/MetricCard";
 import { SalesChart, RevenueBreakdown } from "@/components/admin/SalesChart";
@@ -23,8 +27,19 @@ async function getCount(table: string): Promise<number> {
   return count;
 }
 
+async function getPageViews(): Promise<Record<string, number>> {
+  const supabase = await createClient();
+  const { data, error } = await supabase
+    .from("page_views")
+    .select("page, views");
+  if (error || !data) return {};
+  return Object.fromEntries(
+    data.map((row) => [row.page, row.views ?? 0])
+  );
+}
+
 export default async function AdminDashboard() {
-  const [products, reviews, stats, ctaLinks, socialLinks, trustBadges, categories] =
+  const [products, reviews, stats, ctaLinks, socialLinks, trustBadges, categories, pageViews] =
     await Promise.all([
       getCount("products"),
       getCount("reviews"),
@@ -33,10 +48,14 @@ export default async function AdminDashboard() {
       getCount("social_links"),
       getCount("trust_badges"),
       getCount("product_categories"),
+      getPageViews(),
     ]);
 
   const totalContent =
     products + reviews + stats + ctaLinks + socialLinks + trustBadges + categories;
+
+  const totalVisitors =
+    (pageViews.homepage ?? 0) + (pageViews.katalog ?? 0) + (pageViews["promo-bulan-ini"] ?? 0);
 
   return (
     <div className="flex flex-col gap-xl animate-fade-in-up">
@@ -80,6 +99,34 @@ export default async function AdminDashboard() {
             <span className="hidden sm:inline">Export CSV</span>
           </button>
         </div>
+      </div>
+
+      {/* Visitor cards — real data from Supabase page_views */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-lg">
+        <MetricCard
+          label="Total Kunjungan"
+          value={String(totalVisitors)}
+          icon={BarChart3}
+          accent="brand"
+        />
+        <MetricCard
+          label="Homepage"
+          value={String(pageViews.homepage ?? 0)}
+          icon={Home}
+          accent="success"
+        />
+        <MetricCard
+          label="Katalog"
+          value={String(pageViews.katalog ?? 0)}
+          icon={BookOpen}
+          accent="info"
+        />
+        <MetricCard
+          label="Promo Kemerdekaan"
+          value={String(pageViews["promo-bulan-ini"] ?? 0)}
+          icon={Flame}
+          accent="warning"
+        />
       </div>
 
       {/* Metric cards — real data from Supabase */}

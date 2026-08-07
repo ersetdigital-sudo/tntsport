@@ -8,6 +8,7 @@ import { PhotoGallery } from "@/components/PhotoGallery";
 import { getCatalogData, getFabrics, getKatalogFeatures, getKatalogTestimonials, getBrand, getSocialLinks } from "@/lib/queries";
 import { resolveSeoContext, type SeoContext } from "@/lib/seo";
 import { FabricCatalog } from "@/components/FabricCatalog";
+import { PageViewTracker } from "@/components/PageViewTracker";
 import type { SocialLink } from "@/lib/types";
 
 const baseSiteUrl = "https://www.tntsportapparel.id";
@@ -1162,6 +1163,7 @@ export default async function KatalogPage({
     <div className="overflow-x-hidden antialiased">
       <TickerStyles />
       <JsonLd seo={seo} />
+      <PageViewTracker page="katalog" />
       <main>
         <Hero waLink={waLink} />
         <FlashSale waLink={waLink} />

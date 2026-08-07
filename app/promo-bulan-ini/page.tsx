@@ -3,6 +3,7 @@ import Image from "next/image";
 import { Archivo_Black, DM_Sans } from "next/font/google";
 import { PromoNav } from "@/components/PromoNav";
 import { PromoDesignGrid } from "@/components/PromoDesignGrid";
+import { PageViewTracker } from "@/components/PageViewTracker";
 import { getBrand } from "@/lib/queries";
 
 export const dynamic = "force-dynamic";
@@ -149,6 +150,7 @@ export default async function PromoBulanIniPage() {
       <PromoNav />
 
       <main>
+        <PageViewTracker page="promo-bulan-ini" />
         {/* HERO */}
         <section id="home" className="relative min-h-[820px] overflow-hidden border-b border-white/10 lg:min-h-[760px]">
           <div className="hero-grid absolute inset-0 opacity-50" />
