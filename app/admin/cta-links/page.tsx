@@ -17,6 +17,7 @@ const fields: Field[] = [
       { value: "whatsapp", label: "WhatsApp (hijau)" },
       { value: "primary", label: "Primary (hijau brand)" },
       { value: "warning", label: "Warning (kuning)" },
+      { value: "danger", label: "Danger (merah)" },
       { value: "neutral", label: "Neutral (abu)" },
     ],
   },

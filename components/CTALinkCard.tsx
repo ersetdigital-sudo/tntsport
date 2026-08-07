@@ -30,6 +30,11 @@ const accentStyles: Record<
     iconBadge: "bg-white/20 dark:bg-warning dark:text-white",
     arrow: "bg-white/20 group-hover/card:bg-white/30 dark:bg-warning/15 dark:text-warning dark:group-hover/card:bg-warning dark:group-hover/card:text-white",
   },
+  danger: {
+    card: "bg-danger text-white shadow-premium-lg dark:bg-surface-card dark:text-white dark:ring-1 dark:ring-danger/30",
+    iconBadge: "bg-white/20 dark:bg-danger dark:text-white",
+    arrow: "bg-white/20 group-hover/card:bg-white/30 dark:bg-danger/15 dark:text-danger dark:group-hover/card:bg-danger dark:group-hover/card:text-white",
+  },
   neutral: {
     card: "bg-[#1e1e2a] text-white dark:bg-surface-card dark:text-white dark:ring-1 dark:ring-white/10",
     iconBadge: "bg-white/20 dark:bg-white/10 dark:text-white",

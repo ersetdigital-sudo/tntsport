@@ -65,7 +65,7 @@ export interface StatItem {
   icon?: ComponentType<SVGProps<SVGSVGElement>>;
 }
 
-export type CTAAccent = "whatsapp" | "primary" | "warning" | "neutral";
+export type CTAAccent = "whatsapp" | "primary" | "warning" | "neutral" | "danger";
 
 export interface CTALink {
   title: string;

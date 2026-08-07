@@ -126,7 +126,7 @@ export default async function Page() {
           title="Promo Bulan Ini"
           description="Cek promo terbaru & penawaran spesial bulan ini"
           icon={FlameIcon}
-          accent="warning"
+          accent="danger"
           href="/promo-bulan-ini"
           external={false}
         />
