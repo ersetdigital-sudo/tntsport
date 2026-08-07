@@ -53,7 +53,7 @@ export default async function ProductsAdminPage() {
 
     return (
       <div className="space-y-6">
-<div className="sticky top-0 z-20 -mx-4 -mt-4 flex items-center justify-between gap-4 border-b border-hairline bg-background/85 px-4 py-4 backdrop-blur-md md:-mx-8 md:-mt-8 md:px-8">
+<div className="sticky top-0 z-20 -mx-4 -mt-4 flex items-center justify-between gap-4 border-b border-hairline bg-background px-4 py-4 md:-mx-8 md:-mt-8 md:px-8">
           <div>
             <h2 className="text-heading-md text-ink">Produk</h2>
             <p className="text-body-sm text-charcoal mt-1">
