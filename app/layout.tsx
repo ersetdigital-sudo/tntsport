@@ -93,6 +93,11 @@ export async function generateMetadata(): Promise<Metadata> {
       },
     },
     category: "shopping",
+    verification: {
+      other: {
+        "p:domain_verify": "74505a17aa99b2abe1c9e1b02a53e57f",
+      },
+    },
   };
 }
 
