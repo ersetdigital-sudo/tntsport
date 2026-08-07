@@ -185,18 +185,20 @@ export default async function PromoBulanIniPage() {
       <main>
         <PageViewTracker page="promo-bulan-ini" />
         {/* HERO */}
-        <section id="home" className="relative min-h-[100svh] overflow-hidden bg-[#09090b] text-white">
+        <section id="home" className="relative min-h-[900px] overflow-hidden bg-[#09090b] text-white lg:min-h-[850px]">
           {/* Latar */}
           <div className="absolute inset-0 z-0">
-            {/* >>> GANTI FOTO DI SINI <<< */}
-            <Image
-              src="/promo/promo-hero.png"
-              alt="Model menggunakan jersey custom TNT Sport"
-              fill
-              priority
-              sizes="100vw"
-              className="tnt-hero__photo"
-            />
+            <div className="hero-photo pointer-events-none absolute inset-x-0 bottom-0 z-10 h-[490px] lg:left-[40%] lg:right-0 lg:top-0 lg:h-full lg:w-[60%]">
+              <Image
+                src="/promo/promo-hero.png"
+                alt="Model menggunakan jersey custom TNT Sport"
+                fill
+                priority
+                sizes="100vw"
+                className="object-cover object-top lg:object-[center_20%]"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-[#09090b] via-transparent to-transparent lg:hidden" />
+            </div>
             <div className="tnt-hero__scrim" />
             <div className="tnt-hero__glow" />
             <div className="tnt-hero__stripes" />
@@ -205,8 +207,8 @@ export default async function PromoBulanIniPage() {
           {/* Angka 81 raksasa */}
           <div className="tnt-hero__ghost" aria-hidden="true">81</div>
 
-          <div className="relative z-20 mx-auto max-w-7xl px-5 py-[clamp(3.5rem,8vh,7rem)] sm:px-8 sm:py-[clamp(3.5rem,8vh,7rem)]">
-            <div className="max-w-[640px]">
+          <div className="relative z-20 mx-auto flex min-h-[900px] max-w-7xl items-center px-5 pb-[430px] pt-16 lg:min-h-[850px] lg:px-8 lg:pb-24 lg:pt-12">
+            <div className="max-w-[640px] pt-4 lg:pt-0">
 
               {/* Eyebrow: pill + emblem */}
               <div className="flex flex-wrap items-center gap-y-3">
