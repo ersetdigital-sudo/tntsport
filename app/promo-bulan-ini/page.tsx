@@ -152,14 +152,15 @@ export default async function PromoBulanIniPage() {
         {/* HERO */}
         <section id="home" className="relative min-h-[820px] overflow-hidden border-b border-white/10 lg:min-h-[760px]">
           <div className="hero-grid absolute inset-0 opacity-50" />
-          <div className="hero-photo pointer-events-none absolute inset-x-0 bottom-0 h-[45%] sm:h-[55%] lg:bottom-0 lg:left-[40%] lg:right-0 lg:top-0 lg:h-full lg:w-[60%]">
+          <div className="hero-photo pointer-events-none absolute inset-x-0 bottom-0 z-10 h-[490px] lg:left-[40%] lg:right-0 lg:top-0 lg:h-full lg:w-[60%]">
             <Image
               src="/promo/promo-hero.png"
               alt="Model menggunakan jersey custom TNT Sport"
               fill
               priority
-              className="object-cover object-[75%_top] lg:object-[center_20%]"
+              className="object-cover object-top lg:object-[center_20%]"
             />
+            <div className="absolute inset-0 bg-gradient-to-t from-[#09090b] via-transparent to-transparent lg:hidden" />
           </div>
           <div className="hero-shade absolute inset-0" />
           <div className="noise pointer-events-none absolute inset-0 opacity-20" />
