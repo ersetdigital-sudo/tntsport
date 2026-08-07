@@ -3,6 +3,7 @@ import Image from "next/image";
 import dynamic from "next/dynamic";
 import { Archivo_Black, DM_Sans } from "next/font/google";
 import { PromoNav } from "@/components/PromoNav";
+import { WhatsAppLeadLink } from "@/components/WhatsAppLeadLink";
 import { getBrand, getKatalogTestimonials } from "@/lib/queries";
 
 const PromoDesignGrid = dynamic(() => import("@/components/PromoDesignGrid").then(m => m.PromoDesignGrid));
@@ -422,14 +423,13 @@ export default async function PromoBulanIniPage() {
                   <li>✓ Bisa order satuan</li>
                   <li>✓ Proses cepat &amp; tepat waktu</li>
                 </ul>
-                <a
+                <WhatsAppLeadLink
                   href={waAtasan}
-                  target="_blank"
-                  rel="noopener noreferrer"
+                  label="Pesan Atasan"
                   className="mt-8 flex w-full items-center justify-center rounded-full bg-black px-6 py-4 text-sm font-black uppercase tracking-wider text-white transition hover:bg-[#ef233c]"
                 >
                   Pesan atasan
-                </a>
+                </WhatsAppLeadLink>
               </article>
               <article className="relative rounded-[2rem] bg-[#101010] p-7 text-white shadow-2xl sm:p-9">
                 <span className="absolute right-6 top-0 -translate-y-1/2 rounded-full bg-white px-4 py-2 text-[10px] font-black uppercase tracking-widest text-black">
@@ -459,14 +459,13 @@ export default async function PromoBulanIniPage() {
                   <li>✓ Bisa order satuan</li>
                   <li>✓ Proses cepat &amp; tepat waktu</li>
                 </ul>
-                <a
+                <WhatsAppLeadLink
                   href={waSetelan}
-                  target="_blank"
-                  rel="noopener noreferrer"
+                  label="Pesan Setelan"
                   className="mt-8 flex w-full items-center justify-center rounded-full bg-[#ef233c] px-6 py-4 text-sm font-black uppercase tracking-wider text-white transition hover:bg-white hover:text-black"
                 >
                   Pesan setelan
-                </a>
+                </WhatsAppLeadLink>
               </article>
             </div>
             <div className="mx-auto mt-6 flex max-w-5xl flex-col items-start justify-between gap-5 rounded-2xl border border-white/25 bg-black/15 p-6 sm:flex-row sm:items-center">
@@ -474,14 +473,13 @@ export default async function PromoBulanIniPage() {
                 <b className="text-lg">Pembelian partai besar?</b>
                 <p className="mt-1 text-sm text-white/75">Tersedia penawaran harga khusus yang lebih kompetitif.</p>
               </div>
-              <a
+              <WhatsAppLeadLink
                 href={waPenawaran}
-                target="_blank"
-                rel="noopener noreferrer"
+                label="Minta Penawaran"
                 className="whitespace-nowrap rounded-full bg-white px-5 py-3 text-sm font-black text-black"
               >
                 Minta penawaran →
-              </a>
+              </WhatsAppLeadLink>
             </div>
           </div>
         </section>
@@ -501,14 +499,13 @@ export default async function PromoBulanIniPage() {
                     Berlaku kelipatannya: order 6 dapat 7, order 12 dapat 14, order 18 dapat 21. Berlaku untuk atasan maupun setelan.
                   </p>
                 </div>
-                <a
+                <WhatsAppLeadLink
                   href={waKlaim}
-                  target="_blank"
-                  rel="noopener noreferrer"
+                  label="Klaim Promo"
                   className="inline-flex justify-center rounded-full bg-white px-7 py-4 text-sm font-black uppercase tracking-wider text-black"
                 >
                   Klaim promo
-                </a>
+                </WhatsAppLeadLink>
               </div>
             </div>
             <div className="mt-8 grid grid-cols-2 gap-3 text-center text-xs font-bold uppercase tracking-wider text-zinc-300 md:grid-cols-4">
@@ -620,14 +617,13 @@ export default async function PromoBulanIniPage() {
             <p className="mx-auto mt-7 max-w-xl text-lg text-zinc-400">
               Konsultasi gratis, tanpa syarat. Siapkan jumlah pesanan, jenis jersey, dan referensi desainmu.
             </p>
-            <a
+            <WhatsAppLeadLink
               href={waKonsultasi}
-              target="_blank"
-              rel="noopener noreferrer"
+              label="Mulai Konsultasi"
               className="mt-9 inline-flex items-center justify-center rounded-full bg-[#ef233c] px-8 py-4 text-sm font-black uppercase tracking-wider transition hover:bg-white hover:text-black"
             >
               Mulai konsultasi
-            </a>
+            </WhatsAppLeadLink>
           </div>
         </section>
       </main>
