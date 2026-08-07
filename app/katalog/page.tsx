@@ -5,10 +5,10 @@ import { PriceCards } from "@/components/PriceCards";
 import { FlashSaleTimer } from "@/components/FlashSaleTimer";
 import { SocialProof } from "@/components/SocialProof";
 import { PhotoGallery } from "@/components/PhotoGallery";
-import { CATALOG_PRODUCTS, productDesignKey } from "@/lib/products";
 import { getCatalogData, getKatalogFeatures, getKatalogTestimonials, getBrand } from "@/lib/queries";
+import { resolveSeoContext, type SeoContext } from "@/lib/seo";
 
-const baseSiteUrl = "https://tntsport.id";
+const baseSiteUrl = "https://www.tntsportapparel.id";
 
 export async function generateMetadata({
   searchParams,
@@ -17,11 +17,12 @@ export async function generateMetadata({
 }): Promise<Metadata> {
   const sp = await searchParams;
   const brand = await getBrand();
-  const baseUrl = brand.url || "https://tntsport.id";
+  const baseUrl = brand.url || "https://www.tntsportapparel.id";
   const seo = await resolveSeoContext(sp.category, sp.design);
 
   if (seo?.product && seo.product.id && seo.category && seo.designKey) {
     const canonic = `${baseUrl}/katalog?category=${encodeURIComponent(seo.category.id)}&design=${encodeURIComponent(seo.designKey)}`;
+    const ogImage = `${baseUrl}/api/og/katalog?category=${encodeURIComponent(seo.category.id)}&design=${encodeURIComponent(seo.designKey)}`;
     return {
       title: `${seo.product.name} | Custom Jersey ${seo.category.label} Jogja | TNT Sport`,
       description: `Jasa Custom Jersey ${seo.category.label} Full Printing di Jogja. Gratis desain, tanpa minimal order.`,
@@ -34,16 +35,25 @@ export async function generateMetadata({
         locale: "id_ID",
         images: [
           {
-            url: seo.product.image,
+            url: ogImage,
+            width: 1200,
+            height: 630,
             alt: `${seo.product.name} — custom jersey ${seo.category.label}`,
           },
         ],
+      },
+      twitter: {
+        card: "summary_large_image",
+        title: `${seo.product.name} | Custom Jersey ${seo.category.label} Jogja | TNT Sport`,
+        description: `Jasa Custom Jersey ${seo.category.label} Full Printing di Jogja. Gratis desain, tanpa minimal order.`,
+        images: [ogImage],
       },
     };
   }
 
   if (seo.category) {
     const canonic = `${baseUrl}/katalog?category=${encodeURIComponent(seo.category.id)}`;
+    const ogImage = `${baseUrl}/api/og/katalog?category=${encodeURIComponent(seo.category.id)}`;
     return {
       title: `Custom Jersey ${seo.category.label} | TNT Sport`,
       description: `Jasa Custom Jersey ${seo.category.label} Full Printing di Jogja. Gratis desain, tanpa minimal order.`,
@@ -54,6 +64,20 @@ export async function generateMetadata({
         url: canonic,
         type: "website",
         locale: "id_ID",
+        images: [
+          {
+            url: ogImage,
+            width: 1200,
+            height: 630,
+            alt: `Custom Jersey ${seo.category.label} — TNT Sport`,
+          },
+        ],
+      },
+      twitter: {
+        card: "summary_large_image",
+        title: `Custom Jersey ${seo.category.label} | TNT Sport`,
+        description: `Jasa Custom Jersey ${seo.category.label} Full Printing di Jogja. Gratis desain, tanpa minimal order.`,
+        images: [ogImage],
       },
     };
   }
@@ -67,82 +91,11 @@ export async function generateMetadata({
       title: "Katalog Jersey Custom Full Printing · TNT SPORT",
       description:
         "Custom jersey sesukamu dengan hasil premium. Gratis desain, nama, nomor dan logo—bahkan untuk order satuan.",
-      url: "https://tntsport.id/katalog",
+      url: "https://www.tntsportapparel.id/katalog",
       type: "website",
       locale: "id_ID",
     },
   };
-}
-
-/* ------------------------------------------------------------------ */
-/* SEO helpers — resolve category/product from URL params              */
-/* ------------------------------------------------------------------ */
-
-interface SeoCategory { id: string; label: string; }
-interface SeoProduct { id: string; name: string; image: string; }
-
-interface SeoContext {
-  category?: SeoCategory;
-  product?: SeoProduct;
-  designKey?: string;
-}
-
-async function resolveSeoCatalog(): Promise<{ categories: (SeoCategory & { products: SeoProduct[] })[] }> {
-  const catalog = await getCatalogData();
-  if (catalog) {
-    return {
-      categories: catalog.map((cat) => ({
-        id: cat.id,
-        label: cat.label,
-        products: cat.products.map((p) => ({
-          id: p.id,
-          name: p.catalogue,
-          image: p.image,
-        })),
-      })),
-    };
-  }
-  return {
-    categories: CATALOG_PRODUCTS.map((cat) => ({
-      id: cat.id,
-      label: cat.label,
-      products: cat.products.map((p) => ({
-        id: p.id,
-        name: p.catalogue,
-        image: p.image,
-      })),
-    })),
-  };
-}
-
-async function resolveSeoContext(categoryParam?: string, designParam?: string): Promise<SeoContext> {
-  const { categories } = await resolveSeoCatalog();
-  const category = categories.find((c) => c.id === categoryParam);
-  const ctx: SeoContext = { category };
-
-  const keyOf = (p: SeoProduct) => productDesignKey({ catalogue: p.name, id: p.id });
-
-  if (!category) {
-    // design without a matching category — search across all for deep links
-    for (const cat of categories) {
-      for (const p of cat.products) {
-        if (keyOf(p) === designParam) {
-          ctx.category = cat;
-          ctx.product = p;
-          ctx.designKey = keyOf(p);
-          return ctx;
-        }
-      }
-    }
-    return ctx;
-  }
-
-  const product = category.products.find((p) => keyOf(p) === designParam);
-  if (product) {
-    ctx.product = product;
-    ctx.designKey = keyOf(product);
-  }
-  return ctx;
 }
 
 /* ------------------------------------------------------------------ */

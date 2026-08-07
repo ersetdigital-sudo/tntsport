@@ -94,6 +94,7 @@ export async function generateMetadata(): Promise<Metadata> {
     },
     category: "shopping",
     verification: {
+      google: "hAIMPnZBflDCkykI7y3VhL7jxPQfCeLuurl4qi_lxN8",
       other: {
         "p:domain_verify": "74505a17aa99b2abe1c9e1b02a53e57f",
       },
@@ -123,7 +124,26 @@ export default async function RootLayout({
       suppressHydrationWarning
       className={`${barlow.variable} ${barlowCondensed.variable} ${ibmPlexMono.variable}`}
     >
+      <head>
+        {/* Google Tag Manager */}
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);})(window,document,'script','dataLayer','GTM-TWSXRF55');`,
+          }}
+        />
+        {/* End Google Tag Manager */}
+      </head>
       <body className="antialiased">
+        {/* Google Tag Manager (noscript) */}
+        <noscript>
+          <iframe
+            src="https://www.googletagmanager.com/ns.html?id=GTM-TWSXRF55"
+            height="0"
+            width="0"
+            style={{ display: "none", visibility: "hidden" }}
+          />
+        </noscript>
+        {/* End Google Tag Manager (noscript) */}
         <MetaPixel pixelId={brand.metaPixelId} enabled={brand.metaPixelEnabled} />
         <ThemeProvider
           attribute="class"
