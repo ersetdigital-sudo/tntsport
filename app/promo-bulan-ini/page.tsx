@@ -136,7 +136,7 @@ export default async function PromoBulanIniPage() {
         .noise { background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 160 160' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.16'/%3E%3C/svg%3E"); }
         .hero-grid { background-image:linear-gradient(rgba(255,255,255,.045) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.045) 1px,transparent 1px); background-size:54px 54px; }
         .hero-shade { background:linear-gradient(180deg,rgba(9,9,11,.18) 0%,rgba(9,9,11,.7) 54%,#09090b 100%); }
-        @media (min-width:1024px) { .hero-shade { background:radial-gradient(circle at 80% 26%,rgba(239,35,60,.22),transparent 34%),linear-gradient(90deg,#09090b 0%,#09090b 34%,rgba(9,9,11,.92) 48%,rgba(9,9,11,.2) 78%,rgba(9,9,11,.55) 100%); } }
+        @media (min-width:1024px) { .hero-shade { background:radial-gradient(circle at 80% 26%,rgba(239,35,60,.18),transparent 34%),linear-gradient(90deg,#09090b 0%,#09090b 36%,rgba(9,9,11,.85) 42%,rgba(9,9,11,.08) 70%,rgba(9,9,11,.35) 100%); } }
         .faq[open] .faq-plus { transform:rotate(45deg); }
         .faq-plus { transition:transform .25s ease; }
       `}</style>
@@ -146,19 +146,19 @@ export default async function PromoBulanIniPage() {
         Promo Kemerdekaan · Beli 6 gratis 1 · Berlaku kelipatannya
       </div>
 
-      <PromoNav logoHref={brand.logoPath || "/logo.jpg"} />
+      <PromoNav />
 
       <main>
         {/* HERO */}
         <section id="home" className="relative min-h-[820px] overflow-hidden border-b border-white/10 lg:min-h-[760px]">
           <div className="hero-grid absolute inset-0 opacity-50" />
-          <div className="hero-photo pointer-events-none absolute inset-x-0 bottom-0 h-[45%] sm:h-[55%] lg:left-[42%] lg:top-0 lg:h-full lg:w-[58%]">
+          <div className="hero-photo pointer-events-none absolute inset-x-0 bottom-0 h-[45%] sm:h-[55%] lg:bottom-0 lg:left-[40%] lg:right-0 lg:top-0 lg:h-full lg:w-[60%]">
             <Image
               src="/promo/promo-hero.png"
               alt="Model menggunakan jersey custom TNT Sport"
               fill
               priority
-              className="object-cover object-[75%_top] opacity-90 lg:object-center"
+              className="object-cover object-[75%_top] lg:object-[center_20%]"
             />
           </div>
           <div className="hero-shade absolute inset-0" />
