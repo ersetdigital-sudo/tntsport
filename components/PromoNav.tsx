@@ -1,5 +1,3 @@
-"use client";
-
 /**
  * PromoNav — sticky header untuk landing Promo Kemerdekaan.
  * Tanpa tombol CTA, hanya strip tipis.

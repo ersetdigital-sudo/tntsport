@@ -1,13 +1,15 @@
 import type { Metadata } from "next";
 import Image from "next/image";
+import dynamic from "next/dynamic";
 import { Archivo_Black, DM_Sans } from "next/font/google";
 import { PromoNav } from "@/components/PromoNav";
-import { PromoDesignGrid } from "@/components/PromoDesignGrid";
-import { PageViewTracker } from "@/components/PageViewTracker";
-import { PhotoGallery } from "@/components/PhotoGallery";
 import { getBrand, getKatalogTestimonials } from "@/lib/queries";
 
-export const dynamic = "force-dynamic";
+const PromoDesignGrid = dynamic(() => import("@/components/PromoDesignGrid").then(m => m.PromoDesignGrid), { ssr: false });
+const PageViewTracker = dynamic(() => import("@/components/PageViewTracker").then(m => m.PageViewTracker), { ssr: false });
+const PhotoGallery = dynamic(() => import("@/components/PhotoGallery").then(m => m.PhotoGallery), { ssr: false });
+
+export const revalidate = 3600;
 
 const archivoBlack = Archivo_Black({
   subsets: ["latin"],
@@ -177,6 +179,7 @@ export default async function PromoBulanIniPage() {
               alt="Model menggunakan jersey custom TNT Sport"
               fill
               priority
+              sizes="100vw"
               className="object-cover object-top lg:object-[center_20%]"
             />
             <div className="absolute inset-0 bg-gradient-to-t from-[#09090b] via-transparent to-transparent lg:hidden" />

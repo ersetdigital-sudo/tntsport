@@ -1,17 +1,21 @@
 import type { Metadata } from "next";
 import Image from "next/image";
-import { ProductCatalog } from "@/components/ProductCatalog";
-import { PriceCards } from "@/components/PriceCards";
-import { FlashSaleTimer } from "@/components/FlashSaleTimer";
-import { SocialProof } from "@/components/SocialProof";
-import { PhotoGallery } from "@/components/PhotoGallery";
+import dynamic from "next/dynamic";
 import { getCatalogData, getFabrics, getKatalogFeatures, getKatalogTestimonials, getBrand, getSocialLinks } from "@/lib/queries";
 import { resolveSeoContext, type SeoContext } from "@/lib/seo";
-import { FabricCatalog } from "@/components/FabricCatalog";
-import { PageViewTracker } from "@/components/PageViewTracker";
 import type { SocialLink } from "@/lib/types";
 
+const ProductCatalog = dynamic(() => import("@/components/ProductCatalog").then(m => m.ProductCatalog), { ssr: false });
+const PriceCards = dynamic(() => import("@/components/PriceCards").then(m => m.PriceCards), { ssr: false });
+const FlashSaleTimer = dynamic(() => import("@/components/FlashSaleTimer").then(m => m.FlashSaleTimer), { ssr: false });
+const SocialProof = dynamic(() => import("@/components/SocialProof").then(m => m.SocialProof), { ssr: false });
+const PhotoGallery = dynamic(() => import("@/components/PhotoGallery").then(m => m.PhotoGallery), { ssr: false });
+const FabricCatalog = dynamic(() => import("@/components/FabricCatalog").then(m => m.FabricCatalog), { ssr: false });
+const PageViewTracker = dynamic(() => import("@/components/PageViewTracker").then(m => m.PageViewTracker), { ssr: false });
+
 const baseSiteUrl = "https://www.tntsportapparel.id";
+
+export const revalidate = 3600;
 
 export async function generateMetadata({
   searchParams,
@@ -433,6 +437,8 @@ function Hero({ waLink }: { waLink: string }) {
             src="/0df8a74d-b39f-4bc5-8d55-0be10a01cbe2.png"
             alt="Tiga atlet mengenakan jersey custom TNT Sport"
             fill
+            priority
+            sizes="100vw"
             className="object-cover object-top lg:object-center"
           />
           <div className="absolute inset-0 bg-gradient-to-t from-[#0b0b0b] via-transparent to-transparent lg:bg-gradient-to-r lg:from-[#0b0b0b]/20 lg:via-transparent lg:to-transparent" />
@@ -1146,12 +1152,14 @@ export default async function KatalogPage({
   searchParams: Promise<{ category?: string; design?: string }>;
 }) {
   const sp = await searchParams;
-  const brand = await getBrand();
+  const [brand, seo, socialLinks] = await Promise.all([
+    getBrand(),
+    resolveSeoContext(sp.category, sp.design),
+    getSocialLinks(),
+  ]);
   const waNumber = brand.whatsappNumber || "628115491117";
   const waMessage = "Halo TNT SPORT, saya mau tanya jersey custom";
   const waLink = `https://wa.me/${waNumber}?text=${encodeURIComponent(waMessage)}`;
-  const seo = await resolveSeoContext(sp.category, sp.design);
-  const socialLinks = await getSocialLinks();
 
   return (
     <div className="overflow-x-hidden antialiased">
