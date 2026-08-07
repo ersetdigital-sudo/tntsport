@@ -119,6 +119,21 @@ export default async function Page() {
         <div className="rounded-2xl border border-black/[.06] bg-white px-3 py-5 shadow-premium-sm dark:border-white/10 dark:bg-surface-card sm:rounded-3xl sm:px-5 sm:py-6"><TrustBadges badges={trustBadges} /></div>
         {/* CTA katalog */}
         <CTALinks items={ctaLinks} />
+        {/* Promo Bulan Ini — arah ke landing page promo */}
+        <div className="w-full">
+          <a
+            href="/promo-bulan-ini"
+            className="group flex w-full items-center justify-center gap-2.5 rounded-2xl bg-primary px-6 py-4 text-[15px] font-extrabold uppercase tracking-wide text-white shadow-[0_8px_24px_rgba(0,200,83,.35)] transition-all duration-200 hover:brightness-110 active:scale-[0.98] sm:rounded-3xl sm:text-base"
+          >
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+              <path d="M12 3v12M5.5 8.5 12 15l6.5-6.5" />
+            </svg>
+            Promo Bulan Ini
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="transition-transform group-hover:translate-x-1" aria-hidden="true">
+              <path d="M5 12h14M13 6l6 6-6 6" />
+            </svg>
+          </a>
+        </div>
         {/* Promo */}
         <FlashSaleBanner whatsappNumber={brand.whatsappNumber} />
         {/* Testimoni */}
