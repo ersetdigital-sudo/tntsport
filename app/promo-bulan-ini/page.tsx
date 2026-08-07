@@ -4,7 +4,8 @@ import { Archivo_Black, DM_Sans } from "next/font/google";
 import { PromoNav } from "@/components/PromoNav";
 import { PromoDesignGrid } from "@/components/PromoDesignGrid";
 import { PageViewTracker } from "@/components/PageViewTracker";
-import { getBrand } from "@/lib/queries";
+import { PhotoGallery } from "@/components/PhotoGallery";
+import { getBrand, getKatalogTestimonials } from "@/lib/queries";
 
 export const dynamic = "force-dynamic";
 
@@ -80,6 +81,15 @@ const REVIEWS = [
   },
 ];
 
+const GALLERY_IMAGES = [
+  { src: "/b2fe362c-daed-4c7c-82af-a78c1e9da0cc.jpg", alt: "Tim sepak bola memakai jersey custom merah" },
+  { src: "/a66a21ab-a0c6-44d6-9b52-d5596a15fcc6.jpg", alt: "Tim junior memakai jersey kuning custom" },
+  { src: "/0696556a-f40d-4067-a896-0524dcfe4a36.jpg", alt: "Pelanggan memakai jersey merah custom" },
+  { src: "/1537d016-3b7d-4c45-9f20-6c2c9ac9ebdf.jpg", alt: "Tim dalam turnamen dengan jersey custom" },
+  { src: "/37de4d36-d677-43f0-ae3c-8f5ac22298f8.jpg", alt: "Tim menerima penghargaan" },
+  { src: "/1fa04ec7-8832-45d4-b869-3f25ffdef9ca.jpg", alt: "Tim di kejuaraan" },
+];
+
 const FAQS = [
   { q: "Apakah ada minimal order?", a: "Tidak ada. Kamu bisa order satuan. Untuk order 6 pcs, dapat bonus 1 pcs gratis dan berlaku kelipatannya." },
   { q: "Berapa lama proses produksi?", a: "Produksi dimulai setelah desain disetujui dan DP masuk. Jadwal pengerjaan disepakati bersama sesuai jumlah dan kebutuhanmu." },
@@ -116,6 +126,13 @@ export async function generateMetadata(): Promise<Metadata> {
 
 export default async function PromoBulanIniPage() {
   const brand = await getBrand();
+  const dbTestimonialsRaw = await getKatalogTestimonials();
+  const dbTestimonials = dbTestimonialsRaw?.map((t) => ({
+    quote: t.quote,
+    name: t.name,
+    meta: t.team ? `${t.city} · ${t.team}` : t.city,
+    dark: true,
+  })) ?? REVIEWS;
   const waNumber = brand.whatsappNumber || "628115491117";
   const wa = (msg: string) => `https://wa.me/${waNumber}?text=${encodeURIComponent(msg)}`;
 
@@ -142,6 +159,9 @@ export default async function PromoBulanIniPage() {
         .faq-plus { transition:transform .25s ease; }
         .promo-ticker { animation:promo-ticker-scroll 26s linear infinite; will-change:transform; }
         @keyframes promo-ticker-scroll { 0% { transform:translateX(0); } 100% { transform:translateX(-50%); } }
+        .gallery-scroll .gallery-track { animation:promo-gallery-scroll 16s linear infinite; will-change:transform; }
+        .gallery-scroll:hover .gallery-track { animation-play-state:paused; }
+        @keyframes promo-gallery-scroll { to { transform:translateX(-50%); } }
       `}</style>
 
       <PromoNav />
@@ -459,15 +479,29 @@ export default async function PromoBulanIniPage() {
               </div>
               <p className="text-zinc-600">Ribuan tim &amp; komunitas sudah percaya TNT SPORT.</p>
             </div>
+
+            {/* Photo Gallery */}
+            <div className="mt-12 overflow-hidden rounded-[2rem] border border-black/10 bg-[#f4f3ef] p-4 shadow-[0_28px_80px_rgba(0,0,0,.12)] sm:p-6">
+              <div className="mb-6 flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
+                <div>
+                  <p className="text-[10px] font-black uppercase tracking-[.22em] text-[#ef233c]">Bukti bukan janji</p>
+                  <h3 className="pdisplay mt-2 text-3xl uppercase tracking-tight sm:text-4xl">Hasil nyata dari pelanggan kami</h3>
+                </div>
+                <p className="max-w-sm text-xs leading-relaxed text-zinc-500 sm:text-right">Foto asli jersey yang sudah diterima pelanggan — bukan edit, bukan rekayasa</p>
+              </div>
+              <PhotoGallery images={GALLERY_IMAGES} />
+            </div>
+
+            {/* Testimonials */}
             <div className="mt-12 grid gap-4 md:grid-cols-3">
-              {REVIEWS.map((r) => (
+              {dbTestimonials.map((r, i) => (
                 <figure
-                  key={r.name}
+                  key={r.name + i}
                   className={r.dark ? "rounded-[1.5rem] bg-[#101010] p-6 text-white" : "rounded-[1.5rem] bg-[#f4f3ef] p-6"}
                 >
                   <div className="text-[#ef233c]">★★★★★</div>
                   <blockquote className={`mt-5 leading-relaxed ${r.dark ? "text-zinc-300" : "text-zinc-700"}`}>
-                    "{r.quote}"
+                    &ldquo;{r.quote}&rdquo;
                   </blockquote>
                   <figcaption className={`mt-7 border-t pt-5 ${r.dark ? "border-white/10" : "border-black/10"}`}>
                     <b>{r.name}</b>
