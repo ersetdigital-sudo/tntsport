@@ -152,13 +152,15 @@ export default async function PromoBulanIniPage() {
         {/* HERO */}
         <section id="home" className="relative min-h-[820px] overflow-hidden border-b border-white/10 lg:min-h-[760px]">
           <div className="hero-grid absolute inset-0 opacity-50" />
-          <Image
-            src="/promo/promo-hero.png"
-            alt="Model menggunakan jersey custom TNT Sport"
-            fill
-            priority
-            className="object-cover object-[64%_center] opacity-70 lg:left-[42%] lg:w-[58%] lg:object-center lg:opacity-95"
-          />
+          <div className="hero-photo pointer-events-none absolute inset-x-0 bottom-0 h-[45%] sm:h-[55%] lg:left-[42%] lg:top-0 lg:h-full lg:w-[58%]">
+            <Image
+              src="/promo/promo-hero.png"
+              alt="Model menggunakan jersey custom TNT Sport"
+              fill
+              priority
+              className="object-cover object-[75%_top] opacity-90 lg:object-center"
+            />
+          </div>
           <div className="hero-shade absolute inset-0" />
           <div className="noise pointer-events-none absolute inset-0 opacity-20" />
 
