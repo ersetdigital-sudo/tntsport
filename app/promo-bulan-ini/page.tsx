@@ -50,17 +50,6 @@ const INFO_CARDS = [
   { icon: "/8999be50-4d20-45c1-b37e-0ce948ade336.svg", title: "Pelayanan profesional", desc: "Didampingi dari konsultasi sampai kirim." },
 ];
 
-const CHIPS = [
-  "Futsal / Bola",
-  "Badminton",
-  "Road Bike / MTB",
-  "Mancing",
-  "Esport",
-  "Basket",
-  "Racing",
-  "Komunitas",
-];
-
 const STEPS = [
   { title: "Konsultasi", desc: "Ceritakan kebutuhan jersey kamu." },
   { title: "Desain", desc: "Tim kami buat mockup sesuai keinginan." },
@@ -154,7 +143,7 @@ export default async function PromoBulanIniPage() {
 
       {/* TOP BAR */}
       <div className="bg-[#ef233c] py-2.5 text-center text-[11px] font-bold uppercase tracking-[.18em] text-white sm:text-xs">
-        Promo spesial · Beli 6 gratis 1 · Berlaku kelipatannya
+        Promo Kemerdekaan · Beli 6 gratis 1 · Berlaku kelipatannya
       </div>
 
       <PromoNav logoHref={brand.logoPath || "/logo.jpg"} />
@@ -296,23 +285,8 @@ export default async function PromoBulanIniPage() {
               </div>
               <p className="max-w-sm text-zinc-400">Kirim referensi, logo, atau warna tim. Kami bantu ubah jadi desain yang siap diproduksi.</p>
             </div>
-            <div className="relative mt-12 grid gap-3 overflow-hidden rounded-[2rem] border border-white/10 bg-zinc-900 sm:grid-cols-2">
-              {["promo-3", "promo-9", "promo-14", "promo-20"].map((img) => (
-                <div key={img} className="relative aspect-[4/3] overflow-hidden">
-                  <Image src={`/promo/${img}.jpg`} alt="Desain jersey custom TNT Sport" fill className="object-cover" />
-                </div>
-              ))}
-              <div className="pointer-events-none absolute inset-x-0 bottom-0 bg-gradient-to-t from-black via-black/40 to-transparent p-6 pt-20 sm:p-10 sm:pt-28">
-                <p className="text-sm font-bold uppercase tracking-[.18em]">Futsal · Badminton · Voli · Sepeda · Esport · Basket</p>
-              </div>
-            </div>
-            <PromoDesignGrid waNumber={waNumber} />
-            <div className="mt-6 flex flex-wrap gap-2">
-              {CHIPS.map((c) => (
-                <span key={c} className="rounded-full border border-white/15 px-4 py-2 text-xs text-zinc-300">
-                  {c}
-                </span>
-              ))}
+            <div className="mt-6">
+              <PromoDesignGrid waNumber={waNumber} />
             </div>
           </div>
         </section>
