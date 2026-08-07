@@ -165,7 +165,7 @@ export default async function PromoBulanIniPage() {
           <div className="hero-shade absolute inset-0" />
           <div className="noise pointer-events-none absolute inset-0 opacity-20" />
 
-          <div className="relative mx-auto flex min-h-[820px] max-w-7xl items-center px-5 pb-[430px] pt-16 lg:min-h-[760px] lg:px-8 lg:pb-24 lg:pt-12">
+          <div className="relative z-20 mx-auto flex min-h-[820px] max-w-7xl items-center px-5 pb-[430px] pt-16 lg:min-h-[760px] lg:px-8 lg:pb-24 lg:pt-12">
             <div className="max-w-[42rem] pt-4 lg:pt-0">
               <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-white/15 bg-black/55 px-4 py-2 text-[11px] font-bold uppercase tracking-[.16em] backdrop-blur-md sm:text-xs">
                 <span className="h-2 w-2 rounded-full bg-[#ef233c] shadow-[0_0_18px_#ef233c]" />
