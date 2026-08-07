@@ -2,6 +2,7 @@
 
 import { useState, useCallback, useEffect } from "react";
 import Image from "next/image";
+import { Shirt } from "lucide-react";
 import { CATALOG_PRODUCTS, getWhatsAppLink, findProductByDesignKey, productDesignKey } from "@/lib/products";
 import { trackViewContent, trackLead } from "@/components/MetaPixel";
 
@@ -51,26 +52,35 @@ interface CatalogCategory {
 const CATEGORY_ICON_MAP: Record<string, string> = {
   // Supabase slugs
   "sepak-bola-futsal": "/dba325f3-aa25-43c1-bf79-c97cac27beb0.svg",
+  "futsal": "/dba325f3-aa25-43c1-bf79-c97cac27beb0.svg",
+  "sepak-bola": "/dba325f3-aa25-43c1-bf79-c97cac27beb0.svg",
   "voli": "/fdd593d3-725a-4970-9c5b-50346939a377.svg",
+  "volley": "/fdd593d3-725a-4970-9c5b-50346939a377.svg",
   "basket": "/b4d1d695-3820-4c3b-9593-2018b49634ab.svg",
   "mancing": "/0040a5e9-73c7-4575-a3f3-fc0de36354ac.svg",
+  "fishing": "/0040a5e9-73c7-4575-a3f3-fc0de36354ac.svg",
   "racing": "/5dedcffe-5ed1-43c3-99c4-93cb8638a435.svg",
   "running": "/b909ca73-c7d0-47ee-8c6c-4ec4ede8b3f9.svg",
   "army": "/5e3bd6f8-d7f3-4b74-9d7e-a7f21d006754.svg",
   "badminton": "/002ba172-c237-4b45-a942-9b370ac9ec58.svg",
   "fantasy-club": "/378b562a-d8ba-4fd6-b19a-b05c96238007.svg",
-  "instansi-corporate": "/9e768942-684b-4bfe-acb8-4f69a788ead6.svg",
-  // Static fallback slugs
-  "football": "/dba325f3-aa25-43c1-bf79-c97cac27beb0.svg",
-  "volley": "/fdd593d3-725a-4970-9c5b-50346939a377.svg",
-  "fishing": "/0040a5e9-73c7-4575-a3f3-fc0de36354ac.svg",
   "fantasy": "/378b562a-d8ba-4fd6-b19a-b05c96238007.svg",
+  "instansi-corporate": "/9e768942-684b-4bfe-acb8-4f69a788ead6.svg",
   "corporate": "/9e768942-684b-4bfe-acb8-4f69a788ead6.svg",
 };
 
 function CategoryIcon({ slug, isActive }: { slug: string; isActive: boolean }) {
   const src = CATEGORY_ICON_MAP[slug];
-  if (!src) return null;
+  if (!src) {
+    return (
+      <Shirt
+        size={18}
+        className={`shrink-0 transition ${
+          isActive ? "text-[#080a07]" : "text-[#b9beaf]"
+        }`}
+      />
+    );
+  }
 
   return (
     // eslint-disable-next-line @next/next/no-img-element
