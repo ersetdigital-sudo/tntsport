@@ -1,16 +1,16 @@
 -- ============================================================================
--- TNT SPORT — Promo Bulan Ini (bagian 2: seed CTA)
+-- TNT SPORT — Promo Kemerdekaan (bagian 2: seed CTA)
 -- ============================================================================
 -- Jalankan SETELAH 0009_promo_bulan_ini.sql (enum 'danger' sudah ada).
--- Seed CTA "Promo Bulan Ini" ke tabel cta_links sehingga link-nya bisa
+-- Seed CTA "Promo Kemerdekaan" ke tabel cta_links sehingga link-nya bisa
 -- diubah dari /admin/cta-links. Idempotent: replace baris yang ada.
 -- ============================================================================
-delete from public.cta_links where title = 'Promo Bulan Ini';
+delete from public.cta_links where title = 'Promo Kemerdekaan';
 
 insert into public.cta_links (title, description, href, accent, icon, sort_order)
 values (
-  'Promo Bulan Ini',
-  'Cek promo terbaru & penawaran spesial bulan ini',
+  'Promo Kemerdekaan',
+  'Cek promo spesial kemerdekaan & penawaran terbaru bulan ini',
   'https://www.tntsportapparel.id/promo-bulan-ini',
   'danger',
   'FlameIcon',

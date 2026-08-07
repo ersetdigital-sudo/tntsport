@@ -103,12 +103,12 @@ export async function generateMetadata(): Promise<Metadata> {
   const brand = await getBrand();
   const url = brand.url || "https://www.tntsportapparel.id";
   return {
-    title: "Promo Bulan Ini — TNT SPORT",
+    title: "Promo Kemerdekaan — TNT SPORT",
     description:
-      "Promo jersey custom bulan ini dari TNT SPORT. Gratis desain, nama, nomor & logo. Tanpa minimal order, revisi bebas.",
+      "Promo jersey custom kemerdekaan dari TNT SPORT. Gratis desain, nama, nomor & logo. Tanpa minimal order, revisi bebas.",
     alternates: { canonical: "/promo-bulan-ini" },
     openGraph: {
-      title: "Promo Bulan Ini — TNT SPORT",
+      title: "Promo Kemerdekaan — TNT SPORT",
       description:
         "Jersey custom full printing mulai 50 ribu. Gratis desain, bebas custom nama, nomor, dan logo, tanpa minimal order.",
       url: `${url}/promo-bulan-ini`,
@@ -117,7 +117,7 @@ export async function generateMetadata(): Promise<Metadata> {
     },
     twitter: {
       card: "summary_large_image",
-      title: "Promo Bulan Ini — TNT SPORT",
+      title: "Promo Kemerdekaan — TNT SPORT",
       description: "Jersey custom full printing dari 50 ribu. Gratis desain, tanpa minimal order.",
     },
   };

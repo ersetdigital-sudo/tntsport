@@ -98,8 +98,8 @@ export const ctaLinks: CTALink[] = [
     external: true,
   },
   {
-    title: "Promo Bulan Ini",
-    description: "Cek promo terbaru & penawaran spesial bulan ini",
+    title: "Promo Kemerdekaan",
+    description: "Cek promo spesial kemerdekaan & penawaran terbaru bulan ini",
     icon: FlameIcon,
     accent: "danger",
     href: "/promo-bulan-ini",
