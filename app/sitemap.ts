@@ -32,6 +32,12 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       changeFrequency: "weekly",
       priority: 0.9,
     },
+    {
+      url: `${cleanUrl}/promo-bulan-ini`,
+      lastModified: today,
+      changeFrequency: "weekly",
+      priority: 0.9,
+    },
   ];
 
   for (const category of categories) {

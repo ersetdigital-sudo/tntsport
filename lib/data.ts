@@ -10,6 +10,7 @@ import {
   BagIcon,
   BoltIcon,
   FacebookIcon,
+  FlameIcon,
   GiftIcon,
   GridIcon,
   InstagramIcon,
@@ -95,6 +96,14 @@ export const ctaLinks: CTALink[] = [
     accent: "neutral",
     href: waLink,
     external: true,
+  },
+  {
+    title: "Promo Bulan Ini",
+    description: "Cek promo terbaru & penawaran spesial bulan ini",
+    icon: FlameIcon,
+    accent: "danger",
+    href: "/promo-bulan-ini",
+    external: false,
   },
 ];
 
