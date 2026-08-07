@@ -191,9 +191,7 @@ export default async function PromoBulanIniPage() {
               </div>
               <div className="mt-7 flex flex-col gap-3 sm:flex-row">
                 <a
-                  href={waAtasan}
-                  target="_blank"
-                  rel="noopener noreferrer"
+                  href="#harga"
                   className="inline-flex items-center justify-center gap-3 rounded-full bg-[#ef233c] px-7 py-4 text-sm font-black uppercase tracking-[.08em] shadow-[0_14px_40px_rgba(239,35,60,.28)] transition hover:-translate-y-0.5 hover:bg-red-500"
                 >
                   Lihat harga <span aria-hidden="true">↗</span>
@@ -325,7 +323,7 @@ export default async function PromoBulanIniPage() {
                     <p className="mt-1 text-2xl font-black">65rb<span className="text-sm font-medium text-zinc-500"> /pcs</span></p>
                   </div>
                   <div className="border-l border-black/10 pl-4">
-                    <p className="text-xs text-zinc-500">Dozen (12 pcs)</p>
+                    <p className="text-xs text-zinc-500">Beli 1 lusin (12 pcs)</p>
                     <p className="mt-1 text-2xl font-black text-[#ef233c]">50rb<span className="text-sm font-medium text-zinc-500"> /pcs</span></p>
                   </div>
                 </div>
@@ -362,7 +360,7 @@ export default async function PromoBulanIniPage() {
                     <p className="mt-1 text-2xl font-black">115rb<span className="text-sm font-medium text-zinc-500"> /pcs</span></p>
                   </div>
                   <div className="border-l border-white/10 pl-4">
-                    <p className="text-xs text-zinc-500">Dozen (12 pcs)</p>
+                    <p className="text-xs text-zinc-500">Beli 1 lusin (12 pcs)</p>
                     <p className="mt-1 text-2xl font-black text-[#ef233c]">110rb<span className="text-sm font-medium text-zinc-500"> /pcs</span></p>
                   </div>
                 </div>
