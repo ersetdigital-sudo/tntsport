@@ -53,7 +53,7 @@ export default async function ProductsAdminPage() {
 
     return (
       <div className="space-y-6">
-        <div className="flex items-center justify-between">
+<div className="sticky top-0 z-20 -mx-4 -mt-4 flex items-center justify-between gap-4 border-b border-hairline bg-background/85 px-4 py-4 backdrop-blur-md md:-mx-8 md:-mt-8 md:px-8">
           <div>
             <h2 className="text-heading-md text-ink">Produk</h2>
             <p className="text-body-sm text-charcoal mt-1">
@@ -62,9 +62,10 @@ export default async function ProductsAdminPage() {
           </div>
           <Link
             href="/admin/products/new"
-            className="rounded-full bg-primary px-5 py-2.5 text-sm font-bold text-white transition hover:bg-primary-strong"
+            className="inline-flex shrink-0 items-center gap-1.5 rounded-full bg-primary px-5 py-2.5 text-sm font-bold text-white shadow-premium-sm transition hover:bg-primary-strong active:scale-[0.98]"
           >
-            + Tambah Produk
+            <span className="text-lg leading-none">+</span>
+            Tambah Produk
           </Link>
         </div>
 
