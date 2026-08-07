@@ -1645,9 +1645,3 @@
     transform: translateX(-50%);
   }
 }
-
-@media (prefers-reduced-motion: reduce) {
-  .ticker {
-    animation-play-state: paused;
-  }
-}

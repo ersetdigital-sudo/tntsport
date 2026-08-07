@@ -1103,9 +1103,6 @@ function TickerStyles() {
       @keyframes ticker-scroll {
         to { transform: translateX(-50%); }
       }
-      @media (prefers-reduced-motion: reduce) {
-        .ticker { animation: none; }
-      }
       .scrollbar-hide::-webkit-scrollbar { display: none; }
       .scrollbar-hide { -ms-overflow-style: none; scrollbar-width: none; }
       .gallery-scroll .gallery-track {
@@ -1117,9 +1114,6 @@ function TickerStyles() {
       }
       @keyframes gallery-scroll {
         to { transform: translateX(-50%); }
-      }
-      @media (prefers-reduced-motion: reduce) {
-        .gallery-scroll .gallery-track { animation: none; }
       }
       .hero-photo {
         mask-image: linear-gradient(to right, transparent 0%, #000 20%, #000 100%);
