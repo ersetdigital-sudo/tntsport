@@ -144,11 +144,6 @@ export default async function PromoBulanIniPage() {
         @keyframes promo-ticker-scroll { 0% { transform:translateX(0); } 100% { transform:translateX(-50%); } }
       `}</style>
 
-      {/* TOP BAR */}
-      <div className="bg-[#ef233c] py-2.5 text-center text-[11px] font-bold uppercase tracking-[.18em] text-white sm:text-xs">
-        Promo Kemerdekaan · Beli 6 gratis 1 · Berlaku kelipatannya
-      </div>
-
       <PromoNav />
 
       <main>
