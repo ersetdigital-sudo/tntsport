@@ -69,8 +69,13 @@ const CATEGORY_ICON_MAP: Record<string, string> = {
   "corporate": "/9e768942-684b-4bfe-acb8-4f69a788ead6.svg",
 };
 
-function CategoryIcon({ slug, isActive }: { slug: string; isActive: boolean }) {
-  const src = CATEGORY_ICON_MAP[slug];
+function CategoryIcon({ slug, label, isActive }: { slug: string; label?: string; isActive: boolean }) {
+  const src =
+    CATEGORY_ICON_MAP[slug] ??
+    CATEGORY_ICON_MAP[(label ?? "").toLowerCase().trim()] ??
+    (/\b(fishing|mancing|pancing)\b/i.test(label ?? "")
+      ? CATEGORY_ICON_MAP.fishing
+      : undefined);
   if (!src) {
     return (
       <Shirt
@@ -364,6 +369,7 @@ export function ProductCatalog({ categories: propCategories, waNumber, initialCa
             >
               <CategoryIcon
                 slug={cat.id}
+                label={cat.label}
                 isActive={cat.id === activeCategory}
               />
               <span className="truncate">{cat.label}</span>
