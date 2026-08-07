@@ -176,7 +176,7 @@ export default async function PromoBulanIniPage() {
                 <span className="block text-[clamp(3rem,8vw,7rem)] text-[#ef233c]">50 RIBU!</span>
               </h1>
               <p className="mt-6 max-w-lg text-base leading-relaxed text-zinc-300 sm:text-lg">
-                Promo spesial HUT RI! Gratis desain, nama, nomor &amp; logo. Tanpa minimum order, kualitas premium langsung dari pabrik.
+                Promo HUT RI terbatas! Mulai Rp50.000, gratis desain, nama, nomor &amp; logo. Tanpa minimum order, langsung diproduksi di pabrik.
               </p>
               <div className="mt-5 flex flex-wrap gap-2 text-[10px] font-bold uppercase tracking-[.1em] text-zinc-200 sm:text-xs">
                 <span className="rounded-full border border-white/15 bg-black/30 px-3 py-2">✓ Free desain</span>
@@ -188,7 +188,7 @@ export default async function PromoBulanIniPage() {
                   href="#harga"
                   className="inline-flex items-center justify-center gap-3 rounded-full bg-[#ef233c] px-7 py-4 text-sm font-black uppercase tracking-[.08em] shadow-[0_14px_40px_rgba(239,35,60,.28)] transition hover:-translate-y-0.5 hover:bg-red-500"
                 >
-                  Lihat harga <span aria-hidden="true">↗</span>
+                  Klaim Promo <span aria-hidden="true">↗</span>
                 </a>
                 <a
                   href={waKonsultasi}
