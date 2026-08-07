@@ -1,4 +1,4 @@
-import { createClient, supabaseConfigured } from "@/lib/supabase/server";
+﻿import { createClient, supabaseConfigured } from "@/lib/supabase/server";
 import { ShieldCheck } from "lucide-react";
 import Link from "next/link";
 
@@ -81,7 +81,7 @@ export default async function ProductsAdminPage() {
             {cat.products.length === 0 ? (
               <p className="text-xs text-mute">Belum ada produk di kategori ini.</p>
             ) : (
-              <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5">
+              <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 [content-visibility:auto]">
                 {cat.products.map((p) => {
                   const thumb = (p as any).product_images?.[0]?.url;
                   return (
@@ -93,7 +93,7 @@ export default async function ProductsAdminPage() {
                       <div className="aspect-[4/5] bg-background">
                         {thumb ? (
                           // eslint-disable-next-line @next/next/no-img-element
-                          <img src={thumb} alt={p.name} className="h-full w-full object-cover" />
+                          <img src={thumb} alt={p.name} loading="lazy" decoding="async" className="h-full w-full object-cover" />
                         ) : (
                           <div className="flex h-full items-center justify-center text-mute text-xs">
                             No Image
@@ -115,7 +115,7 @@ export default async function ProductsAdminPage() {
         {uncategorized.length > 0 && (
           <div className="rounded-2xl border border-hairline bg-surface p-5">
             <h3 className="text-sm font-bold text-ink mb-3">Tanpa Kategori</h3>
-            <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5">
+            <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 [content-visibility:auto]">
               {uncategorized.map((p) => {
                 const thumb = (p as any).product_images?.[0]?.url;
                 return (
@@ -127,7 +127,7 @@ export default async function ProductsAdminPage() {
                     <div className="aspect-[4/5] bg-background">
                       {thumb ? (
                         // eslint-disable-next-line @next/next/no-img-element
-                        <img src={thumb} alt={p.name} className="h-full w-full object-cover" />
+                        <img src={thumb} alt={p.name} loading="lazy" decoding="async" className="h-full w-full object-cover" />
                       ) : (
                         <div className="flex h-full items-center justify-center text-mute text-xs">
                           No Image
