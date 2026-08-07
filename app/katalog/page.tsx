@@ -5,8 +5,9 @@ import { PriceCards } from "@/components/PriceCards";
 import { FlashSaleTimer } from "@/components/FlashSaleTimer";
 import { SocialProof } from "@/components/SocialProof";
 import { PhotoGallery } from "@/components/PhotoGallery";
-import { getCatalogData, getKatalogFeatures, getKatalogTestimonials, getBrand } from "@/lib/queries";
+import { getCatalogData, getFabrics, getKatalogFeatures, getKatalogTestimonials, getBrand } from "@/lib/queries";
 import { resolveSeoContext, type SeoContext } from "@/lib/seo";
+import { FabricCatalog } from "@/components/FabricCatalog";
 
 const baseSiteUrl = "https://www.tntsportapparel.id";
 
@@ -664,48 +665,9 @@ async function Kategori({ waNumber, initialCategoryId, initialProductId }: { waN
 /* Bahan Kain                                                           */
 /* ------------------------------------------------------------------ */
 
-interface FabricGroup {
-  id: string;
-  label: string;
-  note: string;
-  fabrics: { code: string; name: string }[];
-}
+async function Bahan({ waNumber }: { waNumber: string }) {
+  const fabrics = await getFabrics();
 
-const FABRIC_GROUPS: FabricGroup[] = [
-  {
-    id: "jacquard",
-    label: "3 JACQUARD KAIN",
-    note: "Tekstur premium dengan motif anyaman timbul pada kain.",
-    fabrics: [
-      { code: "JACQUARD", name: "LIGHTNING A" },
-      { code: "JACQUARD", name: "TERRARIA A" },
-      { code: "JACQUARD", name: "AURORA A" },
-    ],
-  },
-  {
-    id: "base",
-    label: "Base Kain",
-    note: "Bahan dasar dryfit adem, cepat kering, dan ringan.",
-    fabrics: [
-      { code: "DRIFIT", name: "AIRWALK A" },
-      { code: "DRIFIT", name: "MILANO UV A" },
-      { code: "DRIFIT", name: "SMASH A" },
-    ],
-  },
-  {
-    id: "embossed",
-    label: "EMBOSSED KAIN",
-    note: "Kain dengan efek tekstur timbul 3D, tampil lebih eksklusif.",
-    fabrics: [
-      { code: "EMBOSSED", name: "MIX A" },
-      { code: "EMBOSSED", name: "MIX B" },
-      { code: "EMBOSSED", name: "TOPO A" },
-      { code: "EMBOSSED", name: "TOPO B" },
-    ],
-  },
-];
-
-function Bahan({ waNumber }: { waNumber: string }) {
   return (
     <section id="bahan" className="border-b border-white/10 bg-[#0d100c] py-16 sm:py-24">
       <div className="mx-auto max-w-7xl px-5 lg:px-8">
@@ -725,50 +687,7 @@ function Bahan({ waNumber }: { waNumber: string }) {
           </div>
         </div>
 
-        <div className="mt-10 space-y-10 sm:mt-14 sm:space-y-12">
-          {FABRIC_GROUPS.map((group) => (
-            <div key={group.id}>
-              <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
-                <h3 className="text-sm font-black uppercase tracking-wider text-[#f0f2ec] sm:text-base"
-                    style={{ fontFamily: "var(--font-mono)" }}>
-                  {group.label}
-                </h3>
-                <p className="text-xs text-[#92998b]">{group.note}</p>
-              </div>
-              <div className="mt-4 grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-4">
-                {group.fabrics.map((fabric) => {
-                  const waMessage = `Halo TNT SPORT, saya tertarik dengan bahan *${fabric.code}_${fabric.name}* (${group.label}). Bisa info harga dan detailnya?`;
-                  const href = `https://wa.me/${waNumber}?text=${encodeURIComponent(waMessage)}`;
-                  return (
-                    <a
-                      key={`${fabric.code}-${fabric.name}`}
-                      href={href}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="group relative overflow-hidden rounded-2xl border border-white/10 bg-[#131611] p-5 transition duration-300 hover:-translate-y-1 hover:border-[#00aa13]/35 sm:rounded-3xl"
-                    >
-                      <div className="pointer-events-none absolute -right-6 -top-8 select-none text-[64px] font-black leading-none text-white/[.03] sm:text-[80px]">•</div>
-                      <p className="text-[9px] font-black uppercase tracking-[.2em] text-[#00aa13]"
-                         style={{ fontFamily: "var(--font-mono)" }}>
-                        {fabric.code}
-                      </p>
-                      <p className="mt-2 text-lg font-black uppercase tracking-tight text-[#f0f2ec] transition group-hover:text-white sm:text-xl"
-                         style={{ fontFamily: "var(--font-sans)", fontStretch: "condensed" }}>
-                        {fabric.name}
-                      </p>
-                      <span className="mt-4 inline-flex items-center gap-1.5 text-[10px] font-bold uppercase tracking-wider text-[#92998b] transition group-hover:text-[#00aa13]">
-                        Tanya bahan ini
-                        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                          <path d="M7 17L17 7M8 7h9v9" />
-                        </svg>
-                      </span>
-                    </a>
-                  );
-                })}
-              </div>
-            </div>
-          ))}
-        </div>
+        <FabricCatalog fabrics={fabrics} waNumber={waNumber} />
       </div>
     </section>
   );

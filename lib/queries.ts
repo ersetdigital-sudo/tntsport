@@ -19,10 +19,13 @@ import type {
   CTALink,
   DbBrand,
   DbCTALink,
+  DbFabric,
   DbReview,
   DbSocialLink,
   DbStat,
   DbTrustBadge,
+  Fabric,
+  FabricGroupId,
   Review,
   SocialLink,
   StatItem,
@@ -297,4 +300,34 @@ export async function getKatalogTestimonials(): Promise<KatalogTestimonial[] | n
     rating: row.rating,
     badge: row.badge ?? "Verified Buyer",
   }));
+}
+
+// ---------------------------------------------------------------------------
+// Fabrics (bahan kain)
+// ---------------------------------------------------------------------------
+const FABRIC_GROUP_ORDER: FabricGroupId[] = ["jacquard", "base", "embossed"];
+
+export async function getFabrics(): Promise<Fabric[]> {
+  if (!supabaseConfigured()) return fallback.fabrics;
+  const supabase = await createClient();
+  const { data, error } = await supabase
+    .from("fabrics")
+    .select("*")
+    .order("sort_order", { ascending: true });
+
+  if (error || !data || data.length === 0) return fallback.fabrics;
+
+  return (data as DbFabric[])
+    .map((row) => ({
+      id: row.id,
+      code: row.code,
+      name: row.name,
+      group: row.fabric_group,
+      image: row.image_url ?? "/products/placeholder.svg",
+      description: row.description,
+    }))
+    .sort((a, b) => {
+      const d = FABRIC_GROUP_ORDER.indexOf(a.group) - FABRIC_GROUP_ORDER.indexOf(b.group);
+      return d !== 0 ? d : 0;
+    });
 }

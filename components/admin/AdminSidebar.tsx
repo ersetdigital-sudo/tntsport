@@ -16,6 +16,7 @@ import {
   Shirt,
   Sparkles,
   MessageSquareQuote,
+  Layers,
   Settings,
   LogOut,
 } from "lucide-react";
@@ -64,6 +65,7 @@ const NAV_GROUPS: NavGroup[] = [
       { href: "/admin/categories", label: "Kategori", icon: Tag },
       { href: "/admin/katalog-features", label: "Keunggulan", icon: Sparkles },
       { href: "/admin/katalog-testimonials", label: "Testimoni", icon: MessageSquareQuote },
+      { href: "/admin/fabrics", label: "Bahan Kain", icon: Layers },
     ],
   },
   {

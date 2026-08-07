@@ -181,3 +181,27 @@ export interface ProductPayload {
   featured: boolean;
   sortOrder: number;
 }
+
+// ---------------------------------------------------------------------------
+// Fabrics (bahan kain)
+// ---------------------------------------------------------------------------
+export type FabricGroupId = "jacquard" | "base" | "embossed";
+
+export interface Fabric {
+  id: string;
+  code: string;
+  name: string;
+  group: FabricGroupId;
+  image: string;
+  description: string | null;
+}
+
+export interface DbFabric {
+  id: string;
+  code: string;
+  name: string;
+  fabric_group: FabricGroupId;
+  image_url: string | null;
+  description: string | null;
+  sort_order: number;
+}
