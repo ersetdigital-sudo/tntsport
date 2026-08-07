@@ -757,6 +757,22 @@ function Promo({ waLink }: { waLink: string }) {
   return (
     <section className="bg-[#0b0b0b] px-5 pb-16 text-white sm:pb-24 lg:px-8">
       <div className="mx-auto max-w-7xl">
+        {/* Promo Bulan Ini — link ke landing page promo */}
+        <div className="mb-4 flex justify-center">
+          <a
+            href="/promo-bulan-ini"
+            className="group inline-flex items-center gap-2.5 rounded-full border border-[#00aa13]/40 bg-[#00aa13]/10 px-6 py-3.5 text-sm font-black uppercase tracking-wide text-[#00aa13] shadow-[0_10px_35px_rgba(0,170,19,.12)] transition hover:-translate-y-1 hover:bg-[#00aa13] hover:text-[#080a07] sm:px-8 sm:py-4 sm:text-base"
+          >
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+              <path d="M12 3v12M5.5 8.5 12 15l6.5-6.5" />
+            </svg>
+            Promo Bulan Ini
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="transition-transform group-hover:translate-x-1" aria-hidden="true">
+              <path d="M5 12h14M13 6l6 6-6 6" />
+            </svg>
+          </a>
+        </div>
+
         <div className="relative overflow-hidden rounded-[2rem] border border-[#00aa13]/25 bg-[#111] px-5 py-8 shadow-[0_24px_80px_rgba(0,170,19,.08)] sm:px-10 sm:py-10 lg:px-12 lg:py-12">
           <div className="pointer-events-none absolute -right-2 -top-16 select-none text-[120px] font-black leading-none text-white/[.025] sm:right-8 sm:text-[220px]">7</div>
           <div className="pointer-events-none absolute -left-20 bottom-0 h-32 w-32 rounded-full bg-[#00aa13]/10 blur-3xl sm:h-48 sm:w-48" />
