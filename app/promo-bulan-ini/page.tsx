@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import { Archivo_Black, DM_Sans } from "next/font/google";
 import { PromoNav } from "@/components/PromoNav";
+import { PromoDesignGrid } from "@/components/PromoDesignGrid";
 import { getBrand } from "@/lib/queries";
 
 export const dynamic = "force-dynamic";
@@ -305,6 +306,7 @@ export default async function PromoBulanIniPage() {
                 <p className="text-sm font-bold uppercase tracking-[.18em]">Futsal · Badminton · Voli · Sepeda · Esport · Basket</p>
               </div>
             </div>
+            <PromoDesignGrid waNumber={waNumber} />
             <div className="mt-6 flex flex-wrap gap-2">
               {CHIPS.map((c) => (
                 <span key={c} className="rounded-full border border-white/15 px-4 py-2 text-xs text-zinc-300">
