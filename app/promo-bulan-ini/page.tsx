@@ -181,8 +181,7 @@ export default async function PromoBulanIniPage() {
                 <br />cuma 50 ribu!
               </h1>
               <p className="mt-6 max-w-lg text-base leading-relaxed text-zinc-300 sm:text-lg">
-                Custom jersey sesukamu dengan hasil premium. Gratis desain, nama, nomor, dan logo—bahkan
-                untuk order satuan.
+                Promo spesial HUT RI! Gratis desain, nama, nomor &amp; logo. Tanpa minimum order, kualitas premium langsung dari pabrik.
               </p>
               <div className="mt-5 flex flex-wrap gap-2 text-[10px] font-bold uppercase tracking-[.1em] text-zinc-200 sm:text-xs">
                 <span className="rounded-full border border-white/15 bg-black/30 px-3 py-2">✓ Free desain</span>
