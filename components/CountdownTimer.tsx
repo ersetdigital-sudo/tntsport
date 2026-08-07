@@ -9,7 +9,8 @@ import { useEffect, useState } from "react";
  * `now + durationHours` the first time they load the page. The deadline
  * is persisted in localStorage (keyed per promo) so refreshing does NOT
  * reset the timer — it keeps ticking down from where it was. When it
- * hits zero it stays done until the stored deadline is cleared.
+ * hits zero it automatically restarts with a brand-new deadline, so the
+ * promo never appears "dead" for the visitor.
  *
  * SSR-safe: the hook returns a stable zeroed placeholder on the server
  * and during the first client render, then takes over ticking once per
@@ -81,11 +82,26 @@ export function useEvergreenCountdown(
   const [remaining, setRemaining] = useState<Remaining>(ZERO);
 
   useEffect(() => {
-    const deadline = resolveDeadline(storageKey, durationHours);
-    setRemaining(diff(deadline, Date.now()));
-    const id = setInterval(() => {
+    let deadline = resolveDeadline(storageKey, durationHours);
+
+    const tick = () => {
+      const current = diff(deadline, Date.now());
+      if (!current.done) {
+        setRemaining(current);
+        return;
+      }
+      // Deadline habis → restart loop dengan deadline baru.
+      deadline = Date.now() + durationHours * 3_600_000;
+      try {
+        window.localStorage.setItem(storageKey, String(deadline));
+      } catch {
+        // localStorage blocked — in-memory deadline dipakai.
+      }
       setRemaining(diff(deadline, Date.now()));
-    }, 1000);
+    };
+
+    tick();
+    const id = setInterval(tick, 1000);
     return () => clearInterval(id);
   }, [durationHours, storageKey]);
 
