@@ -5,9 +5,9 @@ import { Archivo_Black, DM_Sans } from "next/font/google";
 import { PromoNav } from "@/components/PromoNav";
 import { getBrand, getKatalogTestimonials } from "@/lib/queries";
 
-const PromoDesignGrid = dynamic(() => import("@/components/PromoDesignGrid").then(m => m.PromoDesignGrid), { ssr: false });
-const PageViewTracker = dynamic(() => import("@/components/PageViewTracker").then(m => m.PageViewTracker), { ssr: false });
-const PhotoGallery = dynamic(() => import("@/components/PhotoGallery").then(m => m.PhotoGallery), { ssr: false });
+const PromoDesignGrid = dynamic(() => import("@/components/PromoDesignGrid").then(m => m.PromoDesignGrid));
+const PageViewTracker = dynamic(() => import("@/components/PageViewTracker").then(m => m.PageViewTracker));
+const PhotoGallery = dynamic(() => import("@/components/PhotoGallery").then(m => m.PhotoGallery));
 
 export const revalidate = 3600;
 
@@ -164,6 +164,20 @@ export default async function PromoBulanIniPage() {
         .gallery-scroll .gallery-track { animation:promo-gallery-scroll 16s linear infinite; will-change:transform; }
         .gallery-scroll:hover .gallery-track { animation-play-state:paused; }
         @keyframes promo-gallery-scroll { to { transform:translateX(-50%); } }
+        .tnt-hero__glow { position:absolute; right:-6%; top:44%; width:60vw; height:60vw; max-width:900px; max-height:900px; transform:translateY(-50%); background:radial-gradient(circle,rgba(239,35,60,.45) 0%,transparent 62%); filter:blur(30px); opacity:.55; mix-blend-mode:screen; }
+        .tnt-hero__stripes { position:absolute; inset:0; background-image:repeating-linear-gradient(115deg,rgba(255,255,255,.028) 0px,rgba(255,255,255,.028) 1px,transparent 1px,transparent 13px); opacity:.8; }
+        .tnt-hero__ghost { position:absolute; left:2vw; bottom:-8vh; z-index:1; font-family:var(--font-ab); font-style:italic; font-weight:800; font-size:clamp(18rem,34vw,40rem); line-height:.78; letter-spacing:-.04em; color:transparent; -webkit-text-stroke:2px rgba(255,255,255,.11); pointer-events:none; user-select:none; }
+        .tnt-title__underline { position:absolute; left:0; bottom:-.12em; width:100%; height:.07em; min-height:5px; border-radius:999px; background:linear-gradient(90deg,#ef233c 0%,#ef233c 50%,#fff 50%,#fff 100%); }
+        .tnt-check { width:15px; height:15px; flex:none; border-radius:50%; background:#ef233c; position:relative; }
+        .tnt-check::after { content:""; position:absolute; left:4.5px; top:2.5px; width:4px; height:7px; border:solid #fff; border-width:0 2px 2px 0; transform:rotate(43deg); }
+        .tnt-pill__flag { width:20px; height:14px; border-radius:2px; overflow:hidden; background:linear-gradient(180deg,#E8112D 0 50%,#FFFFFF 50% 100%); box-shadow:0 0 0 1px rgba(0,0,0,.35),0 1px 3px rgba(0,0,0,.4); flex:none; }
+        .tnt-pill__sep { width:1px; height:12px; background:rgba(255,255,255,.45); }
+        .tnt-dot { width:7px; height:7px; border-radius:50%; background:#ef233c; box-shadow:0 0 0 0 rgba(239,35,60,.45); animation:tnt-ping 1.9s ease-out infinite; }
+        @keyframes tnt-ping { 0% { box-shadow:0 0 0 0 rgba(239,35,60,.65); } 70% { box-shadow:0 0 0 9px rgba(239,35,60,0); } 100% { box-shadow:0 0 0 0 rgba(239,35,60,0); } }
+        .tnt-hero__photo { position:absolute; inset:0 0 0 auto; width:78%; height:100%; object-fit:cover; object-position:42% 22%; filter:contrast(1.08) saturate(.95) brightness(.86); }
+        .tnt-hero__scrim { position:absolute; inset:0; background:linear-gradient(90deg,#09090b 0%,#09090b 30%,rgba(9,9,11,.96) 42%,rgba(9,9,11,.72) 54%,rgba(9,9,11,.28) 70%,rgba(9,9,11,.10) 88%,rgba(9,9,11,.55) 100%),linear-gradient(180deg,rgba(9,9,11,.70) 0%,transparent 26%,transparent 62%,rgba(9,9,11,.85) 100%); }
+        @media (max-width:1024px) { .tnt-hero__photo { width:86%; object-position:34% 18%; } .tnt-hero__scrim { background:linear-gradient(90deg,#09090b 0%,rgba(9,9,11,.95) 38%,rgba(9,9,11,.62) 60%,rgba(9,9,11,.30) 100%),linear-gradient(180deg,rgba(9,9,11,.6) 0%,transparent 30%,rgba(9,9,11,.8) 100%); } }
+        @media (max-width:760px) { .tnt-hero__photo { width:100%; height:46svh; inset:0 0 auto 0; object-position:center 16%; } .tnt-hero__scrim { background:linear-gradient(180deg,rgba(9,9,11,.45) 0%,rgba(9,9,11,.20) 22%,rgba(9,9,11,.86) 38%,#09090b 48%,#09090b 100%); } .tnt-hero__glow { top:26%; right:-20%; opacity:.4; } .tnt-hero__ghost { font-size:16rem; right:-1rem; bottom:2vh; opacity:.7; } }
       `}</style>
 
       <PromoNav />
@@ -171,73 +185,128 @@ export default async function PromoBulanIniPage() {
       <main>
         <PageViewTracker page="promo-bulan-ini" />
         {/* HERO */}
-        <section id="home" className="relative min-h-[900px] overflow-hidden border-b border-white/10 lg:min-h-[850px]">
-          <div className="hero-grid absolute inset-0 opacity-50" />
-          <div className="hero-photo pointer-events-none absolute inset-x-0 bottom-0 z-10 h-[490px] lg:left-[40%] lg:right-0 lg:top-0 lg:h-full lg:w-[60%]">
+        <section id="home" className="relative min-h-[100svh] overflow-hidden bg-[#09090b] text-white">
+          {/* Latar */}
+          <div className="absolute inset-0 z-0">
+            {/* >>> GANTI FOTO DI SINI <<< */}
             <Image
               src="/promo/promo-hero.png"
               alt="Model menggunakan jersey custom TNT Sport"
               fill
               priority
               sizes="100vw"
-              className="object-cover object-top lg:object-[center_20%]"
+              className="tnt-hero__photo"
             />
-            <div className="absolute inset-0 bg-gradient-to-t from-[#09090b] via-transparent to-transparent lg:hidden" />
+            <div className="tnt-hero__scrim" />
+            <div className="tnt-hero__glow" />
+            <div className="tnt-hero__stripes" />
           </div>
-          <div className="hero-shade absolute inset-0" />
-          <div className="noise pointer-events-none absolute inset-0 opacity-20" />
 
-          <div className="relative z-20 mx-auto flex min-h-[900px] max-w-7xl items-center px-5 pb-[430px] pt-16 lg:min-h-[850px] lg:px-8 lg:pb-24 lg:pt-12">
-            <div className="max-w-[42rem] pt-4 lg:pt-0">
-              <div className="mb-6 inline-flex items-center gap-2 rounded-full bg-[#ef233c] px-4 py-2 text-[11px] font-bold uppercase tracking-[.16em] text-white sm:text-xs">
-                PROMO KEMERDEKAAN
+          {/* Angka 81 raksasa */}
+          <div className="tnt-hero__ghost" aria-hidden="true">81</div>
+
+          <div className="relative z-20 mx-auto max-w-7xl px-5 py-[clamp(3.5rem,8vh,7rem)] sm:px-8 sm:py-[clamp(3.5rem,8vh,7rem)]">
+            <div className="max-w-[640px]">
+
+              {/* Eyebrow: pill + emblem */}
+              <div className="flex flex-wrap items-center gap-y-3">
+                <div className="inline-flex items-center gap-2.5 rounded-full bg-gradient-to-br from-[#ef233c] to-[#a80d21] px-4 py-2 text-[11px] font-bold uppercase tracking-[.14em] text-white shadow-[0_6px_26px_-8px_rgba(239,35,60,.45)]">
+                  <span className="tnt-pill__flag" aria-hidden="true" />
+                  <span>Promo Kemerdekaan</span>
+                  <span className="tnt-pill__sep" aria-hidden="true" />
+                  <span className="font-semibold opacity-90 tracking-[.1em]">17 Agustus</span>
+                </div>
+
+                {/* Emblem HUT RI ke-81 */}
+                <div className="inline-flex items-center gap-2.5 border-l border-white/16 pl-3.5 ml-3.5">
+                  <svg width="62" height="50" viewBox="0 0 120 96" role="img" aria-label="Dirgahayu Indonesia ke-81" className="shrink-0 drop-shadow-[0_3px_8px_rgba(0,0,0,.45)]">
+                    <defs>
+                      <linearGradient id="tntRed2" x1="0" y1="0" x2="0" y2="1">
+                        <stop offset="0" stopColor="#F5304A" />
+                        <stop offset="1" stopColor="#B00C22" />
+                      </linearGradient>
+                    </defs>
+                    <text x="4" y="60" fontFamily="Arial Narrow, sans-serif" fontSize="66" fontWeight="800" fontStyle="italic" fill="url(#tntRed2)" stroke="#fff" strokeWidth="2.4" paintOrder="stroke">81</text>
+                    <text x="78" y="60" fontFamily="Arial Narrow, sans-serif" fontSize="24" fontWeight="800" fill="#fff">TH</text>
+                    <path d="M4 72 C30 64, 62 80, 116 68 L116 80 C62 92, 30 76, 4 84 Z" fill="#E8112D" />
+                    <path d="M4 84 C30 76, 62 92, 116 80 L116 92 C62 104, 30 88, 4 96 Z" fill="#fff" opacity=".92" />
+                  </svg>
+                  <div className="flex flex-col leading-[1.25]">
+                    <strong className="text-[13px] font-bold text-white">Dirgahayu Indonesia</strong>
+                    <span className="text-[11px] font-semibold tracking-[.12em] text-[#A2A8B3]">1945 – 2026</span>
+                  </div>
+                </div>
               </div>
-              <h1 className="pdisplay max-w-3xl uppercase leading-[.88] tracking-[-.02em] text-white">
-                <span className="block text-[clamp(3rem,8vw,7rem)]">JERSEY</span>
-                <span className="block text-[clamp(3rem,8vw,7rem)]">CUSTOM</span>
-                <span className="block text-[clamp(3rem,8vw,7rem)]">MULAI</span>
-                <span className="block text-[clamp(3rem,8vw,7rem)] text-[#ef233c]">50 RIBU!</span>
+
+              {/* Headline */}
+              <h1 className="pdisplay mt-6 max-w-3xl uppercase leading-[.87] tracking-[-.015em] text-white sm:mt-8">
+                <span className="block text-[clamp(3.4rem,8.2vw,7.2rem)]">Jersey</span>
+                <span className="block text-[clamp(3.4rem,8.2vw,7.2rem)]">Custom</span>
+                <span className="block text-[clamp(3.4rem,8.2vw,7.2rem)]">Mulai</span>
+                <span className="relative inline-block mt-[.06em] text-[clamp(3.4rem,8.2vw,7.2rem)] text-[#ef233c] drop-shadow-[0_0_44px_rgba(239,35,60,.38)]">
+                  50 Ribu!
+                  <span className="tnt-title__underline" aria-hidden="true" />
+                </span>
               </h1>
-              <p className="mt-6 max-w-lg text-base leading-relaxed text-zinc-300 sm:text-lg">
-                Promo HUT RI terbatas! Mulai Rp50.000, gratis desain, nama, nomor &amp; logo. Tanpa minimum order, langsung diproduksi di pabrik.
+
+              {/* Subcopy */}
+              <p className="mt-6 max-w-[30rem] text-[clamp(.98rem,1.15vw,1.08rem)] leading-[1.65] text-[#A2A8B3] sm:mt-8">
+                Rayakan HUT RI ke-81 dengan seragam tim kebanggaanmu. Mulai <strong className="font-bold text-white">Rp50.000</strong> — gratis desain, nama, nomor &amp; logo. Tanpa minimum order, langsung diproduksi di pabrik sendiri.
               </p>
-              <div className="mt-5 flex flex-wrap gap-2 text-[10px] font-bold uppercase tracking-[.1em] text-zinc-200 sm:text-xs">
-                <span className="rounded-full border border-white/15 bg-black/30 px-3 py-2">✓ Free desain</span>
-                <span className="rounded-full border border-white/15 bg-black/30 px-3 py-2">✓ Tanpa minimal order</span>
-                <span className="rounded-full border border-white/15 bg-black/30 px-3 py-2">✓ Revisi bebas</span>
-              </div>
-              <div className="mt-7 flex flex-col gap-3 sm:flex-row">
+
+              {/* Fitur */}
+              <ul className="mt-6 flex flex-wrap gap-x-2 gap-y-2.5 sm:mt-6 sm:gap-x-2.5 sm:gap-y-3">
+                {["Gratis desain", "Tanpa minimal order", "Revisi bebas"].map((feat) => (
+                  <li key={feat} className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/[.04] px-3.5 py-[11px] text-[12px] font-semibold tracking-[.02em] text-[#E4E7EC]">
+                    <span className="tnt-check" aria-hidden="true" />
+                    {feat}
+                  </li>
+                ))}
+              </ul>
+
+              {/* CTA */}
+              <div className="mt-7 flex flex-wrap items-center gap-3.5 sm:mt-9">
                 <a
                   href="#harga"
-                  className="inline-flex items-center justify-center gap-3 rounded-full bg-[#ef233c] px-7 py-4 text-sm font-black uppercase tracking-[.08em] shadow-[0_14px_40px_rgba(239,35,60,.28)] transition hover:-translate-y-0.5 hover:bg-red-500"
+                  className="inline-flex items-center justify-center gap-2.5 rounded-full bg-gradient-to-br from-[#ef233c] to-[#a80d21] px-8 py-4 text-sm font-bold uppercase tracking-[.06em] text-white shadow-[0_14px_38px_-12px_rgba(239,35,60,.45),inset_0_1px_0_rgba(255,255,255,.22)] transition hover:-translate-y-0.5 hover:shadow-[0_20px_46px_-12px_rgba(239,35,60,.62),inset_0_1px_0_rgba(255,255,255,.28)]"
                 >
-                  Klaim Promo <span aria-hidden="true">↗</span>
+                  Klaim Promo
+                  <svg width="17" height="17" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 12h13M12 5l7 7-7 7" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" /></svg>
                 </a>
                 <a
-                  href={waKonsultasi}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center justify-center rounded-full border border-white/20 bg-black/30 px-7 py-4 text-sm font-bold backdrop-blur transition hover:bg-white hover:text-black"
+                  href="#cara-order"
+                  className="inline-flex items-center justify-center rounded-full border border-white/22 bg-white/[.03] px-8 py-4 text-sm font-bold uppercase tracking-[.06em] text-white backdrop-blur transition hover:border-white/45 hover:bg-white/[.09] hover:-translate-y-0.5"
                 >
                   Cara order
                 </a>
               </div>
-              <div className="mt-8 grid max-w-lg grid-cols-3 rounded-2xl border border-white/15 bg-black/30 px-5 py-4 backdrop-blur-md">
-                <div>
-                  <strong className="pdisplay block text-2xl sm:text-3xl">350K+</strong>
-                  <span className="text-[9px] uppercase tracking-wider text-zinc-400 sm:text-[11px]">Order selesai</span>
+
+              {/* Urgensi */}
+              <p className="mt-5 flex items-center gap-2.5 text-[13px] font-medium text-[#C6CBD4] sm:mt-5">
+                <span className="tnt-dot" aria-hidden="true" />
+                Kuota promo terbatas — berakhir 31 Agustus
+              </p>
+
+              {/* Statistik */}
+              <div className="mt-7 flex w-fit flex-wrap gap-[clamp(1.5rem,4vw,3rem)] rounded-2xl border border-white/10 bg-gradient-to-br from-white/[.055] to-white/[.015] px-[1.7rem] py-[1.4rem] backdrop-blur-[10px] sm:mt-9">
+                <div className="flex flex-col gap-0.5">
+                  <span className="pdisplay text-[clamp(1.85rem,3.2vw,2.4rem)] font-extrabold leading-none tracking-[-.01em]">350K+</span>
+                  <span className="text-[10px] font-semibold uppercase tracking-[.13em] text-[#A2A8B3]">Order selesai</span>
                 </div>
-                <div className="border-x border-white/15 px-4 sm:px-5">
-                  <strong className="pdisplay block text-2xl sm:text-3xl">9K+</strong>
-                  <span className="text-[9px] uppercase tracking-wider text-zinc-400 sm:text-[11px]">Klien puas</span>
+                <div className="flex flex-col gap-0.5">
+                  <span className="pdisplay text-[clamp(1.85rem,3.2vw,2.4rem)] font-extrabold leading-none tracking-[-.01em]">9K+</span>
+                  <span className="text-[10px] font-semibold uppercase tracking-[.13em] text-[#A2A8B3]">Klien puas</span>
                 </div>
-                <div className="pl-4 sm:pl-5">
-                  <strong className="pdisplay block text-2xl sm:text-3xl">4.9</strong>
-                  <span className="text-[9px] uppercase tracking-wider text-zinc-400 sm:text-[11px]">Rating</span>
+                <div className="flex flex-col gap-0.5">
+                  <span className="pdisplay text-[clamp(1.85rem,3.2vw,2.4rem)] font-extrabold leading-none tracking-[-.01em]">4.9<span className="text-[.5em] font-bold text-[#A2A8B3]">/5</span></span>
+                  <span className="text-[10px] font-semibold uppercase tracking-[.13em] text-[#A2A8B3]">Rating</span>
                 </div>
               </div>
+
             </div>
           </div>
+
+          {/* Ticker */}
           <div className="absolute bottom-0 left-0 z-10 w-full overflow-hidden border-y border-black/10 bg-white py-3 text-black">
             <div className="promo-ticker flex w-max whitespace-nowrap text-[10px] font-black uppercase tracking-[.18em] sm:text-xs">
               {Array.from({ length: 4 }).map((_, i) => (

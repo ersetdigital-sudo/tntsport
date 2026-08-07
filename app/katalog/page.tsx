@@ -5,13 +5,13 @@ import { getCatalogData, getFabrics, getKatalogFeatures, getKatalogTestimonials,
 import { resolveSeoContext, type SeoContext } from "@/lib/seo";
 import type { SocialLink } from "@/lib/types";
 
-const ProductCatalog = dynamic(() => import("@/components/ProductCatalog").then(m => m.ProductCatalog), { ssr: false });
-const PriceCards = dynamic(() => import("@/components/PriceCards").then(m => m.PriceCards), { ssr: false });
-const FlashSaleTimer = dynamic(() => import("@/components/FlashSaleTimer").then(m => m.FlashSaleTimer), { ssr: false });
-const SocialProof = dynamic(() => import("@/components/SocialProof").then(m => m.SocialProof), { ssr: false });
-const PhotoGallery = dynamic(() => import("@/components/PhotoGallery").then(m => m.PhotoGallery), { ssr: false });
-const FabricCatalog = dynamic(() => import("@/components/FabricCatalog").then(m => m.FabricCatalog), { ssr: false });
-const PageViewTracker = dynamic(() => import("@/components/PageViewTracker").then(m => m.PageViewTracker), { ssr: false });
+const ProductCatalog = dynamic(() => import("@/components/ProductCatalog").then(m => m.ProductCatalog));
+const PriceCards = dynamic(() => import("@/components/PriceCards").then(m => m.PriceCards));
+const FlashSaleTimer = dynamic(() => import("@/components/FlashSaleTimer").then(m => m.FlashSaleTimer));
+const SocialProof = dynamic(() => import("@/components/SocialProof").then(m => m.SocialProof));
+const PhotoGallery = dynamic(() => import("@/components/PhotoGallery").then(m => m.PhotoGallery));
+const FabricCatalog = dynamic(() => import("@/components/FabricCatalog").then(m => m.FabricCatalog));
+const PageViewTracker = dynamic(() => import("@/components/PageViewTracker").then(m => m.PageViewTracker));
 
 const baseSiteUrl = "https://www.tntsportapparel.id";
 
