@@ -50,7 +50,7 @@ const SVG_ICONS = [
   { name: "Basket", src: "/b4d1d695-3820-4c3b-9593-2018b49634ab.svg" },
   { name: "Voli", src: "/fdd593d3-725a-4970-9c5b-50346939a377.svg" },
   { name: "Racing", src: "/5dedcffe-5ed1-43c3-99c4-93cb8638a435.svg" },
-  { name: "Mancing", src: "/0040a5e9-73c7-4575-a3f3-fc0de36354ac.svg" },
+  { name: "Fishing", src: "/0040a5e9-73c7-4575-a3f3-fc0de36354ac.svg" },
   { name: "Running", src: "/b909ca73-c7d0-47ee-8c6c-4ec4ede8b3f9.svg" },
   { name: "Badminton", src: "/002ba172-c237-4b45-a942-9b370ac9ec58.svg" },
   { name: "Army", src: "/5e3bd6f8-d7f3-4b74-9d7e-a7f21d006754.svg" },
