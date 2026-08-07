@@ -29,6 +29,40 @@ export function getWhatsAppLink(categoryLabel: string, catalogue: string, waNumb
  * Each category should have ~10 products.
  * Recommended image size: 800x1000 (portrait) or 800x600 (landscape).
  */
+
+/**
+ * Build a stable URL slug for a product — used for the `design` query param
+ * (e.g. "TNT Fishing 01" -> "tnt-fishing-01"). Falls back to the raw id
+ * when the catalogue name is missing. Accent-insensitive so names like
+ * "Jersey Sepak Bola" stay friendly in URLs.
+ */
+export function productDesignKey(p: { catalogue?: string; id?: string }): string {
+  const slug = (p.catalogue ?? "")
+    .toLowerCase()
+    .normalize("NFKD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-+|-+$/g, "");
+  return slug || (p.id ?? "");
+}
+
+/**
+ * Locate a product (and its owning category) across a catalog by either the
+ * raw `id` or the readable `design` slug. Returns null when not found.
+ */
+export function findProductByDesignKey<T extends { id: string; catalogue?: string }>(
+  catalog: { id: string; products: T[] }[],
+  key: string
+): { categoryId: string; product: T } | null {
+  for (const cat of catalog) {
+    for (const product of cat.products) {
+      if (product.id === key || productDesignKey(product) === key) {
+        return { categoryId: cat.id, product };
+      }
+    }
+  }
+  return null;
+}
 export const CATALOG_PRODUCTS: CategoryProducts[] = [
   {
     id: "football",

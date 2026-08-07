@@ -5,9 +5,59 @@ import { PriceCards } from "@/components/PriceCards";
 import { FlashSaleTimer } from "@/components/FlashSaleTimer";
 import { SocialProof } from "@/components/SocialProof";
 import { PhotoGallery } from "@/components/PhotoGallery";
+import { CATALOG_PRODUCTS, productDesignKey } from "@/lib/products";
 import { getCatalogData, getKatalogFeatures, getKatalogTestimonials, getBrand } from "@/lib/queries";
 
-export async function generateMetadata(): Promise<Metadata> {
+const baseSiteUrl = "https://tntsport.id";
+
+export async function generateMetadata({
+  searchParams,
+}: {
+  searchParams: Promise<{ category?: string; design?: string }>;
+}): Promise<Metadata> {
+  const sp = await searchParams;
+  const brand = await getBrand();
+  const baseUrl = brand.url || "https://tntsport.id";
+  const seo = await resolveSeoContext(sp.category, sp.design);
+
+  if (seo?.product && seo.product.id && seo.category && seo.designKey) {
+    const canonic = `${baseUrl}/katalog?category=${encodeURIComponent(seo.category.id)}&design=${encodeURIComponent(seo.designKey)}`;
+    return {
+      title: `${seo.product.name} | Custom Jersey ${seo.category.label} Jogja | TNT Sport`,
+      description: `Jasa Custom Jersey ${seo.category.label} Full Printing di Jogja. Gratis desain, tanpa minimal order.`,
+      alternates: { canonical: canonic },
+      openGraph: {
+        title: `${seo.product.name} | Custom Jersey ${seo.category.label} Jogja | TNT Sport`,
+        description: `Jasa Custom Jersey ${seo.category.label} Full Printing di Jogja. Gratis desain, tanpa minimal order.`,
+        url: canonic,
+        type: "website",
+        locale: "id_ID",
+        images: [
+          {
+            url: seo.product.image,
+            alt: `${seo.product.name} — custom jersey ${seo.category.label}`,
+          },
+        ],
+      },
+    };
+  }
+
+  if (seo.category) {
+    const canonic = `${baseUrl}/katalog?category=${encodeURIComponent(seo.category.id)}`;
+    return {
+      title: `Custom Jersey ${seo.category.label} | TNT Sport`,
+      description: `Jasa Custom Jersey ${seo.category.label} Full Printing di Jogja. Gratis desain, tanpa minimal order.`,
+      alternates: { canonical: canonic },
+      openGraph: {
+        title: `${seo.category.label} — Katalog Jersey Custom TNT Sport`,
+        description: `Jasa Custom Jersey ${seo.category.label} Full Printing di Jogja. Gratis desain, tanpa minimal order.`,
+        url: canonic,
+        type: "website",
+        locale: "id_ID",
+      },
+    };
+  }
+
   return {
     title: "Katalog Jersey Custom Full Printing — TNT SPORT",
     description:
@@ -22,6 +72,77 @@ export async function generateMetadata(): Promise<Metadata> {
       locale: "id_ID",
     },
   };
+}
+
+/* ------------------------------------------------------------------ */
+/* SEO helpers — resolve category/product from URL params              */
+/* ------------------------------------------------------------------ */
+
+interface SeoCategory { id: string; label: string; }
+interface SeoProduct { id: string; name: string; image: string; }
+
+interface SeoContext {
+  category?: SeoCategory;
+  product?: SeoProduct;
+  designKey?: string;
+}
+
+async function resolveSeoCatalog(): Promise<{ categories: (SeoCategory & { products: SeoProduct[] })[] }> {
+  const catalog = await getCatalogData();
+  if (catalog) {
+    return {
+      categories: catalog.map((cat) => ({
+        id: cat.id,
+        label: cat.label,
+        products: cat.products.map((p) => ({
+          id: p.id,
+          name: p.catalogue,
+          image: p.image,
+        })),
+      })),
+    };
+  }
+  return {
+    categories: CATALOG_PRODUCTS.map((cat) => ({
+      id: cat.id,
+      label: cat.label,
+      products: cat.products.map((p) => ({
+        id: p.id,
+        name: p.catalogue,
+        image: p.image,
+      })),
+    })),
+  };
+}
+
+async function resolveSeoContext(categoryParam?: string, designParam?: string): Promise<SeoContext> {
+  const { categories } = await resolveSeoCatalog();
+  const category = categories.find((c) => c.id === categoryParam);
+  const ctx: SeoContext = { category };
+
+  const keyOf = (p: SeoProduct) => productDesignKey({ catalogue: p.name, id: p.id });
+
+  if (!category) {
+    // design without a matching category — search across all for deep links
+    for (const cat of categories) {
+      for (const p of cat.products) {
+        if (keyOf(p) === designParam) {
+          ctx.category = cat;
+          ctx.product = p;
+          ctx.designKey = keyOf(p);
+          return ctx;
+        }
+      }
+    }
+    return ctx;
+  }
+
+  const product = category.products.find((p) => keyOf(p) === designParam);
+  if (product) {
+    ctx.product = product;
+    ctx.designKey = keyOf(product);
+  }
+  return ctx;
 }
 
 /* ------------------------------------------------------------------ */
@@ -174,8 +295,58 @@ const TICKER_ITEMS = [
 /* Structured Data                                                      */
 /* ------------------------------------------------------------------ */
 
-function JsonLd() {
-  const productSchema = {
+function JsonLd({ seo }: { seo?: SeoContext }) {
+  const schemas: Record<string, unknown>[] = [];
+
+  // Dynamic Product + Breadcrumb when a specific design is deep-linked.
+  if (seo?.product && seo.category && seo.designKey) {
+    const catId = encodeURIComponent(seo.category.id);
+    const desId = encodeURIComponent(seo.designKey);
+    const productUrl = `${baseSiteUrl}/katalog?category=${catId}&design=${desId}`;
+    const categoryUrl = `${baseSiteUrl}/katalog?category=${catId}`;
+
+    schemas.push({
+      "@context": "https://schema.org",
+      "@type": "Product",
+      name: seo.product.name,
+      description: `Custom jersey ${seo.category.label} full printing. Gratis desain, tanpa minimal order.`,
+      image: seo.product.image,
+      brand: { "@type": "Brand", name: "TNT SPORT" },
+      url: productUrl,
+      offers: {
+        "@type": "Offer",
+        price: "50000",
+        priceCurrency: "IDR",
+        availability: "https://schema.org/InStock",
+        url: productUrl,
+      },
+    });
+
+    schemas.push({
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      itemListElement: [
+        { "@type": "ListItem", position: 1, name: "Beranda", item: baseSiteUrl },
+        { "@type": "ListItem", position: 2, name: "Katalog Jersey", item: `${baseSiteUrl}/katalog` },
+        { "@type": "ListItem", position: 3, name: seo.category.label, item: categoryUrl },
+        { "@type": "ListItem", position: 4, name: seo.product.name, item: productUrl },
+      ],
+    });
+  } else if (seo?.category) {
+    const categoryUrl = `${baseSiteUrl}/katalog?category=${encodeURIComponent(seo.category.id)}`;
+    schemas.push({
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      itemListElement: [
+        { "@type": "ListItem", position: 1, name: "Beranda", item: baseSiteUrl },
+        { "@type": "ListItem", position: 2, name: "Katalog Jersey", item: `${baseSiteUrl}/katalog` },
+        { "@type": "ListItem", position: 3, name: seo.category.label, item: categoryUrl },
+      ],
+    });
+  }
+
+  // Static defaults (unchanged).
+  schemas.push({
     "@context": "https://schema.org",
     "@type": "Product",
     name: "Jersey Custom Full Printing TNT SPORT",
@@ -189,8 +360,9 @@ function JsonLd() {
       priceCurrency: "IDR",
       availability: "https://schema.org/InStock",
     },
-  };
-  const faqSchema = {
+  });
+
+  schemas.push({
     "@context": "https://schema.org",
     "@type": "FAQPage",
     mainEntity: FAQ_ITEMS.map((item) => ({
@@ -201,17 +373,17 @@ function JsonLd() {
         text: item.a,
       },
     })),
-  };
+  });
+
   return (
     <>
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(productSchema) }}
-      />
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
-      />
+      {schemas.map((schema, i) => (
+        <script
+          key={i}
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
+        />
+      ))}
     </>
   );
 }
@@ -510,7 +682,7 @@ async function Keunggulan() {
 /* Kategori                                                             */
 /* ------------------------------------------------------------------ */
 
-async function Kategori({ waNumber }: { waNumber: string }) {
+async function Kategori({ waNumber, initialCategoryId, initialProductId }: { waNumber: string; initialCategoryId?: string; initialProductId?: string }) {
   const catalogData = await getCatalogData();
 
   return (
@@ -528,7 +700,7 @@ async function Kategori({ waNumber }: { waNumber: string }) {
           <p className="mt-4 max-w-xl text-sm leading-relaxed text-[#a7ad9e] sm:mt-6 sm:text-base">
             Kirim referensi, logo, atau warna tim. Kami bantu ubah jadi desain jersey yang siap diproduksi.
           </p>
-          <ProductCatalog categories={catalogData ?? undefined} waNumber={waNumber} />
+          <ProductCatalog categories={catalogData ?? undefined} waNumber={waNumber} initialCategoryId={initialCategoryId} initialProductId={initialProductId} />
         </div>
       </div>
     </section>
@@ -999,21 +1171,27 @@ function TickerStyles() {
 /* Page                                                                 */
 /* ------------------------------------------------------------------ */
 
-export default async function KatalogPage() {
+export default async function KatalogPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ category?: string; design?: string }>;
+}) {
+  const sp = await searchParams;
   const brand = await getBrand();
   const waNumber = brand.whatsappNumber || "628115491117";
   const waMessage = "Halo TNT SPORT, saya mau tanya jersey custom";
   const waLink = `https://wa.me/${waNumber}?text=${encodeURIComponent(waMessage)}`;
+  const seo = await resolveSeoContext(sp.category, sp.design);
 
   return (
     <div className="overflow-x-hidden antialiased">
       <TickerStyles />
-      <JsonLd />
+      <JsonLd seo={seo} />
       <main>
         <Hero waLink={waLink} />
         <FlashSale waLink={waLink} />
         <Keunggulan />
-        <Kategori waNumber={waNumber} />
+        <Kategori waNumber={waNumber} initialCategoryId={sp.category} initialProductId={sp.design} />
         <Harga waLink={waLink} />
         <Promo waLink={waLink} />
         <CaraOrder />

@@ -1,9 +1,31 @@
 "use client";
 
-import { useState, useCallback, useRef, useEffect } from "react";
+import { useState, useCallback, useEffect } from "react";
 import Image from "next/image";
-import { CATALOG_PRODUCTS, getWhatsAppLink, type Product } from "@/lib/products";
+import { CATALOG_PRODUCTS, getWhatsAppLink, findProductByDesignKey, productDesignKey } from "@/lib/products";
 import { trackViewContent, trackLead } from "@/components/MetaPixel";
+
+/* ------------------------------------------------------------------ */
+/* URL helpers — shallow routing via History API (no full reload)      */
+/* ------------------------------------------------------------------ */
+
+const KATALOG_PATH = "/katalog";
+
+function buildKatalogUrl(categoryId?: string, designKey?: string): string {
+  const params = new URLSearchParams();
+  if (categoryId) params.set("category", categoryId);
+  if (designKey) params.set("design", designKey);
+  const qs = params.toString();
+  return qs ? `${KATALOG_PATH}?${qs}` : KATALOG_PATH;
+}
+
+function parseKatalogParams(search: string): { category?: string; design?: string } {
+  const params = new URLSearchParams(search);
+  return {
+    category: params.get("category") ?? undefined,
+    design: params.get("design") ?? undefined,
+  };
+}
 
 /* ------------------------------------------------------------------ */
 /* Types                                                                */
@@ -91,7 +113,7 @@ function ZoomModal({
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
             src={product.image}
-            alt={product.alt}
+            alt={`${product.catalogue} — Jersey Custom ${categoryLabel} TNT SPORT`}
             className="block h-auto w-full object-contain"
             style={{ maxHeight: "70vh" }}
           />
@@ -153,15 +175,12 @@ function ProductCard({
     <article className="group relative overflow-hidden rounded-2xl border border-white/10 bg-[#131611] shadow-2xl shadow-black/20 transition duration-300 hover:-translate-y-1 hover:border-[#00aa13]/35 sm:rounded-3xl">
       {/* Image */}
       <button
-        onClick={() => {
-          trackViewContent(product.catalogue, categoryLabel);
-          onSelect(product);
-        }}
+        onClick={() => onSelect(product)}
         className="relative aspect-[4/5] w-full cursor-pointer overflow-hidden bg-[#181c15]"
       >
         <Image
           src={product.image}
-          alt={product.alt}
+          alt={`${product.catalogue} — Jersey Custom ${categoryLabel} TNT SPORT`}
           fill
           className="object-cover transition duration-300 group-hover:scale-105"
           sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 20vw"
@@ -217,9 +236,28 @@ function ProductSkeleton() {
 interface ProductCatalogProps {
   categories?: CatalogCategory[];
   waNumber?: string;
+  initialCategoryId?: string;
+  initialProductId?: string;
 }
 
-export function ProductCatalog({ categories: propCategories, waNumber }: ProductCatalogProps) {
+function resolveInitialState(
+  categories: CatalogCategory[],
+  initialCategoryId?: string,
+  initialProductId?: string
+): { categoryId: string; product: CatalogProduct | null } {
+  // A deep-linked product wins: pick its owning category + open the modal.
+  if (initialProductId) {
+    const found = findProductByDesignKey(categories, initialProductId);
+    if (found) return { categoryId: found.categoryId, product: found.product };
+  }
+  const categoryId =
+    initialCategoryId && categories.some((c) => c.id === initialCategoryId)
+      ? initialCategoryId
+      : categories[0]?.id ?? "";
+  return { categoryId, product: null };
+}
+
+export function ProductCatalog({ categories: propCategories, waNumber, initialCategoryId, initialProductId }: ProductCatalogProps) {
   // Use prop data if provided, otherwise fall back to static data
   const categories: CatalogCategory[] = propCategories ?? CATALOG_PRODUCTS.map((cat) => ({
     id: cat.id,
@@ -232,18 +270,63 @@ export function ProductCatalog({ categories: propCategories, waNumber }: Product
     })),
   }));
 
-  const [activeCategory, setActiveCategory] = useState(categories[0]?.id ?? "");
+  const [initialState] = useState(() =>
+    resolveInitialState(categories, initialCategoryId, initialProductId)
+  );
+
+  const [activeCategory, setActiveCategory] = useState(initialState.categoryId);
   const [isLoading, setIsLoading] = useState(false);
-  const [zoomedProduct, setZoomedProduct] = useState<CatalogProduct | null>(null);
+  const [zoomedProduct, setZoomedProduct] = useState<CatalogProduct | null>(initialState.product);
+
+  // Sync UI when the user navigates back/forward (History API).
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    const onPopState = () => {
+      const { category, design } = parseKatalogParams(window.location.search);
+      setActiveCategory((prev) => {
+        if (category && categories.some((c) => c.id === category)) return category;
+        return prev;
+      });
+      if (design) {
+        const found = findProductByDesignKey(categories, design);
+        setZoomedProduct(found?.product ?? null);
+      } else {
+        setZoomedProduct(null);
+      }
+    };
+    window.addEventListener("popstate", onPopState);
+    return () => window.removeEventListener("popstate", onPopState);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [categories]);
 
   const activeCategoryData = categories.find((c) => c.id === activeCategory) ?? categories[0];
+
+  // Update the URL without reloading the page (shallow routing).
+  const syncUrl = useCallback((categoryId: string, designKey?: string) => {
+    if (typeof window === "undefined") return;
+    const url = buildKatalogUrl(categoryId, designKey);
+    window.history.pushState({}, "", url);
+  }, []);
 
   const handleCategoryChange = useCallback((categoryId: string) => {
     if (categoryId === activeCategory) return;
     setIsLoading(true);
     setActiveCategory(categoryId);
+    setZoomedProduct(null);
+    syncUrl(categoryId);
     setTimeout(() => setIsLoading(false), 300);
-  }, [activeCategory]);
+  }, [activeCategory, syncUrl]);
+
+  const handleProductSelect = useCallback((product: CatalogProduct) => {
+    trackViewContent(product.catalogue, activeCategoryData?.label ?? "");
+    setZoomedProduct(product);
+    syncUrl(activeCategoryData?.id ?? "", productDesignKey(product));
+  }, [activeCategoryData, syncUrl]);
+
+  const handleCloseModal = useCallback(() => {
+    setZoomedProduct(null);
+    syncUrl(activeCategoryData?.id ?? "");
+  }, [activeCategoryData, syncUrl]);
 
   if (!activeCategoryData) return null;
 
@@ -300,7 +383,7 @@ export function ProductCatalog({ categories: propCategories, waNumber }: Product
                 key={product.id}
                 product={product}
                 categoryLabel={activeCategoryData.label}
-                onSelect={setZoomedProduct}
+                onSelect={handleProductSelect}
                 waNumber={waNumber}
               />
             ))
@@ -312,7 +395,7 @@ export function ProductCatalog({ categories: propCategories, waNumber }: Product
         <ZoomModal
           product={zoomedProduct}
           categoryLabel={activeCategoryData.label}
-          onClose={() => setZoomedProduct(null)}
+          onClose={handleCloseModal}
           waNumber={waNumber}
         />
       )}
