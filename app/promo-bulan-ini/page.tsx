@@ -175,11 +175,9 @@ export default async function PromoBulanIniPage() {
                 <span className="h-2 w-2 rounded-full bg-[#ef233c] shadow-[0_0_18px_#ef233c]" />
                 Langsung dari pabrik
               </div>
-              <h1 className="pdisplay max-w-3xl text-[clamp(3.25rem,7vw,6.35rem)] uppercase leading-[.86] text-white">
-                Promo<br />
-                <span className="text-[#ef233c]">Kemerdekaan</span><br />
-                Jersey custom<br />
-                mulai 50 ribu!
+              <h1 className="pdisplay max-w-3xl text-[clamp(2.5rem,6.5vw,5.25rem)] uppercase leading-[.9] tracking-[-.02em] text-white">
+                <span className="block">Promo&nbsp;<span className="text-[#ef233c]">Kemerdekaan</span></span>
+                <span className="mt-2 block">Jersey custom <span className="text-[#ef233c]">mulai 50 ribu!</span></span>
               </h1>
               <p className="mt-6 max-w-lg text-base leading-relaxed text-zinc-300 sm:text-lg">
                 Promo spesial HUT RI! Gratis desain, nama, nomor &amp; logo. Tanpa minimum order, kualitas premium langsung dari pabrik.
