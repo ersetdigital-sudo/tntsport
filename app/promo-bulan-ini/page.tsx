@@ -140,6 +140,8 @@ export default async function PromoBulanIniPage() {
         @media (min-width:1024px) { .hero-shade { background:radial-gradient(circle at 80% 26%,rgba(239,35,60,.18),transparent 34%),linear-gradient(90deg,#09090b 0%,#09090b 36%,rgba(9,9,11,.85) 42%,rgba(9,9,11,.08) 70%,rgba(9,9,11,.35) 100%); } }
         .faq[open] .faq-plus { transform:rotate(45deg); }
         .faq-plus { transition:transform .25s ease; }
+        .promo-ticker { animation:promo-ticker-scroll 26s linear infinite; will-change:transform; }
+        @keyframes promo-ticker-scroll { 0% { transform:translateX(0); } 100% { transform:translateX(-50%); } }
       `}</style>
 
       {/* TOP BAR */}
@@ -222,7 +224,7 @@ export default async function PromoBulanIniPage() {
             </div>
           </div>
           <div className="absolute bottom-0 left-0 z-10 w-full overflow-hidden border-y border-black/10 bg-white py-3 text-black">
-            <div className="ticker flex w-max whitespace-nowrap text-[10px] font-black uppercase tracking-[.18em] sm:text-xs">
+            <div className="promo-ticker flex w-max whitespace-nowrap text-[10px] font-black uppercase tracking-[.18em] sm:text-xs">
               {Array.from({ length: 4 }).map((_, i) => (
                 <span key={i} className="pr-8">{TICKER_TEXT}</span>
               ))}
