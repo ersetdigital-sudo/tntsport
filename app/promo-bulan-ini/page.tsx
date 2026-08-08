@@ -141,8 +141,8 @@ export default async function PromoBulanIniPage() {
   const wa = (msg: string) => `https://wa.me/${waNumber}?text=${encodeURIComponent(msg)}`;
 
   const waGeneral = wa("Halo TNT SPORT, saya mau tanya promo bulan ini 🎉");
-  const waAtasan = wa("Halo TNT Sport 👋\n\nSaya ingin membuat Jersey Atasan Full Printing.\n\nBoleh dibantu konsultasi desain dan hitung total harganya?");
-  const waSetelan = wa("Halo TNT Sport 👋\n\nSaya ingin membuat Jersey Setelan Full Printing.\n\nBoleh dibantu konsultasi desain, pilihan bahan, dan total biayanya?");
+  const waAtasan = wa("Halo TNT Sport, saya ingin membuat Jersey Atasan Full Printing. Boleh dibantu konsultasi desain dan hitung total harganya?");
+  const waSetelan = wa("Halo TNT Sport, saya ingin membuat Jersey Setelan Full Printing. Boleh dibantu konsultasi desain, pilihan bahan, dan total biayanya?");
   const waPenawaran = wa("Halo TNT SPORT, saya mau penawaran khusus partai besar");
   const waKlaim = wa("Halo TNT SPORT, saya mau klaim promo *Beli 6 Gratis 1*");
   const waKonsultasi = wa("Halo TNT SPORT, saya mau mulai konsultasi jersey custom");
