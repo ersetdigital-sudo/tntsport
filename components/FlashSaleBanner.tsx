@@ -15,6 +15,10 @@ import { BoltIcon, CartIcon, FlameIcon, TagIcon } from "@/components/icons";
 interface FlashSaleBannerProps {
   /** WhatsApp number (digits only) for the order CTA. */
   whatsappNumber?: string;
+  /** Custom link for the CTA button. Overrides WhatsApp link if provided. */
+  customLink?: string;
+  /** Custom message for WhatsApp link. */
+  customMessage?: string;
   /** Promo length per visitor. Default: 7 days. */
   durationHours?: number;
   /** localStorage key so the deadline survives refreshes. */
@@ -44,6 +48,8 @@ function Colon() {
 
 export function FlashSaleBanner({
   whatsappNumber,
+  customLink,
+  customMessage = "Halo, saya mau order jersey (Flash Sale)",
   durationHours = 24 * 7,
   storageKey = "tcc_flash_sale_deadline",
 }: FlashSaleBannerProps) {
@@ -56,11 +62,14 @@ export function FlashSaleBanner({
     { label: "Detik", value: pad(remaining.seconds) },
   ];
 
-  const orderHref = whatsappNumber
-    ? `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(
-        "Halo, saya mau order jersey (Flash Sale)"
-      )}`
-    : "#";
+  // Use custom link if provided, otherwise fall back to WhatsApp
+  const orderHref = customLink
+    || (whatsappNumber
+      ? `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(customMessage)}`
+      : "#");
+  
+  const isExternal = orderHref.startsWith("http");
+  const isWhatsApp = orderHref.includes("wa.me");
 
   return (
     <div className="relative overflow-hidden rounded-2xl border border-white/10 bg-[#07090a] shadow-premium-lg sm:rounded-3xl">
@@ -135,8 +144,8 @@ export function FlashSaleBanner({
 
         <Link
           href={orderHref}
-          target={whatsappNumber ? "_blank" : undefined}
-          rel={whatsappNumber ? "noopener noreferrer" : undefined}
+          target={isExternal ? "_blank" : undefined}
+          rel={isExternal ? "noopener noreferrer" : undefined}
           className="inline-flex h-12 w-full touch-manipulation items-center justify-center gap-2.5 rounded-xl bg-primary text-[15px] font-extrabold uppercase tracking-wide text-white shadow-[0_8px_24px_rgba(0,200,83,.35)] transition-all duration-200 hover:brightness-110 active:scale-[0.97] sm:w-auto sm:px-7"
         >
           <CartIcon className="h-5 w-5" aria-hidden="true" />

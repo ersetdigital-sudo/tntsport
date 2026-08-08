@@ -16,6 +16,8 @@ interface BrandEditorProps {
     logo_path: string;
     meta_pixel_id: string;
     meta_pixel_enabled: boolean;
+    flash_sale_link: string;
+    flash_sale_message: string;
   };
 }
 
@@ -184,6 +186,39 @@ export function BrandEditor({ brand }: BrandEditorProps) {
               </button>
               <small className="text-caption text-charcoal dark:text-mute">
                 {form.meta_pixel_enabled ? "Pixel akan dimuat di semua halaman" : "Pixel tidak dimuat"}
+              </small>
+            </label>
+          </div>
+        </div>
+
+        {/* Flash Sale Settings */}
+        <div className="border-t border-hairline dark:border-white/10 pt-6">
+          <h3 className="text-body-md font-bold text-ink dark:text-on-dark mb-4">Flash Sale Link</h3>
+          <div className="flex flex-col gap-5">
+            <label className="flex flex-col gap-1.5">
+              <span className={labelClass}>Link Tujuan</span>
+              <input
+                type="text"
+                value={form.flash_sale_link}
+                onChange={(e) => update("flash_sale_link", e.target.value)}
+                className={inputClass}
+                placeholder="https://wa.me/628115491117 atau /promo-bulan-ini"
+              />
+              <small className="text-caption text-charcoal dark:text-mute">
+                URL tujuan tombol "Order Sekarang" di Flash Sale. Kosongkan = WhatsApp default.
+              </small>
+            </label>
+            <label className="flex flex-col gap-1.5">
+              <span className={labelClass}>Pesan WhatsApp</span>
+              <input
+                type="text"
+                value={form.flash_sale_message}
+                onChange={(e) => update("flash_sale_message", e.target.value)}
+                className={inputClass}
+                placeholder="Halo, saya mau order jersey (Flash Sale)"
+              />
+              <small className="text-caption text-charcoal dark:text-mute">
+                Pesan otomatis yang terkirim saat user klik tombol (untuk link WhatsApp).
               </small>
             </label>
           </div>

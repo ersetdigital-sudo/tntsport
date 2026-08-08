@@ -30,14 +30,18 @@ export interface Brand {
   logoPath: string;
   metaPixelId: string;
   metaPixelEnabled: boolean;
+  flashSaleLink: string;
+  flashSaleMessage: string;
 }
 
-export interface DbBrand extends Omit<Brand, "whatsappNumber" | "logoPath" | "accentWord" | "metaPixelId" | "metaPixelEnabled"> {
+export interface DbBrand extends Omit<Brand, "whatsappNumber" | "logoPath" | "accentWord" | "metaPixelId" | "metaPixelEnabled" | "flashSaleLink" | "flashSaleMessage"> {
   accent_word: string;
   whatsapp_number: string;
   logo_path: string;
   meta_pixel_id: string;
   meta_pixel_enabled: boolean;
+  flash_sale_link: string;
+  flash_sale_message: string;
 }
 
 // ---------------------------------------------------------------------------

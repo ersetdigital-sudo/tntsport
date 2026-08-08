@@ -58,6 +58,8 @@ export async function getBrand(): Promise<Brand> {
     logoPath: row.logo_path,
     metaPixelId: row.meta_pixel_id ?? "",
     metaPixelEnabled: row.meta_pixel_enabled ?? false,
+    flashSaleLink: row.flash_sale_link ?? "",
+    flashSaleMessage: row.flash_sale_message ?? "Halo, saya mau order jersey (Flash Sale)",
   };
 }
 

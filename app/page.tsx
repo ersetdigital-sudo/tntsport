@@ -122,7 +122,11 @@ export default async function Page() {
         {/* CTA (termasuk Promo Bulan Ini — link diatur lewat /admin/cta-links) */}
         <CTALinks items={ctaLinks} />
         {/* Promo */}
-        <FlashSaleBanner whatsappNumber={brand.whatsappNumber} />
+        <FlashSaleBanner
+          whatsappNumber={brand.whatsappNumber}
+          customLink={brand.flashSaleLink || undefined}
+          customMessage={brand.flashSaleMessage}
+        />
         {/* Testimoni */}
         <Reviews items={reviews} />
         {/* CTA penutup */}

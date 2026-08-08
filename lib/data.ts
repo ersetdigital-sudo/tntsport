@@ -45,6 +45,8 @@ export const brand: Brand = {
   logoPath: "/logo.jpg",
   metaPixelId: "",
   metaPixelEnabled: false,
+  flashSaleLink: "",
+  flashSaleMessage: "Halo, saya mau order jersey (Flash Sale)",
 };
 
 export const trustBadges: TrustBadge[] = [
