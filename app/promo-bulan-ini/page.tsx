@@ -95,14 +95,14 @@ const GALLERY_IMAGES = [
 ];
 
 const FAQS = [
-  { q: "Apakah ada minimal order?", a: "Tidak ada. Kamu bisa order satuan. Untuk order 6 pcs, dapat bonus 1 pcs gratis dan berlaku kelipatannya." },
+  { q: "Apakah ada minimal order?", a: "Tidak ada. Kamu bisa order satuan. Untuk order 12 pcs, dapat bonus 1 pcs gratis dan berlaku kelipatannya." },
   { q: "Berapa lama proses produksi?", a: "Produksi dimulai setelah desain disetujui dan DP masuk. Jadwal pengerjaan disepakati bersama sesuai jumlah dan kebutuhanmu." },
   { q: "Apakah bisa request desain sendiri?", a: "Bisa. Kirim referensi desain, logo, atau gambar. Tim desainer akan membantu mewujudkannya dan memberi kesempatan revisi." },
   { q: "Bahan jersey apa saja yang tersedia?", a: "Tersedia Dryfit Brazil, Milano, Embossed, Jacquard, dan bahan khusus sesuai kebutuhan." },
 ];
 
 const TICKER_TEXT =
-  "Gratis desain — Revisi tanpa batas — Tanpa minimal order — Beli 6 gratis 1 — Produksi cepat — ";
+  "Gratis desain — Revisi tanpa batas — Tanpa minimal order — Beli 12 gratis 1 — Produksi cepat — ";
 
 export async function generateMetadata(): Promise<Metadata> {
   const brand = await getBrand();
@@ -144,7 +144,7 @@ export default async function PromoBulanIniPage() {
   const waAtasan = wa("Halo TNT Sport, saya ingin membuat Jersey Atasan Full Printing. Boleh dibantu konsultasi desain dan hitung total harganya?");
   const waSetelan = wa("Halo TNT Sport, saya ingin membuat Jersey Setelan Full Printing. Boleh dibantu konsultasi desain, pilihan bahan, dan total biayanya?");
   const waPenawaran = wa("Halo TNT SPORT, saya mau penawaran khusus partai besar");
-  const waKlaim = wa("Halo TNT SPORT, saya mau klaim promo *Beli 6 Gratis 1*");
+  const waKlaim = wa("Halo TNT SPORT, saya mau klaim promo *Beli 12 Gratis 1*");
   const waKonsultasi = wa("Halo TNT SPORT, saya mau mulai konsultasi jersey custom");
 
   return (
@@ -496,9 +496,9 @@ export default async function PromoBulanIniPage() {
                   <span className="inline-flex rounded-full bg-[#ef233c] px-3 py-1.5 text-[10px] font-black uppercase tracking-[.2em]">
                     Promo spesial
                   </span>
-                  <h2 className="pdisplay mt-5 text-4xl uppercase leading-none sm:text-6xl">Beli 6, gratis 1.</h2>
+                  <h2 className="pdisplay mt-5 text-4xl uppercase leading-none sm:text-6xl">Beli 12, gratis 1.</h2>
                   <p className="mt-4 max-w-2xl text-zinc-400">
-                    Berlaku kelipatannya: order 6 dapat 7, order 12 dapat 14, order 18 dapat 21. Berlaku untuk atasan maupun setelan.
+                    Berlaku kelipatannya: order 12 dapat 13, order 24 dapat 26, order 36 dapat 39. Berlaku untuk atasan maupun setelan.
                   </p>
                 </div>
                 <WhatsAppLeadLink
