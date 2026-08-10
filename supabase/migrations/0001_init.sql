@@ -314,7 +314,7 @@ values (
   'Pabrik Jersey Custom Full Printing.
 Desain bebas, harga pabrik, kirim se-Indonesia.',
   'https://tccjersey.id',
-  'Pabrik jersey custom full printing. Desain bebas, harga mulai 65rb, kirim se-Indonesia. Konsultasi gratis via WhatsApp.',
+  'Pabrik jersey custom full printing. Desain bebas, harga mulai 85rb, kirim se-Indonesia. Konsultasi gratis via WhatsApp.',
   '6281234567890',
   '/logo.svg'
 )
@@ -337,14 +337,14 @@ delete from public.social_links;
 insert into public.stats (value, label, icon, sort_order) values
   ('350K+',  'Order Selesai',    null,     1),
   ('9K+',    'Klien Puas',       null,     2),
-  ('65rb',   'Mulai Dari',       null,     3),
+  ('85rb',   'Mulai Dari',       null,     3),
   ('Tepat Waktu', 'Produksi & Kirim', 'BoltIcon', 4);
 
 insert into public.cta_links (title, description, href, accent, icon, sort_order) values
   ('Chat WhatsApp', 'Gratis konsultasi — tanya desain, harga, estimasi.',
    'https://wa.me/6281234567890?text=Halo%20TCC%20Jersey%2C%20saya%20mau%20konsultasi%20soal%20jersey%20custom.',
    'whatsapp', 'WhatsAppIcon', 1),
-  ('Lihat Katalog & Harga Lengkap', 'Browse model jersey + harga mulai 65rb.',
+  ('Lihat Katalog & Harga Lengkap', 'Browse model jersey + harga mulai 85rb.',
    'https://tccjersey.id/katalog',
    'primary', 'CatalogIcon', 2),
   ('Klaim Promo Beli 6 Gratis 1', 'Promo terbatas — klaim sebelum kuota habis.',

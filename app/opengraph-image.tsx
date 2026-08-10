@@ -115,7 +115,7 @@ export default async function OpengraphImage() {
             fontWeight: 600,
           }}
         >
-          Mulai dari 65rb · Konsultasi gratis
+          Mulai dari 85rb · Konsultasi gratis
         </div>
       </div>
     ),

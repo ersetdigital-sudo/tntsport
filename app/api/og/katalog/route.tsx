@@ -162,7 +162,7 @@ export async function GET(req: NextRequest) {
       monogram={brand.monogram}
       brand={leading + " " + brand.accentWord}
       accentWord={brand.accentWord}
-      cta="Mulai dari 50rb · Konsultasi gratis"
+      cta="Mulai dari 85rb · Konsultasi gratis"
     />,
     { width: W, height: H }
   );

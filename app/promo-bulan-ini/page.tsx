@@ -411,11 +411,11 @@ export default async function PromoBulanIniPage() {
                 <div className="mt-8 grid grid-cols-2 gap-4 border-y border-black/10 py-6">
                   <div>
                     <p className="text-xs text-zinc-500">Ecer</p>
-                    <p className="mt-1 text-2xl font-black">65rb<span className="text-sm font-medium text-zinc-500"> /pcs</span></p>
+                    <p className="mt-1 text-2xl font-black">95rb<span className="text-sm font-medium text-zinc-500"> /pcs</span></p>
                   </div>
                   <div className="border-l border-black/10 pl-4">
                     <p className="text-xs text-zinc-500">Beli 1 lusin (12 pcs)</p>
-                    <p className="mt-1 text-2xl font-black text-[#ef233c]">50rb<span className="text-sm font-medium text-zinc-500"> /pcs</span></p>
+                    <p className="mt-1 text-2xl font-black text-[#ef233c]">85rb<span className="text-sm font-medium text-zinc-500"> /pcs</span></p>
                   </div>
                 </div>
                 <ul className="mt-6 space-y-3 text-sm">
@@ -447,11 +447,11 @@ export default async function PromoBulanIniPage() {
                 <div className="mt-8 grid grid-cols-2 gap-4 border-y border-white/10 py-6">
                   <div>
                     <p className="text-xs text-zinc-500">Ecer</p>
-                    <p className="mt-1 text-2xl font-black">115rb<span className="text-sm font-medium text-zinc-500"> /pcs</span></p>
+                    <p className="mt-1 text-2xl font-black">145rb<span className="text-sm font-medium text-zinc-500"> /pcs</span></p>
                   </div>
                   <div className="border-l border-white/10 pl-4">
                     <p className="text-xs text-zinc-500">Beli 1 lusin (12 pcs)</p>
-                    <p className="mt-1 text-2xl font-black text-[#ef233c]">110rb<span className="text-sm font-medium text-zinc-500"> /pcs</span></p>
+                    <p className="mt-1 text-2xl font-black text-[#ef233c]">120rb<span className="text-sm font-medium text-zinc-500"> /pcs</span></p>
                   </div>
                 </div>
                 <ul className="mt-6 space-y-3 text-sm text-zinc-300">

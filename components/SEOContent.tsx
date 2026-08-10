@@ -30,7 +30,7 @@ export function SEOContent() {
         </li>
         <li className="flex items-start gap-2">
           <span className="mt-1 h-1.5 w-1.5 shrink-0 rounded-full bg-primary" />
-          <span><strong className="text-ink">Harga pabrik langsung</strong> — tanpa perantara, mulai dari Rp65.000 per pcs.</span>
+          <span><strong className="text-ink">Harga pabrik langsung</strong> — tanpa perantara, mulai dari Rp85.000 per pcs.</span>
         </li>
         <li className="flex items-start gap-2">
           <span className="mt-1 h-1.5 w-1.5 shrink-0 rounded-full bg-primary" />

@@ -17,7 +17,7 @@ update public.brand set
   tagline         = 'Pabrik Jersey Custom Full Printing.
 Desain bebas, harga pabrik, kirim se-Indonesia.',
   url             = 'https://tntsport.id',
-  description     = 'TNT SPORT — pabrik jersey custom full printing. Desain bebas, harga mulai 65rb, kirim se-Indonesia. Konsultasi gratis via WhatsApp.',
+  description     = 'TNT SPORT — pabrik jersey custom full printing. Desain bebas, harga mulai 85rb, kirim se-Indonesia. Konsultasi gratis via WhatsApp.',
   whatsapp_number = '6281234567890',
   logo_path       = '/logo.jpg',
   updated_at      = now()
@@ -32,7 +32,7 @@ delete from public.social_links;
 insert into public.stats (value, label, icon, sort_order) values
   ('350K+',       'Order Selesai',    null,        1),
   ('9K+',         'Klien Puas',       null,        2),
-  ('65rb',        'Mulai Dari',       null,        3),
+  ('85rb',        'Mulai Dari',       null,        3),
   ('Tepat Waktu', 'Produksi & Kirim', 'BoltIcon',  4);
 
 insert into public.cta_links (title, description, href, accent, icon, sort_order) values

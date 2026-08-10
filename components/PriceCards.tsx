@@ -6,8 +6,8 @@ export function PriceCards({ waLink }: { waLink: string }) {
   const [mode, setMode] = useState<"ecer" | "lusin">("lusin");
 
   const prices = {
-    atasan: { ecer: "65rb", lusin: "50rb" },
-    setelan: { ecer: "115rb", lusin: "110rb" },
+    atasan: { ecer: "95rb", lusin: "85rb" },
+    setelan: { ecer: "145rb", lusin: "120rb" },
   };
 
   const note = mode === "ecer" ? "Bisa pesan mulai 1 pcs" : "Minimal pembelian 12 pcs / set";

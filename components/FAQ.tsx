@@ -7,7 +7,7 @@ const FAQ_ITEMS = [
   },
   {
     q: "Berapa harga jersey custom di TNT SPORT?",
-    a: "Harga mulai dari Rp65.000 per pcs dengan harga pabrik langsung tanpa perantara. Semakin banyak jumlah pesanan, semakin hemat harga per pcs-nya. Konsultasi via WhatsApp untuk estimasi harga sesuai desain dan jumlah.",
+    a: "Harga mulai dari Rp85.000 per pcs dengan harga pabrik langsung tanpa perantara. Semakin banyak jumlah pesanan, semakin hemat harga per pcs-nya. Konsultasi via WhatsApp untuk estimasi harga sesuai desain dan jumlah.",
   },
   {
     q: "Berapa lama proses produksi jersey custom?",

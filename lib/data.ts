@@ -40,7 +40,7 @@ export const brand: Brand = {
   tagline: "Pabrik Jersey Custom Full Printing.\nDesain bebas, harga pabrik, kirim se-Indonesia.",
   url: "https://www.tntsportapparel.id",
   description:
-    "TNT SPORT — pabrik jersey custom full printing. Desain bebas, harga mulai 65rb, kirim se-Indonesia. Konsultasi gratis via WhatsApp.",
+    "TNT SPORT — pabrik jersey custom full printing. Desain bebas, harga mulai 85rb, kirim se-Indonesia. Konsultasi gratis via WhatsApp.",
   whatsappNumber: "628115491117",
   logoPath: "/logo.jpg",
   metaPixelId: "",
