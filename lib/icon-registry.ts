@@ -94,6 +94,7 @@ export const ICON_METADATA: IconMeta[] = [
   { key: "InstagramIcon", label: "Instagram", category: "Sosial & Brand" },
   { key: "TikTokIcon", label: "TikTok", category: "Sosial & Brand" },
   { key: "FacebookIcon", label: "Facebook", category: "Sosial & Brand" },
+  { key: "ShopeeIcon", label: "Shopee", category: "Sosial & Brand" },
   { key: "MapsIcon", label: "Google Maps", category: "Sosial & Brand" },
   { key: "GlobeIcon", label: "Website", category: "Sosial & Brand" },
 
@@ -133,6 +134,7 @@ export function groupedIcons(): { category: string; items: IconMeta[] }[] {
  */
 export const SOCIAL_BRAND_COLORS: Record<string, string | undefined> = {
   WhatsAppIcon: "#25D366",
+  ShopeeIcon: "#EE4D2D",
   InstagramIcon: undefined, // inline gradient in the icon
   TikTokIcon: "#000000",
   FacebookIcon: "#1877F2",

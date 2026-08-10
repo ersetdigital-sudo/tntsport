@@ -15,6 +15,7 @@ export function SocialLinkIcon({
   const iconName = Icon.displayName ?? "";
   const tileClass: Record<string, string> = {
     WhatsAppIcon: "bg-[#25D366]/10 text-[#25D366]",
+    ShopeeIcon: "bg-[#EE4D2D]/10 text-[#EE4D2D]",
     InstagramIcon: "bg-white dark:bg-white/10",
     TikTokIcon: "bg-black/10 text-black dark:bg-white/10 dark:text-white",
     FacebookIcon: "bg-[#1877F2]/10 text-[#1877F2]",

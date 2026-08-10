@@ -107,12 +107,12 @@ function ZoomModal({
   product,
   categoryLabel,
   onClose,
-  waNumber,
+  shopeeLink,
 }: {
   product: CatalogProduct;
   categoryLabel: string;
   onClose: () => void;
-  waNumber?: string;
+  shopeeLink?: string;
 }) {
   return (
     <div
@@ -145,7 +145,7 @@ function ZoomModal({
               <p className="mt-1 text-sm text-[#a7ad9e]">{categoryLabel}</p>
             </div>
             <a
-              href={getWhatsAppLink(categoryLabel, product.catalogue, waNumber)}
+              href={shopeeLink ?? getWhatsAppLink(categoryLabel, product.catalogue, undefined)}
               target="_blank"
               rel="noopener noreferrer"
               onClick={() => trackLead(product.catalogue)}
@@ -179,12 +179,12 @@ function ProductCard({
   product,
   categoryLabel,
   onSelect,
-  waNumber,
+  shopeeLink,
 }: {
   product: CatalogProduct;
   categoryLabel: string;
   onSelect: (product: CatalogProduct) => void;
-  waNumber?: string;
+  shopeeLink?: string;
 }) {
   return (
     <article className="group relative overflow-hidden rounded-2xl border border-white/10 bg-[#131611] shadow-2xl shadow-black/20 transition duration-300 hover:-translate-y-1 hover:border-[#00aa13]/35 sm:rounded-3xl">
@@ -215,7 +215,7 @@ function ProductCard({
           {product.catalogue}
         </p>
         <a
-          href={getWhatsAppLink(categoryLabel, product.catalogue, waNumber)}
+          href={shopeeLink ?? getWhatsAppLink(categoryLabel, product.catalogue, undefined)}
           target="_blank"
           rel="noopener noreferrer"
           onClick={() => trackLead(product.catalogue)}
@@ -250,7 +250,7 @@ function ProductSkeleton() {
 
 interface ProductCatalogProps {
   categories?: CatalogCategory[];
-  waNumber?: string;
+  shopeeLink?: string;
   initialCategoryId?: string;
   initialProductId?: string;
 }
@@ -272,7 +272,7 @@ function resolveInitialState(
   return { categoryId, product: null };
 }
 
-export function ProductCatalog({ categories: propCategories, waNumber, initialCategoryId, initialProductId }: ProductCatalogProps) {
+export function ProductCatalog({ categories: propCategories, shopeeLink, initialCategoryId, initialProductId }: ProductCatalogProps) {
   // Use prop data if provided, otherwise fall back to static data
   const categories: CatalogCategory[] = propCategories ?? CATALOG_PRODUCTS.map((cat) => ({
     id: cat.id,
@@ -400,7 +400,7 @@ export function ProductCatalog({ categories: propCategories, waNumber, initialCa
                 product={product}
                 categoryLabel={activeCategoryData.label}
                 onSelect={handleProductSelect}
-                waNumber={waNumber}
+                shopeeLink={shopeeLink}
               />
             ))
         }
@@ -412,7 +412,7 @@ export function ProductCatalog({ categories: propCategories, waNumber, initialCa
           product={zoomedProduct}
           categoryLabel={activeCategoryData.label}
           onClose={handleCloseModal}
-          waNumber={waNumber}
+          shopeeLink={shopeeLink}
         />
       )}
     </>

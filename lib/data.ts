@@ -17,6 +17,7 @@ import {
   MapsIcon,
   PaletteIcon,
   ShieldIcon,
+  ShopeeIcon,
   StarIcon,
   TagIcon,
   TikTokIcon,
@@ -221,10 +222,10 @@ export const fabrics: Fabric[] = [
 
 export const socialLinks: SocialLink[] = [
   {
-    label: "WhatsApp",
-    icon: WhatsAppIcon,
-    href: waLink,
-    ariaLabel: "TNT SPORT di WhatsApp",
+    label: "Shopee",
+    icon: ShopeeIcon,
+    href: "https://shopee.co.id/",
+    ariaLabel: "TNT SPORT di Shopee",
   },
   {
     label: "Instagram",

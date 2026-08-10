@@ -5,7 +5,7 @@ import type { Fabric, FabricGroupId } from "@/lib/types";
 
 interface FabricCatalogProps {
   fabrics: Fabric[];
-  waNumber: string;
+  shopeeLink: string;
 }
 
 const FABRIC_GROUP_ORDER: FabricGroupId[] = ["jacquard", "base", "embossed"];
@@ -25,9 +25,7 @@ const GROUP_META: Record<FabricGroupId, { label: string; note: string }> = {
   },
 };
 
-function FabricZoomModal({ fabric, waNumber, onClose }: { fabric: Fabric; waNumber: string; onClose: () => void }) {
-  const waMessage = `Halo TNT SPORT, saya tertarik dengan bahan *${fabric.code}_${fabric.name}* (${GROUP_META[fabric.group].label}). Bisa info harga dan detailnya?`;
-  const href = `https://wa.me/${waNumber}?text=${encodeURIComponent(waMessage)}`;
+function FabricZoomModal({ fabric, shopeeLink, onClose }: { fabric: Fabric; shopeeLink: string; onClose: () => void }) {
 
   return (
     <div
@@ -61,7 +59,7 @@ function FabricZoomModal({ fabric, waNumber, onClose }: { fabric: Fabric; waNumb
               ) : null}
             </div>
             <a
-              href={href}
+              href={shopeeLink}
               target="_blank"
               rel="noopener noreferrer"
               className="inline-flex shrink-0 items-center gap-2 rounded-full bg-[#00aa13] px-4 py-2.5 text-xs font-black text-[#080a07] transition hover:bg-[#00c317] sm:px-5 sm:text-sm"
@@ -85,7 +83,7 @@ function FabricZoomModal({ fabric, waNumber, onClose }: { fabric: Fabric; waNumb
   );
 }
 
-export function FabricCatalog({ fabrics, waNumber }: FabricCatalogProps) {
+export function FabricCatalog({ fabrics, shopeeLink }: FabricCatalogProps) {
   const [zoom, setZoom] = useState<Fabric | null>(null);
 
   const groups = FABRIC_GROUP_ORDER.map((gid) => ({
@@ -111,8 +109,6 @@ export function FabricCatalog({ fabrics, waNumber }: FabricCatalogProps) {
 
             <div className="flex flex-col divide-y divide-white/5">
               {group.fabrics.map((fabric) => {
-                const waMessage = `Halo TNT SPORT, saya tertarik dengan bahan *${fabric.code}_${fabric.name}* (${group.meta.label}). Bisa info harga dan detailnya?`;
-                const href = `https://wa.me/${waNumber}?text=${encodeURIComponent(waMessage)}`;
                 return (
                   <details key={fabric.id} className="group">
                     <summary className="flex cursor-pointer list-none items-center justify-between gap-4 px-4 py-4 transition hover:bg-white/[.03] sm:px-6 [&::-webkit-details-marker]:hidden">
@@ -168,7 +164,7 @@ export function FabricCatalog({ fabrics, waNumber }: FabricCatalogProps) {
                           {fabric.description ?? "Konsultasikan bahan ini dengan tim kami untuk pilihan yang paling pas."}
                         </p>
                         <a
-                          href={href}
+                          href={shopeeLink}
                           target="_blank"
                           rel="noopener noreferrer"
                           className="inline-flex items-center justify-center gap-2 rounded-full bg-[#00aa13] px-5 py-2.5 text-xs font-black uppercase tracking-wide text-[#080a07] transition hover:bg-[#00c317] sm:w-fit sm:px-6 sm:text-sm"
@@ -186,7 +182,7 @@ export function FabricCatalog({ fabrics, waNumber }: FabricCatalogProps) {
       </div>
 
       {zoom && (
-        <FabricZoomModal fabric={zoom} waNumber={waNumber} onClose={() => setZoom(null)} />
+        <FabricZoomModal fabric={zoom} shopeeLink={shopeeLink} onClose={() => setZoom(null)} />
       )}
     </>
   );

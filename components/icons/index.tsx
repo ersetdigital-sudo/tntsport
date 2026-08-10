@@ -35,6 +35,23 @@ export function WhatsAppIcon(props: IconProps) {
   );
 }
 
+/** Shopee brand glyph (filled orange badge + white S). Color via currentColor — set to #EE4D2D. */
+export function ShopeeIcon(props: IconProps) {
+  return (
+    <svg {...base} {...props} fill="currentColor" stroke="none" viewBox="0 0 24 24">
+      <path d="M12 1.8c5.63 0 10.2 4.57 10.2 10.2S17.63 22.2 12 22.2 1.8 17.63 1.8 12 6.37 1.8 12 1.8Z" />
+      <path
+        fill="none"
+        stroke="#fff"
+        strokeWidth="2.4"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        d="M15.2 6.9 C15.2 4.9 13.7 3.4 11.9 3.4 C10 3.4 8.6 4.9 8.6 6.9 C8.6 9 10.4 10.4 12.2 10.4 C14.2 10.4 15.5 12 15.5 14.2 C15.5 16.2 14.1 17.7 12.3 17.7 C10.4 17.7 9.1 16.3 9.1 14.5"
+      />
+    </svg>
+  );
+}
+
 /**
  * Instagram — uses an inline linear gradient (Instagram brand mark).
  * `currentColor` is ignored; the gradient renders in brand colors.
