@@ -3,7 +3,7 @@ import Image from "next/image";
 import dynamic from "next/dynamic";
 import { getCatalogData, getFabrics, getKatalogFeatures, getKatalogTestimonials, getBrand, getSocialLinks } from "@/lib/queries";
 import { resolveSeoContext, type SeoContext } from "@/lib/seo";
-import type { SocialLink } from "@/lib/types";
+import type { SocialLink, Brand } from "@/lib/types";
 
 const ProductCatalog = dynamic(() => import("@/components/ProductCatalog").then(m => m.ProductCatalog));
 const PriceCards = dynamic(() => import("@/components/PriceCards").then(m => m.PriceCards));
@@ -1050,42 +1050,44 @@ function CTASection({ waLink }: { waLink: string }) {
 /* Footer                                                               */
 /* ------------------------------------------------------------------ */
 
-function Footer({ waLink = "https://wa.me/628115491117", socialLinks = [] }: { waLink?: string; socialLinks?: SocialLink[] }) {
-  return (
-    <footer className="bg-black px-5 py-10 text-white lg:px-8">
-      <div className="mx-auto max-w-7xl">
-        {/* Logo + Social */}
-        <div className="flex flex-col items-center gap-5 border-b border-white/10 pb-6 sm:flex-row sm:justify-between">
-          <div className="flex items-center gap-3">
-            <Image
-              src="/af7bb11e-1e11-423d-809a-1d5c75fbe91f.png"
-              alt="TNT Sport"
-              width={48}
-              height={48}
-              className="h-12 w-12 rounded-xl object-contain"
-            />
-            <div className="text-center sm:text-left">
-              <div className="text-lg font-black italic tracking-tight">
-                TNT <span className="text-[#00aa13]">SPORT</span>
-              </div>
-              <p className="text-xs text-white/40">Jersey Custom Full Printing</p>
-            </div>
-          </div>
-          <div className="flex gap-2.5">
-            {socialLinks.map((s) => (
-              <a key={s.label} href={s.href} target="_blank" rel="noopener noreferrer"
-                 className="flex h-9 w-9 items-center justify-center rounded-full border border-white/15 text-white/50 transition-all hover:border-white hover:text-white"
-                 aria-label={s.ariaLabel}>
-                <s.icon width={15} height={15} />
-              </a>
-            ))}
-          </div>
-        </div>
+function Footer({ brand, socialLinks = [] }: { brand: Brand; socialLinks?: SocialLink[] }) {
+  const year = new Date().getFullYear();
 
-        {/* Copyright */}
-        <div className="flex flex-col items-center gap-2 pt-6 text-center">
-          <p className="text-[11px] text-white/30">
-            © {new Date().getFullYear()} TNT SPORT. All Rights Reserved.
+  return (
+    <footer className="w-full border-t border-black/[.06] bg-surface-card dark:border-white/10 dark:bg-surface-deep">
+      {/* Main footer */}
+      <div className="mx-auto max-w-lg px-6 py-8">
+        <div className="flex flex-col items-center gap-3 text-center">
+          <span className="text-lg font-extrabold italic tracking-tight text-ink">
+            TNT <span className="text-primary">SPORT</span>
+          </span>
+          <p className="max-w-xs text-xs leading-relaxed text-charcoal">
+            Pabrik jersey custom full printing. Desain bebas, harga pabrik, kirim se-Indonesia.
+          </p>
+          {socialLinks.length > 0 && (
+            <div className="mt-2 flex flex-wrap items-center justify-center gap-3">
+              {socialLinks.map((s) => (
+                <a
+                  key={s.label}
+                  href={s.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label={s.ariaLabel}
+                  className="flex h-10 w-10 items-center justify-center rounded-full border border-hairline bg-white text-ink shadow-premium-sm transition-colors duration-normal hover:text-primary dark:bg-white/10"
+                >
+                  <s.icon width={16} height={16} aria-hidden="true" />
+                </a>
+              ))}
+            </div>
+          )}
+        </div>
+      </div>
+
+      {/* Bottom bar */}
+      <div className="border-t border-black/[.06] dark:border-white/10">
+        <div className="mx-auto flex max-w-lg items-center justify-center px-6 py-3">
+          <p className="text-[10px] text-stone">
+            © {year} {brand.name}. All Rights Reserved.
           </p>
         </div>
       </div>
@@ -1182,7 +1184,7 @@ export default async function KatalogPage({
         <CTASection waLink={waLink} />
       </main>
       <SocialProof />
-      <Footer waLink={waLink} socialLinks={socialLinks} />
+      <Footer brand={brand} socialLinks={socialLinks} />
     </div>
   );
 }
