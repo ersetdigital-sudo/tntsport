@@ -50,8 +50,8 @@ function buildJsonLd(brand: Brand, socialLinks: SocialLink[], reviews: Review[])
       url: brand.url,
       offers: {
         "@type": "AggregateOffer",
-        lowPrice: "65000",
-        highPrice: "250000",
+        lowPrice: "85000",
+        highPrice: "145000",
         priceCurrency: "IDR",
         offerCount: "10",
         availability: "https://schema.org/InStock",

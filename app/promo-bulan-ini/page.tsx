@@ -115,7 +115,7 @@ export async function generateMetadata(): Promise<Metadata> {
     openGraph: {
       title: "Promo Kemerdekaan — TNT SPORT",
       description:
-        "Jersey custom full printing mulai 50 ribu. Gratis desain, bebas custom nama, nomor, dan logo, tanpa minimal order.",
+        "Jersey custom full printing mulai 85 ribu. Gratis desain, bebas custom nama, nomor, dan logo, tanpa minimal order.",
       url: `${url}/promo-bulan-ini`,
       type: "website",
       locale: "id_ID",
@@ -123,7 +123,7 @@ export async function generateMetadata(): Promise<Metadata> {
     twitter: {
       card: "summary_large_image",
       title: "Promo Kemerdekaan — TNT SPORT",
-      description: "Jersey custom full printing dari 50 ribu. Gratis desain, tanpa minimal order.",
+      description: "Jersey custom full printing dari 85 ribu. Gratis desain, tanpa minimal order.",
     },
   };
 }
@@ -249,14 +249,14 @@ export default async function PromoBulanIniPage() {
                 <span className="block text-[clamp(3.4rem,8.2vw,7.2rem)]">Custom</span>
                 <span className="block text-[clamp(3.4rem,8.2vw,7.2rem)]">Mulai</span>
                 <span className="relative inline-block mt-[.06em] text-[clamp(3.4rem,8.2vw,7.2rem)] text-[#ef233c] drop-shadow-[0_0_44px_rgba(239,35,60,.38)]">
-                  50 Ribu!
+                  85 Ribu!
                   <span className="tnt-title__underline" aria-hidden="true" />
                 </span>
               </h1>
 
               {/* Subcopy */}
               <p className="mt-6 max-w-[30rem] text-[clamp(.98rem,1.15vw,1.08rem)] leading-[1.65] text-[#A2A8B3] sm:mt-8">
-                Rayakan HUT RI ke-81 dengan seragam tim kebanggaanmu. Mulai <strong className="font-bold text-white">Rp50.000</strong> — gratis desain, nama, nomor &amp; logo. Tanpa minimum order, langsung diproduksi di pabrik sendiri.
+                Rayakan HUT RI ke-81 dengan seragam tim kebanggaanmu. Mulai <strong className="font-bold text-white">Rp85.000</strong> — gratis desain, nama, nomor &amp; logo. Tanpa minimum order, langsung diproduksi di pabrik sendiri.
               </p>
 
               {/* Fitur */}

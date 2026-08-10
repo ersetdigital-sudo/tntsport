@@ -93,7 +93,7 @@ export async function generateMetadata({
   return {
     title: "Katalog Jersey Custom Full Printing — TNT SPORT",
     description:
-      "Jersey custom full printing mulai 50 ribuan. Desain bebas, tanpa minimal order, produksi cepat, kirim ke seluruh Indonesia.",
+      "Jersey custom full printing mulai 85 ribuan. Desain bebas, tanpa minimal order, produksi cepat, kirim ke seluruh Indonesia.",
     alternates: { canonical: "/katalog" },
     openGraph: {
       title: "Katalog Jersey Custom Full Printing · TNT SPORT",
@@ -276,7 +276,7 @@ function JsonLd({ seo }: { seo?: SeoContext }) {
       url: productUrl,
       offers: {
         "@type": "Offer",
-        price: "50000",
+        price: "95000",
         priceCurrency: "IDR",
         availability: "https://schema.org/InStock",
         url: productUrl,
@@ -312,12 +312,12 @@ function JsonLd({ seo }: { seo?: SeoContext }) {
     "@type": "Product",
     name: "Jersey Custom Full Printing TNT SPORT",
     description:
-      "Jersey custom full printing mulai 50 ribuan. Desain bebas, tanpa minimal order, produksi cepat.",
+      "Jersey custom full printing mulai 85 ribuan. Desain bebas, tanpa minimal order, produksi cepat.",
     brand: { "@type": "Brand", name: "TNT SPORT" },
     offers: {
       "@type": "AggregateOffer",
-      lowPrice: "50000",
-      highPrice: "250000",
+      lowPrice: "85000",
+      highPrice: "145000",
       priceCurrency: "IDR",
       availability: "https://schema.org/InStock",
     },
@@ -392,7 +392,7 @@ function Hero({ waLink }: { waLink: string }) {
               style={{ fontFamily: "var(--font-sans)", fontStretch: "condensed", fontStyle: "italic" }}>
             Bikin Jersey<br />
             <span className="text-[#16a34a]">Full Printing</span><br />
-            Cuma 50 Ribu!
+            Cuma 85 Ribu!
           </h1>
           <p className="mt-4 max-w-lg text-sm leading-relaxed text-white/65 sm:mt-6 sm:text-base lg:text-lg">
             Custom jersey sesukamu dengan hasil premium. Gratis desain, nama, nomor dan logo—bahkan untuk order satuan.
@@ -496,7 +496,7 @@ function FlashSale({ waLink }: { waLink: string }) {
               Waktunya<br /><span className="text-[#00aa13]">Gas Order!</span>
             </h2>
             <p className="mt-3 max-w-md text-xs leading-relaxed text-white/55 sm:mt-4 sm:text-sm lg:text-base">
-              Amankan harga jersey full printing mulai <strong className="text-white">50 ribuan</strong> sebelum promo berakhir. Desain bebas, tanpa minimal order.
+              Amankan harga jersey full printing mulai <strong className="text-white">85 ribuan</strong> sebelum promo berakhir. Desain bebas, tanpa minimal order.
             </p>
             <div className="mt-4 flex flex-wrap gap-x-4 gap-y-1.5 text-[9px] font-bold uppercase tracking-wider text-white/60 sm:mt-5 sm:gap-x-5 sm:text-[10px]">
               <span><b className="mr-1 text-[#00aa13] sm:mr-1.5">✓</b>Gratis desain</span>
