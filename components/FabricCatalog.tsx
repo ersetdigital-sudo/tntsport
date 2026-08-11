@@ -113,7 +113,7 @@ export function FabricCatalog({ fabrics, waNumber }: FabricCatalogProps) {
             <div className="flex flex-col divide-y divide-white/5">
               {group.fabrics.map((fabric) => {
                 const waMessage = `Halo TNT SPORT APPAREL, saya tertarik dengan bahan *${fabric.code}_${fabric.name}* (${group.meta.label}). Bisa info harga dan detailnya?`;
-                const href = `https://api.whatsapp.com/send?phone=${waNumber}&text=${encodeURIComponent(waMessage)}`;
+                const href = buildWhatsAppLink(waNumber, waMessage);
                 return (
                   <details key={fabric.id} className="group">
                     <summary className="flex cursor-pointer list-none items-center justify-between gap-4 px-4 py-4 transition hover:bg-white/[.03] sm:px-6 [&::-webkit-details-marker]:hidden">
