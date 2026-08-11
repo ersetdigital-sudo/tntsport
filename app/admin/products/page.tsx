@@ -1,6 +1,6 @@
 ﻿import { createClient, supabaseConfigured } from "@/lib/supabase/server";
 import { ShieldCheck } from "lucide-react";
-import Link from "next/link";
+import { ProductSearchGrid } from "@/components/admin/ProductSearchGrid";
 
 export const dynamic = "force-dynamic";
 
@@ -42,110 +42,29 @@ export default async function ProductsAdminPage() {
     if (prodErr) return <ErrorState title="Gagal Memuat Produk" desc={prodErr.message} />;
 
     const grouped = (categories ?? []).map((cat) => ({
-      ...cat,
+      id: cat.id,
+      name: cat.name,
       products: (products ?? [])
         .filter((p) => p.category_id === cat.id)
-        .sort((a, b) => a.sort_order - b.sort_order),
+        .sort((a, b) => a.sort_order - b.sort_order)
+        .map((p) => ({
+          id: p.id,
+          name: p.name,
+          slug: p.slug,
+          thumb: (p as any).product_images?.[0]?.url,
+        })),
     }));
 
-    // Products without category
-    const uncategorized = (products ?? []).filter((p) => !p.category_id);
+    const uncategorized = (products ?? [])
+      .filter((p) => !p.category_id)
+      .map((p) => ({
+        id: p.id,
+        name: p.name,
+        slug: p.slug,
+        thumb: (p as any).product_images?.[0]?.url,
+      }));
 
-    return (
-      <div className="space-y-6">
-<div className="sticky top-0 z-20 -mx-4 -mt-4 flex items-center justify-between gap-4 border-b border-hairline bg-background px-4 py-4 md:-mx-8 md:-mt-8 md:px-8">
-          <div>
-            <h2 className="text-heading-md text-ink">Produk</h2>
-            <p className="text-body-sm text-charcoal mt-1">
-              Kelola produk jersey per kategori. Upload foto dan atur kode katalog.
-            </p>
-          </div>
-          <Link
-            href="/admin/products/new"
-            className="inline-flex shrink-0 items-center gap-1.5 rounded-full bg-primary px-5 py-2.5 text-sm font-bold text-white shadow-premium-sm transition hover:bg-primary-strong active:scale-[0.98]"
-          >
-            <span className="text-lg leading-none">+</span>
-            Tambah Produk
-          </Link>
-        </div>
-
-        {grouped.length === 0 && uncategorized.length === 0 && (
-          <div className="rounded-2xl border border-hairline bg-surface p-8 text-center">
-            <p className="text-charcoal">Belum ada produk. Klik &quot;Tambah Produk&quot; untuk mulai.</p>
-          </div>
-        )}
-
-        {grouped.map((cat) => (
-          <div key={cat.id} className="rounded-2xl border border-hairline bg-surface p-5">
-            <h3 className="text-sm font-bold text-ink mb-3">{cat.name}</h3>
-            {cat.products.length === 0 ? (
-              <p className="text-xs text-mute">Belum ada produk di kategori ini.</p>
-            ) : (
-              <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 [content-visibility:auto]">
-                {cat.products.map((p) => {
-                  const thumb = (p as any).product_images?.[0]?.url;
-                  return (
-                    <Link
-                      key={p.id}
-                      href={`/admin/products/${p.id}`}
-                      className="group overflow-hidden rounded-xl border border-hairline transition hover:border-primary hover:shadow-sm"
-                    >
-                      <div className="aspect-[4/5] bg-background">
-                        {thumb ? (
-                          // eslint-disable-next-line @next/next/no-img-element
-                          <img src={thumb} alt={p.name} loading="lazy" decoding="async" className="h-full w-full object-cover" />
-                        ) : (
-                          <div className="flex h-full items-center justify-center text-mute text-xs">
-                            No Image
-                          </div>
-                        )}
-                      </div>
-                      <div className="p-2">
-                        <p className="text-xs font-bold text-ink truncate">{p.name}</p>
-                        <p className="text-[10px] text-mute">{p.slug}</p>
-                      </div>
-                    </Link>
-                  );
-                })}
-              </div>
-            )}
-          </div>
-        ))}
-
-        {uncategorized.length > 0 && (
-          <div className="rounded-2xl border border-hairline bg-surface p-5">
-            <h3 className="text-sm font-bold text-ink mb-3">Tanpa Kategori</h3>
-            <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 [content-visibility:auto]">
-              {uncategorized.map((p) => {
-                const thumb = (p as any).product_images?.[0]?.url;
-                return (
-                  <Link
-                    key={p.id}
-                    href={`/admin/products/${p.id}`}
-                    className="group overflow-hidden rounded-xl border border-hairline transition hover:border-primary hover:shadow-sm"
-                  >
-                    <div className="aspect-[4/5] bg-background">
-                      {thumb ? (
-                        // eslint-disable-next-line @next/next/no-img-element
-                        <img src={thumb} alt={p.name} loading="lazy" decoding="async" className="h-full w-full object-cover" />
-                      ) : (
-                        <div className="flex h-full items-center justify-center text-mute text-xs">
-                          No Image
-                        </div>
-                      )}
-                    </div>
-                    <div className="p-2">
-                      <p className="text-xs font-bold text-ink truncate">{p.name}</p>
-                      <p className="text-[10px] text-mute">{p.slug}</p>
-                    </div>
-                  </Link>
-                );
-              })}
-            </div>
-          </div>
-        )}
-      </div>
-    );
+    return <ProductSearchGrid grouped={grouped} uncategorized={uncategorized} />;
   } catch (err) {
     const msg = err instanceof Error ? err.message : String(err);
     console.error("[products] unexpected error:", msg);

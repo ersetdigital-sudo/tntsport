@@ -10,6 +10,7 @@ export interface SeoProduct {
   id: string;
   name: string;
   image: string;
+  price: number | null;
 }
 
 export interface SeoContext {
@@ -33,6 +34,7 @@ export async function resolveSeoCatalog(): Promise<SeoCatalog> {
           id: p.id,
           name: p.catalogue,
           image: p.image,
+          price: p.price ?? null,
         })),
       })),
     };
@@ -45,6 +47,7 @@ export async function resolveSeoCatalog(): Promise<SeoCatalog> {
         id: p.id,
         name: p.catalogue,
         image: p.image,
+        price: null,
       })),
     })),
   };

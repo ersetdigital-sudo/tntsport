@@ -102,6 +102,21 @@ export async function generateMetadata({
       url: "https://www.tntsportapparel.id/katalog",
       type: "website",
       locale: "id_ID",
+      images: [
+        {
+          url: "https://www.tntsportapparel.id/opengraph-image",
+          width: 1200,
+          height: 630,
+          alt: "TNT SPORT — Katalog Jersey Custom Full Printing",
+        },
+      ],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: "Katalog Jersey Custom Full Printing · TNT SPORT",
+      description:
+        "Custom jersey sesukamu dengan hasil premium. Gratis desain, nama, nomor dan logo—bahkan untuk order satuan.",
+      images: ["https://www.tntsportapparel.id/opengraph-image"],
     },
   };
 }
@@ -276,7 +291,7 @@ function JsonLd({ seo }: { seo?: SeoContext }) {
       url: productUrl,
       offers: {
         "@type": "Offer",
-        price: "95000",
+        price: String(seo.product.price ?? 95000),
         priceCurrency: "IDR",
         availability: "https://schema.org/InStock",
         url: productUrl,

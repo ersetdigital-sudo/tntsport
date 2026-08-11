@@ -204,7 +204,7 @@ export async function getCategories() {
 export interface CatalogCategory {
   id: string;
   label: string;
-  products: { id: string; catalogue: string; image: string; alt: string }[];
+  products: { id: string; catalogue: string; image: string; alt: string; price: number | null }[];
 }
 
 export async function getCatalogData(): Promise<CatalogCategory[] | null> {
@@ -215,7 +215,7 @@ export async function getCatalogData(): Promise<CatalogCategory[] | null> {
     supabase.from("product_categories").select("id, name, slug").order("sort_order"),
     supabase
       .from("products")
-      .select("id, name, slug, category_id, product_images(url, alt, sort_order)")
+      .select("id, name, slug, category_id, price, product_images(url, alt, sort_order)")
       .order("sort_order"),
   ]);
 
@@ -232,6 +232,7 @@ export async function getCatalogData(): Promise<CatalogCategory[] | null> {
         catalogue: p.name,
         image: (p as any).product_images?.sort((a: any, b: any) => a.sort_order - b.sort_order)?.[0]?.url ?? "/products/placeholder.svg",
         alt: p.name,
+        price: (p as any).price ?? null,
       })),
   }));
 }
