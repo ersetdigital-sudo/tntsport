@@ -226,6 +226,7 @@ export async function getCatalogData(): Promise<CatalogCategory[] | null> {
     label: cat.name,
     products: (products ?? [])
       .filter((p) => p.category_id === cat.id)
+      .sort((a, b) => a.name.localeCompare(b.name, undefined, { numeric: true }))
       .map((p) => ({
         id: p.id,
         catalogue: p.name,
