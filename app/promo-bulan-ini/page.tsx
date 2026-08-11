@@ -5,6 +5,7 @@ import { Archivo_Black, DM_Sans } from "next/font/google";
 import { PromoNav } from "@/components/PromoNav";
 import { WhatsAppLeadLink } from "@/components/WhatsAppLeadLink";
 import { getBrand, getKatalogTestimonials } from "@/lib/queries";
+import { buildWhatsAppLink } from "@/lib/wa";
 
 const PromoDesignGrid = dynamic(() => import("@/components/PromoDesignGrid").then(m => m.PromoDesignGrid));
 const PageViewTracker = dynamic(() => import("@/components/PageViewTracker").then(m => m.PageViewTracker));
@@ -138,7 +139,7 @@ export default async function PromoBulanIniPage() {
     dark: true,
   })) ?? REVIEWS;
   const waNumber = brand.whatsappNumber || "628115491117";
-  const wa = (msg: string) => `https://wa.me/${waNumber}?text=${encodeURIComponent(msg)}`;
+  const wa = (msg: string) => buildWhatsAppLink(waNumber, msg);
 
   const waGeneral = wa("Halo TNT SPORT APPAREL, saya mau tanya promo bulan ini 🎉");
   const waAtasan = wa("Halo TNT SPORT APPAREL, saya ingin membuat Jersey Atasan Full Printing. Boleh dibantu konsultasi desain dan hitung total harganya?");

@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { buildWhatsAppLink } from "@/lib/wa";
 import type { Fabric, FabricGroupId } from "@/lib/types";
 
 interface FabricCatalogProps {
@@ -27,7 +28,7 @@ const GROUP_META: Record<FabricGroupId, { label: string; note: string }> = {
 
 function FabricZoomModal({ fabric, waNumber, onClose }: { fabric: Fabric; waNumber: string; onClose: () => void }) {
   const waMessage = `Halo TNT SPORT APPAREL, saya tertarik dengan bahan *${fabric.code}_${fabric.name}* (${GROUP_META[fabric.group].label}). Bisa info harga dan detailnya?`;
-  const href = `https://wa.me/${waNumber}?text=${encodeURIComponent(waMessage)}`;
+  const href = buildWhatsAppLink(waNumber, waMessage);
 
   return (
     <div
@@ -112,7 +113,7 @@ export function FabricCatalog({ fabrics, waNumber }: FabricCatalogProps) {
             <div className="flex flex-col divide-y divide-white/5">
               {group.fabrics.map((fabric) => {
                 const waMessage = `Halo TNT SPORT APPAREL, saya tertarik dengan bahan *${fabric.code}_${fabric.name}* (${group.meta.label}). Bisa info harga dan detailnya?`;
-                const href = `https://wa.me/${waNumber}?text=${encodeURIComponent(waMessage)}`;
+                const href = `https://api.whatsapp.com/send?phone=${waNumber}&text=${encodeURIComponent(waMessage)}`;
                 return (
                   <details key={fabric.id} className="group">
                     <summary className="flex cursor-pointer list-none items-center justify-between gap-4 px-4 py-4 transition hover:bg-white/[.03] sm:px-6 [&::-webkit-details-marker]:hidden">

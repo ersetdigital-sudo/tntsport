@@ -4,6 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useEvergreenCountdown, pad } from "@/components/CountdownTimer";
 import { BoltIcon, CartIcon, FlameIcon, TagIcon } from "@/components/icons";
+import { buildWhatsAppLink } from "@/lib/wa";
 
 /**
  * FlashSaleBanner — dark cinematic card built around the TNT SPORT jersey
@@ -65,11 +66,11 @@ export function FlashSaleBanner({
   // Use custom link if provided, otherwise fall back to WhatsApp
   const orderHref = customLink
     || (whatsappNumber
-      ? `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(customMessage)}`
+      ? buildWhatsAppLink(whatsappNumber, customMessage)
       : "#");
   
   const isExternal = orderHref.startsWith("http");
-  const isWhatsApp = orderHref.includes("wa.me");
+  const isWhatsApp = orderHref.includes("whatsapp");
 
   return (
     <div className="relative overflow-hidden rounded-2xl border border-white/10 bg-[#07090a] shadow-premium-lg sm:rounded-3xl">

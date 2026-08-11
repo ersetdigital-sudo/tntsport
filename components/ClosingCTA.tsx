@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { ArrowRightIcon, WhatsAppIcon } from "@/components/icons";
+import { buildWhatsAppLink } from "@/lib/wa";
 import type { Brand } from "@/lib/types";
 
 /**
@@ -10,9 +11,7 @@ import type { Brand } from "@/lib/types";
  * buttons with compact sizing; desktop: side-by-side.
  */
 export function ClosingCTA({ brand }: { brand: Brand }) {
-  const waHref = `https://wa.me/${brand.whatsappNumber}?text=${encodeURIComponent(
-    "Halo TNT SPORT APPAREL, saya mau order jersey custom."
-  )}`;
+  const waHref = buildWhatsAppLink(brand.whatsappNumber, "Halo TNT SPORT APPAREL, saya mau order jersey custom.");
   const katalogHref = `${brand.url}/katalog`;
 
   return (

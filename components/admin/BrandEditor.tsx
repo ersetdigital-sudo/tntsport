@@ -3,6 +3,7 @@
 import { useState, useTransition } from "react";
 import { useRouter } from "next/navigation";
 import { createClient } from "@/lib/supabase/client";
+import { normalizeWhatsAppNumber } from "@/lib/wa";
 
 interface BrandEditorProps {
   brand: {
@@ -38,9 +39,13 @@ export function BrandEditor({ brand }: BrandEditorProps) {
     setSaved(false);
     startTransition(async () => {
       const supabase = createClient();
+      const payload = {
+        ...form,
+        whatsapp_number: normalizeWhatsAppNumber(form.whatsapp_number),
+      };
       const { error: err } = await supabase
         .from("brand")
-        .update(form)
+        .update(payload)
         .eq("id", 1);
       if (err) {
         setError(err.message);
@@ -99,7 +104,7 @@ export function BrandEditor({ brand }: BrandEditorProps) {
               className={inputClass}
               placeholder="6281234567890"
             />
-            <small className="text-caption text-charcoal dark:text-mute">Format: 62xxx (tanpa tanda + atau spasi)</small>
+            <small className="text-caption text-charcoal dark:text-mute">Format: 62811... atau 0811... (akan otomatis dinormalisasi)</small>
           </label>
           <label className="flex flex-col gap-1.5">
             <span className={labelClass}>Logo Path</span>

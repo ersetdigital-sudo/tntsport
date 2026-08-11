@@ -3,6 +3,7 @@ import Image from "next/image";
 import dynamic from "next/dynamic";
 import { getCatalogData, getFabrics, getKatalogFeatures, getKatalogTestimonials, getBrand, getSocialLinks } from "@/lib/queries";
 import { resolveSeoContext, type SeoContext } from "@/lib/seo";
+import { buildWhatsAppLink } from "@/lib/wa";
 import type { SocialLink, Brand } from "@/lib/types";
 
 const ProductCatalog = dynamic(() => import("@/components/ProductCatalog").then(m => m.ProductCatalog));
@@ -1177,7 +1178,7 @@ export default async function KatalogPage({
   ]);
   const waNumber = brand.whatsappNumber || "628115491117";
   const waMessage = "Halo TNT SPORT APPAREL, saya mau tanya jersey custom";
-  const waLink = `https://wa.me/${waNumber}?text=${encodeURIComponent(waMessage)}`;
+  const waLink = buildWhatsAppLink(waNumber, waMessage);
 
   return (
     <div className="overflow-x-hidden antialiased">

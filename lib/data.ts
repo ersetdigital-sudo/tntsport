@@ -24,6 +24,7 @@ import {
   TruckIcon,
   WhatsAppIcon,
 } from "@/components/icons";
+import { buildWhatsAppLink } from "@/lib/wa";
 import type {
   Brand,
   CTALink,
@@ -63,9 +64,10 @@ export const stats: StatItem[] = [
   { value: "100%", label: "Garansi", icon: ShieldIcon },
 ];
 
-const waLink = `https://wa.me/${brand.whatsappNumber}?text=${encodeURIComponent(
+const waLink = buildWhatsAppLink(
+  brand.whatsappNumber,
   "Halo TNT SPORT APPAREL, saya mau konsultasi soal jersey custom."
-)}`;
+);
 
 export const ctaLinks: CTALink[] = [
   {
