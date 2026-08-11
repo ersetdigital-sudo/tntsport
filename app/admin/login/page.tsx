@@ -56,7 +56,7 @@ export default function AdminLoginPage() {
               <p className="text-[10px] text-green-500/50 uppercase tracking-[0.2em] font-semibold">
                 Admin Panel
               </p>
-              <h2 className="text-sm font-bold text-white/90">TNT SPORT</h2>
+              <h2 className="text-sm font-bold text-white/90">TNT SPORT APPAREL</h2>
             </div>
           </div>
 
@@ -64,7 +64,7 @@ export default function AdminLoginPage() {
           <h1 className="text-3xl xl:text-4xl font-bold text-white leading-snug mb-5">
             Admin Dashboard
             <br />
-            <span className="text-white/40">TNT SPORT</span>
+            <span className="text-white/40">TNT SPORT APPAREL</span>
           </h1>
 
           <p className="text-sm text-gray-500 leading-relaxed max-w-xs">

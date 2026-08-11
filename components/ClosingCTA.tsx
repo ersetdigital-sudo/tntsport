@@ -11,7 +11,7 @@ import type { Brand } from "@/lib/types";
  */
 export function ClosingCTA({ brand }: { brand: Brand }) {
   const waHref = `https://wa.me/${brand.whatsappNumber}?text=${encodeURIComponent(
-    "Halo TNT SPORT, saya mau order jersey custom."
+    "Halo TNT SPORT APPAREL, saya mau order jersey custom."
   )}`;
   const katalogHref = `${brand.url}/katalog`;
 

@@ -32,11 +32,11 @@ export async function generateMetadata({
     const canonic = `${baseUrl}/katalog?category=${encodeURIComponent(seo.category.id)}&design=${encodeURIComponent(seo.designKey)}`;
     const ogImage = `${baseUrl}/api/og/katalog?category=${encodeURIComponent(seo.category.id)}&design=${encodeURIComponent(seo.designKey)}`;
     return {
-      title: `${seo.product.name} | Custom Jersey ${seo.category.label} Jogja | TNT Sport`,
+      title: `${seo.product.name} | Custom Jersey ${seo.category.label} Jogja | TNT SPORT APPAREL`,
       description: `Jasa Custom Jersey ${seo.category.label} Full Printing di Jogja. Gratis desain, tanpa minimal order.`,
       alternates: { canonical: canonic },
       openGraph: {
-        title: `${seo.product.name} | Custom Jersey ${seo.category.label} Jogja | TNT Sport`,
+        title: `${seo.product.name} | Custom Jersey ${seo.category.label} Jogja | TNT SPORT APPAREL`,
         description: `Jasa Custom Jersey ${seo.category.label} Full Printing di Jogja. Gratis desain, tanpa minimal order.`,
         url: canonic,
         type: "website",
@@ -52,7 +52,7 @@ export async function generateMetadata({
       },
       twitter: {
         card: "summary_large_image",
-        title: `${seo.product.name} | Custom Jersey ${seo.category.label} Jogja | TNT Sport`,
+        title: `${seo.product.name} | Custom Jersey ${seo.category.label} Jogja | TNT SPORT APPAREL`,
         description: `Jasa Custom Jersey ${seo.category.label} Full Printing di Jogja. Gratis desain, tanpa minimal order.`,
         images: [ogImage],
       },
@@ -63,11 +63,11 @@ export async function generateMetadata({
     const canonic = `${baseUrl}/katalog?category=${encodeURIComponent(seo.category.id)}`;
     const ogImage = `${baseUrl}/api/og/katalog?category=${encodeURIComponent(seo.category.id)}`;
     return {
-      title: `Custom Jersey ${seo.category.label} | TNT Sport`,
+      title: `Custom Jersey ${seo.category.label} | TNT SPORT APPAREL`,
       description: `Jasa Custom Jersey ${seo.category.label} Full Printing di Jogja. Gratis desain, tanpa minimal order.`,
       alternates: { canonical: canonic },
       openGraph: {
-        title: `${seo.category.label} — Katalog Jersey Custom TNT Sport`,
+        title: `${seo.category.label} — Katalog Jersey Custom TNT SPORT APPAREL`,
         description: `Jasa Custom Jersey ${seo.category.label} Full Printing di Jogja. Gratis desain, tanpa minimal order.`,
         url: canonic,
         type: "website",
@@ -77,13 +77,13 @@ export async function generateMetadata({
             url: ogImage,
             width: 1200,
             height: 630,
-            alt: `Custom Jersey ${seo.category.label} — TNT Sport`,
+            alt: `Custom Jersey ${seo.category.label} — TNT SPORT APPAREL`,
           },
         ],
       },
       twitter: {
         card: "summary_large_image",
-        title: `Custom Jersey ${seo.category.label} | TNT Sport`,
+        title: `Custom Jersey ${seo.category.label} | TNT SPORT APPAREL`,
         description: `Jasa Custom Jersey ${seo.category.label} Full Printing di Jogja. Gratis desain, tanpa minimal order.`,
         images: [ogImage],
       },
@@ -91,12 +91,12 @@ export async function generateMetadata({
   }
 
   return {
-    title: "Katalog Jersey Custom Full Printing — TNT SPORT",
+    title: "Katalog Jersey Custom Full Printing — TNT SPORT APPAREL",
     description:
       "Jersey custom full printing mulai 85 ribuan. Desain bebas, tanpa minimal order, produksi cepat, kirim ke seluruh Indonesia.",
     alternates: { canonical: "/katalog" },
     openGraph: {
-      title: "Katalog Jersey Custom Full Printing · TNT SPORT",
+      title: "Katalog Jersey Custom Full Printing · TNT SPORT APPAREL",
       description:
         "Custom jersey sesukamu dengan hasil premium. Gratis desain, nama, nomor dan logo—bahkan untuk order satuan.",
       url: "https://www.tntsportapparel.id/katalog",
@@ -107,13 +107,13 @@ export async function generateMetadata({
           url: "https://www.tntsportapparel.id/opengraph-image",
           width: 1200,
           height: 630,
-          alt: "TNT SPORT — Katalog Jersey Custom Full Printing",
+          alt: "TNT SPORT APPAREL — Katalog Jersey Custom Full Printing",
         },
       ],
     },
     twitter: {
       card: "summary_large_image",
-      title: "Katalog Jersey Custom Full Printing · TNT SPORT",
+      title: "Katalog Jersey Custom Full Printing · TNT SPORT APPAREL",
       description:
         "Custom jersey sesukamu dengan hasil premium. Gratis desain, nama, nomor dan logo—bahkan untuk order satuan.",
       images: ["https://www.tntsportapparel.id/opengraph-image"],
@@ -215,7 +215,7 @@ const TESTIMONIALS = [
     badge: "Verified Buyer",
     rating: 5,
     quote:
-      "Komunitas cyclist kami pesan 80 pcs jersey sepeda. Bahan breathable, nggak gerah pasgowes jarak jauh. Desainnya juga kece, banyak yang nanya custom di mana. TNT Sport jawabannya!",
+      "Komunitas cyclist kami pesan 80 pcs jersey sepeda. Bahan breathable, nggak gerah pasgowes jarak jauh. Desainnya juga kece, banyak yang nanya custom di mana. TNT SPORT APPAREL jawabannya!",
     name: "Budi Santoso",
     city: "Malang",
     team: "Komunitas Cyclist Malang",
@@ -287,7 +287,7 @@ function JsonLd({ seo }: { seo?: SeoContext }) {
       name: seo.product.name,
       description: `Custom jersey ${seo.category.label} full printing. Gratis desain, tanpa minimal order.`,
       image: seo.product.image,
-      brand: { "@type": "Brand", name: "TNT SPORT" },
+      brand: { "@type": "Brand", name: "TNT SPORT APPAREL" },
       url: productUrl,
       offers: {
         "@type": "Offer",
@@ -325,10 +325,10 @@ function JsonLd({ seo }: { seo?: SeoContext }) {
   schemas.push({
     "@context": "https://schema.org",
     "@type": "Product",
-    name: "Jersey Custom Full Printing TNT SPORT",
+    name: "Jersey Custom Full Printing TNT SPORT APPAREL",
     description:
       "Jersey custom full printing mulai 85 ribuan. Desain bebas, tanpa minimal order, produksi cepat.",
-    brand: { "@type": "Brand", name: "TNT SPORT" },
+    brand: { "@type": "Brand", name: "TNT SPORT APPAREL" },
     offers: {
       "@type": "AggregateOffer",
       lowPrice: "85000",
@@ -451,7 +451,7 @@ function Hero({ waLink }: { waLink: string }) {
         <div className="hero-photo pointer-events-none absolute inset-x-0 bottom-0 z-10 h-[490px] lg:bottom-0 lg:left-[44%] lg:right-[-8%] lg:top-0 lg:h-full">
           <Image
             src="/0df8a74d-b39f-4bc5-8d55-0be10a01cbe2.png"
-            alt="Tiga atlet mengenakan jersey custom TNT Sport"
+            alt="Tiga atlet mengenakan jersey custom TNT SPORT APPAREL"
             fill
             priority
             sizes="100vw"
@@ -504,7 +504,7 @@ function FlashSale({ waLink }: { waLink: string }) {
             <div className="inline-flex items-center gap-2 rounded-full border border-[#00aa13]/30 bg-[#00aa13]/10 px-3 py-1.5 text-[8px] font-black uppercase tracking-[.2em] text-[#00c317] sm:px-3.5 sm:py-2 sm:text-[10px]"
                  style={{ fontFamily: "var(--font-mono)" }}>
               <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-[#00aa13] shadow-[0_0_10px_#00aa13]" />
-              TNT Sport Flash Deal
+              TNT SPORT APPAREL Flash Deal
             </div>
             <h2 className="mt-4 text-4xl font-black uppercase leading-[.88] tracking-[-.035em] sm:mt-5 sm:text-5xl lg:text-6xl"
                 style={{ fontFamily: "var(--font-sans)", fontStretch: "condensed", fontStyle: "italic" }}>
@@ -606,7 +606,7 @@ async function Keunggulan() {
           <div>
             <p className="text-xs font-bold uppercase tracking-[.2em] text-[#00aa13]"
                style={{ fontFamily: "var(--font-mono)" }}>
-              Kenapa TNT Sport?
+              Kenapa TNT SPORT APPAREL?
             </p>
             <h2 className="mt-3 max-w-3xl text-3xl font-black uppercase leading-[.92] tracking-tight text-[#f0f2ec] sm:text-5xl lg:text-6xl"
                 style={{ fontFamily: "var(--font-sans)", fontStretch: "condensed", fontStyle: "italic" }}>
@@ -898,7 +898,7 @@ async function Ulasan({ waLink }: { waLink: string }) {
             Kata <span className="text-[#00aa13]">Pelanggan</span> Kami
           </h2>
           <p className="mx-auto mt-3 max-w-md text-sm text-[#a7ad9e]">
-            Ribuan tim &amp; komunitas sudah percaya TNT Sport untuk kebutuhan jersey custom mereka.
+            Ribuan tim &amp; komunitas sudah percaya TNT SPORT APPAREL untuk kebutuhan jersey custom mereka.
           </p>
         </div>
 
@@ -1176,7 +1176,7 @@ export default async function KatalogPage({
     getSocialLinks(),
   ]);
   const waNumber = brand.whatsappNumber || "628115491117";
-  const waMessage = "Halo TNT SPORT, saya mau tanya jersey custom";
+  const waMessage = "Halo TNT SPORT APPAREL, saya mau tanya jersey custom";
   const waLink = `https://wa.me/${waNumber}?text=${encodeURIComponent(waMessage)}`;
 
   return (

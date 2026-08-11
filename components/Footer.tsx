@@ -13,10 +13,10 @@ export function Footer({ brand }: { brand: Brand }) {
         {/* Brand + description */}
         <div className="flex flex-col items-center gap-3 text-center">
           <span className="text-lg font-extrabold italic tracking-tight text-ink">
-            TNT <span className="text-primary">SPORT</span>
+            TNT SPORT <span className="text-primary">APPAREL</span>
           </span>
           <p className="max-w-xs text-xs leading-relaxed text-charcoal">
-            Pabrik jersey custom full printing. Desain bebas, harga pabrik, kirim se-Indonesia.
+            Tempat bikin jersey futsal custom. Desain bebas, harga pabrik, kirim se-Indonesia.
           </p>
         </div>
       </div>

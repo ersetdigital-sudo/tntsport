@@ -56,7 +56,7 @@ export default function AdminSignupPage() {
               <p className="text-[10px] text-green-500/50 uppercase tracking-[0.2em] font-semibold">
                 Admin Panel
               </p>
-              <h2 className="text-sm font-bold text-white/90">TNT SPORT</h2>
+              <h2 className="text-sm font-bold text-white/90">TNT SPORT APPAREL</h2>
             </div>
           </div>
 

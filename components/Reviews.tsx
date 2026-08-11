@@ -19,7 +19,7 @@ export function Reviews({ items }: { items: Review[] }) {
         <div>
           <p className="section-kicker">Cerita dari lapangan</p>
           <h2 className="mt-2 text-heading-lg text-ink">Ulasan pelanggan</h2>
-          <p className="mt-1 text-caption text-charcoal dark:text-white/50">Review asli dari tim yang sudah pesan di TNT SPORT.</p>
+          <p className="mt-1 text-caption text-charcoal dark:text-white/50">Review asli dari tim yang sudah pesan di TNT SPORT APPAREL.</p>
         </div>
         <span className="inline-flex shrink-0 items-center gap-1.5 rounded-full border border-hairline bg-white/60 px-3 py-1.5 text-caption shadow-premium-sm dark:border-white/15 dark:bg-white/[0.08]">
           <StarIcon className="h-3.5 w-3.5 text-primary" aria-hidden="true" />

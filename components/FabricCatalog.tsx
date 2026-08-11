@@ -26,7 +26,7 @@ const GROUP_META: Record<FabricGroupId, { label: string; note: string }> = {
 };
 
 function FabricZoomModal({ fabric, waNumber, onClose }: { fabric: Fabric; waNumber: string; onClose: () => void }) {
-  const waMessage = `Halo TNT SPORT, saya tertarik dengan bahan *${fabric.code}_${fabric.name}* (${GROUP_META[fabric.group].label}). Bisa info harga dan detailnya?`;
+  const waMessage = `Halo TNT SPORT APPAREL, saya tertarik dengan bahan *${fabric.code}_${fabric.name}* (${GROUP_META[fabric.group].label}). Bisa info harga dan detailnya?`;
   const href = `https://wa.me/${waNumber}?text=${encodeURIComponent(waMessage)}`;
 
   return (
@@ -111,7 +111,7 @@ export function FabricCatalog({ fabrics, waNumber }: FabricCatalogProps) {
 
             <div className="flex flex-col divide-y divide-white/5">
               {group.fabrics.map((fabric) => {
-                const waMessage = `Halo TNT SPORT, saya tertarik dengan bahan *${fabric.code}_${fabric.name}* (${group.meta.label}). Bisa info harga dan detailnya?`;
+                const waMessage = `Halo TNT SPORT APPAREL, saya tertarik dengan bahan *${fabric.code}_${fabric.name}* (${group.meta.label}). Bisa info harga dan detailnya?`;
                 const href = `https://wa.me/${waNumber}?text=${encodeURIComponent(waMessage)}`;
                 return (
                   <details key={fabric.id} className="group">
@@ -154,7 +154,7 @@ export function FabricCatalog({ fabrics, waNumber }: FabricCatalogProps) {
                         {/* eslint-disable-next-line @next/next/no-img-element */}
                         <img
                           src={fabric.image}
-                          alt={`${fabric.code}_${fabric.name} — Bahan Jersey TNT SPORT`}
+            alt={`${fabric.code}_${fabric.name} — Bahan Jersey TNT SPORT APPAREL`}
                           className="h-full w-full object-cover transition duration-300 group-hover/zoom:scale-105"
                         />
                         <span className="absolute inset-0 flex items-center justify-center bg-black/0 transition group-hover/zoom:bg-black/20">

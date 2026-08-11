@@ -80,7 +80,7 @@ export function SignupForm() {
               Buat Akun Baru
             </h1>
             <p className="text-sm text-gray-400 mt-1">
-              Daftar untuk mengelola TNT SPORT
+              Daftar untuk mengelola TNT SPORT APPAREL
             </p>
           </div>
         </div>

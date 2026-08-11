@@ -108,12 +108,12 @@ export async function generateMetadata(): Promise<Metadata> {
   const brand = await getBrand();
   const url = brand.url || "https://www.tntsportapparel.id";
   return {
-    title: "Promo Kemerdekaan — TNT SPORT",
+    title: "Promo Kemerdekaan — TNT SPORT APPAREL",
     description:
-      "Promo jersey custom kemerdekaan dari TNT SPORT. Gratis desain, nama, nomor & logo. Tanpa minimal order, revisi bebas.",
+      "Promo jersey custom kemerdekaan dari TNT SPORT APPAREL. Gratis desain, nama, nomor & logo. Tanpa minimal order, revisi bebas.",
     alternates: { canonical: "/promo-bulan-ini" },
     openGraph: {
-      title: "Promo Kemerdekaan — TNT SPORT",
+      title: "Promo Kemerdekaan — TNT SPORT APPAREL",
       description:
         "Jersey custom full printing mulai 85 ribu. Gratis desain, bebas custom nama, nomor, dan logo, tanpa minimal order.",
       url: `${url}/promo-bulan-ini`,
@@ -122,7 +122,7 @@ export async function generateMetadata(): Promise<Metadata> {
     },
     twitter: {
       card: "summary_large_image",
-      title: "Promo Kemerdekaan — TNT SPORT",
+      title: "Promo Kemerdekaan — TNT SPORT APPAREL",
       description: "Jersey custom full printing dari 85 ribu. Gratis desain, tanpa minimal order.",
     },
   };
@@ -140,12 +140,12 @@ export default async function PromoBulanIniPage() {
   const waNumber = brand.whatsappNumber || "628115491117";
   const wa = (msg: string) => `https://wa.me/${waNumber}?text=${encodeURIComponent(msg)}`;
 
-  const waGeneral = wa("Halo TNT SPORT, saya mau tanya promo bulan ini 🎉");
-  const waAtasan = wa("Halo TNT Sport, saya ingin membuat Jersey Atasan Full Printing. Boleh dibantu konsultasi desain dan hitung total harganya?");
-  const waSetelan = wa("Halo TNT Sport, saya ingin membuat Jersey Setelan Full Printing. Boleh dibantu konsultasi desain, pilihan bahan, dan total biayanya?");
-  const waPenawaran = wa("Halo TNT SPORT, saya mau penawaran khusus partai besar");
-  const waKlaim = wa("Halo TNT SPORT, saya mau klaim promo *Beli 12 Gratis 1*");
-  const waKonsultasi = wa("Halo TNT SPORT, saya mau mulai konsultasi jersey custom");
+  const waGeneral = wa("Halo TNT SPORT APPAREL, saya mau tanya promo bulan ini 🎉");
+  const waAtasan = wa("Halo TNT SPORT APPAREL, saya ingin membuat Jersey Atasan Full Printing. Boleh dibantu konsultasi desain dan hitung total harganya?");
+  const waSetelan = wa("Halo TNT SPORT APPAREL, saya ingin membuat Jersey Setelan Full Printing. Boleh dibantu konsultasi desain, pilihan bahan, dan total biayanya?");
+  const waPenawaran = wa("Halo TNT SPORT APPAREL, saya mau penawaran khusus partai besar");
+  const waKlaim = wa("Halo TNT SPORT APPAREL, saya mau klaim promo *Beli 12 Gratis 1*");
+  const waKonsultasi = wa("Halo TNT SPORT APPAREL, saya mau mulai konsultasi jersey custom");
 
   return (
     <div
@@ -194,7 +194,7 @@ export default async function PromoBulanIniPage() {
             <div className="hero-photo pointer-events-none absolute inset-x-0 bottom-0 z-10 h-[490px] lg:left-[40%] lg:right-0 lg:top-0 lg:h-full lg:w-[60%]">
               <Image
                 src="/promo/promo-hero.png"
-                alt="Model menggunakan jersey custom TNT Sport"
+                alt="Model menggunakan jersey custom TNT SPORT APPAREL"
                 fill
                 priority
                 sizes="100vw"
@@ -327,7 +327,7 @@ export default async function PromoBulanIniPage() {
             <div className="grid items-end gap-8 lg:grid-cols-[.8fr_1.2fr]">
               <div>
                 <span className="text-xs font-black uppercase tracking-[.25em] text-[#ef233c]" style={{ fontFamily: "var(--font-dm)" }}>
-                  Kenapa TNT Sport?
+                  Kenapa TNT SPORT APPAREL?
                 </span>
                 <h2 className="pdisplay mt-4 text-4xl uppercase leading-[.95] sm:text-6xl">
                   Dibuat untuk tim yang mau tampil maksimal.
@@ -550,7 +550,7 @@ export default async function PromoBulanIniPage() {
                 <span className="text-xs font-black uppercase tracking-[.25em] text-[#ef233c]">Ulasan pelanggan</span>
                 <h2 className="pdisplay mt-4 text-4xl uppercase sm:text-6xl">Bukan kata kami.</h2>
               </div>
-              <p className="text-zinc-600">Ribuan tim &amp; komunitas sudah percaya TNT SPORT.</p>
+              <p className="text-zinc-600">Ribuan tim &amp; komunitas sudah percaya TNT SPORT APPAREL.</p>
             </div>
 
             {/* Photo Gallery */}
@@ -632,12 +632,12 @@ export default async function PromoBulanIniPage() {
 
       <footer className="border-t border-white/10 bg-[#09090b] py-8">
         <div className="mx-auto flex max-w-7xl flex-col gap-5 px-5 text-sm text-zinc-500 sm:flex-row sm:items-center sm:justify-between lg:px-8">
-          <a href="#home" className="flex items-center gap-2.5 text-white" aria-label="TNT Sport">
-            <img src={brand.logoPath || "/logo.jpg"} alt="Logo TNT Sport" className="h-12 w-12 object-contain mix-blend-screen" />
-            <span className="text-base font-black tracking-[.16em]">TNT SPORT</span>
+          <a href="#home" className="flex items-center gap-2.5 text-white" aria-label="TNT SPORT APPAREL">
+            <img src={brand.logoPath || "/logo.jpg"} alt="Logo TNT SPORT APPAREL" className="h-12 w-12 object-contain mix-blend-screen" />
+            <span className="text-base font-black tracking-[.16em]">TNT SPORT APPAREL</span>
           </a>
           <p>Jersey custom full printing · Dibuat untuk tampil maksimal.</p>
-          <p>© {new Date().getFullYear()} TNT SPORT</p>
+          <p>© {new Date().getFullYear()} TNT SPORT APPAREL</p>
         </div>
       </footer>
     </div>

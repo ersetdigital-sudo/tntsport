@@ -126,8 +126,8 @@ export default async function RootLayout({
     >
       <head>
         {/* llms.txt discovery for AI assistants */}
-        <link rel="alternate" type="text/plain" href="/llms.txt" title="TNT SPORT — LLM Ringkasan" />
-        <link rel="alternate" type="text/plain" href="/llms-full.txt" title="TNT SPORT — LLM Konten Lengkap" />
+        <link rel="alternate" type="text/plain" href="/llms.txt" title="TNT SPORT APPAREL — LLM Ringkasan" />
+        <link rel="alternate" type="text/plain" href="/llms-full.txt" title="TNT SPORT APPAREL — LLM Konten Lengkap" />
         {/* Google Tag Manager */}
         <script
           dangerouslySetInnerHTML={{

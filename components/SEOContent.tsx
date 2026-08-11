@@ -10,14 +10,14 @@ export function SEOContent() {
         Bikin Jersey Custom Full Printing untuk Tim & Komunitas
       </h2>
       <p className="mt-3 text-body-sm leading-relaxed text-charcoal dark:text-white/60 sm:text-body-md">
-        TNT SPORT adalah pabrik jersey custom yang melayani pesanan jersey full printing
+        TNT SPORT APPAREL adalah pabrik jersey custom yang melayani pesanan jersey full printing
         untuk tim futsal, sepak bola, komunitas, event, sekolah, dan perusahaan. Dengan
         teknik printing sublimasi, desain kamu dicetak penuh di seluruh permukaan jersey
         tanpa batasan warna — termasuk gradasi, motif, dan detail rumit sekalipun.
       </p>
 
       <h3 className="mt-5 text-body-md font-bold text-ink">
-        Keunggulan Bikin Jersey Custom di TNT SPORT
+        Keunggulan Bikin Jersey Custom di TNT SPORT APPAREL
       </h3>
       <ul className="mt-2 flex flex-col gap-1.5 text-body-sm text-charcoal dark:text-white/60">
         <li className="flex items-start gap-2">

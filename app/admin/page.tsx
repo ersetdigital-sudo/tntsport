@@ -66,7 +66,7 @@ export default async function AdminDashboard() {
             Selamat datang kembali, <span className="text-gradient-brand">Admin</span>
           </h2>
           <p className="text-body-sm text-stone mt-xs">
-            Ringkasan performa TNT SPORT hari ini —{" "}
+            Ringkasan performa TNT SPORT APPAREL hari ini —{" "}
             {new Date().toLocaleDateString("id-ID", {
               weekday: "long",
               day: "numeric",

@@ -52,7 +52,7 @@ export function ProfileHeader({ brand }: { brand: Brand }) {
       <div className="relative mx-auto h-40 w-40 shrink-0 sm:mx-0 sm:h-44 sm:w-44 md:h-52 md:w-52">
         <Image
           src={HERO_JERSEY}
-          alt="Jersey TNT SPORT"
+          alt="Jersey TNT SPORT APPAREL"
           fill
           priority
           sizes="(max-width: 640px) 160px, 208px"

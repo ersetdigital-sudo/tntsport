@@ -62,9 +62,9 @@ export default async function KatalogFeaturesAdminPage() {
       <div className="space-y-6">
         <div className="flex items-center justify-between">
           <div>
-            <h2 className="text-heading-md text-ink">Keunggulan TNT Sport</h2>
+            <h2 className="text-heading-md text-ink">Keunggulan TNT SPORT APPAREL</h2>
             <p className="text-body-sm text-charcoal mt-1">
-              Kelola kartu keunggulan di section &quot;Kenapa TNT Sport?&quot;
+              Kelola kartu keunggulan di section &quot;Kenapa TNT SPORT APPAREL?&quot;
             </p>
           </div>
           <Link

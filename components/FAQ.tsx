@@ -6,7 +6,7 @@ const FAQ_ITEMS = [
     a: "Jersey custom full printing adalah jersey yang dicetak menggunakan teknik printing sublimasi, sehingga desain menutupi seluruh permukaan kain tanpa batasan warna. Cocok untuk tim futsal, sepak bola, komunitas, event, dan seragam kantor.",
   },
   {
-    q: "Berapa harga jersey custom di TNT SPORT?",
+    q: "Berapa harga jersey custom di TNT SPORT APPAREL?",
     a: "Harga mulai dari Rp85.000 per pcs dengan harga pabrik langsung tanpa perantara. Semakin banyak jumlah pesanan, semakin hemat harga per pcs-nya. Konsultasi via WhatsApp untuk estimasi harga sesuai desain dan jumlah.",
   },
   {
@@ -15,15 +15,15 @@ const FAQ_ITEMS = [
   },
   {
     q: "Apakah bisa request desain sendiri?",
-    a: "Bisa. Tim desainer TNT SPORT siap membantu membuatkan desain dari nol atau memakai desain yang sudah kamu punya. Konsultasi dan revisi desain gratis sampai cocok.",
+    a: "Bisa. Tim desainer TNT SPORT APPAREL siap membantu membuatkan desain dari nol atau memakai desain yang sudah kamu punya. Konsultasi dan revisi desain gratis sampai cocok.",
   },
   {
     q: "Apakah ada garansi untuk jersey yang dipesan?",
     a: "Ya, semua pesanan dilindungi garansi 100%. Jika ada cacat produksi atau kesalahan, akan diganti tanpa biaya tambahan.",
   },
   {
-    q: "Mengapa harus pilih TNT SPORT untuk bikin jersey custom?",
-    a: "TNT SPORT adalah pabrik jersey custom dengan pengalaman melayani 350.000+ pesanan. Keunggulan kami: bahan premium dry-fit, printing sublimasi full color tanpa batasan, harga pabrik langsung, desain gratis, dan garansi 100%.",
+    q: "Mengapa harus pilih TNT SPORT APPAREL untuk bikin jersey custom?",
+    a: "TNT SPORT APPAREL adalah pabrik jersey custom dengan pengalaman melayani 350.000+ pesanan. Keunggulan kami: bahan premium dry-fit, printing sublimasi full color tanpa batasan, harga pabrik langsung, desain gratis, dan garansi 100%.",
   },
 ];
 

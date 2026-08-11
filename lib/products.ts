@@ -19,7 +19,7 @@ export interface CategoryProducts {
 
 export function getWhatsAppLink(categoryLabel: string, catalogue: string, waNumber?: string): string {
   const number = waNumber || "628115491117";
-  const message = `Halo TNT SPORT, saya tertarik dengan desain *${catalogue}* di kategori *${categoryLabel}*. Bisa info lebih lanjut?`;
+  const message = `Halo TNT SPORT APPAREL, saya tertarik dengan desain *${catalogue}* di kategori *${categoryLabel}*. Bisa info lebih lanjut?`;
   return `https://wa.me/${number}?text=${encodeURIComponent(message)}`;
 }
 

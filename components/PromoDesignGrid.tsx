@@ -38,7 +38,7 @@ function ZoomModal({
   onClose: () => void;
 }) {
   const waLink = `https://wa.me/${waNumber}?text=${encodeURIComponent(
-    `Halo TNT SPORT, saya tertarik dengan desain promo nomor ${String(design).padStart(2, "0")}. Bisa info lebih lanjut?`
+    `Halo TNT SPORT APPAREL, saya tertarik dengan desain promo nomor ${String(design).padStart(2, "0")}. Bisa info lebih lanjut?`
   )}`;
   return (
     <div
@@ -99,7 +99,7 @@ export function PromoDesignGrid({ waNumber }: { waNumber: string }) {
         {Array.from({ length: DESIGN_COUNT }).map((_, i) => {
           const design = i + 1;
           const waLink = `https://wa.me/${waNumber}?text=${encodeURIComponent(
-            `Halo TNT SPORT, saya tertarik dengan desain ${String(design).padStart(2, "0")} di promo kemerdekaan. Bisa info lebih lanjut?`
+            `Halo TNT SPORT APPAREL, saya tertarik dengan desain ${String(design).padStart(2, "0")} di promo kemerdekaan. Bisa info lebih lanjut?`
           )}`;
           return (
             <article

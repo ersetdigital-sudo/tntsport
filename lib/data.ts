@@ -1,5 +1,5 @@
 /**
- * Fallback content for the TNT SPORT landing page.
+ * Fallback content for the TNT SPORT APPAREL landing page.
  *
  * These values are used by lib/queries.ts when Supabase is unreachable
  * or returns no rows. Edit the live values from the admin panel once
@@ -35,13 +35,13 @@ import type {
 } from "@/lib/types";
 
 export const brand: Brand = {
-  name: "TNT SPORT",
-  accentWord: "SPORT",
+  name: "TNT SPORT APPAREL",
+  accentWord: "APPAREL",
   monogram: "TNT",
-  tagline: "Pabrik Jersey Custom Full Printing.\nDesain bebas, harga pabrik, kirim se-Indonesia.",
+  tagline: "Tempat Bikin Jersey Futsal Custom.\nDesain bebas, harga pabrik, kirim se-Indonesia.",
   url: "https://www.tntsportapparel.id",
   description:
-    "TNT SPORT — pabrik jersey custom full printing. Desain bebas, harga mulai 85rb, kirim se-Indonesia. Konsultasi gratis via WhatsApp.",
+    "TNT SPORT APPAREL — tempat bikin jersey futsal custom full printing. Desain bebas, harga mulai 85rb, kirim se-Indonesia. Konsultasi gratis via WhatsApp.",
   whatsappNumber: "628115491117",
   logoPath: "/logo.jpg",
   metaPixelId: "",
@@ -64,7 +64,7 @@ export const stats: StatItem[] = [
 ];
 
 const waLink = `https://wa.me/${brand.whatsappNumber}?text=${encodeURIComponent(
-  "Halo TNT SPORT, saya mau konsultasi soal jersey custom."
+  "Halo TNT SPORT APPAREL, saya mau konsultasi soal jersey custom."
 )}`;
 
 export const ctaLinks: CTALink[] = [
@@ -225,30 +225,30 @@ export const socialLinks: SocialLink[] = [
     label: "Shopee",
     icon: ShopeeIcon,
     href: "https://shopee.co.id/",
-    ariaLabel: "TNT SPORT di Shopee",
+    ariaLabel: "TNT SPORT APPAREL di Shopee",
   },
   {
     label: "Instagram",
     icon: InstagramIcon,
     href: "https://instagram.com/tntsport",
-    ariaLabel: "TNT SPORT di Instagram",
+    ariaLabel: "TNT SPORT APPAREL di Instagram",
   },
   {
     label: "TikTok",
     icon: TikTokIcon,
     href: "https://tiktok.com/@tntsport",
-    ariaLabel: "TNT SPORT di TikTok",
+    ariaLabel: "TNT SPORT APPAREL di TikTok",
   },
   {
     label: "Facebook",
     icon: FacebookIcon,
     href: "https://facebook.com/tntsport",
-    ariaLabel: "TNT SPORT di Facebook",
+    ariaLabel: "TNT SPORT APPAREL di Facebook",
   },
   {
     label: "Maps",
     icon: MapsIcon,
     href: "https://maps.google.com/?q=TNT+SPORT",
-    ariaLabel: "Lokasi TNT SPORT di Google Maps",
+    ariaLabel: "Lokasi TNT SPORT APPAREL di Google Maps",
   },
 ];

@@ -40,7 +40,7 @@ export default async function EditKatalogFeaturePage({ params }: { params: Promi
       <div className="mb-6">
         <h2 className="text-heading-md text-ink">Edit Keunggulan</h2>
         <p className="text-body-sm text-charcoal mt-1">
-          Edit kartu keunggulan di section &quot;Kenapa TNT Sport?&quot;
+          Edit kartu keunggulan di section &quot;Kenapa TNT SPORT APPAREL?&quot;
         </p>
       </div>
       <KatalogFeatureEditor feature={feature} />

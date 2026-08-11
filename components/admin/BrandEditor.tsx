@@ -66,7 +66,7 @@ export function BrandEditor({ brand }: BrandEditorProps) {
               value={form.name}
               onChange={(e) => update("name", e.target.value)}
               className={inputClass}
-              placeholder="TNT SPORT"
+              placeholder="TNT SPORT APPAREL"
             />
           </label>
           <label className="flex flex-col gap-1.5">

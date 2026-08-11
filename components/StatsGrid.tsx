@@ -7,7 +7,7 @@ import type { StatItem } from "@/lib/types";
  */
 export function StatsGrid({ stats }: { stats: StatItem[] }) {
   return (
-    <section aria-label="Statistik TNT SPORT" className="w-full">
+    <section aria-label="Statistik TNT SPORT APPAREL" className="w-full">
       <div className="grid grid-cols-3 gap-0 overflow-hidden rounded-2xl border border-hairline bg-surface-card shadow-premium-sm">
         {stats.map((s, index) => (
           <div

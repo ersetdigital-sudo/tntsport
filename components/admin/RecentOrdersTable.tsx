@@ -37,7 +37,7 @@ export function RecentOrdersTable({ orders = [] }: RecentOrdersTableProps) {
         <div>
           <h3 className="text-heading-md text-ink">Order Terbaru</h3>
           <p className="text-caption text-stone mt-xs">
-            Transaksi terkini dari pelanggan TNT SPORT
+            Transaksi terkini dari pelanggan TNT SPORT APPAREL
           </p>
         </div>
         <div className="flex items-center gap-md">

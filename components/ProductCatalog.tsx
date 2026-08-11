@@ -128,7 +128,7 @@ function ZoomModal({
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
             src={product.image}
-            alt={`${product.catalogue} — Jersey Custom ${categoryLabel} TNT SPORT`}
+            alt={`${product.catalogue} — Jersey Custom ${categoryLabel} TNT SPORT APPAREL`}
             className="block h-auto w-full object-contain"
             style={{ maxHeight: "70vh" }}
           />
@@ -195,7 +195,7 @@ function ProductCard({
       >
         <Image
           src={product.image}
-          alt={`${product.catalogue} — Jersey Custom ${categoryLabel} TNT SPORT`}
+          alt={`${product.catalogue} — Jersey Custom ${categoryLabel} TNT SPORT APPAREL`}
           fill
           className="object-cover transition duration-300 group-hover:scale-105"
           sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 20vw"

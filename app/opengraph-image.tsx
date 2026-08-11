@@ -3,7 +3,7 @@ import { getBrand } from "@/lib/queries";
 
 /**
  * opengraph-image - generated dynamically at /opengraph-image
- * (App Router convention). Renders a 1200x630 OG card with the TNT SPORT
+ * (App Router convention). Renders a 1200x630 OG card with the TNT SPORT APPAREL
  * brand on a dark premium canvas with the brand gradient mesh.
  *
  * Runtime: edge - ImageResponse works without Node APIs.
@@ -12,7 +12,7 @@ export const runtime = "edge";
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 
-export const alt = "TNT SPORT - Open Graph image";
+export const alt = "TNT SPORT APPAREL - Open Graph image";
 
 export default async function OpengraphImage() {
   const brand = await getBrand();

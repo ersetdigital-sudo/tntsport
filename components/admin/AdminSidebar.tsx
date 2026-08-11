@@ -114,7 +114,7 @@ export function AdminSidebar({ email, mobile, onNavigate }: { email?: string | n
           <div className="w-8 h-8 rounded-lg bg-gradient-brand flex items-center justify-center">
             <span className="text-on-primary font-bold text-body-md">T</span>
           </div>
-          <h1 className="text-body-sm text-ink font-bold">TNT SPORT</h1>
+          <h1 className="text-body-sm text-ink font-bold">TNT SPORT APPAREL</h1>
         </div>
       )}
 

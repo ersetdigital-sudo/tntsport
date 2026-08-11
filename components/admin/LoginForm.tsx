@@ -62,7 +62,7 @@ export function LoginForm() {
           </div>
           <div className="text-center">
             <h1 className="text-lg lg:text-xl font-bold text-white">
-              Masuk ke TNT SPORT
+              Masuk ke TNT SPORT APPAREL
             </h1>
             <p className="text-xs text-gray-500 mt-1">
               Kelola dashboard admin Anda
