@@ -226,7 +226,11 @@ export async function getCatalogData(): Promise<CatalogCategory[] | null> {
     label: cat.name,
     products: (products ?? [])
       .filter((p) => p.category_id === cat.id)
-      .sort((a, b) => a.name.localeCompare(b.name, undefined, { numeric: true }))
+      .sort((a, b) => {
+        const numA = parseInt(a.name.replace(/\D+/g, ""), 10) || 0;
+        const numB = parseInt(b.name.replace(/\D+/g, ""), 10) || 0;
+        return numA - numB;
+      })
       .map((p) => ({
         id: p.id,
         catalogue: p.name,
