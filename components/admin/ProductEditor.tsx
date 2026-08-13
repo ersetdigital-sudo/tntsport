@@ -164,13 +164,30 @@ export function ProductEditor({ product, categories }: ProductEditorProps) {
             }
           }
         } else {
-          const { data: newProduct, error: insertError } = await supabase
+          // Check if a product with this slug already exists
+          const { data: existing } = await supabase
             .from("products")
-            .insert(productData)
             .select("id")
-            .single();
-          if (insertError) throw new Error(insertError.message);
-          productId = newProduct.id;
+            .eq("slug", productData.slug)
+            .maybeSingle();
+
+          if (existing) {
+            // Update existing product instead of inserting
+            productId = existing.id;
+            const { error: updateError } = await supabase
+              .from("products")
+              .update(productData)
+              .eq("id", productId);
+            if (updateError) throw new Error(updateError.message);
+          } else {
+            const { data: newProduct, error: insertError } = await supabase
+              .from("products")
+              .insert(productData)
+              .select("id")
+              .single();
+            if (insertError) throw new Error(insertError.message);
+            productId = newProduct.id;
+          }
         }
 
         // Sync images
