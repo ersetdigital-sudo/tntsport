@@ -15,12 +15,33 @@ export async function uploadToCloudinary(
   formData.append("signature", signedParams.signature);
   formData.append("folder", signedParams.folder);
 
+  console.log("[Cloudinary Upload]", {
+    url: `https://api.cloudinary.com/v1_1/${signedParams.cloudName}/image/upload`,
+    fileName: file.name,
+    fileSize: file.size,
+    fileType: file.type,
+    cloudName: signedParams.cloudName,
+    apiKey: signedParams.apiKey,
+    timestamp: signedParams.timestamp,
+    folder: signedParams.folder,
+    hasSignature: !!signedParams.signature,
+  });
+
   const res = await fetch(
     `https://api.cloudinary.com/v1_1/${signedParams.cloudName}/image/upload`,
     { method: "POST", body: formData }
   );
 
-  if (!res.ok) throw new Error("Upload failed");
+  console.log("[Cloudinary Response]", {
+    status: res.status,
+    statusText: res.statusText,
+  });
+
+  if (!res.ok) {
+    const errorBody = await res.text();
+    console.error("[Cloudinary Error Body]", errorBody);
+    throw new Error("Upload failed");
+  }
   const data = await res.json();
   return { url: data.secure_url, public_id: data.public_id };
 }

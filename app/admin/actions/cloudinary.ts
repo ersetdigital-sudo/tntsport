@@ -14,6 +14,15 @@ export async function getCloudinarySignature(params: {
     .update(paramsToSign + process.env.CLOUDINARY_API_SECRET!)
     .digest("hex");
 
+  console.log("[Cloudinary Sign]", {
+    cloudName: process.env.CLOUDINARY_CLOUD_NAME,
+    apiKey: process.env.CLOUDINARY_API_KEY,
+    hasSecret: !!process.env.CLOUDINARY_API_SECRET,
+    folder,
+    timestamp,
+    signature,
+  });
+
   return {
     timestamp,
     signature,
