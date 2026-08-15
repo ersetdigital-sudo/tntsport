@@ -2,6 +2,7 @@
 
 import { useState, useTransition, useRef } from "react";
 import { useRouter } from "next/navigation";
+import imageCompression from "browser-image-compression";
 import { createClient } from "@/lib/supabase/client";
 import { getCloudinarySignature } from "@/app/admin/actions/cloudinary";
 import { uploadToCloudinary } from "@/lib/cloudinary";
@@ -77,13 +78,21 @@ export function ProductEditor({ product, categories }: ProductEditorProps) {
       const signedParams = await getCloudinarySignature({ folder: "products" });
 
       for (const file of Array.from(files)) {
-        const tempId = `temp-${Date.now()}-${Math.random()}`;
         setImages((prev) => [
           ...prev,
           { url: "", alt: file.name, sort_order: prev.length, _uploading: true, _progress: 0 },
         ]);
 
-        const result = await uploadToCloudinary(file, signedParams);
+        let uploadFile = file;
+        if (file.size > 10 * 1024 * 1024) {
+          uploadFile = await imageCompression(file, {
+            maxSizeMB: 9,
+            maxWidthOrHeight: 2048,
+            useWebWorker: true,
+          });
+        }
+
+        const result = await uploadToCloudinary(uploadFile, signedParams);
 
         setImages((prev) =>
           prev.map((img) =>
