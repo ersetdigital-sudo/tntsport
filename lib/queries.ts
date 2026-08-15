@@ -13,6 +13,7 @@
  */
 import { createClient, supabaseConfigured } from "@/lib/supabase/server";
 import { resolveIcon } from "@/lib/icon-registry";
+import { cloudinaryUrl } from "@/lib/cloudinary";
 import * as fallback from "@/lib/data";
 import type {
   Brand,
@@ -234,7 +235,7 @@ export async function getCatalogData(): Promise<CatalogCategory[] | null> {
       .map((p) => ({
         id: p.id,
         catalogue: p.name,
-        image: (p as any).product_images?.sort((a: any, b: any) => a.sort_order - b.sort_order)?.[0]?.url ?? "/products/placeholder.svg",
+        image: cloudinaryUrl((p as any).product_images?.sort((a: any, b: any) => a.sort_order - b.sort_order)?.[0]?.url ?? "/products/placeholder.svg", { width: 400 }),
         alt: p.name,
         price: (p as any).price ?? null,
       })),
@@ -331,7 +332,7 @@ export async function getFabrics(): Promise<Fabric[]> {
       code: row.code,
       name: row.name,
       group: row.fabric_group,
-      image: row.image_url ?? "/products/placeholder.svg",
+      image: cloudinaryUrl(row.image_url ?? "/products/placeholder.svg", { width: 400 }),
       description: row.description,
     }))
     .sort((a, b) => {

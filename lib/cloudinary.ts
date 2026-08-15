@@ -1,3 +1,14 @@
+export function cloudinaryUrl(
+  url: string,
+  transformations?: { width?: number; quality?: string }
+): string {
+  if (!url.includes("res.cloudinary.com")) return url;
+  const w = transformations?.width ?? 400;
+  const q = transformations?.quality ?? "auto";
+  const tf = `w_${w},q_${q},f_auto,c_limit`;
+  return url.replace("/upload/", `/upload/${tf}/`);
+}
+
 export async function uploadToCloudinary(
   file: File,
   signedParams: {
