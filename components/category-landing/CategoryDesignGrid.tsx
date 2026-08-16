@@ -16,8 +16,6 @@ interface Props {
   waNumber: string;
   /** template pesan WA — "{design}" diganti kode desain saat klik */
   waMessageTemplate: string;
-  /** label badge per item (indeks ganjil/genap), mis. ["Futsal", "Bola"] */
-  badges: [string, string];
 }
 
 function ZoomModal({
@@ -80,7 +78,7 @@ function ZoomModal({
   );
 }
 
-export function CategoryDesignGrid({ products, waNumber, waMessageTemplate, badges }: Props) {
+export function CategoryDesignGrid({ products, waNumber, waMessageTemplate }: Props) {
   const [active, setActive] = useState<GridProduct | null>(null);
 
   if (!products.length) return null;
@@ -88,7 +86,7 @@ export function CategoryDesignGrid({ products, waNumber, waMessageTemplate, badg
   return (
     <>
       <div className="mt-12 grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4">
-        {products.map((p, i) => (
+        {products.map((p) => (
           <button
             key={p.id}
             type="button"
@@ -106,7 +104,6 @@ export function CategoryDesignGrid({ products, waNumber, waMessageTemplate, badg
                 className="object-cover transition-transform duration-[400ms] ease-out group-hover:scale-105"
               />
             </div>
-            <span className="cat-badge">{badges[i % 2]}</span>
             <p className="cat-name">{p.catalogue}</p>
           </button>
         ))}

@@ -156,14 +156,6 @@ export function CategoryLanding({ config, products, testimonials, waNumber }: Pr
         .cat-item{position:relative;overflow:hidden;border-radius:1rem;background:#12151b;border:1px solid rgba(255,255,255,.09);}
         .cat-item img{width:100%;aspect-ratio:4/5;object-fit:cover;display:block;transition:transform .4s ease;}
         .cat-item:hover img{transform:scale(1.05);}
-        .cat-badge{
-          position:absolute;top:.6rem;left:.6rem;
-          background:rgba(8,9,11,.82);
-          border:1px solid rgba(255,255,255,.16);
-          border-radius:9999px;padding:.2rem .6rem;
-          font-family:var(--font-bc),"Barlow Condensed",sans-serif;font-weight:700;
-          font-size:.68rem;letter-spacing:.12em;color:#fff;
-        }
         .cat-name{
           position:absolute;inset-inline:0;bottom:0;padding:.9rem .8rem .8rem;
           background:linear-gradient(transparent,rgba(8,9,11,.92));
@@ -502,7 +494,6 @@ export function CategoryLanding({ config, products, testimonials, waNumber }: Pr
               products={products}
               waNumber={waNumber}
               waMessageTemplate={config.wa.designTemplate}
-              badges={["Futsal", "Bola"]}
             />
 
             <div className="mt-10 flex flex-col sm:flex-row items-center justify-center gap-x-7 gap-y-4 reveal">
