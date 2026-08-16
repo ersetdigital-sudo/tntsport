@@ -113,6 +113,8 @@ export interface CategoryLandingConfig {
     galleryTitleAccent: string;
     gallerySub: string;
     galleryCta: string;
+    /** label pendek CTA galeri khusus mobile (fallback: galleryCta) */
+    galleryCtaShort?: string;
     gallery: { src: string; alt: string }[];
     fallback: LandingTestimonial[];
   };
@@ -299,6 +301,7 @@ export const CATEGORY_LANDINGS: Record<string, CategoryLandingConfig> = {
       galleryTitleAccent: "Nyata",
       gallerySub: "Foto asli jersey yang sudah diterima pelanggan — bukan edit, bukan rekayasa.",
       galleryCta: "Mau Jersey Seperti Ini? Order Sekarang",
+      galleryCtaShort: "Order Sekarang",
       gallery: [
         { src: "/landing/jersey-futsal/4c090b09-6b9d-4d9a-a061-ca955c49c520.png", alt: "Tim Balreng Kebumen memakai jersey custom merah di Turnamen Mustika Aji Cup" },
         { src: "/landing/jersey-futsal/93c90d93-45be-4137-b10d-d810ada22df4.png", alt: "Tim SSB Persem memakai jersey custom kuning di Kades Cup Blambangan" },

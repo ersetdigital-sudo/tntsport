@@ -149,10 +149,10 @@ export function CategoryLanding({ config, products, testimonials, waNumber }: Pr
         }
         .gal-track{display:flex;gap:1rem;width:max-content;animation:galslide 42s linear infinite;}
         .gal-wrap:hover .gal-track{animation-play-state:paused;}
-        .gal-item{flex:0 0 auto;width:15rem;margin:0;}
-        .gal-item img{width:100%;height:15rem;object-fit:cover;border-radius:1rem;border:1px solid rgba(255,255,255,.1);display:block;}
+        .gal-item{flex:0 0 auto;width:min(13.5rem,70vw);margin:0;}
+        .gal-item img{width:100%;height:auto;aspect-ratio:4/3;object-fit:cover;border-radius:1rem;border:1px solid rgba(255,255,255,.1);display:block;}
         @keyframes galslide{to{transform:translateX(calc(-50% - .5rem));}}
-        @media (min-width:640px){ .gal-item{width:17rem;} .gal-item img{height:17rem;} }
+        @media (min-width:640px){ .gal-item{width:17rem;} }
         .cat-item{position:relative;overflow:hidden;border-radius:1rem;background:#12151b;border:1px solid rgba(255,255,255,.09);}
         .cat-item img{width:100%;aspect-ratio:4/5;object-fit:cover;display:block;transition:transform .4s ease;}
         .cat-item:hover img{transform:scale(1.05);}
@@ -583,9 +583,11 @@ export function CategoryLanding({ config, products, testimonials, waNumber }: Pr
                 <WhatsAppLeadLink
                   href={buildWhatsAppLink(waNumber, config.wa.gallery)}
                   label={`Order Seperti Galeri — ${config.eyebrow}`}
-                  className="btn-fire rounded-full px-7 py-3.5 font-bold text-white text-center inline-flex items-center gap-2 cursor-pointer"
+                  className="btn-fire rounded-full px-5 sm:px-7 py-3 sm:py-3.5 text-sm sm:text-base font-bold text-white text-center inline-flex items-center justify-center gap-2 cursor-pointer max-w-full"
                 >
-                  {config.testimonials.galleryCta} <span aria-hidden="true">→</span>
+                  <span className="hidden sm:inline">{config.testimonials.galleryCta}</span>
+                  <span className="sm:hidden">{config.testimonials.galleryCtaShort ?? config.testimonials.galleryCta}</span>{" "}
+                  <span aria-hidden="true">→</span>
                 </WhatsAppLeadLink>
               </div>
             </div>
