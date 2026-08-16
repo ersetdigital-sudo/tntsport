@@ -8,6 +8,7 @@ import { PurchaseNotifications } from "@/components/category-landing/PurchaseNot
 import { PriceSection } from "@/components/category-landing/PriceSection";
 import { ScrollReveal } from "@/components/category-landing/ScrollReveal";
 import { TestimonialCarousel } from "@/components/category-landing/TestimonialCarousel";
+import { GalleryMarquee } from "@/components/category-landing/GalleryMarquee";
 import { buildWhatsAppLink } from "@/lib/wa";
 import type { CategoryLandingConfig, LandingTestimonial } from "@/lib/category-landing";
 
@@ -386,7 +387,7 @@ export function CategoryLanding({ config, products, testimonials, waNumber }: Pr
                       alt={card.imageAlt}
                       width={1200}
                       height={700}
-                      className="w-full h-56 sm:h-64 object-cover"
+                      className="w-full h-auto"
                     />
                     {card.imageBadge && (
                       <span className="absolute top-4 left-4 btn-fire rounded-full px-3 py-1 text-[11px] font-bold text-white tracking-wide">
@@ -568,18 +569,7 @@ export function CategoryLanding({ config, products, testimonials, waNumber }: Pr
                 </p>
               </div>
 
-              <div className="gal-wrap mt-7">
-                <div className="gal-track">
-                  {Array.from({ length: 2 }).map((_, dup) =>
-                    config.testimonials.gallery.map((g, i) => (
-                      <figure key={`${dup}-${i}`} className="gal-item" aria-hidden={dup === 1}>
-                        {/* eslint-disable-next-line @next/next/no-img-element */}
-                        <img src={g.src} alt={dup === 1 ? "" : g.alt} loading="lazy" />
-                      </figure>
-                    ))
-                  )}
-                </div>
-              </div>
+              <GalleryMarquee images={config.testimonials.gallery} />
 
               <div className="mt-7 flex justify-center">
                 <WhatsAppLeadLink
