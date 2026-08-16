@@ -255,13 +255,15 @@ export function CategoryLanding({ config, products, testimonials, waNumber }: Pr
                 <span className="inline-block w-6 h-px bg-[#ff6b00]" aria-hidden="true" />
                 {config.eyebrow}
               </p>
-              <h1 className="display text-[2.75rem] leading-[.95] sm:text-6xl lg:text-[4.5rem]">
+              {/* clamp + nowrap: tiap baris config selalu 1 baris utuh —
+                  di mobile (≥360px) tetap pas 2 baris, desktop membesar proporsional */}
+              <h1 className="display text-[clamp(2rem,8.2vw,2.75rem)] leading-[1.02] sm:text-6xl sm:leading-[.95] lg:text-[4.5rem]">
                 {config.headline.slice(0, -1).map((line) => (
-                  <span key={line} className="block">{line}</span>
+                  <span key={line} className="block whitespace-nowrap">{line}</span>
                 ))}
-                <span className="fire-text block">{config.headline[config.headline.length - 1]}</span>
+                <span className="fire-text block whitespace-nowrap">{config.headline[config.headline.length - 1]}</span>
               </h1>
-              <p className="display text-xl sm:text-2xl mt-3 text-white/70">{config.headlineSub}</p>
+              <p className="display text-lg sm:text-2xl mt-3 text-white/70">{config.headlineSub}</p>
               <p className="mt-6 text-base sm:text-lg text-[#9aa1ad] max-w-xl leading-relaxed">
                 {config.subheadline}
               </p>
