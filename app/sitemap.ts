@@ -1,4 +1,5 @@
 import type { MetadataRoute } from "next";
+import { CATEGORY_LANDINGS } from "@/lib/category-landing";
 import { productDesignKey } from "@/lib/products";
 import { getBrand } from "@/lib/queries";
 import { resolveSeoCatalog } from "@/lib/seo";
@@ -39,6 +40,15 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       priority: 0.9,
     },
   ];
+
+  for (const landing of Object.values(CATEGORY_LANDINGS)) {
+    entries.push({
+      url: `${cleanUrl}/${landing.slug}`,
+      lastModified: today,
+      changeFrequency: "weekly",
+      priority: 0.8,
+    });
+  }
 
   for (const category of categories) {
     entries.push({

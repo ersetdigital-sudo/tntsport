@@ -8,7 +8,9 @@ import { createClient } from "@/lib/supabase/client";
  * Memanggil RPC increment_page_views() di Supabase. Render apa-apa (null).
  * Tambahkan di halaman yang ingin dihitung: homepage, katalog, promo.
  */
-export function PageViewTracker({ page }: { page: "homepage" | "katalog" | "promo-bulan-ini" }) {
+// `(string & {})` menjaga autocomplete untuk halaman yang sudah ada
+// sekaligus mengizinkan slug landing kategori baru (mis. "jersey-futsal").
+export function PageViewTracker({ page }: { page: "homepage" | "katalog" | "promo-bulan-ini" | (string & {}) }) {
   useEffect(() => {
     try {
       const supabase = createClient();

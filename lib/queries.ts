@@ -208,6 +208,14 @@ export interface CatalogCategory {
   products: { id: string; catalogue: string; image: string; alt: string; price: number | null }[];
 }
 
+/**
+ * Slug kategori yang disembunyikan dari katalog publik (beserta produk &
+ * link sitemap-nya). Baris datanya tetap ada di Supabase — hapus slug dari
+ * daftar ini untuk menampilkannya kembali.
+ * "basketball" = duplikat tidak disengaja dari kategori "basket".
+ */
+const HIDDEN_CATEGORY_SLUGS = new Set(["basketball"]);
+
 export async function getCatalogData(): Promise<CatalogCategory[] | null> {
   if (!supabaseConfigured()) return null;
   const supabase = await createClient();
@@ -222,7 +230,9 @@ export async function getCatalogData(): Promise<CatalogCategory[] | null> {
 
   if (catErr || prodErr || !categories?.length) return null;
 
-  return categories.map((cat) => ({
+  return categories
+    .filter((cat) => !HIDDEN_CATEGORY_SLUGS.has(cat.slug))
+    .map((cat) => ({
     id: cat.slug,
     label: cat.name,
     products: (products ?? [])
