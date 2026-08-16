@@ -6,17 +6,19 @@ export interface PurchasePop {
   name: string;
   city: string;
   product: string;
+  time: string;
 }
 
-const SHOW_AFTER_MS = 6000;
+const SHOW_AFTER_MS = 3500;
 const ROTATE_MS = 9000;
 const VISIBLE_MS = 5500;
 
 /**
- * Pop-up notifikasi pembelian (social proof real-time).
- * - Muncul beberapa detik setelah load, lalu berganti nama/kota otomatis.
- * - Bisa ditutup permanen (session), pause saat hover/fokus.
- * - Menghormati prefers-reduced-motion: hanya tampil statis sekali tanpa rotasi.
+ * Pop-up notifikasi pembelian (social proof real-time) ala referensi:
+ * card gelap dengan border oranye, nama-kota, produk, waktu, Verified.
+ * - Muncul beberapa detik setelah load, berganti otomatis.
+ * - Bisa ditutup permanen, sembunyi/tampil dengan transisi slide.
+ * - prefers-reduced-motion: tampil sekali tanpa rotasi.
  */
 export function PurchaseNotifications({ pops }: { pops: PurchasePop[] }) {
   const [index, setIndex] = useState(0);
@@ -31,7 +33,6 @@ export function PurchaseNotifications({ pops }: { pops: PurchasePop[] }) {
     const media = window.matchMedia("(prefers-reduced-motion: reduce)");
     setReducedMotion(media.matches);
 
-    // Menampilkan & menyembunyikan secara bergantian; berhenti berputar saat kursor diarahkan.
     let hideTimer: ReturnType<typeof setTimeout> | undefined;
     let showTimer: ReturnType<typeof setTimeout> | undefined;
     let rotateTimer: ReturnType<typeof setInterval> | undefined;
@@ -63,46 +64,45 @@ export function PurchaseNotifications({ pops }: { pops: PurchasePop[] }) {
     };
   }, [dismissed, pops.length]);
 
-  if (dismissed || pops.length === 0 || (!visible && reducedMotion)) return null;
-  if (dismissed) return null;
+  if (dismissed || pops.length === 0) return null;
 
   const pop = pops[index];
+  const hidden = !visible || (reducedMotion && false);
 
   return (
     <div
-      className="fixed bottom-4 left-4 z-[90] max-w-[calc(100vw-2rem)] sm:bottom-6 sm:left-6"
+      className={`cl-pop fixed bottom-4 left-4 z-50 max-w-[19rem] sm:max-w-sm ${hidden ? "cl-pop-hide" : ""}`}
       onMouseEnter={() => (hoveredRef.current = true)}
       onMouseLeave={() => (hoveredRef.current = false)}
-      onFocus={() => (hoveredRef.current = true)}
-      onBlur={() => (hoveredRef.current = false)}
     >
       <div
+        className="card rounded-xl p-3.5 pr-9 shadow-2xl backdrop-blur relative"
+        style={{ borderColor: "rgba(255,107,0,.25)" }}
         role="status"
         aria-live="polite"
-        className="pointer-events-auto flex items-center gap-3 rounded-2xl border border-black/10 bg-white/95 p-3 pr-11 shadow-[0_18px_50px_-12px_rgba(0,0,0,.35)] backdrop-blur"
       >
-        <span className="relative flex h-3 w-3 flex-none" aria-hidden="true">
-          <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400 opacity-75" />
-          <span className="relative inline-flex h-3 w-3 rounded-full bg-emerald-500" />
-        </span>
-        <div className="min-w-0 text-[13px] leading-snug text-zinc-800">
-          <p className="font-bold">
-            {pop.name} — {pop.city}
-          </p>
-          <p className="truncate text-zinc-500">
-            baru memesan <span className="font-semibold text-zinc-700">{pop.product}</span>
-          </p>
-        </div>
         <button
           type="button"
           onClick={() => setDismissed(true)}
-          aria-label="Tutup notifikasi pembelian"
-          className="absolute right-1.5 top-1.5 grid h-8 w-8 cursor-pointer place-items-center rounded-full text-zinc-400 transition hover:bg-zinc-100 hover:text-zinc-700"
+          aria-label="Tutup notifikasi"
+          className="absolute top-2 right-2.5 grid h-8 w-8 cursor-pointer place-items-center text-white/35 hover:text-white text-lg leading-none"
         >
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-            <path d="M6 6l12 12M18 6L6 18" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" />
-          </svg>
+          <span aria-hidden="true">×</span>
         </button>
+        <div className="flex items-start gap-2.5">
+          <span className="mt-1 w-2 h-2 rounded-full bg-green-400 shrink-0 animate-pulse" aria-hidden="true" />
+          <div className="min-w-0">
+            <p className="text-sm font-bold leading-snug">
+              {pop.name} — {pop.city}
+            </p>
+            <p className="text-[13px] text-[#9aa1ad] leading-snug mt-0.5">
+              baru memesan <em className="text-white/80 not-italic font-semibold">{pop.product}</em>
+            </p>
+            <p className="text-[11px] text-white/40 mt-1.5">
+              {pop.time} · <span className="text-green-400">Verified</span>
+            </p>
+          </div>
+        </div>
       </div>
     </div>
   );

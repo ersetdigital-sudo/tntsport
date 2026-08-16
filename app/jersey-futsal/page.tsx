@@ -44,9 +44,7 @@ export default async function JerseyFutsalPage() {
   const category = catalogData?.find((c) => c.id === cfg.catalogId);
   const products = category?.products.length
     ? category.products
-    : (CATALOG_PRODUCTS.find((c) => c.id === cfg.catalogId)?.products ?? []);
-
-  const heroImage = category?.products.find((p) => !p.image.includes("placeholder"))?.image ?? "/promo/promo-hero.png";
+    : (CATALOG_PRODUCTS.find((c) => c.id === "football")?.products ?? []);
 
   const testimonials =
     dbTestimonials?.map((t) => ({
@@ -61,9 +59,7 @@ export default async function JerseyFutsalPage() {
       config={cfg}
       products={products}
       testimonials={testimonials}
-      heroImage={heroImage}
       waNumber={brand.whatsappNumber || "628115491117"}
-      logoPath={brand.logoPath || ""}
     />
   );
 }
