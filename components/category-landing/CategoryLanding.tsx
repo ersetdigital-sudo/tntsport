@@ -202,9 +202,9 @@ export function CategoryLanding({ config, products, testimonials, waNumber }: Pr
           .t-wrap:focus-within .t-track{animation-play-state:paused;}
         }
         @keyframes t-slide{to{transform:translateX(-50%);}}
+        /* Keputusan owner: marquee/galeri/carousel TETAP berjalan walau user
+           memilih reduce motion — hanya efek non-esensial yang dimatikan. */
         @media (prefers-reduced-motion:reduce){
-          .gal-track,.marquee{animation:none;}
-          .t-track{animation:none;}
           .reveal{opacity:1;transform:none;transition:none;}
           .cl-pop{transition:none;}
           .price-fade{animation:none;}
@@ -249,8 +249,8 @@ export function CategoryLanding({ config, products, testimonials, waNumber }: Pr
             <div className="absolute inset-x-0 top-0 h-40 stripe opacity-40" />
           </div>
 
-          <div className="max-w-6xl mx-auto px-5 grid lg:grid-cols-12 gap-10 lg:gap-8 items-center">
-            <div className="lg:col-span-7 reveal">
+          <div className="max-w-6xl mx-auto px-5 flex flex-col gap-8 lg:grid lg:grid-cols-12 lg:gap-8 lg:items-center">
+            <div className="order-2 lg:order-none lg:col-span-7 reveal">
               <p className="kicker text-[11px] sm:text-xs text-[#ff9d2e] flex items-center gap-2 mb-5">
                 <span className="inline-block w-6 h-px bg-[#ff6b00]" aria-hidden="true" />
                 {config.eyebrow}
@@ -272,11 +272,11 @@ export function CategoryLanding({ config, products, testimonials, waNumber }: Pr
                 <WhatsAppLeadLink
                   href={waOrder}
                   label={`Order Jersey Sekarang — ${config.eyebrow}`}
-                  className="btn-fire rounded-full px-7 py-4 font-bold text-white text-center cursor-pointer"
+                  className="btn-fire rounded-full px-7 py-4 font-bold text-white text-center w-full sm:w-auto cursor-pointer"
                 >
                   Order Jersey Sekarang →
                 </WhatsAppLeadLink>
-                <a href="#desain" className="btn-ghost rounded-full px-7 py-4 font-semibold text-center text-white/90 cursor-pointer">
+                <a href="#desain" className="btn-ghost rounded-full px-7 py-4 font-semibold text-center text-white/90 w-full sm:w-auto cursor-pointer">
                   Lihat Katalog Desain
                 </a>
               </div>
@@ -296,7 +296,7 @@ export function CategoryLanding({ config, products, testimonials, waNumber }: Pr
               </div>
             </div>
 
-            <div className="lg:col-span-5 reveal">
+            <div className="order-1 lg:order-none lg:col-span-5 reveal">
               <div className="relative">
                 <div className="absolute inset-6 blur-3xl -z-10" style={{ background: "radial-gradient(circle,rgba(255,107,0,.35),transparent 70%)" }} />
                 <Image
@@ -305,7 +305,7 @@ export function CategoryLanding({ config, products, testimonials, waNumber }: Pr
                   width={900}
                   height={1100}
                   priority
-                  className="w-full h-auto rounded-2xl border border-white/10 shadow-2xl"
+                  className="w-full h-auto rounded-2xl border border-white/10 shadow-2xl object-cover aspect-[4/3] sm:aspect-auto"
                 />
                 <div className="absolute -bottom-4 -left-3 sm:left-4 card card-hl rounded-xl px-4 py-3 backdrop-blur">
                   <p className="kicker text-[10px] text-[#ff9d2e]">{config.heroBadge.kicker}</p>
