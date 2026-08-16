@@ -164,9 +164,9 @@ export const CATEGORY_LANDINGS: Record<string, CategoryLandingConfig> = {
     headlineSub: "Custom Nama, Nomor & Logo Sendiri",
     subheadline:
       "Bahan Dry Fit adem, full printing tajam, desain bebas sesuai selera tim. Cocok buat komunitas, klub, turnamen, sampai kado spesial buat sobat mabar.",
-    heroImage: "/landing/jersey-futsal/fb7bfda6-b20c-4130-abba-34a0ff35d953.jpg",
-    heroImageAlt:
-      "Jersey futsal custom full printing oranye hitam dengan nama GARUDA dan nomor 10",
+    heroImage:
+      "https://res.cloudinary.com/dqjh7utdb/image/upload/w_1200,q_auto,f_auto/v1786875492/ag5aet0sni75yy2j72iy.png",
+    heroImageAlt: "Jersey futsal & sepak bola custom TNT SPORT APPAREL",
     heroBadge: { kicker: "Full Printing", text: "Nama · Nomor · Logo" },
     trustBar: [
       "100+ Tim Sudah Order",

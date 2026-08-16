@@ -7,6 +7,7 @@ import { CategoryDesignGrid, type GridProduct } from "@/components/category-land
 import { PurchaseNotifications } from "@/components/category-landing/PurchaseNotifications";
 import { PriceSection } from "@/components/category-landing/PriceSection";
 import { ScrollReveal } from "@/components/category-landing/ScrollReveal";
+import { TestimonialCarousel } from "@/components/category-landing/TestimonialCarousel";
 import { buildWhatsAppLink } from "@/lib/wa";
 import type { CategoryLandingConfig, LandingTestimonial } from "@/lib/category-landing";
 
@@ -60,28 +61,6 @@ const FEATURE_ICONS: Record<string, ReactElement> = {
     </svg>
   ),
 };
-
-function Stars() {
-  return (
-    <div className="text-[#ff6b00] tracking-wider" aria-label="Rating 5 dari 5">
-      {"★★★★★"}
-    </div>
-  );
-}
-
-function VerifiedBadge() {
-  return (
-    <span
-      className="self-start rounded-full px-2.5 py-1 text-[11px] font-bold inline-flex items-center gap-1.5"
-      style={{ background: "rgba(34,197,94,.12)", color: "#4ade80", border: "1px solid rgba(34,197,94,.3)" }}
-    >
-      <svg width="11" height="11" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-        <path d="m5 13 4 4L19 7" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" />
-      </svg>
-      Verified Buyer
-    </span>
-  );
-}
 
 /** Akhir pekan ini (Minggu) sebagai deadline promo, format Indonesia. */
 function weekendDeadline(): string {
@@ -202,8 +181,38 @@ export function CategoryLanding({ config, products, testimonials, waNumber }: Pr
         @keyframes slide{to{transform:translateX(-50%);}}
         .cl-pop{transition:transform .45s cubic-bezier(.2,.8,.2,1),opacity .45s ease;}
         .cl-pop-hide{transform:translateY(140%);opacity:0;pointer-events:none;}
+        /* ===== Carousel testimoni (auto-scroll infinite, pure CSS) ===== */
+        /* Default: strip statis yang bisa di-swipe — fallback browser lama /
+           JS gagal load / reduced-motion. */
+        .t-wrap{
+          overflow-x:auto;
+          -webkit-overflow-scrolling:touch;
+          scroll-snap-type:x proximity;
+          -webkit-mask-image:linear-gradient(90deg,transparent,#000 4%,#000 96%,transparent);
+          mask-image:linear-gradient(90deg,transparent,#000 4%,#000 96%,transparent);
+        }
+        .t-track{display:flex;width:max-content;padding-inline:1.25rem;}
+        .t-item{
+          flex:0 0 auto;
+          width:min(21rem,78vw);
+          /* margin, BUKAN gap — kompatibel Safari iOS lama & loop -50% presisi */
+          margin-right:1.25rem;
+          scroll-snap-align:center;
+        }
+        @media (prefers-reduced-motion:no-preference){
+          .t-wrap{overflow-x:hidden;}
+          .t-track{
+            animation:t-slide 60s linear infinite;
+            will-change:transform; /* hanya di elemen yang dianimasi */
+          }
+          .t-wrap:hover .t-track,
+          .t-wrap:active .t-track,
+          .t-wrap:focus-within .t-track{animation-play-state:paused;}
+        }
+        @keyframes t-slide{to{transform:translateX(-50%);}}
         @media (prefers-reduced-motion:reduce){
           .gal-track,.marquee{animation:none;}
+          .t-track{animation:none;}
           .reveal{opacity:1;transform:none;transition:none;}
           .cl-pop{transition:none;}
           .price-fade{animation:none;}
@@ -590,27 +599,7 @@ export function CategoryLanding({ config, products, testimonials, waNumber }: Pr
               </div>
             </div>
 
-            <div className="mt-12 grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
-              {testimonials.slice(0, 6).map((r, i) => (
-                <figure key={r.name + i} className="card rounded-2xl p-6 flex flex-col reveal">
-                  <VerifiedBadge />
-                  <div className="mt-3"><Stars /></div>
-                  <blockquote className="mt-3 text-[15px] leading-relaxed text-white/85 italic flex-1">
-                    &ldquo;{r.quote}&rdquo;
-                  </blockquote>
-                  <figcaption className="mt-4 pt-4 border-t border-white/10">
-                    <p className="font-bold">— {r.name}, {r.team}</p>
-                    <p className="text-sm text-[#9aa1ad] mt-0.5 flex items-center gap-1">
-                      <svg width="11" height="11" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-                        <path d="M12 21s7-5.1 7-11a7 7 0 1 0-14 0c0 5.9 7 11 7 11Z" stroke="currentColor" strokeWidth="1.8" />
-                        <circle cx="12" cy="10" r="2.5" stroke="currentColor" strokeWidth="1.8" />
-                      </svg>
-                      {r.city}
-                    </p>
-                  </figcaption>
-                </figure>
-              ))}
-            </div>
+            <TestimonialCarousel items={testimonials.slice(0, 6)} />
           </div>
         </section>
 
