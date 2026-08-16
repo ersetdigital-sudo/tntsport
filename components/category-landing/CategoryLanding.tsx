@@ -78,15 +78,6 @@ interface Props {
   waNumber: string;
 }
 
-const NAV_LINKS = [
-  { href: "#kenapa", label: "Kenapa Kami" },
-  { href: "#katalog", label: "Pilihan Order" },
-  { href: "#harga", label: "Harga" },
-  { href: "#desain", label: "Desain" },
-  { href: "#cara", label: "Cara Order" },
-  { href: "#faq", label: "FAQ" },
-];
-
 export function CategoryLanding({ config, products, testimonials, waNumber }: Props) {
   const wa = (msg: string) => buildWhatsAppLink(waNumber, msg);
   const waOrder = wa(config.wa.order);
@@ -215,29 +206,7 @@ export function CategoryLanding({ config, products, testimonials, waNumber }: Pr
 
       <ScrollReveal />
 
-      {/* ================= NAV ================= */}
-      <header className="fixed top-0 inset-x-0 z-40 backdrop-blur-md bg-[#08090b]/80 border-b border-white/10">
-        <div className="max-w-6xl mx-auto px-5 h-16 flex items-center justify-between gap-4">
-          <a href="#hero" className="display text-xl sm:text-2xl tracking-tight">
-            TNT<span className="fire-text">SPORT</span>
-            <span className="text-[10px] align-super ml-1 tracking-[.2em] text-[#9aa1ad]">APPAREL</span>
-          </a>
-          <nav className="hidden md:flex items-center gap-7 text-sm font-semibold text-[#9aa1ad]" aria-label="Navigasi utama">
-            {NAV_LINKS.map((l) => (
-              <a key={l.href} href={l.href} className="hover:text-white transition">{l.label}</a>
-            ))}
-          </nav>
-          <WhatsAppLeadLink
-            href={waOrder}
-            label={`Order Sekarang — ${config.eyebrow}`}
-            className="btn-fire rounded-full px-5 py-2.5 text-sm font-bold text-white whitespace-nowrap cursor-pointer"
-          >
-            Order Sekarang
-          </WhatsAppLeadLink>
-        </div>
-      </header>
-
-      <main className="pt-16">
+      <main>
         <PageViewTracker page={config.slug} />
         <ViewContentTracker contentName={config.eyebrow} contentCategory="Category Landing" />
         <PurchaseNotifications pops={config.purchasePops} />
