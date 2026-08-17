@@ -5,7 +5,6 @@ import Image from "next/image";
 import { Archivo, Saira_Condensed } from "next/font/google";
 import { WhatsAppLeadLink } from "@/components/WhatsAppLeadLink";
 import { ScrollReveal } from "@/components/category-landing/ScrollReveal";
-import { PurchaseNotifications } from "@/components/category-landing/PurchaseNotifications";
 import type { CategoryLandingConfig, LandingTestimonial, LandingPriceCard } from "@/lib/category-landing";
 import type { GridProduct } from "@/components/category-landing/CategoryDesignGrid";
 import { buildWhatsAppLink } from "@/lib/wa";
@@ -51,11 +50,8 @@ const STYLES = `
   .stripe-bg{background:repeating-linear-gradient(115deg,rgba(10,104,224,.1) 0 2px,transparent 2px 16px);}
 
   .gal-wrap{overflow:hidden;-webkit-mask-image:linear-gradient(90deg,transparent,#000 5%,#000 95%,transparent);mask-image:linear-gradient(90deg,transparent,#000 5%,#000 95%,transparent);}
-  .gal-track{display:flex;gap:1rem;width:max-content;animation:galslide 42s linear infinite;}
-  .gal-wrap:hover .gal-track{animation-play-state:paused;}
   .gal-item{flex:0 0 auto;width:min(13.5rem,70vw);}
   .gal-item img{width:100%;height:auto;aspect-ratio:4/3;object-fit:cover;border-radius:1rem;border:1px solid var(--line);display:block;}
-  @keyframes galslide{to{transform:translateX(calc(-50% - .5rem));}}
   @media (min-width:640px){.gal-item{width:17rem;}}
 
   .cat-item{position:relative;overflow:hidden;border-radius:1rem;background:#fff;border:1px solid var(--line);}
@@ -67,9 +63,6 @@ const STYLES = `
   .faq-ico{transition:transform .22s ease;}
   .faq summary::-webkit-details-marker{display:none;}
 
-  .marquee{display:flex;gap:2.5rem;width:max-content;animation:mslide 26s linear infinite;}
-  @keyframes mslide{to{transform:translateX(-50%);}}
-
   .price-fade{animation:pfade .35s ease;}
   @keyframes pfade{from{opacity:0;transform:translateY(6px);}to{opacity:1;transform:none;}}
 
@@ -80,7 +73,6 @@ const STYLES = `
   .pop-hide{transform:translateY(140%);opacity:0;pointer-events:none;}
 
   @media (prefers-reduced-motion:reduce){
-    .marquee,.gal-track{animation:none !important;}
     .reveal{opacity:1 !important;transform:none !important;transition:none !important;}
     html{scroll-behavior:auto;}
   }
@@ -99,6 +91,198 @@ function weekendDeadline(): string {
   const day = now.getDay();
   now.setDate(now.getDate() + (day === 0 ? 0 : 7 - day));
   return new Intl.DateTimeFormat("id-ID", { weekday: "long", day: "numeric", month: "long" }).format(now);
+}
+
+/* ─── JS-based Marquee ─── */
+function JSMarquee({ children, speed = 40, className = "" }: { children: React.ReactNode; speed?: number; className?: string }) {
+  const containerRef = useRef<HTMLDivElement>(null);
+  const trackRef = useRef<HTMLDivElement>(null);
+  const posRef = useRef(0);
+  const rafRef = useRef<number>(0);
+  const pausedRef = useRef(false);
+
+  useEffect(() => {
+    const track = trackRef.current;
+    const container = containerRef.current;
+    if (!track || !container) return;
+
+    const halfWidth = track.scrollWidth / 2;
+
+    const animate = () => {
+      if (!pausedRef.current) {
+        posRef.current -= speed / 60;
+        if (Math.abs(posRef.current) >= halfWidth) posRef.current = 0;
+        track.style.transform = `translateX(${posRef.current}px)`;
+      }
+      rafRef.current = requestAnimationFrame(animate);
+    };
+
+    rafRef.current = requestAnimationFrame(animate);
+
+    const onEnter = () => { pausedRef.current = true; };
+    const onLeave = () => { pausedRef.current = false; };
+    container.addEventListener("mouseenter", onEnter);
+    container.addEventListener("mouseleave", onLeave);
+
+    return () => {
+      cancelAnimationFrame(rafRef.current);
+      container.removeEventListener("mouseenter", onEnter);
+      container.removeEventListener("mouseleave", onLeave);
+    };
+  }, [speed]);
+
+  return (
+    <div ref={containerRef} className={`overflow-hidden ${className}`} style={{ WebkitMaskImage: "linear-gradient(90deg,transparent,#000 5%,#000 95%,transparent)", maskImage: "linear-gradient(90deg,transparent,#000 5%,#000 95%,transparent)" }}>
+      <div ref={trackRef} style={{ display: "flex", width: "max-content" }}>
+        {children}
+        {children}
+      </div>
+    </div>
+  );
+}
+
+/* ─── JS-based Gallery Marquee ─── */
+function JSGalleryMarquee({ images }: { images: { src: string; alt: string }[] }) {
+  const [active, setActive] = useState<number | null>(null);
+  const containerRef = useRef<HTMLDivElement>(null);
+  const trackRef = useRef<HTMLDivElement>(null);
+  const posRef = useRef(0);
+  const rafRef = useRef<number>(0);
+  const pausedRef = useRef(false);
+
+  useEffect(() => {
+    const track = trackRef.current;
+    const container = containerRef.current;
+    if (!track || !container) return;
+
+    const halfWidth = track.scrollWidth / 2;
+
+    const animate = () => {
+      if (!pausedRef.current) {
+        posRef.current -= 0.5;
+        if (Math.abs(posRef.current) >= halfWidth) posRef.current = 0;
+        track.style.transform = `translateX(${posRef.current}px)`;
+      }
+      rafRef.current = requestAnimationFrame(animate);
+    };
+
+    rafRef.current = requestAnimationFrame(animate);
+
+    const onEnter = () => { pausedRef.current = true; };
+    const onLeave = () => { pausedRef.current = false; };
+    container.addEventListener("mouseenter", onEnter);
+    container.addEventListener("mouseleave", onLeave);
+
+    return () => {
+      cancelAnimationFrame(rafRef.current);
+      container.removeEventListener("mouseenter", onEnter);
+      container.removeEventListener("mouseleave", onLeave);
+    };
+  }, []);
+
+  useEffect(() => {
+    if (active === null) return;
+    const onKey = (e: KeyboardEvent) => { if (e.key === "Escape") setActive(null); };
+    document.body.style.overflow = "hidden";
+    window.addEventListener("keydown", onKey);
+    return () => { document.body.style.overflow = ""; window.removeEventListener("keydown", onKey); };
+  }, [active]);
+
+  const items = [...images, ...images, ...images];
+
+  return (
+    <>
+      <div ref={containerRef} className="mt-7 overflow-hidden" style={{ WebkitMaskImage: "linear-gradient(90deg,transparent,#000 5%,#000 95%,transparent)", maskImage: "linear-gradient(90deg,transparent,#000 5%,#000 95%,transparent)" }}>
+        <div ref={trackRef} style={{ display: "flex", gap: "1rem", width: "max-content" }}>
+          {items.map((g, i) => (
+            <button key={i} type="button" onClick={() => setActive(i % images.length)} className="gal-item block cursor-pointer p-0 text-left shrink-0">
+              <img src={g.src} alt={g.alt} loading="lazy" />
+            </button>
+          ))}
+        </div>
+      </div>
+      {active !== null && images[active] && (
+        <div className="fixed inset-0 z-[110] flex items-center justify-center overflow-y-auto bg-black/85 p-4 backdrop-blur-sm" onClick={() => setActive(null)} role="dialog" aria-modal="true">
+          <div className="relative my-auto max-w-[92vw]" onClick={(e) => e.stopPropagation()}>
+            <button type="button" onClick={() => setActive(null)} aria-label="Tutup foto" className="absolute -top-2 -right-2 z-10 grid h-11 w-11 cursor-pointer place-items-center rounded-full text-white shadow-lg transition" style={{ background: "var(--blue)" }}>
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" /></svg>
+            </button>
+            <img src={images[active].src} alt={images[active].alt} className="max-h-[82vh] w-auto max-w-full rounded-2xl object-contain shadow-2xl" />
+            <p className="mt-3 text-center text-sm text-white/60">{images[active].alt}</p>
+          </div>
+        </div>
+      )}
+    </>
+  );
+}
+
+/* ─── Redesigned Purchase Notification ─── */
+function PurchaseNotif({ pops }: { pops: { name: string; city: string; product: string; time: string }[] }) {
+  const [index, setIndex] = useState(0);
+  const [visible, setVisible] = useState(false);
+  const [dismissed, setDismissed] = useState(false);
+  const timersRef = useRef<{ show?: ReturnType<typeof setTimeout>; hide?: ReturnType<typeof setTimeout>; rotate?: ReturnType<typeof setInterval> }>({});
+
+  useEffect(() => {
+    if (dismissed || !pops.length) return;
+
+    timersRef.current.show = setTimeout(() => {
+      setVisible(true);
+      timersRef.current.rotate = setInterval(() => {
+        setIndex((i) => (i + 1) % pops.length);
+      }, 8000);
+    }, 4000);
+
+    return () => {
+      clearTimeout(timersRef.current.show);
+      clearTimeout(timersRef.current.hide);
+      clearInterval(timersRef.current.rotate);
+    };
+  }, [dismissed, pops.length]);
+
+  useEffect(() => {
+    if (visible && !dismissed) {
+      clearTimeout(timersRef.current.hide);
+      timersRef.current.hide = setTimeout(() => setVisible(false), 6000);
+    }
+  }, [visible, index, dismissed]);
+
+  if (dismissed || !pops.length) return null;
+  const pop = pops[index % pops.length];
+
+  return (
+    <div
+      className="fixed bottom-4 left-4 z-50 transition-all duration-500 ease-out"
+      style={{ transform: visible ? "translateY(0)" : "translateY(140%)", opacity: visible ? 1 : 0, pointerEvents: visible ? "auto" : "none" }}
+    >
+      <div className="rounded-2xl p-3.5 pr-10 shadow-2xl relative backdrop-blur-md" style={{ background: "rgba(255,255,255,.92)", border: "1px solid rgba(10,104,224,.15)" }}>
+        <button
+          type="button"
+          onClick={() => setDismissed(true)}
+          aria-label="Tutup notifikasi"
+          className="absolute top-2 right-2.5 grid h-7 w-7 cursor-pointer place-items-center rounded-full text-gray-400 hover:text-gray-600 transition"
+        >
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round"><path d="M6 6l12 12M18 6L6 18" /></svg>
+        </button>
+        <div className="flex items-start gap-3">
+          <div className="mt-0.5 flex h-9 w-9 shrink-0 items-center justify-center rounded-full" style={{ background: "rgba(10,104,224,.1)" }}>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" style={{ color: "var(--blue)" }} aria-hidden="true"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" stroke="currentColor" strokeWidth="2" /></svg>
+          </div>
+          <div className="min-w-0">
+            <p className="text-sm font-bold leading-snug" style={{ color: "var(--ink)" }}>{pop.name} — {pop.city}</p>
+            <p className="text-[13px] leading-snug mt-0.5" style={{ color: "var(--muted)" }}>baru memesan <em className="not-italic font-semibold" style={{ color: "var(--ink)" }}>{pop.product}</em></p>
+            <p className="text-[11px] mt-1.5 flex items-center gap-1" style={{ color: "var(--muted)" }}>
+              <span>{pop.time}</span>
+              <span className="inline-flex items-center gap-0.5 rounded-full px-1.5 py-0.5 text-[9px] font-bold" style={{ background: "rgba(16,185,129,.1)", color: "#059669" }}>
+                <svg width="8" height="8" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round"><path d="m5 13 4 4L19 7" /></svg>
+                Verified
+              </span>
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
 }
 
 /* ─── Price Section ─── */
@@ -225,44 +409,6 @@ function TestimonialCarousel({ items }: { items: LandingTestimonial[] }) {
   );
 }
 
-/* ─── Gallery Marquee ─── */
-function GalleryMarquee({ images }: { images: { src: string; alt: string }[] }) {
-  const [active, setActive] = useState<number | null>(null);
-  useEffect(() => {
-    if (active === null) return;
-    const onKey = (e: KeyboardEvent) => { if (e.key === "Escape") setActive(null); };
-    document.body.style.overflow = "hidden";
-    window.addEventListener("keydown", onKey);
-    return () => { document.body.style.overflow = ""; window.removeEventListener("keydown", onKey); };
-  }, [active]);
-  return (
-    <>
-      <div className="gal-wrap mt-7">
-        <div className="gal-track">
-          {Array.from({ length: 2 }).map((_, dup) =>
-            images.map((g, i) => (
-              <button key={`${dup}-${i}`} type="button" onClick={() => dup === 0 && setActive(i)} aria-hidden={dup === 1 || undefined} className="gal-item block cursor-pointer p-0 text-left">
-                <img src={g.src} alt={dup === 1 ? "" : g.alt} loading="lazy" />
-              </button>
-            ))
-          )}
-        </div>
-      </div>
-      {active !== null && images[active] && (
-        <div className="fixed inset-0 z-[110] flex items-center justify-center overflow-y-auto bg-black/85 p-4 backdrop-blur-sm" onClick={() => setActive(null)} role="dialog" aria-modal="true">
-          <div className="relative my-auto max-w-[92vw]" onClick={(e) => e.stopPropagation()}>
-            <button type="button" onClick={() => setActive(null)} aria-label="Tutup foto" className="absolute -top-2 -right-2 z-10 grid h-11 w-11 cursor-pointer place-items-center rounded-full text-white shadow-lg transition" style={{ background: "var(--blue)" }}>
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" /></svg>
-            </button>
-            <img src={images[active].src} alt={images[active].alt} className="max-h-[82vh] w-auto max-w-full rounded-2xl object-contain shadow-2xl" />
-            <p className="mt-3 text-center text-sm text-white/60">{images[active].alt}</p>
-          </div>
-        </div>
-      )}
-    </>
-  );
-}
-
 /* ─── Design Grid ─── */
 function DesignGrid({ products, waNumber, waMessageTemplate }: { products: GridProduct[]; waNumber: string; waMessageTemplate: string }) {
   const [active, setActive] = useState<GridProduct | null>(null);
@@ -327,7 +473,7 @@ export function CategoryLandingLight({ config, products, testimonials, waNumber 
       <div className="lt-body">
         <ScrollReveal />
         <main>
-          <PurchaseNotifications pops={config.purchasePops} />
+          <PurchaseNotif pops={config.purchasePops} />
 
           {/* ═══ HERO ═══ */}
           <section id="hero" className="relative overflow-hidden" style={{ background: "linear-gradient(160deg, #f0f7ff 0%, #e4f0ff 40%, #f4f7fb 100%)" }}>
@@ -396,19 +542,15 @@ export function CategoryLandingLight({ config, products, testimonials, waNumber 
           </section>
 
           {/* ═══ MARQUEE ═══ */}
-          <div className="border-y py-3 overflow-hidden" style={{ borderColor: "var(--line)", background: "var(--paper-2)" }}>
-            <div className="marquee kicker text-sm" style={{ color: "#93a8c4" }}>
-              {Array.from({ length: 2 }).map((_, dup) => (
-                <span key={dup} className="flex gap-10" aria-hidden={dup === 1}>
-                  {config.marquee.map((m, i) => (
-                    <span key={m + i} className="flex gap-10">
-                      <span>{m}</span>
-                      <span style={{ color: "var(--blue)" }} aria-hidden="true">✦</span>
-                    </span>
-                  ))}
+          <div className="border-y py-3" style={{ borderColor: "var(--line)", background: "var(--paper-2)" }}>
+            <JSMarquee speed={30} className="kicker text-sm" >
+              {config.marquee.map((m, i) => (
+                <span key={m + i} className="flex items-center gap-10 shrink-0" style={{ paddingRight: "2.5rem" }}>
+                  <span style={{ color: "#93a8c4" }}>{m}</span>
+                  <span style={{ color: "var(--blue)" }} aria-hidden="true">✦</span>
                 </span>
               ))}
-            </div>
+            </JSMarquee>
           </div>
 
           {/* ═══ KENAPA PILIH KAMI ═══ */}
@@ -555,7 +697,7 @@ export function CategoryLandingLight({ config, products, testimonials, waNumber 
                   </div>
                   <p className="text-xs sm:text-sm sm:text-right sm:max-w-[15rem] leading-relaxed" style={{ color: "var(--muted)" }}>{config.testimonials.gallerySub}</p>
                 </div>
-                <GalleryMarquee images={config.testimonials.gallery} />
+                <JSGalleryMarquee images={config.testimonials.gallery} />
                 <div className="mt-5 sm:mt-7 flex justify-center">
                   <WhatsAppLeadLink href={buildWhatsAppLink(waNumber, config.wa.gallery)} label={`Order Seperti Galeri — ${config.eyebrow}`} className="btn-blue rounded-full px-5 py-3 sm:px-7 sm:py-3.5 font-bold text-white text-center inline-flex items-center gap-2 text-sm sm:text-base">
                     <span className="hidden sm:inline">{config.testimonials.galleryCta}</span>
