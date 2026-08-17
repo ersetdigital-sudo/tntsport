@@ -364,7 +364,12 @@ export function CategoryLandingLight({ config, products, testimonials, waNumber 
                 className="hidden lg:block w-full h-full object-cover object-center"
                 loading="eager"
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-white via-transparent to-transparent lg:bg-gradient-to-r lg:from-white/20 lg:via-transparent lg:to-transparent" style={{ background: undefined }} />
+              <div className="absolute inset-0 bg-gradient-to-t from-white via-transparent to-transparent lg:bg-gradient-to-r lg:from-white/20 lg:via-transparent lg:to-transparent" />
+              {/* Badge — inside image container like jersey-futsal */}
+              <div className="absolute -bottom-4 -left-3 sm:left-4 lg:-bottom-2 lg:-left-2 card card-hl rounded-xl px-4 py-3 z-20 reveal">
+                <p className="kicker text-[10px]" style={{ color: "var(--blue)" }}>{config.heroBadge.kicker}</p>
+                <p className="display text-lg leading-none mt-1">{config.heroBadge.text}</p>
+              </div>
             </div>
 
             <div className="max-w-6xl mx-auto px-5 relative z-20">
@@ -392,12 +397,6 @@ export function CategoryLandingLight({ config, products, testimonials, waNumber 
                   ))}
                 </div>
               </div>
-            </div>
-
-            {/* Floating badge */}
-            <div className="absolute -bottom-4 left-4 sm:left-6 lg:bottom-8 lg:left-[42%] z-20 card card-hl rounded-xl px-4 py-3 reveal">
-              <p className="kicker text-[10px]" style={{ color: "var(--blue)" }}>{config.heroBadge.kicker}</p>
-              <p className="display text-lg leading-none mt-1">{config.heroBadge.text}</p>
             </div>
           </section>
 
