@@ -57,19 +57,28 @@ export function MetaPixel({ pixelId, enabled }: MetaPixelProps) {
     const w = window as any;
 
     // Guard: prevent re-initialization on remount or React StrictMode.
-    // If the pixel is already loaded with this ID, just bail — the
-    // browser-side PageView was already sent on first mount.
     if (w.__tntFbPixelId === pixelId) return;
     w.__tntFbPixelId = pixelId;
 
-    // Deduplicate PageView: track the last-sent eventID so we never
-    // fire the same PageView twice (catches race conditions & strict mode).
+    // Check if the Meta Pixel script was already loaded (e.g. by GTM).
+    // If fbq is already defined, the pixel is active — just mirror to CAPI
+    // but do NOT fire another PageView (GTM already did).
+    const alreadyLoaded = typeof w.fbq === "function";
+
+    if (alreadyLoaded) {
+      // Pixel is live (loaded by GTM or another source). Only mirror
+      // the existing PageView to CAPI for dedup — do NOT append a
+      // second script or fire a second fbq('track', 'PageView').
+      const pvEventId = w.__tntFbPageViewEventId || generateEventId("PageView");
+      w.__tntFbPageViewEventId = pvEventId;
+      sendCAPIEvent("PageView", pvEventId);
+      return;
+    }
+
+    // No pixel loaded yet — initialize from scratch.
     const pvEventId = generateEventId("PageView");
-    if (w.__tntLastPageViewEventId === pvEventId) return;
-    w.__tntLastPageViewEventId = pvEventId;
     w.__tntFbPageViewEventId = pvEventId;
 
-    // Load Meta Pixel script
     const script = document.createElement("script");
     script.innerHTML = `
       !function(f,b,e,v,n,t,s)
@@ -85,10 +94,8 @@ export function MetaPixel({ pixelId, enabled }: MetaPixelProps) {
     `;
     document.head.appendChild(script);
 
-    // Mirror PageView ke CAPI (server-side)
     sendCAPIEvent("PageView", pvEventId);
 
-    // Add noscript fallback
     const noscript = document.createElement("noscript");
     const img = document.createElement("img");
     img.height = 1;
