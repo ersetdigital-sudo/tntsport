@@ -48,19 +48,37 @@ export function MetaPixel({ pixelId, enabled }: MetaPixelProps) {
 }
 
 // Event tracking helpers (call these from components)
-export function trackViewContent(contentName: string, contentCategory: string) {
+// value + currency wajib dikirim agar Meta bisa menghitung ROAS dengan akurat.
+// Default: 95000 IDR (harga mulai jersey atasan ecer).
+export const DEFAULT_EVENT_VALUE = 95000;
+export const DEFAULT_EVENT_CURRENCY = "IDR";
+
+export function trackViewContent(
+  contentName: string,
+  contentCategory: string,
+  value: number = DEFAULT_EVENT_VALUE,
+  currency: string = DEFAULT_EVENT_CURRENCY
+) {
   if (typeof window !== "undefined" && (window as any).fbq) {
     (window as any).fbq("track", "ViewContent", {
       content_name: contentName,
       content_category: contentCategory,
+      value,
+      currency,
     });
   }
 }
 
-export function trackLead(contentName: string) {
+export function trackLead(
+  contentName: string,
+  value: number = DEFAULT_EVENT_VALUE,
+  currency: string = DEFAULT_EVENT_CURRENCY
+) {
   if (typeof window !== "undefined" && (window as any).fbq) {
     (window as any).fbq("track", "Lead", {
       content_name: contentName,
+      value,
+      currency,
     });
   }
 }
