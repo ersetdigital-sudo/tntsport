@@ -11,6 +11,14 @@ export function MetaPixel({ pixelId, enabled }: MetaPixelProps) {
   useEffect(() => {
     if (!enabled || !pixelId) return;
 
+    // Guard anti double-fire: React StrictMode (dev) me-mount effect dua kali,
+    // dan tanpa guard ini `fbq('track','PageView')` terkirim dobel.
+    // Script/noscript juga sengaja tidak dihapus saat unmount — pixel harus
+    // hidup sepanjang lifetime halaman.
+    const w = window as any;
+    if (w.__tntFbPixelId === pixelId) return;
+    w.__tntFbPixelId = pixelId;
+
     // Load Meta Pixel script
     const script = document.createElement("script");
     script.innerHTML = `
@@ -36,12 +44,6 @@ export function MetaPixel({ pixelId, enabled }: MetaPixelProps) {
     img.src = `https://www.facebook.com/tr?id=${pixelId}&ev=PageView&noscript=1`;
     noscript.appendChild(img);
     document.body.appendChild(noscript);
-
-    return () => {
-      // Cleanup on unmount
-      document.head.removeChild(script);
-      document.body.removeChild(noscript);
-    };
   }, [pixelId, enabled]);
 
   return null;
