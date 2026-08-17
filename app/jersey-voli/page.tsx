@@ -52,6 +52,7 @@ export default async function JerseyVoliPage() {
       name: t.name,
       team: t.team || "",
       city: t.city,
+      imageUrl: t.imageUrl ?? null,
     })) ?? cfg.testimonials.fallback;
 
   return (

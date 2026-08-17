@@ -18,6 +18,7 @@ export interface LandingTestimonial {
   name: string;
   team: string;
   city: string;
+  imageUrl?: string | null;
 }
 
 export interface LandingFaq {
