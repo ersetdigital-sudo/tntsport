@@ -75,6 +75,20 @@ export function trackViewContent(
   }
 }
 
+export function trackContact(
+  contentName: string,
+  value: number = DEFAULT_EVENT_VALUE,
+  currency: string = DEFAULT_EVENT_CURRENCY
+) {
+  if (typeof window !== "undefined" && (window as any).fbq) {
+    (window as any).fbq("track", "Contact", {
+      content_name: contentName,
+      value,
+      currency,
+    });
+  }
+}
+
 export function trackLead(
   contentName: string,
   value: number = DEFAULT_EVENT_VALUE,

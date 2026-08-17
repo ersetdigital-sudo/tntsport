@@ -5,6 +5,7 @@ import Link from "next/link";
 import { useEvergreenCountdown, pad } from "@/components/CountdownTimer";
 import { BoltIcon, CartIcon, FlameIcon, TagIcon } from "@/components/icons";
 import { buildWhatsAppLink } from "@/lib/wa";
+import { trackContact } from "@/components/MetaPixel";
 
 /**
  * FlashSaleBanner — dark cinematic card built around the TNT SPORT jersey
@@ -145,6 +146,7 @@ export function FlashSaleBanner({
 
         <Link
           href={orderHref}
+          onClick={() => { if (isWhatsApp) trackContact("Flash Sale Banner"); }}
           target={isExternal ? "_blank" : undefined}
           rel={isExternal ? "noopener noreferrer" : undefined}
           className="inline-flex h-12 w-full touch-manipulation items-center justify-center gap-2.5 rounded-xl bg-primary text-[15px] font-extrabold uppercase tracking-wide text-white shadow-[0_8px_24px_rgba(0,200,83,.35)] transition-all duration-200 hover:brightness-110 active:scale-[0.97] sm:w-auto sm:px-7"

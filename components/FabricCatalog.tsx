@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { buildWhatsAppLink } from "@/lib/wa";
+import { trackContact } from "@/components/MetaPixel";
 import type { Fabric, FabricGroupId } from "@/lib/types";
 
 interface FabricCatalogProps {
@@ -62,6 +63,7 @@ function FabricZoomModal({ fabric, waNumber, onClose }: { fabric: Fabric; waNumb
               ) : null}
             </div>
             <a
+              onClick={() => trackContact(`Bahan ${fabric.code}`)}
               href={href}
               target="_blank"
               rel="noopener noreferrer"
@@ -169,6 +171,7 @@ export function FabricCatalog({ fabrics, waNumber }: FabricCatalogProps) {
                           {fabric.description ?? "Konsultasikan bahan ini dengan tim kami untuk pilihan yang paling pas."}
                         </p>
                         <a
+                          onClick={() => trackContact(`Bahan ${fabric.code}`)}
                           href={href}
                           target="_blank"
                           rel="noopener noreferrer"

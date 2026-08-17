@@ -1,6 +1,6 @@
 "use client";
 
-import { trackLead } from "@/components/MetaPixel";
+import { trackContact, trackLead } from "@/components/MetaPixel";
 
 interface Props {
   href: string;
@@ -12,6 +12,7 @@ interface Props {
 export function WhatsAppLeadLink({ href, children, className, label }: Props) {
   const handleClick = () => {
     trackLead(label || "WhatsApp CTA");
+    trackContact(label || "WhatsApp CTA");
   };
 
   return (

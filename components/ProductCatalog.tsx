@@ -4,7 +4,7 @@ import { useState, useCallback, useEffect } from "react";
 import Image from "next/image";
 import { Shirt } from "lucide-react";
 import { CATALOG_PRODUCTS, getWhatsAppLink, findProductByDesignKey, productDesignKey } from "@/lib/products";
-import { trackViewContent, trackLead } from "@/components/MetaPixel";
+import { trackViewContent, trackLead, trackContact } from "@/components/MetaPixel";
 
 /* ------------------------------------------------------------------ */
 /* URL helpers — shallow routing via History API (no full reload)      */
@@ -148,7 +148,7 @@ function ZoomModal({
               href={getWhatsAppLink(categoryLabel, product.catalogue, waNumber)}
               target="_blank"
               rel="noopener noreferrer"
-              onClick={() => trackLead(product.catalogue)}
+              onClick={() => { trackLead(product.catalogue); trackContact(`Katalog ${product.catalogue}`); }}
               className="inline-flex shrink-0 items-center gap-2 rounded-full bg-[#00aa13] px-4 py-2.5 text-xs font-black text-[#080a07] transition hover:bg-[#00c317] sm:px-5 sm:text-sm"
             >
               Order Sekarang
@@ -218,7 +218,7 @@ function ProductCard({
           href={getWhatsAppLink(categoryLabel, product.catalogue, waNumber)}
           target="_blank"
           rel="noopener noreferrer"
-          onClick={() => trackLead(product.catalogue)}
+          onClick={() => { trackLead(product.catalogue); trackContact(`Katalog ${product.catalogue}`); }}
           className="mt-2 block w-full rounded-full bg-[#00aa13] py-2 text-center text-[10px] font-black uppercase tracking-wide text-white transition hover:bg-[#00c317] sm:py-2.5 sm:text-xs"
         >
           Pilih Desain Ini
