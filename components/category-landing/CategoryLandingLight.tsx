@@ -50,17 +50,6 @@ const STYLES = `
   .net-bg{background-image:linear-gradient(rgba(10,104,224,.08) 1px,transparent 1px),linear-gradient(90deg,rgba(10,104,224,.08) 1px,transparent 1px);background-size:22px 22px;}
   .stripe-bg{background:repeating-linear-gradient(115deg,rgba(10,104,224,.1) 0 2px,transparent 2px 16px);}
 
-  .hero-photo{
-    mask-image:linear-gradient(to right,transparent 0%,#000 20%,#000 100%);
-    -webkit-mask-image:linear-gradient(to right,transparent 0%,#000 20%,#000 100%);
-  }
-  @media(max-width:1023px){
-    .hero-photo{
-      mask-image:linear-gradient(to bottom,transparent 0%,#000 18%,#000 84%,transparent 100%);
-      -webkit-mask-image:linear-gradient(to bottom,transparent 0%,#000 18%,#000 84%,transparent 100%);
-    }
-  }
-
   .gal-wrap{overflow:hidden;-webkit-mask-image:linear-gradient(90deg,transparent,#000 5%,#000 95%,transparent);mask-image:linear-gradient(90deg,transparent,#000 5%,#000 95%,transparent);}
   .gal-track{display:flex;gap:1rem;width:max-content;animation:galslide 42s linear infinite;}
   .gal-wrap:hover .gal-track{animation-play-state:paused;}
@@ -341,57 +330,63 @@ export function CategoryLandingLight({ config, products, testimonials, waNumber 
           <PurchaseNotifications pops={config.purchasePops} />
 
           {/* ═══ HERO ═══ */}
-          <section id="hero" className="relative pt-12 pb-16 md:pt-20 md:pb-24 overflow-hidden">
+          <section id="hero" className="relative overflow-hidden" style={{ background: "linear-gradient(160deg, #f0f7ff 0%, #e4f0ff 40%, #f4f7fb 100%)" }}>
+            {/* Decorative elements */}
             <div className="absolute inset-0 -z-10">
-              <div className="absolute inset-0 net-bg opacity-60" />
-              <div className="absolute -top-40 -left-40 w-[36rem] h-[36rem] rounded-full blur-3xl" style={{ background: "radial-gradient(circle,rgba(47,143,255,.22),transparent 65%)" }} />
-              <div className="absolute top-1/3 -right-32 w-[30rem] h-[30rem] rounded-full blur-3xl" style={{ background: "radial-gradient(circle,rgba(10,104,224,.14),transparent 65%)" }} />
+              <div className="absolute inset-0 net-bg opacity-40" />
+              <div className="absolute -top-32 -right-32 w-[30rem] h-[30rem] rounded-full blur-3xl" style={{ background: "radial-gradient(circle,rgba(10,104,224,.12),transparent 65%)" }} />
+              <div className="absolute bottom-0 -left-32 w-[24rem] h-[24rem] rounded-full blur-3xl" style={{ background: "radial-gradient(circle,rgba(47,143,255,.08),transparent 65%)" }} />
+              {/* Geometric accents */}
+              <div className="absolute top-20 right-[15%] w-20 h-20 border-2 border-[var(--blue)]/10 rounded-2xl rotate-12" />
+              <div className="absolute bottom-32 left-[10%] w-14 h-14 border-2 border-[var(--blue)]/10 rounded-full" />
+              <div className="absolute top-1/2 right-[8%] w-3 h-3 bg-[var(--blue)]/20 rounded-full" />
             </div>
 
-            {/* Hero image — mobile: bottom cutout, desktop: right side */}
-            <div className="hero-photo pointer-events-none absolute inset-x-0 bottom-0 z-10 h-[490px] lg:bottom-0 lg:left-[44%] lg:right-[-8%] lg:top-0 lg:h-full">
-              {/* Mobile image */}
-              <img
-                src="https://res.cloudinary.com/dqjh7utdb/image/upload/v1786961633/fpwuhyjcq8mzeajiavoo.png"
-                alt={config.heroImageAlt}
-                className="block w-full h-full object-cover object-top lg:hidden"
-                loading="eager"
-              />
-              {/* Desktop image */}
-              <img
-                src={config.heroImage}
-                alt={config.heroImageAlt}
-                className="hidden lg:block w-full h-full object-cover object-center"
-                loading="eager"
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-white via-transparent to-transparent lg:bg-gradient-to-r lg:from-white/20 lg:via-transparent lg:to-transparent" />
-              {/* Badge — inside image container like jersey-futsal */}
-              <div className="absolute -bottom-4 -left-3 sm:left-4 lg:-bottom-2 lg:-left-2 card card-hl rounded-xl px-4 py-3 z-20 reveal">
-                <p className="kicker text-[10px]" style={{ color: "var(--blue)" }}>{config.heroBadge.kicker}</p>
-                <p className="display text-lg leading-none mt-1">{config.heroBadge.text}</p>
-              </div>
-            </div>
-
-            <div className="max-w-6xl mx-auto px-5 relative z-20">
-              <div className="max-w-2xl reveal">
-                <p className="kicker text-[11px] sm:text-xs flex items-center gap-2 mb-5" style={{ color: "var(--blue)" }}>
-                  <span className="inline-block w-6 h-px" style={{ background: "var(--blue)" }} />
-                  {config.eyebrow}
-                </p>
-                <h1 className="display text-[2.5rem] leading-[.96] sm:text-6xl lg:text-[4.35rem]">
-                  {config.headline.slice(0, -1).map((line) => <span key={line} className="block">{line}</span>)}
-                  <span className="blue-text block">{config.headline[config.headline.length - 1]}</span>
-                </h1>
-                <p className="display text-lg sm:text-2xl mt-3" style={{ color: "var(--ink-soft)" }}>{config.headlineSub}</p>
-                <p className="mt-4 sm:mt-6 text-sm sm:text-lg max-w-xl leading-relaxed" style={{ color: "var(--muted)" }}>{config.subheadline}</p>
-                <div className="mt-6 sm:mt-8 flex flex-col sm:flex-row gap-3 sm:items-center">
-                  <WhatsAppLeadLink href={waOrder} label={`Order Jersey Sekarang — ${config.eyebrow}`} className="btn-blue rounded-full px-6 py-3.5 sm:px-7 sm:py-4 font-bold text-white text-center">Order Jersey Sekarang →</WhatsAppLeadLink>
-                  <a href="#desain" className="btn-outline rounded-full px-6 py-3.5 sm:px-7 sm:py-4 font-semibold text-center">Lihat Katalog Desain</a>
+            <div className="max-w-6xl mx-auto px-5 py-16 sm:py-20 md:py-28 lg:py-32 relative">
+              <div className="max-w-3xl mx-auto text-center">
+                <div className="reveal">
+                  <span className="inline-flex items-center gap-2 rounded-full px-4 py-2 text-[11px] font-bold tracking-widest mb-6 sm:mb-8" style={{ background: "rgba(10,104,224,.08)", color: "var(--blue)", border: "1px solid rgba(10,104,224,.15)" }}>
+                    <span className="w-1.5 h-1.5 rounded-full animate-pulse" style={{ background: "var(--blue)" }} />
+                    {config.eyebrow}
+                  </span>
                 </div>
-                <div className="mt-7 sm:mt-9 pt-6 sm:pt-7 border-t grid grid-cols-2 sm:grid-cols-4 gap-y-3 gap-x-3" style={{ borderColor: "var(--line)" }}>
+
+                <h1 className="display text-[2.8rem] sm:text-6xl md:text-7xl lg:text-[5.5rem] leading-[.92] reveal">
+                  {config.headline.slice(0, -1).map((line) => (
+                    <span key={line} className="block">{line}</span>
+                  ))}
+                  <span className="blue-text block mt-1">{config.headline[config.headline.length - 1]}</span>
+                </h1>
+
+                <p className="display text-lg sm:text-xl md:text-2xl mt-4 sm:mt-6 reveal" style={{ color: "var(--ink-soft)" }}>
+                  {config.headlineSub}
+                </p>
+
+                <p className="mt-4 sm:mt-6 text-sm sm:text-base md:text-lg max-w-xl mx-auto leading-relaxed reveal" style={{ color: "var(--muted)" }}>
+                  {config.subheadline}
+                </p>
+
+                <div className="mt-8 sm:mt-10 flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center reveal">
+                  <WhatsAppLeadLink
+                    href={waOrder}
+                    label={`Order Jersey Sekarang — ${config.eyebrow}`}
+                    className="btn-blue rounded-full px-8 py-4 sm:px-10 sm:py-4.5 font-bold text-white text-center text-base sm:text-lg"
+                  >
+                    Order Jersey Sekarang →
+                  </WhatsAppLeadLink>
+                  <a
+                    href="#desain"
+                    className="btn-outline rounded-full px-8 py-4 sm:px-10 sm:py-4.5 font-semibold text-center text-base sm:text-lg"
+                  >
+                    Lihat Katalog Desain
+                  </a>
+                </div>
+
+                {/* Trust bar — centered */}
+                <div className="mt-10 sm:mt-14 pt-8 sm:pt-10 border-t grid grid-cols-2 sm:grid-cols-4 gap-y-4 gap-x-6 max-w-2xl mx-auto reveal" style={{ borderColor: "rgba(10,104,224,.15)" }}>
                   {config.trustBar.map((t) => (
-                    <div key={t} className="flex items-start gap-2">
-                      <span style={{ color: "var(--blue)" }} className="mt-px">✅</span>
+                    <div key={t} className="flex items-center justify-center gap-2">
+                      <span style={{ color: "var(--blue)" }}>✅</span>
                       <span className="text-xs sm:text-sm font-semibold">{t}</span>
                     </div>
                   ))}
