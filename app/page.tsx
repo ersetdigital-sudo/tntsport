@@ -8,9 +8,12 @@ import { Reviews } from "@/components/Reviews";
 import { SocialLinks } from "@/components/SocialLinks";
 import { ThemeToggle } from "@/components/ThemeToggle";
 import { TrustBadges } from "@/components/TrustBadges";
-import { WhatsAppTracker } from "@/components/WhatsAppTracker";
+import dynamic from "next/dynamic";
 import { getBrand, getCTALinks, getReviews, getSocialLinks, getStats, getTrustBadges } from "@/lib/queries";
 import { PageViewTracker } from "@/components/PageViewTracker";
+
+const WhatsAppTracker = dynamic(() => import("@/components/WhatsAppTracker").then(m => m.WhatsAppTracker));
+const WhatsAppCTA = dynamic(() => import("@/components/WhatsAppCTA").then(m => m.WhatsAppCTA));
 import type { Brand, Review, SocialLink } from "@/lib/types";
 
 export const revalidate = 3600;
@@ -97,6 +100,11 @@ export default async function Page() {
   const [brand, stats, trustBadges, ctaLinks, reviews, socialLinks] = await Promise.all([getBrand(), getStats(), getTrustBadges(), getCTALinks(), getReviews(), getSocialLinks()]);
   const jsonLd = buildJsonLd(brand, socialLinks, reviews);
 
+  // Split WhatsApp CTA from the rest — WhatsAppCTA is a client component
+  // with direct onClick tracking, the rest stay server-rendered.
+  const whatsappCta = ctaLinks.find((c) => c.accent === "whatsapp");
+  const otherCtas = ctaLinks.filter((c) => c.accent !== "whatsapp");
+
   return <main className="relative min-h-screen px-3 py-5 sm:px-6 sm:py-8">
     {/* Grid pattern background — light mode */}
     <div className="pointer-events-none fixed inset-0 opacity-[0.08] dark:hidden"
@@ -121,8 +129,9 @@ export default async function Page() {
       <div className="space-y-5 px-5 pb-10 pt-5 sm:space-y-6 sm:px-8 sm:pb-12 sm:pt-7">
         {/* Trust indicator */}
         <div className="rounded-2xl border border-black/[.06] bg-white px-3 py-5 shadow-premium-sm dark:border-white/10 dark:bg-surface-card sm:rounded-3xl sm:px-5 sm:py-6"><TrustBadges badges={trustBadges} /></div>
-        {/* CTA (termasuk Promo Bulan Ini — link diatur lewat /admin/cta-links) */}
-        <CTALinks items={ctaLinks} />
+        {/* CTA — WhatsApp card uses client onClick tracking, rest are server-rendered */}
+        {whatsappCta && whatsappCta.href ? <WhatsAppCTA href={whatsappCta.href} /> : null}
+        {otherCtas.length > 0 ? <CTALinks items={otherCtas} /> : null}
         {/* Promo */}
         <FlashSaleBanner
           whatsappNumber={brand.whatsappNumber}
