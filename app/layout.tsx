@@ -2,7 +2,6 @@ import type { Metadata, Viewport } from "next";
 import { Barlow, Barlow_Condensed, IBM_Plex_Mono } from "next/font/google";
 import { ThemeProvider } from "next-themes";
 import { getBrand } from "@/lib/queries";
-import { MetaPixel } from "@/components/MetaPixel";
 import "./globals.css";
 
 /**
@@ -128,6 +127,17 @@ export default async function RootLayout({
         {/* llms.txt discovery for AI assistants */}
         <link rel="alternate" type="text/plain" href="/llms.txt" title="TNT SPORT APPAREL — LLM Ringkasan" />
         <link rel="alternate" type="text/plain" href="/llms-full.txt" title="TNT SPORT APPAREL — LLM Konten Lengkap" />
+        {/* Meta Pixel — loaded SYNCHRONOUSLY in <head> so fbq is guaranteed
+            to exist before any React component mounts. This eliminates the
+            race condition where tracking functions (trackContact, trackLead)
+            fire before fbq is defined. The fbq stub queues calls until
+            fbevents.js loads, then replays them. GTM's own pixel init is
+            blocked by fbq's internal `if(f.fbq)return` guard. */}
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `!function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!1;t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,document,'script','https://connect.facebook.net/en_US/fbevents.js');fbq('init','${brand.metaPixelId}');fbq('track','PageView');`,
+          }}
+        />
         {/* Google Tag Manager */}
         <script
           dangerouslySetInnerHTML={{
@@ -147,7 +157,6 @@ export default async function RootLayout({
           />
         </noscript>
         {/* End Google Tag Manager (noscript) */}
-        <MetaPixel pixelId={brand.metaPixelId} enabled={brand.metaPixelEnabled} />
         <ThemeProvider
           attribute="class"
           defaultTheme="dark"
