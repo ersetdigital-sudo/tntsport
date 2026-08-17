@@ -339,13 +339,23 @@ export function CategoryLandingLight({ config, products, testimonials, waNumber 
               <div className="absolute -top-40 -left-40 w-[36rem] h-[36rem] rounded-full blur-3xl" style={{ background: "radial-gradient(circle,rgba(47,143,255,.22),transparent 65%)" }} />
               <div className="absolute top-1/3 -right-32 w-[30rem] h-[30rem] rounded-full blur-3xl" style={{ background: "radial-gradient(circle,rgba(10,104,224,.14),transparent 65%)" }} />
             </div>
-            {/* Hero image — cutout full */}
-            <div className="absolute inset-0 -z-5 pointer-events-none">
-              {/* Mobile: fade left side so text readable */}
-              <div className="absolute inset-0 lg:hidden" style={{ background: "linear-gradient(to right, #fff 0%, #fff 5%, rgba(255,255,255,.85) 30%, transparent 60%)" }} />
-              {/* Desktop: fade bottom */}
-              <div className="absolute inset-0 hidden lg:block" style={{ background: "linear-gradient(to bottom, transparent 60%, #fff 95%)" }} />
+
+            {/* Hero image — desktop: background cutout */}
+            <div className="absolute inset-0 -z-5 pointer-events-none hidden lg:block">
+              <div className="absolute inset-0" style={{ background: "linear-gradient(to bottom, transparent 60%, #fff 95%)" }} />
               <img src={config.heroImage} alt={config.heroImageAlt} className="hero-cut" loading="eager" />
+            </div>
+
+            {/* Hero image — mobile: cutout at bottom like jersey-futsal */}
+            <div className="absolute inset-x-0 bottom-0 -z-5 pointer-events-none lg:hidden" style={{ height: "490px" }}>
+              <div className="absolute inset-0" style={{ background: "linear-gradient(to top, #fff 0%, #fff 2%, transparent 40%)" }} />
+              <img
+                src="https://res.cloudinary.com/dqjh7utdb/image/upload/v1786961633/fpwuhyjcq8mzeajiavoo.png"
+                alt={config.heroImageAlt}
+                className="w-full h-full object-cover object-top"
+                loading="eager"
+                style={{ maskImage: "linear-gradient(to bottom, transparent 0%, #000 18%, #000 84%, transparent 100%)", WebkitMaskImage: "linear-gradient(to bottom, transparent 0%, #000 18%, #000 84%, transparent 100%)" }}
+              />
             </div>
 
             <div className="max-w-6xl mx-auto px-5 relative">
@@ -374,8 +384,9 @@ export function CategoryLandingLight({ config, products, testimonials, waNumber 
                 </div>
               </div>
             </div>
-            {/* Floating badge — hidden on small mobile, shown on sm+ */}
-            <div className="hidden sm:block absolute bottom-6 left-8 lg:bottom-8 lg:left-auto lg:right-auto lg:ml-[calc(50%+2rem)] z-10 card card-hl rounded-xl px-4 py-3 reveal">
+
+            {/* Floating badge */}
+            <div className="absolute bottom-6 left-5 sm:bottom-8 sm:left-8 lg:bottom-8 lg:left-auto lg:right-auto lg:ml-[calc(50%+2rem)] z-10 card card-hl rounded-xl px-4 py-3 reveal">
               <p className="kicker text-[10px]" style={{ color: "var(--blue)" }}>{config.heroBadge.kicker}</p>
               <p className="display text-lg leading-none mt-1">{config.heroBadge.text}</p>
             </div>
