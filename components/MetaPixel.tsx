@@ -56,16 +56,17 @@ export function MetaPixel({ pixelId, enabled }: MetaPixelProps) {
 
     const w = window as any;
 
-    // Guard anti double-fire: React StrictMode (dev) me-mount effect dua kali,
-    // dan tanpa guard ini `fbq('track','PageView')` terkirim dobel.
-    // Script/noscript juga sengaja tidak dihapus saat unmount — pixel harus
-    // hidup sepanjang lifetime halaman.
+    // Guard: prevent re-initialization on remount or React StrictMode.
+    // If the pixel is already loaded with this ID, just bail — the
+    // browser-side PageView was already sent on first mount.
     if (w.__tntFbPixelId === pixelId) return;
     w.__tntFbPixelId = pixelId;
 
-    // event_id deduplication: browser pixel & CAPI yang membawa event_id sama
-    // dihitung SATU event oleh Meta (standar dedup Meta).
+    // Deduplicate PageView: track the last-sent eventID so we never
+    // fire the same PageView twice (catches race conditions & strict mode).
     const pvEventId = generateEventId("PageView");
+    if (w.__tntLastPageViewEventId === pvEventId) return;
+    w.__tntLastPageViewEventId = pvEventId;
     w.__tntFbPageViewEventId = pvEventId;
 
     // Load Meta Pixel script
@@ -73,7 +74,7 @@ export function MetaPixel({ pixelId, enabled }: MetaPixelProps) {
     script.innerHTML = `
       !function(f,b,e,v,n,t,s)
       {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
-      n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+      n.callMethod.apply(n,arguments);n.queue.push(arguments)};
       if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
       n.queue=[];t=b.createElement(e);t.async=!0;t.src=v;
       s=b.getElementsByTagName(e)[0];

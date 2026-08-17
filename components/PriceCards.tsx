@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { trackContact } from "@/components/MetaPixel";
+import { trackContact, trackLead } from "@/components/MetaPixel";
 
 export function PriceCards({ waLink }: { waLink: string }) {
   const [mode, setMode] = useState<"ecer" | "lusin">("lusin");
@@ -69,7 +69,7 @@ export function PriceCards({ waLink }: { waLink: string }) {
             href={`${waLink.replace("saya%20mau%20tanya%20jersey%20custom", encodeURIComponent("saya tertarik dengan paket Atasan Saja. Bisa info lebih lanjut?"))}`}
             target="_blank"
             rel="noopener noreferrer"
-            onClick={() => trackContact("Katalog Harga Atasan")}
+            onClick={() => { trackLead("Katalog Harga Atasan"); trackContact("Katalog Harga Atasan"); }}
             className="mt-9 flex items-center justify-between rounded-full border border-white/15 px-6 py-4 font-black transition hover:border-[#00aa13] hover:text-[#00aa13]"
           >
             <span>Pilih Atasan</span><span>↗</span>
@@ -104,7 +104,7 @@ export function PriceCards({ waLink }: { waLink: string }) {
             href={`${waLink.replace("saya%20mau%20tanya%20jersey%20custom", encodeURIComponent("saya tertarik dengan paket Jersey Setelan. Bisa info lebih lanjut?"))}`}
             target="_blank"
             rel="noopener noreferrer"
-            onClick={() => trackContact("Katalog Harga Setelan")}
+            onClick={() => { trackLead("Katalog Harga Setelan"); trackContact("Katalog Harga Setelan"); }}
             className="mt-9 flex items-center justify-between rounded-full bg-[#00aa13] px-6 py-4 font-black text-[#080a07] shadow-[0_10px_35px_rgba(0,170,19,.18)] transition hover:-translate-y-1"
           >
             <span>Pilih Setelan</span><span>↗</span>

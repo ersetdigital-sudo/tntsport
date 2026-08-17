@@ -3,7 +3,7 @@
 import { useState } from "react";
 import Image from "next/image";
 import { buildWhatsAppLink } from "@/lib/wa";
-import { trackContact } from "@/components/MetaPixel";
+import { trackContact, trackLead } from "@/components/MetaPixel";
 
 const DESIGN_COUNT = 20;
 
@@ -69,7 +69,7 @@ function ZoomModal({
               <p className="mt-1 text-sm text-zinc-400">Promo Kemerdekaan</p>
             </div>
             <a
-              onClick={() => trackContact(`Desain Promo ${design}`)}
+              onClick={() => { trackLead(`Desain Promo ${design}`); trackContact(`Desain Promo ${design}`); }}
               href={waLink}
               target="_blank"
               rel="noopener noreferrer"
@@ -131,7 +131,7 @@ export function PromoDesignGrid({ waNumber }: { waNumber: string }) {
                   Desain {String(design).padStart(2, "0")}
                 </p>
                 <a
-                  onClick={() => trackContact(`Desain Promo ${design}`)}
+                  onClick={() => { trackLead(`Desain Promo ${design}`); trackContact(`Desain Promo ${design}`); }}
                   href={waLink}
                   target="_blank"
                   rel="noopener noreferrer"
