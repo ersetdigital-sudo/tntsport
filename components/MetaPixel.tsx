@@ -18,6 +18,10 @@ export function MetaPixel({ pixelId, enabled }: MetaPixelProps) {
     const w = window as any;
     if (w.__tntFbPixelId === pixelId) return;
     w.__tntFbPixelId = pixelId;
+    // event_id deduplication: browser pixel & mirror Conversions API yang
+    // membawa event_id sama dihitung SATU event oleh Meta (standar dedup Meta).
+    w.__tntFbPageViewEventId =
+      "pv-" + pixelId + "-" + Date.now() + "-" + Math.random().toString(36).slice(2, 10);
 
     // Load Meta Pixel script
     const script = document.createElement("script");
@@ -31,7 +35,7 @@ export function MetaPixel({ pixelId, enabled }: MetaPixelProps) {
       s.parentNode.insertBefore(t,s)}(window, document,'script',
       'https://connect.facebook.net/en_US/fbevents.js');
       fbq('init', '${pixelId}');
-      fbq('track', 'PageView');
+      fbq('track', 'PageView', {}, {eventID: window.__tntFbPageViewEventId});
     `;
     document.head.appendChild(script);
 
