@@ -80,8 +80,8 @@ const STYLES = `
   .pop-hide{transform:translateY(140%);opacity:0;pointer-events:none;}
 
   @media (prefers-reduced-motion:reduce){
-    .marquee,.gal-track{animation:none;}
-    .reveal{opacity:1;transform:none;transition:none;}
+    .marquee,.gal-track{animation:none !important;}
+    .reveal{opacity:1 !important;transform:none !important;transition:none !important;}
     html{scroll-behavior:auto;}
   }
 `;
@@ -383,9 +383,9 @@ export function CategoryLandingLight({ config, products, testimonials, waNumber 
                 </div>
 
                 {/* Trust bar — centered */}
-                <div className="mt-10 sm:mt-14 pt-8 sm:pt-10 border-t grid grid-cols-2 sm:grid-cols-4 gap-y-4 gap-x-6 max-w-2xl mx-auto reveal" style={{ borderColor: "rgba(10,104,224,.15)" }}>
+                <div className="mt-10 sm:mt-14 pt-8 sm:pt-10 border-t flex flex-wrap justify-center gap-x-6 gap-y-3 max-w-3xl mx-auto reveal" style={{ borderColor: "rgba(10,104,224,.15)" }}>
                   {config.trustBar.map((t) => (
-                    <div key={t} className="flex items-center justify-center gap-2">
+                    <div key={t} className="flex items-center gap-2 whitespace-nowrap">
                       <span style={{ color: "var(--blue)" }}>✅</span>
                       <span className="text-xs sm:text-sm font-semibold">{t}</span>
                     </div>
