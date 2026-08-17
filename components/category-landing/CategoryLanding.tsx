@@ -252,10 +252,10 @@ export function CategoryLanding({ config, products, testimonials, waNumber }: Pr
               </div>
 
               {/* trust bar */}
-              <div className="mt-9 pt-7 border-t border-white/10 grid grid-cols-2 sm:grid-cols-4 gap-y-4 gap-x-3">
+              <div className="mt-9 pt-7 border-t border-white/10 flex flex-wrap lg:flex-nowrap justify-center gap-x-5 gap-y-3">
                 {config.trustBar.map((t) => (
-                  <div key={t} className="flex items-start gap-2">
-                    <span className="text-[#ff6b00] mt-px" aria-hidden="true">
+                  <div key={t} className="flex items-center gap-2 whitespace-nowrap">
+                    <span className="text-[#ff6b00]" aria-hidden="true">
                       <svg width="15" height="15" viewBox="0 0 24 24" fill="none">
                         <path d="m5 13 4 4L19 7" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" />
                       </svg>
