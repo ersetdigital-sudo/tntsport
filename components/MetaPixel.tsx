@@ -56,26 +56,28 @@ export function MetaPixel({ pixelId, enabled }: MetaPixelProps) {
 
     const w = window as any;
 
-    // Guard: prevent re-initialization on remount or React StrictMode.
+    // Guard: prevent re-initialization on remount / StrictMode.
     if (w.__tntFbPixelId === pixelId) return;
     w.__tntFbPixelId = pixelId;
 
-    // Check if the Meta Pixel script was already loaded (e.g. by GTM).
-    // If fbq is already defined, the pixel is active — just mirror to CAPI
-    // but do NOT fire another PageView (GTM already did).
-    const alreadyLoaded = typeof w.fbq === "function";
+    // Check if the Meta Pixel script tag already exists in the DOM
+    // (e.g. loaded by GTM or another integration). If so, the pixel
+    // is already active and has already fired its own PageView — we
+    // must NOT append a second script or fire a second PageView.
+    const pixelScriptExists = document.querySelector(
+      'script[src*="connect.facebook.net/en_US/fbevents.js"]'
+    );
 
-    if (alreadyLoaded) {
-      // Pixel is live (loaded by GTM or another source). Only mirror
-      // the existing PageView to CAPI for dedup — do NOT append a
-      // second script or fire a second fbq('track', 'PageView').
+    if (pixelScriptExists) {
+      // Pixel is live via GTM. Only mirror to CAPI — no browser-side
+      // PageView needed (GTM already fired one).
       const pvEventId = w.__tntFbPageViewEventId || generateEventId("PageView");
       w.__tntFbPageViewEventId = pvEventId;
       sendCAPIEvent("PageView", pvEventId);
       return;
     }
 
-    // No pixel loaded yet — initialize from scratch.
+    // No pixel in DOM — load it ourselves and fire the one canonical PageView.
     const pvEventId = generateEventId("PageView");
     w.__tntFbPageViewEventId = pvEventId;
 
@@ -93,8 +95,6 @@ export function MetaPixel({ pixelId, enabled }: MetaPixelProps) {
       fbq('track', 'PageView', {}, {eventID: '${pvEventId}'});
     `;
     document.head.appendChild(script);
-
-    sendCAPIEvent("PageView", pvEventId);
 
     const noscript = document.createElement("noscript");
     const img = document.createElement("img");
