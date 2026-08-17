@@ -7,21 +7,66 @@ interface MetaPixelProps {
   enabled: boolean;
 }
 
+/* ------------------------------------------------------------------ */
+/*  Helpers: eventID generation & CAPI server mirror                  */
+/* ------------------------------------------------------------------ */
+
+/** Generate a unique eventID for deduplication between browser pixel & CAPI. */
+function generateEventId(eventName: string): string {
+  return `${eventName}-${Date.now()}-${Math.random().toString(36).slice(2, 10)}`;
+}
+
+/**
+ * Send an event to our server-side CAPI route (/api/capi) so Meta can
+ * deduplicate it with the matching browser event (same eventID).
+ * Fire-and-forget — must never block the user interaction.
+ */
+function sendCAPIEvent(
+  eventName: string,
+  eventId: string,
+  customData?: Record<string, any>
+) {
+  try {
+    const pixelId = (window as any).__tntFbPixelId;
+    if (!pixelId) return;
+    fetch("/api/capi", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        eventName,
+        eventId,
+        customData,
+        pixelId,
+        eventSourceUrl: window.location.href,
+      }),
+      keepalive: true,
+    }).catch(() => {});
+  } catch {
+    // fire-and-forget — silently ignore errors
+  }
+}
+
+/* ------------------------------------------------------------------ */
+/*  MetaPixel component (client)                                       */
+/* ------------------------------------------------------------------ */
+
 export function MetaPixel({ pixelId, enabled }: MetaPixelProps) {
   useEffect(() => {
     if (!enabled || !pixelId) return;
+
+    const w = window as any;
 
     // Guard anti double-fire: React StrictMode (dev) me-mount effect dua kali,
     // dan tanpa guard ini `fbq('track','PageView')` terkirim dobel.
     // Script/noscript juga sengaja tidak dihapus saat unmount — pixel harus
     // hidup sepanjang lifetime halaman.
-    const w = window as any;
     if (w.__tntFbPixelId === pixelId) return;
     w.__tntFbPixelId = pixelId;
-    // event_id deduplication: browser pixel & mirror Conversions API yang
-    // membawa event_id sama dihitung SATU event oleh Meta (standar dedup Meta).
-    w.__tntFbPageViewEventId =
-      "pv-" + pixelId + "-" + Date.now() + "-" + Math.random().toString(36).slice(2, 10);
+
+    // event_id deduplication: browser pixel & CAPI yang membawa event_id sama
+    // dihitung SATU event oleh Meta (standar dedup Meta).
+    const pvEventId = generateEventId("PageView");
+    w.__tntFbPageViewEventId = pvEventId;
 
     // Load Meta Pixel script
     const script = document.createElement("script");
@@ -35,9 +80,12 @@ export function MetaPixel({ pixelId, enabled }: MetaPixelProps) {
       s.parentNode.insertBefore(t,s)}(window, document,'script',
       'https://connect.facebook.net/en_US/fbevents.js');
       fbq('init', '${pixelId}');
-      fbq('track', 'PageView', {}, {eventID: window.__tntFbPageViewEventId});
+      fbq('track', 'PageView', {}, {eventID: '${pvEventId}'});
     `;
     document.head.appendChild(script);
+
+    // Mirror PageView ke CAPI (server-side)
+    sendCAPIEvent("PageView", pvEventId);
 
     // Add noscript fallback
     const noscript = document.createElement("noscript");
@@ -53,9 +101,11 @@ export function MetaPixel({ pixelId, enabled }: MetaPixelProps) {
   return null;
 }
 
-// Event tracking helpers (call these from components)
-// value + currency wajib dikirim agar Meta bisa menghitung ROAS dengan akurat.
-// Default: 95000 IDR (harga mulai jersey atasan ecer).
+/* ------------------------------------------------------------------ */
+/*  Event tracking helpers — setiap event punya eventID + CAPI mirror */
+/*  value + currency wajib dikirim agar Meta bisa menghitung ROAS.    */
+/* ------------------------------------------------------------------ */
+
 export const DEFAULT_EVENT_VALUE = 95000;
 export const DEFAULT_EVENT_CURRENCY = "IDR";
 
@@ -66,7 +116,15 @@ export function trackViewContent(
   currency: string = DEFAULT_EVENT_CURRENCY
 ) {
   if (typeof window !== "undefined" && (window as any).fbq) {
-    (window as any).fbq("track", "ViewContent", {
+    const w = window as any;
+    const eventId = generateEventId("ViewContent");
+    w.fbq("track", "ViewContent", {
+      content_name: contentName,
+      content_category: contentCategory,
+      value,
+      currency,
+    }, { eventID: eventId });
+    sendCAPIEvent("ViewContent", eventId, {
       content_name: contentName,
       content_category: contentCategory,
       value,
@@ -81,7 +139,14 @@ export function trackContact(
   currency: string = DEFAULT_EVENT_CURRENCY
 ) {
   if (typeof window !== "undefined" && (window as any).fbq) {
-    (window as any).fbq("track", "Contact", {
+    const w = window as any;
+    const eventId = generateEventId("Contact");
+    w.fbq("track", "Contact", {
+      content_name: contentName,
+      value,
+      currency,
+    }, { eventID: eventId });
+    sendCAPIEvent("Contact", eventId, {
       content_name: contentName,
       value,
       currency,
@@ -95,7 +160,14 @@ export function trackLead(
   currency: string = DEFAULT_EVENT_CURRENCY
 ) {
   if (typeof window !== "undefined" && (window as any).fbq) {
-    (window as any).fbq("track", "Lead", {
+    const w = window as any;
+    const eventId = generateEventId("Lead");
+    w.fbq("track", "Lead", {
+      content_name: contentName,
+      value,
+      currency,
+    }, { eventID: eventId });
+    sendCAPIEvent("Lead", eventId, {
       content_name: contentName,
       value,
       currency,
@@ -105,6 +177,9 @@ export function trackLead(
 
 export function trackEvent(eventName: string, params?: Record<string, any>) {
   if (typeof window !== "undefined" && (window as any).fbq) {
-    (window as any).fbq("track", eventName, params);
+    const w = window as any;
+    const eventId = generateEventId(eventName);
+    w.fbq("track", eventName, params, { eventID: eventId });
+    sendCAPIEvent(eventName, eventId, params);
   }
 }
