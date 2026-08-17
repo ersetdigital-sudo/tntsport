@@ -374,7 +374,7 @@ export const CATEGORY_LANDINGS: Record<string, CategoryLandingConfig> = {
 
   volley: {
     slug: "jersey-voli",
-    catalogId: "volley",
+    catalogId: "Volly Ball",
     eyebrow: "🏐 Custom Jersey Voli",
     headline: ["Jersey Voli Satu Tim,", "Satu Semangat"],
     headlineSub: "Custom Nama, Nomor & Logo Sendiri",
