@@ -422,22 +422,37 @@ export function CategoryLandingLight({ config, products, testimonials, waNumber 
         <PurchaseNotifications pops={config.purchasePops} />
 
         {/* ================= HERO ================= */}
-        <section id="hero" className="relative pt-28 pb-16 md:pt-36 md:pb-24 overflow-hidden">
+        <section id="hero" className="relative min-h-[600px] md:min-h-[700px] lg:min-h-[790px] pt-28 pb-16 md:pt-36 md:pb-24 overflow-hidden">
           <div className="absolute inset-0 -z-10">
             <div className="absolute inset-0 lt-net opacity-60" />
             <div className="absolute -top-40 -left-40 w-[36rem] h-[36rem] rounded-full blur-3xl" style={{ background: "radial-gradient(circle,rgba(47,143,255,.22),transparent 65%)" }} />
             <div className="absolute top-1/3 -right-32 w-[30rem] h-[30rem] rounded-full blur-3xl" style={{ background: "radial-gradient(circle,rgba(10,104,224,.14),transparent 65%)" }} />
+          </div>
+
+          {/* Hero image — full background cutout */}
+          <div className="absolute inset-0 -z-5 pointer-events-none">
+            <Image
+              src={config.heroImage}
+              alt={config.heroImageAlt}
+              fill
+              priority
+              sizes="100vw"
+              className="object-contain object-bottom lg:object-center lg:object-contain"
+              style={{ filter: "drop-shadow(0 26px 26px rgba(13,27,42,.15))" }}
+            />
+            <div className="absolute inset-0" style={{ background: "linear-gradient(to right, #fff 0%, #fff 35%, transparent 65%)" }} />
             <div className="absolute inset-x-0 bottom-0 h-40" style={{ background: "linear-gradient(180deg,transparent,#fff)" }} />
           </div>
-          <div className="max-w-6xl mx-auto px-5 grid lg:grid-cols-12 gap-10 lg:gap-8 items-center">
-            <div className="lg:col-span-7 lt-reveal">
+
+          <div className="max-w-6xl mx-auto px-5 relative">
+            <div className="max-w-2xl lt-reveal">
               <p className="lt-kicker text-[11px] sm:text-xs flex items-center gap-2 mb-5" style={{ color: "var(--blue)" }}>
                 <span className="inline-block w-6 h-px" style={{ background: "var(--blue)" }} />
                 {config.eyebrow}
               </p>
               <h1 className="lt-display text-[2.6rem] leading-[.96] sm:text-6xl lg:text-[4.35rem]">
-                {config.headline.slice(0, -1).map((line) => <span key={line} className="block">{line}</span>)}
-                <span className="lt-blue-text block">{config.headline[config.headline.length - 1]}</span>
+                {config.headline.slice(0, -1).map((line) => <span key={line} className="block whitespace-nowrap">{line}</span>)}
+                <span className="lt-blue-text block whitespace-nowrap">{config.headline[config.headline.length - 1]}</span>
               </h1>
               <p className="lt-display text-xl sm:text-2xl mt-3" style={{ color: "var(--ink-soft)" }}>{config.headlineSub}</p>
               <p className="mt-6 text-base sm:text-lg max-w-xl leading-relaxed" style={{ color: "var(--muted)" }}>{config.subheadline}</p>
@@ -454,16 +469,12 @@ export function CategoryLandingLight({ config, products, testimonials, waNumber 
                 ))}
               </div>
             </div>
-            <div className="lg:col-span-5 lt-reveal">
-              <div className="relative">
-                <div className="absolute inset-6 blur-3xl -z-10" style={{ background: "radial-gradient(circle,rgba(47,143,255,.3),transparent 70%)" }} />
-                <Image src={config.heroImage} alt={config.heroImageAlt} width={900} height={1100} priority className="w-full h-auto rounded-2xl border object-cover aspect-[4/3] sm:aspect-auto" style={{ borderColor: "var(--line)" }} />
-                <div className="absolute -bottom-4 -left-3 sm:left-4 lt-card lt-card-hl rounded-xl px-4 py-3">
-                  <p className="lt-kicker text-[10px]" style={{ color: "var(--blue)" }}>{config.heroBadge.kicker}</p>
-                  <p className="lt-display text-lg leading-none mt-1">{config.heroBadge.text}</p>
-                </div>
-              </div>
-            </div>
+          </div>
+
+          {/* Floating badge */}
+          <div className="absolute bottom-8 left-5 sm:left-8 lg:left-[calc(50%+2rem)] z-10 lt-card lt-card-hl rounded-xl px-4 py-3 lt-reveal">
+            <p className="lt-kicker text-[10px]" style={{ color: "var(--blue)" }}>{config.heroBadge.kicker}</p>
+            <p className="lt-display text-lg leading-none mt-1">{config.heroBadge.text}</p>
           </div>
         </section>
 
