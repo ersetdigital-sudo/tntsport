@@ -67,20 +67,12 @@ export function MetaPixel({ pixelId, enabled }: MetaPixelProps) {
     if (w.__tntFbPixelId === pixelId) return;
     w.__tntFbPixelId = pixelId;
 
-    // Check if the Meta Pixel script tag already exists in the DOM
-    // (e.g. loaded by GTM). If so, the pixel is active — just bail.
-    const pixelScriptExists = document.querySelector(
-      'script[src*="connect.facebook.net/en_US/fbevents.js"]'
-    );
-
-    if (pixelScriptExists) {
-      return;
-    }
-
-    // No pixel in DOM — load it for our tracking helpers (trackContact, trackLead).
-    // NOTE: We do NOT fire fbq('track', 'PageView') here.
-    // GTM (GTM-TWSXRF55) handles PageView via its own Meta Pixel tag.
-    // Firing PageView from two sources causes the "PageView fired 2 times" warning.
+    // Always load the pixel — do NOT check for existing script tags.
+    // GTM loads the pixel async: its script tag may be in the DOM but
+    // fbq isn't defined yet, so our tracking functions (trackContact,
+    // trackLead) fail silently. By loading ourselves, we guarantee fbq
+    // is available. The fbq stub (`if(f.fbq)return`) prevents double-init
+    // if GTM already loaded it.
     const script = document.createElement("script");
     script.innerHTML = `
       !function(f,b,e,v,n,t,s)
