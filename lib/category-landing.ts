@@ -516,11 +516,11 @@ export const CATEGORY_LANDINGS: Record<string, CategoryLandingConfig> = {
       galleryCta: "Mau Jersey Seperti Ini? Order Sekarang",
       galleryCtaShort: "Order Sekarang",
       gallery: [
-        { src: "/products/placeholder.svg", alt: "Klub Voli Srikandi memakai jersey custom" },
-        { src: "/products/placeholder.svg", alt: "SMAN 3 Voli memakai jersey custom" },
-        { src: "/products/placeholder.svg", alt: "Voli Putri Garuda memakai jersey custom" },
-        { src: "/products/placeholder.svg", alt: "Komunitas Voli Kantor memakai jersey custom" },
-        { src: "/products/placeholder.svg", alt: "Voli Karang Taruna memakai jersey custom" },
+        { src: "/landing/jersey-futsal/4c090b09-6b9d-4d9a-a061-ca955c49c520.png", alt: "Tim Balreng Kebumen memakai jersey custom merah" },
+        { src: "/landing/jersey-futsal/93c90d93-45be-4137-b10d-d810ada22df4.png", alt: "Tim SSB Persem memakai jersey custom kuning" },
+        { src: "/landing/jersey-futsal/0cde4945-3487-4e3d-ba70-e94156ac55e3.png", alt: "Pemain memakai jersey custom lengan panjang merah" },
+        { src: "/landing/jersey-futsal/3af292c0-b13f-4a74-b94e-c0b6885f633c.png", alt: "Lenox FC memakai jersey custom maroon" },
+        { src: "/landing/jersey-futsal/21bccec1-b05a-464e-bc44-54cb90c01dde.png", alt: "Tim junior memakai jersey custom biru" },
       ],
       fallback: [
         { quote: "Bahannya ringan banget, dipake latihan smash & lompat gak bikin risih. Warnanya juga awet gak pudar.", name: "Dita", team: "Klub Voli Srikandi", city: "Yogyakarta" },
