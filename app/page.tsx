@@ -8,6 +8,7 @@ import { Reviews } from "@/components/Reviews";
 import { SocialLinks } from "@/components/SocialLinks";
 import { ThemeToggle } from "@/components/ThemeToggle";
 import { TrustBadges } from "@/components/TrustBadges";
+import { WhatsAppTracker } from "@/components/WhatsAppTracker";
 import { getBrand, getCTALinks, getReviews, getSocialLinks, getStats, getTrustBadges } from "@/lib/queries";
 import { PageViewTracker } from "@/components/PageViewTracker";
 import type { Brand, Review, SocialLink } from "@/lib/types";
@@ -111,6 +112,7 @@ export default async function Page() {
          }} />
     {jsonLd.map((schema, index) => <script key={index} type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }} />)}
     <PageViewTracker page="homepage" />
+    <WhatsAppTracker />
     <div className="flex justify-end pr-1 sm:pr-2">
       <ThemeToggle />
     </div>
