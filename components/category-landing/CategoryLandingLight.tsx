@@ -529,7 +529,7 @@ export function CategoryLandingLight({ config, products, testimonials, waNumber 
                 </div>
 
                 {/* Trust bar — centered */}
-                <div className="mt-10 sm:mt-14 pt-8 sm:pt-10 border-t flex flex-wrap justify-center gap-x-6 gap-y-3 max-w-3xl mx-auto reveal" style={{ borderColor: "rgba(10,104,224,.15)" }}>
+                <div className="mt-10 sm:mt-14 pt-8 sm:pt-10 border-t flex flex-wrap lg:flex-nowrap justify-center gap-x-6 gap-y-3 max-w-3xl mx-auto reveal" style={{ borderColor: "rgba(10,104,224,.15)" }}>
                   {config.trustBar.map((t) => (
                     <div key={t} className="flex items-center gap-2 whitespace-nowrap">
                       <span style={{ color: "var(--blue)" }}>✅</span>
@@ -593,7 +593,7 @@ export function CategoryLandingLight({ config, products, testimonials, waNumber 
                 {config.catalog.orderCards.map((card) => (
                   <article key={card.title} className={`card rounded-2xl overflow-hidden flex flex-col reveal ${card.highlighted ? "card-hl" : ""}`}>
                     <div className="relative">
-                      <Image src={card.image} alt={card.imageAlt} width={1200} height={700} className="w-full h-auto" />
+                      <Image src={card.image} alt={card.imageAlt} width={1000} height={1250} className="w-full h-auto" />
                       {card.imageBadge && <span className="absolute top-3 left-3 sm:top-4 sm:left-4 btn-blue rounded-full px-3 py-1 text-[10px] sm:text-[11px] font-bold text-white tracking-wide">{card.imageBadge}</span>}
                     </div>
                     <div className="p-5 sm:p-7 flex flex-col flex-1">
