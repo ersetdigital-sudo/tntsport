@@ -4,7 +4,7 @@ import dynamic from "next/dynamic";
 import { getCatalogData, getFabrics, getKatalogFeatures, getKatalogTestimonials, getBrand, getSocialLinks } from "@/lib/queries";
 import { resolveSeoContext, type SeoContext } from "@/lib/seo";
 import { buildWhatsAppLink } from "@/lib/wa";
-import { trackContact } from "@/components/MetaPixel";
+import { TrackedLink } from "@/components/TrackedLink";
 import type { SocialLink, Brand } from "@/lib/types";
 
 const ProductCatalog = dynamic(() => import("@/components/ProductCatalog").then(m => m.ProductCatalog));
@@ -534,16 +534,14 @@ function FlashSale({ waLink }: { waLink: string }) {
               </span>
             </div>
             <FlashSaleTimer />
-            <a
+            <TrackedLink
               href={waLink}
-              target="_blank"
-              rel="noopener noreferrer"
-              onClick={() => trackContact("Katalog Flash Sale")}
+              contentName="Katalog Flash Sale"
               className="mt-3 flex w-full items-center justify-between rounded-lg bg-[#00aa13] px-4 py-3 text-xs font-black uppercase tracking-wide text-white shadow-[0_12px_35px_rgba(0,170,19,.22)] transition hover:-translate-y-1 hover:bg-[#00c317] sm:mt-4 sm:rounded-xl sm:px-5 sm:py-4 sm:text-sm"
             >
               <span>Konsultasi &amp; Order</span>
               <span aria-hidden="true">↗</span>
-            </a>
+            </TrackedLink>
           </div>
         </div>
       </div>
@@ -761,15 +759,13 @@ function Harga({ waLink }: { waLink: string }) {
             </strong>
             <p className="mt-3 text-sm text-[#92998b]">Dapatkan harga proyek khusus untuk komunitas, sekolah, dan event.</p>
           </div>
-          <a
+          <TrackedLink
             href={waLink}
-            target="_blank"
-            rel="noopener noreferrer"
-            onClick={() => trackContact("Katalog Harga Khusus")}
+            contentName="Katalog Harga Khusus"
             className="inline-flex shrink-0 items-center justify-center rounded-full border border-[#f36458]/50 px-5 py-3 text-sm font-black text-[#ff8278] transition hover:bg-[#f36458] hover:text-[#080a07]"
           >
             Minta Harga Khusus
-          </a>
+          </TrackedLink>
         </div>
       </div>
     </section>
@@ -801,15 +797,13 @@ function Promo({ waLink }: { waLink: string }) {
                 Berlaku kelipatannya: order 6 dapat 7, order 12 dapat 14, order 18 dapat 21. Berlaku untuk atasan maupun setelan.
               </p>
             </div>
-            <a
+            <TrackedLink
               href={waLink}
-              target="_blank"
-              rel="noopener noreferrer"
-              onClick={() => trackContact("Katalog Klaim Promo")}
+              contentName="Katalog Klaim Promo"
               className="inline-flex shrink-0 items-center justify-center rounded-full bg-[#00aa13] px-5 py-3 text-xs font-black uppercase tracking-wide text-[#080a07] shadow-[0_10px_35px_rgba(0,170,19,.16)] transition hover:-translate-y-1 sm:px-7 sm:py-4 sm:text-sm"
             >
               Klaim Promo
-            </a>
+            </TrackedLink>
           </div>
         </div>
 
@@ -927,15 +921,13 @@ async function Ulasan({ waLink }: { waLink: string }) {
 
           {/* Auto-scrolling marquee gallery with zoom */}
           <PhotoGallery images={GALLERY_IMAGES} />
-          <a
+          <TrackedLink
             href={waLink}
-            target="_blank"
-            rel="noopener noreferrer"
-            onClick={() => trackContact("Katalog Ulasan Order")}
+            contentName="Katalog Ulasan Order"
             className="mt-5 flex w-full items-center justify-center gap-3 rounded-xl bg-[#00aa13] px-6 py-4 text-sm font-black uppercase tracking-wide text-white transition hover:-translate-y-1 hover:bg-[#00c317] sm:mx-auto sm:w-fit sm:rounded-full sm:px-8"
           >
             Mau Jersey Seperti Ini? Order Sekarang <span aria-hidden="true">→</span>
-          </a>
+          </TrackedLink>
         </div>
 
         {/* Testimonials */}
@@ -1048,15 +1040,13 @@ function CTASection({ waLink }: { waLink: string }) {
         <p className="mx-auto mt-4 max-w-xl text-sm text-[#a7ad9e] sm:mt-6 sm:text-lg">
           Tim kami siap bantu dari desain sampai pengiriman. Ceritakan kebutuhanmu, kami urus sisanya.
         </p>
-        <a
+        <TrackedLink
           href={waLink}
-          target="_blank"
-          rel="noopener noreferrer"
-          onClick={() => trackContact("Katalog CTA Bawah")}
+          contentName="Katalog CTA Bawah"
           className="mt-5 inline-flex items-center gap-2 rounded-full bg-[#00aa13] px-6 py-3 font-black text-[#080a07] shadow-[0_14px_50px_rgba(0,170,19,.25)] transition hover:-translate-y-1 hover:shadow-[0_20px_60px_rgba(0,170,19,.35)] sm:mt-8 sm:gap-3 sm:px-8 sm:py-4"
         >
           <WhatsAppIcon /> Chat WhatsApp Sekarang
-        </a>
+        </TrackedLink>
         <div className="mt-5 flex flex-wrap justify-center gap-3 text-[9px] uppercase tracking-widest text-white/70 sm:mt-7 sm:gap-5 sm:text-[10px]"
              style={{ fontFamily: "var(--font-mono)" }}>
           <span>✓ Garansi harga</span>
