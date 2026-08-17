@@ -50,8 +50,16 @@ const STYLES = `
   .net-bg{background-image:linear-gradient(rgba(10,104,224,.08) 1px,transparent 1px),linear-gradient(90deg,rgba(10,104,224,.08) 1px,transparent 1px);background-size:22px 22px;}
   .stripe-bg{background:repeating-linear-gradient(115deg,rgba(10,104,224,.1) 0 2px,transparent 2px 16px);}
 
-  .hero-cut{display:block;width:100%;height:100%;object-fit:contain;object-position:center bottom;filter:drop-shadow(0 26px 26px rgba(13,27,42,.15));}
-  @media (min-width:1024px){.hero-cut{object-position:center center;}}
+  .hero-photo{
+    mask-image:linear-gradient(to right,transparent 0%,#000 20%,#000 100%);
+    -webkit-mask-image:linear-gradient(to right,transparent 0%,#000 20%,#000 100%);
+  }
+  @media(max-width:1023px){
+    .hero-photo{
+      mask-image:linear-gradient(to bottom,transparent 0%,#000 18%,#000 84%,transparent 100%);
+      -webkit-mask-image:linear-gradient(to bottom,transparent 0%,#000 18%,#000 84%,transparent 100%);
+    }
+  }
 
   .gal-wrap{overflow:hidden;-webkit-mask-image:linear-gradient(90deg,transparent,#000 5%,#000 95%,transparent);mask-image:linear-gradient(90deg,transparent,#000 5%,#000 95%,transparent);}
   .gal-track{display:flex;gap:1rem;width:max-content;animation:galslide 42s linear infinite;}
@@ -64,7 +72,7 @@ const STYLES = `
   .cat-item{position:relative;overflow:hidden;border-radius:1rem;background:#fff;border:1px solid var(--line);}
   .cat-item img{width:100%;aspect-ratio:4/5;object-fit:cover;display:block;transition:transform .4s ease;}
   .cat-item:hover img{transform:scale(1.05);}
-  .cat-name{position:absolute;inset-inline:0;bottom:0;padding:.9rem .8rem .8rem;background:linear-gradient(transparent,rgba(255,255,255,.95) 55%);font-family:var(--font-sc),"Saira Condensed",sans-serif;font-weight:700;text-transform:uppercase;letter-spacing:.03em;font-size:1rem;line-height:1.1;color:var(--ink);}
+  .cat-name{position:absolute;inset-inline:0;bottom:0;padding:.75rem .75rem .7rem;background:linear-gradient(transparent,rgba(255,255,255,.95) 55%);font-family:var(--font-archivo),"Archivo",sans-serif;font-weight:600;letter-spacing:.01em;font-size:.82rem;line-height:1.2;color:var(--ink);}
 
   .faq[open] .faq-ico{transform:rotate(45deg);}
   .faq-ico{transition:transform .22s ease;}
@@ -333,32 +341,33 @@ export function CategoryLandingLight({ config, products, testimonials, waNumber 
           <PurchaseNotifications pops={config.purchasePops} />
 
           {/* ═══ HERO ═══ */}
-          <section id="hero" className="relative overflow-hidden" style={{ paddingTop: "7rem", paddingBottom: "4rem" }}>
+          <section id="hero" className="relative pt-12 pb-16 md:pt-20 md:pb-24 overflow-hidden">
             <div className="absolute inset-0 -z-10">
               <div className="absolute inset-0 net-bg opacity-60" />
               <div className="absolute -top-40 -left-40 w-[36rem] h-[36rem] rounded-full blur-3xl" style={{ background: "radial-gradient(circle,rgba(47,143,255,.22),transparent 65%)" }} />
               <div className="absolute top-1/3 -right-32 w-[30rem] h-[30rem] rounded-full blur-3xl" style={{ background: "radial-gradient(circle,rgba(10,104,224,.14),transparent 65%)" }} />
             </div>
 
-            {/* Hero image — desktop: background cutout */}
-            <div className="absolute inset-0 -z-5 pointer-events-none hidden lg:block">
-              <div className="absolute inset-0" style={{ background: "linear-gradient(to bottom, transparent 60%, #fff 95%)" }} />
-              <img src={config.heroImage} alt={config.heroImageAlt} className="hero-cut" loading="eager" />
-            </div>
-
-            {/* Hero image — mobile: cutout at bottom like jersey-futsal */}
-            <div className="absolute inset-x-0 bottom-0 -z-5 pointer-events-none lg:hidden" style={{ height: "490px" }}>
-              <div className="absolute inset-0" style={{ background: "linear-gradient(to top, #fff 0%, #fff 2%, transparent 40%)" }} />
+            {/* Hero image — mobile: bottom cutout, desktop: right side */}
+            <div className="hero-photo pointer-events-none absolute inset-x-0 bottom-0 z-10 h-[490px] lg:bottom-0 lg:left-[44%] lg:right-[-8%] lg:top-0 lg:h-full">
+              {/* Mobile image */}
               <img
                 src="https://res.cloudinary.com/dqjh7utdb/image/upload/v1786961633/fpwuhyjcq8mzeajiavoo.png"
                 alt={config.heroImageAlt}
-                className="w-full h-full object-cover object-top"
+                className="block w-full h-full object-cover object-top lg:hidden"
                 loading="eager"
-                style={{ maskImage: "linear-gradient(to bottom, transparent 0%, #000 18%, #000 84%, transparent 100%)", WebkitMaskImage: "linear-gradient(to bottom, transparent 0%, #000 18%, #000 84%, transparent 100%)" }}
               />
+              {/* Desktop image */}
+              <img
+                src={config.heroImage}
+                alt={config.heroImageAlt}
+                className="hidden lg:block w-full h-full object-cover object-center"
+                loading="eager"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-white via-transparent to-transparent lg:bg-gradient-to-r lg:from-white/20 lg:via-transparent lg:to-transparent" style={{ background: undefined }} />
             </div>
 
-            <div className="max-w-6xl mx-auto px-5 relative">
+            <div className="max-w-6xl mx-auto px-5 relative z-20">
               <div className="max-w-2xl reveal">
                 <p className="kicker text-[11px] sm:text-xs flex items-center gap-2 mb-5" style={{ color: "var(--blue)" }}>
                   <span className="inline-block w-6 h-px" style={{ background: "var(--blue)" }} />
@@ -386,7 +395,7 @@ export function CategoryLandingLight({ config, products, testimonials, waNumber 
             </div>
 
             {/* Floating badge */}
-            <div className="absolute bottom-6 left-5 sm:bottom-8 sm:left-8 lg:bottom-8 lg:left-auto lg:right-auto lg:ml-[calc(50%+2rem)] z-10 card card-hl rounded-xl px-4 py-3 reveal">
+            <div className="absolute -bottom-4 left-4 sm:left-6 lg:bottom-8 lg:left-[42%] z-20 card card-hl rounded-xl px-4 py-3 reveal">
               <p className="kicker text-[10px]" style={{ color: "var(--blue)" }}>{config.heroBadge.kicker}</p>
               <p className="display text-lg leading-none mt-1">{config.heroBadge.text}</p>
             </div>
