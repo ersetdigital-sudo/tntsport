@@ -1,8 +1,5 @@
-"use client";
-
 import Link from "next/link";
 import { ArrowRightIcon } from "@/components/icons";
-import { trackContact } from "@/components/MetaPixel";
 import type { CTAAccent, CTALink } from "@/lib/types";
 
 /**
@@ -94,14 +91,14 @@ export function CTALinkCard({
 
   if (external) {
     return (
-      <a href={href} target="_blank" rel="noopener noreferrer" className={classes} onClick={accent === "whatsapp" ? () => trackContact("Homepage CTA") : undefined}>
+      <a href={href} target="_blank" rel="noopener noreferrer" className={classes}>
         {content}
       </a>
     );
   }
 
   return (
-    <Link href={href} className={classes} onClick={accent === "whatsapp" ? () => trackContact("Homepage CTA") : undefined}>
+    <Link href={href} className={classes}>
       {content}
     </Link>
   );
