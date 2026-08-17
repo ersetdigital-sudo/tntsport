@@ -4,6 +4,7 @@ import dynamic from "next/dynamic";
 import { getCatalogData, getFabrics, getKatalogFeatures, getKatalogTestimonials, getBrand, getSocialLinks } from "@/lib/queries";
 import { resolveSeoContext, type SeoContext } from "@/lib/seo";
 import { buildWhatsAppLink } from "@/lib/wa";
+import { trackContact } from "@/components/MetaPixel";
 import type { SocialLink, Brand } from "@/lib/types";
 
 const ProductCatalog = dynamic(() => import("@/components/ProductCatalog").then(m => m.ProductCatalog));
@@ -537,6 +538,7 @@ function FlashSale({ waLink }: { waLink: string }) {
               href={waLink}
               target="_blank"
               rel="noopener noreferrer"
+              onClick={() => trackContact("Katalog Flash Sale")}
               className="mt-3 flex w-full items-center justify-between rounded-lg bg-[#00aa13] px-4 py-3 text-xs font-black uppercase tracking-wide text-white shadow-[0_12px_35px_rgba(0,170,19,.22)] transition hover:-translate-y-1 hover:bg-[#00c317] sm:mt-4 sm:rounded-xl sm:px-5 sm:py-4 sm:text-sm"
             >
               <span>Konsultasi &amp; Order</span>
@@ -763,6 +765,7 @@ function Harga({ waLink }: { waLink: string }) {
             href={waLink}
             target="_blank"
             rel="noopener noreferrer"
+            onClick={() => trackContact("Katalog Harga Khusus")}
             className="inline-flex shrink-0 items-center justify-center rounded-full border border-[#f36458]/50 px-5 py-3 text-sm font-black text-[#ff8278] transition hover:bg-[#f36458] hover:text-[#080a07]"
           >
             Minta Harga Khusus
@@ -802,6 +805,7 @@ function Promo({ waLink }: { waLink: string }) {
               href={waLink}
               target="_blank"
               rel="noopener noreferrer"
+              onClick={() => trackContact("Katalog Klaim Promo")}
               className="inline-flex shrink-0 items-center justify-center rounded-full bg-[#00aa13] px-5 py-3 text-xs font-black uppercase tracking-wide text-[#080a07] shadow-[0_10px_35px_rgba(0,170,19,.16)] transition hover:-translate-y-1 sm:px-7 sm:py-4 sm:text-sm"
             >
               Klaim Promo
@@ -927,6 +931,7 @@ async function Ulasan({ waLink }: { waLink: string }) {
             href={waLink}
             target="_blank"
             rel="noopener noreferrer"
+            onClick={() => trackContact("Katalog Ulasan Order")}
             className="mt-5 flex w-full items-center justify-center gap-3 rounded-xl bg-[#00aa13] px-6 py-4 text-sm font-black uppercase tracking-wide text-white transition hover:-translate-y-1 hover:bg-[#00c317] sm:mx-auto sm:w-fit sm:rounded-full sm:px-8"
           >
             Mau Jersey Seperti Ini? Order Sekarang <span aria-hidden="true">→</span>
@@ -1047,6 +1052,7 @@ function CTASection({ waLink }: { waLink: string }) {
           href={waLink}
           target="_blank"
           rel="noopener noreferrer"
+          onClick={() => trackContact("Katalog CTA Bawah")}
           className="mt-5 inline-flex items-center gap-2 rounded-full bg-[#00aa13] px-6 py-3 font-black text-[#080a07] shadow-[0_14px_50px_rgba(0,170,19,.25)] transition hover:-translate-y-1 hover:shadow-[0_20px_60px_rgba(0,170,19,.35)] sm:mt-8 sm:gap-3 sm:px-8 sm:py-4"
         >
           <WhatsAppIcon /> Chat WhatsApp Sekarang

@@ -1,3 +1,6 @@
+"use client";
+
+import { trackContact } from "@/components/MetaPixel";
 import type { SocialLink } from "@/lib/types";
 
 /**
@@ -29,6 +32,7 @@ export function SocialLinkIcon({
       rel="noopener noreferrer"
       aria-label={ariaLabel}
       className="group flex min-w-0 flex-col items-center gap-2"
+      onClick={iconName === "WhatsAppIcon" ? () => trackContact("Social WhatsApp") : undefined}
     >
       <span
         className={`flex h-12 w-12 items-center justify-center rounded-2xl border border-hairline shadow-premium-sm lift-on-hover hover:shadow-premium-md sm:h-14 sm:w-14 ${tileClass[iconName] ?? "bg-white text-primary dark:bg-white/10"}`}
