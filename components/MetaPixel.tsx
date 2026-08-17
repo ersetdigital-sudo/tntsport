@@ -29,18 +29,25 @@ function sendCAPIEvent(
   try {
     const pixelId = (window as any).__tntFbPixelId;
     if (!pixelId) return;
-    fetch("/api/capi", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        eventName,
-        eventId,
-        customData,
-        pixelId,
-        eventSourceUrl: window.location.href,
-      }),
-      keepalive: true,
-    }).catch(() => {});
+    const payload = JSON.stringify({
+      eventName,
+      eventId,
+      customData,
+      pixelId,
+      eventSourceUrl: window.location.href,
+    });
+    // Use sendBeacon instead of fetch — beacon survives page close/redirect
+    // (critical for WhatsApp buttons where the tab may close before fetch completes).
+    if (navigator.sendBeacon) {
+      navigator.sendBeacon("/api/capi", new Blob([payload], { type: "application/json" }));
+    } else {
+      fetch("/api/capi", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: payload,
+        keepalive: true,
+      }).catch(() => {});
+    }
   } catch {
     // fire-and-forget — silently ignore errors
   }
@@ -61,26 +68,19 @@ export function MetaPixel({ pixelId, enabled }: MetaPixelProps) {
     w.__tntFbPixelId = pixelId;
 
     // Check if the Meta Pixel script tag already exists in the DOM
-    // (e.g. loaded by GTM or another integration). If so, the pixel
-    // is already active and has already fired its own PageView — we
-    // must NOT append a second script or fire a second PageView.
+    // (e.g. loaded by GTM). If so, the pixel is active — just bail.
     const pixelScriptExists = document.querySelector(
       'script[src*="connect.facebook.net/en_US/fbevents.js"]'
     );
 
     if (pixelScriptExists) {
-      // Pixel is live via GTM. Only mirror to CAPI — no browser-side
-      // PageView needed (GTM already fired one).
-      const pvEventId = w.__tntFbPageViewEventId || generateEventId("PageView");
-      w.__tntFbPageViewEventId = pvEventId;
-      sendCAPIEvent("PageView", pvEventId);
       return;
     }
 
-    // No pixel in DOM — load it ourselves and fire the one canonical PageView.
-    const pvEventId = generateEventId("PageView");
-    w.__tntFbPageViewEventId = pvEventId;
-
+    // No pixel in DOM — load it for our tracking helpers (trackContact, trackLead).
+    // NOTE: We do NOT fire fbq('track', 'PageView') here.
+    // GTM (GTM-TWSXRF55) handles PageView via its own Meta Pixel tag.
+    // Firing PageView from two sources causes the "PageView fired 2 times" warning.
     const script = document.createElement("script");
     script.innerHTML = `
       !function(f,b,e,v,n,t,s)
@@ -92,7 +92,6 @@ export function MetaPixel({ pixelId, enabled }: MetaPixelProps) {
       s.parentNode.insertBefore(t,s)}(window, document,'script',
       'https://connect.facebook.net/en_US/fbevents.js');
       fbq('init', '${pixelId}');
-      fbq('track', 'PageView', {}, {eventID: '${pvEventId}'});
     `;
     document.head.appendChild(script);
 
