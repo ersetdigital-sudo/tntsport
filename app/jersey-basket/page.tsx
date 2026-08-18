@@ -1,7 +1,8 @@
 import type { Metadata } from "next";
 import JerseyBasketLanding from "@/components/jersey-basket/JerseyBasketLanding";
 import { CATEGORY_LANDINGS } from "@/lib/category-landing";
-import { getBrand } from "@/lib/queries";
+import { CATALOG_PRODUCTS } from "@/lib/products";
+import { getBrand, getCatalogData } from "@/lib/queries";
 
 export const revalidate = 3600;
 
@@ -82,7 +83,16 @@ function buildJsonLd(brandName: string, brandUrl: string) {
 }
 
 export default async function JerseyBasketPage() {
-  const brand = await getBrand();
+  const [brand, catalogData] = await Promise.all([
+    getBrand(),
+    getCatalogData(),
+  ]);
+
+  const category = catalogData?.find((c) => c.id === config.catalogId);
+  const products = category?.products.length
+    ? category.products
+    : (CATALOG_PRODUCTS.find((c) => c.id === "basket")?.products ?? []);
+
   const baseUrl = brand.url || "https://www.tntsportapparel.id";
   const jsonLd = buildJsonLd(brand.name, baseUrl);
 
@@ -95,7 +105,7 @@ export default async function JerseyBasketPage() {
           dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
         />
       ))}
-      <JerseyBasketLanding />
+      <JerseyBasketLanding products={products} waNumber={brand.whatsappNumber || "628115491117"} />
     </>
   );
 }

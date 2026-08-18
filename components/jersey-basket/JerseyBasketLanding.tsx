@@ -1,7 +1,21 @@
 "use client";
 
 import { useState, useEffect, useRef } from "react";
+import Image from "next/image";
+import { buildWhatsAppLink } from "@/lib/wa";
 import "./jersey-basket.css";
+
+interface Product {
+  id: string;
+  catalogue: string;
+  image: string;
+  alt: string;
+}
+
+interface Props {
+  products: Product[];
+  waNumber: string;
+}
 
 const WA_NUMBER = "628115491117";
 
@@ -120,7 +134,7 @@ function usePopup() {
   return { visible, data, close };
 }
 
-export default function JerseyBasketLanding() {
+export default function JerseyBasketLanding({ products, waNumber }: Props) {
   useScrollReveal();
   useDock();
   const popup = usePopup();
@@ -334,31 +348,36 @@ export default function JerseyBasketLanding() {
           <div className="reveal flex flex-wrap items-end justify-between gap-4 border-t pt-12" style={{ borderColor: "rgba(255,255,255,.12)" }}>
             <div>
               <p className="kicker text-xs" style={{ color: "#ff2d1f" }}>Katalog Desain</p>
-              <h3 className="display mt-3" style={{ fontSize: "clamp(1.7rem,4vw,2.8rem)" }}>20 Desain Siap Pilih</h3>
+              <h3 className="display mt-3" style={{ fontSize: "clamp(1.7rem,4vw,2.8rem)" }}>{products.length} Desain Siap Pilih</h3>
             </div>
             <p className="cond text-sm font-bold tracking-widest" style={{ color: "#8c8c99" }}>
               Cukup sebutkan nomornya saat memesan
             </p>
           </div>
           <div className="mt-8 grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3 sm:gap-4">
-            {CATALOG_NAMES.map((name, i) => {
-              const num = (i + 1) < 10 ? `0${i + 1}` : `${i + 1}`;
-              return (
-                <figure key={i} className="cat-item">
-                  <div className="ph">
-                    <div className="px-2">
-                      <p className="text-xl">🏀</p>
-                      <p className="ph-label mt-2">Slot Foto Desain</p>
-                    </div>
-                  </div>
-                  <span className="cat-num">{num}</span>
-                  <figcaption className="cat-name">{name}</figcaption>
-                </figure>
-              );
-            })}
+            {products.map((p) => (
+              <a
+                key={p.id}
+                href={buildWhatsAppLink(waNumber, `Halo TNT SPORT APPAREL, saya tertarik dengan desain *${p.catalogue}* di kategori *Jersey Basket*. Bisa info lebih lanjut?`)}
+                target="_blank"
+                rel="noopener"
+                className="cat-item block"
+              >
+                <div className="relative" style={{ aspectRatio: "4/5" }}>
+                  <Image
+                    src={p.image}
+                    alt={p.alt}
+                    fill
+                    sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 20vw"
+                    className="object-cover"
+                  />
+                </div>
+                <figcaption className="cat-name">{p.catalogue}</figcaption>
+              </a>
+            ))}
           </div>
           <div className="reveal mt-8 text-center">
-            <a href={buildWA("Halo, saya ingin melihat katalog 20 desain jersey basket. Boleh dikirimkan?")} target="_blank" rel="noopener" className="btn btn-flare text-base px-7 py-4">Tanyakan Desain Yang Diinginkan →</a>
+            <a href={buildWA("Halo, saya ingin melihat katalog desain jersey basket. Boleh dikirimkan?")} target="_blank" rel="noopener" className="btn btn-flare text-base px-7 py-4">Tanyakan Desain Yang Diinginkan →</a>
           </div>
         </div>
       </section>
