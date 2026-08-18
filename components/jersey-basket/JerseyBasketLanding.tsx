@@ -210,28 +210,6 @@ function useScrollReveal() {
   }, []);
 }
 
-function useDock() {
-  useEffect(() => {
-    const dock = document.getElementById("dock");
-    const hero = document.getElementById("hero");
-    if (!dock || !hero) return;
-    if (!("IntersectionObserver" in window)) {
-      dock.classList.remove("dock-off");
-      return;
-    }
-    const io = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((en) => {
-          dock.classList.toggle("dock-off", en.intersectionRatio > 0.25);
-        });
-      },
-      { threshold: [0, 0.25, 0.5, 1] }
-    );
-    io.observe(hero);
-    return () => io.disconnect();
-  }, []);
-}
-
 function usePopup() {
   const [visible, setVisible] = useState(false);
   const [data, setData] = useState(POPUP_DATA[0]);
@@ -265,34 +243,11 @@ function usePopup() {
 
 export default function JerseyBasketLanding({ products, waNumber }: Props) {
   useScrollReveal();
-  useDock();
   const popup = usePopup();
   const [openFaq, setOpenFaq] = useState<number | null>(0);
 
   return (
     <div className="jersey-basket">
-      {/* ===== NAV ===== */}
-      <header
-        className="sticky top-0 z-40"
-        style={{ background: "rgba(8,8,10,.9)", backdropFilter: "blur(10px)", borderBottom: "1px solid rgba(255,255,255,.07)" }}
-      >
-        <div className="mx-auto max-w-7xl px-5 sm:px-8 h-16 flex items-center justify-between">
-          <a href="#hero" className="display-flat text-xl sm:text-2xl tracking-tight">
-            JERSEY<span className="volt-text">BASKET</span>
-          </a>
-          <nav className="hidden md:flex items-center gap-7 cond text-sm font-bold tracking-widest" style={{ color: "#c9c9d2" }}>
-            <a href="#kenapa" className="hover:text-white transition-colors">Kenapa Kami</a>
-            <a href="#katalog" className="hover:text-white transition-colors">Desain</a>
-            <a href="#cara-order" className="hover:text-white transition-colors">Cara Pesan</a>
-            <a href="#testimoni" className="hover:text-white transition-colors">Testimoni</a>
-            <a href="#faq" className="hover:text-white transition-colors">FAQ</a>
-          </nav>
-          <a href={buildWA("Halo, saya ingin memesan jersey basket custom. Boleh dibantu?")} target="_blank" rel="noopener" className="btn btn-volt text-sm px-4 py-2.5">
-            Pesan Sekarang
-          </a>
-        </div>
-      </header>
-
       {/* ===== 1. HERO ===== */}
       <section id="hero" className="relative overflow-hidden grain hatch" style={{ background: "radial-gradient(120% 90% at 78% 12%,rgba(255,229,0,.11),transparent 55%),radial-gradient(90% 80% at 8% 90%,rgba(255,45,31,.12),transparent 58%),#08080a" }}>
         <p aria-hidden="true" className="display stroke-text absolute select-none pointer-events-none hidden lg:block" style={{ top: "14%", left: "-3%", fontSize: "clamp(6rem,17vw,17rem)", opacity: 0.1, zIndex: 0 }}>
@@ -731,11 +686,6 @@ export default function JerseyBasketLanding({ products, waNumber }: Props) {
           <p className="text-sm" style={{ color: "#8c8c99" }}>© 2026 Jersey Basket Custom</p>
         </div>
       </footer>
-
-      {/* bar CTA mobile */}
-      <div className="dock dock-off" id="dock">
-        <a href={buildWA("Halo, saya ingin memesan jersey basket custom. Boleh dibantu?")} target="_blank" rel="noopener" className="btn btn-volt w-full text-base py-3.5">🔥 Pesan Jersey Sekarang →</a>
-      </div>
 
       {/* POP-UP NOTIFIKASI */}
       <div

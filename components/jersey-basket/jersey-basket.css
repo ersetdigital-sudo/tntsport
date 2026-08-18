@@ -465,18 +465,4 @@
   .jersey-basket .reveal { opacity: 1; transform: none; transition: none; }
 }
 
-/* ===== Mobile Dock ===== */
-.jersey-basket .dock {
-  position: fixed;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  z-index: 50;
-  background: rgba(8,8,10,.94);
-  border-top: 1px solid var(--line);
-  backdrop-filter: blur(8px);
-  padding: .6rem .8rem calc(.6rem + env(safe-area-inset-bottom));
-  transition: transform .3s ease, opacity .3s ease;
-}
-.jersey-basket .dock.dock-off { transform: translateY(115%); opacity: 0; pointer-events: none; }
-@media (min-width: 768px) { .jersey-basket .dock { display: none; } }
+
