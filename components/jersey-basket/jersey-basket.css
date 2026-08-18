@@ -465,4 +465,60 @@
   .jersey-basket .reveal { opacity: 1; transform: none; transition: none; }
 }
 
+/* ===== Price Section ===== */
+.jersey-basket .price-toggle {
+  display: inline-flex;
+  align-items: center;
+  background: var(--coal-2);
+  border-radius: 9999px;
+  padding: .35rem;
+  gap: .25rem;
+  border: 1px solid var(--line);
+}
+.jersey-basket .price-toggle button {
+  font-family: "Barlow Condensed", sans-serif;
+  font-weight: 700;
+  text-transform: uppercase;
+  font-size: .85rem;
+  letter-spacing: .06em;
+  padding: .55rem 1.4rem;
+  border-radius: 9999px;
+  border: none;
+  cursor: pointer;
+  transition: all .2s ease;
+  color: var(--muted);
+  background: transparent;
+}
+.jersey-basket .price-toggle button.active {
+  background: var(--volt);
+  color: #0a0a0a;
+  box-shadow: 4px 4px 0 0 var(--flare);
+}
+.jersey-basket .price-card {
+  background: var(--coal);
+  border: 1px solid var(--line);
+  transition: border-color .2s ease, box-shadow .2s ease;
+}
+.jersey-basket .price-card:hover {
+  border-color: rgba(255,255,255,.18);
+}
+.jersey-basket .price-card-hl {
+  border-color: rgba(255,229,0,.45);
+  box-shadow: 0 0 0 1px rgba(255,229,0,.12), 0 24px 48px -32px rgba(255,229,0,.35);
+}
+.jersey-basket .price-card-hl:hover {
+  border-color: rgba(255,229,0,.6);
+}
+.jersey-basket .price-fade {
+  animation: priceFadeIn .35s ease;
+}
+@keyframes priceFadeIn {
+  from { opacity: 0; transform: translateY(6px); }
+  to { opacity: 1; transform: none; }
+}
+.jersey-basket .bulk-strip {
+  background: var(--coal);
+  border: 1px solid rgba(255,45,31,.35);
+}
+
 

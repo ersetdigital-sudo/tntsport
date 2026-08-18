@@ -245,6 +245,7 @@ export default function JerseyBasketLanding({ products, waNumber }: Props) {
   useScrollReveal();
   const popup = usePopup();
   const [openFaq, setOpenFaq] = useState<number | null>(0);
+  const [priceMode, setPriceMode] = useState<"ecer" | "lusin">("ecer");
 
   return (
     <div className="jersey-basket">
@@ -455,6 +456,95 @@ export default function JerseyBasketLanding({ products, waNumber }: Props) {
           </div>
           <div className="reveal mt-8 text-center">
             <a href={buildWA("Halo, saya ingin melihat katalog desain jersey basket. Boleh dikirimkan?")} target="_blank" rel="noopener" className="btn btn-flare text-base px-7 py-4">Tanyakan Desain Yang Diinginkan →</a>
+          </div>
+        </div>
+      </section>
+
+      {/* ===== 3.5 HARGA ===== */}
+      <section id="harga" className="relative grain" style={{ background: "#101014" }}>
+        <div className="relative z-10 mx-auto max-w-7xl px-5 sm:px-8 py-16 sm:py-24">
+          <div className="max-w-2xl reveal">
+            <p className="kicker text-xs" style={{ color: "#ff2d1f" }}>Daftar Harga</p>
+            <h2 className="display mt-4" style={{ fontSize: "clamp(1.9rem,5vw,3.6rem)" }}>
+              Pilih Paket <span className="volt-text">Tim Basket Kamu</span>
+            </h2>
+            <p className="mt-5 text-base sm:text-lg leading-relaxed" style={{ color: "#c9c9d2" }}>
+              Pilih jumlah pembelian, harga akan menyesuaikan otomatis.
+            </p>
+          </div>
+
+          {/* Toggle Ecer / Lusin */}
+          <div className="mt-8 flex justify-center reveal">
+            <div className="price-toggle">
+              <button className={priceMode === "ecer" ? "active" : ""} onClick={() => setPriceMode("ecer")}>Ecer</button>
+              <button className={priceMode === "lusin" ? "active" : ""} onClick={() => setPriceMode("lusin")}>Lusin · Hemat</button>
+            </div>
+          </div>
+
+          {/* Kartu Harga */}
+          <div className="mt-10 grid md:grid-cols-2 gap-5">
+            {/* Atasan */}
+            <article className="price-card relative p-7 sm:p-9 flex flex-col reveal">
+              <div className="flex items-start justify-between gap-3">
+                <p className="kicker text-xs" style={{ color: "#8c8c99" }}>Jersey Atasan</p>
+                <span className="cond text-[10px] font-bold tracking-widest px-3 py-1" style={{ background: "rgba(255,255,255,.08)", color: "#c9c9d2", border: "1px solid rgba(255,255,255,.15)" }}>FLEKSIBEL</span>
+              </div>
+              <h3 className="display mt-4 text-3xl sm:text-4xl">Atasan Saja</h3>
+              <div className="mt-6 flex items-end gap-1.5">
+                <span className="display text-2xl pb-2" style={{ color: "#8c8c99" }}>Rp</span>
+                <span key={priceMode} className="display text-6xl sm:text-7xl leading-none price-fade">
+                  {priceMode === "ecer" ? "75rb" : "65rb"}
+                </span>
+                <span className="pb-2.5 text-lg" style={{ color: "#8c8c99" }}>/pcs</span>
+              </div>
+              <p key={priceMode + "-atasan"} className="mt-2.5 text-sm price-fade" style={{ color: "#8c8c99" }}>
+                {priceMode === "ecer" ? "Bisa pesan mulai 1 pcs" : "Minimal pembelian 12 pcs"}
+              </p>
+              <ul className="mt-7 pt-6 space-y-3 text-[15px] flex-1" style={{ borderTop: "1px solid rgba(255,255,255,.12)" }}>
+                <li className="flex gap-3"><span className="volt-text">✚</span><span style={{ color: "#e7e7ee" }}>Full printing & desain bebas</span></li>
+                <li className="flex gap-3"><span className="volt-text">✚</span><span style={{ color: "#e7e7ee" }}>Nama dan nomor punggung</span></li>
+                <li className="flex gap-3"><span className="volt-text">✚</span><span style={{ color: "#e7e7ee" }}>Revisi desain tanpa batas</span></li>
+              </ul>
+              <div className="mt-auto pt-8">
+                <a href={buildWA("Halo TNT SPORT APPAREL, saya mau pesan Jersey Atasan saja (basket). Minta info lengkapnya dong!")} target="_blank" rel="noopener" className="btn btn-ghost w-full text-base py-4">Pilih Atasan</a>
+              </div>
+            </article>
+
+            {/* Setelan */}
+            <article className="price-card price-card-hl relative p-7 sm:p-9 flex flex-col reveal">
+              <div className="flex items-start justify-between gap-3">
+                <p className="kicker text-xs" style={{ color: "#ffe500" }}>Atasan + Celana</p>
+                <span className="cond text-[10px] font-bold tracking-widest px-3 py-1" style={{ background: "var(--volt)", color: "#0a0a0a" }}>PALING DIMINATI</span>
+              </div>
+              <h3 className="display mt-4 text-3xl sm:text-4xl">Jersey Setelan</h3>
+              <div className="mt-6 flex items-end gap-1.5">
+                <span className="display text-2xl pb-2" style={{ color: "#ffe500" }}>Rp</span>
+                <span key={priceMode} className="display text-6xl sm:text-7xl leading-none price-fade volt-text">
+                  {priceMode === "ecer" ? "145rb" : "120rb"}
+                </span>
+                <span className="pb-2.5 text-lg" style={{ color: "#8c8c99" }}>/set</span>
+              </div>
+              <p key={priceMode + "-setelan"} className="mt-2.5 text-sm price-fade" style={{ color: "#8c8c99" }}>
+                {priceMode === "ecer" ? "Bisa pesan mulai 1 set" : "Minimal pembelian 12 set"}
+              </p>
+              <ul className="mt-7 pt-6 space-y-3 text-[15px] flex-1" style={{ borderTop: "1px solid rgba(255,255,255,.12)" }}>
+                <li className="flex gap-3"><span className="volt-text">✚</span><span style={{ color: "#e7e7ee" }}>Semua benefit paket atasan</span></li>
+                <li className="flex gap-3"><span className="volt-text">✚</span><span style={{ color: "#e7e7ee" }}>Celana full custom siap tanding</span></li>
+                <li className="flex gap-3"><span className="volt-text">✚</span><span style={{ color: "#e7e7ee" }}>Prioritas jadwal produksi</span></li>
+              </ul>
+              <div className="mt-auto pt-8">
+                <a href={buildWA("Halo TNT SPORT APPAREL, saya mau pesan Jersey Setelan atasan + celana (basket). Minta info lengkapnya dong!")} target="_blank" rel="noopener" className="btn btn-volt w-full text-base py-4">Pilih Setelan</a>
+              </div>
+            </article>
+          </div>
+
+          {/* Bulk */}
+          <div className="mt-5 bulk-strip flex flex-col sm:flex-row sm:items-center justify-between gap-5 p-7 sm:px-9 reveal">
+            <div>
+              <h3 className="display text-3xl sm:text-4xl">Butuh Lebih dari <span className="flare-text">50 Pcs?</span></h3>
+              <p className="mt-2 text-sm sm:text-base" style={{ color: "#c9c9d2" }}>Dapatkan harga proyek khusus untuk komunitas, sekolah, dan event.</p>
+            </div>
+            <a href={buildWA("Halo TNT SPORT APPAREL, saya butuh jersey basket lebih dari 50 pcs buat komunitas/sekolah/event. Minta harga khusus dong!")} target="_blank" rel="noopener" className="btn btn-flare px-6 py-3.5 text-base whitespace-nowrap shrink-0">Minta Harga Khusus</a>
           </div>
         </div>
       </section>
