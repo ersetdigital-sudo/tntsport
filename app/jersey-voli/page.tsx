@@ -114,9 +114,17 @@ export default async function JerseyVoliPage() {
   ]);
 
   const category = catalogData?.find((c) => c.id === cfg.catalogId);
-  const products = category?.products.length
+  const rawProducts = category?.products.length
     ? category.products
     : (CATALOG_PRODUCTS.find((c) => c.id === "volley")?.products ?? []);
+
+  const products = rawProducts.map((p) => ({
+    ...p,
+    catalogue: p.catalogue
+      .replace(/^JERSEY\s+VOLLY\s+TNT-/i, "Volly ")
+      .replace(/^VOLLY\s+TNT-/i, "Volly ")
+      .replace(/^TNT-/, "Volly "),
+  }));
 
   const testimonials =
     dbTestimonials?.map((t) => ({
