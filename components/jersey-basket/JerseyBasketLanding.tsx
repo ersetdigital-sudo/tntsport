@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useCallback } from "react";
 import Image from "next/image";
 import { buildWhatsAppLink } from "@/lib/wa";
 import "./jersey-basket.css";
@@ -56,6 +56,53 @@ const FAQS = [
 
 function buildWA(msg: string) {
   return `https://wa.me/${WA_NUMBER}?text=${encodeURIComponent(msg)}`;
+}
+
+function Marquee({ children, speed = 30 }: { children: React.ReactNode; speed?: number }) {
+  const containerRef = useRef<HTMLDivElement>(null);
+  const trackRef = useRef<HTMLDivElement>(null);
+  const posRef = useRef(0);
+  const rafRef = useRef<number>(0);
+  const pausedRef = useRef(false);
+
+  useEffect(() => {
+    const track = trackRef.current;
+    const container = containerRef.current;
+    if (!track || !container) return;
+
+    const halfWidth = track.scrollWidth / 2;
+
+    const animate = () => {
+      if (!pausedRef.current) {
+        posRef.current -= speed / 60;
+        if (Math.abs(posRef.current) >= halfWidth) posRef.current = 0;
+        track.style.transform = `translateX(${posRef.current}px)`;
+      }
+      rafRef.current = requestAnimationFrame(animate);
+    };
+
+    rafRef.current = requestAnimationFrame(animate);
+
+    const onEnter = () => { pausedRef.current = true; };
+    const onLeave = () => { pausedRef.current = false; };
+    container.addEventListener("mouseenter", onEnter);
+    container.addEventListener("mouseleave", onLeave);
+
+    return () => {
+      cancelAnimationFrame(rafRef.current);
+      container.removeEventListener("mouseenter", onEnter);
+      container.removeEventListener("mouseleave", onLeave);
+    };
+  }, [speed]);
+
+  return (
+    <div ref={containerRef} className="mq relative z-10 py-3" style={{ background: "#ffe500", color: "#0a0a0a", borderTop: "2px solid #000", borderBottom: "2px solid #000", overflow: "hidden" }}>
+      <div ref={trackRef} className="text-lg sm:text-xl" style={{ display: "flex", width: "max-content" }}>
+        {children}
+        {children}
+      </div>
+    </div>
+  );
 }
 
 function useScrollReveal() {
@@ -220,20 +267,13 @@ export default function JerseyBasketLanding({ products, waNumber }: Props) {
           </div>
         </div>
 
-        <div className="mq relative z-10 py-3" style={{ background: "#ffe500", color: "#0a0a0a", borderTop: "2px solid #000", borderBottom: "2px solid #000" }}>
-          <div className="mq-track text-lg sm:text-xl">
-            <span>
-              STREETBALL <span className="flare-text">●</span> LIGA KOMUNITAS <span className="flare-text">●</span> 3X3 <span className="flare-text">●</span>{" "}
-              BISA SATUAN <span className="flare-text">●</span> 20 DESAIN SIAP PILIH <span className="flare-text">●</span>{" "}
-              CUSTOM DARI NOL <span className="flare-text">●</span> DRY FIT PREMIUM <span className="flare-text">●</span>
-            </span>
-            <span aria-hidden="true">
-              STREETBALL <span className="flare-text">●</span> LIGA KOMUNITAS <span className="flare-text">●</span> 3X3 <span className="flare-text">●</span>{" "}
-              BISA SATUAN <span className="flare-text">●</span> 20 DESAIN SIAP PILIH <span className="flare-text">●</span>{" "}
-              CUSTOM DARI NOL <span className="flare-text">●</span> DRY FIT PREMIUM <span className="flare-text">●</span>
-            </span>
-          </div>
-        </div>
+        <Marquee speed={30}>
+          <span style={{ display: "inline-flex", alignItems: "center", gap: "1.6rem", paddingRight: "1.6rem", fontFamily: "'Anton', sans-serif", textTransform: "uppercase", flexShrink: 0 }}>
+            STREETBALL <span className="flare-text">●</span> LIGA KOMUNITAS <span className="flare-text">●</span> 3X3 <span className="flare-text">●</span>{" "}
+            BISA SATUAN <span className="flare-text">●</span> 20 DESAIN SIAP PILIH <span className="flare-text">●</span>{" "}
+            CUSTOM DARI NOL <span className="flare-text">●</span> DRY FIT PREMIUM <span className="flare-text">●</span>
+          </span>
+        </Marquee>
       </section>
 
       {/* ===== 2. KENAPA PILIH KAMI ===== */}
