@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect, useRef } from "react";
+import "./jersey-basket.css";
 
 const WA_NUMBER = "628115491117";
 
@@ -126,7 +127,7 @@ export default function JerseyBasketLanding() {
   const [openFaq, setOpenFaq] = useState<number | null>(0);
 
   return (
-    <>
+    <div className="jersey-basket">
       {/* ===== NAV ===== */}
       <header
         className="sticky top-0 z-40"
@@ -598,6 +599,6 @@ export default function JerseyBasketLanding() {
           ×
         </button>
       </div>
-    </>
+    </div>
   );
 }
