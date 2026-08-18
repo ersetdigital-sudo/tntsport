@@ -231,7 +231,7 @@ export const CATEGORY_LANDINGS: Record<string, CategoryLandingConfig> = {
           footnote: "Desain dasar mengikuti katalog, bukan custom dari nol.",
           cta: "Pilih Desain Katalog",
           ctaAnchor: "#desain",
-          image: "/landing/jersey-futsal/foto-satuan.png",
+          image: "https://res.cloudinary.com/dqjh7utdb/image/upload/v1787016984/r4o6jhm6sluouwl87kjd.png",
           imageAlt: "Jersey custom order satuan TNT SPORT APPAREL",
         },
       ],

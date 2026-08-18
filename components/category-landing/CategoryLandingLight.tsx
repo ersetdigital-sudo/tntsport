@@ -592,9 +592,9 @@ export function CategoryLandingLight({ config, products, testimonials, waNumber 
               <div className="mt-8 sm:mt-12 grid lg:grid-cols-2 gap-5 sm:gap-6">
                 {config.catalog.orderCards.map((card) => (
                   <article key={card.title} className={`card rounded-2xl overflow-hidden flex flex-col reveal ${card.highlighted ? "card-hl" : ""}`}>
-                    <div className="relative">
-                      <Image src={card.image} alt={card.imageAlt} width={1000} height={1250} className="w-full h-auto" />
-                      {card.imageBadge && <span className="absolute top-3 left-3 sm:top-4 sm:left-4 btn-blue rounded-full px-3 py-1 text-[10px] sm:text-[11px] font-bold text-white tracking-wide">{card.imageBadge}</span>}
+                    <div className="relative aspect-[16/10] overflow-hidden">
+                      <Image src={card.image} alt={card.imageAlt} fill sizes="(max-width: 1024px) 100vw, 50vw" className="object-cover" />
+                      {card.imageBadge && <span className="absolute top-3 left-3 sm:top-4 sm:left-4 btn-blue rounded-full px-3 py-1 text-[10px] sm:text-[11px] font-bold text-white tracking-wide z-10">{card.imageBadge}</span>}
                     </div>
                     <div className="p-5 sm:p-7 flex flex-col flex-1">
                       <p className="kicker text-[11px]" style={{ color: "var(--blue)" }}>{card.badge}</p>
