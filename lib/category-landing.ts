@@ -252,8 +252,7 @@ export const CATEGORY_LANDINGS: Record<string, CategoryLandingConfig> = {
         badge: "FLEKSIBEL",
         name: "Atasan Saja",
         unit: "/pcs",
-        prices: { ecer: "95rb", lusin: "85rb" },
-        notes: { ecer: "Bisa pesan mulai 1 pcs", lusin: "Minimal pembelian 12 pcs" },
+        prices: { ecer: "75rb", lusin: "65rb" },        notes: { ecer: "Bisa pesan mulai 1 pcs", lusin: "Minimal pembelian 12 pcs" },
         points: [
           "Full printing & desain bebas",
           "Nama dan nomor punggung",
@@ -464,8 +463,7 @@ export const CATEGORY_LANDINGS: Record<string, CategoryLandingConfig> = {
         badge: "FLEKSIBEL",
         name: "Atasan Saja",
         unit: "/pcs",
-        prices: { ecer: "95rb", lusin: "85rb" },
-        notes: { ecer: "Bisa pesan mulai 1 pcs", lusin: "Minimal pembelian 12 pcs" },
+        prices: { ecer: "75rb", lusin: "65rb" },        notes: { ecer: "Bisa pesan mulai 1 pcs", lusin: "Minimal pembelian 12 pcs" },
         points: [
           "Full printing & desain bebas",
           "Nama dan nomor punggung",
