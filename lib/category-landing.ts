@@ -426,7 +426,7 @@ export const CATEGORY_LANDINGS: Record<string, CategoryLandingConfig> = {
             "Harga makin hemat per pcs kalau order makin banyak",
           ],
           cta: "Konsultasi Desain Tim",
-          image: "https://res.cloudinary.com/dqjh7utdb/image/upload/v1787017912/r8slauyijpxuam3fbyec.png",
+          image: "https://res.cloudinary.com/dqjh7utdb/image/upload/v1787018985/hmcoydaxndh7kk7leqrx.png",
           imageAlt: "Tim memakai jersey voli custom TNT SPORT APPAREL",
           imageBadge: "PALING POPULER",
           highlighted: true,
