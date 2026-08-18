@@ -350,7 +350,7 @@ export function CategoryLanding({ config, products, testimonials, waNumber }: Pr
             <div className="mt-12 grid lg:grid-cols-2 gap-6">
               {config.catalog.orderCards.map((card) => (
                 <article key={card.title} className={`card rounded-2xl overflow-hidden flex flex-col reveal ${card.highlighted ? "card-hl" : ""}`}>
-                  <div className="relative aspect-[16/10] overflow-hidden">
+                  <div className="relative aspect-[4/5] overflow-hidden">
                     <Image
                       src={card.image}
                       alt={card.imageAlt}
