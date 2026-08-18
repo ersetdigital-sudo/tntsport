@@ -1,8 +1,7 @@
 import type { Metadata } from "next";
-import { CategoryLandingLight } from "@/components/category-landing/CategoryLandingLight";
-import { CATEGORY_LANDINGS, getCategoryLanding } from "@/lib/category-landing";
-import { CATALOG_PRODUCTS } from "@/lib/products";
-import { getBrand, getCatalogData, getKatalogTestimonials } from "@/lib/queries";
+import JerseyBasketLanding from "@/components/jersey-basket/JerseyBasketLanding";
+import { CATEGORY_LANDINGS } from "@/lib/category-landing";
+import { getBrand } from "@/lib/queries";
 
 export const revalidate = 3600;
 
@@ -33,11 +32,7 @@ export async function generateMetadata(): Promise<Metadata> {
   };
 }
 
-function buildJsonLd(brandName: string, brandUrl: string, reviews: { quote: string; name: string; rating?: number }[], faqs: { q: string; a: string }[]) {
-  const avgRating = reviews.length
-    ? (reviews.reduce((s, r) => s + (r.rating ?? 5), 0) / reviews.length).toFixed(1)
-    : "5.0";
-
+function buildJsonLd(brandName: string, brandUrl: string) {
   return [
     {
       "@context": "https://schema.org",
@@ -59,40 +54,21 @@ function buildJsonLd(brandName: string, brandUrl: string, reviews: { quote: stri
       },
       aggregateRating: {
         "@type": "AggregateRating",
-        ratingValue: avgRating,
+        ratingValue: "5.0",
         bestRating: "5",
-        reviewCount: String(reviews.length || 3),
+        reviewCount: "6",
       },
     },
     {
       "@context": "https://schema.org",
-      "@type": "ItemList",
-      itemListElement: reviews.slice(0, 5).map((review, index) => ({
-        "@type": "ListItem",
-        position: index + 1,
-        item: {
-          "@type": "Review",
-          reviewBody: review.quote,
-          author: { "@type": "Person", name: review.name },
-          reviewRating: {
-            "@type": "Rating",
-            ratingValue: review.rating ?? 5,
-            bestRating: 5,
-          },
-        },
-      })),
-    },
-    {
-      "@context": "https://schema.org",
       "@type": "FAQPage",
-      mainEntity: faqs.map((item) => ({
-        "@type": "Question",
-        name: item.q,
-        acceptedAnswer: {
-          "@type": "Answer",
-          text: item.a,
-        },
-      })),
+      mainEntity: [
+        { "@type": "Question", name: "Bisakah custom nama & nomor sendiri?", acceptedAnswer: { "@type": "Answer", text: "Bisa. Cukup isi formulir pesanan, dan kami cetak sesuai permintaan kamu." } },
+        { "@type": "Question", name: "Berapa lama proses produksinya?", acceptedAnswer: { "@type": "Answer", text: "Rata-rata 7 hari kerja tergantung jumlah pesanan." } },
+        { "@type": "Question", name: "Ada berapa pilihan desain?", acceptedAnswer: { "@type": "Answer", text: "Tersedia 20 desain siap pilih. Jika menginginkan desain lain, tersedia opsi custom dari nol dengan minimal order 6 pcs." } },
+        { "@type": "Question", name: "Bisa order satuan?", acceptedAnswer: { "@type": "Answer", text: "Bisa. Pesanan 1 pcs dapat langsung custom nama, nomor punggung, logo tim, dan logo sponsor — desain dasar mengikuti salah satu dari 20 desain yang tersedia." } },
+        { "@type": "Question", name: "Apakah bahannya cocok untuk bermain full court dalam waktu lama?", acceptedAnswer: { "@type": "Answer", text: "Cocok. Dry Fit ringan dan menyerap keringat, sehingga tetap nyaman meski bermain lama." } },
+      ],
     },
     {
       "@context": "https://schema.org",
@@ -106,38 +82,9 @@ function buildJsonLd(brandName: string, brandUrl: string, reviews: { quote: stri
 }
 
 export default async function JerseyBasketPage() {
-  const cfg = getCategoryLanding(config.slug)!;
-  const [brand, catalogData, dbTestimonials] = await Promise.all([
-    getBrand(),
-    getCatalogData(),
-    getKatalogTestimonials(),
-  ]);
-
-  const category = catalogData?.find((c) => c.id === cfg.catalogId);
-  const rawProducts = category?.products.length
-    ? category.products
-    : (CATALOG_PRODUCTS.find((c) => c.id === "basket")?.products ?? []);
-
-  const products = rawProducts.map((p) => ({
-    ...p,
-    catalogue: p.catalogue
-      .replace(/^JERSEY\s+BASKET\s+TNT-/i, "Basket ")
-      .replace(/^BASKET\s+TNT-/i, "Basket ")
-      .replace(/^TNT-/, "Basket "),
-  }));
-
-  const testimonials =
-    dbTestimonials?.map((t) => ({
-      quote: t.quote,
-      name: t.name,
-      team: t.team || "",
-      city: t.city,
-      imageUrl: t.imageUrl ?? null,
-      rating: t.rating ?? 5,
-    })) ?? cfg.testimonials.fallback;
-
+  const brand = await getBrand();
   const baseUrl = brand.url || "https://www.tntsportapparel.id";
-  const jsonLd = buildJsonLd(brand.name, baseUrl, testimonials, cfg.faqs.items);
+  const jsonLd = buildJsonLd(brand.name, baseUrl);
 
   return (
     <>
@@ -148,12 +95,7 @@ export default async function JerseyBasketPage() {
           dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
         />
       ))}
-      <CategoryLandingLight
-        config={cfg}
-        products={products}
-        testimonials={testimonials}
-        waNumber={brand.whatsappNumber || "628115491117"}
-      />
+      <JerseyBasketLanding />
     </>
   );
 }
