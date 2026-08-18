@@ -251,7 +251,9 @@
 .jersey-basket .mq-track {
   display: flex;
   width: max-content;
+  -webkit-animation: mqs 26s linear infinite;
   animation: mqs 26s linear infinite;
+  will-change: transform;
 }
 .jersey-basket .mq-track span {
   display: inline-flex;
@@ -260,10 +262,22 @@
   padding-right: 1.6rem;
   font-family: "Anton", sans-serif;
   text-transform: uppercase;
+  -webkit-flex-shrink: 0;
+  flex-shrink: 0;
 }
-@keyframes mqs { to { transform: translateX(-50%); } }
+@-webkit-keyframes mqs {
+  from { -webkit-transform: translateX(0); transform: translateX(0); }
+  to { -webkit-transform: translateX(-50%); transform: translateX(-50%); }
+}
+@keyframes mqs {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
 @media (prefers-reduced-motion: reduce) {
-  .jersey-basket .mq-track { animation: none; }
+  .jersey-basket .mq-track {
+    -webkit-animation: none;
+    animation: none;
+  }
 }
 
 /* ===== Placeholder ===== */
