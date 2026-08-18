@@ -35,6 +35,14 @@ const TESTIMONIALS = [
   { initials:"RS", name:"Rizky", team:"Klub Basket Semarang", city:"Semarang", quote:"Harga sangat wajar untuk kualitas seperti ini. Tim kami sudah melakukan pemesanan ulang dua kali." }
 ];
 
+const GALLERY_IMAGES = [
+  { src: "/landing/jersey-futsal/4c090b09-6b9d-4d9a-a061-ca955c49c520.png", alt: "Tim Balreng Kebumen memakai jersey custom merah di Turnamen" },
+  { src: "/landing/jersey-futsal/93c90d93-45be-4137-b10d-d810ada22df4.png", alt: "Tim SSB Persem memakai jersey custom kuning" },
+  { src: "/landing/jersey-futsal/0cde4945-3487-4e3d-ba70-e94156ac55e3.png", alt: "Pemain memakai jersey custom lengan panjang merah" },
+  { src: "/landing/jersey-futsal/3af292c0-b13f-4a74-b94e-c0b6885f633c.png", alt: "Lenox FC memakai jersey custom maroon" },
+  { src: "/landing/jersey-futsal/21bccec1-b05a-464e-bc44-54cb90c01dde.png", alt: "Tim junior memakai jersey custom biru saat menerima piala juara 2" },
+];
+
 const POPUP_DATA = [
   ["Reza - Bandung","Jersey Basket Custom Full Printing","2 menit yang lalu"],
   ["Dimas - Surabaya","Custom Desain Full Team 10 pcs","6 menit yang lalu"],
@@ -102,6 +110,80 @@ function Marquee({ children, speed = 30 }: { children: React.ReactNode; speed?: 
         {children}
       </div>
     </div>
+  );
+}
+
+function GalleryMarquee({ images }: { images: { src: string; alt: string }[] }) {
+  const [active, setActive] = useState<number | null>(null);
+  const containerRef = useRef<HTMLDivElement>(null);
+  const trackRef = useRef<HTMLDivElement>(null);
+  const posRef = useRef(0);
+  const rafRef = useRef<number>(0);
+  const pausedRef = useRef(false);
+
+  useEffect(() => {
+    const track = trackRef.current;
+    const container = containerRef.current;
+    if (!track || !container) return;
+
+    const halfWidth = track.scrollWidth / 2;
+
+    const animate = () => {
+      if (!pausedRef.current) {
+        posRef.current -= 0.5;
+        if (Math.abs(posRef.current) >= halfWidth) posRef.current = 0;
+        track.style.transform = `translateX(${posRef.current}px)`;
+      }
+      rafRef.current = requestAnimationFrame(animate);
+    };
+
+    rafRef.current = requestAnimationFrame(animate);
+
+    const onEnter = () => { pausedRef.current = true; };
+    const onLeave = () => { pausedRef.current = false; };
+    container.addEventListener("mouseenter", onEnter);
+    container.addEventListener("mouseleave", onLeave);
+
+    return () => {
+      cancelAnimationFrame(rafRef.current);
+      container.removeEventListener("mouseenter", onEnter);
+      container.removeEventListener("mouseleave", onLeave);
+    };
+  }, []);
+
+  useEffect(() => {
+    if (active === null) return;
+    const onKey = (e: KeyboardEvent) => { if (e.key === "Escape") setActive(null); };
+    document.body.style.overflow = "hidden";
+    window.addEventListener("keydown", onKey);
+    return () => { document.body.style.overflow = ""; window.removeEventListener("keydown", onKey); };
+  }, [active]);
+
+  const items = [...images, ...images, ...images];
+
+  return (
+    <>
+      <div ref={containerRef} className="mt-7 overflow-hidden" style={{ WebkitMaskImage: "linear-gradient(90deg,transparent,#000 5%,#000 95%,transparent)", maskImage: "linear-gradient(90deg,transparent,#000 5%,#000 95%,transparent)" }}>
+        <div ref={trackRef} style={{ display: "flex", gap: "1rem", width: "max-content" }}>
+          {items.map((g, i) => (
+            <button key={i} type="button" onClick={() => setActive(i % images.length)} style={{ flex: "0 0 auto", width: "min(13.5rem,70vw)", cursor: "pointer", padding: 0, textAlign: "left", background: "none", border: "none" }}>
+              <img src={g.src} alt={g.alt} loading="lazy" style={{ width: "100%", height: "auto", aspectRatio: "4/3", objectFit: "cover", borderRadius: "1rem", border: "1px solid rgba(255,255,255,.12)", display: "block" }} />
+            </button>
+          ))}
+        </div>
+      </div>
+      {active !== null && images[active] && (
+        <div style={{ position: "fixed", inset: 0, zIndex: 110, display: "flex", alignItems: "center", justifyContent: "center", background: "rgba(0,0,0,.85)", padding: "1rem", backdropFilter: "blur(4px)" }} onClick={() => setActive(null)} role="dialog" aria-modal="true">
+          <div style={{ position: "relative", maxWidth: "92vw", margin: "auto" }} onClick={(e) => e.stopPropagation()}>
+            <button type="button" onClick={() => setActive(null)} aria-label="Tutup foto" style={{ position: "absolute", top: "-0.5rem", right: "-0.5rem", zIndex: 10, width: "2.75rem", height: "2.75rem", borderRadius: "9999px", display: "grid", placeItems: "center", color: "#fff", background: "#ff2d1f", border: "none", cursor: "pointer", boxShadow: "0 4px 12px rgba(0,0,0,.4)" }}>
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M6 6l12 12M18 6L6 18" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" /></svg>
+            </button>
+            <img src={images[active].src} alt={images[active].alt} style={{ maxHeight: "82vh", width: "auto", maxWidth: "100%", borderRadius: "1rem", objectFit: "contain", boxShadow: "0 25px 50px rgba(0,0,0,.5)" }} />
+            <p style={{ marginTop: "0.75rem", textAlign: "center", fontSize: "0.875rem", color: "rgba(255,255,255,.6)" }}>{images[active].alt}</p>
+          </div>
+        </div>
+      )}
+    </>
   );
 }
 
@@ -468,6 +550,27 @@ export default function JerseyBasketLanding({ products, waNumber }: Props) {
             <p className="mt-5 text-base sm:text-lg leading-relaxed" style={{ color: "#c9c9d2" }}>
               Komunitas streetball hingga tim liga telah mempercayai kualitas jersey kami.
             </p>
+          </div>
+
+          {/* Gallery Foto Testimoni */}
+          <div className="mt-10 reveal">
+            <div className="flex flex-wrap items-end justify-between gap-4 mb-2">
+              <div>
+                <p className="kicker text-xs" style={{ color: "#ffe500" }}>Foto Hasil Jersey</p>
+                <h3 className="display mt-2" style={{ fontSize: "clamp(1.5rem,3.5vw,2.2rem)" }}>
+                  Bukan Edit, <span className="volt-text">Bukan Rekayasa</span>
+                </h3>
+              </div>
+              <p className="cond text-xs font-bold tracking-widest" style={{ color: "#8c8c99" }}>
+                Foto asli dari pelanggan
+              </p>
+            </div>
+            <GalleryMarquee images={GALLERY_IMAGES} />
+            <div className="mt-6 text-center">
+              <a href={buildWA("Halo, saya lihat galeri hasil jersey pelanggan, saya mau order seperti itu!")} target="_blank" rel="noopener" className="btn btn-volt text-base px-7 py-4">
+                🔥 Mau Jersey Seperti Ini? Order Sekarang
+              </a>
+            </div>
           </div>
 
           <div className="mt-12 grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
