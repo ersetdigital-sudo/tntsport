@@ -499,13 +499,13 @@ export default function JerseyRacingLanding({ products }: Props) {
                 className="w-full h-auto block"
               />
               {/* Callout hotspots */}
-              <span className="cal" style={{ left: "43%", top: "20%" }} data-side="left"><i className="hot" /><b>Logo Tim</b></span>
-              <span className="cal" style={{ left: "50%", top: "34%" }} data-side="right"><i className="hot" /><b>Panel Sponsor</b></span>
-              <span className="cal" style={{ left: "50%", top: "47%" }} data-side="right"><i className="hot" /><b>Nomor Start</b></span>
-              <span className="cal" style={{ left: "20%", top: "33%" }} data-side="left"><i className="hot" /><b>Area Lengan</b></span>
-              <span className="cal" style={{ left: "80%", top: "33%" }} data-side="right"><i className="hot" /><b>Nama Rider</b></span>
-              <span className="cal" style={{ left: "26%", top: "63%" }} data-side="left"><i className="hot" /><b>Warna Tim</b></span>
-              <span className="cal" style={{ left: "74%", top: "63%" }} data-side="right"><i className="hot" /><b>Motif Racing</b></span>
+              <span className="cal" style={{ left: "43%", top: "22%" }} data-side="left"><i className="hot" /><b>Logo Tim</b></span>
+              <span className="cal" style={{ left: "50%", top: "36%" }} data-side="right"><i className="hot" /><b>Panel Sponsor</b></span>
+              <span className="cal" style={{ left: "50%", top: "50%" }} data-side="right"><i className="hot" /><b>Nomor Start</b></span>
+              <span className="cal" style={{ left: "22%", top: "35%" }} data-side="left"><i className="hot" /><b>Area Lengan</b></span>
+              <span className="cal" style={{ left: "78%", top: "35%" }} data-side="right"><i className="hot" /><b>Nama Rider</b></span>
+              <span className="cal" style={{ left: "28%", top: "65%" }} data-side="left"><i className="hot" /><b>Warna Tim</b></span>
+              <span className="cal" style={{ left: "72%", top: "65%" }} data-side="right"><i className="hot" /><b>Motif Racing</b></span>
             </div>
             <p className="text-[.75rem] sm:text-[.8rem] mt-2 sm:mt-3.5 italic px-5 sm:px-0" style={{ color: "#7c8492" }}>
               Visual ilustrasi — area bertanda bisa dicustom di paket custom (min. 6 pcs). Untuk order satuan: nama, nomor start, logo tim &amp; sponsor saja.

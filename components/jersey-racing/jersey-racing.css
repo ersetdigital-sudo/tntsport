@@ -267,49 +267,73 @@
 .jersey-racing .cal {
   position: absolute;
   transform: translate(-50%,-50%);
-  display: none;
+  display: flex;
   align-items: center;
-  gap: .5rem;
+  gap: .35rem;
   white-space: nowrap;
 }
 @media (min-width: 640px) {
   .jersey-racing .cal {
-    display: flex;
+    gap: .5rem;
   }
 }
 .jersey-racing .cal[data-side="left"] { flex-direction: row-reverse; }
 .jersey-racing .hot {
   position: relative;
   flex: 0 0 auto;
-  width: clamp(10px,1.4vw,16px);
-  height: clamp(10px,1.4vw,16px);
+  width: 10px;
+  height: 10px;
   border-radius: 9999px;
   background: var(--red-hot);
-  box-shadow: 0 0 0 3px rgba(255,34,51,.25), 0 0 14px rgba(255,34,51,.75);
+  box-shadow: 0 0 0 2px rgba(255,34,51,.25), 0 0 8px rgba(255,34,51,.75);
+}
+@media (min-width: 640px) {
+  .jersey-racing .hot {
+    width: clamp(12px,1.4vw,16px);
+    height: clamp(12px,1.4vw,16px);
+    box-shadow: 0 0 0 3px rgba(255,34,51,.25), 0 0 14px rgba(255,34,51,.75);
+  }
 }
 .jersey-racing .hot::after {
   content: "";
   position: absolute;
   inset: 0;
   border-radius: 9999px;
-  border: 2px solid rgba(255,255,255,.9);
+  border: 1.5px solid rgba(255,255,255,.9);
+}
+@media (min-width: 640px) {
+  .jersey-racing .hot::after {
+    border-width: 2px;
+  }
 }
 .jersey-racing .cal b {
   font-family: "Barlow Condensed", sans-serif;
   text-transform: uppercase;
-  letter-spacing: .07em;
-  font-size: clamp(.5rem,1.15vw,.82rem);
+  letter-spacing: .05em;
+  font-size: .55rem;
   font-weight: 700;
   color: var(--yellow);
-  background: rgba(8,9,12,.88);
+  background: rgba(8,9,12,.9);
   border: 1px solid rgba(255,212,0,.35);
-  padding: .22em .6em;
-  border-radius: 3px;
-  line-height: 1.25;
+  padding: .15em .45em;
+  border-radius: 2px;
+  line-height: 1.2;
   backdrop-filter: blur(4px);
 }
-.jersey-racing .cal[data-side="left"] { transform: translate(-8%,-50%); }
-.jersey-racing .cal[data-side="right"] { transform: translate(-92%,-50%); }
+@media (min-width: 640px) {
+  .jersey-racing .cal b {
+    font-size: clamp(.6rem,1.15vw,.82rem);
+    letter-spacing: .07em;
+    padding: .22em .6em;
+    border-radius: 3px;
+  }
+}
+.jersey-racing .cal[data-side="left"] { transform: translate(-6%,-50%); }
+.jersey-racing .cal[data-side="right"] { transform: translate(-94%,-50%); }
+@media (min-width: 640px) {
+  .jersey-racing .cal[data-side="left"] { transform: translate(-8%,-50%); }
+  .jersey-racing .cal[data-side="right"] { transform: translate(-92%,-50%); }
+}
 .jersey-racing .cal[data-center] { transform: translate(-50%,-50%); flex-direction: column; gap: .35rem; }
 
 /* ===== Horizontal Scroll Affordance ===== */
