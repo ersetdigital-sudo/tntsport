@@ -480,44 +480,44 @@ export default function JerseyRacingLanding({ products }: Props) {
       </section>
 
       {/* ===== 4. DETAIL CUSTOMIZATION ===== */}
-      <section id="custom" className="relative py-20 sm:py-28 bg-[var(--ink-2)] slash-both speedlines">
-        <div className="mx-auto max-w-7xl px-5 sm:px-8 pt-8">
-          <div className="max-w-3xl mb-14">
-            <p className="kicker mb-5 rv">Detail Customization</p>
-            <h2 className="display text-[clamp(1.8rem,5vw,3.3rem)] rv swipe">
+      <section id="custom" className="relative py-12 sm:py-20 lg:py-28 bg-[var(--ink-2)] slash-both speedlines">
+        <div className="mx-auto max-w-7xl px-5 sm:px-8 pt-6 sm:pt-8">
+          <div className="max-w-3xl mb-8 sm:mb-14">
+            <p className="kicker mb-3 sm:mb-5 rv">Detail Customization</p>
+            <h2 className="display rv swipe" style={{ fontSize: "clamp(1.5rem,5vw,3.3rem)" }}>
               Bebas Custom Detail Yang Bikin Jersey Kamu{" "}
               <span style={{ color: "var(--red-hot)" }}>Punya Karakter</span>
             </h2>
           </div>
 
           {/* Jersey diagram full width */}
-          <div className="relative rv mb-10">
+          <div className="relative rv mb-6 sm:mb-10">
             <div className="card rounded-lg overflow-hidden relative">
               <img
                 src="/landing/jersey-racing/df5ecff4-6109-4bbc-adef-56c6158be7b3.png"
                 alt="Diagram bagian jersey TNT Sport Apparel yang bisa dicustom: logo tim, nomor start, nama rider, logo sponsor"
                 className="w-full h-auto block"
               />
-              {/* Callout hotspots */}
-              <span className="cal" style={{ left: "43%", top: "20%" }} data-side="left"><i className="hot" /><b>Logo Tim</b></span>
-              <span className="cal" style={{ left: "50%", top: "34%" }} data-side="right"><i className="hot" /><b>Panel Sponsor</b></span>
-              <span className="cal" style={{ left: "50%", top: "47%" }} data-side="right"><i className="hot" /><b>Nomor Start</b></span>
-              <span className="cal" style={{ left: "20%", top: "33%" }} data-side="left"><i className="hot" /><b>Area Lengan</b></span>
-              <span className="cal" style={{ left: "80%", top: "33%" }} data-side="right"><i className="hot" /><b>Nama Rider</b></span>
-              <span className="cal" style={{ left: "26%", top: "63%" }} data-side="left"><i className="hot" /><b>Warna Tim</b></span>
-              <span className="cal" style={{ left: "74%", top: "63%" }} data-side="right"><i className="hot" /><b>Motif Racing</b></span>
+              {/* Callout hotspots - smaller on mobile */}
+              <span className="cal" style={{ left: "43%", top: "20%" }} data-side="left"><i className="hot" /><b className="hidden sm:inline">Logo Tim</b></span>
+              <span className="cal" style={{ left: "50%", top: "34%" }} data-side="right"><i className="hot" /><b className="hidden sm:inline">Panel Sponsor</b></span>
+              <span className="cal" style={{ left: "50%", top: "47%" }} data-side="right"><i className="hot" /><b className="hidden sm:inline">Nomor Start</b></span>
+              <span className="cal" style={{ left: "20%", top: "33%" }} data-side="left"><i className="hot" /><b className="hidden sm:inline">Area Lengan</b></span>
+              <span className="cal" style={{ left: "80%", top: "33%" }} data-side="right"><i className="hot" /><b className="hidden sm:inline">Nama Rider</b></span>
+              <span className="cal" style={{ left: "26%", top: "63%" }} data-side="left"><i className="hot" /><b className="hidden sm:inline">Warna Tim</b></span>
+              <span className="cal" style={{ left: "74%", top: "63%" }} data-side="right"><i className="hot" /><b className="hidden sm:inline">Motif Racing</b></span>
             </div>
-            <p className="text-[.8rem] mt-3.5 italic" style={{ color: "#7c8492" }}>
+            <p className="text-[.75rem] sm:text-[.8rem] mt-2 sm:mt-3.5 italic" style={{ color: "#7c8492" }}>
               Visual ilustrasi — area bertanda bisa dicustom di paket custom (min. 6 pcs). Untuk order satuan: nama, nomor start, logo tim &amp; sponsor saja.
             </p>
           </div>
 
           {/* List + CTA below image */}
           <div className="rv">
-            <p className="text-[1.05rem] leading-relaxed mb-8" style={{ color: "#b3bac6" }}>
+            <p className="text-sm sm:text-[1.05rem] leading-relaxed mb-5 sm:mb-8" style={{ color: "#b3bac6" }}>
               Di paket <strong className="text-white">custom minimal 6 pcs</strong>, setiap bagian bisa diatur sesuai identitas tim kamu. Ini yang biasanya paling sering dicustom:
             </p>
-            <ul className="grid sm:grid-cols-2 lg:grid-cols-3 gap-x-6 gap-y-4">
+            <ul className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-3 gap-x-4 gap-y-3 sm:gap-x-6 sm:gap-y-4">
               {[
                 "Logo Tim",
                 "Nomor Start",
@@ -529,9 +529,9 @@ export default function JerseyRacingLanding({ products }: Props) {
                 "Area Depan",
                 "Area Belakang",
               ].map((item, i) => (
-                <li key={i} className="flex gap-3 items-center">
-                  <span className="w-2.5 h-2.5 shrink-0" style={{ background: "var(--yellow)", transform: "skewX(-20deg)" }} />
-                  <span className="cond font-semibold text-[1.02rem]" style={{ letterSpacing: ".04em" }}>{item}</span>
+                <li key={i} className="flex gap-2 sm:gap-3 items-center">
+                  <span className="w-2 h-2 sm:w-2.5 sm:h-2.5 shrink-0" style={{ background: "var(--yellow)", transform: "skewX(-20deg)" }} />
+                  <span className="cond font-semibold text-[.85rem] sm:text-[1.02rem]" style={{ letterSpacing: ".04em" }}>{item}</span>
                 </li>
               ))}
             </ul>
@@ -539,7 +539,7 @@ export default function JerseyRacingLanding({ products }: Props) {
               href={waLink("Halo TNT SPORT APPAREL, saya mau custom jersey racing. Ini detail yang saya butuhkan:")}
               target="_blank"
               rel="noopener"
-              className="btn-primary cond inline-block text-white font-bold text-base px-7 py-3.5 rounded mt-9"
+              className="btn-primary cond inline-block text-white font-bold text-sm sm:text-base px-6 sm:px-7 py-3 sm:py-3.5 rounded mt-6 sm:mt-9"
             >
               Diskusi Detail Desain →
             </a>
@@ -995,44 +995,35 @@ export default function JerseyRacingLanding({ products }: Props) {
       </section>
 
       {/* ===== 11. CTA PENUTUP ===== */}
-      <section className="bg-[var(--ink-2)] slash-top relative overflow-hidden">
-        <div className="absolute inset-0">
-          <img
-            src="/landing/jersey-racing/96eb0470-acc4-4fee-91c9-ed8a950ce71b.png"
-            alt=""
-            aria-hidden="true"
-            style={{ width: "100%", height: "100%", objectFit: "cover", opacity: 0.15 }}
-          />
-        </div>
-        <div
-          className="absolute inset-0"
-          aria-hidden="true"
-          style={{ background: "linear-gradient(180deg,rgba(16,19,24,.92),rgba(16,19,24,.8))" }}
+      <section className="relative py-20 sm:py-28 overflow-hidden bg-[var(--ink-2)] slash-top">
+        <img
+          src="/landing/jersey-racing/96eb0470-acc4-4fee-91c9-ed8a950ce71b.png"
+          alt=""
+          className="absolute inset-0 w-full h-full object-cover"
+          style={{ opacity: 0.25 }}
         />
-        <div className="relative z-10 mx-auto max-w-4xl px-5 sm:px-8 py-20 sm:py-28 text-center">
-          <p className="kicker rv">Mulai Sekarang</p>
-          <h2 className="display mt-5 rv" style={{ fontSize: "clamp(2.2rem,6.5vw,4.8rem)" }}>
+        <div className="absolute inset-0" style={{ background: "linear-gradient(to top,#08090c 0%,rgba(8,9,12,.85) 50%,rgba(8,9,12,.7) 100%)" }} />
+        <div className="absolute inset-0 speedlines opacity-60" />
+        <div className="relative z-10 mx-auto max-w-4xl px-5 sm:px-8 text-center pt-8">
+          <h2 className="display rv swipe" style={{ fontSize: "clamp(1.5rem,5.6vw,3.8rem)", marginBottom: "1.75rem" }}>
             Saatnya Komunitas Kamu Punya{" "}
             <span style={{ color: "var(--red-hot)" }}>Identitas Sendiri</span>{" "}
             di Setiap Event
           </h2>
-          <p className="mt-6 text-lg rv" style={{ color: "var(--muted)" }}>
+          <p className="text-sm sm:text-xl rv" style={{ color: "#c9cfda", lineHeight: 1.6, marginBottom: "2.5rem", maxWidth: "42rem", marginLeft: "auto", marginRight: "auto" }}>
             Jangan cuma kumpul bareng — tampil kompak dengan jersey satu identitas.
           </p>
-          <div className="mt-10 rv">
+          <div className="rv">
             <a
-              href={waLink("Halo, saya ingin memesan jersey racing custom sekarang.")}
+              href={waLink("Halo TNT SPORT APPAREL, saya mau order jersey racing untuk komunitas saya.")}
               target="_blank"
               rel="noopener"
-              className="btn-primary text-base sm:text-xl px-9 py-5"
-              style={{ borderRadius: "9999px", color: "#fff" }}
+              className="btn-primary cond inline-block text-white font-bold text-base sm:text-xl px-8 sm:px-10 py-4 sm:py-5"
+              style={{ borderRadius: "6px" }}
             >
               🏁 Order Jersey Racing Sekarang →
             </a>
           </div>
-          <p className="mt-6 cond text-sm font-bold tracking-widest rv" style={{ color: "var(--muted)" }}>
-            350K+ Order Selesai · Bisa Satuan · Dry Fit Premium
-          </p>
         </div>
       </section>
 
