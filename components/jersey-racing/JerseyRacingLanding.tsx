@@ -103,199 +103,98 @@ export default function JerseyRacingLanding() {
       {/* ===== 1. HERO ===== */}
       <section
         id="top"
-        className="relative min-h-[100svh] overflow-hidden"
-        style={{
-          background: "radial-gradient(110% 85% at 75% 8%,rgba(255,34,51,.10),transparent 52%),radial-gradient(80% 70% at 12% 88%,rgba(255,212,0,.08),transparent 55%),var(--ink)",
-        }}
+        className="relative min-h-[100svh] flex items-center overflow-hidden pt-20 sm:pt-24 pb-16"
       >
-        {/* Background textures */}
-        <div className="absolute inset-0 grid-tex opacity-60" aria-hidden="true" />
-        <div className="absolute inset-0 speedlines opacity-40" aria-hidden="true" />
+        {/* base gelap + glow merah dari kanan */}
+        <div className="absolute inset-0" style={{ background: "radial-gradient(95% 70% at 96% 30%,rgba(255,34,51,.22),transparent 62%),linear-gradient(160deg,#0b0d11 0%,#08090c 55%,#0a0b0f 100%)" }} />
+        <div className="absolute inset-0 grid-tex opacity-[.55]" />
+        <div className="absolute inset-0 speedlines opacity-40" />
 
-        <div className="relative z-10 mx-auto max-w-7xl px-5 sm:px-8 pt-16 sm:pt-24 pb-20 sm:pb-28">
-          <div className="grid lg:grid-cols-[1.05fr_1fr] gap-10 lg:gap-6 items-center">
-            {/* Left content */}
+        {/* panel diagonal ala livery jersey (kanan) */}
+        <div ref={heroArtRef} id="heroArt" className="absolute inset-y-0 right-0 w-[34%] sm:w-[44%] md:w-[46%] opacity-70 sm:opacity-80 pointer-events-none will-change-transform" aria-hidden="true">
+          <div className="absolute inset-y-0 right-0 w-full" style={{ background: "linear-gradient(105deg,transparent 0%,rgba(255,212,0,.07) 46%,rgba(255,212,0,.02) 100%)", clipPath: "polygon(34% 0,100% 0,100% 100%,0 100%)" }} />
+          <div className="absolute inset-y-0 right-0 w-full" style={{ background: "linear-gradient(105deg,transparent 0%,rgba(255,34,51,.20) 62%,rgba(255,34,51,.04) 100%)", clipPath: "polygon(56% 0,84% 0,44% 100%,16% 100%)" }} />
+          <div className="absolute inset-y-0 right-0 w-full" style={{ background: "var(--yellow)", opacity: ".42", clipPath: "polygon(84% 0,85.6% 0,73.6% 100%,72% 100%)" }} />
+          <div className="absolute inset-y-0 right-0 w-full" style={{ background: "var(--red-hot)", opacity: ".5", clipPath: "polygon(89% 0,90.4% 0,78.4% 100%,77% 100%)" }} />
+        </div>
+
+        <div className="absolute inset-x-0 bottom-0 h-32 bg-gradient-to-t from-[#08090c] to-transparent" />
+
+        {/* scroll cue */}
+        <a href="#kenapa" aria-label="Scroll ke bawah" className="scrollcue absolute bottom-8 left-5 sm:left-8 z-20 hidden md:flex items-center gap-3" style={{ color: "#8e97a6" }}>
+          <span className="block w-9 h-[1.5px]" style={{ background: "linear-gradient(90deg,var(--red-hot),transparent)" }} />
+          <span className="cond text-[.68rem] font-bold" style={{ letterSpacing: ".24em" }}>SCROLL</span>
+        </a>
+
+        <div className="relative z-10 max-w-7xl mx-auto px-5 sm:px-8 w-full">
+          <div className="grid md:grid-cols-[1.15fr_.85fr] gap-10 md:gap-8 lg:gap-10 items-center">
+
+            {/* ── KIRI: headline + CTA ── */}
             <div>
-              <p className="kicker hero-up" style={{ animationDelay: ".1s" }}>
-                🏁 Custom Jersey Racing
-              </p>
-              <h1
-                className="display hero-up"
-                style={{
-                  fontSize: "clamp(2.8rem,7.5vw,6.2rem)",
-                  lineHeight: .92,
-                  marginTop: "1.2rem",
-                  animationDelay: ".2s",
-                }}
-              >
-                Jersey Racing Custom,{" "}
-                <span style={{ color: "var(--red-hot)" }}>Bikin Tim Kamu</span>{" "}
+              <p className="kicker mb-6 hero-up" style={{ animationDelay: ".05s" }}>🏁 Custom Jersey Racing</p>
+              <h1 className="display hero-up" style={{ fontSize: "clamp(2.5rem,8vw,5.4rem)", marginBottom: "1.75rem", animationDelay: ".18s" }}>
+                Jersey Racing Custom,<br />
+                <span style={{ color: "var(--red-hot)" }}>Bikin Tim Kamu</span><br />
                 Tampil Beda
               </h1>
-              <p
-                className="hero-up mt-5 text-base sm:text-lg leading-relaxed max-w-xl"
-                style={{ color: "var(--muted)", animationDelay: ".35s" }}
-              >
-                Full printing tajam, desain bebas, custom nama &amp; nomor start.
-                Cocok buat komunitas touring, drag race, sampai track day.
+              <p className="hero-up" style={{ fontSize: "clamp(1.05rem,2.2vw,1.28rem)", color: "#c9cfda", maxWidth: "36rem", lineHeight: 1.6, marginBottom: "2rem", animationDelay: ".32s" }}>
+                Full printing tajam, desain bebas, custom nama &amp; nomor start. Cocok buat komunitas touring, drag race, sampai track day.
               </p>
 
-              {/* Price highlight */}
-              <div
-                className="hero-up inline-flex items-center gap-3 mt-7 px-4 py-2"
-                style={{
-                  animationDelay: ".45s",
-                  border: "1px solid rgba(255,212,0,.35)",
-                  background: "rgba(255,212,0,.06)",
-                }}
-              >
-                <span className="cond text-sm font-bold tracking-widest" style={{ color: "var(--yellow)" }}>
-                  Mulai 85 RIBU / pcs
-                </span>
-                <span style={{ color: "rgba(255,255,255,.25)" }}>|</span>
-                <span className="cond text-xs font-bold tracking-widest" style={{ color: "var(--muted)" }}>
-                  20 DESAIN RACING SIAP PILIH
-                </span>
+              {/* harga: dipisah garis biar kebaca sebagai fakta, bukan hiasan */}
+              <div className="flex items-stretch gap-4 mb-9 hero-up" style={{ animationDelay: ".44s" }}>
+                <span className="w-[3px] shrink-0 rounded-full" style={{ background: "linear-gradient(to bottom,var(--red-hot),var(--yellow))" }} />
+                <p className="cond font-bold tracking-[.04em] self-center" style={{ fontSize: "clamp(1rem,2.2vw,1.28rem)", color: "var(--yellow)" }}>
+                  Mulai <span className="display" style={{ fontSize: "clamp(1.5rem,3.4vw,2.2rem)", verticalAlign: "middle" }}>85 RIBU</span> / pcs
+                  <span className="block text-[.86rem] mt-1" style={{ color: "#8e97a6", letterSpacing: ".12em" }}>20 DESAIN RACING SIAP PILIH</span>
+                </p>
               </div>
 
-              {/* CTAs */}
-              <div className="hero-up mt-8 flex flex-wrap items-center gap-3" style={{ animationDelay: ".55s" }}>
+              <div className="flex flex-col sm:flex-row gap-3.5 sm:gap-4 hero-up" style={{ animationDelay: ".56s" }}>
                 <a
-                  href={waLink("Halo, saya ingin memesan jersey racing custom. Boleh dibantu?")}
+                  href={waLink("Halo TNT SPORT APPAREL, saya mau order jersey racing custom. Boleh dibantu?")}
                   target="_blank"
                   rel="noopener"
-                  className="btn-primary text-base sm:text-lg px-7 py-4"
-                  style={{ borderRadius: "9999px", color: "#fff" }}
+                  className="btn-primary cond text-white font-bold text-base sm:text-lg px-8 py-4 text-center"
+                  style={{ borderRadius: "6px" }}
                 >
                   🏁 Order Jersey Sekarang →
                 </a>
-                <a
-                  href="#harga"
-                  className="btn-ghost text-base px-6 py-4"
-                  style={{ borderRadius: "9999px" }}
-                >
+                <a href="#harga" className="btn-ghost cond font-bold text-base sm:text-lg px-8 py-4 text-center" style={{ borderRadius: "6px" }}>
                   Lihat Harga
                 </a>
               </div>
             </div>
 
-            {/* Right side — hero art */}
-            <div ref={heroArtRef} className="relative hidden lg:block" style={{ perspective: "800px" }}>
-              {/* Diagonal panels */}
-              <div
-                className="absolute"
-                style={{
-                  top: "5%",
-                  right: "0",
-                  width: "82%",
-                  height: "85%",
-                  background: "var(--yellow)",
-                  clipPath: "polygon(18% 0,100% 0,100% 100%,0 100%)",
-                  opacity: 0.12,
-                }}
-                aria-hidden="true"
-              />
-              <div
-                className="absolute"
-                style={{
-                  top: "10%",
-                  right: "-4%",
-                  width: "76%",
-                  height: "80%",
-                  background: "var(--red-hot)",
-                  clipPath: "polygon(22% 0,100% 0,100% 100%,0 100%)",
-                  opacity: 0.1,
-                }}
-                aria-hidden="true"
-              />
+            {/* ── KANAN: komposisi tipografi ── */}
+            <div className="relative hidden md:block" style={{ height: "26rem" }} aria-hidden="true">
+              {/* nomor start besar */}
+              <p className="display absolute -top-6 right-0 select-none" style={{ lineHeight: ".78", fontSize: "13.5rem", letterSpacing: "-.03em", color: "transparent", WebkitTextStroke: "2px rgba(255,255,255,.11)" }}>07</p>
+              <p className="display absolute right-2 select-none" style={{ top: "7.2rem", lineHeight: 1, fontSize: "3.1rem" }}>
+                <span style={{ color: "var(--yellow)" }}>TNT</span><span style={{ color: "var(--red-hot)" }}>.</span>
+              </p>
 
-              {/* Typography composition */}
-              <div className="relative z-10 flex flex-col items-end" style={{ padding: "2rem 1rem" }}>
-                <span
-                  className="display"
-                  style={{
-                    fontSize: "clamp(6rem,14vw,10rem)",
-                    lineHeight: .82,
-                    color: "rgba(255,255,255,.06)",
-                    letterSpacing: "-.03em",
-                  }}
-                >
-                  07
-                </span>
-                <span
-                  className="display"
-                  style={{
-                    fontSize: "clamp(3rem,6vw,5rem)",
-                    lineHeight: .9,
-                    color: "rgba(255,255,255,.08)",
-                    marginTop: "-.5rem",
-                  }}
-                >
-                  TNT.
-                </span>
-                <span
-                  className="cond text-xs font-bold tracking-[.2em]"
-                  style={{ color: "var(--muted)", marginTop: ".5rem" }}
-                >
-                  EST. 2017 · INDONESIA
-                </span>
+              {/* label vertikal */}
+              <p className="cond absolute top-2 left-1 text-[.68rem] font-bold select-none" style={{ letterSpacing: ".42em", color: "#6d7684", writingMode: "vertical-rl" }}>EST. 2017 · INDONESIA</p>
 
-                {/* Specs list */}
-                <ul className="mt-6 space-y-1.5 cond text-xs font-bold tracking-widest" style={{ color: "rgba(255,255,255,.3)" }}>
-                  <li>DRY FIT PREMIUM</li>
-                  <li>FULL PRINTING</li>
-                  <li>CUSTOM NAMA &amp; NOMOR</li>
-                  <li>LOGO SPONSOR</li>
-                </ul>
+              {/* garis + spec kecil */}
+              <div className="absolute right-2 top-[12.4rem] h-px" style={{ width: "13.5rem", background: "linear-gradient(to left,rgba(255,34,51,.7),transparent)" }} />
+              <ul className="absolute right-2 top-[13.4rem] space-y-2 text-right cond text-[.72rem] font-bold select-none" style={{ letterSpacing: ".24em", color: "#8e97a6" }}>
+                <li>FULL PRINT</li>
+                <li>CUSTOM DESIGN</li>
+                <li style={{ color: "var(--yellow)" }}>RACING</li>
+                <li>TOURING</li>
+              </ul>
 
-                {/* Number chips */}
-                <div className="flex gap-3 mt-6">
-                  <span
-                    className="display"
-                    style={{
-                      fontSize: "2.2rem",
-                      color: "var(--red-hot)",
-                      border: "2px solid var(--red-hot)",
-                      padding: ".15rem .6rem",
-                      transform: "skewX(-8deg)",
-                      opacity: 0.6,
-                    }}
-                  >
-                    46
-                  </span>
-                  <span
-                    className="display"
-                    style={{
-                      fontSize: "2.2rem",
-                      color: "var(--yellow)",
-                      border: "2px solid var(--yellow)",
-                      padding: ".15rem .6rem",
-                      transform: "skewX(-8deg)",
-                      opacity: 0.6,
-                    }}
-                  >
-                    99
-                  </span>
-                </div>
+              {/* chip nomor kecil */}
+              <div className="absolute left-1 bottom-0 flex items-center gap-2 select-none">
+                <span className="cond text-[.7rem] font-bold" style={{ letterSpacing: ".2em", color: "#4d5563" }}>NO.</span>
+                <span className="cond text-[.78rem] font-bold px-2.5 py-1 rounded" style={{ letterSpacing: ".14em", color: "#8e97a6", border: "1px solid rgba(255,255,255,.1)" }}>46</span>
+                <span className="cond text-[.78rem] font-bold px-2.5 py-1 rounded" style={{ letterSpacing: ".14em", color: "#8e97a6", border: "1px solid rgba(255,255,255,.1)" }}>99</span>
               </div>
             </div>
-          </div>
-        </div>
 
-        {/* Scroll cue */}
-        <div
-          className="scrollcue absolute bottom-8 left-1/2 -translate-x-1/2 z-10 flex flex-col items-center gap-2"
-          aria-hidden="true"
-        >
-          <span className="cond text-[10px] font-bold tracking-[.25em]" style={{ color: "var(--muted)" }}>
-            SCROLL
-          </span>
-          <svg width="18" height="28" viewBox="0 0 18 28" fill="none">
-            <rect x="1" y="1" width="16" height="26" rx="8" stroke="rgba(255,255,255,.35)" strokeWidth="1.5" />
-            <circle cx="9" cy="8" r="2" fill="var(--red-hot)">
-              <animate attributeName="cy" values="8;16;8" dur="2s" repeatCount="indefinite" />
-            </circle>
-          </svg>
+          </div>
         </div>
       </section>
 
@@ -525,57 +424,32 @@ export default function JerseyRacingLanding() {
             </h2>
           </div>
 
-          <div className="mt-12 grid lg:grid-cols-2 gap-10 items-center">
+          <div className="mt-12 grid lg:grid-cols-[1.15fr,.85fr] gap-10 lg:gap-14 items-center">
             {/* Left: Jersey diagram with callouts */}
-            <div className="rv-l relative">
-              <div
-                className="relative mx-auto"
-                style={{ maxWidth: "340px", aspectRatio: "3/4" }}
-              >
+            <div className="relative rv">
+              <div className="card rounded-lg overflow-hidden relative">
                 <img
                   src="/landing/jersey-racing/df5ecff4-6109-4bbc-adef-56c6158be7b3.png"
-                  alt="Diagram jersey racing custom — area yang bisa dikustomisasi"
-                  style={{ width: "100%", height: "100%", objectFit: "contain", display: "block" }}
+                  alt="Diagram bagian jersey TNT Sport Apparel yang bisa dicustom: logo tim, nomor start, nama rider, logo sponsor"
+                  className="w-full h-auto block"
                 />
-
                 {/* Callout hotspots */}
-                <div className="cal" style={{ top: "20%", left: "43%" }} data-side="left">
-                  <span className="hot" />
-                  <b>Logo Tim</b>
-                </div>
-                <div className="cal" style={{ top: "34%", left: "50%" }} data-side="right">
-                  <span className="hot" />
-                  <b>Panel Sponsor</b>
-                </div>
-                <div className="cal" style={{ top: "47%", left: "50%" }} data-side="right">
-                  <span className="hot" />
-                  <b>Nomor Start</b>
-                </div>
-                <div className="cal" style={{ top: "33%", left: "20%" }} data-side="left">
-                  <span className="hot" />
-                  <b>Area Lengan</b>
-                </div>
-                <div className="cal" style={{ top: "33%", left: "80%" }} data-side="right">
-                  <span className="hot" />
-                  <b>Nama Rider</b>
-                </div>
-                <div className="cal" style={{ top: "63%", left: "26%" }} data-side="left">
-                  <span className="hot" />
-                  <b>Warna Tim</b>
-                </div>
-                <div className="cal" style={{ top: "63%", left: "74%" }} data-side="right">
-                  <span className="hot" />
-                  <b>Motif Racing</b>
-                </div>
+                <span className="cal" style={{ left: "43%", top: "20%" }} data-side="left"><i className="hot" /><b>Logo Tim</b></span>
+                <span className="cal" style={{ left: "50%", top: "34%" }} data-side="right"><i className="hot" /><b>Panel Sponsor</b></span>
+                <span className="cal" style={{ left: "50%", top: "47%" }} data-side="right"><i className="hot" /><b>Nomor Start</b></span>
+                <span className="cal" style={{ left: "20%", top: "33%" }} data-side="left"><i className="hot" /><b>Area Lengan</b></span>
+                <span className="cal" style={{ left: "80%", top: "33%" }} data-side="right"><i className="hot" /><b>Nama Rider</b></span>
+                <span className="cal" style={{ left: "26%", top: "63%" }} data-side="left"><i className="hot" /><b>Warna Tim</b></span>
+                <span className="cal" style={{ left: "74%", top: "63%" }} data-side="right"><i className="hot" /><b>Motif Racing</b></span>
               </div>
-              <p className="text-xs mt-3.5 italic" style={{ color: "#7c8492" }}>
+              <p className="text-[.8rem] mt-3.5 italic" style={{ color: "#7c8492" }}>
                 Visual ilustrasi — area bertanda bisa dicustom di paket custom (min. 6 pcs). Untuk order satuan: nama, nomor start, logo tim &amp; sponsor saja.
               </p>
             </div>
 
             {/* Right: List of customizable areas */}
-            <div className="rv-r">
-              <p className="text-base sm:text-lg leading-relaxed mb-8" style={{ color: "#b3bac6" }}>
+            <div className="rv">
+              <p className="text-[1.05rem] leading-relaxed mb-8" style={{ color: "#b3bac6" }}>
                 Di paket <strong className="text-white">custom minimal 6 pcs</strong>, setiap bagian bisa diatur sesuai identitas tim kamu. Ini yang biasanya paling sering dicustom:
               </p>
               <ul className="grid sm:grid-cols-2 gap-x-6 gap-y-4">
