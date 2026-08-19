@@ -502,7 +502,7 @@ export default function JerseyRacingLanding({ products }: Props) {
               <span className="cal" style={{ left: "43%", top: "22%" }} data-side="left"><i className="hot" /><b>Logo Tim</b></span>
               <span className="cal" style={{ left: "50%", top: "36%" }} data-side="right"><i className="hot" /><b>Panel Sponsor</b></span>
               <span className="cal" style={{ left: "50%", top: "50%" }} data-side="right"><i className="hot" /><b>Nomor Start</b></span>
-              <span className="cal" style={{ left: "22%", top: "35%" }} data-side="left"><i className="hot" /><b>Area Lengan</b></span>
+              <span className="cal cal-area-lengan" style={{ left: "22%", top: "35%" }} data-side="left"><i className="hot" /><b>Area Lengan</b></span>
               <span className="cal" style={{ left: "78%", top: "35%" }} data-side="right"><i className="hot" /><b>Nama Rider</b></span>
               <span className="cal" style={{ left: "28%", top: "65%" }} data-side="left"><i className="hot" /><b>Warna Tim</b></span>
               <span className="cal" style={{ left: "72%", top: "65%" }} data-side="right"><i className="hot" /><b>Motif Racing</b></span>

@@ -336,6 +336,14 @@
 }
 .jersey-racing .cal[data-center] { transform: translate(-50%,-50%); flex-direction: column; gap: .35rem; }
 
+/* Mobile: adjust Area Lengan position to not overlap Panel Sponsor */
+@media (max-width: 639px) {
+  .jersey-racing .cal-area-lengan {
+    left: 12% !important;
+    top: 42% !important;
+  }
+}
+
 /* ===== Horizontal Scroll Affordance ===== */
 .jersey-racing .scroll-x { position: relative; }
 .jersey-racing .scroll-x::after {
