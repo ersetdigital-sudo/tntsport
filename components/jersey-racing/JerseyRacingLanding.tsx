@@ -28,7 +28,15 @@ const FAQS = [
 const TESTIMONIALS = [
   { initials: "AR", name: "Andri", team: "Komunitas Touring Jabodetabek", city: "Jakarta", quote: "Jersey dari TNT Sport benar-benar beda kualitasnya. Bahan adem, printing tajam, dan desainnya langsung sesuai keinginan komunitas kami. Setiap touring jadi kelihatan kompak." },
   { initials: "RW", name: "Rizky", team: "Drag Race Team Surabaya", city: "Surabaya", quote: "Kami pesan untuk tim drag race — warnanya bold, nama dan nomor start terlihat jelas dari jauh. Sponsor juga masuk semua dengan rapi. Sangat memuaskan." },
-  { initials: "DP", name: "Dimas", team: "Track Day Racing Bandung", city: "Bandung", quote: "Order satuan dulu buat tes, hasilnya langsung oke. Sekarang tim kami sudah pesan ulang untuk seluruh anggota. Harga也很 reasonable untuk kualitas sekelas ini." },
+  { initials: "DP", name: "Dimas", team: "Track Day Racing Bandung", city: "Bandung", quote: "Order satuan dulu buat tes, hasilnya langsung oke. Sekarang tim kami sudah pesan ulang untuk seluruh anggota. Harga juga reasonable untuk kualitas sekelas ini." },
+];
+
+const GALLERY_IMAGES = [
+  { src: "/landing/jersey-futsal/4c090b09-6b9d-4d9a-a061-ca955c49c520.png", alt: "Tim Balreng Kebumen memakai jersey custom merah di Turnamen" },
+  { src: "/landing/jersey-futsal/93c90d93-45be-4137-b10d-d810ada22df4.png", alt: "Tim SSB Persem memakai jersey custom kuning" },
+  { src: "/landing/jersey-futsal/0cde4945-3487-4e3d-ba70-e94156ac55e3.png", alt: "Pemain memakai jersey custom lengan panjang merah" },
+  { src: "/landing/jersey-futsal/3af292c0-b13f-4a74-b94e-c0b6885f633c.png", alt: "Lenox FC memakai jersey custom maroon" },
+  { src: "/landing/jersey-futsal/21bccec1-b05a-464e-bc44-54cb90c01dde.png", alt: "Tim junior memakai jersey custom biru saat menerima piala juara 2" },
 ];
 
 function useScrollReveal() {
@@ -58,6 +66,7 @@ export default function JerseyRacingLanding({ products }: Props) {
   useScrollReveal();
   const [priceMode, setPriceMode] = useState<"ecer" | "lusin">("ecer");
   const [openFaq, setOpenFaq] = useState<number | null>(0);
+  const [galleryActive, setGalleryActive] = useState<number | null>(null);
   const heroArtRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -78,30 +87,6 @@ export default function JerseyRacingLanding({ products }: Props) {
 
   return (
     <div className="jersey-racing">
-      {/* ===== FLOATING LOGO ===== */}
-      <a
-        href="#top"
-        className="fixed z-50 flex items-center gap-2 px-4 py-2"
-        style={{
-          top: "1rem",
-          left: "1rem",
-          background: "rgba(8,9,12,.88)",
-          border: "1px solid rgba(255,255,255,.12)",
-          borderRadius: "9999px",
-          backdropFilter: "blur(6px)",
-          textDecoration: "none",
-          color: "var(--txt)",
-          fontSize: ".82rem",
-          fontFamily: "'Barlow Condensed',sans-serif",
-          fontWeight: 700,
-          textTransform: "uppercase",
-          letterSpacing: ".08em",
-        }}
-      >
-        <span style={{ color: "var(--red-hot)", fontSize: "1.1rem" }}>🏁</span>
-        <span>TNT Sport.</span>
-      </a>
-
       {/* ===== 1. HERO ===== */}
       <section
         id="top"
@@ -379,7 +364,7 @@ export default function JerseyRacingLanding({ products }: Props) {
             </p>
           </div>
 
-          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5 sm:gap-6">
+          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3 sm:gap-4">
             {products.map((p) => (
               <figure key={p.id} className="card rounded-lg overflow-hidden group rv-z">
                 <div className="aspect-square overflow-hidden bg-white">
@@ -759,6 +744,82 @@ export default function JerseyRacingLanding({ products }: Props) {
             ))}
           </div>
         </div>
+      </section>
+
+      {/* ===== 8. FOTO GALERI BERJALAN ===== */}
+      <section id="galeri" className="relative py-16 sm:py-20 grid-tex">
+        <div className="mx-auto max-w-7xl px-5 sm:px-8">
+          <div className="max-w-3xl mb-6">
+            <p className="kicker mb-5 rv">Foto Hasil Jersey</p>
+            <h2 className="display text-[clamp(1.7rem,4.2vw,2.8rem)] rv swipe">
+              Bukan Edit, <span style={{ color: "var(--red-hot)" }}>Bukan Rekayasa</span>
+            </h2>
+            <p className="mt-3 text-sm rv" style={{ color: "#8e97a6" }}>Foto asli dari pelanggan</p>
+          </div>
+        </div>
+        {/* Marquee gallery */}
+        <div className="gal-wrap mt-7">
+          <div className="gal-track">
+            {Array.from({ length: 2 }).map((_, dup) =>
+              GALLERY_IMAGES.map((g, i) => (
+                <button
+                  key={`${dup}-${i}`}
+                  type="button"
+                  onClick={() => setGalleryActive(dup === 0 ? i : null)}
+                  aria-hidden={dup === 1 || undefined}
+                  aria-label={dup === 1 ? undefined : `Perbesar foto: ${g.alt}`}
+                  className="gal-item"
+                >
+                  <img src={g.src} alt={dup === 1 ? "" : g.alt} loading="lazy" />
+                </button>
+              ))
+            )}
+          </div>
+        </div>
+        {/* CTA */}
+        <div className="mx-auto max-w-7xl px-5 sm:px-8 mt-8 text-center rv">
+          <a
+            href={waLink("Halo TNT SPORT APPAREL, saya lihat galeri hasil jersey pelanggan, saya mau order seperti itu!")}
+            target="_blank"
+            rel="noopener"
+            className="btn-primary cond text-white font-bold text-base px-7 py-4"
+            style={{ borderRadius: "6px" }}
+          >
+            🏁 Mau Jersey Seperti Ini? Order Sekarang
+          </a>
+        </div>
+        {/* Lightbox */}
+        {galleryActive !== null && GALLERY_IMAGES[galleryActive] && (
+          <div
+            className="fixed inset-0 z-[110] flex items-center justify-center p-4"
+            style={{ background: "rgba(0,0,0,.85)", backdropFilter: "blur(4px)" }}
+            onClick={() => setGalleryActive(null)}
+            role="dialog"
+            aria-modal="true"
+          >
+            <div className="relative my-auto" style={{ maxWidth: "92vw" }} onClick={(e) => e.stopPropagation()}>
+              <button
+                type="button"
+                onClick={() => setGalleryActive(null)}
+                aria-label="Tutup foto"
+                className="absolute -top-2 -right-2 z-10 grid h-11 w-11 cursor-pointer place-items-center rounded-full text-white shadow-lg"
+                style={{ background: "var(--red-hot)" }}
+              >
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                  <path d="M6 6l12 12M18 6L6 18" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" />
+                </svg>
+              </button>
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src={GALLERY_IMAGES[galleryActive].src}
+                alt={GALLERY_IMAGES[galleryActive].alt}
+                className="max-h-[82vh] w-auto max-w-full rounded-2xl object-contain shadow-2xl"
+                style={{ border: "1px solid rgba(255,255,255,.1)" }}
+              />
+              <p className="mt-3 text-center text-sm" style={{ color: "rgba(255,255,255,.6)" }}>{GALLERY_IMAGES[galleryActive].alt}</p>
+            </div>
+          </div>
+        )}
       </section>
 
       {/* ===== 10. FAQ ===== */}
