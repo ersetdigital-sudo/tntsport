@@ -551,44 +551,57 @@ export default function JerseyRacingLanding({ products }: Props) {
       </section>
 
       {/* ===== 5. SPESIFIKASI ===== */}
-      <section id="spek" className="grid-tex">
-        <div className="mx-auto max-w-7xl px-5 sm:px-8 py-16 sm:py-24">
-          <div className="grid lg:grid-cols-2 gap-10 items-center">
-            <div className="rv-l">
-              <p className="kicker">Spesifikasi Produk</p>
-              <h2 className="display mt-4" style={{ fontSize: "clamp(1.9rem,4.8vw,3.4rem)" }}>
-                Dibuat Untuk Nyaman Dipakai{" "}
-                <span style={{ color: "var(--red-hot)" }}>Seharian</span>
+      <section id="spek" className="relative py-20 sm:py-28 grid-tex">
+        <div className="mx-auto max-w-7xl px-5 sm:px-8">
+          <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-start">
+            <div>
+              <p className="kicker mb-5 rv">Spesifikasi Produk</p>
+              <h2 className="display text-[clamp(1.9rem,5.2vw,3.4rem)] mb-7 rv swipe">
+                Dibuat Untuk{" "}
+                <span style={{ color: "var(--red-hot)" }}>Nyaman Dipakai Seharian</span>
               </h2>
-              <div className="mt-8 p-6" style={{ background: "var(--ink-3)", border: "1px solid var(--line)" }}>
-                <p className="display text-xl" style={{ color: "var(--yellow)" }}>Dry Fit Premium</p>
-                <ul className="mt-4 space-y-2.5 text-sm" style={{ color: "var(--muted)" }}>
-                  <li className="flex gap-2">✔ Ringan, adem, dan menyerap keringat</li>
-                  <li className="flex gap-2">✔ Full printing tajam, tidak luntur</li>
-                  <li className="flex gap-2">✔ Unisex — cocok pria &amp; wanita</li>
-                  <li className="flex gap-2">✔ Lengan pendek</li>
-                  <li className="flex gap-2">✔ Kerah polo berkancing</li>
-                  <li className="flex gap-2">✔ Cocok untuk touring &amp; event seharian</li>
-                </ul>
-                <div className="mt-5 flex flex-wrap gap-2">
-                  {["S", "M", "L", "XL", "2XL"].map((s) => (
-                    <span
-                      key={s}
-                      className="cond text-xs font-bold tracking-widest px-3 py-1.5"
-                      style={{ border: "1px solid var(--line)", color: "var(--txt)" }}
-                    >
-                      {s}
-                    </span>
+              <div className="card rounded-lg p-6 sm:p-8 rv-l">
+                <div className="pb-5 mb-6" style={{ borderBottom: "1px solid rgba(255,255,255,.1)" }}>
+                  <p className="display" style={{ fontSize: "clamp(1.4rem,3.4vw,1.9rem)" }}>Dry Fit Premium</p>
+                </div>
+                <ul className="grid sm:grid-cols-2 gap-x-6 gap-y-4">
+                  {[
+                    "Ringan",
+                    "Adem",
+                    "Full printing",
+                    "Unisex",
+                    "Lengan pendek",
+                    "Kerah polo berkancing",
+                  ].map((f, i) => (
+                    <li key={i} className="flex gap-3 items-start">
+                      <svg className="w-5 h-5 mt-0.5 shrink-0" viewBox="0 0 20 20" fill="none" stroke="#ff2233" strokeWidth="2.6" strokeLinecap="round" strokeLinejoin="round"><path d="M4 10.5l4 4 8-9" /></svg>
+                      <span style={{ color: "#d3d8e1" }}>{f}</span>
+                    </li>
                   ))}
+                  <li className="flex gap-3 items-start sm:col-span-2">
+                    <svg className="w-5 h-5 mt-0.5 shrink-0" viewBox="0 0 20 20" fill="none" stroke="#ff2233" strokeWidth="2.6" strokeLinecap="round" strokeLinejoin="round"><path d="M4 10.5l4 4 8-9" /></svg>
+                    <span style={{ color: "#d3d8e1" }}>Cocok untuk touring &amp; event seharian</span>
+                  </li>
+                </ul>
+                <div className="mt-7 pt-6" style={{ borderTop: "1px solid rgba(255,255,255,.1)" }}>
+                  <p className="cond font-bold text-[.8rem] mb-3" style={{ letterSpacing: ".16em", color: "#8e97a6" }}>Ukuran Tersedia</p>
+                  <div className="flex flex-wrap gap-2">
+                    {["S", "M", "L", "XL", "2XL"].map((s) => (
+                      <span key={s} className="cond font-bold text-sm px-3.5 py-2 rounded" style={{ background: "rgba(255,255,255,.06)", border: "1px solid rgba(255,255,255,.1)" }}>{s}</span>
+                    ))}
+                  </div>
                 </div>
               </div>
             </div>
-            <div className="rv-r relative flex justify-center">
-              <img
-                src="/landing/jersey-racing/faf53238-29dd-4127-ad0c-3dc7dd627b38.png"
-                alt="Jersey racing custom — spesifikasi produk Dry Fit Premium"
-                style={{ maxWidth: "380px", width: "100%", height: "auto", display: "block" }}
-              />
+            <div className="rv-r">
+              <div className="card rounded-lg overflow-hidden">
+                <img
+                  src="/landing/jersey-racing/faf53238-29dd-4127-ad0c-3dc7dd627b38.png"
+                  alt="Model duduk memakai jersey custom TNT SPORT APPAREL, bahan dryfit full printing"
+                  className="w-full h-auto block"
+                  loading="lazy"
+                />
+              </div>
             </div>
           </div>
         </div>
