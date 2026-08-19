@@ -67,6 +67,7 @@ export default function JerseyRacingLanding({ products }: Props) {
   const [priceMode, setPriceMode] = useState<"ecer" | "lusin">("ecer");
   const [openFaq, setOpenFaq] = useState<number | null>(0);
   const [galleryActive, setGalleryActive] = useState<number | null>(null);
+  const [catalogActive, setCatalogActive] = useState<number | null>(null);
   const heroArtRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -365,17 +366,23 @@ export default function JerseyRacingLanding({ products }: Props) {
           </div>
 
           <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3 sm:gap-4">
-            {products.map((p) => (
+            {products.map((p, i) => (
               <figure key={p.id} className="card rounded-lg overflow-hidden group rv-z">
-                <div className="aspect-square overflow-hidden bg-white">
-                  <Image
-                    src={p.image}
-                    alt={p.alt}
-                    width={400}
-                    height={400}
-                    className="w-full h-full object-contain transition-transform duration-700 group-hover:scale-[1.05]"
-                  />
-                </div>
+                <button
+                  type="button"
+                  onClick={() => setCatalogActive(i)}
+                  className="block w-full text-left p-0 bg-transparent cursor-pointer"
+                  aria-label={`Perbesar foto: ${p.alt}`}
+                >
+                  <div className="aspect-square overflow-hidden bg-white">
+                    <img
+                      src={p.image}
+                      alt={p.alt}
+                      className="w-full h-full object-contain transition-transform duration-700 group-hover:scale-[1.05]"
+                      loading="lazy"
+                    />
+                  </div>
+                </button>
                 <figcaption className="p-5 flex items-center justify-between gap-4">
                   <div>
                     <p className="cond font-bold text-lg leading-tight">{p.catalogue}</p>
@@ -393,6 +400,39 @@ export default function JerseyRacingLanding({ products }: Props) {
               </figure>
             ))}
           </div>
+
+          {/* Catalog Lightbox */}
+          {catalogActive !== null && products[catalogActive] && (
+            <div
+              className="fixed inset-0 z-[110] flex items-center justify-center p-4"
+              style={{ background: "rgba(0,0,0,.85)", backdropFilter: "blur(4px)" }}
+              onClick={() => setCatalogActive(null)}
+              role="dialog"
+              aria-modal="true"
+            >
+              <div className="relative my-auto" style={{ maxWidth: "92vw" }} onClick={(e) => e.stopPropagation()}>
+                <button
+                  type="button"
+                  onClick={() => setCatalogActive(null)}
+                  aria-label="Tutup foto"
+                  className="absolute -top-2 -right-2 z-10 grid h-11 w-11 cursor-pointer place-items-center rounded-full text-white shadow-lg"
+                  style={{ background: "var(--red-hot)" }}
+                >
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                    <path d="M6 6l12 12M18 6L6 18" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" />
+                  </svg>
+                </button>
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img
+                  src={products[catalogActive].image}
+                  alt={products[catalogActive].alt}
+                  className="max-h-[82vh] w-auto max-w-full rounded-2xl object-contain shadow-2xl"
+                  style={{ border: "1px solid rgba(255,255,255,.1)" }}
+                />
+                <p className="mt-3 text-center text-sm font-bold" style={{ color: "rgba(255,255,255,.8)" }}>{products[catalogActive].catalogue}</p>
+              </div>
+            </div>
+          )}
 
           <p className="mt-8 text-sm rv" style={{ color: "#8e97a6" }}>
             Masih ada 14 desain racing lagi, plus kategori futsal, voli, basket, badminton, running, fishing, army, dan corporate.{" "}
