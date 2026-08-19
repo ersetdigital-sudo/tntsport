@@ -18,6 +18,13 @@ interface Props {
 
 const WA_NUMBER = "628115491117";
 
+const TRUST_ITEMS = [
+  "Langsung Dari Pabrik",
+  "Bisa Order Satuan",
+  "Gratis Desain + Revisi Bebas",
+  "Beli 6 Gratis 1",
+];
+
 const FAQS = [
   { q: "Bisa custom nama & nomor start sendiri gak?", a: "Bisa. Setiap jersey bisa ditambahkan nama rider dan nomor start sesuai keinginan. Tinggal informasikan saat pemesanan." },
   { q: "Berapa lama proses produksinya?", a: "Rata-rata 7–14 hari kerja tergantung jumlah pesanan dan kompleksitas desain." },
@@ -187,14 +194,16 @@ export default function JerseyRacingLanding({ products }: Props) {
       </section>
 
       {/* ===== TRUST BAR ===== */}
-      <section className="bg-[var(--red)] speedlines">
-        <div className="mx-auto max-w-7xl px-5 sm:px-8 py-3.5 overflow-x-auto">
-          <ul className="flex flex-wrap items-center justify-center gap-x-6 gap-y-1 cond text-xs sm:text-sm font-bold tracking-widest whitespace-nowrap">
-            <li className="flex items-center gap-2"><span style={{ color: "var(--yellow)" }}>●</span> Langsung Dari Pabrik</li>
-            <li className="flex items-center gap-2"><span style={{ color: "var(--yellow)" }}>●</span> Bisa Order Satuan</li>
-            <li className="flex items-center gap-2"><span style={{ color: "var(--yellow)" }}>●</span> Gratis Desain + Revisi Bebas</li>
-            <li className="flex items-center gap-2"><span style={{ color: "var(--yellow)" }}>●</span> Beli 6 Gratis 1</li>
-          </ul>
+      <section className="bg-[var(--red)] speedlines overflow-hidden">
+        <div className="py-4">
+          <div className="mq-track flex whitespace-nowrap">
+            {[...TRUST_ITEMS, ...TRUST_ITEMS, ...TRUST_ITEMS].map((item, i) => (
+              <span key={i} className="inline-flex items-center gap-2 cond font-bold text-sm sm:text-base px-4 shrink-0">
+                <svg className="w-4 h-4 shrink-0" viewBox="0 0 20 20" fill="none" stroke="#fff" strokeWidth="2.6" strokeLinecap="round" strokeLinejoin="round"><path d="M4 10.5l4 4 8-9" /></svg>
+                {item}
+              </span>
+            ))}
+          </div>
         </div>
       </section>
 
@@ -356,7 +365,7 @@ export default function JerseyRacingLanding({ products }: Props) {
         <div className="mx-auto max-w-7xl px-5 sm:px-8 py-16 sm:py-24">
           <div className="max-w-3xl mb-12">
             <p className="kicker mb-5 rv">Katalog Desain</p>
-            <h2 className="display text-[clamp(1.9rem,5.4vw,3.5rem)] mb-6 rv swipe">
+            <h2 className="display rv swipe" style={{ fontSize: "clamp(1.5rem,5.4vw,3.5rem)", marginBottom: "1.5rem" }}>
               Pilih Basis Desain,{" "}
               <span style={{ color: "var(--red-hot)" }}>Sisanya Kita Custom</span>
             </h2>
@@ -383,16 +392,16 @@ export default function JerseyRacingLanding({ products }: Props) {
                     />
                   </div>
                 </button>
-                <figcaption className="p-5 flex items-center justify-between gap-4">
-                  <div>
-                    <p className="cond font-bold text-lg leading-tight">{p.catalogue}</p>
+                <figcaption className="p-3 sm:p-5 flex items-center justify-between gap-2">
+                  <div className="min-w-0">
+                    <p className="cond font-bold text-sm sm:text-lg leading-tight truncate">{p.catalogue}</p>
                   </div>
                   <a
                     href={buildWhatsAppLink(WA_NUMBER, `Halo TNT SPORT APPAREL, saya tertarik dengan desain *${p.catalogue}* di kategori *Racing*. Bisa info lebih lanjut?`)}
                     target="_blank"
                     rel="noopener"
                     className="cond font-bold shrink-0 transition-colors"
-                    style={{ fontSize: ".8rem", letterSpacing: ".12em", color: "var(--yellow)" }}
+                    style={{ fontSize: ".75rem", letterSpacing: ".12em", color: "var(--yellow)" }}
                   >
                     Pilih →
                   </a>
@@ -426,10 +435,21 @@ export default function JerseyRacingLanding({ products }: Props) {
                 <img
                   src={products[catalogActive].image}
                   alt={products[catalogActive].alt}
-                  className="max-h-[82vh] w-auto max-w-full rounded-2xl object-contain shadow-2xl"
+                  className="max-h-[65vh] w-auto max-w-full rounded-2xl object-contain shadow-2xl"
                   style={{ border: "1px solid rgba(255,255,255,.1)" }}
                 />
                 <p className="mt-3 text-center text-sm font-bold" style={{ color: "rgba(255,255,255,.8)" }}>{products[catalogActive].catalogue}</p>
+                <div className="mt-4 flex justify-center">
+                  <a
+                    href={buildWhatsAppLink(WA_NUMBER, `Halo TNT SPORT APPAREL, saya tertarik dengan desain *${products[catalogActive].catalogue}* di kategori *Racing*. Bisa info lebih lanjut?`)}
+                    target="_blank"
+                    rel="noopener"
+                    className="btn-primary cond text-white font-bold text-sm px-6 py-3 text-center"
+                    style={{ borderRadius: "9999px" }}
+                  >
+                    🏁 Tanya Desain Ini via WhatsApp →
+                  </a>
+                </div>
               </div>
             </div>
           )}
