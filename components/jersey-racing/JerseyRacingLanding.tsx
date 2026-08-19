@@ -476,13 +476,6 @@ export default function JerseyRacingLanding({ products }: Props) {
               </div>
             </div>
           )}
-
-          <p className="mt-8 text-sm rv" style={{ color: "#8e97a6" }}>
-            Masih ada 14 desain racing lagi, plus kategori futsal, voli, basket, badminton, running, fishing, army, dan corporate.{" "}
-            <a href="/katalog" className="font-semibold transition-colors underline underline-offset-4" style={{ color: "var(--yellow)", textDecorationColor: "rgba(255,34,51,.4)" }}>
-              Lihat katalog lengkap →
-            </a>
-          </p>
         </div>
       </section>
 
