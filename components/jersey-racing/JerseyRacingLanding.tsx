@@ -490,61 +490,59 @@ export default function JerseyRacingLanding({ products }: Props) {
             </h2>
           </div>
 
-          <div className="grid lg:grid-cols-[1.15fr,.85fr] gap-10 lg:gap-14 items-center">
-            {/* Left: Jersey diagram with callouts */}
-            <div className="relative rv">
-              <div className="card rounded-lg overflow-hidden relative">
-                <img
-                  src="/landing/jersey-racing/df5ecff4-6109-4bbc-adef-56c6158be7b3.png"
-                  alt="Diagram bagian jersey TNT Sport Apparel yang bisa dicustom: logo tim, nomor start, nama rider, logo sponsor"
-                  className="w-full h-auto block"
-                />
-                {/* Callout hotspots */}
-                <span className="cal" style={{ left: "43%", top: "20%" }} data-side="left"><i className="hot" /><b>Logo Tim</b></span>
-                <span className="cal" style={{ left: "50%", top: "34%" }} data-side="right"><i className="hot" /><b>Panel Sponsor</b></span>
-                <span className="cal" style={{ left: "50%", top: "47%" }} data-side="right"><i className="hot" /><b>Nomor Start</b></span>
-                <span className="cal" style={{ left: "20%", top: "33%" }} data-side="left"><i className="hot" /><b>Area Lengan</b></span>
-                <span className="cal" style={{ left: "80%", top: "33%" }} data-side="right"><i className="hot" /><b>Nama Rider</b></span>
-                <span className="cal" style={{ left: "26%", top: "63%" }} data-side="left"><i className="hot" /><b>Warna Tim</b></span>
-                <span className="cal" style={{ left: "74%", top: "63%" }} data-side="right"><i className="hot" /><b>Motif Racing</b></span>
-              </div>
-              <p className="text-[.8rem] mt-3.5 italic" style={{ color: "#7c8492" }}>
-                Visual ilustrasi — area bertanda bisa dicustom di paket custom (min. 6 pcs). Untuk order satuan: nama, nomor start, logo tim &amp; sponsor saja.
-              </p>
+          {/* Jersey diagram full width */}
+          <div className="relative rv mb-10">
+            <div className="card rounded-lg overflow-hidden relative">
+              <img
+                src="/landing/jersey-racing/df5ecff4-6109-4bbc-adef-56c6158be7b3.png"
+                alt="Diagram bagian jersey TNT Sport Apparel yang bisa dicustom: logo tim, nomor start, nama rider, logo sponsor"
+                className="w-full h-auto block"
+              />
+              {/* Callout hotspots */}
+              <span className="cal" style={{ left: "43%", top: "20%" }} data-side="left"><i className="hot" /><b>Logo Tim</b></span>
+              <span className="cal" style={{ left: "50%", top: "34%" }} data-side="right"><i className="hot" /><b>Panel Sponsor</b></span>
+              <span className="cal" style={{ left: "50%", top: "47%" }} data-side="right"><i className="hot" /><b>Nomor Start</b></span>
+              <span className="cal" style={{ left: "20%", top: "33%" }} data-side="left"><i className="hot" /><b>Area Lengan</b></span>
+              <span className="cal" style={{ left: "80%", top: "33%" }} data-side="right"><i className="hot" /><b>Nama Rider</b></span>
+              <span className="cal" style={{ left: "26%", top: "63%" }} data-side="left"><i className="hot" /><b>Warna Tim</b></span>
+              <span className="cal" style={{ left: "74%", top: "63%" }} data-side="right"><i className="hot" /><b>Motif Racing</b></span>
             </div>
+            <p className="text-[.8rem] mt-3.5 italic" style={{ color: "#7c8492" }}>
+              Visual ilustrasi — area bertanda bisa dicustom di paket custom (min. 6 pcs). Untuk order satuan: nama, nomor start, logo tim &amp; sponsor saja.
+            </p>
+          </div>
 
-            {/* Right: List of customizable areas */}
-            <div className="rv">
-              <p className="text-[1.05rem] leading-relaxed mb-8" style={{ color: "#b3bac6" }}>
-                Di paket <strong className="text-white">custom minimal 6 pcs</strong>, setiap bagian bisa diatur sesuai identitas tim kamu. Ini yang biasanya paling sering dicustom:
-              </p>
-              <ul className="grid sm:grid-cols-2 gap-x-6 gap-y-4">
-                {[
-                  "Logo Tim",
-                  "Nomor Start",
-                  "Nama Rider",
-                  "Panel Sponsor",
-                  "Warna Tim",
-                  "Motif Racing",
-                  "Area Lengan",
-                  "Area Depan",
-                  "Area Belakang",
-                ].map((item, i) => (
-                  <li key={i} className="flex gap-3 items-center">
-                    <span className="w-2.5 h-2.5 shrink-0" style={{ background: "var(--yellow)", transform: "skewX(-20deg)" }} />
-                    <span className="cond font-semibold text-[1.02rem]" style={{ letterSpacing: ".04em" }}>{item}</span>
-                  </li>
-                ))}
-              </ul>
-              <a
-                href={waLink("Halo TNT SPORT APPAREL, saya mau custom jersey racing. Ini detail yang saya butuhkan:")}
-                target="_blank"
-                rel="noopener"
-                className="btn-primary cond inline-block text-white font-bold text-base px-7 py-3.5 rounded mt-9"
-              >
-                Diskusi Detail Desain →
-              </a>
-            </div>
+          {/* List + CTA below image */}
+          <div className="rv">
+            <p className="text-[1.05rem] leading-relaxed mb-8" style={{ color: "#b3bac6" }}>
+              Di paket <strong className="text-white">custom minimal 6 pcs</strong>, setiap bagian bisa diatur sesuai identitas tim kamu. Ini yang biasanya paling sering dicustom:
+            </p>
+            <ul className="grid sm:grid-cols-2 lg:grid-cols-3 gap-x-6 gap-y-4">
+              {[
+                "Logo Tim",
+                "Nomor Start",
+                "Nama Rider",
+                "Panel Sponsor",
+                "Warna Tim",
+                "Motif Racing",
+                "Area Lengan",
+                "Area Depan",
+                "Area Belakang",
+              ].map((item, i) => (
+                <li key={i} className="flex gap-3 items-center">
+                  <span className="w-2.5 h-2.5 shrink-0" style={{ background: "var(--yellow)", transform: "skewX(-20deg)" }} />
+                  <span className="cond font-semibold text-[1.02rem]" style={{ letterSpacing: ".04em" }}>{item}</span>
+                </li>
+              ))}
+            </ul>
+            <a
+              href={waLink("Halo TNT SPORT APPAREL, saya mau custom jersey racing. Ini detail yang saya butuhkan:")}
+              target="_blank"
+              rel="noopener"
+              className="btn-primary cond inline-block text-white font-bold text-base px-7 py-3.5 rounded mt-9"
+            >
+              Diskusi Detail Desain →
+            </a>
           </div>
         </div>
       </section>
