@@ -492,11 +492,11 @@ export default function JerseyRacingLanding({ products }: Props) {
 
           {/* Jersey diagram full width */}
           <div className="relative rv mb-6 sm:mb-10">
-            <div className="card rounded-lg overflow-hidden relative">
+            <div className="card rounded-lg relative overflow-visible">
               <img
                 src="/landing/jersey-racing/df5ecff4-6109-4bbc-adef-56c6158be7b3.png"
                 alt="Diagram bagian jersey TNT Sport Apparel yang bisa dicustom: logo tim, nomor start, nama rider, logo sponsor"
-                className="w-full h-auto block"
+                className="w-full h-auto block rounded-lg"
               />
               {/* Callout hotspots */}
               <span className="cal" style={{ left: "43%", top: "20%" }} data-side="left"><i className="hot" /><b>Logo Tim</b></span>
