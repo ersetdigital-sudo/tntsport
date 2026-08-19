@@ -267,10 +267,15 @@
 .jersey-racing .cal {
   position: absolute;
   transform: translate(-50%,-50%);
-  display: flex;
+  display: none;
   align-items: center;
   gap: .5rem;
   white-space: nowrap;
+}
+@media (min-width: 640px) {
+  .jersey-racing .cal {
+    display: flex;
+  }
 }
 .jersey-racing .cal[data-side="left"] { flex-direction: row-reverse; }
 .jersey-racing .hot {
