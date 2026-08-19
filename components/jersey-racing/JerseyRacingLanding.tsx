@@ -539,65 +539,71 @@ export default function JerseyRacingLanding() {
                 />
 
                 {/* Callout hotspots */}
-                <div className="cal" style={{ top: "12%", left: "28%" }} data-side="right">
+                <div className="cal" style={{ top: "20%", left: "43%" }} data-side="left">
                   <span className="hot" />
                   <b>Logo Tim</b>
                 </div>
-                <div className="cal" style={{ top: "26%", left: "72%" }} data-side="left">
+                <div className="cal" style={{ top: "34%", left: "50%" }} data-side="right">
                   <span className="hot" />
                   <b>Panel Sponsor</b>
                 </div>
-                <div className="cal" style={{ top: "40%", left: "28%" }} data-side="right">
+                <div className="cal" style={{ top: "47%", left: "50%" }} data-side="right">
                   <span className="hot" />
                   <b>Nomor Start</b>
                 </div>
-                <div className="cal" style={{ top: "52%", left: "72%" }} data-side="left">
+                <div className="cal" style={{ top: "33%", left: "20%" }} data-side="left">
                   <span className="hot" />
                   <b>Area Lengan</b>
                 </div>
-                <div className="cal" style={{ top: "62%", left: "28%" }} data-side="right">
+                <div className="cal" style={{ top: "33%", left: "80%" }} data-side="right">
                   <span className="hot" />
                   <b>Nama Rider</b>
                 </div>
-                <div className="cal" style={{ top: "76%", left: "72%" }} data-side="left">
+                <div className="cal" style={{ top: "63%", left: "26%" }} data-side="left">
                   <span className="hot" />
                   <b>Warna Tim</b>
                 </div>
-                <div className="cal" style={{ top: "88%", left: "50%" }} data-center="true">
+                <div className="cal" style={{ top: "63%", left: "74%" }} data-side="right">
                   <span className="hot" />
                   <b>Motif Racing</b>
                 </div>
               </div>
+              <p className="text-xs mt-3.5 italic" style={{ color: "#7c8492" }}>
+                Visual ilustrasi — area bertanda bisa dicustom di paket custom (min. 6 pcs). Untuk order satuan: nama, nomor start, logo tim &amp; sponsor saja.
+              </p>
             </div>
 
             {/* Right: List of customizable areas */}
             <div className="rv-r">
-              <ul className="space-y-4">
+              <p className="text-base sm:text-lg leading-relaxed mb-8" style={{ color: "#b3bac6" }}>
+                Di paket <strong className="text-white">custom minimal 6 pcs</strong>, setiap bagian bisa diatur sesuai identitas tim kamu. Ini yang biasanya paling sering dicustom:
+              </p>
+              <ul className="grid sm:grid-cols-2 gap-x-6 gap-y-4">
                 {[
-                  { icon: "🎨", label: "Warna Tim", desc: "Tentukan warna utama dan aksen jersey." },
-                  { icon: "🔤", label: "Nama Rider & Nomor Start", desc: "Cetak di bagian depan dan belakang." },
-                  { icon: "🏢", label: "Logo Tim & Sponsor", desc: "Ditampilkan dengan proporsi yang pas." },
-                  { icon: "🏎️", label: "Motif Racing", desc: "Garis, gradient, atau pola custom sesuai keinginan." },
-                  { icon: "💪", label: "Panel Lengan", desc: "Area tambahan untuk logo atau desain aksen." },
-                  { icon: "🏷️", label: "Label & Detail Kecil", desc: "Nama komunitas, tahun, atau tagline event." },
+                  "Logo Tim",
+                  "Nomor Start",
+                  "Nama Rider",
+                  "Panel Sponsor",
+                  "Warna Tim",
+                  "Motif Racing",
+                  "Area Lengan",
+                  "Area Depan",
+                  "Area Belakang",
                 ].map((item, i) => (
-                  <li key={i} className="flex items-start gap-4 p-4" style={{ background: "rgba(255,255,255,.03)", border: "1px solid var(--line)" }}>
-                    <span className="text-xl mt-0.5">{item.icon}</span>
-                    <div>
-                      <p className="cond text-sm font-bold tracking-wide" style={{ color: "var(--txt)" }}>{item.label}</p>
-                      <p className="text-sm mt-1" style={{ color: "var(--muted)" }}>{item.desc}</p>
-                    </div>
+                  <li key={i} className="flex gap-3 items-center">
+                    <span className="w-2.5 h-2.5 shrink-0" style={{ background: "var(--yellow)", transform: "skewX(-20deg)" }} />
+                    <span className="cond font-semibold text-[1.02rem]" style={{ letterSpacing: ".04em" }}>{item}</span>
                   </li>
                 ))}
               </ul>
               <a
-                href={waLink("Halo, saya ingin konsultasi desain jersey racing custom. Boleh dibantu?")}
+                href={waLink("Halo TNT SPORT APPAREL, saya mau custom jersey racing. Ini detail yang saya butuhkan:")}
                 target="_blank"
                 rel="noopener"
-                className="btn-primary mt-8 inline-flex text-base px-7 py-4"
-                style={{ borderRadius: "9999px", color: "#fff" }}
+                className="btn-primary cond inline-block text-white font-bold text-base px-7 py-3.5 mt-9"
+                style={{ borderRadius: "6px" }}
               >
-                🏁 Konsultasi Gratis →
+                Diskusi Detail Desain →
               </a>
             </div>
           </div>
