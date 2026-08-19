@@ -491,12 +491,12 @@ export default function JerseyRacingLanding({ products }: Props) {
           </div>
 
           {/* Jersey diagram full width */}
-          <div className="relative rv mb-6 sm:mb-10">
-            <div className="card rounded-lg relative overflow-visible">
+          <div className="rv mb-6 sm:mb-10 -mx-5 sm:mx-0">
+            <div className="relative card rounded-none sm:rounded-lg overflow-visible">
               <img
                 src="/landing/jersey-racing/df5ecff4-6109-4bbc-adef-56c6158be7b3.png"
                 alt="Diagram bagian jersey TNT Sport Apparel yang bisa dicustom: logo tim, nomor start, nama rider, logo sponsor"
-                className="w-full h-auto block rounded-lg"
+                className="w-full h-auto block"
               />
               {/* Callout hotspots */}
               <span className="cal" style={{ left: "43%", top: "20%" }} data-side="left"><i className="hot" /><b>Logo Tim</b></span>
@@ -507,7 +507,7 @@ export default function JerseyRacingLanding({ products }: Props) {
               <span className="cal" style={{ left: "26%", top: "63%" }} data-side="left"><i className="hot" /><b>Warna Tim</b></span>
               <span className="cal" style={{ left: "74%", top: "63%" }} data-side="right"><i className="hot" /><b>Motif Racing</b></span>
             </div>
-            <p className="text-[.75rem] sm:text-[.8rem] mt-2 sm:mt-3.5 italic" style={{ color: "#7c8492" }}>
+            <p className="text-[.75rem] sm:text-[.8rem] mt-2 sm:mt-3.5 italic px-5 sm:px-0" style={{ color: "#7c8492" }}>
               Visual ilustrasi — area bertanda bisa dicustom di paket custom (min. 6 pcs). Untuk order satuan: nama, nomor start, logo tim &amp; sponsor saja.
             </p>
           </div>
