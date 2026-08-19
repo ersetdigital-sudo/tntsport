@@ -1,7 +1,8 @@
 import type { Metadata } from "next";
 import JerseyRacingLanding from "@/components/jersey-racing/JerseyRacingLanding";
 import { CATEGORY_LANDINGS } from "@/lib/category-landing";
-import { getBrand } from "@/lib/queries";
+import { CATALOG_PRODUCTS } from "@/lib/products";
+import { getBrand, getCatalogData } from "@/lib/queries";
 
 export const revalidate = 3600;
 
@@ -80,7 +81,16 @@ function buildJsonLd(brandName: string, brandUrl: string) {
 }
 
 export default async function JerseyRacingPage() {
-  const brand = await getBrand();
+  const [brand, catalogData] = await Promise.all([
+    getBrand(),
+    getCatalogData(),
+  ]);
+
+  const category = catalogData?.find((c) => c.id === config.catalogId);
+  const products = category?.products.length
+    ? category.products
+    : (CATALOG_PRODUCTS.find((c) => c.id === "racing")?.products ?? []);
+
   const baseUrl = brand.url || "https://www.tntsportapparel.id";
   const jsonLd = buildJsonLd(brand.name, baseUrl);
 
@@ -93,7 +103,7 @@ export default async function JerseyRacingPage() {
           dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
         />
       ))}
-      <JerseyRacingLanding />
+      <JerseyRacingLanding products={products} />
     </>
   );
 }

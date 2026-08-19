@@ -5,16 +5,18 @@ import Image from "next/image";
 import { buildWhatsAppLink } from "@/lib/wa";
 import "./jersey-racing.css";
 
-const WA_NUMBER = "628115491117";
+interface Product {
+  id: string;
+  catalogue: string;
+  image: string;
+  alt: string;
+}
 
-const CATALOG = [
-  { code: "TNT-RACING 01", colors: "Navy / Putih / Teal", img: "/landing/jersey-racing/2fd986e0-6b39-4ce6-b718-51788954a9b2.jpg" },
-  { code: "TNT-RACING 02", colors: "Hitam / Kuning / Merah", img: "/landing/jersey-racing/2d8164c3-faa7-42f8-a711-3215c0f0806b.jpg" },
-  { code: "TNT-RACING 03", colors: "Biru / Hijau Neon / Magenta", img: "/landing/jersey-racing/46fbb49e-7505-4839-a43e-5887ca5b1f76.jpg" },
-  { code: "TNT-RACING 04", colors: "Pink / Hijau Neon", img: "/landing/jersey-racing/ea1c6a5b-1fb2-437f-baa3-69b3edbac2d1.jpg" },
-  { code: "TNT-RACING 05", colors: "Hitam / Putih / Oranye", img: "/landing/jersey-racing/30c6a691-e83a-4cae-9a6a-40ddd2982ebd.jpg" },
-  { code: "TNT-RACING 06", colors: "Hitam / Pink / Kuning", img: "/landing/jersey-racing/b0dc9b4d-7e6b-4400-9dcd-34f44946e187.jpg" },
-];
+interface Props {
+  products: Product[];
+}
+
+const WA_NUMBER = "628115491117";
 
 const FAQS = [
   { q: "Bisa custom nama & nomor start sendiri gak?", a: "Bisa. Setiap jersey bisa ditambahkan nama rider dan nomor start sesuai keinginan. Tinggal informasikan saat pemesanan." },
@@ -52,7 +54,7 @@ function useScrollReveal() {
   }, []);
 }
 
-export default function JerseyRacingLanding() {
+export default function JerseyRacingLanding({ products }: Props) {
   useScrollReveal();
   const [priceMode, setPriceMode] = useState<"ecer" | "lusin">("ecer");
   const [openFaq, setOpenFaq] = useState<number | null>(0);
@@ -366,50 +368,53 @@ export default function JerseyRacingLanding() {
       {/* ===== KATALOG ===== */}
       <section id="katalog" className="grid-tex">
         <div className="mx-auto max-w-7xl px-5 sm:px-8 py-16 sm:py-24">
-          <div className="max-w-3xl rv">
-            <p className="kicker">Katalog Desain</p>
-            <h2 className="display mt-4" style={{ fontSize: "clamp(1.9rem,4.8vw,3.4rem)" }}>
+          <div className="max-w-3xl mb-12">
+            <p className="kicker mb-5 rv">Katalog Desain</p>
+            <h2 className="display text-[clamp(1.9rem,5.4vw,3.5rem)] mb-6 rv swipe">
               Pilih Basis Desain,{" "}
               <span style={{ color: "var(--red-hot)" }}>Sisanya Kita Custom</span>
             </h2>
-            <p className="mt-4 text-base leading-relaxed" style={{ color: "var(--muted)" }}>
-              Ini 6 dari 20 desain yang tersedia. Pilih yang paling cocok, lalu custom nama, nomor,
-              dan logo sesuai kebutuhan tim kamu.
+            <p className="text-[1.05rem] leading-relaxed rv" style={{ color: "#b3bac6" }}>
+              Ini {products.length} dari <strong className="text-white">20 desain racing</strong> yang sudah siap. Order satuan: tinggal tambah nama, nomor start, logo tim &amp; sponsor. Mau ganti warna, motif, atau desain dari nol? Ambil paket custom minimal 6 pcs.
             </p>
           </div>
 
-          <div className="mt-10 grid grid-cols-2 sm:grid-cols-3 gap-4">
-            {CATALOG.map((item, i) => (
-              <a
-                key={i}
-                href={waLink(`Halo TNT SPORT APPAREL, saya tertarik dengan desain *${item.code}* di kategori *Jersey Racing*. Bisa info lebih lanjut?`)}
-                target="_blank"
-                rel="noopener"
-                className="rv-z block group"
-              >
-                <div className="relative overflow-hidden" style={{ aspectRatio: "4/5", border: "1px solid var(--line)", borderRadius: "6px" }}>
-                  <img
-                    src={item.img}
-                    alt={`Desain ${item.code} — jersey racing ${item.colors}`}
-                    loading="lazy"
-                    style={{ width: "100%", height: "100%", objectFit: "cover", display: "block", transition: "transform .35s ease" }}
-                    onMouseEnter={(e) => { (e.currentTarget as HTMLImageElement).style.transform = "scale(1.06)"; }}
-                    onMouseLeave={(e) => { (e.currentTarget as HTMLImageElement).style.transform = "scale(1)"; }}
+          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5 sm:gap-6">
+            {products.map((p) => (
+              <figure key={p.id} className="card rounded-lg overflow-hidden group rv-z">
+                <div className="aspect-square overflow-hidden bg-white">
+                  <Image
+                    src={p.image}
+                    alt={p.alt}
+                    width={400}
+                    height={400}
+                    className="w-full h-full object-contain transition-transform duration-700 group-hover:scale-[1.05]"
                   />
                 </div>
-                <div className="mt-3">
-                  <p className="cond text-sm font-bold tracking-widest" style={{ color: "var(--txt)" }}>{item.code}</p>
-                  <p className="text-xs mt-1" style={{ color: "var(--muted)" }}>{item.colors}</p>
-                </div>
-                <span
-                  className="cond mt-2 inline-flex text-xs font-bold tracking-widest group-hover:translate-x-1 transition-transform"
-                  style={{ color: "var(--red-hot)" }}
-                >
-                  Pilih →
-                </span>
-              </a>
+                <figcaption className="p-5 flex items-center justify-between gap-4">
+                  <div>
+                    <p className="cond font-bold text-lg leading-tight">{p.catalogue}</p>
+                  </div>
+                  <a
+                    href={buildWhatsAppLink(WA_NUMBER, `Halo TNT SPORT APPAREL, saya tertarik dengan desain *${p.catalogue}* di kategori *Racing*. Bisa info lebih lanjut?`)}
+                    target="_blank"
+                    rel="noopener"
+                    className="cond font-bold shrink-0 transition-colors"
+                    style={{ fontSize: ".8rem", letterSpacing: ".12em", color: "var(--yellow)" }}
+                  >
+                    Pilih →
+                  </a>
+                </figcaption>
+              </figure>
             ))}
           </div>
+
+          <p className="mt-8 text-sm rv" style={{ color: "#8e97a6" }}>
+            Masih ada 14 desain racing lagi, plus kategori futsal, voli, basket, badminton, running, fishing, army, dan corporate.{" "}
+            <a href="/katalog" className="font-semibold transition-colors underline underline-offset-4" style={{ color: "var(--yellow)", textDecorationColor: "rgba(255,34,51,.4)" }}>
+              Lihat katalog lengkap →
+            </a>
+          </p>
         </div>
       </section>
 
@@ -558,107 +563,90 @@ export default function JerseyRacingLanding() {
           </div>
 
           {/* Price cards */}
-          <div className="rv mt-10 grid md:grid-cols-2 gap-5">
+          <div className="rv mt-10 grid lg:grid-cols-2 gap-5 sm:gap-6">
             {/* Atasan */}
-            <article className="card relative p-7 sm:p-9 flex flex-col">
-              <div className="flex items-start justify-between gap-3">
-                <p className="kicker text-xs" style={{ color: "var(--muted)" }}>Jersey Atasan</p>
-                <span
-                  className="cond text-[10px] font-bold tracking-widest px-3 py-1"
-                  style={{ background: "rgba(255,255,255,.06)", color: "var(--muted)", border: "1px solid var(--line)" }}
-                >
-                  FLEKSIBEL
-                </span>
+            <article className="card rounded-lg p-7 sm:p-9 flex flex-col rv-l">
+              <div className="flex items-start justify-between gap-4 mb-2">
+                <p className="cond font-bold text-sm" style={{ color: "#8e97a6", letterSpacing: ".16em" }}>Jersey Atasan</p>
+                <span className="cond font-bold rounded px-3 py-1.5" style={{ fontSize: ".68rem", letterSpacing: ".16em", color: "#9aa2b1", background: "rgba(255,255,255,.06)", border: "1px solid rgba(255,255,255,.1)" }}>Fleksibel</span>
               </div>
-              <h3 className="display mt-4 text-3xl sm:text-4xl">Atasan Saja</h3>
-              <div className="mt-6 flex items-end gap-1.5">
-                <span className="display text-xl pb-1.5" style={{ color: "var(--muted)" }}>Rp</span>
-                <span key={priceMode} className="display text-6xl sm:text-7xl leading-none" style={{ color: "var(--txt)" }}>
-                  {priceMode === "ecer" ? "95rb" : "85rb"}
+              <p className="display" style={{ fontSize: "clamp(1.5rem,3.6vw,2rem)", marginBottom: "1.25rem" }}>Atasan Saja</p>
+              <p className="flex items-baseline gap-2 mb-2">
+                <span className="cond font-bold text-lg" style={{ color: "var(--yellow)" }}>Rp</span>
+                <span key={priceMode} className="display leading-none" style={{ fontSize: "clamp(2.6rem,7vw,3.6rem)", color: "var(--yellow)" }}>
+                  {priceMode === "ecer" ? "95RB" : "85RB"}
                 </span>
-                <span className="pb-2.5 text-lg" style={{ color: "var(--muted)" }}>/pcs</span>
-              </div>
-              <p key={priceMode + "-atasan"} className="mt-2 text-sm" style={{ color: "var(--muted)" }}>
+                <span className="cond font-bold text-base" style={{ color: "#8e97a6" }}>/pcs</span>
+              </p>
+              <p key={priceMode + "-atasan"} className="mb-7" style={{ fontSize: ".92rem", color: "#8e97a6" }}>
                 {priceMode === "ecer" ? "Bisa pesan mulai 1 pcs" : "Minimal pembelian 12 pcs"}
               </p>
-              <ul className="mt-7 pt-6 space-y-3 text-[15px] flex-1" style={{ borderTop: "1px solid var(--line)" }}>
-                <li className="flex gap-3"><span style={{ color: "var(--yellow)" }}>✚</span><span style={{ color: "var(--txt)" }}>Full printing</span></li>
-                <li className="flex gap-3"><span style={{ color: "var(--yellow)" }}>✚</span><span style={{ color: "var(--txt)" }}>Nama &amp; nomor start</span></li>
-                <li className="flex gap-3"><span style={{ color: "var(--yellow)" }}>✚</span><span style={{ color: "var(--txt)" }}>Revisi desain tanpa batas</span></li>
+              <ul className="mb-9 flex-1 pt-6" style={{ borderTop: "1px solid rgba(255,255,255,.1)" }}>
+                {["Full printing", "Nama & nomor start", "Revisi desain tanpa batas"].map((f, i) => (
+                  <li key={i} className="flex gap-3 items-start mb-3.5">
+                    <svg className="w-5 h-5 mt-0.5 shrink-0" viewBox="0 0 20 20" fill="none" stroke="#ff2233" strokeWidth="2.6" strokeLinecap="round" strokeLinejoin="round"><path d="M4 10.5l4 4 8-9" /></svg>
+                    <span style={{ color: "#d3d8e1" }}>{f}</span>
+                  </li>
+                ))}
               </ul>
-              <div className="mt-auto pt-8">
-                <a
-                  href={waLink("Halo TNT SPORT APPAREL, saya mau pesan Jersey Atasan saja (racing). Minta info lengkapnya dong!")}
-                  target="_blank"
-                  rel="noopener"
-                  className="btn-ghost w-full text-base py-4"
-                  style={{ borderRadius: "9999px" }}
-                >
-                  Pilih Atasan
-                </a>
-              </div>
+              <a
+                href={waLink("Halo TNT SPORT APPAREL, saya tertarik paket Atasan Saja jersey racing. Bisa info lebih lanjut?")}
+                target="_blank"
+                rel="noopener"
+                className="btn-ghost cond text-white font-bold text-base px-7 py-3.5 text-center"
+                style={{ borderRadius: "6px" }}
+              >
+                Pilih Atasan →
+              </a>
             </article>
 
             {/* Setelan */}
-            <article className="card card-hi relative p-7 sm:p-9 flex flex-col">
-              <div className="flex items-start justify-between gap-3">
-                <p className="kicker text-xs" style={{ color: "var(--yellow)" }}>Atasan + Celana</p>
-                <span
-                  className="cond text-[10px] font-bold tracking-widest px-3 py-1"
-                  style={{ background: "var(--red)", color: "#fff" }}
-                >
-                  PALING DIMINATI
-                </span>
-              </div>
-              <h3 className="display mt-4 text-3xl sm:text-4xl">Jersey Setelan</h3>
-              <div className="mt-6 flex items-end gap-1.5">
-                <span className="display text-xl pb-1.5" style={{ color: "var(--yellow)" }}>Rp</span>
-                <span key={priceMode} className="display text-6xl sm:text-7xl leading-none" style={{ color: "var(--red-hot)" }}>
-                  120RB
-                </span>
-                <span className="pb-2.5 text-lg" style={{ color: "var(--muted)" }}>/set</span>
-              </div>
-              <p className="mt-2 text-sm" style={{ color: "var(--muted)" }}>
-                Harga setelan (atasan + celana)
+            <article className="card card-hi rounded-lg p-7 sm:p-9 flex flex-col relative overflow-hidden rv-r">
+              <div className="absolute top-0 right-0 cond font-bold text-white px-4 py-1.5" style={{ fontSize: ".72rem", letterSpacing: ".18em", background: "var(--red)", clipPath: "polygon(14% 0,100% 0,100% 100%,0 100%)" }}>Paling Diminati</div>
+              <p className="cond font-bold text-sm mt-3 mb-2" style={{ color: "var(--red-hot)", letterSpacing: ".16em" }}>Atasan + Celana</p>
+              <p className="display" style={{ fontSize: "clamp(1.5rem,3.6vw,2rem)", marginBottom: "1.25rem" }}>Jersey Setelan</p>
+              <p className="flex items-baseline gap-2 mb-2">
+                <span className="cond font-bold text-lg" style={{ color: "var(--yellow)" }}>Rp</span>
+                <span className="display leading-none" style={{ fontSize: "clamp(2.6rem,7vw,3.6rem)", color: "var(--yellow)" }}>120RB</span>
+                <span className="cond font-bold text-base" style={{ color: "#8e97a6" }}>/set</span>
               </p>
-              <ul className="mt-7 pt-6 space-y-3 text-[15px] flex-1" style={{ borderTop: "1px solid var(--line)" }}>
-                <li className="flex gap-3"><span style={{ color: "var(--yellow)" }}>✚</span><span style={{ color: "var(--txt)" }}>Semua benefit paket atasan</span></li>
-                <li className="flex gap-3"><span style={{ color: "var(--yellow)" }}>✚</span><span style={{ color: "var(--txt)" }}>Celana full custom siap tanding</span></li>
-                <li className="flex gap-3"><span style={{ color: "var(--yellow)" }}>✚</span><span style={{ color: "var(--txt)" }}>Prioritas jadwal produksi</span></li>
+              <p className="mb-7" style={{ fontSize: ".92rem", color: "#8e97a6" }}>Minimal pembelian 12 set</p>
+              <ul className="mb-9 flex-1 pt-6" style={{ borderTop: "1px solid rgba(255,255,255,.1)" }}>
+                {["Semua benefit paket atasan", "Celana full custom siap tanding", "Prioritas jadwal produksi"].map((f, i) => (
+                  <li key={i} className="flex gap-3 items-start mb-3.5">
+                    <svg className="w-5 h-5 mt-0.5 shrink-0" viewBox="0 0 20 20" fill="none" stroke="#ff2233" strokeWidth="2.6" strokeLinecap="round" strokeLinejoin="round"><path d="M4 10.5l4 4 8-9" /></svg>
+                    <span style={{ color: "#d3d8e1" }}>{f}</span>
+                  </li>
+                ))}
               </ul>
-              <div className="mt-auto pt-8">
-                <a
-                  href={waLink("Halo TNT SPORT APPAREL, saya mau pesan Jersey Setelan atasan + celana (racing). Minta info lengkapnya dong!")}
-                  target="_blank"
-                  rel="noopener"
-                  className="btn-primary w-full text-base py-4"
-                  style={{ borderRadius: "9999px", color: "#fff" }}
-                >
-                  Pilih Setelan
-                </a>
-              </div>
+              <a
+                href={waLink("Halo TNT SPORT APPAREL, saya tertarik paket Jersey Setelan racing. Bisa info lebih lanjut?")}
+                target="_blank"
+                rel="noopener"
+                className="btn-primary cond text-white font-bold text-base px-7 py-3.5 text-center"
+                style={{ borderRadius: "6px" }}
+              >
+                Pilih Setelan →
+              </a>
             </article>
           </div>
 
           {/* Bulk */}
-          <div className="rv mt-5 flex flex-col sm:flex-row sm:items-center justify-between gap-5 p-7" style={{ background: "var(--ink-3)", borderLeft: "4px solid var(--red-hot)" }}>
+          <div className="rv card rounded-lg p-6 sm:p-8 flex flex-wrap items-center justify-between gap-5">
             <div>
-              <h3 className="display text-2xl sm:text-3xl">
-                Butuh Lebih dari{" "}
-                <span style={{ color: "var(--red-hot)" }}>50 Pcs?</span>
-              </h3>
-              <p className="mt-2 text-sm sm:text-base" style={{ color: "var(--muted)" }}>
-                Dapatkan harga proyek khusus untuk komunitas, event, dan pembelian partai besar.
+              <p className="cond font-bold mb-1.5" style={{ fontSize: "1.15rem" }}>
+                Butuh lebih dari <span style={{ color: "var(--red-hot)" }}>50 pcs</span>?
               </p>
+              <p style={{ fontSize: ".97rem", color: "#9aa2b1" }}>Harga proyek khusus untuk komunitas, klub, sekolah, dan event.</p>
             </div>
             <a
-              href={waLink("Halo TNT SPORT APPAREL, saya butuh jersey racing lebih dari 50 pcs buat komunitas/event. Minta harga khusus dong!")}
+              href={waLink("Halo TNT SPORT APPAREL, saya mau minta harga khusus untuk order jersey racing di atas 50 pcs.")}
               target="_blank"
               rel="noopener"
-              className="btn-primary px-6 py-3.5 text-base whitespace-nowrap shrink-0"
-              style={{ borderRadius: "9999px", color: "#fff" }}
+              className="btn-primary cond text-white font-bold px-6 py-3 shrink-0"
+              style={{ fontSize: ".95rem", borderRadius: "6px" }}
             >
-              Minta Harga Khusus
+              Minta Harga Khusus →
             </a>
           </div>
         </div>
