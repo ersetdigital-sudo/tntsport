@@ -1,0 +1,331 @@
+/* ============================================================
+   JERSEY RACING LANDING PAGE — Exact replica of HTML original
+   ============================================================ */
+
+@font-face { font-family: 'Barlow Condensed'; src: url("/fonts/barlowcondensed-thin.ttf") format("truetype"); font-style: normal; font-weight: 100; font-display: swap; }
+@font-face { font-family: 'Barlow Condensed'; src: url("/fonts/barlowcondensed-thinitalic.ttf") format("truetype"); font-style: italic; font-weight: 100; font-display: swap; }
+@font-face { font-family: 'Barlow Condensed'; src: url("/fonts/barlowcondensed-extralight.ttf") format("truetype"); font-style: normal; font-weight: 200; font-display: swap; }
+@font-face { font-family: 'Barlow Condensed'; src: url("/fonts/barlowcondensed-extralightitalic.ttf") format("truetype"); font-style: italic; font-weight: 200; font-display: swap; }
+@font-face { font-family: 'Barlow Condensed'; src: url("/fonts/barlowcondensed-light.ttf") format("truetype"); font-style: normal; font-weight: 300; font-display: swap; }
+@font-face { font-family: 'Barlow Condensed'; src: url("/fonts/barlowcondensed-lightitalic.ttf") format("truetype"); font-style: italic; font-weight: 300; font-display: swap; }
+@font-face { font-family: 'Barlow Condensed'; src: url("/fonts/barlowcondensed-regular.ttf") format("truetype"); font-style: normal; font-weight: 400; font-display: swap; }
+@font-face { font-family: 'Barlow Condensed'; src: url("/fonts/barlowcondensed-italic.ttf") format("truetype"); font-style: italic; font-weight: 400; font-display: swap; }
+@font-face { font-family: 'Barlow Condensed'; src: url("/fonts/barlowcondensed-medium.ttf") format("truetype"); font-style: normal; font-weight: 500; font-display: swap; }
+@font-face { font-family: 'Barlow Condensed'; src: url("/fonts/barlowcondensed-mediumitalic.ttf") format("truetype"); font-style: italic; font-weight: 500; font-display: swap; }
+@font-face { font-family: 'Barlow Condensed'; src: url("/fonts/barlowcondensed-semibold.ttf") format("truetype"); font-style: normal; font-weight: 600; font-display: swap; }
+@font-face { font-family: 'Barlow Condensed'; src: url("/fonts/barlowcondensed-semibolditalic.ttf") format("truetype"); font-style: italic; font-weight: 600; font-display: swap; }
+@font-face { font-family: 'Barlow Condensed'; src: url("/fonts/barlowcondensed-bold.ttf") format("truetype"); font-style: normal; font-weight: 700; font-display: swap; }
+@font-face { font-family: 'Barlow Condensed'; src: url("/fonts/barlowcondensed-bolditalic.ttf") format("truetype"); font-style: italic; font-weight: 700; font-display: swap; }
+@font-face { font-family: 'Barlow Condensed'; src: url("/fonts/barlowcondensed-extrabold.ttf") format("truetype"); font-style: normal; font-weight: 800; font-display: swap; }
+@font-face { font-family: 'Barlow Condensed'; src: url("/fonts/barlowcondensed-extrabolditalic.ttf") format("truetype"); font-style: italic; font-weight: 800; font-display: swap; }
+@font-face { font-family: 'Barlow Condensed'; src: url("/fonts/barlowcondensed-black.ttf") format("truetype"); font-style: normal; font-weight: 900; font-display: swap; }
+@font-face { font-family: 'Barlow Condensed'; src: url("/fonts/barlowcondensed-blackitalic.ttf") format("truetype"); font-style: italic; font-weight: 900; font-display: swap; }
+
+@font-face { font-family: 'Barlow'; src: url("/fonts/barlow-thin.ttf") format("truetype"); font-style: normal; font-weight: 100; font-display: swap; }
+@font-face { font-family: 'Barlow'; src: url("/fonts/barlow-thinitalic.ttf") format("truetype"); font-style: italic; font-weight: 100; font-display: swap; }
+@font-face { font-family: 'Barlow'; src: url("/fonts/barlow-extralight.ttf") format("truetype"); font-style: normal; font-weight: 200; font-display: swap; }
+@font-face { font-family: 'Barlow'; src: url("/fonts/barlow-extralightitalic.ttf") format("truetype"); font-style: italic; font-weight: 200; font-display: swap; }
+@font-face { font-family: 'Barlow'; src: url("/fonts/barlow-light.ttf") format("truetype"); font-style: normal; font-weight: 300; font-display: swap; }
+@font-face { font-family: 'Barlow'; src: url("/fonts/barlow-lightitalic.ttf") format("truetype"); font-style: italic; font-weight: 300; font-display: swap; }
+@font-face { font-family: 'Barlow'; src: url("/fonts/barlow-regular.ttf") format("truetype"); font-style: normal; font-weight: 400; font-display: swap; }
+@font-face { font-family: 'Barlow'; src: url("/fonts/barlow-italic.ttf") format("truetype"); font-style: italic; font-weight: 400; font-display: swap; }
+@font-face { font-family: 'Barlow'; src: url("/fonts/barlow-medium.ttf") format("truetype"); font-style: normal; font-weight: 500; font-display: swap; }
+@font-face { font-family: 'Barlow'; src: url("/fonts/barlow-mediumitalic.ttf") format("truetype"); font-style: italic; font-weight: 500; font-display: swap; }
+@font-face { font-family: 'Barlow'; src: url("/fonts/barlow-semibold.ttf") format("truetype"); font-style: normal; font-weight: 600; font-display: swap; }
+@font-face { font-family: 'Barlow'; src: url("/fonts/barlow-semibolditalic.ttf") format("truetype"); font-style: italic; font-weight: 600; font-display: swap; }
+@font-face { font-family: 'Barlow'; src: url("/fonts/barlow-bold.ttf") format("truetype"); font-style: normal; font-weight: 700; font-display: swap; }
+@font-face { font-family: 'Barlow'; src: url("/fonts/barlow-bolditalic.ttf") format("truetype"); font-style: italic; font-weight: 700; font-display: swap; }
+@font-face { font-family: 'Barlow'; src: url("/fonts/barlow-extrabold.ttf") format("truetype"); font-style: normal; font-weight: 800; font-display: swap; }
+@font-face { font-family: 'Barlow'; src: url("/fonts/barlow-extrabolditalic.ttf") format("truetype"); font-style: italic; font-weight: 800; font-display: swap; }
+@font-face { font-family: 'Barlow'; src: url("/fonts/barlow-black.ttf") format("truetype"); font-style: normal; font-weight: 900; font-display: swap; }
+@font-face { font-family: 'Barlow'; src: url("/fonts/barlow-blackitalic.ttf") format("truetype"); font-style: italic; font-weight: 900; font-display: swap; }
+
+@font-face { font-family: 'Archivo Black'; src: url("/fonts/archivoblack-regular.ttf") format("truetype"); font-style: normal; font-weight: 400; font-display: swap; }
+
+/* ===== Variables ===== */
+:root {
+  --ink: #08090c;
+  --ink-2: #101318;
+  --ink-3: #171b22;
+  --line: rgba(255,255,255,.10);
+  --line-2: rgba(255,255,255,.18);
+  --red: #d81020;
+  --red-hot: #ff2233;
+  --yellow: #ffd400;
+  --amber: #ffc400;
+  --txt: #f4f5f7;
+  --muted: #9aa2b1;
+}
+
+/* ===== Base ===== */
+.jersey-racing * { box-sizing: border-box; }
+.jersey-racing {
+  background: var(--ink);
+  color: var(--txt);
+  font-family: "Barlow", system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+.jersey-racing ::selection { background: var(--red-hot); color: #fff; }
+
+/* ===== Typography ===== */
+.jersey-racing .display {
+  font-family: "Archivo Black", Impact, sans-serif;
+  letter-spacing: -.015em;
+  line-height: .92;
+  text-transform: uppercase;
+}
+.jersey-racing .cond {
+  font-family: "Barlow Condensed", sans-serif;
+  text-transform: uppercase;
+  letter-spacing: .06em;
+}
+
+/* ===== Textures ===== */
+.jersey-racing .speedlines {
+  background-image: repeating-linear-gradient(115deg,
+    rgba(255,255,255,.055) 0px, rgba(255,255,255,.055) 2px,
+    transparent 2px, transparent 11px);
+}
+.jersey-racing .grid-tex {
+  background-image: linear-gradient(rgba(255,255,255,.035) 1px,transparent 1px),
+                   linear-gradient(90deg,rgba(255,255,255,.035) 1px,transparent 1px);
+  background-size: 56px 56px;
+}
+
+/* ===== Diagonal Slash Dividers ===== */
+.jersey-racing .slash-top { clip-path: polygon(0 3.2vw,100% 0,100% 100%,0 100%); }
+.jersey-racing .slash-both { clip-path: polygon(0 3.2vw,100% 0,100% calc(100% - 3.2vw),0 100%); }
+
+/* ===== Kicker ===== */
+.jersey-racing .kicker {
+  display: inline-flex;
+  align-items: center;
+  gap: .6rem;
+  font-family: "Barlow Condensed", sans-serif;
+  text-transform: uppercase;
+  letter-spacing: .22em;
+  font-weight: 700;
+  font-size: .8rem;
+  color: var(--yellow);
+}
+.jersey-racing .kicker::before {
+  content: "";
+  width: 26px;
+  height: 3px;
+  background: var(--red-hot);
+  display: block;
+  transform: skewX(-25deg);
+}
+
+/* ===== Buttons ===== */
+.jersey-racing .btn-primary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: .55rem;
+  background: linear-gradient(100deg, var(--red-hot), var(--red));
+  box-shadow: 0 10px 30px -8px rgba(255,34,51,.55), inset 0 1px 0 rgba(255,255,255,.25);
+  transition: transform .18s ease, box-shadow .18s ease, filter .18s ease;
+  font-family: "Barlow Condensed", sans-serif;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: .06em;
+  white-space: nowrap;
+  text-decoration: none;
+}
+.jersey-racing .btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 16px 38px -8px rgba(255,34,51,.7), inset 0 1px 0 rgba(255,255,255,.3);
+  filter: saturate(1.1);
+}
+.jersey-racing .btn-ghost {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: .55rem;
+  border: 1.5px solid var(--line-2);
+  transition: border-color .18s ease, background .18s ease, transform .18s ease;
+  font-family: "Barlow Condensed", sans-serif;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: .06em;
+  white-space: nowrap;
+  text-decoration: none;
+  color: var(--txt);
+  background: transparent;
+}
+.jersey-racing .btn-ghost:hover {
+  border-color: rgba(255,255,255,.5);
+  background: rgba(255,255,255,.06);
+  transform: translateY(-2px);
+}
+
+/* ===== Cards ===== */
+.jersey-racing .card {
+  background: linear-gradient(180deg, var(--ink-3), var(--ink-2));
+  border: 1px solid var(--line);
+}
+.jersey-racing .card-hi {
+  border-color: rgba(255,34,51,.45);
+  box-shadow: 0 0 0 1px rgba(255,34,51,.14), 0 24px 60px -30px rgba(255,34,51,.5);
+}
+
+/* ===== Price Toggle ===== */
+.jersey-racing .pricetab {
+  color: #9aa2b1;
+  background: transparent;
+  cursor: pointer;
+  border: none;
+  font-family: "Barlow Condensed", sans-serif;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: .14em;
+  padding: .65rem 1.5rem;
+  border-radius: 9999px;
+  transition: all .2s ease;
+}
+.jersey-racing .pricetab:hover { color: #fff; }
+.jersey-racing .pricetab.is-on {
+  background: var(--red);
+  color: #fff;
+  box-shadow: 0 8px 24px -12px rgba(255,34,51,.8);
+}
+
+/* ===== Number Badge (Racing Skew) ===== */
+.jersey-racing .numtag {
+  font-family: "Archivo Black", sans-serif;
+  transform: skewX(-10deg);
+  background: linear-gradient(140deg, var(--red-hot), var(--red));
+}
+.jersey-racing .numtag span {
+  display: block;
+  transform: skewX(10deg);
+}
+
+/* ===== Reveal on Scroll ===== */
+.jersey-racing .rv {
+  opacity: 0;
+  transform: translateY(26px);
+  transition: opacity .7s cubic-bezier(.2,.7,.2,1), transform .7s cubic-bezier(.2,.7,.2,1);
+}
+.jersey-racing .rv.in { opacity: 1; transform: none; }
+.jersey-racing .rv-l {
+  opacity: 0;
+  transform: translateX(-38px);
+  transition: opacity .8s cubic-bezier(.2,.7,.2,1), transform .8s cubic-bezier(.2,.7,.2,1);
+}
+.jersey-racing .rv-r {
+  opacity: 0;
+  transform: translateX(38px);
+  transition: opacity .8s cubic-bezier(.2,.7,.2,1), transform .8s cubic-bezier(.2,.7,.2,1);
+}
+.jersey-racing .rv-z {
+  opacity: 0;
+  transform: scale(.93);
+  transition: opacity .8s cubic-bezier(.2,.7,.2,1), transform .8s cubic-bezier(.2,.7,.2,1);
+}
+.jersey-racing .rv-l.in, .jersey-racing .rv-r.in, .jersey-racing .rv-z.in { opacity: 1; transform: none; }
+
+/* Hero entrance */
+.jersey-racing .hero-up {
+  opacity: 0;
+  transform: translateY(30px);
+  animation: heroUp .9s cubic-bezier(.2,.7,.2,1) forwards;
+}
+@keyframes heroUp { to { opacity: 1; transform: none; } }
+
+/* Swipe underline */
+.jersey-racing .swipe { position: relative; }
+.jersey-racing .swipe::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -14px;
+  height: 3px;
+  width: 0;
+  background: linear-gradient(90deg, var(--red), var(--yellow));
+  transition: width .9s cubic-bezier(.2,.7,.2,1) .15s;
+}
+.jersey-racing .swipe.in::after { width: 88px; }
+
+/* Scroll cue */
+.jersey-racing .scrollcue { animation: cueBob 2.4s ease-in-out infinite; }
+@keyframes cueBob { 0%,100% { transform: translateY(0); } 50% { transform: translateY(7px); } }
+
+/* Stat numbers */
+.jersey-racing .statnum { font-variant-numeric: tabular-nums; }
+
+@media (prefers-reduced-motion: reduce) {
+  .jersey-racing .rv, .jersey-racing .rv-l, .jersey-racing .rv-r, .jersey-racing .rv-z { opacity: 1; transform: none; transition: none; }
+  .jersey-racing .hero-up { opacity: 1; transform: none; animation: none; }
+  .jersey-racing .swipe.in::after { width: 88px; transition: none; }
+  .jersey-racing .scrollcue { animation: none; }
+}
+
+/* ===== Customization Callouts ===== */
+.jersey-racing .cal {
+  position: absolute;
+  transform: translate(-50%,-50%);
+  display: flex;
+  align-items: center;
+  gap: .5rem;
+  white-space: nowrap;
+}
+.jersey-racing .cal[data-side="left"] { flex-direction: row-reverse; }
+.jersey-racing .hot {
+  position: relative;
+  flex: 0 0 auto;
+  width: clamp(12px,1.4vw,16px);
+  height: clamp(12px,1.4vw,16px);
+  border-radius: 9999px;
+  background: var(--red-hot);
+  box-shadow: 0 0 0 3px rgba(255,34,51,.25), 0 0 14px rgba(255,34,51,.75);
+}
+.jersey-racing .hot::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 9999px;
+  border: 2px solid rgba(255,255,255,.9);
+}
+.jersey-racing .cal b {
+  font-family: "Barlow Condensed", sans-serif;
+  text-transform: uppercase;
+  letter-spacing: .07em;
+  font-size: clamp(.6rem,1.15vw,.82rem);
+  font-weight: 700;
+  color: var(--yellow);
+  background: rgba(8,9,12,.88);
+  border: 1px solid rgba(255,212,0,.35);
+  padding: .22em .6em;
+  border-radius: 3px;
+  line-height: 1.25;
+  backdrop-filter: blur(4px);
+}
+.jersey-racing .cal[data-side="left"] { transform: translate(-8%,-50%); }
+.jersey-racing .cal[data-side="right"] { transform: translate(-92%,-50%); }
+.jersey-racing .cal[data-center] { transform: translate(-50%,-50%); flex-direction: column; gap: .35rem; }
+
+/* ===== Horizontal Scroll Affordance ===== */
+.jersey-racing .scroll-x { position: relative; }
+.jersey-racing .scroll-x::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  width: 44px;
+  pointer-events: none;
+  background: linear-gradient(to left, var(--ink-3), transparent);
+}
+@media (min-width: 640px) { .jersey-racing .scroll-x::after { display: none; } }
+
+/* ===== FAQ ===== */
+.jersey-racing details[open] .faq-ico { transform: rotate(45deg); }
+.jersey-racing .faq-ico { transition: transform .22s ease; }
+.jersey-racing details summary::-webkit-details-marker { display: none; }
+
+/* ===== Comparison Table ===== */
+.jersey-racing table.cmp th, .jersey-racing table.cmp td { border-bottom: 1px solid var(--line); }
+.jersey-racing table.cmp tr:last-child td { border-bottom: none; }
