@@ -498,14 +498,14 @@ export default function JerseyRacingLanding({ products }: Props) {
                 alt="Diagram bagian jersey TNT Sport Apparel yang bisa dicustom: logo tim, nomor start, nama rider, logo sponsor"
                 className="w-full h-auto block"
               />
-              {/* Callout hotspots - smaller on mobile */}
-              <span className="cal" style={{ left: "43%", top: "20%" }} data-side="left"><i className="hot" /><b className="hidden sm:inline">Logo Tim</b></span>
-              <span className="cal" style={{ left: "50%", top: "34%" }} data-side="right"><i className="hot" /><b className="hidden sm:inline">Panel Sponsor</b></span>
-              <span className="cal" style={{ left: "50%", top: "47%" }} data-side="right"><i className="hot" /><b className="hidden sm:inline">Nomor Start</b></span>
-              <span className="cal" style={{ left: "20%", top: "33%" }} data-side="left"><i className="hot" /><b className="hidden sm:inline">Area Lengan</b></span>
-              <span className="cal" style={{ left: "80%", top: "33%" }} data-side="right"><i className="hot" /><b className="hidden sm:inline">Nama Rider</b></span>
-              <span className="cal" style={{ left: "26%", top: "63%" }} data-side="left"><i className="hot" /><b className="hidden sm:inline">Warna Tim</b></span>
-              <span className="cal" style={{ left: "74%", top: "63%" }} data-side="right"><i className="hot" /><b className="hidden sm:inline">Motif Racing</b></span>
+              {/* Callout hotspots */}
+              <span className="cal" style={{ left: "43%", top: "20%" }} data-side="left"><i className="hot" /><b>Logo Tim</b></span>
+              <span className="cal" style={{ left: "50%", top: "34%" }} data-side="right"><i className="hot" /><b>Panel Sponsor</b></span>
+              <span className="cal" style={{ left: "50%", top: "47%" }} data-side="right"><i className="hot" /><b>Nomor Start</b></span>
+              <span className="cal" style={{ left: "20%", top: "33%" }} data-side="left"><i className="hot" /><b>Area Lengan</b></span>
+              <span className="cal" style={{ left: "80%", top: "33%" }} data-side="right"><i className="hot" /><b>Nama Rider</b></span>
+              <span className="cal" style={{ left: "26%", top: "63%" }} data-side="left"><i className="hot" /><b>Warna Tim</b></span>
+              <span className="cal" style={{ left: "74%", top: "63%" }} data-side="right"><i className="hot" /><b>Motif Racing</b></span>
             </div>
             <p className="text-[.75rem] sm:text-[.8rem] mt-2 sm:mt-3.5 italic" style={{ color: "#7c8492" }}>
               Visual ilustrasi — area bertanda bisa dicustom di paket custom (min. 6 pcs). Untuk order satuan: nama, nomor start, logo tim &amp; sponsor saja.
