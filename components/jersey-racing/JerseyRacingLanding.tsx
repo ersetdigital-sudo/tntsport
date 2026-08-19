@@ -502,7 +502,7 @@ export default function JerseyRacingLanding({ products }: Props) {
               <p className="text-[1.05rem] leading-relaxed mb-8" style={{ color: "#b3bac6" }}>
                 Di paket <strong className="text-white">custom minimal 6 pcs</strong>, setiap bagian bisa diatur sesuai identitas tim kamu. Ini yang biasanya paling sering dicustom:
               </p>
-              <ul className="grid sm:grid-cols-2 gap-x-6 gap-y-4">
+              <ul className="grid grid-cols-2 gap-x-4 gap-y-3 sm:gap-x-6 sm:gap-y-4">
                 {[
                   "Logo Tim",
                   "Nomor Start",
