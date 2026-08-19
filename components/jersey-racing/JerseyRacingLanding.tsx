@@ -480,17 +480,17 @@ export default function JerseyRacingLanding({ products }: Props) {
       </section>
 
       {/* ===== 4. DETAIL CUSTOMIZATION ===== */}
-      <section id="custom" className="bg-[var(--ink-2)] slash-both speedlines">
-        <div className="mx-auto max-w-7xl px-5 sm:px-8 py-16 sm:py-24">
-          <div className="max-w-3xl rv">
-            <p className="kicker">Detail Customization</p>
-            <h2 className="display mt-4" style={{ fontSize: "clamp(1.9rem,4.8vw,3.4rem)" }}>
+      <section id="custom" className="relative py-20 sm:py-28 bg-[var(--ink-2)] slash-both speedlines">
+        <div className="mx-auto max-w-7xl px-5 sm:px-8 pt-8">
+          <div className="max-w-3xl mb-14">
+            <p className="kicker mb-5 rv">Detail Customization</p>
+            <h2 className="display text-[clamp(1.8rem,5vw,3.3rem)] rv swipe">
               Bebas Custom Detail Yang Bikin Jersey Kamu{" "}
               <span style={{ color: "var(--red-hot)" }}>Punya Karakter</span>
             </h2>
           </div>
 
-          <div className="mt-12 grid lg:grid-cols-[1.15fr,.85fr] gap-10 lg:gap-14 items-center">
+          <div className="grid lg:grid-cols-[1.15fr,.85fr] gap-10 lg:gap-14 items-center">
             {/* Left: Jersey diagram with callouts */}
             <div className="relative rv">
               <div className="card rounded-lg overflow-hidden relative">
@@ -518,7 +518,7 @@ export default function JerseyRacingLanding({ products }: Props) {
               <p className="text-[1.05rem] leading-relaxed mb-8" style={{ color: "#b3bac6" }}>
                 Di paket <strong className="text-white">custom minimal 6 pcs</strong>, setiap bagian bisa diatur sesuai identitas tim kamu. Ini yang biasanya paling sering dicustom:
               </p>
-              <ul className="grid grid-cols-2 gap-x-4 gap-y-3 sm:gap-x-6 sm:gap-y-4">
+              <ul className="grid sm:grid-cols-2 gap-x-6 gap-y-4">
                 {[
                   "Logo Tim",
                   "Nomor Start",
@@ -540,8 +540,7 @@ export default function JerseyRacingLanding({ products }: Props) {
                 href={waLink("Halo TNT SPORT APPAREL, saya mau custom jersey racing. Ini detail yang saya butuhkan:")}
                 target="_blank"
                 rel="noopener"
-                className="btn-primary cond inline-block text-white font-bold text-base px-7 py-3.5 mt-9"
-                style={{ borderRadius: "6px" }}
+                className="btn-primary cond inline-block text-white font-bold text-base px-7 py-3.5 rounded mt-9"
               >
                 Diskusi Detail Desain →
               </a>
