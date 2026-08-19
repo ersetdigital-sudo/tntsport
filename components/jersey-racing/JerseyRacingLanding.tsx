@@ -76,6 +76,9 @@ export default function JerseyRacingLanding({ products }: Props) {
   const [galleryActive, setGalleryActive] = useState<number | null>(null);
   const [catalogActive, setCatalogActive] = useState<number | null>(null);
   const heroArtRef = useRef<HTMLDivElement>(null);
+  const trustRef = useRef<HTMLDivElement>(null);
+  const trustTrackRef = useRef<HTMLDivElement>(null);
+  const trustPaused = useRef(false);
 
   useEffect(() => {
     const heroArt = heroArtRef.current;
@@ -89,6 +92,26 @@ export default function JerseyRacingLanding({ products }: Props) {
 
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+
+  // Trust bar marquee
+  useEffect(() => {
+    const track = trustTrackRef.current;
+    if (!track) return;
+    let pos = 0;
+    let raf: number;
+    const speed = 0.6;
+    const animate = () => {
+      if (!trustPaused.current) {
+        pos -= speed;
+        const half = track.scrollWidth / 2;
+        if (Math.abs(pos) >= half) pos = 0;
+        track.style.transform = `translateX(${pos}px)`;
+      }
+      raf = requestAnimationFrame(animate);
+    };
+    raf = requestAnimationFrame(animate);
+    return () => cancelAnimationFrame(raf);
   }, []);
 
   const waLink = (msg: string) => buildWhatsAppLink(WA_NUMBER, msg);
@@ -195,9 +218,9 @@ export default function JerseyRacingLanding({ products }: Props) {
 
       {/* ===== TRUST BAR ===== */}
       <section className="bg-[var(--red)] speedlines overflow-hidden">
-        <div className="py-4">
-          <div className="mq-track flex whitespace-nowrap">
-            {[...TRUST_ITEMS, ...TRUST_ITEMS, ...TRUST_ITEMS].map((item, i) => (
+        <div ref={trustRef} className="py-4 overflow-hidden" onMouseEnter={() => { trustPaused.current = true; }} onMouseLeave={() => { trustPaused.current = false; }}>
+          <div ref={trustTrackRef} className="flex whitespace-nowrap">
+            {[...TRUST_ITEMS, ...TRUST_ITEMS, ...TRUST_ITEMS, ...TRUST_ITEMS].map((item, i) => (
               <span key={i} className="inline-flex items-center gap-2 cond font-bold text-sm sm:text-base px-4 shrink-0">
                 <svg className="w-4 h-4 shrink-0" viewBox="0 0 20 20" fill="none" stroke="#fff" strokeWidth="2.6" strokeLinecap="round" strokeLinejoin="round"><path d="M4 10.5l4 4 8-9" /></svg>
                 {item}
