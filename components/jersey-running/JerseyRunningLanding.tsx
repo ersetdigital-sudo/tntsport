@@ -710,6 +710,40 @@ export default function JerseyRunningLanding({ products, waNumber }: Props) {
         </div>
       </section>
 
+      {/* ===== 10.5 FOTO GALERI BERJALAN ===== */}
+      <section id="galeri" className="relative py-12 sm:py-16">
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+          <div className="max-w-3xl mb-4">
+            <p className="kicker">Foto Hasil Jersey</p>
+            <h2 className="mt-3 font-display text-2xl leading-tight sm:text-3xl lg:text-[2.2rem]">
+              Bukan Edit, <span className="text-sunrise">Bukan Rekayasa</span>
+            </h2>
+            <p className="mt-2 text-xs sm:text-sm" style={{ color: "var(--muted-2)" }}>Foto asli dari pelanggan</p>
+          </div>
+        </div>
+        <div className="gal-wrap mt-5">
+          <div className="gal-track">
+            {Array.from({ length: 2 }).map((_, dup) =>
+              GALLERY_IMAGES.map((g, i) => (
+                <button key={`${dup}-${i}`} type="button" onClick={() => setGalleryLightbox(dup === 0 ? i : null)} className="gal-item">
+                  <img src={g.src} alt={dup === 1 ? "" : g.alt} loading="lazy" />
+                </button>
+              ))
+            )}
+          </div>
+        </div>
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 mt-6 text-center">
+          <a
+            href={waLink("Halo TNT SPORT APPAREL, saya lihat galeri hasil jersey pelanggan, saya mau order seperti itu!")}
+            target="_blank"
+            rel="noopener"
+            className="btn btn-primary px-7 py-3.5 text-sm"
+          >
+            🏃 Mau Jersey Seperti Ini? Order Sekarang
+          </a>
+        </div>
+      </section>
+
       {/* ===== 11. FAQ ===== */}
       <section id="faq" className="relative py-20 sm:py-24 lg:py-28">
         <div className="absolute inset-0 tex-grid opacity-40" aria-hidden="true" />
