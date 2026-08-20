@@ -285,7 +285,7 @@ export default function JerseyMancingLanding({ products, waNumber }: Props) {
                     {p.image.includes("placeholder") ? (
                       <span>KODE {String(i + 1).padStart(2, "0")}</span>
                     ) : (
-                      <img src={p.image} alt={p.alt} className="w-full h-full object-cover transition-transform duration-500 hover:scale-105" loading="lazy" />
+                      <img src={p.image} alt={p.alt} className="transition-transform duration-500 hover:scale-105" loading="lazy" />
                     )}
                   </div>
                 </button>

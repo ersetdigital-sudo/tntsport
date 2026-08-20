@@ -176,12 +176,18 @@
   box-shadow: 0 14px 30px rgba(6,26,46,.12);
 }
 .jmf .catalog-thumb {
-  aspect-ratio: 3/4;
   width: 100%;
   display: flex;
   align-items: center;
   justify-content: center;
   background: linear-gradient(150deg, #0B2743 0%, #12303A 55%, #1E4550 100%);
+  padding: 1rem;
+}
+.jmf .catalog-thumb img {
+  width: 100%;
+  height: auto;
+  object-fit: contain;
+  display: block;
 }
 .jmf .catalog-thumb span {
   font-family: 'Barlow', sans-serif;
