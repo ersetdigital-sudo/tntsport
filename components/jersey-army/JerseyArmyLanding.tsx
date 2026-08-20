@@ -100,31 +100,31 @@ export default function JerseyArmyLanding({ products, waNumber }: Props) {
   return (
     <div className="ja camo">
       {/* ===== 1. HERO ===== */}
-      <section className="relative min-h-[92vh] flex items-center overflow-hidden">
+      <section className="relative min-h-[80vh] sm:min-h-[92vh] flex items-center overflow-hidden pt-12 sm:pt-0">
         <img src="/landing/jersey-army/df62916f-610f-46cc-a278-6b32be359ad2.png" alt="Rak jersey Army Collection di studio gelap" className="absolute inset-0 w-full h-full object-cover object-center" style={{ opacity: 0.6 }} />
         <div className="absolute inset-0" style={{ background: "linear-gradient(90deg,rgba(7,10,8,.95) 0%,rgba(7,10,8,.72) 45%,rgba(7,10,8,.35) 100%)" }} />
         <div className="absolute inset-x-0 bottom-0 h-48" style={{ background: "linear-gradient(to top,var(--black),transparent)" }} />
-        <div className="relative max-w-6xl mx-auto px-5 py-24 w-full">
-          <p className="cond gold text-xs sm:text-sm mb-5">Army Collection</p>
-          <h1 className="display text-[2.5rem] sm:text-6xl md:text-7xl lg:text-9xl max-w-4xl">
+        <div className="relative max-w-6xl mx-auto px-5 py-12 sm:py-24 w-full">
+          <p className="cond gold text-xs sm:text-sm mb-4 sm:mb-5">Army Collection</p>
+          <h1 className="display text-[2.2rem] sm:text-5xl md:text-6xl lg:text-9xl max-w-4xl leading-[1.05] sm:leading-[.92]">
             TAMPIL SOLID.<br /><span className="gold">TAMPIL BERKARAKTER.</span>
           </h1>
-          <p className="cond text-sm sm:text-base mt-6" style={{ color: "rgba(244,241,232,.85)" }}>Jersey Army untuk tim yang punya identitas</p>
-          <div className="rule my-8 max-w-md" />
-          <p className="max-w-xl text-base sm:text-lg leading-relaxed" style={{ color: "rgba(244,241,232,.8)" }}>
+          <p className="cond text-xs sm:text-base mt-4 sm:mt-6" style={{ color: "rgba(244,241,232,.85)" }}>Jersey Army untuk tim yang punya identitas</p>
+          <div className="rule my-6 sm:my-8 max-w-md" />
+          <p className="max-w-xl text-sm sm:text-lg leading-relaxed" style={{ color: "rgba(244,241,232,.8)" }}>
             Bukan sekadar jersey warna hijau. <strong className="text-[var(--cream)]">Army Collection</strong> dibuat untuk kamu yang ingin tampil
             <strong className="text-[var(--cream)]"> kompak, tangguh, dan berbeda</strong> bersama tim, komunitas, instansi, maupun organisasi.
             Desain bergaya <strong className="text-[var(--cream)]">military &amp; tactical</strong>, siap menemani berbagai aktivitas.
           </p>
-          <div className="mt-10 flex flex-wrap items-center gap-4">
-            <a href="#katalog" className="btn"><span>Pilih Desain Army</span><span className="ico" aria-hidden="true">↗</span></a>
-            <span className="cond text-xs sm:text-sm" style={{ color: "rgba(244,241,232,.7)" }}>20+ desain siap custom</span>
+          <div className="mt-8 sm:mt-10 flex flex-wrap items-center gap-3 sm:gap-4">
+            <a href="#katalog" className="btn text-sm sm:text-base px-5 sm:px-8 py-3 sm:py-4"><span>Pilih Desain Army</span><span className="ico" aria-hidden="true">↗</span></a>
+            <span className="cond text-[10px] sm:text-sm" style={{ color: "rgba(244,241,232,.7)" }}>20+ desain siap custom</span>
           </div>
         </div>
       </section>
 
       {/* ===== 2. IDENTITAS ===== */}
-      <section className="py-24 sm:py-32" style={{ borderTop: "1px solid rgba(181,155,91,.15)" }}>
+      <section className="py-14 sm:py-24 lg:py-32" style={{ borderTop: "1px solid rgba(181,155,91,.15)" }}>
         <div className="max-w-6xl mx-auto px-5 grid lg:grid-cols-12 gap-12 items-center">
           <div className="lg:col-span-7 fade-l">
             <h2 className="display text-4xl sm:text-5xl lg:text-7xl">SATU TIM.<br /><span className="gold">SATU IDENTITAS.</span></h2>
@@ -147,20 +147,20 @@ export default function JerseyArmyLanding({ products, waNumber }: Props) {
       </section>
 
       {/* ===== 3. TACTICAL ===== */}
-      <section className="py-24 sm:py-32" style={{ background: "linear-gradient(180deg,rgba(25,53,36,.35),transparent)" }}>
+      <section className="py-14 sm:py-24 lg:py-32" style={{ background: "linear-gradient(180deg,rgba(25,53,36,.35),transparent)" }}>
         <div className="max-w-5xl mx-auto px-5 text-center fadeup">
-          <h2 className="display text-3xl sm:text-5xl lg:text-6xl">DESAIN TACTICAL YANG BIKIN TIM<br className="hidden sm:block" /> TERLIHAT LEBIH <span className="gold">BERKARAKTER</span></h2>
-          <p className="mt-7 text-lg max-w-2xl mx-auto leading-relaxed" style={{ color: "rgba(244,241,232,.78)" }}>
+          <h2 className="display text-2xl sm:text-4xl lg:text-6xl">DESAIN TACTICAL YANG BIKIN TIM<br className="hidden sm:block" /> TERLIHAT LEBIH <span className="gold">BERKARAKTER</span></h2>
+          <p className="mt-5 sm:mt-7 text-sm sm:text-lg max-w-2xl mx-auto leading-relaxed" style={{ color: "rgba(244,241,232,.78)" }}>
             Setiap desain Army Collection punya karakter <strong className="text-[var(--cream)]">military, tactical, dan rugged</strong> yang cocok untuk berbagai kebutuhan.
           </p>
-          <div className="rule my-10" />
-          <p className="cond text-xs sm:text-sm mb-5" style={{ color: "rgba(244,241,232,.65)" }}>Cocok untuk</p>
-          <div className="flex flex-wrap justify-center gap-3">
+          <div className="rule my-8 sm:my-10" />
+          <p className="cond text-[10px] sm:text-sm mb-4" style={{ color: "rgba(244,241,232,.65)" }}>Cocok untuk</p>
+          <div className="flex flex-wrap justify-center gap-2">
             {["Komunitas", "Instansi", "Corporate", "Organisasi", "Tim Outdoor", "Event", "Gathering"].map((item) => (
-              <span key={item} className="cond text-xs sm:text-sm px-4 py-2" style={{ border: "1px solid rgba(181,155,91,.35)" }}>{item}</span>
+              <span key={item} className="cond text-[10px] sm:text-sm px-2.5 sm:px-4 py-1 sm:py-2" style={{ border: "1px solid rgba(181,155,91,.35)" }}>{item}</span>
             ))}
           </div>
-          <div className="mt-14 grid sm:grid-cols-3 gap-5 text-left">
+          <div className="mt-10 sm:mt-14 grid sm:grid-cols-3 gap-4 text-left">
             <div className="card p-7"><p className="display text-3xl">MAU TAMPIL FORMAL?</p><p className="cond gold mt-3 text-sm">Bisa.</p></div>
             <div className="card p-7"><p className="display text-3xl">MAU TERLIHAT TACTICAL?</p><p className="cond gold mt-3 text-sm">Bisa.</p></div>
             <div className="card p-7"><p className="display text-3xl">MAU LEBIH AGRESIF?</p><p className="cond gold mt-3 text-sm">Tinggal pilih modelnya.</p></div>
@@ -169,7 +169,7 @@ export default function JerseyArmyLanding({ products, waNumber }: Props) {
       </section>
 
       {/* ===== 4. PROSES ===== */}
-      <section id="pilih" className="py-24 sm:py-32" style={{ borderTop: "1px solid rgba(181,155,91,.15)" }}>
+      <section id="pilih" className="py-14 sm:py-24 lg:py-32" style={{ borderTop: "1px solid rgba(181,155,91,.15)" }}>
         <div className="max-w-6xl mx-auto px-5 grid lg:grid-cols-2 gap-14 items-start">
           <div className="fadeup">
             <h2 className="display text-3xl sm:text-5xl lg:text-6xl">PILIH DESAINNYA.<br /><span className="gold">KAMI YANG BIKIN JADI MILIK TIMMU.</span></h2>
@@ -194,7 +194,7 @@ export default function JerseyArmyLanding({ products, waNumber }: Props) {
       </section>
 
       {/* ===== 5. ALASAN ===== */}
-      <section className="py-24 sm:py-32" style={{ background: "linear-gradient(180deg,transparent,rgba(25,53,36,.4),transparent)" }}>
+      <section className="py-14 sm:py-24 lg:py-32" style={{ background: "linear-gradient(180deg,transparent,rgba(25,53,36,.4),transparent)" }}>
         <div className="max-w-6xl mx-auto px-5">
           <h2 className="display text-3xl sm:text-5xl lg:text-6xl max-w-3xl fadeup">KENAPA BANYAK TIM MEMILIH <span className="gold">JERSEY CUSTOM?</span></h2>
           <div className="rule my-10" />
@@ -222,7 +222,7 @@ export default function JerseyArmyLanding({ products, waNumber }: Props) {
       </section>
 
       {/* ===== 6. HARGA ===== */}
-      <section id="harga" className="relative py-24 sm:py-32 overflow-hidden" style={{ borderTop: "1px solid rgba(181,155,91,.15)" }}>
+      <section id="harga" className="relative py-14 sm:py-24 lg:py-32 overflow-hidden" style={{ borderTop: "1px solid rgba(181,155,91,.15)" }}>
         <div className="gridbg" />
         <div className="relative max-w-6xl mx-auto px-5">
           <div className="text-center fadeup">
@@ -295,7 +295,7 @@ export default function JerseyArmyLanding({ products, waNumber }: Props) {
       </section>
 
       {/* ===== 7. KATALOG ===== */}
-      <section id="katalog" className="py-24 sm:py-32" style={{ borderTop: "1px solid rgba(181,155,91,.15)", background: "linear-gradient(180deg,rgba(25,53,36,.28),transparent)" }}>
+      <section id="katalog" className="py-14 sm:py-24 lg:py-32" style={{ borderTop: "1px solid rgba(181,155,91,.15)", background: "linear-gradient(180deg,rgba(25,53,36,.28),transparent)" }}>
         <div className="max-w-6xl mx-auto px-5">
           <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-6 fadeup">
             <div>
@@ -387,7 +387,7 @@ export default function JerseyArmyLanding({ products, waNumber }: Props) {
       </section>
 
       {/* ===== 9. MANIFESTO ===== */}
-      <section className="py-28 sm:py-36" style={{ borderTop: "1px solid rgba(181,155,91,.15)", borderBottom: "1px solid rgba(181,155,91,.15)" }}>
+      <section className="py-16 sm:py-28 lg:py-36" style={{ borderTop: "1px solid rgba(181,155,91,.15)", borderBottom: "1px solid rgba(181,155,91,.15)" }}>
         <div className="max-w-4xl mx-auto px-5 text-center fadeup">
           <h2 className="display text-3xl sm:text-5xl lg:text-7xl">JANGAN BIARKAN TIMMU <span className="gold">TERLIHAT BIASA.</span></h2>
           <p className="mt-8 text-lg sm:text-xl leading-relaxed" style={{ color: "rgba(244,241,232,.8)" }}>
@@ -400,7 +400,7 @@ export default function JerseyArmyLanding({ products, waNumber }: Props) {
       </section>
 
       {/* ===== 10. CTA ===== */}
-      <section id="cta" className="relative py-28 sm:py-36 overflow-hidden">
+      <section id="cta" className="relative py-16 sm:py-28 lg:py-36 overflow-hidden">
         <div className="absolute inset-0" style={{ opacity: 0.25, background: "radial-gradient(60% 60% at 50% 40%, rgba(49,91,58,.9), transparent 70%)" }} />
         <div className="relative max-w-4xl mx-auto px-5 text-center fadeup">
           <h2 className="display text-4xl sm:text-6xl lg:text-8xl">SIAP BIKIN <span className="gold">JERSEY ARMY</span> TIMMU?</h2>
