@@ -100,18 +100,18 @@ export default function JerseyArmyLanding({ products, waNumber }: Props) {
   return (
     <div className="ja camo">
       {/* ===== 1. HERO ===== */}
-      <section className="relative min-h-[80vh] sm:min-h-[92vh] flex items-center overflow-hidden pt-12 sm:pt-0">
+      <section className="relative min-h-[85vh] sm:min-h-[92vh] flex items-center overflow-hidden pt-10 sm:pt-0">
         <img src="/landing/jersey-army/df62916f-610f-46cc-a278-6b32be359ad2.png" alt="Rak jersey Army Collection di studio gelap" className="absolute inset-0 w-full h-full object-cover object-center" style={{ opacity: 0.6 }} />
         <div className="absolute inset-0" style={{ background: "linear-gradient(90deg,rgba(7,10,8,.95) 0%,rgba(7,10,8,.72) 45%,rgba(7,10,8,.35) 100%)" }} />
         <div className="absolute inset-x-0 bottom-0 h-48" style={{ background: "linear-gradient(to top,var(--black),transparent)" }} />
-        <div className="relative max-w-6xl mx-auto px-5 py-12 sm:py-24 w-full">
-          <p className="cond gold text-xs sm:text-sm mb-4 sm:mb-5">Army Collection</p>
-          <h1 className="display text-[2.2rem] sm:text-5xl md:text-6xl lg:text-9xl max-w-4xl leading-[1.05] sm:leading-[.92]">
+        <div className="relative max-w-6xl mx-auto px-5 py-14 sm:py-24 w-full">
+          <p className="cond gold text-xs sm:text-sm mb-3 sm:mb-5">Army Collection</p>
+          <h1 className="display text-[2.6rem] sm:text-5xl md:text-6xl lg:text-9xl max-w-4xl leading-[1.02] sm:leading-[.92]">
             TAMPIL SOLID.<br /><span className="gold">TAMPIL BERKARAKTER.</span>
           </h1>
           <p className="cond text-xs sm:text-base mt-4 sm:mt-6" style={{ color: "rgba(244,241,232,.85)" }}>Jersey Army untuk tim yang punya identitas</p>
-          <div className="rule my-6 sm:my-8 max-w-md" />
-          <p className="max-w-xl text-sm sm:text-lg leading-relaxed" style={{ color: "rgba(244,241,232,.8)" }}>
+          <div className="rule my-5 sm:my-8 max-w-md" />
+          <p className="max-w-xl text-[0.95rem] sm:text-lg leading-relaxed" style={{ color: "rgba(244,241,232,.8)" }}>
             Bukan sekadar jersey warna hijau. <strong className="text-[var(--cream)]">Army Collection</strong> dibuat untuk kamu yang ingin tampil
             <strong className="text-[var(--cream)]"> kompak, tangguh, dan berbeda</strong> bersama tim, komunitas, instansi, maupun organisasi.
             Desain bergaya <strong className="text-[var(--cream)]">military &amp; tactical</strong>, siap menemani berbagai aktivitas.
