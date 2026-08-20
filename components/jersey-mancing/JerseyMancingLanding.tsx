@@ -429,30 +429,55 @@ export default function JerseyMancingLanding({ products, waNumber }: Props) {
       </section>
 
       {/* ===== 11. OFFER ===== */}
-      <section id="order" className="relative overflow-hidden" style={{ background: "var(--navy-deep)" }}>
-        <div className="absolute inset-0 grid-lines" style={{ opacity: 0.6 }} />
+      <section id="order" className="relative overflow-hidden" style={{ background: "linear-gradient(135deg, var(--navy-deep) 0%, #0D2844 50%, var(--navy) 100%)" }}>
+        <div className="absolute inset-0 grid-lines" style={{ opacity: 0.4 }} />
+        <div className="absolute inset-0" style={{ background: "radial-gradient(ellipse 80% 60% at 80% 20%, rgba(41,171,226,.12), transparent 60%)" }} />
         <div className="relative mx-auto max-w-6xl px-6 py-20 md:py-28">
-          <div className="grid gap-12 md:grid-cols-2 md:items-center">
+          <div className="grid gap-12 lg:grid-cols-[1.1fr_0.9fr] lg:items-center">
             <div className="reveal">
-              <div className="rule mb-6" />
-              <h2 className="text-3xl md:text-4xl text-white">Saatnya bikin jersey tim kamu sendiri</h2>
-              <p className="mt-5 display text-2xl cyan">Jersey Fishing Hoodie Premium</p>
-              <ul className="mt-7 space-y-3 text-lg" style={{ color: "var(--silver)" }}>
-                <li><span className="check">✓</span> Bahan Dry Fit</li>
-                <li><span className="check">✓</span> Ringan &amp; Nyaman</li>
-                <li><span className="check">✓</span> Adem untuk Aktivitas Outdoor</li>
-                <li><span className="check">✓</span> Jahitan Kuat</li>
-                <li><span className="check">✓</span> Desain Fishing Eksklusif</li>
-                <li><span className="check">✓</span> Custom Nameset GRATIS</li>
-                <li><span className="check">✓</span> Custom Logo GRATIS</li>
-                <li><span className="check">✓</span> Custom Sponsor GRATIS</li>
-              </ul>
+              <div className="flex items-center gap-3 mb-6">
+                <div className="rule" />
+                <span className="kicker" style={{ color: "var(--cyan)" }}>Premium Quality</span>
+              </div>
+              <h2 className="text-3xl md:text-4xl lg:text-5xl text-white leading-tight">Saatnya bikin jersey<br />tim kamu sendiri</h2>
+              <p className="mt-5 display text-xl md:text-2xl" style={{ color: "var(--cyan)" }}>Jersey Fishing Hoodie Premium</p>
+              <p className="mt-4 text-lg" style={{ color: "var(--silver)" }}>Bahan dry fit premium, desain eksklusif, custom gratis. Siap menemani setiap petualangan mancing kamu.</p>
+              
+              <div className="mt-8 grid grid-cols-2 gap-4">
+                {[
+                  { icon: "✓", text: "Bahan Dry Fit Premium" },
+                  { icon: "✓", text: "Ringan & Nyaman" },
+                  { icon: "✓", text: "Adem untuk Outdoor" },
+                  { icon: "✓", text: "Jahitan Kuat" },
+                  { icon: "✓", text: "Desain Eksklusif" },
+                  { icon: "✓", text: "Custom GRATIS" },
+                ].map((item, i) => (
+                  <div key={i} className="flex items-center gap-3">
+                    <span className="flex items-center justify-center w-6 h-6 rounded-full text-xs font-bold" style={{ background: "var(--cyan)", color: "var(--navy-deep)" }}>{item.icon}</span>
+                    <span className="text-sm" style={{ color: "var(--silver)" }}>{item.text}</span>
+                  </div>
+                ))}
+              </div>
             </div>
-            <div className="rounded-[18px] p-8 text-center bg-white reveal">
-              <h3 className="text-2xl md:text-3xl" style={{ color: "var(--navy-deep)" }}>Mulai custom sekarang</h3>
-              <a href={wa("Halo, saya ingin mulai custom jersey fishing hoodie premium. Boleh dibantu?")} target="_blank" rel="noopener" className="btn mt-6">Pesan jersey custom</a>
-              <p className="mt-6" style={{ color: "var(--ink-soft)" }}>Kirim nama, logo, atau desain yang kamu punya.</p>
-              <p className="mt-2 font-semibold" style={{ color: "var(--navy-deep)" }}>Biar kami bantu wujudkan jersey fishing impianmu.</p>
+            
+            <div className="reveal">
+              <div className="relative rounded-[24px] p-8 md:p-10" style={{ background: "linear-gradient(180deg, rgba(255,255,255,.08) 0%, rgba(255,255,255,.02) 100%)", border: "1px solid rgba(255,255,255,.1)", backdropFilter: "blur(8px)" }}>
+                <div className="absolute -top-4 left-8 px-4 py-1.5 rounded-full text-xs font-bold tracking-wider" style={{ background: "var(--orange)", color: "#fff" }}>
+                  LIMITED OFFER
+                </div>
+                <p className="kicker mt-2" style={{ color: "var(--silver)" }}>Mulai custom sekarang</p>
+                <div className="mt-4 flex items-baseline gap-2">
+                  <span className="display text-4xl md:text-5xl" style={{ color: "var(--orange)" }}>Rp135.000</span>
+                  <span className="text-lg" style={{ color: "var(--silver)" }}>/jersey</span>
+                </div>
+                <p className="mt-3 text-sm" style={{ color: "var(--silver)" }}>Sudah termasuk custom nameset, logo, dan sponsor GRATIS.</p>
+                <div className="mt-6 pt-6" style={{ borderTop: "1px solid rgba(255,255,255,.1)" }}>
+                  <a href={wa("Halo, saya ingin mulai custom jersey fishing hoodie premium. Boleh dibantu?")} target="_blank" rel="noopener" className="btn w-full text-center text-lg py-4">
+                    🎣 Pesan Jersey Custom
+                  </a>
+                </div>
+                <p className="mt-4 text-center text-xs" style={{ color: "var(--silver)" }}>Kirim nama, logo, atau desain yang kamu punya</p>
+              </div>
             </div>
           </div>
         </div>
