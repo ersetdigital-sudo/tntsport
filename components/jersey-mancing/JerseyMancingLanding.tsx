@@ -18,6 +18,46 @@ interface Props {
 
 const WA_DEFAULT = "628115491117";
 
+const POPUP_DATA = [
+  ["Andri - Jakarta","Jersey Mancing Custom Full Printing","3 menit yang lalu"],
+  ["Rizky - Surabaya","Jersey Mancing Satuan + Nama & Logo","7 menit yang lalu"],
+  ["Dimas - Bandung","Custom Desain Full Team 12 pcs","11 menit yang lalu"],
+  ["Fajar - Yogyakarta","Jersey Mancing Custom Full Printing","15 menit yang lalu"],
+  ["Aldi - Semarang","Jersey Mancing Satuan + Logo Sponsor","19 menit yang lalu"],
+  ["Nanda - Makassar","Custom Desain Full Team 8 pcs","23 menit yang lalu"],
+];
+
+function usePopup() {
+  const [visible, setVisible] = useState(false);
+  const [data, setData] = useState(POPUP_DATA[0]);
+  const idx = useRef(0);
+  const stopped = useRef(false);
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      const show = () => {
+        if (stopped.current) return;
+        setData(POPUP_DATA[idx.current % POPUP_DATA.length]);
+        idx.current++;
+        setVisible(true);
+        setTimeout(() => {
+          setVisible(false);
+          setTimeout(show, 4200);
+        }, 5500);
+      };
+      show();
+    }, 3500);
+    return () => clearTimeout(timer);
+  }, []);
+
+  const close = () => {
+    stopped.current = true;
+    setVisible(false);
+  };
+
+  return { visible, data, close };
+}
+
 const CATALOG_NAMES = [
   "Marlin Strike", "Ocean Wave", "Deep Blue", "Sunset Cast",
   "Tuna Hunter", "Reef Camo", "Night Spot", "Coral Reef",
@@ -53,6 +93,7 @@ export default function JerseyMancingLanding({ products, waNumber }: Props) {
   useScrollReveal();
   const [catalogActive, setCatalogActive] = useState<number | null>(null);
   const [galleryActive, setGalleryActive] = useState<number | null>(null);
+  const popup = usePopup();
   const wa = (msg: string) => buildWhatsAppLink(waNumber || WA_DEFAULT, msg);
 
   const GALLERY_IMAGES = [
@@ -250,75 +291,6 @@ export default function JerseyMancingLanding({ products, waNumber }: Props) {
         </div>
       </section>
 
-      {/* ===== 7.5 FOTO GALERI BERJALAN ===== */}
-      <section id="galeri" className="relative py-16 sm:py-20" style={{ background: "var(--navy)" }}>
-        <div className="mx-auto max-w-6xl px-6">
-          <div className="max-w-3xl mb-6">
-            <div className="rule mb-6" />
-            <h2 className="text-3xl md:text-4xl text-white">Foto Hasil Jersey Mancing</h2>
-            <p className="mt-3 text-lg" style={{ color: "var(--silver)" }}>Foto asli dari pelanggan — bukan edit, bukan rekayasa.</p>
-          </div>
-        </div>
-        {/* Marquee gallery */}
-        <div className="gal-wrap mt-7">
-          <div className="gal-track">
-            {Array.from({ length: 2 }).map((_, dup) =>
-              GALLERY_IMAGES.map((g, i) => (
-                <button
-                  key={`${dup}-${i}`}
-                  type="button"
-                  onClick={() => setGalleryActive(dup === 0 ? i : null)}
-                  className="gal-item"
-                >
-                  <img src={g.src} alt={dup === 1 ? "" : g.alt} loading="lazy" />
-                </button>
-              ))
-            )}
-          </div>
-        </div>
-        {/* CTA */}
-        <div className="mx-auto max-w-6xl px-6 mt-8 text-center">
-          <a
-            href={wa("Halo TNT SPORT APPAREL, saya lihat galeri hasil jersey pelanggan, saya mau order seperti itu!")}
-            target="_blank"
-            rel="noopener"
-            className="btn"
-          >
-            🎣 Mau Jersey Seperti Ini? Order Sekarang
-          </a>
-        </div>
-        {/* Lightbox */}
-        {galleryActive !== null && GALLERY_IMAGES[galleryActive] && (
-          <div
-            className="fixed inset-0 z-[110] flex items-center justify-center p-4"
-            style={{ background: "rgba(0,0,0,.85)", backdropFilter: "blur(4px)" }}
-            onClick={() => setGalleryActive(null)}
-            role="dialog"
-            aria-modal="true"
-          >
-            <div className="relative my-auto" style={{ maxWidth: "92vw" }} onClick={(e) => e.stopPropagation()}>
-              <button
-                type="button"
-                onClick={() => setGalleryActive(null)}
-                aria-label="Tutup"
-                className="absolute -top-2 -right-2 z-10 grid h-10 w-10 cursor-pointer place-items-center rounded-full text-white shadow-lg"
-                style={{ background: "var(--orange-cta)" }}
-              >
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M6 6l12 12M18 6L6 18" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" /></svg>
-              </button>
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img
-                src={GALLERY_IMAGES[galleryActive].src}
-                alt={GALLERY_IMAGES[galleryActive].alt}
-                className="max-h-[82vh] w-auto max-w-full rounded-2xl object-contain shadow-2xl"
-                style={{ border: "1px solid rgba(255,255,255,.1)" }}
-              />
-              <p className="mt-3 text-center text-sm" style={{ color: "rgba(255,255,255,.6)" }}>{GALLERY_IMAGES[galleryActive].alt}</p>
-            </div>
-          </div>
-        )}
-      </section>
-
       {/* ===== 8. TARGET AUDIENCE ===== */}
       <section className="bg-white">
         <div className="mx-auto max-w-6xl px-6 py-20 md:py-28">
@@ -426,6 +398,44 @@ export default function JerseyMancingLanding({ products, waNumber }: Props) {
                   🎣 Tanya Desain Ini via WhatsApp →
                 </a>
               </div>
+            </div>
+          </div>
+        )}
+      </section>
+
+      {/* ===== 9.5 FOTO GALERI BERJALAN ===== */}
+      <section id="galeri" className="relative py-16 sm:py-20" style={{ background: "var(--navy)" }}>
+        <div className="mx-auto max-w-6xl px-6">
+          <div className="max-w-3xl mb-6">
+            <div className="rule mb-6" />
+            <h2 className="text-3xl md:text-4xl text-white">Foto Hasil Jersey Mancing</h2>
+            <p className="mt-3 text-lg" style={{ color: "var(--silver)" }}>Foto asli dari pelanggan — bukan edit, bukan rekayasa.</p>
+          </div>
+        </div>
+        <div className="gal-wrap mt-7">
+          <div className="gal-track">
+            {Array.from({ length: 2 }).map((_, dup) =>
+              GALLERY_IMAGES.map((g, i) => (
+                <button key={`${dup}-${i}`} type="button" onClick={() => setGalleryActive(dup === 0 ? i : null)} className="gal-item">
+                  <img src={g.src} alt={dup === 1 ? "" : g.alt} loading="lazy" />
+                </button>
+              ))
+            )}
+          </div>
+        </div>
+        <div className="mx-auto max-w-6xl px-6 mt-8 text-center">
+          <a href={wa("Halo TNT SPORT APPAREL, saya lihat galeri hasil jersey pelanggan, saya mau order seperti itu!")} target="_blank" rel="noopener" className="btn">
+            🎣 Mau Jersey Seperti Ini? Order Sekarang
+          </a>
+        </div>
+        {galleryActive !== null && GALLERY_IMAGES[galleryActive] && (
+          <div className="fixed inset-0 z-[110] flex items-center justify-center p-4" style={{ background: "rgba(0,0,0,.85)", backdropFilter: "blur(4px)" }} onClick={() => setGalleryActive(null)} role="dialog" aria-modal="true">
+            <div className="relative my-auto" style={{ maxWidth: "92vw" }} onClick={(e) => e.stopPropagation()}>
+              <button type="button" onClick={() => setGalleryActive(null)} aria-label="Tutup" className="absolute -top-2 -right-2 z-10 grid h-10 w-10 cursor-pointer place-items-center rounded-full text-white shadow-lg" style={{ background: "var(--orange-cta)" }}>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M6 6l12 12M18 6L6 18" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" /></svg>
+              </button>
+              <img src={GALLERY_IMAGES[galleryActive].src} alt={GALLERY_IMAGES[galleryActive].alt} className="max-h-[82vh] w-auto max-w-full rounded-2xl object-contain shadow-2xl" style={{ border: "1px solid rgba(255,255,255,.1)" }} />
+              <p className="mt-3 text-center text-sm" style={{ color: "rgba(255,255,255,.6)" }}>{GALLERY_IMAGES[galleryActive].alt}</p>
             </div>
           </div>
         )}
@@ -594,6 +604,32 @@ export default function JerseyMancingLanding({ products, waNumber }: Props) {
           <p className="mt-12 text-xs" style={{ color: "#5C7488" }}>Jersey Fishing Hoodie Premium — TNT SPORT APPAREL</p>
         </div>
       </footer>
+
+      {/* POPUP NOTIFIKASI */}
+      <div
+        className="fixed left-4 bottom-4 z-50 flex items-center gap-3 p-3 rounded-xl max-w-sm transition-all duration-500"
+        style={{
+          background: "var(--navy-deep)",
+          border: "1px solid var(--line)",
+          borderLeft: "4px solid var(--cyan)",
+          boxShadow: "0 24px 50px -22px rgba(0,0,0,.9)",
+          transform: popup.visible ? "translateY(0)" : "translateY(140%)",
+          opacity: popup.visible ? 1 : 0,
+          pointerEvents: popup.visible ? "auto" : "none",
+        }}
+      >
+        <span className="w-2 h-2 rounded-full shrink-0" style={{ background: "var(--cyan)", boxShadow: "0 0 0 4px rgba(41,171,226,.16)" }} />
+        <div className="min-w-0 flex-1">
+          <p className="text-sm leading-snug">
+            <strong className="text-white">{popup.data[0]}</strong>, baru memesan{" "}
+            <em className="not-italic" style={{ color: "var(--silver)" }}>{popup.data[1]}</em>,{" "}
+            <span style={{ color: "var(--ink-soft)" }}>{popup.data[2]}</span>
+          </p>
+        </div>
+        <button onClick={popup.close} aria-label="Tutup notifikasi" className="shrink-0 text-lg leading-none px-1" style={{ color: "var(--ink-soft)", background: "none", border: "none", cursor: "pointer" }}>
+          ×
+        </button>
+      </div>
     </div>
   );
 }
