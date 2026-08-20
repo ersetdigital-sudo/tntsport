@@ -253,7 +253,7 @@ export default function JerseyRunningLanding({ products, waNumber }: Props) {
               {[...TRUST_ITEMS, ...TRUST_ITEMS, ...TRUST_ITEMS].map((item, i) => (
                 <div key={i} className="flex items-center gap-2.5 px-6 shrink-0">
                   <svg viewBox="0 0 20 20" fill="none" className="h-4 w-4 shrink-0 text-[var(--accent)]" aria-hidden="true"><path d="M4 10.5l4 4 8-9" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round" /></svg>
-                  <span className="font-kicker text-sm uppercase tracking-[0.1em] sm:text-base">{item}</span>
+                  <span className="text-sm font-semibold uppercase tracking-[0.08em] sm:text-base">{item}</span>
                 </div>
               ))}
             </div>
