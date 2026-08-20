@@ -864,7 +864,7 @@ export const CATEGORY_LANDINGS: Record<string, CategoryLandingConfig> = {
 
   mancing: {
     slug: "jersey-mancing",
-    catalogId: "fishing",
+    catalogId: "Fishing",
     eyebrow: "🎣 Custom Jersey Mancing",
     headline: ["Jersey Mancing Custom,", "Tampil Kompak, Tangkap Ikan Lebih PD"],
     headlineSub: "Custom Nama, Nomor & Logo Komunitas",
