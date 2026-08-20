@@ -1,0 +1,360 @@
+/* ============================================================
+   JERSEY ARMY LANDING PAGE — Exact replica of HTML original
+   Military/Tactical theme: dark forest, gold accents
+   ============================================================ */
+
+@font-face { font-family: 'Source Sans 3'; src: url("/fonts/sourcesans3-extralight.ttf") format("truetype"); font-style: normal; font-weight: 200; font-display: swap; }
+@font-face { font-family: 'Source Sans 3'; src: url("/fonts/sourcesans3-extralightitalic.ttf") format("truetype"); font-style: italic; font-weight: 200; font-display: swap; }
+@font-face { font-family: 'Source Sans 3'; src: url("/fonts/sourcesans3-light.ttf") format("truetype"); font-style: normal; font-weight: 300; font-display: swap; }
+@font-face { font-family: 'Source Sans 3'; src: url("/fonts/sourcesans3-lightitalic.ttf") format("truetype"); font-style: italic; font-weight: 300; font-display: swap; }
+@font-face { font-family: 'Source Sans 3'; src: url("/fonts/sourcesans3-regular.ttf") format("truetype"); font-style: normal; font-weight: 400; font-display: swap; }
+@font-face { font-family: 'Source Sans 3'; src: url("/fonts/sourcesans3-italic.ttf") format("truetype"); font-style: italic; font-weight: 400; font-display: swap; }
+@font-face { font-family: 'Source Sans 3'; src: url("/fonts/sourcesans3-medium.ttf") format("truetype"); font-style: normal; font-weight: 500; font-display: swap; }
+@font-face { font-family: 'Source Sans 3'; src: url("/fonts/sourcesans3-mediumitalic.ttf") format("truetype"); font-style: italic; font-weight: 500; font-display: swap; }
+@font-face { font-family: 'Source Sans 3'; src: url("/fonts/sourcesans3-semibold.ttf") format("truetype"); font-style: normal; font-weight: 600; font-display: swap; }
+@font-face { font-family: 'Source Sans 3'; src: url("/fonts/sourcesans3-semibolditalic.ttf") format("truetype"); font-style: italic; font-weight: 600; font-display: swap; }
+@font-face { font-family: 'Source Sans 3'; src: url("/fonts/sourcesans3-bold.ttf") format("truetype"); font-style: normal; font-weight: 700; font-display: swap; }
+@font-face { font-family: 'Source Sans 3'; src: url("/fonts/sourcesans3-bolditalic.ttf") format("truetype"); font-style: italic; font-weight: 700; font-display: swap; }
+@font-face { font-family: 'Source Sans 3'; src: url("/fonts/sourcesans3-extrabold.ttf") format("truetype"); font-style: normal; font-weight: 800; font-display: swap; }
+@font-face { font-family: 'Source Sans 3'; src: url("/fonts/sourcesans3-extrabolditalic.ttf") format("truetype"); font-style: italic; font-weight: 800; font-display: swap; }
+@font-face { font-family: 'Source Sans 3'; src: url("/fonts/sourcesans3-black.ttf") format("truetype"); font-style: normal; font-weight: 900; font-display: swap; }
+@font-face { font-family: 'Source Sans 3'; src: url("/fonts/sourcesans3-blackitalic.ttf") format("truetype"); font-style: italic; font-weight: 900; font-display: swap; }
+@font-face { font-family: 'Bebas Neue'; src: url("/fonts/bebasneue-regular.ttf") format("truetype"); font-style: normal; font-weight: 400; font-display: swap; }
+@font-face { font-family: 'Barlow Condensed'; src: url("/fonts/barlowcondensed-thin.ttf") format("truetype"); font-style: normal; font-weight: 100; font-display: swap; }
+@font-face { font-family: 'Barlow Condensed'; src: url("/fonts/barlowcondensed-thinitalic.ttf") format("truetype"); font-style: italic; font-weight: 100; font-display: swap; }
+@font-face { font-family: 'Barlow Condensed'; src: url("/fonts/barlowcondensed-extralight.ttf") format("truetype"); font-style: normal; font-weight: 200; font-display: swap; }
+@font-face { font-family: 'Barlow Condensed'; src: url("/fonts/barlowcondensed-extralightitalic.ttf") format("truetype"); font-style: italic; font-weight: 200; font-display: swap; }
+@font-face { font-family: 'Barlow Condensed'; src: url("/fonts/barlowcondensed-light.ttf") format("truetype"); font-style: normal; font-weight: 300; font-display: swap; }
+@font-face { font-family: 'Barlow Condensed'; src: url("/fonts/barlowcondensed-lightitalic.ttf") format("truetype"); font-style: italic; font-weight: 300; font-display: swap; }
+@font-face { font-family: 'Barlow Condensed'; src: url("/fonts/barlowcondensed-regular.ttf") format("truetype"); font-style: normal; font-weight: 400; font-display: swap; }
+@font-face { font-family: 'Barlow Condensed'; src: url("/fonts/barlowcondensed-italic.ttf") format("truetype"); font-style: italic; font-weight: 400; font-display: swap; }
+@font-face { font-family: 'Barlow Condensed'; src: url("/fonts/barlowcondensed-medium.ttf") format("truetype"); font-style: normal; font-weight: 500; font-display: swap; }
+@font-face { font-family: 'Barlow Condensed'; src: url("/fonts/barlowcondensed-mediumitalic.ttf") format("truetype"); font-style: italic; font-weight: 500; font-display: swap; }
+@font-face { font-family: 'Barlow Condensed'; src: url("/fonts/barlowcondensed-semibold.ttf") format("truetype"); font-style: normal; font-weight: 600; font-display: swap; }
+@font-face { font-family: 'Barlow Condensed'; src: url("/fonts/barlowcondensed-semibolditalic.ttf") format("truetype"); font-style: italic; font-weight: 600; font-display: swap; }
+@font-face { font-family: 'Barlow Condensed'; src: url("/fonts/barlowcondensed-bold.ttf") format("truetype"); font-style: normal; font-weight: 700; font-display: swap; }
+@font-face { font-family: 'Barlow Condensed'; src: url("/fonts/barlowcondensed-bolditalic.ttf") format("truetype"); font-style: italic; font-weight: 700; font-display: swap; }
+@font-face { font-family: 'Barlow Condensed'; src: url("/fonts/barlowcondensed-extrabold.ttf") format("truetype"); font-style: normal; font-weight: 800; font-display: swap; }
+@font-face { font-family: 'Barlow Condensed'; src: url("/fonts/barlowcondensed-extrabolditalic.ttf") format("truetype"); font-style: italic; font-weight: 800; font-display: swap; }
+@font-face { font-family: 'Barlow Condensed'; src: url("/fonts/barlowcondensed-black.ttf") format("truetype"); font-style: normal; font-weight: 900; font-display: swap; }
+@font-face { font-family: 'Barlow Condensed'; src: url("/fonts/barlowcondensed-blackitalic.ttf") format("truetype"); font-style: italic; font-weight: 900; font-display: swap; }
+
+/* ===== Variables ===== */
+.ja {
+  --black: #070A08;
+  --forest: #193524;
+  --military: #315B3A;
+  --gold: #B59B5B;
+  --cream: #F4F1E8;
+}
+
+/* ===== Base ===== */
+.ja * { box-sizing: border-box; }
+.ja {
+  background: var(--black);
+  color: var(--cream);
+  font-family: "Source Sans 3", system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+  scroll-behavior: smooth;
+}
+
+/* ===== Typography ===== */
+.ja .display {
+  font-family: "Bebas Neue", Impact, sans-serif;
+  letter-spacing: .02em;
+  line-height: .92;
+}
+.ja .cond {
+  font-family: "Barlow Condensed", sans-serif;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+}
+.ja .gold { color: var(--gold); }
+.ja .rule {
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(181,155,91,.55), transparent);
+}
+
+/* ===== Buttons ===== */
+.ja .btn {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: .75rem;
+  background: linear-gradient(135deg, #D9BE7C 0%, var(--gold) 45%, #8E7538 100%);
+  color: #0B0D0A;
+  font-family: "Barlow Condensed", sans-serif;
+  font-weight: 700;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  padding: .95rem 2.25rem;
+  border: 0;
+  border-radius: 999px;
+  line-height: 1;
+  box-shadow: 0 1px 0 rgba(255,255,255,.35) inset, 0 10px 24px -12px rgba(181,155,91,.75);
+  transition: transform .3s cubic-bezier(.2,.8,.25,1), box-shadow .3s ease, filter .3s ease;
+  text-decoration: none;
+  cursor: pointer;
+}
+.ja .btn::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  border-radius: inherit;
+  background: linear-gradient(100deg, transparent 35%, rgba(255,255,255,.55) 50%, transparent 65%);
+  transform: translateX(-120%);
+  transition: transform .7s ease;
+}
+.ja .btn:hover {
+  transform: translateY(-2px);
+  filter: brightness(1.05);
+  box-shadow: 0 1px 0 rgba(255,255,255,.45) inset, 0 18px 34px -14px rgba(181,155,91,.9);
+}
+.ja .btn:hover::after { transform: translateX(120%); }
+.ja .btn:active { transform: translateY(0); }
+.ja .btn-ghost {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: .75rem;
+  border: 1px solid rgba(244,241,232,.28);
+  color: var(--cream);
+  background: rgba(244,241,232,.04);
+  backdrop-filter: blur(6px);
+  font-family: "Barlow Condensed", sans-serif;
+  font-weight: 600;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  padding: .95rem 2.25rem;
+  border-radius: 999px;
+  line-height: 1;
+  transition: transform .3s cubic-bezier(.2,.8,.25,1), border-color .3s, color .3s, background .3s;
+  text-decoration: none;
+  cursor: pointer;
+}
+.ja .btn-ghost:hover {
+  border-color: var(--gold);
+  color: var(--gold);
+  background: rgba(181,155,91,.1);
+  transform: translateY(-2px);
+}
+
+/* ===== Cards ===== */
+.ja .card {
+  background: linear-gradient(180deg, rgba(25,53,36,.55), rgba(7,10,8,.65));
+  border: 1px solid rgba(181,155,91,.18);
+  border-radius: 12px;
+}
+.ja .num {
+  font-family: "Bebas Neue", sans-serif;
+  font-size: 3rem;
+  line-height: 1;
+  color: rgba(181,155,91,.55);
+}
+
+/* ===== Textures ===== */
+.ja .camo {
+  background:
+    radial-gradient(60% 50% at 20% 20%, rgba(49,91,58,.35), transparent 70%),
+    radial-gradient(50% 60% at 85% 70%, rgba(25,53,36,.55), transparent 70%),
+    var(--black);
+}
+.ja .gridbg {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: .5;
+  background-image: linear-gradient(rgba(181,155,91,.07) 1px, transparent 1px), linear-gradient(90deg, rgba(181,155,91,.07) 1px, transparent 1px);
+  background-size: 64px 64px;
+  -webkit-mask-image: radial-gradient(75% 60% at 50% 40%, #000, transparent 100%);
+  mask-image: radial-gradient(75% 60% at 50% 40%, #000, transparent 100%);
+}
+
+/* ===== Scroll Reveal ===== */
+.ja .fadeup {
+  opacity: 0;
+  transform: translateY(28px);
+  transition: opacity .9s cubic-bezier(.16,1,.3,1), transform .9s cubic-bezier(.16,1,.3,1);
+}
+.ja .fadeup.in { opacity: 1; transform: none; }
+.ja .lift {
+  transition: transform .5s cubic-bezier(.16,1,.3,1), border-color .5s, box-shadow .5s;
+}
+.ja .lift:hover {
+  transform: translateY(-8px);
+  border-color: rgba(181,155,91,.6);
+  box-shadow: 0 28px 60px -30px rgba(0,0,0,.95), 0 0 0 1px rgba(181,155,91,.12);
+}
+.ja .sheen {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(115deg, transparent 35%, rgba(244,241,232,.10) 48%, transparent 62%);
+  transform: translateX(-120%);
+  transition: transform 1.1s cubic-bezier(.16,1,.3,1);
+}
+.ja .lift:hover .sheen { transform: translateX(120%); }
+
+@media (prefers-reduced-motion: reduce) {
+  .ja .fadeup { opacity: 1; transform: none; transition: none; }
+  .ja .lift:hover { transform: none; }
+  .ja .sheen { display: none; }
+}
+
+/* ===== Price ===== */
+.ja .price {
+  display: inline-block;
+  transition: opacity .35s ease, transform .45s cubic-bezier(.16,1,.3,1);
+}
+.ja .price.swap {
+  opacity: 0;
+  transform: translateY(-14px);
+}
+
+/* ===== Catalog Tiles ===== */
+.ja .jersey-ph {
+  position: relative;
+  background:
+    repeating-linear-gradient(135deg, rgba(244,241,232,.035) 0 14px, transparent 14px 28px),
+    radial-gradient(70% 60% at 30% 25%, rgba(49,91,58,.75), transparent 70%),
+    radial-gradient(60% 60% at 80% 80%, rgba(181,155,91,.22), transparent 70%),
+    linear-gradient(160deg, #12251A, #070A08);
+}
+.ja .jersey-ph::after {
+  content: attr(data-code);
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%,-50%);
+  font-family: "Bebas Neue", sans-serif;
+  font-size: clamp(1.5rem, 4vw, 2.6rem);
+  letter-spacing: .08em;
+  color: rgba(244,241,232,.28);
+}
+.ja .tile {
+  position: relative;
+  overflow: hidden;
+  border: 1px solid rgba(181,155,91,.2);
+  cursor: zoom-in;
+  border-radius: 8px;
+  transition: transform .55s cubic-bezier(.16,1,.3,1), border-color .4s;
+}
+.ja .tile:hover {
+  transform: translateY(-6px);
+  border-color: rgba(181,155,91,.6);
+}
+.ja .tile .ph { transition: transform .7s cubic-bezier(.16,1,.3,1); }
+.ja .tile:hover .ph { transform: scale(1.08); }
+.ja .tile .meta {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  padding: .85rem 1rem;
+  background: linear-gradient(to top, rgba(7,10,8,.92), transparent);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.ja .tile .zoom {
+  opacity: 0;
+  transform: translateY(6px);
+  transition: .4s;
+}
+.ja .tile:hover .zoom { opacity: 1; transform: none; }
+
+/* ===== Catalog Grid Images ===== */
+.ja .cat-img {
+  width: 100%;
+  aspect-ratio: 4/5;
+  object-fit: cover;
+  display: block;
+  transition: transform .7s cubic-bezier(.16,1,.3,1);
+}
+.ja .tile:hover .cat-img { transform: scale(1.08); }
+
+@media (prefers-reduced-motion: reduce) {
+  .ja .tile:hover { transform: none; }
+  .ja .tile .ph, .ja .tile .cat-img { transition: none; }
+}
+
+/* ===== Gallery Marquee ===== */
+.ja .gal-wrap {
+  overflow: hidden;
+  -webkit-mask-image: linear-gradient(90deg, transparent, #000 5%, #000 95%, transparent);
+  mask-image: linear-gradient(90deg, transparent, #000 5%, #000 95%, transparent);
+}
+.ja .gal-track {
+  display: flex;
+  gap: 1rem;
+  width: max-content;
+  animation: ja-galslide 42s linear infinite;
+}
+.ja .gal-wrap:hover .gal-track {
+  animation-play-state: paused;
+}
+.ja .gal-item {
+  flex: 0 0 auto;
+  width: min(13.5rem, 70vw);
+  margin: 0;
+  padding: 0;
+  cursor: pointer;
+  text-align: left;
+  background: none;
+  border: none;
+}
+.ja .gal-item img {
+  width: 100%;
+  height: auto;
+  aspect-ratio: 4/3;
+  object-fit: cover;
+  border-radius: 1rem;
+  border: 1px solid rgba(181,155,91,.15);
+  display: block;
+  transition: transform .35s ease;
+}
+.ja .gal-item:hover img { transform: scale(1.04); }
+@media (min-width: 640px) {
+  .ja .gal-item { width: 17rem; }
+}
+@keyframes ja-galslide {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+
+/* ===== Popup Notif ===== */
+.ja .pop {
+  position: fixed;
+  left: 1rem;
+  bottom: 1rem;
+  z-index: 60;
+  display: flex;
+  align-items: center;
+  gap: .8rem;
+  background: var(--black);
+  border: 1px solid rgba(181,155,91,.25);
+  border-left: 4px solid var(--gold);
+  padding: .7rem .9rem;
+  max-width: 22rem;
+  border-radius: 8px;
+  box-shadow: 0 24px 50px -22px rgba(0,0,0,.9);
+  transition: transform .45s cubic-bezier(.3,.9,.3,1), opacity .45s ease;
+}
+.ja .pop.hide { transform: translateY(140%); opacity: 0; pointer-events: none; }
+.ja .pop-dot {
+  flex: 0 0 auto;
+  width: .55rem;
+  height: .55rem;
+  border-radius: 9999px;
+  background: var(--gold);
+  box-shadow: 0 0 0 4px rgba(181,155,91,.16);
+}
+@media (max-width: 767px) {
+  .ja .pop { left: .5rem; right: .5rem; max-width: none; bottom: calc(4.4rem + env(safe-area-inset-bottom)); }
+}
