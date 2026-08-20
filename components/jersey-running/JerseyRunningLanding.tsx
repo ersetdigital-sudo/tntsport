@@ -29,7 +29,7 @@ const TRUST_ITEMS = [
 const FAQS = [
   {
     q: "Berapa harga jersey running custom?",
-    a: "Atasan Rp95.000/pcs untuk satuan dan Rp85.000/pcs untuk pembelian lusinan. Setelan (jersey + celana) Rp145.000 satuan dan Rp120.000 lusinan. Untuk order 50 pcs ke atas ada harga khusus, silakan hubungi admin.",
+    a: "Atasan Rp75.000/pcs untuk satuan dan Rp65.000/pcs untuk pembelian lusinan. Setelan (jersey + celana) Rp145.000 satuan dan Rp120.000 lusinan. Untuk order 50 pcs ke atas ada harga khusus, silakan hubungi admin.",
   },
   {
     q: "Minimal ordernya berapa pcs?",
@@ -167,8 +167,8 @@ export default function JerseyRunningLanding({ products, waNumber }: Props) {
   );
 
   const prices = {
-    ecer: { atasan: "95RB", setelan: "145RB", labelAtasan: "Bisa pesan mulai 1 pcs", labelSetelan: "Bisa pesan mulai 1 set", note: "Order 12 pcs ke atas, hemat sampai Rp25.000/pcs" },
-    lusin: { atasan: "85RB", setelan: "120RB", labelAtasan: "Minimal pembelian 12 pcs", labelSetelan: "Minimal pembelian 12 set", note: "Harga lusinan aktif — hemat Rp10.000/pcs & Rp25.000/set" },
+    ecer: { atasan: "75RB", setelan: "145RB", labelAtasan: "Bisa pesan mulai 1 pcs", labelSetelan: "Bisa pesan mulai 1 set", note: "Order 12 pcs ke atas, hemat sampai Rp25.000/pcs" },
+    lusin: { atasan: "65RB", setelan: "120RB", labelAtasan: "Minimal pembelian 12 pcs", labelSetelan: "Minimal pembelian 12 set", note: "Harga lusinan aktif — hemat Rp10.000/pcs & Rp25.000/set" },
   };
 
   const handleHotspotHover = (id: number) => {
@@ -203,7 +203,7 @@ export default function JerseyRunningLanding({ products, waNumber }: Props) {
 
               <div className="mt-7 flex flex-wrap items-end gap-x-3 gap-y-1">
                 <span className="font-kicker text-sm uppercase tracking-[0.18em] text-[var(--muted-2)]">Mulai</span>
-                <span className="font-display text-3xl text-[var(--text)] sm:text-4xl">Rp85.000</span>
+                <span className="font-display text-3xl text-[var(--text)] sm:text-4xl">Rp75.000</span>
                 <span className="font-kicker pb-1 text-lg text-[var(--muted)]">/pcs</span>
               </div>
 

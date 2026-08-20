@@ -94,7 +94,7 @@ function buildJsonLd(brandName: string, brandUrl: string) {
       "@type": "Product",
       name: "Jersey Running Custom Full Printing",
       description:
-        "Jersey running custom full printing bahan Dry Fit Premium. Bisa order satuan, gratis desain + revisi bebas. Langsung dari pabrik, sejak 2017. Mulai Rp85.000/pcs.",
+        "Jersey running custom full printing bahan Dry Fit Premium. Bisa order satuan, gratis desain + revisi bebas. Langsung dari pabrik, sejak 2017. Mulai Rp75.000/pcs.",
       brand: { "@type": "Brand", name: brandName },
       category: "Pakaian Olahraga Custom",
       image: `${brandUrl}/logo.jpg`,
