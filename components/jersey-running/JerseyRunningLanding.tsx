@@ -458,7 +458,7 @@ export default function JerseyRunningLanding({ products, waNumber }: Props) {
             </a>
           </div>
 
-          <div className="mt-12 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+          <div className="mt-12 grid grid-cols-2 gap-3 sm:gap-5 lg:grid-cols-3">
             {products.map((p, i) => (
               <article key={p.id} className="card card-hover reveal overflow-hidden">
                 <button
