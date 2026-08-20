@@ -423,9 +423,10 @@ export default function JerseyMancingLanding({ products, waNumber }: Props) {
             )}
           </div>
         </div>
-        <div className="mx-auto max-w-6xl px-6 mt-8 text-center">
-          <a href={wa("Halo TNT SPORT APPAREL, saya lihat galeri hasil jersey pelanggan, saya mau order seperti itu!")} target="_blank" rel="noopener" className="btn">
-            🎣 Mau Jersey Seperti Ini? Order Sekarang
+        <div className="mx-auto max-w-6xl px-4 sm:px-6 mt-8 text-center">
+          <a href={wa("Halo TNT SPORT APPAREL, saya lihat galeri hasil jersey pelanggan, saya mau order seperti itu!")} target="_blank" rel="noopener" className="btn text-sm sm:text-base px-5 sm:px-8 py-3 sm:py-4">
+            <span className="hidden sm:inline">🎣 Mau Jersey Seperti Ini? Order Sekarang</span>
+            <span className="sm:hidden">🎣 Order Sekarang</span>
           </a>
         </div>
         {galleryActive !== null && GALLERY_IMAGES[galleryActive] && (
