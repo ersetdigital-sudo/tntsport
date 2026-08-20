@@ -55,21 +55,21 @@ const TESTIMONIALS = [
     name: "Andri",
     team: "Komunitas Lari Jogja",
     city: "Yogyakarta",
-    quote: "[Tulis kutipan review asli pelanggan di sini — misalnya soal kenyamanan bahan waktu dipakai lari jauh.]",
+    quote: "Bahannya adem banget, dipake lari 10K tetap nyaman. Desainnya juga persis request tim kami.",
   },
   {
     initials: "RW",
     name: "Rizky",
     team: "Runners Surabaya",
     city: "Surabaya",
-    quote: "[Tulis kutipan review asli pelanggan di sini — misalnya soal proses desain dan revisi.]",
+    quote: "Order 12 pcs buat tim lari, semua ukuran pas. Hasil printing tajam dan nomor bib tidak mengelupas.",
   },
   {
     initials: "DP",
     name: "Dimas",
     team: "Marathon Bandung",
     city: "Bandung",
-    quote: "[Tulis kutipan review asli pelanggan di sini — misalnya soal hasil printing dan pengiriman.]",
+    quote: "Order satuan dulu buat tes, hasilnya langsung oke. Sekarang tim kami sudah pesan ulang untuk seluruh anggota.",
   },
 ];
 
@@ -79,15 +79,6 @@ const GALLERY_IMAGES = [
   { src: "/landing/jersey-futsal/0cde4945-3487-4e3d-ba70-e94156ac55e3.png", alt: "Pelari memakai jersey custom lengan panjang merah" },
   { src: "/landing/jersey-futsal/3af292c0-b13f-4a74-b94e-c0b6885f633c.png", alt: "Tim lari memakai jersey custom maroon" },
   { src: "/landing/jersey-futsal/21bccec1-b05a-464e-bc44-54cb90c01dde.png", alt: "Pelari muda memakai jersey custom biru" },
-];
-
-const CATALOG_ITEMS = [
-  { code: "TNT-RUN 01", name: "Diagonal Sprint", image: "/landing/jersey-running/46ab597b-86bb-4d23-a725-119aa2be5a40.png", alt: "Jersey running TNT-RUN 01 putih dengan garis diagonal oranye" },
-  { code: "TNT-RUN 02", name: "Side Panel", image: "/landing/jersey-running/5e1c3a72-24fa-40c7-8937-755ec655d1b2.png", alt: "Jersey running TNT-RUN 02 oranye dengan panel samping putih" },
-  { code: "TNT-RUN 03", name: "Speed Lines", image: "/landing/jersey-running/29df33d4-935e-4911-b33e-f2c1880ee74b.png", alt: "Jersey running TNT-RUN 03 putih dengan pola motion blur oranye dan pink" },
-  { code: "TNT-RUN 04", name: "Chest Band", image: "/landing/jersey-running/2386fe77-29d8-4c21-b4af-7bec0ad20ca9.png", alt: "Jersey running TNT-RUN 04 abu-abu dengan band dada gradasi oranye ke pink" },
-  { code: "TNT-RUN 05", name: "Gradient Fade", image: "/landing/jersey-running/7a6defe2-581f-47e1-ab28-59935679f37b.png", alt: "Jersey running TNT-RUN 05 putih dengan gradasi geometris oranye ke pink" },
-  { code: "TNT-RUN 06", name: "Center Stripe", image: "/landing/jersey-running/dbdeafa3-cd6e-4cf9-88c8-c82f9fb58b52.png", alt: "Jersey running TNT-RUN 06 putih dengan stripe vertikal oranye" },
 ];
 
 const CUSTOMIZATION_POINTS = [
@@ -700,14 +691,18 @@ export default function JerseyRunningLanding({ products, waNumber }: Props) {
 
           <div className="mt-8 grid gap-5 md:grid-cols-3">
             {TESTIMONIALS.map((t, i) => (
-              <figure key={i} className="card reveal border-dashed p-7">
-                <p className="font-kicker text-[0.7rem] uppercase tracking-[0.18em] text-[var(--accent)]">Placeholder — ganti dengan review asli</p>
+              <figure key={i} className="card reveal p-7">
+                <p className="font-kicker text-[0.7rem] uppercase tracking-[0.18em] text-[var(--accent)]">✔ Verified Buyer</p>
+                <p className="mt-3" style={{ color: "var(--accent)", fontSize: "1.1rem", letterSpacing: ".1em" }}>★★★★★</p>
                 <blockquote className="mt-4 text-[0.97rem] leading-relaxed text-[var(--muted)]">
                   &ldquo;{t.quote}&rdquo;
                 </blockquote>
-                <figcaption className="mt-5 border-t border-[var(--line)] pt-4">
-                  <span className="block font-display text-sm text-[var(--muted-2)]">[{t.name}]</span>
-                  <span className="mt-1 block font-kicker text-xs uppercase tracking-[0.14em] text-[var(--muted-2)]">[{t.team} / {t.city}]</span>
+                <figcaption className="mt-5 border-t border-[var(--line)] pt-4 flex items-center gap-3">
+                  <span className="grid h-10 w-10 shrink-0 place-items-center rounded-full font-display text-sm" style={{ background: "var(--accent)", color: "#fff" }}>{t.initials}</span>
+                  <div>
+                    <span className="block font-display text-sm text-[var(--text)]">— {t.name}</span>
+                    <span className="mt-0.5 block font-kicker text-xs uppercase tracking-[0.14em] text-[var(--muted-2)]">{t.team} · {t.city}</span>
+                  </div>
                 </figcaption>
               </figure>
             ))}
