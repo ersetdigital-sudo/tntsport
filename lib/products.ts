@@ -118,22 +118,6 @@ export const CATALOG_PRODUCTS: CategoryProducts[] = [
     id: "fishing",
     label: "Fishing",
     products: [
-      { id: "mn-1", catalogue: "MN-001", image: "/products/placeholder.svg", alt: "Desain jersey mancing custom MN-001 TNT SPORT APPAREL" },
-      { id: "mn-2", catalogue: "MN-002", image: "/products/placeholder.svg", alt: "Desain jersey mancing custom MN-002 TNT SPORT APPAREL" },
-      { id: "mn-3", catalogue: "MN-003", image: "/products/placeholder.svg", alt: "Desain jersey mancing custom MN-003 TNT SPORT APPAREL" },
-      { id: "mn-4", catalogue: "MN-004", image: "/products/placeholder.svg", alt: "Desain jersey mancing custom MN-004 TNT SPORT APPAREL" },
-      { id: "mn-5", catalogue: "MN-005", image: "/products/placeholder.svg", alt: "Desain jersey mancing custom MN-005 TNT SPORT APPAREL" },
-      { id: "mn-6", catalogue: "MN-006", image: "/products/placeholder.svg", alt: "Desain jersey mancing custom MN-006 TNT SPORT APPAREL" },
-      { id: "mn-7", catalogue: "MN-007", image: "/products/placeholder.svg", alt: "Desain jersey mancing custom MN-007 TNT SPORT APPAREL" },
-      { id: "mn-8", catalogue: "MN-008", image: "/products/placeholder.svg", alt: "Desain jersey mancing custom MN-008 TNT SPORT APPAREL" },
-      { id: "mn-9", catalogue: "MN-009", image: "/products/placeholder.svg", alt: "Desain jersey mancing custom MN-009 TNT SPORT APPAREL" },
-      { id: "mn-10", catalogue: "MN-010", image: "/products/placeholder.svg", alt: "Desain jersey mancing custom MN-010 TNT SPORT APPAREL" },
-    ],
-  },
-  {
-    id: "fishing",
-    label: "Fishing",
-    products: [
       { id: "mn-1", catalogue: "Marlin Strike", image: "/products/placeholder.svg", alt: "Jersey fishing desain Marlin Strike" },
       { id: "mn-2", catalogue: "Ocean Wave", image: "/products/placeholder.svg", alt: "Jersey fishing desain Ocean Wave" },
       { id: "mn-3", catalogue: "Deep Blue", image: "/products/placeholder.svg", alt: "Jersey fishing desain Deep Blue" },
