@@ -386,20 +386,7 @@ export default function JerseyArmyLanding({ products, waNumber }: Props) {
         )}
       </section>
 
-      {/* ===== 9. MANIFESTO ===== */}
-      <section className="py-16 sm:py-28 lg:py-36" style={{ borderTop: "1px solid rgba(181,155,91,.15)", borderBottom: "1px solid rgba(181,155,91,.15)" }}>
-        <div className="max-w-4xl mx-auto px-5 text-center fadeup">
-          <h2 className="display text-3xl sm:text-5xl lg:text-7xl">JANGAN BIARKAN TIMMU <span className="gold">TERLIHAT BIASA.</span></h2>
-          <p className="mt-8 text-lg sm:text-xl leading-relaxed" style={{ color: "rgba(244,241,232,.8)" }}>
-            Kalau sudah punya komunitas, organisasi, atau tim... <strong className="text-[var(--cream)]">bikin identitas yang bisa langsung dikenali.</strong>
-          </p>
-          <p className="mt-5 text-lg sm:text-xl leading-relaxed" style={{ color: "rgba(244,241,232,.8)" }}>
-            Karena ketika semua anggota memakai jersey yang sama, <strong className="gold">kekompakan bukan cuma terlihat — tapi terasa.</strong>
-          </p>
-        </div>
-      </section>
-
-      {/* ===== 10. CTA ===== */}
+      {/* ===== 9. CTA ===== */}
       <section id="cta" className="relative py-20 sm:py-32 lg:py-40 overflow-hidden">
         <div className="absolute inset-0" style={{ background: "linear-gradient(180deg,rgba(8,11,8,1) 0%,rgba(18,26,19,.95) 50%,rgba(8,11,8,1) 100%)" }} />
         <div className="absolute inset-0 gridbg" />
