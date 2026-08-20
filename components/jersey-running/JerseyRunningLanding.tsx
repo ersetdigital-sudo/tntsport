@@ -459,23 +459,22 @@ export default function JerseyRunningLanding({ products, waNumber }: Props) {
           </div>
 
           <div className="mt-12 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-            {CATALOG_ITEMS.map((item, i) => (
-              <article key={i} className="card card-hover reveal overflow-hidden">
+            {products.map((p, i) => (
+              <article key={p.id} className="card card-hover reveal overflow-hidden">
                 <button
                   type="button"
                   className="thumb"
                   onClick={() => setCatalogLightbox(i)}
-                  aria-label={`Lihat gambar ${item.code}`}
+                  aria-label={`Lihat gambar ${p.catalogue}`}
                 >
-                  <img src={item.image} alt={item.alt} width={1024} height={1024} loading="lazy" />
+                  <img src={p.image} alt={p.alt} width={1024} height={1024} loading="lazy" />
                 </button>
                 <div className="flex items-center justify-between gap-3 p-5">
                   <div>
-                    <h3 className="font-display text-base">{item.code}</h3>
-                    <p className="mt-1 font-kicker text-xs uppercase tracking-[0.14em] text-[var(--muted-2)]">{item.name}</p>
+                    <h3 className="font-display text-base">{p.catalogue}</h3>
                   </div>
                   <a
-                    href={waLink(`Halo, saya tertarik desain ${item.code}.`)}
+                    href={waLink(`Halo, saya tertarik desain ${p.catalogue}.`)}
                     target="_blank"
                     rel="noopener"
                     className="font-kicker text-xs uppercase tracking-[0.14em] text-[var(--accent)] hover:text-[var(--accent-deep)] transition-colors"
@@ -820,17 +819,17 @@ export default function JerseyRunningLanding({ products, waNumber }: Props) {
       </a>
 
       {/* ===== Catalog Lightbox ===== */}
-      {catalogLightbox !== null && (
+      {catalogLightbox !== null && products[catalogLightbox] && (
         <div className="lightbox-overlay" onClick={() => setCatalogLightbox(null)} role="dialog" aria-label="Gambar katalog">
           <button className="lightbox-close" onClick={() => setCatalogLightbox(null)} aria-label="Tutup">✕</button>
-          <button className="lightbox-nav lightbox-prev" onClick={(e) => { e.stopPropagation(); setCatalogLightbox((catalogLightbox - 1 + CATALOG_ITEMS.length) % CATALOG_ITEMS.length); }} aria-label="Sebelumnya">‹</button>
-          <button className="lightbox-nav lightbox-next" onClick={(e) => { e.stopPropagation(); setCatalogLightbox((catalogLightbox + 1) % CATALOG_ITEMS.length); }} aria-label="Berikutnya">›</button>
+          <button className="lightbox-nav lightbox-prev" onClick={(e) => { e.stopPropagation(); setCatalogLightbox((catalogLightbox - 1 + products.length) % products.length); }} aria-label="Sebelumnya">‹</button>
+          <button className="lightbox-nav lightbox-next" onClick={(e) => { e.stopPropagation(); setCatalogLightbox((catalogLightbox + 1) % products.length); }} aria-label="Berikutnya">›</button>
           <img
-            src={CATALOG_ITEMS[catalogLightbox].image}
-            alt={CATALOG_ITEMS[catalogLightbox].alt}
+            src={products[catalogLightbox].image}
+            alt={products[catalogLightbox].alt}
             onClick={(e) => e.stopPropagation()}
           />
-          <div className="lightbox-caption">{CATALOG_ITEMS[catalogLightbox].code} — {CATALOG_ITEMS[catalogLightbox].name}</div>
+          <div className="lightbox-caption">{products[catalogLightbox].catalogue}</div>
         </div>
       )}
 
