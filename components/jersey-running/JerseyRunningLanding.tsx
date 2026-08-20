@@ -825,6 +825,15 @@ export default function JerseyRunningLanding({ products, waNumber }: Props) {
             onClick={(e) => e.stopPropagation()}
           />
           <div className="lightbox-caption">{products[catalogLightbox].catalogue}</div>
+          <a
+            href={waLink(`Halo, saya tertarik desain ${products[catalogLightbox].catalogue}.`)}
+            target="_blank"
+            rel="noopener"
+            onClick={(e) => e.stopPropagation()}
+            className="btn btn-primary mt-4 px-6 py-3 text-sm"
+          >
+            🏃 Tanya Desain Ini via WhatsApp →
+          </a>
         </div>
       )}
 
