@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { buildWhatsAppLink } from "@/lib/wa";
 import "./jersey-mancing.css";
 
@@ -15,6 +15,8 @@ interface Props {
   products: Product[];
   waNumber: string;
 }
+
+const WA_DEFAULT = "628115491117";
 
 const CATALOG_NAMES = [
   "Marlin Strike", "Ocean Wave", "Deep Blue", "Sunset Cast",
@@ -49,7 +51,8 @@ function useScrollReveal() {
 
 export default function JerseyMancingLanding({ products, waNumber }: Props) {
   useScrollReveal();
-  const waLink = (msg: string) => buildWhatsAppLink(waNumber || "628115491117", msg);
+  const [catalogActive, setCatalogActive] = useState<number | null>(null);
+  const wa = (msg: string) => buildWhatsAppLink(waNumber || WA_DEFAULT, msg);
 
   return (
     <div className="jmf">
@@ -84,7 +87,7 @@ export default function JerseyMancingLanding({ products, waNumber }: Props) {
             </p>
           </div>
           <div className="mt-8 flex flex-wrap gap-4">
-            <a href={waLink("Halo, saya ingin custom jersey fishing hoodie premium. Boleh dibantu?")} target="_blank" rel="noopener" className="btn">Custom jersey sekarang</a>
+            <a href={wa("Halo, saya ingin custom jersey fishing hoodie premium. Boleh dibantu?")} target="_blank" rel="noopener" className="btn">Custom jersey sekarang</a>
             <a href="#harga" className="btn btn-line">Lihat harga</a>
           </div>
         </div>
@@ -218,7 +221,7 @@ export default function JerseyMancingLanding({ products, waNumber }: Props) {
               <p className="kicker" style={{ color: "var(--ink-soft)" }}>CUSTOM GRATIS</p>
               <p className="display text-3xl mt-3" style={{ color: "var(--navy-deep)" }}>Nameset <span className="cyan">+</span> Logo <span className="cyan">+</span> Sponsor</p>
               <p className="mt-4" style={{ color: "var(--ink-soft)" }}>Tanpa perlu bikin desain dari nol.</p>
-              <a href={waLink("Halo, saya ingin custom jersey fishing. Nameset + Logo + Sponsor. Boleh dibantu?")} target="_blank" rel="noopener" className="btn mt-7">Custom jersey sekarang</a>
+              <a href={wa("Halo, saya ingin custom jersey fishing. Nameset + Logo + Sponsor. Boleh dibantu?")} target="_blank" rel="noopener" className="btn mt-7">Custom jersey sekarang</a>
             </div>
           </div>
         </div>
@@ -267,31 +270,90 @@ export default function JerseyMancingLanding({ products, waNumber }: Props) {
           <div className="text-center">
             <div className="rule mx-auto mb-6" />
             <h2 className="text-3xl md:text-4xl" style={{ color: "var(--navy-deep)" }}>Katalog desain jersey</h2>
-            <p className="mt-4 text-lg" style={{ color: "var(--ink-soft)" }}>20 pilihan desain. Semua bisa dicustom nameset, logo, dan sponsor.</p>
+            <p className="mt-4 text-lg" style={{ color: "var(--ink-soft)" }}>{products.length} pilihan desain. Semua bisa dicustom nameset, logo, dan sponsor.</p>
           </div>
-          <div className="mt-12 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6">
-            {products.slice(0, 20).map((p, i) => (
+          <div className="mt-12 grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-4 md:gap-6">
+            {products.map((p, i) => (
               <article key={p.id} className="catalog-card reveal">
-                <div className="catalog-thumb">
-                  {p.image.includes("placeholder") ? (
-                    <span>KODE {String(i + 1).padStart(2, "0")}</span>
-                  ) : (
-                    <img src={p.image} alt={p.alt} className="w-full h-full object-cover" loading="lazy" />
-                  )}
-                </div>
-                <div className="p-3 md:p-4">
-                  <p className="display text-base md:text-lg" style={{ color: "var(--navy-deep)" }}>{CATALOG_NAMES[i] || p.catalogue}</p>
-                  <p className="text-sm mt-1" style={{ color: "var(--ink-soft)" }}>
-                    <strong style={{ color: "#D9490F" }}>Rp135.000</strong> • Free custom
-                  </p>
+                <button
+                  type="button"
+                  onClick={() => setCatalogActive(i)}
+                  className="block w-full text-left p-0 bg-transparent cursor-pointer"
+                  aria-label={`Perbesar foto: ${p.alt}`}
+                >
+                  <div className="catalog-thumb overflow-hidden">
+                    {p.image.includes("placeholder") ? (
+                      <span>KODE {String(i + 1).padStart(2, "0")}</span>
+                    ) : (
+                      <img src={p.image} alt={p.alt} className="w-full h-full object-cover transition-transform duration-500 hover:scale-105" loading="lazy" />
+                    )}
+                  </div>
+                </button>
+                <div className="p-3 md:p-4 flex items-center justify-between gap-2">
+                  <div className="min-w-0">
+                    <p className="display text-sm md:text-base" style={{ color: "var(--navy-deep)" }}>{p.catalogue}</p>
+                    <p className="text-xs mt-0.5" style={{ color: "var(--ink-soft)" }}>
+                      <strong style={{ color: "#D9490F" }}>Rp135.000</strong> • Free custom
+                    </p>
+                  </div>
+                  <a
+                    href={wa(`Halo, saya tertarik desain ${p.catalogue} di kategori Jersey Fishing. Bisa info lebih lanjut?`)}
+                    target="_blank"
+                    rel="noopener"
+                    className="font-semibold shrink-0 transition-colors text-xs"
+                    style={{ color: "var(--orange-cta)" }}
+                  >
+                    Pilih →
+                  </a>
                 </div>
               </article>
             ))}
           </div>
           <div className="mt-12 text-center">
-            <a href={waLink("Halo, saya ingin pilih desain jersey fishing dan pesan. Boleh dibantu?")} target="_blank" rel="noopener" className="btn">Pilih desain &amp; pesan</a>
+            <a href={wa("Halo, saya ingin pilih desain jersey fishing dan pesan. Boleh dibantu?")} target="_blank" rel="noopener" className="btn">Pilih desain &amp; pesan</a>
           </div>
         </div>
+
+        {/* Catalog Lightbox */}
+        {catalogActive !== null && products[catalogActive] && (
+          <div
+            className="fixed inset-0 z-[110] flex items-center justify-center p-4"
+            style={{ background: "rgba(0,0,0,.85)", backdropFilter: "blur(4px)" }}
+            onClick={() => setCatalogActive(null)}
+            role="dialog"
+            aria-modal="true"
+          >
+            <div className="relative my-auto" style={{ maxWidth: "92vw" }} onClick={(e) => e.stopPropagation()}>
+              <button
+                type="button"
+                onClick={() => setCatalogActive(null)}
+                aria-label="Tutup"
+                className="absolute -top-2 -right-2 z-10 grid h-10 w-10 cursor-pointer place-items-center rounded-full text-white shadow-lg"
+                style={{ background: "var(--orange-cta)" }}
+              >
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M6 6l12 12M18 6L6 18" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" /></svg>
+              </button>
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src={products[catalogActive].image}
+                alt={products[catalogActive].alt}
+                className="max-h-[65vh] w-auto max-w-full rounded-2xl object-contain shadow-2xl"
+                style={{ border: "1px solid rgba(255,255,255,.1)" }}
+              />
+              <p className="mt-3 text-center text-sm font-bold" style={{ color: "rgba(255,255,255,.8)" }}>{products[catalogActive].catalogue}</p>
+              <div className="mt-4 flex justify-center">
+                <a
+                  href={wa(`Halo, saya tertarik desain ${products[catalogActive].catalogue} di kategori Jersey Fishing. Bisa info lebih lanjut?`)}
+                  target="_blank"
+                  rel="noopener"
+                  className="btn text-sm px-6 py-3"
+                >
+                  🎣 Tanya Desain Ini via WhatsApp →
+                </a>
+              </div>
+            </div>
+          </div>
+        )}
       </section>
 
       {/* ===== 10. HARGA ===== */}
@@ -321,7 +383,7 @@ export default function JerseyMancingLanding({ products, waNumber }: Props) {
                   <span className="chip-dark">Logo</span>
                   <span className="chip-dark">Sponsor</span>
                 </div>
-                <a href={waLink("Halo, saya ingin pesan jersey fishing hoodie premium Rp135.000. Boleh dibantu?")} target="_blank" rel="noopener" className="btn mt-8">Pesan sekarang</a>
+                <a href={wa("Halo, saya ingin pesan jersey fishing hoodie premium Rp135.000. Boleh dibantu?")} target="_blank" rel="noopener" className="btn mt-8">Pesan sekarang</a>
               </div>
             </div>
 
@@ -391,7 +453,7 @@ export default function JerseyMancingLanding({ products, waNumber }: Props) {
             </div>
             <div className="rounded-[18px] p-8 text-center bg-white reveal">
               <h3 className="text-2xl md:text-3xl" style={{ color: "var(--navy-deep)" }}>Mulai custom sekarang</h3>
-              <a href={waLink("Halo, saya ingin mulai custom jersey fishing hoodie premium. Boleh dibantu?")} target="_blank" rel="noopener" className="btn mt-6">Pesan jersey custom</a>
+              <a href={wa("Halo, saya ingin mulai custom jersey fishing hoodie premium. Boleh dibantu?")} target="_blank" rel="noopener" className="btn mt-6">Pesan jersey custom</a>
               <p className="mt-6" style={{ color: "var(--ink-soft)" }}>Kirim nama, logo, atau desain yang kamu punya.</p>
               <p className="mt-2 font-semibold" style={{ color: "var(--navy-deep)" }}>Biar kami bantu wujudkan jersey fishing impianmu.</p>
             </div>
@@ -408,7 +470,7 @@ export default function JerseyMancingLanding({ products, waNumber }: Props) {
           </p>
           <p className="mt-4 display text-xl md:text-2xl" style={{ color: "var(--navy)" }}>Kenapa tidak sekalian bikin yang benar-benar sesuai karakter kamu?</p>
           <p className="mt-4" style={{ color: "var(--ink-soft)" }}>Custom sekarang dan buat jersey yang siap menemani perjalanan mancing berikutnya.</p>
-          <a href={waLink("Halo, saya ingin custom jersey fishing. Boleh dibantu?")} target="_blank" rel="noopener" className="btn mt-8">Saya mau custom jersey</a>
+          <a href={wa("Halo, saya ingin custom jersey fishing. Boleh dibantu?")} target="_blank" rel="noopener" className="btn mt-8">Saya mau custom jersey</a>
         </div>
       </section>
 
@@ -427,7 +489,7 @@ export default function JerseyMancingLanding({ products, waNumber }: Props) {
             <p>Tampil lebih profesional.</p>
             <p>Identitas tim makin kuat.</p>
           </div>
-          <a href={waLink("Halo, saya ingin custom jersey fishing hoodie premium untuk tim saya. Boleh dibantu?")} target="_blank" rel="noopener" className="btn mt-9 text-lg">Custom jersey sekarang</a>
+          <a href={wa("Halo, saya ingin custom jersey fishing hoodie premium untuk tim saya. Boleh dibantu?")} target="_blank" rel="noopener" className="btn mt-9 text-lg">Custom jersey sekarang</a>
           <p className="mt-5 text-sm" style={{ color: "var(--silver)" }}>Klik tombol di atas dan konsultasikan desain kamu bersama tim kami.</p>
           <p className="mt-12 text-xs" style={{ color: "#5C7488" }}>Jersey Fishing Hoodie Premium — TNT SPORT APPAREL</p>
         </div>
