@@ -272,7 +272,7 @@ export default function JerseyMancingLanding({ products, waNumber }: Props) {
             <h2 className="text-3xl md:text-4xl" style={{ color: "var(--navy-deep)" }}>Katalog desain jersey</h2>
             <p className="mt-4 text-lg" style={{ color: "var(--ink-soft)" }}>{products.length} pilihan desain. Semua bisa dicustom nameset, logo, dan sponsor.</p>
           </div>
-          <div className="mt-12 grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-4 md:gap-6">
+          <div className="mt-12 grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3 sm:gap-4">
             {products.map((p, i) => (
               <article key={p.id} className="catalog-card reveal">
                 <button
@@ -291,10 +291,7 @@ export default function JerseyMancingLanding({ products, waNumber }: Props) {
                 </button>
                 <div className="p-3 md:p-4 flex items-center justify-between gap-2">
                   <div className="min-w-0">
-                    <p className="display text-sm md:text-base" style={{ color: "var(--navy-deep)" }}>{p.catalogue}</p>
-                    <p className="text-xs mt-0.5" style={{ color: "var(--ink-soft)" }}>
-                      <strong style={{ color: "#D9490F" }}>Rp135.000</strong> • Free custom
-                    </p>
+                    <p className="display text-sm md:text-base truncate" style={{ color: "var(--navy-deep)" }}>{p.catalogue}</p>
                   </div>
                   <a
                     href={wa(`Halo, saya tertarik desain ${p.catalogue} di kategori Jersey Fishing. Bisa info lebih lanjut?`)}
