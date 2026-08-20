@@ -400,19 +400,25 @@ export default function JerseyArmyLanding({ products, waNumber }: Props) {
       </section>
 
       {/* ===== 10. CTA ===== */}
-      <section id="cta" className="relative py-16 sm:py-28 lg:py-36 overflow-hidden">
-        <div className="absolute inset-0" style={{ opacity: 0.25, background: "radial-gradient(60% 60% at 50% 40%, rgba(49,91,58,.9), transparent 70%)" }} />
-        <div className="relative max-w-4xl mx-auto px-5 text-center fadeup">
-          <h2 className="display text-4xl sm:text-6xl lg:text-8xl">SIAP BIKIN <span className="gold">JERSEY ARMY</span> TIMMU?</h2>
-          <p className="cond text-sm sm:text-base mt-6" style={{ color: "rgba(244,241,232,.85)" }}>Pilih desain favoritmu sekarang</p>
-          <div className="rule my-9 max-w-lg mx-auto" />
-          <p className="cond text-xs sm:text-sm" style={{ color: "rgba(244,241,232,.7)" }}>20+ Desain Army • Siap Custom • Bisa untuk Tim &amp; Komunitas</p>
-          <p className="mt-6 text-lg" style={{ color: "rgba(244,241,232,.8)" }}>Pilih desain yang paling cocok dengan karakter tim kamu.</p>
-          <div className="mt-10 flex flex-wrap justify-center gap-4">
-            <a href="#katalog" className="btn"><span>Pilih Desain Army</span><span className="ico" aria-hidden="true">↗</span></a>
-            <a href="#pilih" className="btn-ghost">Konsultasi Custom</a>
+      <section id="cta" className="relative py-20 sm:py-32 lg:py-40 overflow-hidden">
+        <div className="absolute inset-0" style={{ background: "linear-gradient(180deg,rgba(8,11,8,1) 0%,rgba(18,26,19,.95) 50%,rgba(8,11,8,1) 100%)" }} />
+        <div className="absolute inset-0 gridbg" />
+        <div className="relative max-w-3xl mx-auto px-5 text-center fadeup">
+          <h2 className="display text-[2.4rem] sm:text-5xl md:text-6xl lg:text-7xl leading-[1.02]">
+            SIAP BIKIN <span className="gold">JERSEY ARMY</span> TIMMU?
+          </h2>
+          <p className="mt-6 sm:mt-8 text-sm sm:text-lg leading-relaxed" style={{ color: "rgba(241,243,236,.8)" }}>
+            Pilih desain favoritmu dan custom sesuai identitas tim.
+          </p>
+          <p className="cond mt-5 sm:mt-7 text-[10px] sm:text-xs tracking-[.18em]" style={{ color: "rgba(241,243,236,.55)" }}>
+            20+ DESAIN ARMY • SIAP CUSTOM • UNTUK TIM &amp; KOMUNITAS
+          </p>
+          <div className="mt-10 sm:mt-12">
+            <a href="#katalog" className="btn text-sm sm:text-base px-7 sm:px-10 py-3.5 sm:py-4">
+              <span>PILIH DESAIN ARMY</span>
+              <span className="ico" aria-hidden="true">→</span>
+            </a>
           </div>
-          <p className="cond gold text-sm mt-12">Tampil solid. Tampil berkarakter. Tampil sebagai satu tim.</p>
         </div>
       </section>
 
