@@ -14,9 +14,10 @@ interface Product {
 
 interface Props {
   products: Product[];
+  waNumber: string;
 }
 
-const WA_NUMBER = "628115491117";
+const WA_NUMBER_DEFAULT = "628115491117";
 
 const TRUST_ITEMS = [
   "Langsung Dari Pabrik",
@@ -69,7 +70,7 @@ function useScrollReveal() {
   }, []);
 }
 
-export default function JerseyRacingLanding({ products }: Props) {
+export default function JerseyRacingLanding({ products, waNumber }: Props) {
   useScrollReveal();
   const [priceMode, setPriceMode] = useState<"ecer" | "lusin">("ecer");
   const [openFaq, setOpenFaq] = useState<number | null>(0);
@@ -114,7 +115,7 @@ export default function JerseyRacingLanding({ products }: Props) {
     return () => cancelAnimationFrame(raf);
   }, []);
 
-  const waLink = (msg: string) => buildWhatsAppLink(WA_NUMBER, msg);
+  const waLink = (msg: string) => buildWhatsAppLink(waNumber || WA_NUMBER_DEFAULT, msg);
 
   return (
     <div className="jersey-racing">
@@ -420,7 +421,7 @@ export default function JerseyRacingLanding({ products }: Props) {
                     <p className="cond font-bold text-sm sm:text-lg leading-tight truncate">{p.catalogue}</p>
                   </div>
                   <a
-                    href={buildWhatsAppLink(WA_NUMBER, `Halo TNT SPORT APPAREL, saya tertarik dengan desain *${p.catalogue}* di kategori *Racing*. Bisa info lebih lanjut?`)}
+                    href={buildWhatsAppLink(waNumber || WA_NUMBER_DEFAULT, `Halo TNT SPORT APPAREL, saya tertarik dengan desain *${p.catalogue}* di kategori *Racing*. Bisa info lebih lanjut?`)}
                     target="_blank"
                     rel="noopener"
                     className="cond font-bold shrink-0 transition-colors"
@@ -464,7 +465,7 @@ export default function JerseyRacingLanding({ products }: Props) {
                 <p className="mt-3 text-center text-sm font-bold" style={{ color: "rgba(255,255,255,.8)" }}>{products[catalogActive].catalogue}</p>
                 <div className="mt-4 flex justify-center">
                   <a
-                    href={buildWhatsAppLink(WA_NUMBER, `Halo TNT SPORT APPAREL, saya tertarik dengan desain *${products[catalogActive].catalogue}* di kategori *Racing*. Bisa info lebih lanjut?`)}
+                    href={buildWhatsAppLink(waNumber || WA_NUMBER_DEFAULT, `Halo TNT SPORT APPAREL, saya tertarik dengan desain *${products[catalogActive].catalogue}* di kategori *Racing*. Bisa info lebih lanjut?`)}
                     target="_blank"
                     rel="noopener"
                     className="btn-primary cond text-white font-bold text-sm px-6 py-3 text-center"

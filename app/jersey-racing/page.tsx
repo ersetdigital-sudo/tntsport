@@ -189,7 +189,7 @@ export default async function JerseyRacingPage() {
           dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
         />
       ))}
-      <JerseyRacingLanding products={products} />
+      <JerseyRacingLanding products={products} waNumber={brand.whatsappNumber || "628115491117"} />
     </>
   );
 }
