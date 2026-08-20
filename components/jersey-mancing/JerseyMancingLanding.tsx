@@ -52,7 +52,16 @@ function useScrollReveal() {
 export default function JerseyMancingLanding({ products, waNumber }: Props) {
   useScrollReveal();
   const [catalogActive, setCatalogActive] = useState<number | null>(null);
+  const [galleryActive, setGalleryActive] = useState<number | null>(null);
   const wa = (msg: string) => buildWhatsAppLink(waNumber || WA_DEFAULT, msg);
+
+  const GALLERY_IMAGES = [
+    { src: "/landing/jersey-futsal/4c090b09-6b9d-4d9a-a061-ca955c49c520.png", alt: "Komunitas mancing memakai jersey custom" },
+    { src: "/landing/jersey-futsal/93c90d93-45be-4137-b10d-d810ada22df4.png", alt: "Tim mancing memakai jersey custom kuning" },
+    { src: "/landing/jersey-futsal/0cde4945-3487-4e3d-ba70-e94156ac55e3.png", alt: "Pemancing memakai jersey custom lengan panjang" },
+    { src: "/landing/jersey-futsal/3af292c0-b13f-4a74-b94e-c0b6885f633c.png", alt: "Komunitas mancing maroon" },
+    { src: "/landing/jersey-futsal/21bccec1-b05a-464e-bc44-54cb90c01dde.png", alt: "Tim mancing junior memakai jersey custom biru" },
+  ];
 
   return (
     <div className="jmf">
@@ -239,6 +248,75 @@ export default function JerseyMancingLanding({ products, waNumber }: Props) {
           </div>
           <p className="mt-8 display text-xl" style={{ color: "var(--navy)" }}>Karena outfit pemancing juga bisa punya style.</p>
         </div>
+      </section>
+
+      {/* ===== 7.5 FOTO GALERI BERJALAN ===== */}
+      <section id="galeri" className="relative py-16 sm:py-20" style={{ background: "var(--navy)" }}>
+        <div className="mx-auto max-w-6xl px-6">
+          <div className="max-w-3xl mb-6">
+            <div className="rule mb-6" />
+            <h2 className="text-3xl md:text-4xl text-white">Foto Hasil Jersey Mancing</h2>
+            <p className="mt-3 text-lg" style={{ color: "var(--silver)" }}>Foto asli dari pelanggan — bukan edit, bukan rekayasa.</p>
+          </div>
+        </div>
+        {/* Marquee gallery */}
+        <div className="gal-wrap mt-7">
+          <div className="gal-track">
+            {Array.from({ length: 2 }).map((_, dup) =>
+              GALLERY_IMAGES.map((g, i) => (
+                <button
+                  key={`${dup}-${i}`}
+                  type="button"
+                  onClick={() => setGalleryActive(dup === 0 ? i : null)}
+                  className="gal-item"
+                >
+                  <img src={g.src} alt={dup === 1 ? "" : g.alt} loading="lazy" />
+                </button>
+              ))
+            )}
+          </div>
+        </div>
+        {/* CTA */}
+        <div className="mx-auto max-w-6xl px-6 mt-8 text-center">
+          <a
+            href={wa("Halo TNT SPORT APPAREL, saya lihat galeri hasil jersey pelanggan, saya mau order seperti itu!")}
+            target="_blank"
+            rel="noopener"
+            className="btn"
+          >
+            🎣 Mau Jersey Seperti Ini? Order Sekarang
+          </a>
+        </div>
+        {/* Lightbox */}
+        {galleryActive !== null && GALLERY_IMAGES[galleryActive] && (
+          <div
+            className="fixed inset-0 z-[110] flex items-center justify-center p-4"
+            style={{ background: "rgba(0,0,0,.85)", backdropFilter: "blur(4px)" }}
+            onClick={() => setGalleryActive(null)}
+            role="dialog"
+            aria-modal="true"
+          >
+            <div className="relative my-auto" style={{ maxWidth: "92vw" }} onClick={(e) => e.stopPropagation()}>
+              <button
+                type="button"
+                onClick={() => setGalleryActive(null)}
+                aria-label="Tutup"
+                className="absolute -top-2 -right-2 z-10 grid h-10 w-10 cursor-pointer place-items-center rounded-full text-white shadow-lg"
+                style={{ background: "var(--orange-cta)" }}
+              >
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M6 6l12 12M18 6L6 18" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" /></svg>
+              </button>
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src={GALLERY_IMAGES[galleryActive].src}
+                alt={GALLERY_IMAGES[galleryActive].alt}
+                className="max-h-[82vh] w-auto max-w-full rounded-2xl object-contain shadow-2xl"
+                style={{ border: "1px solid rgba(255,255,255,.1)" }}
+              />
+              <p className="mt-3 text-center text-sm" style={{ color: "rgba(255,255,255,.6)" }}>{GALLERY_IMAGES[galleryActive].alt}</p>
+            </div>
+          </div>
+        )}
       </section>
 
       {/* ===== 8. TARGET AUDIENCE ===== */}
