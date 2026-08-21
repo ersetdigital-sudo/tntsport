@@ -94,17 +94,21 @@ export function CorporateCollectionLanding({ products, waNumber }: Props) {
     if (window.matchMedia("(min-width: 1024px)").matches) return;
     const words = document.querySelectorAll<HTMLElement>(".corp .bigword");
     if (!words.length) return;
+    let active: HTMLElement | null = null;
     const io = new IntersectionObserver(
       (entries) => {
         entries.forEach((e) => {
-          if (e.isIntersecting) {
-            (e.target as HTMLElement).classList.add("is-active");
+          if (e.isIntersecting && e.intersectionRatio >= 0.5) {
+            if (active && active !== e.target) active.classList.remove("is-active");
+            active = e.target as HTMLElement;
+            active.classList.add("is-active");
           } else {
             (e.target as HTMLElement).classList.remove("is-active");
+            if (active === e.target) active = null;
           }
         });
       },
-      { threshold: 0.6, rootMargin: "-20% 0px -20% 0px" }
+      { threshold: [0, 0.5, 1], rootMargin: "-30% 0px -30% 0px" }
     );
     words.forEach((w) => io.observe(w));
     return () => io.disconnect();
