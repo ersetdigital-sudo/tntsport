@@ -1,0 +1,484 @@
+"use client";
+
+import { useState, useEffect, useRef, useCallback } from "react";
+import "./jersey-badminton.css";
+
+interface Product {
+  id: string;
+  catalogue: string;
+  image: string;
+  alt: string;
+}
+
+interface Props {
+  products: Product[];
+  waNumber: string;
+}
+
+const CATALOG = [
+  { code: "BD-10", name: "Crimson Strike", c1: "#D22D4A", c2: "#E91E8C", img: "/landing/jersey-badminton/8d0eccb8-8282-4119-9048-e5daf0dee6ac.png" },
+  { code: "BD-09", name: "Green Rally", c1: "#0FB9C9", c2: "#00A8FF", img: "/landing/jersey-badminton/40d3ab5c-7d26-44ab-8eb6-ac1f904435ce.png" },
+  { code: "BD-03", name: "Amber Smash", c1: "#F5A623", c2: "#E91E8C", img: "/landing/jersey-badminton/c37fd7cc-2feb-412a-bb7e-4da483008ffa.png" },
+  { code: "BD-01", name: "Blue Falcon", c1: "#155EEF", c2: "#00A8FF", extra: true },
+  { code: "BD-02", name: "Night Rally", c1: "#0B2A6B", c2: "#155EEF", extra: true },
+  { code: "BD-04", name: "Storm Court", c1: "#00A8FF", c2: "#0B4FA8", extra: true },
+  { code: "BD-05", name: "Violet Drive", c1: "#6B2AE0", c2: "#E91E8C", extra: true },
+  { code: "BD-06", name: "Ace Mono", c1: "#1B2637", c2: "#55627A", extra: true },
+  { code: "BD-07", name: "Cyan Sprint", c1: "#0FB9C9", c2: "#00A8FF", extra: true },
+  { code: "BD-08", name: "Red Pulse", c1: "#D22D4A", c2: "#E91E8C", extra: true },
+  { code: "BD-11", name: "Neon Court", c1: "#155EEF", c2: "#0FB9C9", extra: true },
+  { code: "BD-12", name: "Shadow Line", c1: "#121A2A", c2: "#2C3A55", extra: true },
+  { code: "BD-13", name: "Magenta Rush", c1: "#E91E8C", c2: "#6B2AE0", extra: true },
+  { code: "BD-14", name: "Ocean Fast", c1: "#0B4FA8", c2: "#0FB9C9", extra: true },
+  { code: "BD-15", name: "Titan Grey", c1: "#39435A", c2: "#6E7C96", extra: true },
+  { code: "BD-16", name: "Sky Serve", c1: "#00A8FF", c2: "#7FD7FF", extra: true },
+  { code: "BD-17", name: "Deep Court", c1: "#06152D", c2: "#155EEF", extra: true },
+  { code: "BD-18", name: "Flash Point", c1: "#155EEF", c2: "#E91E8C", extra: true },
+  { code: "BD-19", name: "Iron Smash", c1: "#232C3F", c2: "#155EEF", extra: true },
+  { code: "BD-20", name: "Prime Blue", c1: "#0B4FA8", c2: "#00A8FF", extra: true },
+];
+
+const TOAST_DATA = {
+  nama: ["Rizky", "Andi", "Dewi", "Bagus", "Putri", "Fajar", "Hendra", "Sinta", "Yoga", "Nabila", "Reza", "Tari", "Bima", "Aditya", "Lia"],
+  kota: ["Bandung", "Surabaya", "Jakarta", "Semarang", "Yogyakarta", "Malang", "Medan", "Solo", "Bekasi", "Denpasar", "Makassar", "Tangerang"],
+  item: ["BD-10 Crimson Strike", "BD-09 Green Rally", "BD-03 Amber Smash", "jersey custom klub", "jersey custom komunitas"],
+  qty: [6, 12, 12, 14, 16, 18, 20, 24],
+};
+
+function pick<T>(a: T[]): T {
+  return a[Math.floor(Math.random() * a.length)];
+}
+
+export function JerseyBadmintonLanding({ products: _products, waNumber: _waNumber }: Props) {
+  const [showAll, setShowAll] = useState(false);
+  const [priceMode, setPriceMode] = useState<"ecer" | "lusin">("ecer");
+  const [swapping, setSwapping] = useState(false);
+  const [toasts, setToasts] = useState<{ id: number; text: string; sub: string }[]>([]);
+  const streakRef = useRef<HTMLDivElement>(null);
+  const heroImgRef = useRef<HTMLImageElement>(null);
+  const toastIdRef = useRef(0);
+
+  /* ---------- scroll reveal ---------- */
+  useEffect(() => {
+    const els = document.querySelectorAll<HTMLElement>(".jbm .reveal");
+    if (!els.length) return;
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((e) => {
+          if (e.isIntersecting) {
+            e.target.classList.add("in");
+            observer.unobserve(e.target);
+          }
+        });
+      },
+      { threshold: 0.14 }
+    );
+
+    els.forEach((el, i) => {
+      el.style.transitionDelay = `${(i % 4) * 70}ms`;
+      observer.observe(el);
+    });
+
+    return () => observer.disconnect();
+  }, []);
+
+  /* ---------- dynamic speed streaks ---------- */
+  useEffect(() => {
+    const wrap = streakRef.current;
+    if (!wrap) return;
+    const colors = ["rgba(0,168,255,.9)", "rgba(21,94,239,.85)", "rgba(127,215,255,.7)", "rgba(233,30,140,.6)"];
+    for (let i = 0; i < 9; i++) {
+      const s = document.createElement("i");
+      s.style.top = `${6 + Math.random() * 84}%`;
+      s.style.left = `${Math.random() * 70}%`;
+      s.style.width = `${80 + Math.random() * 260}px`;
+      s.style.background = `linear-gradient(90deg,transparent,${colors[i % 4]},transparent)`;
+      s.style.animationDelay = `${-Math.random() * 5.5}s`;
+      s.style.animationDuration = `${4.5 + Math.random() * 3.5}s`;
+      wrap.appendChild(s);
+    }
+    return () => {
+      while (wrap.firstChild) wrap.removeChild(wrap.firstChild);
+    };
+  }, []);
+
+  /* ---------- hero parallax ---------- */
+  useEffect(() => {
+    const img = heroImgRef.current;
+    if (!img || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+
+    let tx = 0, ty = 0, cx = 0, cy = 0, raf: number | null = null;
+    const el = img; // non-null ref for loop
+
+    function loop() {
+      cx += (tx - cx) * 0.06;
+      cy += (ty - cy) * 0.06;
+      el.style.transform = `translate3d(${cx.toFixed(2)}px,${cy.toFixed(2)}px,0)`;
+      raf = Math.abs(tx - cx) > 0.1 || Math.abs(ty - cy) > 0.1 ? requestAnimationFrame(loop) : null;
+    }
+
+    function onMove(e: MouseEvent) {
+      tx = (e.clientX / window.innerWidth - 0.5) * 18;
+      ty = (e.clientY / window.innerHeight - 0.5) * 12;
+      if (!raf) raf = requestAnimationFrame(loop);
+    }
+
+    window.addEventListener("mousemove", onMove, { passive: true });
+    return () => {
+      window.removeEventListener("mousemove", onMove);
+      if (raf) cancelAnimationFrame(raf);
+    };
+  }, []);
+
+  /* ---------- toast notifications ---------- */
+  const addToast = useCallback(() => {
+    if (typeof document !== "undefined" && document.hidden) return;
+    const id = ++toastIdRef.current;
+    const text = `<b>${pick(TOAST_DATA.nama)}</b> dari ${pick(TOAST_DATA.kota)} baru pesan <b>${pick(TOAST_DATA.qty)} pcs</b> ${pick(TOAST_DATA.item)}`;
+    const sub = `${Math.floor(Math.random() * 28) + 2} menit lalu · Terverifikasi`;
+    setToasts((prev) => [...prev.slice(-3), { id, text, sub }]);
+    setTimeout(() => setToasts((prev) => prev.filter((t) => t.id !== id)), 5800);
+  }, []);
+
+  useEffect(() => {
+    const t = setTimeout(addToast, 4500);
+    const loop = setInterval(addToast, 6000 + Math.random() * 7000);
+    return () => { clearTimeout(t); clearInterval(loop); };
+  }, [addToast]);
+
+  /* ---------- price toggle ---------- */
+  const handlePriceTab = (mode: "ecer" | "lusin") => {
+    if (mode === priceMode) return;
+    setSwapping(true);
+    setTimeout(() => {
+      setPriceMode(mode);
+      setSwapping(false);
+    }, 220);
+  };
+
+  return (
+    <div className="jbm">
+      {/* ===== FLOATING LOGO ===== */}
+      <header style={{
+        position: "fixed", top: 0, left: 0, right: 0, zIndex: 50,
+        backdropFilter: "blurxl", WebkitBackdropFilter: "blur(24px)",
+        background: "rgba(6,21,45,.7)", borderBottom: "1px solid rgba(255,255,255,.07)",
+      }}>
+        <div style={{ maxWidth: 1400, margin: "0 auto", padding: "0 20px", height: 68, display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+          <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
+            <span style={{ width: 8, height: 8, borderRadius: "50%", background: "#E91E8C", boxShadow: "0 0 14px #E91E8C" }} />
+            <span className="dspl" style={{ fontSize: 17, letterSpacing: "0.04em" }}>Badminton<span style={{ color: "#00A8FF" }}> Collection</span></span>
+          </div>
+          <a href="#collection" className="btn" style={{ padding: "0 20px", fontSize: 11.5 }}>Pilih Desain</a>
+        </div>
+      </header>
+
+      {/* ===== HERO ===== */}
+      <section id="hero" className="jbm-hero">
+        <div className="hero-glow g1" />
+        <div className="hero-glow g2" />
+        <div className="hero-glow g3" />
+        <div className="grid-lines" />
+        <div className="hero-arc" style={{ width: "70vw", height: "70vw", maxWidth: 900, maxHeight: 900, right: "-14%", top: "-12%" }} />
+        <div className="hero-arc" style={{ width: "46vw", height: "46vw", maxWidth: 560, maxHeight: 560, right: "2%", bottom: "-18%", opacity: 0.6 }} />
+        <div className="streaks" ref={streakRef} />
+        <div className="speed" style={{ opacity: 0.7 }}><span /><span /><span /><span /><span /></div>
+
+        <div style={{ position: "relative", width: "100%", maxWidth: 1400, margin: "0 auto", padding: "0 20px", display: "grid", gap: 40, alignItems: "center" }}>
+          {/* COPY */}
+          <div className="reveal" style={{ order: 1 }}>
+            <p className="reveal eyebrow" style={{ fontSize: 10.5, color: "#00A8FF", marginBottom: 24, display: "flex", alignItems: "center", gap: 12 }}>
+              <span style={{ width: 32, height: 1, background: "rgba(0,168,255,.7)", display: "inline-block" }} />Badminton Collection
+            </p>
+            <h1 className="reveal dspl hero-h1">Main cepat.<br />Tampil <span className="sharp">lebih<br />tajam.</span></h1>
+            <p className="reveal" style={{ marginTop: 28, fontSize: "clamp(1rem, 2vw, 1.25rem)", fontWeight: 600, color: "#F5F7FA", maxWidth: "32rem", lineHeight: 1.3 }}>
+              Jersey badminton custom untuk tim yang siap tampil <span style={{ color: "#00A8FF" }}>kompetitif</span>.
+            </p>
+            <p className="reveal" style={{ marginTop: 16, fontSize: 15, color: "rgba(217,222,231,.85)", lineHeight: 1.6, maxWidth: "28rem" }}>
+              Desain sporty dan bahan dry-fit yang nyaman. Custom nameset, nomor, logo, serta sponsor agar tim tampil kompak di setiap pertandingan.
+            </p>
+            <div className="reveal" style={{ marginTop: 36 }}>
+              <a href="#collection" className="btn" style={{ padding: "16px 36px", fontSize: 14 }}>Pilih Desain <span aria-hidden="true">→</span></a>
+            </div>
+          </div>
+
+          {/* PRODUCT */}
+          <div className="reveal" style={{ order: 2, position: "relative", display: "flex", justifyContent: "center", alignSelf: "end" }}>
+            <div style={{ position: "absolute", bottom: 0, left: "50%", transform: "translateX(-50%)", width: "78%", aspectRatio: "1", borderRadius: "50%", background: "radial-gradient(circle,rgba(0,168,255,.30),rgba(21,94,239,.14) 45%,transparent 70%)", filter: "blur(60px)" }} />
+            <span className="dot" style={{ left: "12%", top: "26%" }} />
+            <span className="dot" style={{ left: "78%", top: "16%", animationDelay: "-3s" }} />
+            <span className="dot" style={{ left: "88%", top: "58%", animationDelay: "-5s", background: "rgba(233,30,140,.7)", boxShadow: "0 0 10px rgba(233,30,140,.8)" }} />
+            <span className="dot" style={{ left: "24%", top: "72%", animationDelay: "-1.5s" }} />
+            <img ref={heroImgRef} src="/landing/jersey-badminton/c7feb97a-5f8f-4114-9788-ad01760eaede.png" alt="Model mengenakan jersey badminton custom BD-10" className="hero-figure" style={{ position: "relative", width: "92%", maxWidth: "none", height: "auto" }} />
+            <div style={{ position: "absolute", top: "16%", right: "2%", padding: "6px 14px", borderRadius: 999, background: "rgba(6,21,45,.7)", backdropFilter: "blur(12px)", border: "1px solid rgba(255,255,255,.15)" }}>
+              <span className="eyebrow" style={{ fontSize: 9.5, color: "#F5F7FA" }}>BD-10</span>
+            </div>
+            <div className="vert-label eyebrow" style={{ position: "absolute", right: -8, bottom: "16%", fontSize: 9, color: "rgba(217,222,231,.25)", display: "none" }}>
+              Performance Teamwear
+            </div>
+          </div>
+
+          {/* TRUST */}
+          <div className="reveal trust eyebrow" style={{ order: 3, fontSize: 10, color: "rgba(217,222,231,.7)", marginTop: 28, marginBottom: "10vh" }}>
+            <span>20+ Desain</span><span>Siap Custom</span><span>Klub &amp; Komunitas</span>
+          </div>
+        </div>
+
+        <div className="eyebrow" style={{ position: "absolute", left: 32, bottom: 32, fontSize: 9, color: "rgba(217,222,231,.20)", display: "none" }}>Play Hard • Play Smart</div>
+      </section>
+
+      {/* ===== VALUE ===== */}
+      <section id="value" style={{ position: "relative", padding: "80px 0", borderTop: "1px solid rgba(255,255,255,.08)" }}>
+        <div style={{ maxWidth: 1280, margin: "0 auto", padding: "0 20px" }}>
+          <div className="reveal" style={{ maxWidth: "48rem" }}>
+            <h2 className="dspl" style={{ fontSize: "clamp(2rem, 5vw, 3.5rem)" }}>Dibuat untuk <span style={{ color: "#155EEF" }}>game</span> yang cepat.</h2>
+            <p style={{ marginTop: 20, color: "#D9DEE7", lineHeight: 1.6 }}>Badminton menuntut gerakan cepat, fokus tinggi, dan kenyamanan maksimal. Karena itu, jersey yang digunakan juga harus siap mengikuti setiap gerakan di lapangan.</p>
+          </div>
+          <div style={{ marginTop: 48, display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(250px, 1fr))", gap: 20 }}>
+            {[
+              { icon: <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#00A8FF" strokeWidth="1.6" strokeLinecap="round"><path d="M12 3v10" /><path d="M8 7l4-4 4 4" /><path d="M4 14v5a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-5" /></svg>, title: "Dry-Fit Adem", desc: "Ringan dan nyaman digunakan untuk latihan maupun pertandingan." },
+              { icon: <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#00A8FF" strokeWidth="1.6" strokeLinecap="round"><rect x="3" y="9" width="18" height="8" rx="2" /><path d="M7 9V4h10v5" /><path d="M7 17v3h10v-3" /></svg>, title: "Full Printing", desc: "Desain dicetak secara penuh agar visual jersey terlihat lebih maksimal dan berkarakter." },
+              { icon: <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#00A8FF" strokeWidth="1.6" strokeLinecap="round"><path d="M4 18c4-10 12-10 16 0" /><path d="M4 12h2M9 12h2M14 12h2M19 12h1" /></svg>, title: "Jahitan Kuat", desc: "Jahitan rapi dan kuat untuk mendukung aktivitas olahraga yang intens." },
+              { icon: <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#E91E8C" strokeWidth="1.6" strokeLinecap="round"><path d="M15 4l5 5L9 20H4v-5z" /><path d="M13 6l5 5" /></svg>, title: "Free Custom", desc: "Nameset, nomor, logo klub, komunitas, dan sponsor dapat disesuaikan." },
+            ].map((f, i) => (
+              <div key={i} className="reveal card" style={{ padding: 28 }}>
+                {f.icon}
+                <h3 className="dspl" style={{ fontSize: "1.25rem", marginTop: 20 }}>{f.title}</h3>
+                <p style={{ marginTop: 10, fontSize: 14, color: "#D9DEE7", lineHeight: 1.6 }}>{f.desc}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ===== COLLECTION ===== */}
+      <section id="collection" style={{ position: "relative", padding: "80px 0", background: "rgba(8,11,16,.6)", borderTop: "1px solid rgba(255,255,255,.08)", borderBottom: "1px solid rgba(255,255,255,.08)" }}>
+        <div className="mesh" style={{ opacity: 0.6 }} />
+        <div style={{ position: "relative", maxWidth: 1280, margin: "0 auto", padding: "0 20px" }}>
+          <div className="reveal" style={{ maxWidth: "48rem" }}>
+            <p className="eyebrow" style={{ fontSize: 11, color: "#00A8FF", marginBottom: 16 }}>Collection</p>
+            <h2 className="dspl" style={{ fontSize: "clamp(2rem, 5vw, 3.5rem)" }}>Pilih desain yang sesuai <span style={{ color: "#00A8FF" }}>karakter timmu</span>.</h2>
+            <p style={{ marginTop: 20, color: "#D9DEE7" }}>Beragam desain badminton dengan karakter sporty, modern, dan kompetitif.</p>
+          </div>
+          <div style={{ marginTop: 48, display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(300px, 1fr))", gap: 24 }}>
+            {CATALOG.map((item) => {
+              const isHidden = item.extra && !showAll;
+              const hasImg = !!item.img;
+              return (
+                <article key={item.code} className={`reveal card cat-item${item.extra ? " extra" : ""}`} style={{ overflow: "hidden", display: isHidden ? "none" : undefined }}>
+                  {hasImg ? (
+                    <div style={{ overflow: "hidden" }}>
+                      <img src={item.img} alt={`Jersey badminton ${item.code} ${item.name}`} style={{ width: "100%", aspectRatio: "1", objectFit: "cover" }} />
+                    </div>
+                  ) : (
+                    <div className="ph-tile" style={{ aspectRatio: "1", ["--c1" as string]: item.c1, ["--c2" as string]: item.c2 }}>
+                      <span className="ph-code dspl">{item.code}</span>
+                      <span className="ph-tag eyebrow" style={{ fontSize: 9 }}>Segera Hadir</span>
+                    </div>
+                  )}
+                  <div style={{ padding: 24, display: "flex", alignItems: "flex-end", justifyContent: "space-between", gap: 16 }}>
+                    <div>
+                      <h3 className="dspl" style={{ fontSize: "1.5rem", color: hasImg ? "#F5F7FA" : "rgba(245,247,250,.75)" }}>{item.name}</h3>
+                      <p className="eyebrow" style={{ fontSize: 10.5, color: hasImg ? "#00A8FF" : "rgba(217,222,231,.40)", marginTop: 6 }}>{item.code}</p>
+                    </div>
+                    <a href="#custom" className="btn-ghost" style={{ fontSize: 11, padding: "8px 16px", color: hasImg ? "#F5F7FA" : "rgba(245,247,250,.70)" }}>{hasImg ? "Pilih Desain" : "Tanya Desain"}</a>
+                  </div>
+                </article>
+              );
+            })}
+          </div>
+          <div className="reveal" style={{ marginTop: 40, display: "flex", flexDirection: "column", alignItems: "center", gap: 16 }}>
+            {!showAll && (
+              <button className="btn-ghost" style={{ padding: "14px 32px", fontSize: 11.5, color: "#F5F7FA" }} onClick={() => setShowAll(true)}>
+                Lihat Semua 20 Desain <span aria-hidden="true" style={{ marginLeft: 4 }}>↓</span>
+              </button>
+            )}
+            <p className="eyebrow" style={{ fontSize: 9.5, color: "rgba(217,222,231,.40)" }}>Desain baru terus ditambahkan tiap bulan</p>
+          </div>
+        </div>
+      </section>
+
+      {/* ===== TEAM IDENTITY ===== */}
+      <section style={{ position: "relative", padding: "80px 0", overflow: "hidden" }}>
+        <div className="speed" style={{ opacity: 0.6 }}><span /><span /><span /><span /><span /></div>
+        <div style={{ position: "relative", maxWidth: 1280, margin: "0 auto", padding: "0 20px", display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(320px, 1fr))", gap: 56, alignItems: "center" }}>
+          <div className="reveal" style={{ position: "relative" }}>
+            <div style={{ position: "absolute", inset: -24, borderRadius: 32, background: "radial-gradient(60% 60% at 50% 50%,rgba(233,30,140,.22),transparent 70%)", filter: "blur(16px)" }} />
+            <div style={{ position: "relative", borderRadius: 26, overflow: "hidden", border: "1px solid rgba(255,255,255,.12)" }}>
+              <img src="/landing/jersey-badminton/40d3ab5c-7d26-44ab-8eb6-ac1f904435ce.png" alt="Pemain badminton dengan jersey tim custom" style={{ width: "100%", height: "auto" }} />
+            </div>
+          </div>
+          <div className="reveal">
+            <h2 className="dspl" style={{ fontSize: "clamp(2rem, 5vw, 3.5rem)" }}>Satu tim. <span style={{ color: "#E91E8C" }}>Satu identitas.</span></h2>
+            <p style={{ marginTop: 20, color: "#D9DEE7", lineHeight: 1.6, maxWidth: "32rem" }}>Bikin jersey yang bukan cuma seragam, tapi menjadi identitas klub kamu.</p>
+            <div style={{ marginTop: 32, display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(140px, 1fr))", gap: 12 }}>
+              {["Nama Pemain", "Nomor Pemain", "Logo Klub", "Logo Komunitas", "Logo Sponsor"].map((c) => (
+                <div key={c} className="chip" style={{ padding: "12px 16px" }}>
+                  <span className="eyebrow" style={{ fontSize: 10.5 }}>{c}</span>
+                </div>
+              ))}
+            </div>
+            <p className="dspl" style={{ fontSize: "clamp(1.5rem, 3vw, 1.875rem)", marginTop: 36, lineHeight: 1.1 }}>
+              Setiap pemain punya nama.<br /><span style={{ color: "#155EEF" }}>Setiap tim punya identitas.</span>
+            </p>
+          </div>
+        </div>
+      </section>
+
+      {/* ===== HARGA ===== */}
+      <section id="harga" style={{ position: "relative", padding: "80px 0", overflow: "hidden" }}>
+        <div className="hero-glow g1" style={{ opacity: 0.45, right: "-24%", top: "8%" }} />
+        <div className="grid-lines" />
+        <div style={{ position: "relative", maxWidth: 1024, margin: "0 auto", padding: "0 20px", textAlign: "center" }}>
+          <p className="reveal eyebrow" style={{ fontSize: 10.5, color: "#00A8FF", marginBottom: 16 }}>Harga &amp; Paket</p>
+          <h2 className="reveal dspl" style={{ fontSize: "clamp(2rem, 5vw, 3.5rem)" }}>Pilih <span className="sharp">paket timmu</span>.</h2>
+          <p className="reveal" style={{ marginTop: 16, color: "rgba(217,222,231,.85)" }}>Pilih jumlah pembelian, harga akan menyesuaikan otomatis.</p>
+
+          {/* tabs */}
+          <div className="reveal" style={{ marginTop: 40, display: "flex", justifyContent: "center", gap: 40 }} role="tablist">
+            <button role="tab" aria-selected={priceMode === "ecer"} className={`price-tab eyebrow${priceMode === "ecer" ? " is-on" : ""}`} style={{ fontSize: 11 }} onClick={() => handlePriceTab("ecer")}>Ecer</button>
+            <button role="tab" aria-selected={priceMode === "lusin"} className={`price-tab eyebrow${priceMode === "lusin" ? " is-on" : ""}`} style={{ fontSize: 11 }} onClick={() => handlePriceTab("lusin")}>Lusin • Hemat</button>
+          </div>
+          <div className="reveal price-rule" style={{ maxWidth: 448, margin: "16px auto 0" }} />
+          <p className="reveal eyebrow" style={{ fontSize: 9.5, color: "rgba(217,222,231,.40)", marginTop: 16 }}>Mulai 12 pcs otomatis dapat harga lusin</p>
+
+          {/* price display */}
+          <div className="reveal" style={{ marginTop: 48, textAlign: "left", display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))", gap: 40, alignItems: "start" }}>
+            <div>
+              <p className="eyebrow" style={{ fontSize: 9.5, color: "rgba(0,168,255,.80)" }}>Paket Custom Lengkap</p>
+              <div style={{ marginTop: 16, display: "flex", alignItems: "flex-end", gap: 10 }}>
+                <span className="dspl" style={{ fontSize: "1.5rem", color: "rgba(217,222,231,.60)", paddingBottom: 12 }}>Rp</span>
+                <span className={`dspl price-num${swapping ? " swap" : ""}`} style={{ fontSize: "clamp(3rem, 8vw, 5rem)" }}>
+                  {priceMode === "lusin" ? "85" : "95"}<span style={{ fontSize: "clamp(1.875rem, 5vw, 3rem)" }}>RB</span>
+                </span>
+                <span className="eyebrow" style={{ fontSize: 10, color: "rgba(217,222,231,.55)", paddingBottom: 16 }}>/pcs</span>
+              </div>
+              <div style={{ marginTop: 20, display: "flex", flexWrap: "wrap", alignItems: "center", gap: 16 }}>
+                <p className="eyebrow" style={{ fontSize: 9.5, color: "rgba(217,222,231,.55)" }}>
+                  {priceMode === "lusin" ? "Berlaku untuk pembelian mulai 12 pcs" : "Bisa beli satuan, tanpa minimal"}
+                </p>
+                {priceMode === "lusin" && (
+                  <span className="eyebrow" style={{ fontSize: 9.5, color: "#E91E8C" }}>Hemat 10rb / pcs</span>
+                )}
+              </div>
+              <div style={{ marginTop: 36 }}>
+                <a href="#final" className="btn" style={{ padding: "16px 32px", fontSize: 14 }}>Pilih Desain <span aria-hidden="true">→</span></a>
+              </div>
+            </div>
+            <ul className="price-list" style={{ listStyle: "none", padding: 0, margin: 0, display: "flex", flexDirection: "column", gap: 16, fontSize: 15, color: "#D9DEE7" }}>
+              <li><span className="eyebrow" style={{ fontSize: 9.5, color: "rgba(217,222,231,.45)" }}>Semua paket termasuk</span></li>
+              <li><span style={{ color: "#00A8FF" }}>✓</span>Bahan dry-fit premium</li>
+              <li><span style={{ color: "#00A8FF" }}>✓</span>Full printing &amp; desain bebas</li>
+              <li><span style={{ color: "#00A8FF" }}>✓</span>Nama dan nomor punggung</li>
+              <li><span style={{ color: "#00A8FF" }}>✓</span>Logo tim, komunitas &amp; sponsor</li>
+              <li><span style={{ color: "#00A8FF" }}>✓</span>Revisi desain dibantu</li>
+            </ul>
+          </div>
+
+          {/* spec rail */}
+          <div className="reveal" style={{ marginTop: 48, display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 40 }}>
+            {[
+              { val: "Free", label: "Biaya desain & nameset" },
+              { val: "6", unit: "PCS", label: "Minimal desain sendiri" },
+              { val: "12", unit: "PCS", label: "Otomatis harga lusin" },
+            ].map((s, i) => (
+              <div key={i} className="spec" style={{ textAlign: "left" }}>
+                <p className="dspl" style={{ fontSize: "clamp(2rem, 4vw, 3rem)", lineHeight: 1, color: i === 0 ? undefined : undefined }}>
+                  {s.val}{s.unit && <span style={{ fontSize: "0.42em", color: "rgba(217,222,231,.45)", verticalAlign: "super", marginLeft: 4 }}>{s.unit}</span>}
+                </p>
+                <p className="eyebrow" style={{ fontSize: 9, color: "rgba(217,222,231,.50)", marginTop: 12 }}>{s.label}</p>
+              </div>
+            ))}
+          </div>
+
+          {/* bulk rail */}
+          <div className="reveal bulk-rail" style={{ marginTop: 56, paddingTop: 32, display: "flex", flexDirection: "row", flexWrap: "wrap", alignItems: "baseline", gap: 20, textAlign: "left" }}>
+            <h3 className="dspl" style={{ fontSize: "clamp(1.5rem, 3vw, 2rem)", lineHeight: 1, flexShrink: 0 }}>Lebih dari <span style={{ color: "#E91E8C" }}>50 pcs</span>?</h3>
+            <p style={{ fontSize: 14, color: "rgba(217,222,231,.70)", flex: 1, lineHeight: 1.6 }}>Harga proyek khusus untuk komunitas, instansi, sekolah, dan event.</p>
+            <a href="#final" className="arrow-link eyebrow" style={{ fontSize: 10.5, color: "#00A8FF", flexShrink: 0 }}>Minta Harga Khusus <span aria-hidden="true">↗</span></a>
+          </div>
+        </div>
+      </section>
+
+      {/* ===== CUSTOM ===== */}
+      <section id="custom" style={{ position: "relative", padding: "80px 0", background: "rgba(8,11,16,.6)", borderTop: "1px solid rgba(255,255,255,.08)", borderBottom: "1px solid rgba(255,255,255,.08)" }}>
+        <div style={{ maxWidth: 1280, margin: "0 auto", padding: "0 20px" }}>
+          <div className="reveal" style={{ maxWidth: "48rem" }}>
+            <h2 className="dspl" style={{ fontSize: "clamp(2rem, 5vw, 3.5rem)" }}>Desain sesuai <span style={{ color: "#00A8FF" }}>timmu</span>.</h2>
+            <p style={{ marginTop: 20, color: "#D9DEE7", lineHeight: 1.6 }}>Tidak perlu mulai dari desain kosong. Pilih desain favorit dari koleksi yang tersedia, lalu sesuaikan dengan identitas tim kamu.</p>
+          </div>
+          <div style={{ marginTop: 48, display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(250px, 1fr))", gap: 20 }}>
+            {[
+              { n: "01", title: "Pilih Desain", desc: "Pilih desain badminton yang paling sesuai dengan karakter tim." },
+              { n: "02", title: "Kirim Data", desc: "Kirim nama, nomor, logo, dan sponsor." },
+              { n: "03", title: "Custom", desc: "Desain disesuaikan dengan identitas tim kamu." },
+              { n: "04", title: "Siap Dimainkan", desc: "Jersey siap digunakan untuk latihan, pertandingan, turnamen, maupun event tim." },
+            ].map((s, i) => (
+              <div key={i} className="reveal card" style={{ padding: 28 }}>
+                <p className="num" style={{ fontSize: "3rem" }}>{s.n}</p>
+                <h3 className="dspl" style={{ fontSize: "1.25rem", marginTop: 16 }}>{s.title}</h3>
+                <p style={{ marginTop: 10, fontSize: 14, color: "#D9DEE7", lineHeight: 1.6 }}>{s.desc}</p>
+              </div>
+            ))}
+          </div>
+          <div className="reveal" style={{ marginTop: 44 }}>
+            <a href="#final" className="btn" style={{ padding: "16px 36px", fontSize: 14 }}>Mulai Custom</a>
+          </div>
+        </div>
+      </section>
+
+      {/* ===== TARGET ===== */}
+      <section id="target" style={{ position: "relative", padding: "80px 0" }}>
+        <div style={{ maxWidth: 1280, margin: "0 auto", padding: "0 20px", display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(320px, 1fr))", gap: 48, alignItems: "center" }}>
+          <div className="reveal">
+            <h2 className="dspl" style={{ fontSize: "clamp(2rem, 5vw, 3.5rem)" }}>Untuk tim yang serius <span style={{ color: "#155EEF" }}>di lapangan</span>.</h2>
+            <p style={{ marginTop: 20, color: "#D9DEE7", lineHeight: 1.6, maxWidth: "32rem" }}>Dari latihan rutin sampai pertandingan besar, gunakan jersey yang membuat tim terlihat lebih kompak dan profesional.</p>
+          </div>
+          <div className="reveal" style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(150px, 1fr))", gap: 16 }}>
+            {["Klub Badminton", "Komunitas", "Sekolah", "Kampus", "Turnamen", "Tim Kompetitif"].map((t) => (
+              <div key={t} className="chip" style={{ padding: "24px 20px" }}>
+                <span className="eyebrow" style={{ fontSize: 11 }}>{t}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ===== FINAL CTA ===== */}
+      <section id="final" style={{ position: "relative", padding: "clamp(96px, 12vw, 128px) 0", overflow: "hidden", borderTop: "1px solid rgba(255,255,255,.08)" }}>
+        <div className="mesh" />
+        <div className="speed"><span /><span /><span /><span /><span /></div>
+        <div className="reveal" style={{ position: "relative", maxWidth: 896, margin: "0 auto", padding: "0 20px", textAlign: "center" }}>
+          <h2 className="dspl" style={{ fontSize: "clamp(2rem, 6vw, 4.5rem)" }}>Siap tampil <span className="grad-text">lebih tajam</span> di lapangan?</h2>
+          <p style={{ marginTop: 24, fontSize: "clamp(1rem, 2vw, 1.125rem)", fontWeight: 600, color: "#F5F7FA" }}>Pilih desain badminton favoritmu dan custom sesuai identitas tim.</p>
+          <p className="eyebrow" style={{ marginTop: 16, fontSize: 10.5, color: "rgba(217,222,231,.80)" }}>20+ Desain <span style={{ color: "#E91E8C" }}>•</span> Siap Custom <span style={{ color: "#E91E8C" }}>•</span> Untuk Klub &amp; Komunitas</p>
+          <div style={{ marginTop: 40 }}>
+            <a href="#collection" className="btn" style={{ padding: "20px 40px", fontSize: 16 }}>Pilih Desain Badminton →</a>
+          </div>
+        </div>
+      </section>
+
+      {/* ===== FOOTER ===== */}
+      <footer style={{ borderTop: "1px solid rgba(255,255,255,.08)", padding: "40px 0" }}>
+        <div style={{ maxWidth: 1280, margin: "0 auto", padding: "0 20px", display: "flex", flexDirection: "row", flexWrap: "wrap", gap: 16, alignItems: "center", justifyContent: "space-between", fontSize: 14, color: "rgba(217,222,231,.70)" }}>
+          <span className="dspl" style={{ fontSize: "1rem" }}>Badminton<span style={{ color: "#00A8FF" }}> Collection</span></span>
+          <span>Custom Jersey · Klub &amp; Komunitas</span>
+        </div>
+      </footer>
+
+      {/* ===== TOAST NOTIFICATIONS ===== */}
+      <div className="toast-wrap">
+        {toasts.map((t) => (
+          <div key={t.id} className="toast in">
+            <span className="toast-dot" />
+            <div style={{ fontSize: 12.5, lineHeight: 1.35, color: "rgba(217,222,231,.80)" }}>
+              <span dangerouslySetInnerHTML={{ __html: t.text }} />
+              <div className="eyebrow" style={{ fontSize: 8.5, color: "rgba(217,222,231,.40)", marginTop: 6 }}>{t.sub}</div>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
