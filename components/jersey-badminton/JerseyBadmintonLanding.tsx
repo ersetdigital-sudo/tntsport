@@ -190,58 +190,50 @@ export function JerseyBadmintonLanding({ products, waNumber }: Props) {
       </header>
 
       {/* ===== HERO ===== */}
-      <section id="hero" className="relative min-h-[100svh] flex items-center overflow-hidden px-5 sm:px-8 pt-24 pb-14 lg:pt-20 lg:pb-0">
-        {/* ambient */}
-        <div className="hero-glow g1" /><div className="hero-glow g2" /><div className="hero-glow g3" />
-        <div className="grid-lines" />
-        <div className="hero-arc" style={{ width: "70vw", height: "70vw", maxWidth: 900, maxHeight: 900, right: "-14%", top: "-12%" }} />
-        <div className="hero-arc" style={{ width: "46vw", height: "46vw", maxWidth: 560, maxHeight: 560, right: "2%", bottom: "-18%", opacity: 0.6 }} />
-        <div className="streaks" ref={streakRef} />
-        <div className="speed" style={{ opacity: 0.7 }}><span /><span /><span /><span /><span /></div>
+      <section id="hero" className="relative overflow-hidden pt-16 pb-16 sm:pt-20 sm:pb-20 lg:pt-24 lg:pb-28">
+        <div className="absolute inset-0 grid-lines" aria-hidden="true" />
+        <div className="absolute inset-0 hero-glow g1" aria-hidden="true" />
+        <div className="absolute inset-0 hero-glow g2" aria-hidden="true" />
+        <div className="absolute inset-0 hero-glow g3" aria-hidden="true" />
 
-        <div className="relative w-full mx-auto px-5 sm:px-8" style={{ maxWidth: 1400 }}>
-          <div className="hero-grid">
+        <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+          <div className="grid items-center gap-12 lg:grid-cols-[45fr_55fr] lg:gap-4">
             {/* COPY */}
-            <div className="hero-copy reveal" style={{ paddingRight: "1.5rem" }}>
-              <p className="reveal eyebrow" style={{ fontSize: 10.5, color: "#00A8FF", marginBottom: 24, display: "flex", alignItems: "center", gap: 12 }}>
-                <span style={{ width: 32, height: 1, background: "rgba(0,168,255,.7)", display: "inline-block" }} />Badminton Collection
+            <div>
+              <p className="eyebrow mb-5 flex items-center gap-3 text-[10.5px]" style={{ color: "#00A8FF" }}>
+                <span className="inline-block h-px w-8" style={{ background: "rgba(0,168,255,.7)" }} />Badminton Collection
               </p>
-              <h1 className="reveal dspl hero-h1">Main cepat.<br />Tampil <span className="sharp">lebih<br />tajam.</span></h1>
-              <p className="reveal" style={{ marginTop: 28, fontSize: "clamp(1rem, 2vw, 1.25rem)", fontWeight: 600, color: "#F5F7FA", maxWidth: "32rem", lineHeight: 1.3 }}>
+              <h1 className="dspl hero-h1">Main cepat.<br />Tampil <span className="sharp">lebih<br />tajam.</span></h1>
+              <p className="mt-7 max-w-lg text-lg font-semibold leading-snug" style={{ color: "#F5F7FA" }}>
                 Jersey badminton custom untuk tim yang siap tampil <span style={{ color: "#00A8FF" }}>kompetitif</span>.
               </p>
-              <p className="reveal" style={{ marginTop: 16, fontSize: 15, color: "rgba(217,222,231,.85)", lineHeight: 1.6, maxWidth: "28rem" }}>
+              <p className="mt-4 max-w-md text-[15px] leading-relaxed" style={{ color: "rgba(217,222,231,.85)" }}>
                 Desain sporty dan bahan dry-fit yang nyaman. Custom nameset, nomor, logo, serta sponsor agar tim tampil kompak di setiap pertandingan.
               </p>
-              <div className="reveal" style={{ marginTop: 36 }}>
-                <a href="#collection" className="btn" style={{ padding: "16px 36px", fontSize: 14 }}>Pilih Desain <span aria-hidden="true">→</span></a>
+              <div className="mt-9">
+                <a href="#collection" className="btn px-9 py-4 text-sm">Pilih Desain <span aria-hidden="true">→</span></a>
+              </div>
+              <div className="mt-7 flex items-center gap-4 eyebrow text-[10px]" style={{ color: "rgba(217,222,231,.7)" }}>
+                <span>20+ Desain</span><span>Siap Custom</span><span>Klub &amp; Komunitas</span>
               </div>
             </div>
 
             {/* PRODUCT */}
-            <div className="hero-product reveal">
-              <div style={{ position: "absolute", bottom: 0, left: "50%", transform: "translateX(-50%)", width: "78%", aspectRatio: "1", borderRadius: "50%", background: "radial-gradient(circle,rgba(0,168,255,.30),rgba(21,94,239,.14) 45%,transparent 70%)", filter: "blur(60px)" }} />
+            <div className="relative">
+              <div className="absolute bottom-0 left-1/2 -translate-x-1/2 h-[78%] aspect-square rounded-full blur-[60px]" style={{ background: "radial-gradient(circle,rgba(0,168,255,.30),rgba(21,94,239,.14) 45%,transparent 70%)" }} />
               <span className="dot" style={{ left: "12%", top: "26%" }} />
               <span className="dot" style={{ left: "78%", top: "16%", animationDelay: "-3s" }} />
               <span className="dot" style={{ left: "88%", top: "58%", animationDelay: "-5s", background: "rgba(233,30,140,.7)", boxShadow: "0 0 10px rgba(233,30,140,.8)" }} />
               <span className="dot" style={{ left: "24%", top: "72%", animationDelay: "-1.5s" }} />
-              <img ref={heroImgRef} src="/landing/jersey-badminton/c7feb97a-5f8f-4114-9788-ad01760eaede.png" alt="Model mengenakan jersey badminton custom BD-10" className="hero-figure" />
-              <div style={{ position: "absolute", top: "16%", right: "6%", padding: "6px 14px", borderRadius: 999, background: "rgba(6,21,45,.7)", backdropFilter: "blur(12px)", border: "1px solid rgba(255,255,255,.15)" }}>
-                <span className="eyebrow" style={{ fontSize: 9.5, color: "#F5F7FA" }}>BD-10</span>
-              </div>
-              <div className="vert-label eyebrow" style={{ position: "absolute", right: -8, bottom: "16%", fontSize: 9, color: "rgba(217,222,231,.25)" }}>
-                Performance Teamwear
+              <img ref={heroImgRef} src="/landing/jersey-badminton/c7feb97a-5f8f-4114-9788-ad01760eaede.png" alt="Model mengenakan jersey badminton custom BD-10" className="hero-figure relative" />
+              <div className="absolute top-[16%] right-[6%] rounded-full px-3.5 py-1.5" style={{ background: "rgba(6,21,45,.7)", backdropFilter: "blur(12px)", border: "1px solid rgba(255,255,255,.15)" }}>
+                <span className="eyebrow text-[9.5px]" style={{ color: "#F5F7FA" }}>BD-10</span>
               </div>
             </div>
           </div>
-
-          {/* TRUST */}
-          <div className="hero-trust reveal trust eyebrow" style={{ fontSize: 10, color: "rgba(217,222,231,.7)", marginTop: 28, marginBottom: "10vh" }}>
-            <span>20+ Desain</span><span>Siap Custom</span><span>Klub &amp; Komunitas</span>
-          </div>
         </div>
 
-        <div className="eyebrow hidden lg:block" style={{ position: "absolute", left: 32, bottom: 32, fontSize: 9, color: "rgba(217,222,231,.20)" }}>Play Hard • Play Smart</div>
+        <div className="eyebrow absolute bottom-8 left-8 hidden text-[9px] lg:block" style={{ color: "rgba(217,222,231,.20)" }}>Play Hard • Play Smart</div>
       </section>
 
       {/* ===== VALUE ===== */}
@@ -362,8 +354,8 @@ export function JerseyBadmintonLanding({ products, waNumber }: Props) {
             {/* grid foto seragam */}
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
               {GALLERY_IMAGES.slice(0, 4).map((g, i) => (
-                <button key={i} type="button" onClick={() => setGalleryActive(i)} className="group relative overflow-hidden rounded-2xl aspect-square">
-                  <img src={g.src} alt={g.alt} loading="lazy" className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" />
+                <button key={i} type="button" onClick={() => setGalleryActive(i)} className="group relative block w-full overflow-hidden rounded-2xl border-0 bg-transparent p-0 aspect-square">
+                  <img src={g.src} alt={g.alt} loading="lazy" className="absolute inset-0 h-full w-full object-cover transition-transform duration-500 group-hover:scale-105" />
                   <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors duration-300" />
                 </button>
               ))}

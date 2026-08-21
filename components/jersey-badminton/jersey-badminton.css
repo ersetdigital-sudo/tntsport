@@ -644,7 +644,7 @@
 }
 
 /* ============================================================
-   HERO GRID & LAYOUT
+   HERO
    ============================================================ */
 .jbm #hero {
   background:
@@ -670,63 +670,6 @@
   .jbm .hero-figure {
     width: 118%;
     margin-right: -6%;
-  }
-}
-
-.jbm .hero-grid {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 2.5rem;
-  align-items: center;
-}
-
-@media (min-width: 1024px) {
-  .jbm .hero-grid {
-    grid-template-columns: 45fr 55fr;
-    gap: 1rem;
-    align-items: end;
-  }
-}
-
-.jbm .hero-copy {
-  order: 1;
-}
-
-@media (min-width: 1024px) {
-  .jbm .hero-copy {
-    padding-right: 1.5rem;
-  }
-}
-
-.jbm .hero-product {
-  order: 2;
-  position: relative;
-  display: flex;
-  justify-content: center;
-  align-self: end;
-}
-
-@media (min-width: 1024px) {
-  .jbm .hero-product {
-    order: unset;
-    grid-column: 2;
-    grid-row: 1 / span 2;
-    justify-content: flex-end;
-    margin-bottom: -6vh;
-    margin-top: 6vh;
-  }
-}
-
-.jbm .hero-trust {
-  order: 3;
-}
-
-@media (min-width: 1024px) {
-  .jbm .hero-trust {
-    grid-column: 1;
-    grid-row: 2;
-    margin-top: 28px;
-    margin-bottom: 10vh;
   }
 }
 
@@ -761,48 +704,3 @@
   }
 }
 
-/* ===== Gallery Marquee ===== */
-.jbm .gal-wrap {
-  overflow: hidden;
-  -webkit-mask-image: linear-gradient(90deg, transparent, #000 5%, #000 95%, transparent);
-  mask-image: linear-gradient(90deg, transparent, #000 5%, #000 95%, transparent);
-}
-.jbm .gal-track {
-  display: flex;
-  gap: 1rem;
-  width: max-content;
-  animation: jbm-galslide 42s linear infinite;
-}
-.jbm .gal-wrap:hover .gal-track {
-  animation-play-state: paused;
-}
-.jbm .gal-item {
-  flex: 0 0 auto;
-  width: min(13.5rem, 70vw);
-  margin: 0;
-  padding: 0;
-  cursor: pointer;
-  text-align: left;
-  background: none;
-  border: none;
-}
-.jbm .gal-item img {
-  width: 100%;
-  height: auto;
-  aspect-ratio: 4/3;
-  object-fit: cover;
-  border-radius: 1rem;
-  border: 1px solid rgba(255,255,255,.1);
-  display: block;
-  transition: transform .35s ease;
-}
-.jbm .gal-item:hover img {
-  transform: scale(1.04);
-}
-@media (min-width: 640px) {
-  .jbm .gal-item { width: 17rem; }
-}
-@keyframes jbm-galslide {
-  from { transform: translateX(0); }
-  to { transform: translateX(-50%); }
-}
