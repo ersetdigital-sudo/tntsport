@@ -16,6 +16,8 @@ interface Props {
   waNumber: string;
 }
 
+const MARQUEE_ITEMS = ["Free Custom Logo", "Free Nameset & Nomor", "Full Printing", "Bisa Tambah Sponsor", "Dry-Fit Premium", "Jahitan Rapi", "Revisi Tanpa Batas", "Bisa Satuan", "Harga Pabrik"];
+
 const CATALOG_NAMES: Record<string, string> = {
   "GET TNT-01": "Corporate Design 01",
   "GET TNT-02": "Corporate Design 02",
@@ -207,12 +209,12 @@ export function CorporateCollectionLanding({ products, waNumber }: Props) {
         </div>
 
         <div className="relative border-t border-white/12 overflow-hidden">
-          <div className="mx-auto max-w-[1400px] px-6 lg:px-12 py-5 flex items-center gap-5 overflow-x-hidden">
-            <span className="label text-[#A6A8AA] shrink-0 hidden sm:inline">Keunggulan</span>
+          <div className="py-5 flex items-center gap-0 overflow-hidden">
+            <span className="label text-[#A6A8AA] shrink-0 hidden sm:inline px-6">Keunggulan</span>
             <span className="hidden sm:block w-8 h-px bg-[#F26A21] shrink-0" />
-            <div className="flex items-center gap-8 shrink-0 marquee-track">
-              {["Free Custom Logo", "Free Nameset & Nomor", "Full Printing", "Bisa Tambah Sponsor", "Dry-Fit Premium", "Jahitan Rapi", "Revisi Tanpa Batas", "Bisa Satuan", "Harga Pabrik", "Free Custom Logo", "Free Nameset & Nomor", "Full Printing", "Bisa Tambah Sponsor", "Dry-Fit Premium"].map((item, i) => (
-                <span key={i} className="label text-[#F3F0E8]/70 whitespace-nowrap flex items-center gap-3">
+            <div className="flex items-center gap-8 marquee-track">
+              {[...MARQUEE_ITEMS, ...MARQUEE_ITEMS].map((item, i) => (
+                <span key={i} className="label text-[#F3F0E8]/70 whitespace-nowrap flex items-center gap-3 shrink-0">
                   <span className="w-1.5 h-1.5 bg-[#F26A21] rounded-full shrink-0" />
                   {item}
                 </span>
@@ -541,9 +543,11 @@ export function CorporateCollectionLanding({ products, waNumber }: Props) {
         <div className="mt-14 lg:mt-20 pl-6 lg:pl-12">
           <div ref={tCarouselRef} className="hscroll pr-6 lg:pr-12">
             {[
-              { quote: "Jersey corporate dari TNT bikin tim kami keliatan lebih kompak pas company outing. Kualitas bahan beneran adem.", name: "Andi Prasetyo", team: "PT Mitra Solusi · Jakarta" },
-              { quote: "Order 50 set buat sports day kantor. Hasilnya rapi semua, warna ga luntur meski udah dicuci berkali-kali.", name: "Rina Wulandari", team: "Bank Digital Nusantara · Bandung" },
-              { quote: "Custom logo dan nama perusahaan langsung di jersey. Klien kami sampe nanya jersey-nya pesen dimana.", name: "Budi Santoso", team: "Construction Pro · Surabaya" },
+              { quote: "Order 60 set buat family gathering kantor. Bahan adem, nama karyawan + logo perusahaan tercetak rapi. Semua pegawai pada puas banget.", name: "Andi Prasetyo", team: "PT Mitra Solusi · Jakarta" },
+              { quote: "Pesan 36 jersey buat turnamen antar divisi. Hasilnya persis kayak mockup — warna, logo, nomor punggung semuanya detail. Klien kami pada nanya pesen dimana.", name: "Rina Wulandari", team: "Bank Digital Nusantara · Bandung" },
+              { quote: "Paket company jersey 20 set, cashback Rp60rb langsung dipakai buat custom nama. Proses cepat, jahitan awet. Recommended banget buat kantor!", name: "Budi Santoso", team: "Construction Pro · Surabaya" },
+              { quote: "Dipesen buat TIM futsal kantor, 24 pcs. Dry-fit-nya beneran adem, ga nerawang. Yang cewek juga nyaman dipakai. Bakal repeat order buat event bulan depan.", name: "Siti Nurhaliza", team: "TechVision Corp · Medan" },
+              { quote: "Logo sponsor + nama perusahaan bisa masuk semua di jersey. Dipakai buat company outing, keliatan kompak dan profesional. Kualitas cetak tajam.", name: "Hendra Gunawan", team: "PT Global Karya · Semarang" },
             ].map((t, i) => (
               <article key={i} className="w-[82vw] sm:w-[46vw] lg:w-[30rem] border border-white/12 p-8 lg:p-10 flex flex-col">
                 <div className="label orange tracking-[0.4em]">★★★★★</div>
