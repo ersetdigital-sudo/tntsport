@@ -343,7 +343,7 @@ export function JerseyBadmintonLanding({ products, waNumber }: Props) {
 
       {/* ===== GALERI FOTO ===== */}
       <section id="galeri" className="relative py-20 md:py-28" style={{ background: "rgba(8,11,16,.6)", borderTop: "1px solid rgba(255,255,255,.08)", borderBottom: "1px solid rgba(255,255,255,.08)" }}>
-        <div className="mx-auto max-w-7xl px-5 sm:px-8">
+        <div className="max-w-[1400px] mx-auto px-5 sm:px-8">
           <div className="max-w-3xl mb-10">
             <div style={{ height: 1, width: 64, background: "linear-gradient(90deg,transparent,rgba(0,168,255,.55),transparent)", marginBottom: 24 }} />
             <h2 className="dspl" style={{ fontSize: "clamp(1.7rem, 4.2vw, 2.8rem)", color: "#fff" }}>Foto Hasil Jersey Badminton</h2>
@@ -361,7 +361,7 @@ export function JerseyBadmintonLanding({ products, waNumber }: Props) {
             )}
           </div>
         </div>
-        <div className="mx-auto max-w-7xl px-5 sm:px-8 mt-10 text-center">
+        <div className="max-w-[1400px] mx-auto px-5 sm:px-8 mt-10 text-center">
           <a href={wa("Halo TNT SPORT APPAREL, saya lihat galeri hasil jersey pelanggan, saya mau order seperti itu!")} target="_blank" rel="noopener" className="btn" style={{ padding: "16px 36px", fontSize: 14 }}>
             🏸 Mau Jersey Seperti Ini? Order Sekarang
           </a>
