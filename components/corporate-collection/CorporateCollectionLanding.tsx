@@ -145,9 +145,6 @@ export function CorporateCollectionLanding({ products, waNumber }: Props) {
                 Pilih Desain <span>→</span>
               </a>
             </div>
-            <div className="reveal mt-6 label text-[#A6A8AA]">
-              20+ Desain <span className="orange">•</span> Siap Custom <span className="orange">•</span> Untuk Tim &amp; Perusahaan
-            </div>
           </div>
 
           <div className="lg:col-span-5 relative">
