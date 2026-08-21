@@ -342,29 +342,39 @@ export function JerseyBadmintonLanding({ products, waNumber }: Props) {
       </section>
 
       {/* ===== GALERI FOTO ===== */}
-      <section id="galeri" className="relative py-20 md:py-28" style={{ background: "rgba(8,11,16,.6)", borderTop: "1px solid rgba(255,255,255,.08)", borderBottom: "1px solid rgba(255,255,255,.08)" }}>
+      <section id="galeri" className="relative py-20 md:py-28">
         <div className="max-w-[1400px] mx-auto px-5 sm:px-8">
-          <div className="max-w-3xl mb-10">
-            <div style={{ height: 1, width: 64, background: "linear-gradient(90deg,transparent,rgba(0,168,255,.55),transparent)", marginBottom: 24 }} />
-            <h2 className="dspl" style={{ fontSize: "clamp(1.7rem, 4.2vw, 2.8rem)", color: "#fff" }}>Foto Hasil Jersey Badminton</h2>
-            <p className="mt-3 text-lg" style={{ color: "#D9DEE7" }}>Foto asli dari pelanggan — bukan edit, bukan rekayasa.</p>
-          </div>
-        </div>
-        <div className="gal-wrap mt-8">
-          <div className="gal-track">
-            {Array.from({ length: 2 }).map((_, dup) =>
-              GALLERY_IMAGES.map((g, i) => (
-                <button key={`${dup}-${i}`} type="button" onClick={() => setGalleryActive(dup === 0 ? i : null)} className="gal-item">
-                  <img src={g.src} alt={dup === 1 ? "" : g.alt} loading="lazy" />
+          <div className="rounded-3xl p-8 md:p-10" style={{ background: "rgba(8,11,16,.6)", border: "1px solid rgba(255,255,255,.08)" }}>
+            {/* header dua kolom */}
+            <div className="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-6 mb-10">
+              <div className="max-w-2xl">
+                <p className="eyebrow flex items-center gap-2 text-[11px]" style={{ color: "#00A8FF" }}>
+                  <span>🏆</span> BUKTI BUKAN JANJI
+                </p>
+                <h2 className="dspl mt-3" style={{ fontSize: "clamp(1.7rem, 4.2vw, 2.8rem)", color: "#fff", lineHeight: 1 }}>
+                  FOTO <span style={{ color: "#00A8FF" }}>NYATA</span> DARI<br />PELANGGAN KAMI
+                </h2>
+              </div>
+              <p className="text-sm max-w-xs text-right" style={{ color: "rgba(217,222,231,.70)" }}>
+                Foto asli dari pelanggan — bukan edit, bukan rekayasa. Semua jersey yang tampil di sini benar-benar dipakai di lapangan.
+              </p>
+            </div>
+            {/* grid foto seragam */}
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+              {GALLERY_IMAGES.slice(0, 4).map((g, i) => (
+                <button key={i} type="button" onClick={() => setGalleryActive(i)} className="group relative overflow-hidden rounded-2xl aspect-square">
+                  <img src={g.src} alt={g.alt} loading="lazy" className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" />
+                  <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors duration-300" />
                 </button>
-              ))
-            )}
+              ))}
+            </div>
+            {/* CTA */}
+            <div className="mt-10 text-center">
+              <a href={wa("Halo TNT SPORT APPAREL, saya lihat galeri hasil jersey pelanggan, saya mau order seperti itu!")} target="_blank" rel="noopener" className="btn px-9 py-4 text-sm">
+                Mau Jersey Seperti Ini? Order Sekarang <span aria-hidden="true">→</span>
+              </a>
+            </div>
           </div>
-        </div>
-        <div className="max-w-[1400px] mx-auto px-5 sm:px-8 mt-10 text-center">
-          <a href={wa("Halo TNT SPORT APPAREL, saya lihat galeri hasil jersey pelanggan, saya mau order seperti itu!")} target="_blank" rel="noopener" className="btn" style={{ padding: "16px 36px", fontSize: 14 }}>
-            🏸 Mau Jersey Seperti Ini? Order Sekarang
-          </a>
         </div>
         {galleryActive !== null && GALLERY_IMAGES[galleryActive] && (
           <div className="fixed inset-0 z-[110] flex items-center justify-center p-4" style={{ background: "rgba(0,0,0,.85)", backdropFilter: "blur(4px)" }} onClick={() => setGalleryActive(null)} role="dialog" aria-modal="true">
