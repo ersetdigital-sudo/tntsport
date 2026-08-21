@@ -230,6 +230,16 @@
   border: none;
   outline: none;
   background: transparent;
+  color: #A6A8AA;
+  transition: all 0.2s ease;
+}
+.corp .tier-btn:hover {
+  color: #F3F0E8;
+}
+.corp .tier-btn[aria-selected="true"],
+.corp .tier-btn.active {
+  background: #F26A21 !important;
+  color: #0D0F11 !important;
 }
 
 /* ---- catalog grid ---- */

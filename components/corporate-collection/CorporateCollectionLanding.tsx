@@ -407,64 +407,64 @@ export function CorporateCollectionLanding({ products, waNumber }: Props) {
               </h2>
             </div>
             <div className="lg:col-span-5">
-              <p className="reveal text-[15px] text-[#A6A8AA] leading-relaxed mb-8">Pilih jumlah pembelian, harga akan menyesuaikan otomatis.</p>
-              <div className="reveal inline-flex border border-white/15 p-1" role="tablist" aria-label="Jumlah pembelian">
-                <button type="button" onClick={() => setTier("ecer")} role="tab" aria-selected={tier === "ecer"} className={`tier-btn label px-6 py-3 ${tier === "ecer" ? "bg-[#F26A21] text-[#0D0F11]" : "text-[#A6A8AA] hover:text-[#F3F0E8]"}`}>
+              <p className="reveal text-[15px] text-[#A6A8AA] leading-relaxed mb-6 lg:mb-8">Pilih jumlah pembelian, harga akan menyesuaikan otomatis.</p>
+              <div className="reveal flex border border-white/15 rounded-lg p-1 bg-white/5" role="tablist" aria-label="Jumlah pembelian">
+                <button type="button" onClick={() => setTier("ecer")} role="tab" aria-selected={tier === "ecer"} className={`tier-btn label flex-1 px-5 py-3.5 text-center rounded-md transition-all duration-200 ${tier === "ecer" ? "bg-[#F26A21] text-[#0D0F11]" : "text-[#A6A8AA] hover:text-[#F3F0E8]"}`}>
                   Ecer
                 </button>
-                <button type="button" onClick={() => setTier("lusin")} role="tab" aria-selected={tier === "lusin"} className={`tier-btn label px-6 py-3 ${tier === "lusin" ? "bg-[#F26A21] text-[#0D0F11]" : "text-[#A6A8AA] hover:text-[#F3F0E8]"}`}>
+                <button type="button" onClick={() => setTier("lusin")} role="tab" aria-selected={tier === "lusin"} className={`tier-btn label flex-1 px-5 py-3.5 text-center rounded-md transition-all duration-200 ${tier === "lusin" ? "bg-[#F26A21] text-[#0D0F11]" : "text-[#A6A8AA] hover:text-[#F3F0E8]"}`}>
                   Lusin — Hemat
                 </button>
               </div>
             </div>
           </div>
 
-          <div className="mt-16 lg:mt-24 grid lg:grid-cols-2 gap-px bg-white/12 border border-white/12">
-            <div className="reveal bg-[#17191C] p-8 lg:p-12 flex flex-col">
+          <div className="mt-16 lg:mt-24 grid lg:grid-cols-2 gap-4 lg:gap-px lg:bg-white/12 lg:border lg:border-white/12">
+            <div className="reveal bg-[#1E2023] lg:bg-[#17191C] p-6 lg:p-12 flex flex-col rounded-xl lg:rounded-none border border-white/8 lg:border-0">
               <div className="flex items-start justify-between gap-4">
                 <span className="label text-[#A6A8AA]">Jersey Atasan</span>
-                <span className="label text-[#A6A8AA] border border-white/15 px-3 py-1">Fleksibel</span>
+                <span className="label text-[#A6A8AA] border border-white/15 px-3 py-1 text-[11px]">Fleksibel</span>
               </div>
-              <h3 className="display text-3xl lg:text-4xl mt-8 text-[#F3F0E8]">Atasan Saja</h3>
-              <div className="mt-8 flex flex-wrap items-end gap-x-3 gap-y-1">
-                <span className="label text-[#A6A8AA] pb-3">Rp</span>
-                <span className="display text-[19vw] sm:text-[10vw] lg:text-[6.5rem] leading-[0.85] text-[#F3F0E8]">{t.atasan}</span>
-                <span className="display text-3xl lg:text-4xl text-[#F3F0E8] pb-1">RB</span>
-                <span className="label text-[#A6A8AA] pb-3">/pcs</span>
+              <h3 className="display text-2xl lg:text-4xl mt-6 lg:mt-8 text-[#F3F0E8]">Atasan Saja</h3>
+              <div className="mt-6 lg:mt-8 flex flex-wrap items-end gap-x-2 gap-y-1">
+                <span className="label text-[#A6A8AA] pb-2 text-sm">Rp</span>
+                <span className="display text-[18vw] sm:text-[10vw] lg:text-[6.5rem] leading-[0.85] text-[#F3F0E8]">{t.atasan}</span>
+                <span className="display text-2xl lg:text-4xl text-[#F3F0E8] pb-1">RB</span>
+                <span className="label text-[#A6A8AA] pb-2 text-sm">/pcs</span>
               </div>
-              <p className="mt-5 text-[13px] text-[#A6A8AA]">{t.minA}</p>
-              <div className="h-px bg-white/12 my-10" />
-              <ul className="space-y-4 text-[15px] text-[#F3F0E8]/85">
-                <li className="flex gap-4"><span className="orange">—</span><span>Full printing &amp; desain bebas</span></li>
-                <li className="flex gap-4"><span className="orange">—</span><span>Nama dan nomor punggung</span></li>
-                <li className="flex gap-4"><span className="orange">—</span><span>Revisi desain tanpa batas</span></li>
+              <p className="mt-4 text-[12px] lg:text-[13px] text-[#A6A8AA]">{t.minA}</p>
+              <div className="h-px bg-white/12 my-8" />
+              <ul className="space-y-3 text-[14px] lg:text-[15px] text-[#F3F0E8]/85">
+                <li className="flex gap-3"><span className="orange">—</span><span>Full printing &amp; desain bebas</span></li>
+                <li className="flex gap-3"><span className="orange">—</span><span>Nama dan nomor punggung</span></li>
+                <li className="flex gap-3"><span className="orange">—</span><span>Revisi desain tanpa batas</span></li>
               </ul>
-              <a href={waClosing} target="_blank" rel="noopener noreferrer" className="btn mt-12 inline-flex items-center justify-between gap-4 label border border-white/25 text-[#F3F0E8] px-7 py-4 hover:border-[#F26A21] hover:text-[#F26A21]">
+              <a href={waClosing} target="_blank" rel="noopener noreferrer" className="btn mt-10 lg:mt-12 inline-flex items-center justify-between gap-4 label border border-white/25 text-[#F3F0E8] px-6 py-4 hover:border-[#F26A21] hover:text-[#F26A21]">
                 Pilih Atasan <span>→</span>
               </a>
             </div>
 
-            <div className="reveal relative bg-[#17191C] p-8 lg:p-12 flex flex-col">
-              <span className="absolute top-0 left-0 right-0 h-px bg-[#F26A21]" />
+            <div className="reveal relative bg-[#1E2023] lg:bg-[#17191C] p-6 lg:p-12 flex flex-col rounded-xl lg:rounded-none border border-white/8 lg:border-0">
+              <span className="absolute top-0 left-0 right-0 h-1 bg-[#F26A21] rounded-t-xl lg:rounded-t-none" />
               <div className="flex items-start justify-between gap-4">
                 <span className="label orange">Atasan + Celana</span>
-                <span className="label bg-[#F26A21] text-[#0D0F11] px-3 py-1">Paling Diminati</span>
+                <span className="label bg-[#F26A21] text-[#0D0F11] px-3 py-1 text-[11px]">Paling Diminati</span>
               </div>
-              <h3 className="display text-3xl lg:text-4xl mt-8 text-[#F3F0E8]">Jersey Setelan</h3>
-              <div className="mt-8 flex flex-wrap items-end gap-x-3 gap-y-1">
-                <span className="label orange pb-3">Rp</span>
-                <span className="display text-[19vw] sm:text-[10vw] lg:text-[6.5rem] leading-[0.85] orange">{t.setelan}</span>
-                <span className="display text-3xl lg:text-4xl orange pb-1">RB</span>
-                <span className="label text-[#A6A8AA] pb-3">/set</span>
+              <h3 className="display text-2xl lg:text-4xl mt-6 lg:mt-8 text-[#F3F0E8]">Jersey Setelan</h3>
+              <div className="mt-6 lg:mt-8 flex flex-wrap items-end gap-x-2 gap-y-1">
+                <span className="label orange pb-2 text-sm">Rp</span>
+                <span className="display text-[18vw] sm:text-[10vw] lg:text-[6.5rem] leading-[0.85] orange">{t.setelan}</span>
+                <span className="display text-2xl lg:text-4xl orange pb-1">RB</span>
+                <span className="label text-[#A6A8AA] pb-2 text-sm">/set</span>
               </div>
-              <p className="mt-5 text-[13px] text-[#A6A8AA]">{t.minS}</p>
-              <div className="h-px bg-white/12 my-10" />
-              <ul className="space-y-4 text-[15px] text-[#F3F0E8]/85">
-                <li className="flex gap-4"><span className="orange">—</span><span>Semua benefit paket atasan</span></li>
-                <li className="flex gap-4"><span className="orange">—</span><span>Celana full custom siap tanding</span></li>
-                <li className="flex gap-4"><span className="orange">—</span><span>Prioritas jadwal produksi</span></li>
+              <p className="mt-4 text-[12px] lg:text-[13px] text-[#A6A8AA]">{t.minS}</p>
+              <div className="h-px bg-white/12 my-8" />
+              <ul className="space-y-3 text-[14px] lg:text-[15px] text-[#F3F0E8]/85">
+                <li className="flex gap-3"><span className="orange">—</span><span>Semua benefit paket atasan</span></li>
+                <li className="flex gap-3"><span className="orange">—</span><span>Celana full custom siap tanding</span></li>
+                <li className="flex gap-3"><span className="orange">—</span><span>Prioritas jadwal produksi</span></li>
               </ul>
-              <a href={waClosing} target="_blank" rel="noopener noreferrer" className="btn mt-12 inline-flex items-center justify-between gap-4 label bg-[#F26A21] text-[#0D0F11] px-7 py-4 hover:bg-[#F3F0E8]">
+              <a href={waClosing} target="_blank" rel="noopener noreferrer" className="btn mt-10 lg:mt-12 inline-flex items-center justify-between gap-4 label bg-[#F26A21] text-[#0D0F11] px-6 py-4 hover:bg-[#F3F0E8]">
                 Pilih Setelan <span>→</span>
               </a>
             </div>
