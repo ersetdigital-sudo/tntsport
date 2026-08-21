@@ -384,6 +384,30 @@
   letter-spacing: -0.015em;
 }
 
+@media (max-width: 640px) {
+  .jbm .hero-h1 {
+    font-size: 2.2rem;
+  }
+
+  .jbm .price-mobile-center {
+    text-align: center !important;
+  }
+
+  .jbm .price-mobile-center > div {
+    justify-items: center;
+    text-align: center;
+  }
+
+  .jbm .price-mobile-center .dspl,
+  .jbm .price-mobile-center .eyebrow {
+    text-align: center;
+  }
+
+  .jbm .price-mobile-center .btn {
+    margin-inline: auto;
+  }
+}
+
 /* hero figure */
 .jbm .hero-figure {
   filter: drop-shadow(0 46px 60px rgba(3, 10, 24, 0.75)) drop-shadow(0 0 70px rgba(0, 168, 255, 0.24));

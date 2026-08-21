@@ -512,7 +512,7 @@ export function JerseyBadmintonLanding({ products, waNumber }: Props) {
           <p className="reveal eyebrow" style={{ fontSize: 9.5, color: "rgba(217,222,231,.40)", marginTop: 16 }}>Mulai 12 pcs otomatis dapat harga lusin</p>
 
           {/* price display */}
-          <div className="reveal" style={{ marginTop: 48, textAlign: "left", display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))", gap: 40, alignItems: "start" }}>
+          <div className="reveal price-mobile-center" style={{ marginTop: 48, textAlign: "left", display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))", gap: 40, alignItems: "start" }}>
             <div>
               <p className="eyebrow" style={{ fontSize: 9.5, color: "rgba(0,168,255,.80)" }}>Paket Custom Lengkap</p>
               <div style={{ marginTop: 16, display: "flex", alignItems: "flex-end", gap: 10 }}>
