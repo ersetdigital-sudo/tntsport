@@ -324,48 +324,59 @@ export default function JerseyMancingLanding({ products, waNumber }: Props) {
       </section>
 
       {/* ===== 6. CUSTOM + CARA ORDER ===== */}
-      <section style={{ background: "linear-gradient(135deg,var(--navy-deep) 0%,var(--navy-soft) 55%,#15607F 100%)" }}>
-        <div className="mx-auto max-w-6xl px-6 py-20 md:py-28">
-          <div className="grid gap-12 lg:grid-cols-2 md:items-start">
+      <section className="relative overflow-hidden" style={{ background: "linear-gradient(135deg,var(--navy-deep) 0%,#0A1E35 50%,#0E2A47 100%)" }}>
+        <div className="absolute -top-32 -right-32 w-[400px] h-[400px] rounded-full pointer-events-none" style={{ background: "radial-gradient(circle,rgba(41,171,226,.1),transparent 65%)" }} />
+        <div className="absolute -bottom-20 -left-20 w-[300px] h-[300px] rounded-full pointer-events-none" style={{ background: "radial-gradient(circle,rgba(255,107,53,.08),transparent 65%)" }} />
+
+        <div className="relative mx-auto max-w-6xl px-6 py-20 md:py-28">
+          <div className="grid gap-12 lg:grid-cols-2 lg:items-center">
+            {/* Left — Copy */}
             <div className="reveal">
-              <p className="kicker" style={{ color: "var(--cyan-bright)" }}>CUSTOM SESUKA HATI</p>
-              <div className="h-[2px] w-16 mt-4 mb-6" style={{ background: "rgba(255,255,255,.6)" }} />
-              <h2 className="text-3xl md:text-4xl lg:text-5xl text-white">Custom sesuai identitas kamu</h2>
-              <div className="mt-6 space-y-3 text-base md:text-lg" style={{ color: "#E4F3F8" }}>
+              <div className="inline-flex items-center gap-2 rounded-full px-4 py-1.5 kicker" style={{ background: "rgba(41,171,226,.1)", border: "1px solid rgba(41,171,226,.3)", color: "var(--cyan-bright)" }}>
+                CUSTOM SESUKA HATI
+              </div>
+              <h2 className="mt-7 text-[clamp(2rem,4vw,3.2rem)] leading-[1.05] tracking-tight text-white">
+                Custom sesuai<br />
+                <span className="grad-cyan">identitas kamu.</span>
+              </h2>
+              <div className="mt-7 space-y-3 text-base md:text-lg" style={{ color: "#C8DCE8" }}>
                 <p>Punya nama tim? Punya komunitas? Punya sponsor?</p>
                 <p>Atau ingin bikin jersey dengan nama sendiri?</p>
-                <p className="display text-3xl text-white">Bisa.</p>
-                <p>Kamu cukup kirim detail custom yang diinginkan. Tim kami akan membantu menyesuaikan desain jersey dengan identitas kamu.</p>
               </div>
+              <p className="mt-5 display text-[clamp(2rem,3.5vw,2.8rem)] text-white">Bisa.</p>
+              <p className="mt-4 max-w-md text-sm md:text-base leading-relaxed" style={{ color: "#8FAFC4" }}>
+                Kamu cukup kirim detail custom yang diinginkan. Tim kami akan membantu menyesuaikan desain jersey dengan identitas kamu.
+              </p>
             </div>
-            <div className="rounded-[20px] p-7 md:p-9 bg-white shadow-2xl reveal">
-              <p className="kicker" style={{ color: "var(--ink-soft)" }}>CARA ORDER</p>
-              <div className="mt-6 space-y-7">
-                <div className="flex gap-4">
-                  <div className="step-dot">1</div>
-                  <div>
-                    <p className="font-bold text-lg" style={{ color: "var(--navy-deep)" }}>Pilih desain &amp; kirim detail</p>
-                    <p className="mt-1" style={{ color: "var(--ink-soft)" }}>Pilih desain katalog atau kirim referensi sendiri. Cantumkan nameset, logo tim, dan logo sponsor.</p>
-                  </div>
+
+            {/* Right — Steps Card */}
+            <div className="reveal relative">
+              <div className="absolute inset-0 rounded-[24px] opacity-40" style={{ background: "linear-gradient(135deg,rgba(41,171,226,.2),rgba(255,107,53,.15))", filter: "blur(40px)" }} />
+              <div className="relative rounded-[24px] p-8 md:p-10" style={{ background: "rgba(255,255,255,.04)", border: "1px solid rgba(255,255,255,.08)", backdropFilter: "blur(12px)", WebkitBackdropFilter: "blur(12px)" }}>
+                <p className="kicker" style={{ color: "rgba(200,220,232,.5)" }}>CARA ORDER</p>
+
+                <div className="mt-8 space-y-8">
+                  {[
+                    { n: "1", title: "Pilih desain & kirim detail", desc: "Pilih desain katalog atau kirim referensi sendiri. Cantumkan nameset, logo tim, dan logo sponsor." },
+                    { n: "2", title: "Kami rapikan desainnya", desc: "Tim kami bantu susun dan finalkan desain jersey kamu. Gratis, tanpa biaya desain." },
+                    { n: "3", title: "Produksi & kirim", desc: "Jersey diproduksi dengan bahan dry fit premium, lalu dikirim ke alamat kamu." },
+                  ].map((s) => (
+                    <div key={s.n} className="flex gap-5">
+                      <div className="step-dot">{s.n}</div>
+                      <div>
+                        <p className="font-bold text-base md:text-lg text-white">{s.title}</p>
+                        <p className="mt-1.5 text-sm leading-relaxed" style={{ color: "#8FAFC4" }}>{s.desc}</p>
+                      </div>
+                    </div>
+                  ))}
                 </div>
-                <div className="flex gap-4">
-                  <div className="step-dot">2</div>
-                  <div>
-                    <p className="font-bold text-lg" style={{ color: "var(--navy-deep)" }}>Kami rapikan desainnya</p>
-                    <p className="mt-1" style={{ color: "var(--ink-soft)" }}>Tim kami bantu susun dan finalkan desain jersey kamu. Gratis, tanpa biaya desain.</p>
-                  </div>
+
+                <div className="mt-8 pt-6" style={{ borderTop: "1px solid rgba(255,255,255,.08)" }}>
+                  <p className="display text-xl md:text-2xl text-white">
+                    Nameset <span className="grad-cyan">+</span> Logo <span className="grad-cyan">+</span> Sponsor — semua <span style={{ color: "var(--orange-cta)" }}>gratis.</span>
+                  </p>
+                  <p className="mt-2 text-sm" style={{ color: "#6A8FA6" }}>Tanpa perlu bikin desain dari nol.</p>
                 </div>
-                <div className="flex gap-4">
-                  <div className="step-dot">3</div>
-                  <div>
-                    <p className="font-bold text-lg" style={{ color: "var(--navy-deep)" }}>Produksi &amp; kirim</p>
-                    <p className="mt-1" style={{ color: "var(--ink-soft)" }}>Jersey diproduksi dengan bahan dry fit premium, lalu dikirim ke alamat kamu.</p>
-                  </div>
-                </div>
-              </div>
-              <div className="mt-8 pt-6" style={{ borderTop: "1px solid #E1E9F1" }}>
-                <p className="display text-2xl" style={{ color: "var(--navy-deep)" }}>Nameset <span className="cyan">+</span> Logo <span className="cyan">+</span> Sponsor — semua <span style={{ color: "var(--orange-cta)" }}>gratis.</span></p>
-                <p className="mt-2" style={{ color: "var(--ink-soft)" }}>Tanpa perlu bikin desain dari nol.</p>
               </div>
             </div>
           </div>
