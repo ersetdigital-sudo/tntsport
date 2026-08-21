@@ -352,11 +352,10 @@ export function JerseyBadmintonLanding({ products, waNumber }: Props) {
               </p>
             </div>
             {/* grid foto seragam */}
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+            <div className="mt-8 grid grid-cols-2 md:grid-cols-4 gap-4">
               {GALLERY_IMAGES.slice(0, 4).map((g, i) => (
-                <div key={i} role="button" tabIndex={0} onClick={() => setGalleryActive(i)} onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') setGalleryActive(i); }} className="group relative aspect-square cursor-pointer overflow-hidden rounded-2xl">
-                  <img src={g.src} alt={g.alt} loading="lazy" className="absolute inset-0 h-full w-full object-cover transition-transform duration-500 group-hover:scale-105" />
-                  <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors duration-300" />
+                <div key={i} role="button" tabIndex={0} onClick={() => setGalleryActive(i)} onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') setGalleryActive(i); }} className="cursor-pointer overflow-hidden rounded-2xl" style={{ aspectRatio: "4/3" }}>
+                  <img src={g.src} alt={g.alt} loading="lazy" style={{ width: "100%", height: "100%", objectFit: "cover", display: "block", transition: "transform .5s" }} onMouseEnter={(e) => (e.currentTarget.style.transform = "scale(1.05)")} onMouseLeave={(e) => (e.currentTarget.style.transform = "scale(1)")} />
                 </div>
               ))}
             </div>
