@@ -23,7 +23,7 @@ const CATALOG = [
   { code: "BD-01", name: "Blue Falcon", c1: "#155EEF", c2: "#00A8FF", extra: true },
   { code: "BD-02", name: "Night Rally", c1: "#0B2A6B", c2: "#155EEF", extra: true },
   { code: "BD-04", name: "Storm Court", c1: "#00A8FF", c2: "#0B4FA8", extra: true },
-  { code: "BD-05", name: "Violet Drive", c1: "#6B2AE0", c2: "#E91E8C", extra: true },
+  { code: "BD-05", name: "Pink Blaze", c1: "#6B2AE0", c2: "#E91E8C", extra: true },
   { code: "BD-06", name: "Ace Mono", c1: "#1B2637", c2: "#55627A", extra: true },
   { code: "BD-07", name: "Cyan Sprint", c1: "#0FB9C9", c2: "#00A8FF", extra: true },
   { code: "BD-08", name: "Red Pulse", c1: "#D22D4A", c2: "#E91E8C", extra: true },
