@@ -20,7 +20,7 @@ const CATALOG = [
   { code: "BD-10", name: "Crimson Strike", c1: "#D22D4A", c2: "#E91E8C", img: "/landing/jersey-badminton/8d0eccb8-8282-4119-9048-e5daf0dee6ac.png" },
   { code: "BD-09", name: "Red Thunder", c1: "#0FB9C9", c2: "#00A8FF", img: "/landing/jersey-badminton/40d3ab5c-7d26-44ab-8eb6-ac1f904435ce.png" },
   { code: "BD-03", name: "Amber Smash", c1: "#F5A623", c2: "#E91E8C", img: "/landing/jersey-badminton/c37fd7cc-2feb-412a-bb7e-4da483008ffa.png" },
-  { code: "BD-01", name: "Blue Falcon", c1: "#155EEF", c2: "#00A8FF", extra: true },
+  { code: "BD-01", name: "Venom Strike", c1: "#155EEF", c2: "#00A8FF", extra: true },
   { code: "BD-02", name: "Night Rally", c1: "#0B2A6B", c2: "#155EEF", extra: true },
   { code: "BD-04", name: "Storm Court", c1: "#00A8FF", c2: "#0B4FA8", extra: true },
   { code: "BD-05", name: "Pink Blaze", c1: "#6B2AE0", c2: "#E91E8C", extra: true },
@@ -56,7 +56,7 @@ const TESTIMONI = [
     rating: 5,
   },
   {
-    nama: "Hendra Gunawan", role: "Regular Member GOR Prima · Medan", desain: "BD-01 Blue Falcon",
+    nama: "Hendra Gunawan", role: "Regular Member GOR Prima · Medan", desain: "BD-01 Venom Strike",
     quote: "Awalnya takut gambar jelek pas dicetak, ternyata full printing-nya tajam detail. Luma 6 pcs doang bisa harga bagus.",
     rating: 5,
   },
