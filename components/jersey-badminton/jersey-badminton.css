@@ -389,22 +389,53 @@
     font-size: 2.2rem;
   }
 
-  .jbm .price-mobile-center {
+  /* ---- harga mobile: full center ---- */
+  .jbm #harga [style*="textAlign"] {
     text-align: center !important;
   }
 
-  .jbm .price-mobile-center > div {
+  .jbm .price-mobile-center {
+    grid-template-columns: 1fr !important;
+    text-align: center !important;
     justify-items: center;
-    text-align: center;
-  }
-
-  .jbm .price-mobile-center .dspl,
-  .jbm .price-mobile-center .eyebrow {
-    text-align: center;
   }
 
   .jbm .price-mobile-center .btn {
     margin-inline: auto;
+  }
+
+  .jbm .price-mobile-center .price-list {
+    align-items: center;
+    text-align: center;
+  }
+
+  .jbm .price-mobile-center .price-list li {
+    justify-content: center;
+  }
+
+  .jbm .price-mobile-center .price-list li:first-child {
+    display: block;
+  }
+
+  .jbm .price-mobile-center .eyebrow {
+    text-align: center;
+  }
+
+  /* spec rail mobile center */
+  .jbm #harga [style*="repeat(3"] {
+    grid-template-columns: repeat(3, 1fr) !important;
+    text-align: center !important;
+  }
+
+  .jbm #harga .spec {
+    text-align: center !important;
+  }
+
+  /* bulk rail mobile center */
+  .jbm #harga .bulk-rail {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
   }
 }
 
