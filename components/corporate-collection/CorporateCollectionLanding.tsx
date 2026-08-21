@@ -129,7 +129,7 @@ export function CorporateCollectionLanding({ products, waNumber }: Props) {
               <span className="label text-[#F26A21]">Jersey Corporate Custom</span>
             </div>
             <h1 className="reveal display text-[14vw] sm:text-[10vw] lg:text-[5.6rem] xl:text-[6.4rem] text-[#F3F0E8] leading-[0.9]">
-              Bikin Timmu<br />Tampil Lebih <span className="orange">Profesional.</span>
+              Bikin Jersey Mu<br />Tampil Lebih <span className="orange">Profesional.</span>
             </h1>
             <p className="reveal mt-7 text-base lg:text-xl text-[#F3F0E8]/90 max-w-xl leading-snug">
               Jersey custom untuk perusahaan, instansi, komunitas, dan tim yang ingin tampil kompak dengan identitas sendiri.
@@ -403,7 +403,7 @@ export function CorporateCollectionLanding({ products, waNumber }: Props) {
             <div className="lg:col-span-7">
               <span className="reveal label text-[#A6A8AA] block mb-8">Harga</span>
               <h2 className="reveal display text-[10vw] sm:text-[7vw] lg:text-[4.4rem] text-[#F3F0E8]">
-                Pilih Paket<br /><span className="orange">Timmu.</span>
+                Pilih Paket<br /><span className="orange">Jersey Mu.</span>
               </h2>
             </div>
             <div className="lg:col-span-5">
@@ -605,7 +605,7 @@ export function CorporateCollectionLanding({ products, waNumber }: Props) {
         <div className="mx-auto max-w-[1100px] px-6 relative text-center">
           <span className="reveal label text-[#A6A8AA] block mb-10">Corporate Collection</span>
           <h2 className="reveal display text-[10vw] sm:text-[7vw] lg:text-[4.8rem] text-[#F3F0E8]">
-            Siap Bikin Timmu<br />Tampil Lebih <span className="orange">Profesional?</span>
+            Siap Bikin Jersey Mu<br />Tampil Lebih <span className="orange">Profesional?</span>
           </h2>
           <p className="reveal mt-8 text-[15px] lg:text-lg text-[#A6A8AA] max-w-2xl mx-auto leading-relaxed">
             Pilih desain corporate favoritmu, sesuaikan dengan identitas perusahaan, lalu buat jersey untuk timmu.
