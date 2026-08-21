@@ -473,6 +473,10 @@
     font-size: 2.2rem;
   }
 
+  .jbm .hero-figure {
+    display: none;
+  }
+
   /* ---- harga mobile: full center ---- */
   .jbm .price-mobile-center {
     grid-template-columns: 1fr !important;
