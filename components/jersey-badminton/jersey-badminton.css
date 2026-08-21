@@ -722,6 +722,43 @@
 }
 
 /* ============================================================
+   GALLERY MARQUEE
+   ============================================================ */
+.jbm .gallery-marquee {
+  display: flex;
+  gap: 1rem;
+  width: max-content;
+  animation: jbm-gallery-slide 30s linear infinite;
+}
+
+.jbm .gallery-marquee > div {
+  flex: 0 0 auto;
+}
+
+@keyframes jbm-gallery-slide {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
+}
+
+/* ============================================================
+   STAT MARQUEE (hero stat strip)
+   ============================================================ */
+.jbm .stat-marquee {
+  display: flex;
+  width: max-content;
+  animation: jbm-stat-slide 20s linear infinite;
+}
+
+.jbm .stat-marquee > div {
+  flex: 0 0 auto;
+}
+
+@keyframes jbm-stat-slide {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
+}
+
+/* ============================================================
    TESTIMONI
    ============================================================ */
 .jbm .tst-card {
