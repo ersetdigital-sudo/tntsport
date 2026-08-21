@@ -303,7 +303,7 @@ export function CorporateCollectionLanding({ products, waNumber }: Props) {
               Jersey-nya Bisa Dibuat<br /><span className="orange">Sesuai Identitas Timmu.</span>
             </h2>
             <p className="reveal mt-8 text-[15px] leading-relaxed text-[#17191C]/75 max-w-lg">
-              Tidak perlu menggunakan jersey yang terlihat generik. Sesuaikan detail jersey dengan identitas perusahaan, komunitas, event, atau tim kamu.
+              Tidak perlu menggunakan jersey yang terlihat generik. Sesuaikan detail jersey dengan identitas perusahaan, komunitas, event, atau tim kamu. Custom warna & desain tersedia untuk pembelian minimal 6 pcs.
             </p>
             <div className="mt-12 border-t border-[#17191C]/15">
               <div className="reveal bigword display text-[11vw] lg:text-[3.4rem] py-3 border-b border-[#17191C]/15">Logo Perusahaan</div>
@@ -313,9 +313,10 @@ export function CorporateCollectionLanding({ products, waNumber }: Props) {
               <div className="reveal bigword display text-[11vw] lg:text-[3.4rem] py-3 border-b border-[#17191C]/15">Warna Brand</div>
             </div>
             <div className="reveal mt-10">
-              <a href="#koleksi" className="btn inline-flex items-center gap-3 label bg-[#17191C] text-[#F3F0E8] px-8 py-4 hover:bg-[#F26A21] hover:text-[#0D0F11]">
+              <a href={wa("Halo TNT SPORT APPAREL, saya mau custom jersey corporate dengan warna dan desain sendiri (min. 6 pcs). Bisa info lebih lanjut?")} target="_blank" rel="noopener noreferrer" className="btn inline-flex items-center gap-3 label bg-[#17191C] text-[#F3F0E8] px-8 py-4 hover:bg-[#F26A21] hover:text-[#0D0F11]">
                 Custom Sekarang <span>→</span>
               </a>
+              <p className="mt-3 label text-[#17191C]/50 text-[10px]">Custom warna & desain — minimal order 6 pcs</p>
             </div>
           </div>
           <div className="lg:col-span-6 grid grid-cols-2 gap-4">
