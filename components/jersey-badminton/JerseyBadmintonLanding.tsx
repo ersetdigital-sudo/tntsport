@@ -354,10 +354,10 @@ export function JerseyBadmintonLanding({ products, waNumber }: Props) {
             {/* grid foto seragam */}
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
               {GALLERY_IMAGES.slice(0, 4).map((g, i) => (
-                <button key={i} type="button" onClick={() => setGalleryActive(i)} className="group relative block w-full overflow-hidden rounded-2xl border-0 bg-transparent p-0 aspect-square">
+                <div key={i} role="button" tabIndex={0} onClick={() => setGalleryActive(i)} onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') setGalleryActive(i); }} className="group relative aspect-square cursor-pointer overflow-hidden rounded-2xl">
                   <img src={g.src} alt={g.alt} loading="lazy" className="absolute inset-0 h-full w-full object-cover transition-transform duration-500 group-hover:scale-105" />
                   <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors duration-300" />
-                </button>
+                </div>
               ))}
             </div>
             {/* CTA */}
