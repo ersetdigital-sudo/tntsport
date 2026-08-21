@@ -500,23 +500,21 @@ export function CorporateCollectionLanding({ products, waNumber }: Props) {
         <div className="mt-14 lg:mt-20">
           <Marquee speed={30} pauseOnHover className="[--gap:1.5rem]">
             {[
-              { quote: "Order 60 set buat family gathering kantor. Bahan adem, nama karyawan + logo perusahaan tercetak rapi. Semua pegawai pada puas banget.", name: "Andi Prasetyo", team: "PT Mitra Solusi · Jakarta", initials: "AP", color: "#F26A21" },
-              { quote: "Pesan 36 jersey buat turnamen antar divisi. Hasilnya persis kayak mockup — warna, logo, nomor punggung semuanya detail.", name: "Rina Wulandari", team: "Bank Digital Nusantara · Bandung", initials: "RW", color: "#E84D60" },
-              { quote: "Paket company jersey 20 set, cashback langsung dipakai buat custom nama. Proses cepat, jahitan awet. Recommended!", name: "Budi Santoso", team: "Construction Pro · Surabaya", initials: "BS", color: "#3B82F6" },
-              { quote: "Dipesen buat TIM futsal kantor, 24 pcs. Dry-fit-nya beneran adem, ga nerawang. Bakal repeat order.", name: "Siti Nurhaliza", team: "TechVision Corp · Medan", initials: "SN", color: "#10B981" },
-              { quote: "Logo sponsor + nama perusahaan bisa masuk semua di jersey. Dipakai company outing, keliatan kompak dan profesional.", name: "Hendra Gunawan", team: "PT Global Karya · Semarang", initials: "HG", color: "#8B5CF6" },
-              { quote: "Butuh 80 pcs dadakan buat event kantor bulan depan. Dikirim tepat waktu, semua ukuran pas. Super recommended!", name: "Dewi Anggraini", team: "Mega Corp Group · Yogyakarta", initials: "DA", color: "#EC4899" },
+              { quote: "Order 60 set buat family gathering kantor. Bahan adem, nama karyawan + logo perusahaan tercetak rapi. Semua pegawai pada puas banget.", name: "Andi Prasetyo", team: "PT Mitra Solusi · Jakarta", photo: "https://i.pravatar.cc/150?img=11" },
+              { quote: "Pesan 36 jersey buat turnamen antar divisi. Hasilnya persis kayak mockup — warna, logo, nomor punggung semuanya detail.", name: "Rina Wulandari", team: "Bank Digital Nusantara · Bandung", photo: "https://i.pravatar.cc/150?img=5" },
+              { quote: "Paket company jersey 20 set, cashback langsung dipakai buat custom nama. Proses cepat, jahitan awet. Recommended!", name: "Budi Santoso", team: "Construction Pro · Surabaya", photo: "https://i.pravatar.cc/150?img=12" },
+              { quote: "Dipesen buat TIM futsal kantor, 24 pcs. Dry-fit-nya beneran adem, ga nerawang. Bakal repeat order.", name: "Siti Nurhaliza", team: "TechVision Corp · Medan", photo: "https://i.pravatar.cc/150?img=25" },
+              { quote: "Logo sponsor + nama perusahaan bisa masuk semua di jersey. Dipakai company outing, keliatan kompak dan profesional.", name: "Hendra Gunawan", team: "PT Global Karya · Semarang", photo: "https://i.pravatar.cc/150?img=8" },
+              { quote: "Butuh 80 pcs dadakan buat event kantor bulan depan. Dikirim tepat waktu, semua ukuran pas. Super recommended!", name: "Dewi Anggraini", team: "Mega Corp Group · Yogyakarta", photo: "https://i.pravatar.cc/150?img=9" },
             ].map((t, i) => (
-              <article key={i} className="w-[82vw] sm:w-[46vw] lg:w-[26rem] border border-white/12 p-6 lg:p-8 flex flex-col shrink-0">
-                <div className="label orange tracking-[0.4em]">★★★★★</div>
-                <p className="text-[15px] lg:text-[16px] mt-6 text-[#F3F0E8] leading-relaxed">&ldquo;{t.quote}&rdquo;</p>
-                <div className="mt-auto pt-8 flex items-center gap-3">
-                  <div className="w-10 h-10 rounded-full flex items-center justify-center text-[13px] font-bold text-white shrink-0" style={{ backgroundColor: t.color }}>
-                    {t.initials}
-                  </div>
-                  <div>
-                    <span className="label text-[#F3F0E8] block text-[13px]">{t.name}</span>
-                    <span className="label text-[#A6A8AA] block mt-0.5 text-[12px]">{t.team}</span>
+              <article key={i} className="w-[78vw] sm:w-[42vw] lg:w-[26rem] border border-white/12 p-5 sm:p-6 lg:p-8 flex flex-col shrink-0">
+                <div className="label orange tracking-[0.4em] text-xs sm:text-sm">★★★★★</div>
+                <p className="text-[13px] sm:text-[14px] lg:text-[15px] mt-4 sm:mt-5 lg:mt-6 text-[#F3F0E8] leading-relaxed">&ldquo;{t.quote}&rdquo;</p>
+                <div className="mt-auto pt-6 sm:pt-7 lg:pt-8 flex items-center gap-3">
+                  <img src={t.photo} alt={t.name} className="w-9 h-9 sm:w-10 sm:h-10 rounded-full object-cover border border-white/12 shrink-0" loading="lazy" />
+                  <div className="min-w-0">
+                    <span className="label text-[#F3F0E8] block text-[12px] sm:text-[13px] truncate">{t.name}</span>
+                    <span className="label text-[#A6A8AA] block mt-0.5 text-[11px] sm:text-[12px] truncate">{t.team}</span>
                   </div>
                 </div>
               </article>
