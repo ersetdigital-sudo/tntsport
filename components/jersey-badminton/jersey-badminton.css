@@ -177,6 +177,10 @@
   box-shadow: 0 20px 55px -12px rgba(0, 168, 255, 0.9);
 }
 
+.jbm .btn:focus-visible {
+  outline: none;
+}
+
 /* ---- btn-ghost ---- */
 .jbm .btn-ghost {
   border: 1px solid rgba(217, 222, 231, 0.28);

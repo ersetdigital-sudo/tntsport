@@ -190,7 +190,7 @@ export function JerseyBadmintonLanding({ products, waNumber }: Props) {
       </header>
 
       {/* ===== HERO ===== */}
-      <section id="hero" className="relative min-h-[100svh] flex items-center overflow-hidden" style={{ paddingTop: "6rem", paddingBottom: "3.5rem" }}>
+      <section id="hero" className="relative min-h-[100svh] flex items-center overflow-hidden px-5 sm:px-8 pt-24 pb-14 lg:pt-20 lg:pb-0">
         {/* ambient */}
         <div className="hero-glow g1" /><div className="hero-glow g2" /><div className="hero-glow g3" />
         <div className="grid-lines" />
