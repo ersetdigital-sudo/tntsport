@@ -647,7 +647,26 @@
   background:
     radial-gradient(120% 90% at 78% 30%, #0a2b5c 0%, rgba(10, 43, 92, 0) 62%),
     radial-gradient(90% 80% at 8% 8%, #111b42 0%, rgba(17, 27, 66, 0) 60%),
-    linear-gradient(165deg, #06152d 0%, #071a38 45%, #06152d 100%);
+    linear-gradient(165deg, #06152d 0%, #071a38 45%, #06152d 100%) !important;
+}
+
+.jbm .hero-figure {
+  width: 92%;
+  max-width: none;
+  height: auto;
+}
+
+@media (min-width: 640px) {
+  .jbm .hero-figure {
+    width: 78%;
+  }
+}
+
+@media (min-width: 1024px) {
+  .jbm .hero-figure {
+    width: 118%;
+    margin-right: -6%;
+  }
 }
 
 .jbm .hero-grid {

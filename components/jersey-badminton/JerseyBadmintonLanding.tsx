@@ -222,7 +222,7 @@ export function JerseyBadmintonLanding({ products, waNumber }: Props) {
               <span className="dot" style={{ left: "78%", top: "16%", animationDelay: "-3s" }} />
               <span className="dot" style={{ left: "88%", top: "58%", animationDelay: "-5s", background: "rgba(233,30,140,.7)", boxShadow: "0 0 10px rgba(233,30,140,.8)" }} />
               <span className="dot" style={{ left: "24%", top: "72%", animationDelay: "-1.5s" }} />
-              <img ref={heroImgRef} src="/landing/jersey-badminton/c7feb97a-5f8f-4114-9788-ad01760eaede.png" alt="Model mengenakan jersey badminton custom BD-10" className="hero-figure" style={{ position: "relative", width: "92%", maxWidth: "none", height: "auto" }} />
+              <img ref={heroImgRef} src="/landing/jersey-badminton/c7feb97a-5f8f-4114-9788-ad01760eaede.png" alt="Model mengenakan jersey badminton custom BD-10" className="hero-figure" />
               <div style={{ position: "absolute", top: "16%", right: "6%", padding: "6px 14px", borderRadius: 999, background: "rgba(6,21,45,.7)", backdropFilter: "blur(12px)", border: "1px solid rgba(255,255,255,.15)" }}>
                 <span className="eyebrow" style={{ fontSize: 9.5, color: "#F5F7FA" }}>BD-10</span>
               </div>
