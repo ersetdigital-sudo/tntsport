@@ -39,6 +39,39 @@ const CATALOG = [
   { code: "BD-20", name: "Prime Blue", c1: "#0B4FA8", c2: "#00A8FF", extra: true },
 ];
 
+const TESTIMONI = [
+  {
+    nama: "Rizky Pratama", role: "Klub PB Sinar Jaya · Bandung", desain: "BD-10 Crimson Strike",
+    quote: "Desainnya persis kayak mockup, warna ga beda dikit pun. Tim lawan sampai nanya jersey-nya dari mana pas turnamen kemarin.",
+    rating: 5,
+  },
+  {
+    nama: "Dewi Anggraini", role: "Komunitas Shuttle Moms · Surabaya", desain: "BD-09 Green Rally",
+    quote: "Order 24 pcs buat mommies di komunitas. Bahan adem banget buat main pagi, nameset rapi semua. Bakal repeat order.",
+    rating: 5,
+  },
+  {
+    nama: "Bagus Wicaksono", role: "Tim SMK Negeri 4 · Semarang", desain: "BD-03 Amber Smash",
+    quote: "Kirim desain sendiri, dibantu revisi 2x gratis sampai cocok. Anak tim pada suka banget, keliatan lebih gahar.",
+    rating: 5,
+  },
+  {
+    nama: "Hendra Gunawan", role: "Regular Member GOR Prima · Medan", desain: "BD-01 Blue Falcon",
+    quote: "Awalnya takut gambar jelek pas dicetak, ternyata full printing-nya tajam detail. Luma 6 pcs doang bisa harga bagus.",
+    rating: 5,
+  },
+  {
+    nama: "Putri Maharani", role: "Event Organizer VLeague · Yogyakarta", desain: "BD-13 Magenta Rush",
+    quote: "Butuh 60 pcs dadakan buat event. Dikirim tepat waktu, semua ukuran pas sesuai size chart. Recommended!",
+    rating: 5,
+  },
+  {
+    nama: "Aditya Nugraha", role: "Unit Badminton Kantor · Jakarta", desain: "BD-06 Ace Mono",
+    quote: "Logo perusahaan + sponsor tercetak jelas, jahitan kuat. Dipakai buat lomba antar divisi, aman sampai sekarang.",
+    rating: 5,
+  },
+];
+
 const GALLERY_IMAGES = [
   { src: "/landing/jersey-futsal/4c090b09-6b9d-4d9a-a061-ca955c49c520.png", alt: "Komunitas badminton memakai jersey custom" },
   { src: "/landing/jersey-futsal/93c90d93-45be-4137-b10d-d810ada22df4.png", alt: "Tim badminton memakai jersey custom kuning" },
@@ -190,50 +223,93 @@ export function JerseyBadmintonLanding({ products, waNumber }: Props) {
       </header>
 
       {/* ===== HERO ===== */}
-      <section id="hero" className="relative overflow-hidden pt-16 pb-16 sm:pt-20 sm:pb-20 lg:pt-24 lg:pb-28">
+      <section id="hero" className="relative overflow-hidden pt-16 pb-0 sm:pt-20 lg:pt-24">
         <div className="absolute inset-0 grid-lines" aria-hidden="true" />
         <div className="absolute inset-0 hero-glow g1" aria-hidden="true" />
         <div className="absolute inset-0 hero-glow g2" aria-hidden="true" />
         <div className="absolute inset-0 hero-glow g3" aria-hidden="true" />
+        <div className="absolute -left-40 top-24 h-[520px] w-[520px] rounded-full opacity-[.14]" style={{ background: "conic-gradient(from 120deg,#00A8FF,#E91E8C,#155EEF,#00A8FF)", filter: "blur(90px)" }} aria-hidden="true" />
 
         <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <div className="grid items-center gap-12 lg:grid-cols-[45fr_55fr] lg:gap-4">
+          <div className="grid items-center gap-10 lg:grid-cols-[48fr_52fr] lg:gap-6">
             {/* COPY */}
-            <div>
-              <p className="eyebrow mb-5 flex items-center gap-3 text-[10.5px]" style={{ color: "#00A8FF" }}>
-                <span className="inline-block h-px w-8" style={{ background: "rgba(0,168,255,.7)" }} />Badminton Collection
-              </p>
-              <h1 className="dspl hero-h1">Main cepat.<br />Tampil <span className="sharp">lebih<br />tajam.</span></h1>
-              <p className="mt-7 max-w-lg text-lg font-semibold leading-snug" style={{ color: "#F5F7FA" }}>
-                Jersey badminton custom untuk tim yang siap tampil <span style={{ color: "#00A8FF" }}>kompetitif</span>.
-              </p>
-              <p className="mt-4 max-w-md text-[15px] leading-relaxed" style={{ color: "rgba(217,222,231,.85)" }}>
-                Desain sporty dan bahan dry-fit yang nyaman. Custom nameset, nomor, logo, serta sponsor agar tim tampil kompak di setiap pertandingan.
-              </p>
-              <div className="mt-9">
-                <a href="#collection" className="btn px-9 py-4 text-sm">Pilih Desain <span aria-hidden="true">→</span></a>
+            <div className="relative z-10 pb-14 lg:pb-24">
+              <div className="mb-6 inline-flex items-center gap-2.5 rounded-full border border-[#00A8FF]/30 bg-[#00A8FF]/[.08] px-4 py-2 backdrop-blur">
+                <span className="flex -space-x-1.5">
+                  {["#00A8FF", "#E91E8C", "#155EEF"].map((c) => (
+                    <span key={c} className="h-4 w-4 rounded-full border-2 border-[#06152D]" style={{ background: c }} />
+                  ))}
+                </span>
+                <span className="eyebrow text-[9.5px]" style={{ color: "#7FD7FF" }}>Dipercaya 500+ Tim Badminton</span>
               </div>
-              <div className="mt-7 flex items-center gap-4 eyebrow text-[10px]" style={{ color: "rgba(217,222,231,.7)" }}>
-                <span>20+ Desain</span><span>Siap Custom</span><span>Klub &amp; Komunitas</span>
+
+              <h1 className="dspl hero-h1">
+                Dominasi<br />
+                <span className="sharp italic">lapangan.</span><br />
+                <span style={{ WebkitTextStroke: "1.5px rgba(0,168,255,.65)", color: "transparent" }}>Bukan cuma</span><br />
+                <span style={{ WebkitTextStroke: "1.5px rgba(0,168,255,.65)", color: "transparent" }}>kata-kata.</span>
+              </h1>
+
+              <p className="mt-6 max-w-md text-[15px] leading-relaxed" style={{ color: "rgba(217,222,231,.85)" }}>
+                Jersey badminton custom full printing. Dry-fit adem, jahitan kuat, <span style={{ color: "#00A8FF", fontWeight: 700 }}>free nameset &amp; logo</span> — siap buat latihan sampai final turnamen.
+              </p>
+
+              <div className="mt-8 flex flex-wrap items-center gap-4">
+                <a href="#collection" className="btn px-9 py-4 text-sm">Pilih Desain <span aria-hidden="true">→</span></a>
+                <a href="#testimoni" className="btn-ghost px-7 py-4 text-sm" style={{ fontSize: 12 }}>Lihat Testimoni</a>
+              </div>
+
+              {/* stat strip */}
+              <div className="mt-10 grid max-w-md grid-cols-3 gap-px overflow-hidden rounded-2xl" style={{ background: "rgba(255,255,255,.09)" }}>
+                {[
+                  { v: "20+", l: "Desain Siap Pakai" },
+                  { v: "4.9", l: "Rating Pelanggan" },
+                  { v: "6", l: "Min. Order / Pcs" },
+                ].map((s) => (
+                  <div key={s.l} className="px-4 py-4" style={{ background: "rgba(6,21,45,.85)", backdropFilter: "blur(8px)" }}>
+                    <p className="dspl text-2xl" style={{ color: "#00A8FF" }}>{s.v}</p>
+                    <p className="eyebrow mt-1.5 text-[8px]" style={{ color: "rgba(217,222,231,.55)" }}>{s.l}</p>
+                  </div>
+                ))}
               </div>
             </div>
 
             {/* PRODUCT */}
-            <div className="relative">
+            <div className="relative mt-2 lg:mt-0">
               <div className="absolute bottom-0 left-1/2 -translate-x-1/2 h-[78%] aspect-square rounded-full blur-[60px]" style={{ background: "radial-gradient(circle,rgba(0,168,255,.30),rgba(21,94,239,.14) 45%,transparent 70%)" }} />
+              {/* shuttle orbit ring */}
+              <div className="absolute left-1/2 top-1/2 hidden -translate-x-1/2 -translate-y-1/2 lg:block" aria-hidden="true">
+                <div className="h-[460px] w-[460px] rounded-full border border-dashed border-[#00A8FF]/20" style={{ animation: "jbm-spin 40s linear infinite" }} />
+              </div>
               <span className="dot" style={{ left: "12%", top: "26%" }} />
               <span className="dot" style={{ left: "78%", top: "16%", animationDelay: "-3s" }} />
               <span className="dot" style={{ left: "88%", top: "58%", animationDelay: "-5s", background: "rgba(233,30,140,.7)", boxShadow: "0 0 10px rgba(233,30,140,.8)" }} />
               <span className="dot" style={{ left: "24%", top: "72%", animationDelay: "-1.5s" }} />
               <img ref={heroImgRef} src="/landing/jersey-badminton/c7feb97a-5f8f-4114-9788-ad01760eaede.png" alt="Model mengenakan jersey badminton custom BD-10" className="hero-figure relative" />
-              <div className="absolute top-[16%] right-[6%] rounded-full px-3.5 py-1.5" style={{ background: "rgba(6,21,45,.7)", backdropFilter: "blur(12px)", border: "1px solid rgba(255,255,255,.15)" }}>
-                <span className="eyebrow text-[9.5px]" style={{ color: "#F5F7FA" }}>BD-10</span>
+
+              {/* floating cards */}
+              <div className="hero-float card" style={{ left: "-2%", top: "20%" }}>
+                <div className="flex items-center gap-1 text-[13px]" style={{ color: "#F5A623" }}>★★★★★</div>
+                <p className="eyebrow mt-1.5 text-[8.5px]" style={{ color: "rgba(217,222,231,.65)" }}>1.2rb+ review tim</p>
+              </div>
+              <div className="hero-float card" style={{ right: "0%", bottom: "30%" }}>
+                <p className="dspl text-[15px]" style={{ color: "#00A8FF" }}>BD-10</p>
+                <p className="eyebrow mt-1 text-[8.5px]" style={{ color: "rgba(217,222,231,.65)" }}>Crimson Strike</p>
+              </div>
+              <div className="hero-float card" style={{ left: "6%", bottom: "12%" }}>
+                <p className="eyebrow text-[8.5px]" style={{ color: "#22C55E" }}>● Produksi 3–5 hari</p>
+                <p className="eyebrow mt-1 text-[8.5px]" style={{ color: "rgba(217,222,231,.65)" }}>Full printing rapi</p>
               </div>
             </div>
           </div>
         </div>
 
-        <div className="eyebrow absolute bottom-8 left-8 hidden text-[9px] lg:block" style={{ color: "rgba(217,222,231,.20)" }}>Play Hard • Play Smart</div>
+        {/* marquee strip */}
+        <div className="relative border-y border-white/[.07] bg-[#050F22]/80 py-4 backdrop-blur" aria-hidden="true">
+          <div className="jbm-marquee eyebrow text-[10.5px]" style={{ color: "rgba(217,222,231,.55)" }}>
+            <span>FREE NAMESET &amp; NOMOR</span><i>✦</i><span>FREE LOGO KLUB &amp; SPONSOR</span><i>✦</i><span>BAHAN DRY-FIT PREMIUM</span><i>✦</i><span>FULL PRINTING TAJAM</span><i>✦</i><span>MIN. ORDER 6 PCS</span><i>✦</i><span>FREE NAMESET &amp; NOMOR</span><i>✦</i><span>FREE LOGO KLUB &amp; SPONSOR</span><i>✦</i><span>BAHAN DRY-FIT PREMIUM</span><i>✦</i><span>FULL PRINTING TAJAM</span><i>✦</i><span>MIN. ORDER 6 PCS</span><i>✦</i>
+          </div>
+        </div>
       </section>
 
       {/* ===== VALUE ===== */}
@@ -333,38 +409,75 @@ export function JerseyBadmintonLanding({ products, waNumber }: Props) {
         </div>
       </section>
 
-      {/* ===== GALERI FOTO ===== */}
-      <section id="galeri" className="relative py-20 md:py-28">
+      {/* ===== TESTIMONI ===== */}
+      <section id="testimoni" className="relative py-20 md:py-28">
         <div className="max-w-[1400px] mx-auto px-5 sm:px-8">
-          <div className="rounded-3xl p-8 md:p-10" style={{ background: "rgba(8,11,16,.6)", border: "1px solid rgba(255,255,255,.08)" }}>
-            {/* header dua kolom */}
-            <div className="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-6 mb-10">
-              <div className="max-w-2xl">
-                <p className="eyebrow flex items-center gap-2 text-[11px]" style={{ color: "#00A8FF" }}>
-                  <span>🏆</span> BUKTI BUKAN JANJI
-                </p>
-                <h2 className="dspl mt-3" style={{ fontSize: "clamp(1.7rem, 4.2vw, 2.8rem)", color: "#fff", lineHeight: 1 }}>
-                  FOTO <span style={{ color: "#00A8FF" }}>NYATA</span> DARI<br />PELANGGAN KAMI
-                </h2>
+          {/* header */}
+          <div className="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-6 mb-12">
+            <div className="max-w-2xl">
+              <p className="eyebrow flex items-center gap-2 text-[11px]" style={{ color: "#00A8FF" }}>
+                <span>🏆</span> KATA MEREKA YANG SUDAH MAIN PAKAI
+              </p>
+              <h2 className="dspl mt-3" style={{ fontSize: "clamp(1.7rem, 4.2vw, 2.8rem)", color: "#fff", lineHeight: 1 }}>
+                BUKTI BUKAN <span style={{ color: "#00A8FF" }}>JANJI.</span>
+              </h2>
+            </div>
+            <div className="flex items-center gap-4">
+              <div className="text-right">
+                <p className="dspl text-3xl" style={{ color: "#F5A623" }}>4.9<span className="text-lg">/5</span></p>
+                <p className="eyebrow text-[8.5px]" style={{ color: "rgba(217,222,231,.5)", marginTop: 4 }}>1.2RB+ REVIEW TIM</p>
               </div>
-              <p className="text-sm max-w-xs text-right" style={{ color: "rgba(217,222,231,.70)" }}>
-                Foto asli dari pelanggan — bukan edit, bukan rekayasa. Semua jersey yang tampil di sini benar-benar dipakai di lapangan.
+              <div className="h-10 w-px bg-white/10" />
+              <p className="text-[13px] max-w-[220px]" style={{ color: "rgba(217,222,231,.65)" }}>
+                Review asli dari klub, komunitas, dan event yang udah pakai jersey TNT.
               </p>
             </div>
-            {/* grid foto seragam */}
-            <div className="mt-8 grid grid-cols-2 md:grid-cols-4 gap-4">
-              {GALLERY_IMAGES.slice(0, 4).map((g, i) => (
+          </div>
+
+          {/* testimonial grid */}
+          <div className="grid gap-5 md:grid-cols-2 lg:grid-cols-3">
+            {TESTIMONI.map((t) => (
+              <article key={t.nama} className="tst-card reveal group" style={{ padding: 26 }}>
+                {/* quote mark */}
+                <span className="dspl absolute -top-1 right-5 select-none" style={{ fontSize: "5rem", color: "rgba(0,168,255,.12)", lineHeight: 1 }}>&ldquo;</span>
+                <div className="flex items-center gap-1 text-[13px]" style={{ color: "#F5A623" }}>
+                  {"★".repeat(t.rating)}
+                </div>
+                <p className="relative mt-4 text-[14.5px] leading-relaxed" style={{ color: "#E6EAF2" }}>&ldquo;{t.quote}&rdquo;</p>
+                <div className="mt-6 flex items-center gap-3.5">
+                  <span className="grid h-11 w-11 flex-none place-items-center rounded-full dspl text-[15px]" style={{ background: "linear-gradient(135deg,#155EEF,#00A8FF)", color: "#fff" }}>
+                    {t.nama.split(" ").map((w) => w[0]).slice(0, 2).join("")}
+                  </span>
+                  <div className="min-w-0">
+                    <p className="text-[14px] font-bold truncate" style={{ color: "#F5F7FA" }}>{t.nama}</p>
+                    <p className="eyebrow text-[8px] truncate" style={{ color: "rgba(217,222,231,.5)", marginTop: 3 }}>{t.role}</p>
+                  </div>
+                </div>
+                <p className="eyebrow mt-4 pt-4 border-t border-white/[.07] text-[8.5px]" style={{ color: "#00A8FF" }}>✓ ORDER {t.desain}</p>
+              </article>
+            ))}
+          </div>
+
+          {/* bukti foto strip */}
+          <div className="mt-14">
+            <p className="eyebrow text-[10px] mb-5 flex items-center gap-3" style={{ color: "rgba(217,222,231,.55)" }}>
+              <span className="h-px w-8" style={{ background: "rgba(0,168,255,.6)" }} />
+              FOTO NYATA DARI LAPANGAN — BUKAN EDIT, BUKAN REKAYASA
+            </p>
+            <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
+              {GALLERY_IMAGES.map((g, i) => (
                 <div key={i} role="button" tabIndex={0} onClick={() => setGalleryActive(i)} onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') setGalleryActive(i); }} className="cursor-pointer overflow-hidden rounded-2xl" style={{ aspectRatio: "4/3" }}>
                   <img src={g.src} alt={g.alt} loading="lazy" style={{ width: "100%", height: "100%", objectFit: "cover", display: "block", transition: "transform .5s" }} onMouseEnter={(e) => (e.currentTarget.style.transform = "scale(1.05)")} onMouseLeave={(e) => (e.currentTarget.style.transform = "scale(1)")} />
                 </div>
               ))}
             </div>
-            {/* CTA */}
-            <div className="mt-10 text-center">
-              <a href={wa("Halo TNT SPORT APPAREL, saya lihat galeri hasil jersey pelanggan, saya mau order seperti itu!")} target="_blank" rel="noopener" className="btn px-9 py-4 text-sm">
-                Mau Jersey Seperti Ini? Order Sekarang <span aria-hidden="true">→</span>
-              </a>
-            </div>
+          </div>
+
+          {/* CTA */}
+          <div className="mt-12 text-center">
+            <a href={wa("Halo TNT SPORT APPAREL, saya lihat testimoni & galeri hasil jersey, saya mau order juga!")} target="_blank" rel="noopener" className="btn px-9 py-4 text-sm">
+              Gabung 500+ Tim — Order Sekarang <span aria-hidden="true">→</span>
+            </a>
           </div>
         </div>
         {galleryActive !== null && GALLERY_IMAGES[galleryActive] && (

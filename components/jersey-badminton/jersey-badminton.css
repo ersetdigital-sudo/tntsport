@@ -674,6 +674,82 @@
 }
 
 /* ============================================================
+   HERO v2 — floating cards, orbit, marquee
+   ============================================================ */
+.jbm .hero-float {
+  position: absolute;
+  z-index: 5;
+  padding: 12px 16px;
+  border-radius: 14px;
+  animation: jbm-float 9s ease-in-out infinite;
+}
+
+.jbm .hero-float:nth-of-type(2) { animation-delay: -3s; }
+.jbm .hero-float:nth-of-type(3) { animation-delay: -6s; }
+
+@keyframes jbm-spin {
+  from { transform: translate(-50%, -50%) rotate(0deg); }
+  to   { transform: translate(-50%, -50%) rotate(360deg); }
+}
+
+.jbm .jbm-marquee {
+  display: flex;
+  align-items: center;
+  gap: 2.5rem;
+  white-space: nowrap;
+  width: max-content;
+  animation: jbm-marquee 26s linear infinite;
+}
+
+.jbm .jbm-marquee i {
+  font-style: normal;
+  color: rgba(0, 168, 255, 0.7);
+  font-size: 8px;
+}
+
+@keyframes jbm-marquee {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
+}
+
+@media (max-width: 640px) {
+  .jbm .hero-float { display: none; }
+}
+
+/* ============================================================
+   TESTIMONI
+   ============================================================ */
+.jbm .tst-card {
+  position: relative;
+  border-radius: 20px;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0.015));
+  border: 1px solid rgba(217, 222, 231, 0.12);
+  overflow: hidden;
+  transition: transform 0.45s cubic-bezier(0.2, 0.7, 0.2, 1), border-color 0.45s, box-shadow 0.45s;
+}
+
+.jbm .tst-card::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 3px;
+  height: 0;
+  background: linear-gradient(180deg, #00a8ff, #e91e8c);
+  transition: height 0.5s cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+
+.jbm .tst-card:hover {
+  transform: translateY(-6px);
+  border-color: rgba(0, 168, 255, 0.4);
+  box-shadow: 0 24px 60px -20px rgba(21, 94, 239, 0.5);
+}
+
+.jbm .tst-card:hover::before {
+  height: 100%;
+}
+
+/* ============================================================
    RESPONSIVE
    ============================================================ */
 @media (max-width: 640px) {
@@ -699,7 +775,9 @@
   .jbm .streaks i,
   .jbm .dot,
   .jbm .hero-glow,
-  .jbm .toast-dot::after {
+  .jbm .toast-dot::after,
+  .jbm .hero-float,
+  .jbm .jbm-marquee {
     animation: none !important;
   }
 }
