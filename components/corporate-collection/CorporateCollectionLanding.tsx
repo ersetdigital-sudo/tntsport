@@ -338,7 +338,7 @@ export function CorporateCollectionLanding({ products, waNumber }: Props) {
             Beragam desain corporate dengan karakter sporty, modern, dan profesional.
           </p>
 
-          <div className="mt-14 lg:mt-20 grid sm:grid-cols-2 lg:grid-cols-3 gap-5 lg:gap-6">
+          <div className="corp-collection-grid mt-14 lg:mt-20">
             {products.map((p, i) => {
               const isHidden = i >= 9 && !showAll;
               const isPlaceholder = p.image.includes("placeholder");
@@ -349,7 +349,7 @@ export function CorporateCollectionLanding({ products, waNumber }: Props) {
               return (
                 <article
                   key={p.id}
-                  className={`card reveal border border-white/12 bg-[#17191C] p-4 flex flex-col cursor-pointer ${isHidden ? "hidden" : ""}`}
+                  className={`reveal card cat-card border border-white/12 bg-[#17191C] flex flex-col ${isHidden ? "hidden" : ""}`}
                   onClick={() => setCatActive(i)}
                 >
                   <div className="relative overflow-hidden bg-[#0D0F11] aspect-[4/5] flex items-center justify-center">
@@ -362,12 +362,12 @@ export function CorporateCollectionLanding({ products, waNumber }: Props) {
                       </>
                     )}
                   </div>
-                  <div className="mt-5 flex items-end justify-between gap-4">
+                  <div className="cat-card-info">
                     <div>
-                      <h3 className={`display text-lg leading-tight ${hasRealImage ? "text-[#F3F0E8]" : "text-[#F3F0E8]/75"}`}>{displayName}</h3>
-                      <span className={`label block mt-2 ${hasRealImage ? "text-[#A6A8AA]" : "text-[#A6A8AA]/60"}`}>{p.catalogue}</span>
+                      <h3 className={`display leading-tight ${hasRealImage ? "text-[#F3F0E8]" : "text-[#F3F0E8]/75"}`}>{displayName}</h3>
+                      <span className={`label block mt-1 ${hasRealImage ? "text-[#A6A8AA]" : "text-[#A6A8AA]/60"}`}>{p.catalogue}</span>
                     </div>
-                    <span className={`btn label border border-white/20 px-4 py-3 whitespace-nowrap hover:bg-[#F26A21] hover:border-[#F26A21] hover:text-[#0D0F11] ${hasRealImage ? "text-[#F3F0E8]" : "text-[#F3F0E8]/70"}`}>
+                    <span className={`cat-card-btn btn label border border-white/20 whitespace-nowrap hover:bg-[#F26A21] hover:border-[#F26A21] hover:text-[#0D0F11] ${hasRealImage ? "text-[#F3F0E8]" : "text-[#F3F0E8]/70"}`}>
                       Pilih Desain
                     </span>
                   </div>

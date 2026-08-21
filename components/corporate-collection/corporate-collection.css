@@ -227,6 +227,42 @@
   background: transparent;
 }
 
+/* ---- catalog grid ---- */
+.corp .corp-collection-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20px;
+}
+
+@media (min-width: 641px) {
+  .corp .corp-collection-grid {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+  }
+}
+
+.corp .cat-card {
+  overflow: hidden;
+  cursor: pointer;
+}
+
+.corp .cat-card-info {
+  padding: 14px 16px;
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.corp .cat-card-info h3 {
+  font-size: 1.2rem;
+}
+
+.corp .cat-card-btn {
+  font-size: 11px;
+  padding: 8px 16px;
+}
+
 /* ---- reduced motion ---- */
 @media (prefers-reduced-motion: reduce) {
   .corp .reveal,
