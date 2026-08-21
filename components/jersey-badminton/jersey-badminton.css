@@ -403,8 +403,13 @@
     align-items: center;
   }
 
-  .jbm .price-mobile-center .eyebrow {
+  .jbm .price-mobile-center > div > div {
+    justify-content: center;
     text-align: center;
+  }
+
+  .jbm .price-mobile-center .eyebrow {
+    text-align: center !important;
   }
 
   .jbm .price-mobile-center .price-list {
