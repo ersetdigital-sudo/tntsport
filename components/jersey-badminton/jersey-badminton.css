@@ -818,8 +818,7 @@
   .jbm .dot,
   .jbm .hero-glow,
   .jbm .toast-dot::after,
-  .jbm .hero-float,
-  .jbm .jbm-marquee {
+  .jbm .hero-float {
     animation: none !important;
   }
 }
