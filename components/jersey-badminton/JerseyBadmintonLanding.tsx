@@ -18,7 +18,7 @@ interface Props {
 
 const CATALOG = [
   { code: "BD-10", name: "Crimson Strike", c1: "#D22D4A", c2: "#E91E8C", img: "/landing/jersey-badminton/8d0eccb8-8282-4119-9048-e5daf0dee6ac.png" },
-  { code: "BD-09", name: "Green Rally", c1: "#0FB9C9", c2: "#00A8FF", img: "/landing/jersey-badminton/40d3ab5c-7d26-44ab-8eb6-ac1f904435ce.png" },
+  { code: "BD-09", name: "Red Thunder", c1: "#0FB9C9", c2: "#00A8FF", img: "/landing/jersey-badminton/40d3ab5c-7d26-44ab-8eb6-ac1f904435ce.png" },
   { code: "BD-03", name: "Amber Smash", c1: "#F5A623", c2: "#E91E8C", img: "/landing/jersey-badminton/c37fd7cc-2feb-412a-bb7e-4da483008ffa.png" },
   { code: "BD-01", name: "Blue Falcon", c1: "#155EEF", c2: "#00A8FF", extra: true },
   { code: "BD-02", name: "Night Rally", c1: "#0B2A6B", c2: "#155EEF", extra: true },
@@ -46,7 +46,7 @@ const TESTIMONI = [
     rating: 5,
   },
   {
-    nama: "Dewi Anggraini", role: "Komunitas Shuttle Moms · Surabaya", desain: "BD-09 Green Rally",
+    nama: "Dewi Anggraini", role: "Komunitas Shuttle Moms · Surabaya", desain: "BD-09 Red Thunder",
     quote: "Order 24 pcs buat mommies di komunitas. Bahan adem banget buat main pagi, nameset rapi semua. Bakal repeat order.",
     rating: 5,
   },
@@ -83,7 +83,7 @@ const GALLERY_IMAGES = [
 const TOAST_DATA = {
   nama: ["Rizky", "Andi", "Dewi", "Bagus", "Putri", "Fajar", "Hendra", "Sinta", "Yoga", "Nabila", "Reza", "Tari", "Bima", "Aditya", "Lia"],
   kota: ["Bandung", "Surabaya", "Jakarta", "Semarang", "Yogyakarta", "Malang", "Medan", "Solo", "Bekasi", "Denpasar", "Makassar", "Tangerang"],
-  item: ["BD-10 Crimson Strike", "BD-09 Green Rally", "BD-03 Amber Smash", "jersey custom klub", "jersey custom komunitas"],
+  item: ["BD-10 Crimson Strike", "BD-09 Red Thunder", "BD-03 Amber Smash", "jersey custom klub", "jersey custom komunitas"],
   qty: [6, 12, 12, 14, 16, 18, 20, 24],
 };
 
