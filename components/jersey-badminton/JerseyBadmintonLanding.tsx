@@ -28,7 +28,7 @@ const CATALOG = [
   { code: "BD-07", name: "Cyan Sprint", c1: "#0FB9C9", c2: "#00A8FF", extra: true },
   { code: "BD-08", name: "Red Pulse", c1: "#D22D4A", c2: "#E91E8C", extra: true },
   { code: "BD-11", name: "Neon Court", c1: "#155EEF", c2: "#0FB9C9", extra: true },
-  { code: "BD-12", name: "Shadow Line", c1: "#121A2A", c2: "#2C3A55", extra: true },
+  { code: "BD-12", name: "Red Velocity", c1: "#121A2A", c2: "#2C3A55", extra: true },
   { code: "BD-13", name: "Neon Blitz", c1: "#E91E8C", c2: "#6B2AE0", extra: true },
   { code: "BD-14", name: "Green Vortex", c1: "#0B4FA8", c2: "#0FB9C9", extra: true },
   { code: "BD-15", name: "Volt Strike", c1: "#39435A", c2: "#6E7C96", extra: true },
