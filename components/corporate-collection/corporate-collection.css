@@ -212,6 +212,11 @@
 
 /* ---- marquee ---- */
 .corp .marquee-track {
+  display: flex;
+  align-items: center;
+  gap: 3rem;
+  white-space: nowrap;
+  width: max-content;
   animation: corp-marq 26s linear infinite;
 }
 @keyframes corp-marq {
