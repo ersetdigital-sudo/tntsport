@@ -260,23 +260,17 @@ export function JerseyBadmintonLanding({ products, waNumber }: Props) {
               </div>
 
               {/* stat strip */}
-              <div className="mt-10 overflow-hidden rounded-2xl" style={{ background: "rgba(255,255,255,.09)" }}>
-                <div className="stat-marquee">
-                  {[...[
-                    { v: "20+", l: "Desain Siap Pakai" },
-                    { v: "4.9", l: "Rating Pelanggan" },
-                    { v: "6", l: "Min. Order / Pcs" },
-                  ], ...[
-                    { v: "20+", l: "Desain Siap Pakai" },
-                    { v: "4.9", l: "Rating Pelanggan" },
-                    { v: "6", l: "Min. Order / Pcs" },
-                  ]].map((s, i) => (
-                    <div key={i} className="px-6 py-4" style={{ background: "rgba(6,21,45,.85)", backdropFilter: "blur(8px)", borderLeft: "1px solid rgba(255,255,255,.09)" }}>
-                      <p className="dspl text-2xl" style={{ color: "#00A8FF" }}>{s.v}</p>
-                      <p className="eyebrow mt-1.5 text-[8px]" style={{ color: "rgba(217,222,231,.55)" }}>{s.l}</p>
-                    </div>
-                  ))}
-                </div>
+              <div className="mt-10 grid max-w-md grid-cols-3 gap-px overflow-hidden rounded-2xl" style={{ background: "rgba(255,255,255,.09)" }}>
+                {[
+                  { v: "20+", l: "Desain Siap Pakai" },
+                  { v: "4.9", l: "Rating Pelanggan" },
+                  { v: "6", l: "Min. Order / Pcs" },
+                ].map((s) => (
+                  <div key={s.l} className="px-4 py-4" style={{ background: "rgba(6,21,45,.85)", backdropFilter: "blur(8px)" }}>
+                    <p className="dspl text-2xl" style={{ color: "#00A8FF" }}>{s.v}</p>
+                    <p className="eyebrow mt-1.5 text-[8px]" style={{ color: "rgba(217,222,231,.55)" }}>{s.l}</p>
+                  </div>
+                ))}
               </div>
             </div>
 
