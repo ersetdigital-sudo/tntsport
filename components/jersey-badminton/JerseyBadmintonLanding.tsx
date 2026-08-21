@@ -36,7 +36,7 @@ const CATALOG = [
   { code: "BD-17", name: "Deep Court", c1: "#06152D", c2: "#155EEF", extra: true },
   { code: "BD-18", name: "Flash Point", c1: "#155EEF", c2: "#E91E8C", extra: true },
   { code: "BD-19", name: "Iron Smash", c1: "#232C3F", c2: "#155EEF", extra: true },
-  { code: "BD-20", name: "Prime Blue", c1: "#0B4FA8", c2: "#00A8FF", extra: true },
+  { code: "BD-20", name: "Solar Rush", c1: "#0B4FA8", c2: "#00A8FF", extra: true },
 ];
 
 const TESTIMONI = [
