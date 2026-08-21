@@ -291,3 +291,13 @@
     display: none !important;
   }
 }
+
+/* ---- marquee component keyframes ---- */
+@keyframes marquee-horizontal {
+  from { transform: translateX(0); }
+  to { transform: translateX(-100%); }
+}
+@keyframes marquee-vertical {
+  from { transform: translateY(0); }
+  to { transform: translateY(-100%); }
+}

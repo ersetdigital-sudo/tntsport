@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useRef, useCallback } from "react";
 import { buildWhatsAppLink } from "@/lib/wa";
+import { Marquee } from "@/components/ui/marquee";
 import "./corporate-collection.css";
 
 interface Product {
@@ -66,7 +67,6 @@ export function CorporateCollectionLanding({ products, waNumber }: Props) {
   const [showAll, setShowAll] = useState(false);
   const [faqOpen, setFaqOpen] = useState<number | null>(null);
   const heroRef = useRef<HTMLImageElement>(null);
-  const tCarouselRef = useRef<HTMLDivElement>(null);
 
   const waClosing = buildWhatsAppLink(waNumber, "Halo TNT SPORT APPAREL, saya mau order jersey corporate custom untuk perusahaan saya.");
   const waBulk = buildWhatsAppLink(waNumber, "Halo TNT SPORT APPAREL, saya butuh jersey corporate lebih dari 50 pcs buat perusahaan. Minta harga khusus dong!");
@@ -106,43 +106,6 @@ export function CorporateCollectionLanding({ products, waNumber }: Props) {
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
-
-  /* ── testimonial auto-slide ── */
-  useEffect(() => {
-    const tc = tCarouselRef.current;
-    if (!tc) return;
-    const step = () => (tc.querySelector("article") as HTMLElement)?.offsetWidth + 24 || 0;
-    const go = (d: number) => tc.scrollBy({ left: d * step(), behavior: "smooth" });
-    let paused = false;
-    const onEnter = () => (paused = true);
-    const onLeave = () => (paused = false);
-    tc.addEventListener("pointerenter", onEnter);
-    tc.addEventListener("pointerleave", onLeave);
-    tc.addEventListener("touchstart", onEnter, { passive: true });
-    const id = setInterval(() => {
-      if (paused || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
-      if (tc.scrollLeft + tc.clientWidth >= tc.scrollWidth - 8) tc.scrollTo({ left: 0, behavior: "smooth" });
-      else go(1);
-    }, 4500);
-    return () => {
-      clearInterval(id);
-      tc.removeEventListener("pointerenter", onEnter);
-      tc.removeEventListener("pointerleave", onLeave);
-    };
-  }, []);
-
-  const tPrev = () => {
-    const tc = tCarouselRef.current;
-    if (!tc) return;
-    const w = (tc.querySelector("article") as HTMLElement)?.offsetWidth + 24 || 0;
-    tc.scrollBy({ left: -w, behavior: "smooth" });
-  };
-  const tNext = () => {
-    const tc = tCarouselRef.current;
-    if (!tc) return;
-    const w = (tc.querySelector("article") as HTMLElement)?.offsetWidth + 24 || 0;
-    tc.scrollBy({ left: w, behavior: "smooth" });
-  };
 
   const t = TIERS[tier];
 
@@ -212,7 +175,7 @@ export function CorporateCollectionLanding({ products, waNumber }: Props) {
           <div className="py-5 flex items-center gap-0 overflow-hidden">
             <span className="label text-[#A6A8AA] shrink-0 hidden sm:inline px-6">Keunggulan</span>
             <span className="hidden sm:block w-8 h-px bg-[#F26A21] shrink-0" />
-            <div className="flex items-center gap-8 marquee-track">
+            <div className="flex items-center gap-8 shrink-0" style={{ whiteSpace: "nowrap", width: "max-content", animation: "corp-marq 26s linear infinite" }}>
               {[...MARQUEE_ITEMS, ...MARQUEE_ITEMS].map((item, i) => (
                 <span key={i} className="label text-[#F3F0E8]/70 whitespace-nowrap flex items-center gap-3 shrink-0">
                   <span className="w-1.5 h-1.5 bg-[#F26A21] rounded-full shrink-0" />
@@ -534,34 +497,33 @@ export function CorporateCollectionLanding({ products, waNumber }: Props) {
                 Mereka Sudah Tampil Bersama.<br /><span className="orange">Sekarang Giliran Timmu.</span>
               </h2>
             </div>
-            <div className="lg:col-span-4 lg:text-right flex lg:justify-end gap-3">
-              <button type="button" onClick={tPrev} className="btn label border border-white/20 text-[#F3F0E8] w-12 h-12 hover:border-[#F26A21] hover:text-[#F26A21]" aria-label="Testimonial sebelumnya">←</button>
-              <button type="button" onClick={tNext} className="btn label border border-white/20 text-[#F3F0E8] w-12 h-12 hover:border-[#F26A21] hover:text-[#F26A21]" aria-label="Testimonial berikutnya">→</button>
-            </div>
           </div>
         </div>
-        <div className="mt-14 lg:mt-20 pl-6 lg:pl-12">
-          <div ref={tCarouselRef} className="hscroll pr-6 lg:pr-12">
+        <div className="mt-14 lg:mt-20">
+          <Marquee speed={30} pauseOnHover className="[--gap:1.5rem]">
             {[
-              { quote: "Order 60 set buat family gathering kantor. Bahan adem, nama karyawan + logo perusahaan tercetak rapi. Semua pegawai pada puas banget.", name: "Andi Prasetyo", team: "PT Mitra Solusi · Jakarta" },
-              { quote: "Pesan 36 jersey buat turnamen antar divisi. Hasilnya persis kayak mockup — warna, logo, nomor punggung semuanya detail. Klien kami pada nanya pesen dimana.", name: "Rina Wulandari", team: "Bank Digital Nusantara · Bandung" },
-              { quote: "Paket company jersey 20 set, cashback Rp60rb langsung dipakai buat custom nama. Proses cepat, jahitan awet. Recommended banget buat kantor!", name: "Budi Santoso", team: "Construction Pro · Surabaya" },
-              { quote: "Dipesen buat TIM futsal kantor, 24 pcs. Dry-fit-nya beneran adem, ga nerawang. Yang cewek juga nyaman dipakai. Bakal repeat order buat event bulan depan.", name: "Siti Nurhaliza", team: "TechVision Corp · Medan" },
-              { quote: "Logo sponsor + nama perusahaan bisa masuk semua di jersey. Dipakai buat company outing, keliatan kompak dan profesional. Kualitas cetak tajam.", name: "Hendra Gunawan", team: "PT Global Karya · Semarang" },
+              { quote: "Order 60 set buat family gathering kantor. Bahan adem, nama karyawan + logo perusahaan tercetak rapi. Semua pegawai pada puas banget.", name: "Andi Prasetyo", team: "PT Mitra Solusi · Jakarta", initials: "AP", color: "#F26A21" },
+              { quote: "Pesan 36 jersey buat turnamen antar divisi. Hasilnya persis kayak mockup — warna, logo, nomor punggung semuanya detail.", name: "Rina Wulandari", team: "Bank Digital Nusantara · Bandung", initials: "RW", color: "#E84D60" },
+              { quote: "Paket company jersey 20 set, cashback langsung dipakai buat custom nama. Proses cepat, jahitan awet. Recommended!", name: "Budi Santoso", team: "Construction Pro · Surabaya", initials: "BS", color: "#3B82F6" },
+              { quote: "Dipesen buat TIM futsal kantor, 24 pcs. Dry-fit-nya beneran adem, ga nerawang. Bakal repeat order.", name: "Siti Nurhaliza", team: "TechVision Corp · Medan", initials: "SN", color: "#10B981" },
+              { quote: "Logo sponsor + nama perusahaan bisa masuk semua di jersey. Dipakai company outing, keliatan kompak dan profesional.", name: "Hendra Gunawan", team: "PT Global Karya · Semarang", initials: "HG", color: "#8B5CF6" },
+              { quote: "Butuh 80 pcs dadakan buat event kantor bulan depan. Dikirim tepat waktu, semua ukuran pas. Super recommended!", name: "Dewi Anggraini", team: "Mega Corp Group · Yogyakarta", initials: "DA", color: "#EC4899" },
             ].map((t, i) => (
-              <article key={i} className="w-[82vw] sm:w-[46vw] lg:w-[30rem] border border-white/12 p-8 lg:p-10 flex flex-col">
+              <article key={i} className="w-[82vw] sm:w-[46vw] lg:w-[26rem] border border-white/12 p-6 lg:p-8 flex flex-col shrink-0">
                 <div className="label orange tracking-[0.4em]">★★★★★</div>
-                <p className="display text-2xl lg:text-[1.75rem] mt-8 text-[#F3F0E8] leading-tight">&ldquo;{t.quote}&rdquo;</p>
-                <div className="mt-auto pt-10 flex items-center gap-4">
-                  <span className="w-12 h-12 ph border border-white/12 shrink-0" />
+                <p className="text-[15px] lg:text-[16px] mt-6 text-[#F3F0E8] leading-relaxed">&ldquo;{t.quote}&rdquo;</p>
+                <div className="mt-auto pt-8 flex items-center gap-3">
+                  <div className="w-10 h-10 rounded-full flex items-center justify-center text-[13px] font-bold text-white shrink-0" style={{ backgroundColor: t.color }}>
+                    {t.initials}
+                  </div>
                   <div>
-                    <span className="label text-[#F3F0E8] block">{t.name}</span>
-                    <span className="label text-[#A6A8AA] block mt-1">{t.team}</span>
+                    <span className="label text-[#F3F0E8] block text-[13px]">{t.name}</span>
+                    <span className="label text-[#A6A8AA] block mt-0.5 text-[12px]">{t.team}</span>
                   </div>
                 </div>
               </article>
             ))}
-          </div>
+          </Marquee>
         </div>
       </section>
 
