@@ -562,10 +562,17 @@ export function JerseyBadmintonLanding({ products, waNumber }: Props) {
           </div>
 
           {/* bulk rail */}
-          <div className="reveal bulk-rail" style={{ marginTop: 56, paddingTop: 32, display: "flex", flexDirection: "row", flexWrap: "wrap", alignItems: "baseline", gap: 20, textAlign: "left" }}>
-            <h3 className="dspl" style={{ fontSize: "clamp(1.5rem, 3vw, 2rem)", lineHeight: 1, flexShrink: 0 }}>Lebih dari <span style={{ color: "#E91E8C" }}>50 pcs</span>?</h3>
-            <p style={{ fontSize: 14, color: "rgba(217,222,231,.70)", flex: 1, lineHeight: 1.6 }}>Harga proyek khusus untuk komunitas, instansi, sekolah, dan event.</p>
-            <a href="#final" className="arrow-link eyebrow" style={{ fontSize: 10.5, color: "#00A8FF", flexShrink: 0 }}>Minta Harga Khusus <span aria-hidden="true">↗</span></a>
+          <div className="reveal bulk-rail" style={{ marginTop: 56 }}>
+            <div className="bulk-inner">
+              <div className="bulk-glow" />
+              <div className="bulk-badge eyebrow">PROYEK BESAR?</div>
+              <h3 className="dspl bulk-title">Lebih dari <span className="bulk-highlight">50 pcs</span>?</h3>
+              <p className="bulk-desc">Harga proyek khusus untuk komunitas, instansi, sekolah, dan event.</p>
+              <a href="#final" className="bulk-cta">
+                <span>Minta Harga Khusus</span>
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M7 17L17 7M17 7H7M17 7V17" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round" /></svg>
+              </a>
+            </div>
           </div>
         </div>
       </section>

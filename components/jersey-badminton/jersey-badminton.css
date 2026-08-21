@@ -384,6 +384,90 @@
   letter-spacing: -0.015em;
 }
 
+/* ---- bulk rail premium ---- */
+.jbm .bulk-rail {
+  position: relative;
+}
+
+.jbm .bulk-inner {
+  position: relative;
+  overflow: hidden;
+  padding: 48px 40px;
+  border-radius: 24px;
+  background: linear-gradient(135deg, rgba(233,30,140,.06) 0%, rgba(0,168,255,.06) 50%, rgba(233,30,140,.06) 100%);
+  border: 1px solid rgba(233,30,140,.15);
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 32px;
+  text-align: left;
+}
+
+.jbm .bulk-glow {
+  position: absolute;
+  top: -80px;
+  right: -80px;
+  width: 240px;
+  height: 240px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(233,30,140,.12) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+.jbm .bulk-badge {
+  position: absolute;
+  top: 20px;
+  left: 24px;
+  font-size: 9px;
+  letter-spacing: .12em;
+  color: rgba(233,30,140,.7);
+  text-transform: uppercase;
+}
+
+.jbm .bulk-title {
+  font-size: clamp(1.5rem, 3vw, 2.2rem);
+  line-height: 1;
+  flex-shrink: 0;
+}
+
+.jbm .bulk-highlight {
+  color: #E91E8C;
+  background: linear-gradient(135deg, #E91E8C, #FF6EC7);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.jbm .bulk-desc {
+  font-size: 14px;
+  color: rgba(217,222,231,.65);
+  flex: 1;
+  line-height: 1.6;
+}
+
+.jbm .bulk-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 14px 28px;
+  border-radius: 999px;
+  background: linear-gradient(135deg, #E91E8C 0%, #FF6EC7 100%);
+  color: #fff;
+  font-family: var(--jbm-eyebrow);
+  font-size: 11px;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+  text-decoration: none;
+  flex-shrink: 0;
+  transition: transform .2s, box-shadow .2s;
+  box-shadow: 0 4px 24px rgba(233,30,140,.3);
+}
+
+.jbm .bulk-cta:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 32px rgba(233,30,140,.45);
+}
+
 @media (max-width: 640px) {
   .jbm .hero-h1 {
     font-size: 2.2rem;
@@ -430,42 +514,48 @@
     text-align: center !important;
   }
 
-  /* bulk rail mobile - premium card */
+  /* bulk rail mobile - premium */
   .jbm #harga .bulk-rail {
+    margin-top: 48px;
+  }
+
+  .jbm #harga .bulk-inner {
     flex-direction: column;
     align-items: center;
     text-align: center;
-    padding: 32px 24px;
-    margin-top: 56px;
-    border-radius: 20px;
-    background: linear-gradient(135deg, rgba(233,30,140,.08), rgba(0,168,255,.08));
-    border: 1px solid rgba(233,30,140,.2);
+    padding: 40px 24px 36px;
     gap: 16px;
+    border-radius: 20px;
   }
 
-  .jbm #harga .bulk-rail h3 {
-    font-size: 1.4rem;
+  .jbm #harga .bulk-glow {
+    top: -60px;
+    right: -40px;
+    width: 180px;
+    height: 180px;
   }
 
-  .jbm #harga .bulk-rail p {
+  .jbm #harga .bulk-badge {
+    position: relative;
+    top: 0;
+    left: 0;
+    margin-bottom: 4px;
+  }
+
+  .jbm #harga .bulk-title {
+    font-size: 1.5rem;
+  }
+
+  .jbm #harga .bulk-desc {
     font-size: 13px;
-    line-height: 1.5;
     max-width: 280px;
     margin: 0 auto;
   }
 
-  .jbm #harga .bulk-rail .arrow-link {
+  .jbm #harga .bulk-cta {
     margin-top: 8px;
-    padding: 12px 28px;
-    border-radius: 999px;
-    background: #E91E8C;
-    color: #fff !important;
+    padding: 14px 32px;
     font-size: 11px;
-    letter-spacing: .06em;
-    text-transform: uppercase;
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
   }
 
   /* ---- katalog card: hide tombol, adjust padding ---- */
