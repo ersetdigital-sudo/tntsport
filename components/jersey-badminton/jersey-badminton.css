@@ -431,11 +431,24 @@
     text-align: center !important;
   }
 
-  /* bulk rail mobile center */
+  /* ---- bulk rail mobile center ---- */
   .jbm #harga .bulk-rail {
     flex-direction: column;
     align-items: center;
     text-align: center;
+  }
+
+  /* ---- katalog card: hide tombol, adjust padding ---- */
+  .jbm .cat-card-btn {
+    display: none;
+  }
+
+  .jbm .cat-card-info {
+    padding: 12px 14px !important;
+  }
+
+  .jbm .cat-card-info h3 {
+    font-size: 1.1rem !important;
   }
 }
 

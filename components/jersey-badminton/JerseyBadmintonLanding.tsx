@@ -348,8 +348,9 @@ export function JerseyBadmintonLanding({ products, waNumber }: Props) {
           <div className="jbm-collection-grid" style={{ marginTop: 48, gap: 24 }}>
             {products.map((p, i) => {
               const isHidden = i >= 9 && !showAll;
+              const waLink = wa(`Halo, saya tertarik desain ${p.catalogue} di kategori Badminton.`);
               return (
-                <article key={p.id} className={`reveal card cat-item`} style={{ overflow: "hidden", display: isHidden ? "none" : undefined }}>
+                <a key={p.id} href={waLink} target="_blank" rel="noopener" className={`reveal card cat-item cat-card`} style={{ overflow: "hidden", display: isHidden ? "none" : undefined, textDecoration: "none", color: "inherit", cursor: "pointer" }}>
                   {p.image.includes("placeholder") ? (
                     <div className="ph-tile" style={{ aspectRatio: "1", ["--c1" as string]: CATALOG[i]?.c1 || "#155EEF", ["--c2" as string]: CATALOG[i]?.c2 || "#00A8FF" }}>
                       <span className="ph-code dspl">{p.catalogue}</span>
@@ -357,17 +358,17 @@ export function JerseyBadmintonLanding({ products, waNumber }: Props) {
                     </div>
                   ) : (
                     <div style={{ overflow: "hidden" }}>
-                      <img src={p.image} alt={p.alt} style={{ width: "100%", aspectRatio: "1", objectFit: "cover" }} loading="lazy" />
+                      <img src={p.image} alt={p.alt} style={{ width: "100%", aspectRatio: "1", objectFit: "cover", pointerEvents: "none" }} loading="lazy" />
                     </div>
                   )}
-                  <div style={{ padding: 24, display: "flex", alignItems: "flex-end", justifyContent: "space-between", gap: 16 }}>
+                  <div className="cat-card-info" style={{ padding: 16, display: "flex", alignItems: "flex-end", justifyContent: "space-between", gap: 12 }}>
                     <div>
-                      <h3 className="dspl" style={{ fontSize: "1.5rem", color: !p.image.includes("placeholder") ? "#F5F7FA" : "rgba(245,247,250,.75)" }}>{CATALOG[i]?.name || p.catalogue}</h3>
-                      <p className="eyebrow" style={{ fontSize: 10.5, color: !p.image.includes("placeholder") ? "#00A8FF" : "rgba(217,222,231,.40)", marginTop: 6 }}>{p.catalogue}</p>
+                      <h3 className="dspl" style={{ fontSize: "1.3rem", color: !p.image.includes("placeholder") ? "#F5F7FA" : "rgba(245,247,250,.75)" }}>{CATALOG[i]?.name || p.catalogue}</h3>
+                      <p className="eyebrow" style={{ fontSize: 10, color: !p.image.includes("placeholder") ? "#00A8FF" : "rgba(217,222,231,.40)", marginTop: 4 }}>{p.catalogue}</p>
                     </div>
-                    <a href={wa(`Halo, saya tertarik desain ${p.catalogue} di kategori Badminton.`)} target="_blank" rel="noopener" className="btn-ghost" style={{ fontSize: 11, padding: "8px 16px", color: !p.image.includes("placeholder") ? "#F5F7FA" : "rgba(245,247,250,.70)" }}>{!p.image.includes("placeholder") ? "Pilih Desain" : "Tanya Desain"}</a>
+                    <span className="btn-ghost cat-card-btn" style={{ fontSize: 11, padding: "8px 16px", color: !p.image.includes("placeholder") ? "#F5F7FA" : "rgba(245,247,250,.70)", pointerEvents: "none" }}>{!p.image.includes("placeholder") ? "Pilih Desain" : "Tanya Desain"}</span>
                   </div>
-                </article>
+                </a>
               );
             })}
           </div>
