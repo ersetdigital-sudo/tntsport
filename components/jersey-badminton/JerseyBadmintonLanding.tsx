@@ -231,7 +231,7 @@ export function JerseyBadmintonLanding({ products, waNumber }: Props) {
         <div className="absolute -left-40 top-24 h-[520px] w-[520px] rounded-full opacity-[.14]" style={{ background: "conic-gradient(from 120deg,#00A8FF,#E91E8C,#155EEF,#00A8FF)", filter: "blur(90px)" }} aria-hidden="true" />
 
         <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <div className="grid items-center gap-10 lg:grid-cols-[48fr_52fr] lg:gap-6">
+          <div className="grid items-center gap-10 lg:grid-cols-[44fr_56fr] lg:gap-6">
             {/* COPY */}
             <div className="relative z-10 pb-14 lg:pb-24">
               <div className="mb-6 inline-flex items-center gap-2.5 rounded-full border border-[#00A8FF]/30 bg-[#00A8FF]/[.08] px-4 py-2 backdrop-blur">
@@ -288,15 +288,15 @@ export function JerseyBadmintonLanding({ products, waNumber }: Props) {
               <img ref={heroImgRef} src="/landing/jersey-badminton/c7feb97a-5f8f-4114-9788-ad01760eaede.png" alt="Model mengenakan jersey badminton custom BD-10" className="hero-figure relative" />
 
               {/* floating cards */}
-              <div className="hero-float card" style={{ left: "-2%", top: "20%" }}>
+              <div className="hero-float card" style={{ left: "0%", top: "20%" }}>
                 <div className="flex items-center gap-1 text-[13px]" style={{ color: "#F5A623" }}>★★★★★</div>
                 <p className="eyebrow mt-1.5 text-[8.5px]" style={{ color: "rgba(217,222,231,.65)" }}>1.2rb+ review tim</p>
               </div>
-              <div className="hero-float card" style={{ right: "0%", bottom: "30%" }}>
+              <div className="hero-float card" style={{ right: "2%", bottom: "30%" }}>
                 <p className="dspl text-[15px]" style={{ color: "#00A8FF" }}>BD-10</p>
                 <p className="eyebrow mt-1 text-[8.5px]" style={{ color: "rgba(217,222,231,.65)" }}>Crimson Strike</p>
               </div>
-              <div className="hero-float card" style={{ left: "6%", bottom: "12%" }}>
+              <div className="hero-float card" style={{ left: "4%", bottom: "10%" }}>
                 <p className="eyebrow text-[8.5px]" style={{ color: "#22C55E" }}>● Produksi 3–5 hari</p>
                 <p className="eyebrow mt-1 text-[8.5px]" style={{ color: "rgba(217,222,231,.65)" }}>Full printing rapi</p>
               </div>
@@ -411,7 +411,7 @@ export function JerseyBadmintonLanding({ products, waNumber }: Props) {
 
       {/* ===== TESTIMONI ===== */}
       <section id="testimoni" className="relative py-20 md:py-28">
-        <div className="max-w-[1400px] mx-auto px-5 sm:px-8">
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           {/* header */}
           <div className="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-6 mb-12">
             <div className="max-w-2xl">
@@ -474,10 +474,11 @@ export function JerseyBadmintonLanding({ products, waNumber }: Props) {
           </div>
 
           {/* CTA */}
-          <div className="mt-12 text-center">
-            <a href={wa("Halo TNT SPORT APPAREL, saya lihat testimoni & galeri hasil jersey, saya mau order juga!")} target="_blank" rel="noopener" className="btn px-9 py-4 text-sm">
+          <div className="mt-16 md:mt-20 flex flex-col items-center gap-4">
+            <a href={wa("Halo TNT SPORT APPAREL, saya lihat testimoni & galeri hasil jersey, saya mau order juga!")} target="_blank" rel="noopener" className="btn px-10 py-4 text-sm">
               Gabung 500+ Tim — Order Sekarang <span aria-hidden="true">→</span>
             </a>
+            <p className="eyebrow text-[9px]" style={{ color: "rgba(217,222,231,.40)" }}>Gratis konsultasi desain via WhatsApp</p>
           </div>
         </div>
         {galleryActive !== null && GALLERY_IMAGES[galleryActive] && (

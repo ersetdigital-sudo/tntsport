@@ -658,6 +658,7 @@
   width: 92%;
   max-width: none;
   height: auto;
+  margin: 0 auto;
 }
 
 @media (min-width: 640px) {
@@ -668,8 +669,8 @@
 
 @media (min-width: 1024px) {
   .jbm .hero-figure {
-    width: 118%;
-    margin-right: -6%;
+    width: 100%;
+    margin: 0 auto;
   }
 }
 
