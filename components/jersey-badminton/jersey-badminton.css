@@ -21,8 +21,12 @@
 
 /* ---- helpers ---- */
 .jbm * {
-  margin: 0;
   box-sizing: border-box;
+}
+
+.jbm .mx-auto {
+  margin-left: auto !important;
+  margin-right: auto !important;
 }
 
 .jbm .dspl {

@@ -230,7 +230,7 @@ export function JerseyBadmintonLanding({ products, waNumber }: Props) {
         <div className="absolute inset-0 hero-glow g3" aria-hidden="true" />
         <div className="absolute -left-40 top-24 h-[520px] w-[520px] rounded-full opacity-[.14]" style={{ background: "conic-gradient(from 120deg,#00A8FF,#E91E8C,#155EEF,#00A8FF)", filter: "blur(90px)" }} aria-hidden="true" />
 
-        <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <div className="relative" style={{ maxWidth: 1280, margin: "0 auto", padding: "0 20px" }}>
           <div className="grid items-center gap-10 lg:grid-cols-[44fr_56fr] lg:gap-6">
             {/* COPY */}
             <div className="relative z-10 pb-14 lg:pb-24">
@@ -411,7 +411,7 @@ export function JerseyBadmintonLanding({ products, waNumber }: Props) {
 
       {/* ===== TESTIMONI ===== */}
       <section id="testimoni" className="relative py-20 md:py-28">
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <div style={{ maxWidth: 1280, margin: "0 auto", padding: "0 20px" }}>
           {/* header */}
           <div className="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-6 mb-12">
             <div className="max-w-2xl">
