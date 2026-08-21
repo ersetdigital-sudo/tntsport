@@ -16,17 +16,27 @@ interface Props {
   waNumber: string;
 }
 
-const CATALOG = [
-  { code: "CORP-01", name: "Gathering 01 — Depan", img: "/landing/corporate-collection/e9abbd89-51da-4ae6-b186-1459c360c0e7.png" },
-  { code: "CORP-02", name: "Gathering 01 — Belakang", img: "/landing/corporate-collection/b5898a2d-f724-445c-8859-d1774ca3d299.png" },
-  { code: "CORP-03", name: "Gathering 01 — Samping", img: "/landing/corporate-collection/3b806c4b-a511-4394-b3b8-162537cc54b2.png" },
-  { code: "CORP-04", name: "Satu Set Lengkap", img: "/landing/corporate-collection/ec9f3a8b-bd2b-4ee4-a5c1-98e89fbfe64a.png" },
-  { code: "CORP-05", name: "Siap Kirim", img: "/landing/corporate-collection/82733519-f02e-4b1f-9e2c-eeaab326f176.png" },
-  { code: "CORP-06", name: "Detail Nameset", img: "/landing/corporate-collection/e1f690fa-7f35-4347-8961-3bb3e734c1bf.png" },
-  { code: "CORP-07", name: "Slot Desain — Upload", img: "" },
-  { code: "CORP-08", name: "Slot Desain — Upload", img: "" },
-  { code: "CORP-09", name: "Slot Desain — Upload", img: "" },
-];
+const CATALOG_NAMES: Record<string, string> = {
+  "CR-001": "Gathering 01 — Depan",
+  "CR-002": "Gathering 01 — Belakang",
+  "CR-003": "Gathering 01 — Samping",
+  "CR-004": "Satu Set Lengkap",
+  "CR-005": "Siap Kirim",
+  "CR-006": "Detail Nameset",
+  "CR-007": "Corporate Design 07",
+  "CR-008": "Corporate Design 08",
+  "CR-009": "Corporate Design 09",
+  "CR-010": "Corporate Design 10",
+};
+
+const LOCAL_IMAGES: Record<string, string> = {
+  "CR-001": "/landing/corporate-collection/e9abbd89-51da-4ae6-b186-1459c360c0e7.png",
+  "CR-002": "/landing/corporate-collection/b5898a2d-f724-445c-8859-d1774ca3d299.png",
+  "CR-003": "/landing/corporate-collection/3b806c4b-a511-4394-b3b8-162537cc54b2.png",
+  "CR-004": "/landing/corporate-collection/ec9f3a8b-bd2b-4ee4-a5c1-98e89fbfe64a.png",
+  "CR-005": "/landing/corporate-collection/82733519-f02e-4b1f-9e2c-eeaab326f176.png",
+  "CR-006": "/landing/corporate-collection/e1f690fa-7f35-4347-8961-3bb3e734c1bf.png",
+};
 
 const FAQS = [
   { q: "Apakah bisa custom logo perusahaan?", a: "Bisa. Logo perusahaan dapat dipasang pada jersey sesuai posisi dan ukuran yang kamu inginkan." },
@@ -46,12 +56,14 @@ const TIERS = {
 export function CorporateCollectionLanding({ products, waNumber }: Props) {
   const [tier, setTier] = useState<"ecer" | "lusin">("ecer");
   const [catActive, setCatActive] = useState<number | null>(null);
+  const [showAll, setShowAll] = useState(false);
   const [faqOpen, setFaqOpen] = useState<number | null>(null);
   const heroRef = useRef<HTMLImageElement>(null);
   const tCarouselRef = useRef<HTMLDivElement>(null);
 
   const waClosing = buildWhatsAppLink(waNumber, "Halo TNT SPORT APPAREL, saya mau order jersey corporate custom untuk perusahaan saya.");
   const waBulk = buildWhatsAppLink(waNumber, "Halo TNT SPORT APPAREL, saya butuh jersey corporate lebih dari 50 pcs buat perusahaan. Minta harga khusus dong!");
+  const wa = (msg: string) => buildWhatsAppLink(waNumber, msg);
 
   /* ── scroll reveal ── */
   useEffect(() => {
@@ -322,42 +334,49 @@ export function CorporateCollectionLanding({ products, waNumber }: Props) {
           </p>
 
           <div className="mt-14 lg:mt-20 grid sm:grid-cols-2 lg:grid-cols-3 gap-5 lg:gap-6">
-            {CATALOG.map((item, i) => (
-              <article
-                key={item.code}
-                className="card reveal border border-white/12 bg-[#17191C] p-4 flex flex-col cursor-pointer"
-                onClick={() => {
-                  if (item.img) setCatActive(i);
-                  else window.open(waClosing, "_blank");
-                }}
-              >
-                <div className="relative overflow-hidden bg-[#0D0F11] aspect-[4/5] flex items-center justify-center">
-                  {item.img ? (
-                    <img src={item.img} alt={item.name} className="card-img w-full h-full object-cover" />
-                  ) : (
-                    <>
-                      <span className="ph absolute inset-0" />
-                      <span className="relative label text-[#A6A8AA]">Slot Desain</span>
-                    </>
-                  )}
-                </div>
-                <div className="mt-5 flex items-end justify-between gap-4">
-                  <div>
-                    <h3 className="display text-lg text-[#F3F0E8] leading-tight">{item.name}</h3>
-                    <span className="label text-[#A6A8AA] block mt-2">{item.code}</span>
+            {products.map((p, i) => {
+              const isHidden = i >= 9 && !showAll;
+              const isPlaceholder = p.image.includes("placeholder");
+              const localImg = LOCAL_IMAGES[p.catalogue];
+              const imgSrc = isPlaceholder && localImg ? localImg : p.image;
+              const hasRealImage = !isPlaceholder || !!localImg;
+              const displayName = CATALOG_NAMES[p.catalogue] || p.catalogue;
+              return (
+                <article
+                  key={p.id}
+                  className={`card reveal border border-white/12 bg-[#17191C] p-4 flex flex-col cursor-pointer ${isHidden ? "hidden" : ""}`}
+                  onClick={() => setCatActive(i)}
+                >
+                  <div className="relative overflow-hidden bg-[#0D0F11] aspect-[4/5] flex items-center justify-center">
+                    {hasRealImage ? (
+                      <img src={imgSrc} alt={p.alt} className="card-img w-full h-full object-cover" loading="lazy" />
+                    ) : (
+                      <>
+                        <span className="ph absolute inset-0" />
+                        <span className="relative label text-[#A6A8AA]">{p.catalogue}</span>
+                      </>
+                    )}
                   </div>
-                  <span className="btn label border border-white/20 text-[#F3F0E8] px-4 py-3 whitespace-nowrap hover:bg-[#F26A21] hover:border-[#F26A21] hover:text-[#0D0F11]">
-                    Pilih Desain
-                  </span>
-                </div>
-              </article>
-            ))}
+                  <div className="mt-5 flex items-end justify-between gap-4">
+                    <div>
+                      <h3 className={`display text-lg leading-tight ${hasRealImage ? "text-[#F3F0E8]" : "text-[#F3F0E8]/75"}`}>{displayName}</h3>
+                      <span className={`label block mt-2 ${hasRealImage ? "text-[#A6A8AA]" : "text-[#A6A8AA]/60"}`}>{p.catalogue}</span>
+                    </div>
+                    <span className={`btn label border border-white/20 px-4 py-3 whitespace-nowrap hover:bg-[#F26A21] hover:border-[#F26A21] hover:text-[#0D0F11] ${hasRealImage ? "text-[#F3F0E8]" : "text-[#F3F0E8]/70"}`}>
+                      Pilih Desain
+                    </span>
+                  </div>
+                </article>
+              );
+            })}
           </div>
 
           <div className="mt-16 text-center">
-            <a href="#harga" className="btn inline-flex items-center gap-3 label border border-white/25 text-[#F3F0E8] px-10 py-5 hover:border-[#F26A21] hover:text-[#F26A21]">
-              Lihat Semua 20 Desain <span>↓</span>
-            </a>
+            {!showAll && products.length > 9 && (
+              <button type="button" onClick={() => setShowAll(true)} className="btn inline-flex items-center gap-3 label border border-white/25 text-[#F3F0E8] px-10 py-5 hover:border-[#F26A21] hover:text-[#F26A21]">
+                Lihat Semua {products.length} Desain <span>↓</span>
+              </button>
+            )}
             <p className="reveal mt-6 label text-[#A6A8AA]">Desain baru terus ditambahkan tiap bulan</p>
           </div>
         </div>
@@ -648,19 +667,33 @@ export function CorporateCollectionLanding({ products, waNumber }: Props) {
       </footer>
 
       {/* ═══════════ CATALOG MODAL ═══════════ */}
-      {catActive !== null && CATALOG[catActive]?.img && (
-        <div className="fixed inset-0 z-[9999] flex items-center justify-center bg-black/80 backdrop-blur-sm p-4" onClick={() => setCatActive(null)}>
-          <div className="relative bg-[#17191C] border border-white/15 max-w-lg w-full p-6" onClick={(e) => e.stopPropagation()}>
-            <button type="button" onClick={() => setCatActive(null)} className="absolute top-4 right-4 label text-[#A6A8AA] hover:text-[#F26A21] text-xl leading-none">✕</button>
-            <img src={CATALOG[catActive].img} alt={CATALOG[catActive].name} className="w-full aspect-[4/5] object-cover" />
-            <h3 className="display text-xl text-[#F3F0E8] mt-4">{CATALOG[catActive].name}</h3>
-            <span className="label text-[#A6A8AA] block mt-1">{CATALOG[catActive].code}</span>
-            <a href={waClosing} target="_blank" rel="noopener noreferrer" className="btn mt-6 w-full inline-flex items-center justify-center gap-3 label bg-[#F26A21] text-[#0D0F11] px-6 py-4 hover:bg-[#F3F0E8]">
-              Pesan via WhatsApp <span>→</span>
-            </a>
+      {catActive !== null && products[catActive] && (() => {
+        const p = products[catActive];
+        const isPlaceholder = p.image.includes("placeholder");
+        const localImg = LOCAL_IMAGES[p.catalogue];
+        const imgSrc = isPlaceholder && localImg ? localImg : p.image;
+        const hasRealImage = !isPlaceholder || !!localImg;
+        return (
+          <div className="fixed inset-0 z-[9999] flex items-center justify-center bg-black/80 backdrop-blur-sm p-4" onClick={() => setCatActive(null)}>
+            <div className="relative bg-[#17191C] border border-white/15 max-w-lg w-full p-6" onClick={(e) => e.stopPropagation()}>
+              <button type="button" onClick={() => setCatActive(null)} className="absolute top-4 right-4 label text-[#A6A8AA] hover:text-[#F26A21] text-xl leading-none">✕</button>
+              {hasRealImage ? (
+                <img src={imgSrc} alt={p.alt} className="w-full aspect-[4/5] object-cover" />
+              ) : (
+                <div className="w-full aspect-[4/5] bg-[#0D0F11] flex items-center justify-center relative">
+                  <span className="ph absolute inset-0" />
+                  <span className="relative display text-2xl text-[#A6A8AA]">{p.catalogue}</span>
+                </div>
+              )}
+              <h3 className="display text-xl text-[#F3F0E8] mt-4">{CATALOG_NAMES[p.catalogue] || p.catalogue}</h3>
+              <span className="label text-[#A6A8AA] block mt-1">{p.catalogue}</span>
+              <a href={wa(`Halo, saya tertarik desain ${p.catalogue} di kategori Corporate.`)} target="_blank" rel="noopener noreferrer" className="btn mt-6 w-full inline-flex items-center justify-center gap-3 label bg-[#F26A21] text-[#0D0F11] px-6 py-4 hover:bg-[#F3F0E8]">
+                Pesan via WhatsApp <span>→</span>
+              </a>
+            </div>
           </div>
-        </div>
-      )}
+        );
+      })()}
 
     </div>
   );
