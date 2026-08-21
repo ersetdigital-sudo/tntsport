@@ -352,13 +352,13 @@ export function CorporateCollectionLanding({ products, waNumber }: Props) {
                   className={`reveal card cat-card border border-white/12 bg-[#17191C] flex flex-col ${isHidden ? "hidden" : ""}`}
                   onClick={() => setCatActive(i)}
                 >
-                  <div className="relative overflow-hidden bg-[#0D0F11] aspect-[4/5] flex items-center justify-center">
+                  <div className="relative overflow-hidden bg-[#0D0F11] flex items-center justify-center">
                     {hasRealImage ? (
-                      <img src={imgSrc} alt={p.alt} className="card-img w-full h-full object-cover" loading="lazy" />
+                      <img src={imgSrc} alt={p.alt} className="card-img w-full h-auto object-contain" loading="lazy" />
                     ) : (
                       <>
                         <span className="ph absolute inset-0" />
-                        <span className="relative label text-[#A6A8AA]">{p.catalogue}</span>
+                        <span className="relative label text-[#A6A8AA] py-20">{p.catalogue}</span>
                       </>
                     )}
                   </div>
