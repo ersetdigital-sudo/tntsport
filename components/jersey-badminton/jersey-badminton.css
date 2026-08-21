@@ -641,6 +641,73 @@
 }
 
 /* ============================================================
+   HERO GRID & LAYOUT
+   ============================================================ */
+.jbm #hero {
+  background:
+    radial-gradient(120% 90% at 78% 30%, #0a2b5c 0%, rgba(10, 43, 92, 0) 62%),
+    radial-gradient(90% 80% at 8% 8%, #111b42 0%, rgba(17, 27, 66, 0) 60%),
+    linear-gradient(165deg, #06152d 0%, #071a38 45%, #06152d 100%);
+}
+
+.jbm .hero-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 2.5rem;
+  align-items: center;
+}
+
+@media (min-width: 1024px) {
+  .jbm .hero-grid {
+    grid-template-columns: 45fr 55fr;
+    gap: 1rem;
+    align-items: end;
+  }
+}
+
+.jbm .hero-copy {
+  order: 1;
+}
+
+@media (min-width: 1024px) {
+  .jbm .hero-copy {
+    padding-right: 1.5rem;
+  }
+}
+
+.jbm .hero-product {
+  order: 2;
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-self: end;
+}
+
+@media (min-width: 1024px) {
+  .jbm .hero-product {
+    order: unset;
+    grid-column: 2;
+    grid-row: 1 / span 2;
+    justify-content: flex-end;
+    margin-bottom: -6vh;
+    margin-top: 6vh;
+  }
+}
+
+.jbm .hero-trust {
+  order: 3;
+}
+
+@media (min-width: 1024px) {
+  .jbm .hero-trust {
+    grid-column: 1;
+    grid-row: 2;
+    margin-top: 28px;
+    margin-bottom: 10vh;
+  }
+}
+
+/* ============================================================
    RESPONSIVE
    ============================================================ */
 @media (max-width: 640px) {
