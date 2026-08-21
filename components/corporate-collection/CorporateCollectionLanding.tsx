@@ -172,9 +172,7 @@ export function CorporateCollectionLanding({ products, waNumber }: Props) {
         </div>
 
         <div className="relative border-t border-white/12 overflow-hidden">
-          <div className="py-5 flex items-center gap-0 overflow-hidden">
-            <span className="label text-[#A6A8AA] shrink-0 hidden sm:inline px-6">Keunggulan</span>
-            <span className="hidden sm:block w-8 h-px bg-[#F26A21] shrink-0" />
+          <div className="py-5 flex items-center gap-8 overflow-hidden">
             <div className="flex items-center gap-8 shrink-0" style={{ whiteSpace: "nowrap", width: "max-content", animation: "corp-marq 26s linear infinite" }}>
               {[...MARQUEE_ITEMS, ...MARQUEE_ITEMS].map((item, i) => (
                 <span key={i} className="label text-[#F3F0E8]/70 whitespace-nowrap flex items-center gap-3 shrink-0">
