@@ -39,6 +39,14 @@ const CATALOG = [
   { code: "BD-20", name: "Prime Blue", c1: "#0B4FA8", c2: "#00A8FF", extra: true },
 ];
 
+const GALLERY_IMAGES = [
+  { src: "/landing/jersey-futsal/4c090b09-6b9d-4d9a-a061-ca955c49c520.png", alt: "Komunitas badminton memakai jersey custom" },
+  { src: "/landing/jersey-futsal/93c90d93-45be-4137-b10d-d810ada22df4.png", alt: "Tim badminton memakai jersey custom kuning" },
+  { src: "/landing/jersey-futsal/0cde4945-3487-4e3d-ba70-e94156ac55e3.png", alt: "Pemain memakai jersey custom lengan panjang" },
+  { src: "/landing/jersey-futsal/3af292c0-b13f-4a74-b94e-c0b6885f633c.png", alt: "Komunitas badminton maroon" },
+  { src: "/landing/jersey-futsal/21bccec1-b05a-464e-bc44-54cb90c01dde.png", alt: "Tim badminton junior memakai jersey custom biru" },
+];
+
 const TOAST_DATA = {
   nama: ["Rizky", "Andi", "Dewi", "Bagus", "Putri", "Fajar", "Hendra", "Sinta", "Yoga", "Nabila", "Reza", "Tari", "Bima", "Aditya", "Lia"],
   kota: ["Bandung", "Surabaya", "Jakarta", "Semarang", "Yogyakarta", "Malang", "Medan", "Solo", "Bekasi", "Denpasar", "Makassar", "Tangerang"],
@@ -54,6 +62,7 @@ export function JerseyBadmintonLanding({ products, waNumber }: Props) {
   const [showAll, setShowAll] = useState(false);
   const [priceMode, setPriceMode] = useState<"ecer" | "lusin">("ecer");
   const [swapping, setSwapping] = useState(false);
+  const [galleryActive, setGalleryActive] = useState<number | null>(null);
   const [toasts, setToasts] = useState<{ id: number; text: string; sub: string }[]>([]);
   const streakRef = useRef<HTMLDivElement>(null);
   const heroImgRef = useRef<HTMLImageElement>(null);
@@ -178,51 +187,49 @@ export function JerseyBadmintonLanding({ products, waNumber }: Props) {
       </header>
 
       {/* ===== HERO ===== */}
-      <section id="hero" className="jbm-hero">
-        <div className="hero-glow g1" />
-        <div className="hero-glow g2" />
-        <div className="hero-glow g3" />
+      <section id="hero" className="relative min-h-[100svh] flex items-center overflow-hidden" style={{ paddingTop: "6rem", paddingBottom: "3.5rem" }}>
+        {/* ambient */}
+        <div className="hero-glow g1" /><div className="hero-glow g2" /><div className="hero-glow g3" />
         <div className="grid-lines" />
         <div className="hero-arc" style={{ width: "70vw", height: "70vw", maxWidth: 900, maxHeight: 900, right: "-14%", top: "-12%" }} />
         <div className="hero-arc" style={{ width: "46vw", height: "46vw", maxWidth: 560, maxHeight: 560, right: "2%", bottom: "-18%", opacity: 0.6 }} />
         <div className="streaks" ref={streakRef} />
         <div className="speed" style={{ opacity: 0.7 }}><span /><span /><span /><span /><span /></div>
 
-        <div style={{ position: "relative", width: "100%", maxWidth: 1400, margin: "0 auto", padding: "0 20px", display: "grid", gap: 40, alignItems: "center" }}>
-          <style>{`.jbm .hero-grid{display:grid;gap:40px;align-items:center}@media(min-width:1024px){.jbm .hero-grid{grid-template-columns:45fr 55fr;gap:16px;align-items:end}}.jbm .hero-copy{order:1}.jbm .hero-product{order:2;position:relative;display:flex;justify-content:center;align-self:end}.jbm .hero-trust{order:3}`}</style>
+        <div className="relative w-full mx-auto px-5 sm:px-8" style={{ maxWidth: 1400 }}>
           <div className="hero-grid">
-          {/* COPY */}
-          <div className="hero-copy reveal">
-            <p className="reveal eyebrow" style={{ fontSize: 10.5, color: "#00A8FF", marginBottom: 24, display: "flex", alignItems: "center", gap: 12 }}>
-              <span style={{ width: 32, height: 1, background: "rgba(0,168,255,.7)", display: "inline-block" }} />Badminton Collection
-            </p>
-            <h1 className="reveal dspl hero-h1">Main cepat.<br />Tampil <span className="sharp">lebih<br />tajam.</span></h1>
-            <p className="reveal" style={{ marginTop: 28, fontSize: "clamp(1rem, 2vw, 1.25rem)", fontWeight: 600, color: "#F5F7FA", maxWidth: "32rem", lineHeight: 1.3 }}>
-              Jersey badminton custom untuk tim yang siap tampil <span style={{ color: "#00A8FF" }}>kompetitif</span>.
-            </p>
-            <p className="reveal" style={{ marginTop: 16, fontSize: 15, color: "rgba(217,222,231,.85)", lineHeight: 1.6, maxWidth: "28rem" }}>
-              Desain sporty dan bahan dry-fit yang nyaman. Custom nameset, nomor, logo, serta sponsor agar tim tampil kompak di setiap pertandingan.
-            </p>
-            <div className="reveal" style={{ marginTop: 36 }}>
-              <a href="#collection" className="btn" style={{ padding: "16px 36px", fontSize: 14 }}>Pilih Desain <span aria-hidden="true">→</span></a>
+            {/* COPY */}
+            <div className="hero-copy reveal" style={{ paddingRight: "1.5rem" }}>
+              <p className="reveal eyebrow" style={{ fontSize: 10.5, color: "#00A8FF", marginBottom: 24, display: "flex", alignItems: "center", gap: 12 }}>
+                <span style={{ width: 32, height: 1, background: "rgba(0,168,255,.7)", display: "inline-block" }} />Badminton Collection
+              </p>
+              <h1 className="reveal dspl hero-h1">Main cepat.<br />Tampil <span className="sharp">lebih<br />tajam.</span></h1>
+              <p className="reveal" style={{ marginTop: 28, fontSize: "clamp(1rem, 2vw, 1.25rem)", fontWeight: 600, color: "#F5F7FA", maxWidth: "32rem", lineHeight: 1.3 }}>
+                Jersey badminton custom untuk tim yang siap tampil <span style={{ color: "#00A8FF" }}>kompetitif</span>.
+              </p>
+              <p className="reveal" style={{ marginTop: 16, fontSize: 15, color: "rgba(217,222,231,.85)", lineHeight: 1.6, maxWidth: "28rem" }}>
+                Desain sporty dan bahan dry-fit yang nyaman. Custom nameset, nomor, logo, serta sponsor agar tim tampil kompak di setiap pertandingan.
+              </p>
+              <div className="reveal" style={{ marginTop: 36 }}>
+                <a href="#collection" className="btn" style={{ padding: "16px 36px", fontSize: 14 }}>Pilih Desain <span aria-hidden="true">→</span></a>
+              </div>
             </div>
-          </div>
 
-          {/* PRODUCT */}
-          <div className="hero-product reveal">
-            <div style={{ position: "absolute", bottom: 0, left: "50%", transform: "translateX(-50%)", width: "78%", aspectRatio: "1", borderRadius: "50%", background: "radial-gradient(circle,rgba(0,168,255,.30),rgba(21,94,239,.14) 45%,transparent 70%)", filter: "blur(60px)" }} />
-            <span className="dot" style={{ left: "12%", top: "26%" }} />
-            <span className="dot" style={{ left: "78%", top: "16%", animationDelay: "-3s" }} />
-            <span className="dot" style={{ left: "88%", top: "58%", animationDelay: "-5s", background: "rgba(233,30,140,.7)", boxShadow: "0 0 10px rgba(233,30,140,.8)" }} />
-            <span className="dot" style={{ left: "24%", top: "72%", animationDelay: "-1.5s" }} />
-            <img ref={heroImgRef} src="/landing/jersey-badminton/c7feb97a-5f8f-4114-9788-ad01760eaede.png" alt="Model mengenakan jersey badminton custom BD-10" className="hero-figure" style={{ position: "relative", width: "92%", maxWidth: "none", height: "auto" }} />
-            <div style={{ position: "absolute", top: "16%", right: "2%", padding: "6px 14px", borderRadius: 999, background: "rgba(6,21,45,.7)", backdropFilter: "blur(12px)", border: "1px solid rgba(255,255,255,.15)" }}>
-              <span className="eyebrow" style={{ fontSize: 9.5, color: "#F5F7FA" }}>BD-10</span>
+            {/* PRODUCT */}
+            <div className="hero-product reveal">
+              <div style={{ position: "absolute", bottom: 0, left: "50%", transform: "translateX(-50%)", width: "78%", aspectRatio: "1", borderRadius: "50%", background: "radial-gradient(circle,rgba(0,168,255,.30),rgba(21,94,239,.14) 45%,transparent 70%)", filter: "blur(60px)" }} />
+              <span className="dot" style={{ left: "12%", top: "26%" }} />
+              <span className="dot" style={{ left: "78%", top: "16%", animationDelay: "-3s" }} />
+              <span className="dot" style={{ left: "88%", top: "58%", animationDelay: "-5s", background: "rgba(233,30,140,.7)", boxShadow: "0 0 10px rgba(233,30,140,.8)" }} />
+              <span className="dot" style={{ left: "24%", top: "72%", animationDelay: "-1.5s" }} />
+              <img ref={heroImgRef} src="/landing/jersey-badminton/c7feb97a-5f8f-4114-9788-ad01760eaede.png" alt="Model mengenakan jersey badminton custom BD-10" className="hero-figure" style={{ position: "relative", width: "92%", maxWidth: "none", height: "auto" }} />
+              <div style={{ position: "absolute", top: "16%", right: "6%", padding: "6px 14px", borderRadius: 999, background: "rgba(6,21,45,.7)", backdropFilter: "blur(12px)", border: "1px solid rgba(255,255,255,.15)" }}>
+                <span className="eyebrow" style={{ fontSize: 9.5, color: "#F5F7FA" }}>BD-10</span>
+              </div>
+              <div className="vert-label eyebrow" style={{ position: "absolute", right: -8, bottom: "16%", fontSize: 9, color: "rgba(217,222,231,.25)" }}>
+                Performance Teamwear
+              </div>
             </div>
-            <div className="vert-label eyebrow" style={{ position: "absolute", right: -8, bottom: "16%", fontSize: 9, color: "rgba(217,222,231,.25)" }}>
-              Performance Teamwear
-            </div>
-          </div>
           </div>
 
           {/* TRUST */}
@@ -231,7 +238,7 @@ export function JerseyBadmintonLanding({ products, waNumber }: Props) {
           </div>
         </div>
 
-        <div className="eyebrow" style={{ position: "absolute", left: 32, bottom: 32, fontSize: 9, color: "rgba(217,222,231,.20)", display: "none" }}>Play Hard • Play Smart</div>
+        <div className="eyebrow hidden lg:block" style={{ position: "absolute", left: 32, bottom: 32, fontSize: 9, color: "rgba(217,222,231,.20)" }}>Play Hard • Play Smart</div>
       </section>
 
       {/* ===== VALUE ===== */}
@@ -269,7 +276,7 @@ export function JerseyBadmintonLanding({ products, waNumber }: Props) {
           </div>
           <div style={{ marginTop: 48, display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(300px, 1fr))", gap: 24 }}>
             {products.map((p, i) => {
-              const isHidden = i >= 10 && !showAll;
+              const isHidden = i >= 9 && !showAll;
               return (
                 <article key={p.id} className={`reveal card cat-item`} style={{ overflow: "hidden", display: isHidden ? "none" : undefined }}>
                   {p.image.includes("placeholder") ? (
@@ -294,7 +301,7 @@ export function JerseyBadmintonLanding({ products, waNumber }: Props) {
             })}
           </div>
           <div className="reveal" style={{ marginTop: 40, display: "flex", flexDirection: "column", alignItems: "center", gap: 16 }}>
-            {!showAll && products.length > 10 && (
+            {!showAll && products.length > 9 && (
               <button className="btn-ghost" style={{ padding: "14px 32px", fontSize: 11.5, color: "#F5F7FA" }} onClick={() => setShowAll(true)}>
                 Lihat Semua {products.length} Desain <span aria-hidden="true" style={{ marginLeft: 4 }}>↓</span>
               </button>
@@ -327,8 +334,46 @@ export function JerseyBadmintonLanding({ products, waNumber }: Props) {
             <p className="dspl" style={{ fontSize: "clamp(1.5rem, 3vw, 1.875rem)", marginTop: 36, lineHeight: 1.1 }}>
               Setiap pemain punya nama.<br /><span style={{ color: "#155EEF" }}>Setiap tim punya identitas.</span>
             </p>
+           </div>
+        </div>
+      </section>
+
+      {/* ===== GALERI FOTO ===== */}
+      <section id="galeri" className="relative py-16 sm:py-20" style={{ background: "var(--navy)" }}>
+        <div className="mx-auto max-w-7xl px-5 sm:px-8">
+          <div className="max-w-3xl mb-6">
+            <div style={{ height: 1, width: 64, background: "linear-gradient(90deg,transparent,rgba(0,168,255,.55),transparent)", marginBottom: 24 }} />
+            <h2 className="dspl" style={{ fontSize: "clamp(1.7rem, 4.2vw, 2.8rem)", color: "#fff" }}>Foto Hasil Jersey Badminton</h2>
+            <p className="mt-3 text-lg" style={{ color: "#D9DEE7" }}>Foto asli dari pelanggan — bukan edit, bukan rekayasa.</p>
           </div>
         </div>
+        <div className="gal-wrap mt-7">
+          <div className="gal-track">
+            {Array.from({ length: 2 }).map((_, dup) =>
+              GALLERY_IMAGES.map((g, i) => (
+                <button key={`${dup}-${i}`} type="button" onClick={() => setGalleryActive(dup === 0 ? i : null)} className="gal-item">
+                  <img src={g.src} alt={dup === 1 ? "" : g.alt} loading="lazy" />
+                </button>
+              ))
+            )}
+          </div>
+        </div>
+        <div className="mx-auto max-w-7xl px-5 sm:px-8 mt-8 text-center">
+          <a href={wa("Halo TNT SPORT APPAREL, saya lihat galeri hasil jersey pelanggan, saya mau order seperti itu!")} target="_blank" rel="noopener" className="btn" style={{ padding: "16px 36px", fontSize: 14 }}>
+            🏸 Mau Jersey Seperti Ini? Order Sekarang
+          </a>
+        </div>
+        {galleryActive !== null && GALLERY_IMAGES[galleryActive] && (
+          <div className="fixed inset-0 z-[110] flex items-center justify-center p-4" style={{ background: "rgba(0,0,0,.85)", backdropFilter: "blur(4px)" }} onClick={() => setGalleryActive(null)} role="dialog" aria-modal="true">
+            <div className="relative my-auto" style={{ maxWidth: "92vw" }} onClick={(e) => e.stopPropagation()}>
+              <button type="button" onClick={() => setGalleryActive(null)} aria-label="Tutup" className="absolute -top-2 -right-2 z-10 grid h-10 w-10 cursor-pointer place-items-center rounded-full text-white shadow-lg" style={{ background: "#155EEF" }}>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M6 6l12 12M18 6L6 18" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" /></svg>
+              </button>
+              <img src={GALLERY_IMAGES[galleryActive].src} alt={GALLERY_IMAGES[galleryActive].alt} className="max-h-[82vh] w-auto max-w-full rounded-2xl object-contain shadow-2xl" style={{ border: "1px solid rgba(255,255,255,.1)" }} />
+              <p className="mt-3 text-center text-sm" style={{ color: "rgba(255,255,255,.6)" }}>{GALLERY_IMAGES[galleryActive].alt}</p>
+            </div>
+          </div>
+        )}
       </section>
 
       {/* ===== HARGA ===== */}
