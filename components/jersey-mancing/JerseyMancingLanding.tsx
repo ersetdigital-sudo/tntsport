@@ -306,18 +306,32 @@ export default function JerseyMancingLanding({ products, waNumber }: Props) {
 
       {/* ===== 5. EMOTIONAL ===== */}
       <section className="relative overflow-hidden" style={{ background: "var(--navy-deep)" }}>
-        <img src="/landing/jersey-mancing/bf91d06a-0c92-4bcb-afac-169dc8155fab.jpg" alt="Tim mancing memakai jersey seragam di dermaga saat matahari terbit" className="absolute inset-0 h-full w-full object-cover" style={{ opacity: 0.4 }} />
-        <div className="absolute inset-0" style={{ background: "linear-gradient(90deg,rgba(6,26,46,.96) 0%,rgba(6,26,46,.7) 55%,rgba(6,26,46,.45) 100%)" }} />
+        <img src="/landing/jersey-mancing/bf91d06a-0c92-4bcb-afac-169dc8155fab.jpg" alt="Tim mancing memakai jersey seragam di dermaga saat matahari terbit" className="absolute inset-0 h-full w-full object-cover" style={{ opacity: 0.35 }} />
+        <div className="absolute inset-0" style={{ background: "linear-gradient(135deg,rgba(6,26,46,.97) 0%,rgba(6,26,46,.8) 40%,rgba(6,26,46,.55) 100%)" }} />
+        <div className="absolute inset-0" style={{ background: "linear-gradient(180deg,rgba(6,26,46,.3) 0%,transparent 30%,rgba(6,26,46,.7) 100%)" }} />
+        <div className="absolute -top-24 -right-24 w-[380px] h-[380px] rounded-full pointer-events-none" style={{ background: "radial-gradient(circle,rgba(41,171,226,.1),transparent 65%)" }} />
+
         <div className="relative mx-auto max-w-6xl px-6 py-20 md:py-32">
           <div className="max-w-2xl reveal">
-            <p className="kicker" style={{ color: "var(--cyan-bright)" }}>UNTUK TIM &amp; KOMUNITAS</p>
-            <div className="rule mt-4 mb-6" />
-            <h2 className="text-3xl md:text-5xl text-white">Bawa nama tim kamu ke setiap spot.</h2>
-            <div className="mt-6 space-y-4 text-base md:text-lg" style={{ color: "#D6E3EE" }}>
+            <div className="inline-flex items-center gap-2 rounded-full px-4 py-1.5 kicker" style={{ background: "rgba(41,171,226,.1)", border: "1px solid rgba(41,171,226,.3)", color: "var(--cyan-bright)" }}>
+              UNTUK TIM &amp; KOMUNITAS
+            </div>
+
+            <h2 className="mt-8 text-[clamp(2.2rem,5vw,3.8rem)] leading-[1.05] tracking-tight text-white">
+              Bawa nama tim kamu ke <span className="grad-cyan">setiap spot.</span>
+            </h2>
+
+            <div className="mt-8 space-y-4 text-base md:text-lg leading-relaxed" style={{ color: "#C8DCE8" }}>
               <p>Bayangin datang ke spot mancing bareng teman-teman. Semua pakai jersey dengan nama, logo, dan identitas tim sendiri.</p>
-              <p>Bukan cuma terlihat kompak. Tapi terasa seperti <strong className="cyan">satu tim.</strong></p>
+              <p>Bukan cuma terlihat kompak. Tapi terasa seperti <strong style={{ color: "var(--cyan-bright)" }}>satu tim.</strong></p>
               <p>Karena setiap perjalanan mancing punya cerita. Dan setiap tim punya identitas.</p>
-              <p className="display text-2xl mt-6 text-white">Bikin jersey yang ikut menjadi bagian dari cerita itu.</p>
+            </div>
+
+            <div className="mt-10 relative">
+              <div className="absolute -left-3 top-0 bottom-0 w-[3px] rounded-full" style={{ background: "linear-gradient(180deg,var(--cyan-bright),var(--orange-cta))" }} />
+              <p className="display text-[clamp(1.4rem,3vw,2rem)] text-white pl-6 leading-snug">
+                Bikin jersey yang ikut menjadi<br className="hidden md:block" /> bagian dari cerita itu.
+              </p>
             </div>
           </div>
         </div>
