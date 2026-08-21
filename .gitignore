@@ -38,3 +38,5 @@ next-env.d.ts
 /tntsport/
 jersey-futsal-custom---landing-page/
 .commandcode/
+
+.vercel

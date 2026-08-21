@@ -1,0 +1,252 @@
+@import url("https://fonts.googleapis.com/css2?family=Anton&family=Archivo:wght@300;400;500;600;700&display=swap");
+
+/* ============================================================
+   CORPORATE COLLECTION LANDING — Scoped under .corp
+   ============================================================ */
+
+.corp {
+  --corp-charcoal: #17191C;
+  --corp-cream: #F3F0E8;
+  --corp-orange: #F26A21;
+  --corp-gray: #A6A8AA;
+  --corp-black: #0D0F11;
+
+  background: var(--corp-charcoal);
+  color: var(--corp-cream);
+  font-family: "Archivo", system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+
+/* ---- helpers ---- */
+.corp * {
+  box-sizing: border-box;
+}
+
+.corp .mx-auto {
+  margin-left: auto !important;
+  margin-right: auto !important;
+}
+
+.corp .display {
+  font-family: "Anton", Impact, sans-serif;
+  text-transform: uppercase;
+  letter-spacing: -0.01em;
+  line-height: 0.94;
+  font-weight: 400;
+}
+
+.corp .label {
+  font-size: 11px;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  font-weight: 600;
+}
+
+.corp .orange {
+  color: var(--corp-orange);
+}
+
+.corp .grid-lines {
+  background-image: linear-gradient(to right, rgba(166,168,170,.10) 1px, transparent 1px);
+  background-size: 25% 100%;
+}
+
+.corp .noise::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: .35;
+  background-image:
+    radial-gradient(circle at 20% 15%, rgba(242,106,33,.10), transparent 45%),
+    radial-gradient(circle at 85% 80%, rgba(255,255,255,.05), transparent 50%);
+}
+
+/* ---- reveal animation ---- */
+.corp .reveal {
+  opacity: 0;
+  transform: translateY(28px);
+  transition: opacity .9s cubic-bezier(.22,.61,.36,1), transform .9s cubic-bezier(.22,.61,.36,1);
+}
+.corp .reveal.in {
+  opacity: 1;
+  transform: none;
+}
+
+/* ---- line grow ---- */
+.corp .lineGrow {
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 1.1s cubic-bezier(.22,.61,.36,1);
+}
+.corp .lineGrow.in {
+  transform: scaleX(1);
+}
+
+/* ---- card hover ---- */
+.corp .card {
+  transition: border-color .45s ease, background-color .45s ease;
+}
+.corp .card:hover {
+  border-color: var(--corp-orange);
+  background: rgba(242,106,33,.04);
+}
+.corp .card-img {
+  transition: transform 1.1s cubic-bezier(.22,.61,.36,1);
+}
+.corp .card:hover .card-img,
+.corp .shot:hover .card-img {
+  transform: scale(1.06);
+}
+
+/* ---- button ---- */
+.corp .btn {
+  transition: background-color .35s ease, color .35s ease, transform .35s ease, border-color .35s ease;
+}
+.corp .btn:hover {
+  transform: translateY(-2px);
+}
+
+/* ---- nav link underline ---- */
+.corp .navlink {
+  position: relative;
+}
+.corp .navlink::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -6px;
+  height: 1px;
+  width: 100%;
+  background: var(--corp-orange);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform .4s ease;
+}
+.corp .navlink:hover::after {
+  transform: scaleX(1);
+}
+
+/* ---- bigword hover ---- */
+.corp .bigword {
+  transition: color .4s ease, transform .4s ease;
+}
+.corp .bigword:hover {
+  color: var(--corp-orange);
+  transform: translateX(10px);
+}
+
+/* ---- horizontal scroll ---- */
+.corp .hscroll {
+  display: flex;
+  gap: 1.5rem;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  scrollbar-width: none;
+  -webkit-overflow-scrolling: touch;
+}
+.corp .hscroll::-webkit-scrollbar {
+  display: none;
+}
+.corp .hscroll > * {
+  scroll-snap-align: start;
+  flex: 0 0 auto;
+}
+
+/* ---- shot overlay ---- */
+.corp .shot {
+  position: relative;
+  overflow: hidden;
+}
+.corp .shot .ov {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, rgba(13,15,17,.85), transparent 55%);
+  opacity: .9;
+  transition: opacity .45s ease;
+}
+.corp .shot:hover .ov {
+  opacity: 1;
+}
+
+/* ---- FAQ ---- */
+.corp .faq-body {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height .5s cubic-bezier(.22,.61,.36,1);
+}
+.corp .faq.open .faq-body {
+  max-height: 340px;
+}
+.corp .faq .plus {
+  transition: transform .4s ease, color .4s ease;
+}
+.corp .faq.open .plus {
+  transform: rotate(45deg);
+  color: var(--corp-orange);
+}
+.corp .faq.open .q {
+  color: var(--corp-orange);
+}
+
+/* ---- placeholder pattern ---- */
+.corp .ph {
+  background-image: repeating-linear-gradient(135deg, rgba(166,168,170,.10) 0 10px, transparent 10px 20px);
+}
+
+/* ---- streak animation ---- */
+.corp .streak {
+  position: absolute;
+  top: 0;
+  left: 58%;
+  width: 1px;
+  height: 100%;
+  background: linear-gradient(to bottom, transparent, rgba(242,106,33,.55), transparent);
+  animation: corp-streak 6.5s ease-in-out infinite;
+}
+@keyframes corp-streak {
+  0%, 100% { opacity: .15; transform: translateY(-12%); }
+  50% { opacity: .8; transform: translateY(12%); }
+}
+
+/* ---- marquee ---- */
+.corp .marquee-track {
+  animation: corp-marq 26s linear infinite;
+}
+@keyframes corp-marq {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+
+/* ---- pricing tier toggle ---- */
+.corp .tier-btn {
+  cursor: pointer;
+  border: none;
+  outline: none;
+  background: transparent;
+}
+
+/* ---- reduced motion ---- */
+@media (prefers-reduced-motion: reduce) {
+  .corp .reveal,
+  .corp .lineGrow {
+    transition: none;
+    opacity: 1;
+    transform: none;
+  }
+  .corp .marquee-track {
+    animation: none;
+  }
+  .corp .streak {
+    animation: none;
+    opacity: .3;
+  }
+}
+
+/* ---- mobile responsive ---- */
+@media (max-width: 640px) {
+  .corp .hide-mobile {
+    display: none !important;
+  }
+}
