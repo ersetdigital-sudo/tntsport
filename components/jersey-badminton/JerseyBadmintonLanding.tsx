@@ -268,29 +268,37 @@ export function JerseyBadmintonLanding({ products, waNumber }: Props) {
             <p style={{ marginTop: 20, color: "#D9DEE7" }}>Beragam desain badminton dengan karakter sporty, modern, dan kompetitif.</p>
           </div>
           <div style={{ marginTop: 48, display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(300px, 1fr))", gap: 24 }}>
-            {products.map((p, i) => (
-              <article key={p.id} className="reveal card cat-item" style={{ overflow: "hidden" }}>
-                {p.image.includes("placeholder") ? (
-                  <div className="ph-tile" style={{ aspectRatio: "1", ["--c1" as string]: CATALOG[i]?.c1 || "#155EEF", ["--c2" as string]: CATALOG[i]?.c2 || "#00A8FF" }}>
-                    <span className="ph-code dspl">{p.catalogue}</span>
-                    <span className="ph-tag eyebrow" style={{ fontSize: 9 }}>Segera Hadir</span>
+            {products.map((p, i) => {
+              const isHidden = i >= 10 && !showAll;
+              return (
+                <article key={p.id} className={`reveal card cat-item`} style={{ overflow: "hidden", display: isHidden ? "none" : undefined }}>
+                  {p.image.includes("placeholder") ? (
+                    <div className="ph-tile" style={{ aspectRatio: "1", ["--c1" as string]: CATALOG[i]?.c1 || "#155EEF", ["--c2" as string]: CATALOG[i]?.c2 || "#00A8FF" }}>
+                      <span className="ph-code dspl">{p.catalogue}</span>
+                      <span className="ph-tag eyebrow" style={{ fontSize: 9 }}>Segera Hadir</span>
+                    </div>
+                  ) : (
+                    <div style={{ overflow: "hidden" }}>
+                      <img src={p.image} alt={p.alt} style={{ width: "100%", aspectRatio: "1", objectFit: "cover" }} loading="lazy" />
+                    </div>
+                  )}
+                  <div style={{ padding: 24, display: "flex", alignItems: "flex-end", justifyContent: "space-between", gap: 16 }}>
+                    <div>
+                      <h3 className="dspl" style={{ fontSize: "1.5rem", color: !p.image.includes("placeholder") ? "#F5F7FA" : "rgba(245,247,250,.75)" }}>{CATALOG[i]?.name || p.catalogue}</h3>
+                      <p className="eyebrow" style={{ fontSize: 10.5, color: !p.image.includes("placeholder") ? "#00A8FF" : "rgba(217,222,231,.40)", marginTop: 6 }}>{p.catalogue}</p>
+                    </div>
+                    <a href={wa(`Halo, saya tertarik desain ${p.catalogue} di kategori Badminton.`)} target="_blank" rel="noopener" className="btn-ghost" style={{ fontSize: 11, padding: "8px 16px", color: !p.image.includes("placeholder") ? "#F5F7FA" : "rgba(245,247,250,.70)" }}>{!p.image.includes("placeholder") ? "Pilih Desain" : "Tanya Desain"}</a>
                   </div>
-                ) : (
-                  <div style={{ overflow: "hidden" }}>
-                    <img src={p.image} alt={p.alt} style={{ width: "100%", aspectRatio: "1", objectFit: "cover" }} loading="lazy" />
-                  </div>
-                )}
-                <div style={{ padding: 24, display: "flex", alignItems: "flex-end", justifyContent: "space-between", gap: 16 }}>
-                  <div>
-                    <h3 className="dspl" style={{ fontSize: "1.5rem", color: !p.image.includes("placeholder") ? "#F5F7FA" : "rgba(245,247,250,.75)" }}>{CATALOG[i]?.name || p.catalogue}</h3>
-                    <p className="eyebrow" style={{ fontSize: 10.5, color: !p.image.includes("placeholder") ? "#00A8FF" : "rgba(217,222,231,.40)", marginTop: 6 }}>{p.catalogue}</p>
-                  </div>
-                  <a href={wa(`Halo, saya tertarik desain ${p.catalogue} di kategori Badminton.`)} target="_blank" rel="noopener" className="btn-ghost" style={{ fontSize: 11, padding: "8px 16px", color: !p.image.includes("placeholder") ? "#F5F7FA" : "rgba(245,247,250,.70)" }}>{!p.image.includes("placeholder") ? "Pilih Desain" : "Tanya Desain"}</a>
-                </div>
-              </article>
-            ))}
+                </article>
+              );
+            })}
           </div>
           <div className="reveal" style={{ marginTop: 40, display: "flex", flexDirection: "column", alignItems: "center", gap: 16 }}>
+            {!showAll && products.length > 10 && (
+              <button className="btn-ghost" style={{ padding: "14px 32px", fontSize: 11.5, color: "#F5F7FA" }} onClick={() => setShowAll(true)}>
+                Lihat Semua {products.length} Desain <span aria-hidden="true" style={{ marginLeft: 4 }}>↓</span>
+              </button>
+            )}
             <p className="eyebrow" style={{ fontSize: 9.5, color: "rgba(217,222,231,.40)" }}>Desain baru terus ditambahkan tiap bulan</p>
           </div>
         </div>
