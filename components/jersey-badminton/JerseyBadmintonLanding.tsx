@@ -96,6 +96,7 @@ export function JerseyBadmintonLanding({ products, waNumber }: Props) {
   const [priceMode, setPriceMode] = useState<"ecer" | "lusin">("ecer");
   const [swapping, setSwapping] = useState(false);
   const [galleryActive, setGalleryActive] = useState<number | null>(null);
+  const [catActive, setCatActive] = useState<number | null>(null);
   const [toasts, setToasts] = useState<{ id: number; text: string; sub: string }[]>([]);
   const streakRef = useRef<HTMLDivElement>(null);
   const heroImgRef = useRef<HTMLImageElement>(null);
@@ -348,9 +349,8 @@ export function JerseyBadmintonLanding({ products, waNumber }: Props) {
           <div className="jbm-collection-grid" style={{ marginTop: 48, gap: 24 }}>
             {products.map((p, i) => {
               const isHidden = i >= 9 && !showAll;
-              const waLink = wa(`Halo, saya tertarik desain ${p.catalogue} di kategori Badminton.`);
               return (
-                <a key={p.id} href={waLink} target="_blank" rel="noopener" className={`reveal card cat-item cat-card`} style={{ overflow: "hidden", display: isHidden ? "none" : undefined, textDecoration: "none", color: "inherit", cursor: "pointer" }}>
+                <div key={p.id} className={`reveal card cat-item cat-card`} role="button" tabIndex={0} onClick={() => setCatActive(i)} onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') setCatActive(i); }} style={{ overflow: "hidden", display: isHidden ? "none" : undefined, cursor: "pointer" }}>
                   {p.image.includes("placeholder") ? (
                     <div className="ph-tile" style={{ aspectRatio: "1", ["--c1" as string]: CATALOG[i]?.c1 || "#155EEF", ["--c2" as string]: CATALOG[i]?.c2 || "#00A8FF" }}>
                       <span className="ph-code dspl">{p.catalogue}</span>
@@ -366,9 +366,9 @@ export function JerseyBadmintonLanding({ products, waNumber }: Props) {
                       <h3 className="dspl" style={{ fontSize: "1.3rem", color: !p.image.includes("placeholder") ? "#F5F7FA" : "rgba(245,247,250,.75)" }}>{CATALOG[i]?.name || p.catalogue}</h3>
                       <p className="eyebrow" style={{ fontSize: 10, color: !p.image.includes("placeholder") ? "#00A8FF" : "rgba(217,222,231,.40)", marginTop: 4 }}>{p.catalogue}</p>
                     </div>
-                    <span className="btn-ghost cat-card-btn" style={{ fontSize: 11, padding: "8px 16px", color: !p.image.includes("placeholder") ? "#F5F7FA" : "rgba(245,247,250,.70)", pointerEvents: "none" }}>{!p.image.includes("placeholder") ? "Pilih Desain" : "Tanya Desain"}</span>
+                    <span className="btn-ghost cat-card-btn" style={{ fontSize: 11, padding: "8px 16px", color: !p.image.includes("placeholder") ? "#F5F7FA" : "rgba(245,247,250,.70)", pointerEvents: "none" }}>Pilih Desain</span>
                   </div>
-                </a>
+                </div>
               );
             })}
           </div>
@@ -635,6 +635,34 @@ export function JerseyBadmintonLanding({ products, waNumber }: Props) {
           <span>Custom Jersey · Klub &amp; Komunitas</span>
         </div>
       </footer>
+
+      {/* ===== CATALOG MODAL ===== */}
+      {catActive !== null && products[catActive] && (
+        <div className="fixed inset-0 z-[110] flex items-center justify-center p-4" style={{ background: "rgba(0,0,0,.85)", backdropFilter: "blur(4px)" }} onClick={() => setCatActive(null)} role="dialog" aria-modal="true">
+          <div className="relative my-auto" style={{ maxWidth: 420, width: "100%" }} onClick={(e) => e.stopPropagation()}>
+            <button type="button" onClick={() => setCatActive(null)} aria-label="Tutup" className="absolute -top-2 -right-2 z-10 grid h-10 w-10 cursor-pointer place-items-center rounded-full text-white shadow-lg" style={{ background: "#155EEF" }}>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M6 6l12 12M18 6L6 18" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" /></svg>
+            </button>
+            <div className="overflow-hidden rounded-2xl" style={{ background: "var(--jbm-black)" }}>
+              {products[catActive].image.includes("placeholder") ? (
+                <div className="ph-tile" style={{ aspectRatio: "1", ["--c1" as string]: CATALOG[catActive]?.c1 || "#155EEF", ["--c2" as string]: CATALOG[catActive]?.c2 || "#00A8FF" }}>
+                  <span className="ph-code dspl">{CATALOG[catActive]?.code}</span>
+                  <span className="ph-tag eyebrow" style={{ fontSize: 10 }}>Segera Hadir</span>
+                </div>
+              ) : (
+                <img src={products[catActive].image} alt={products[catActive].alt} style={{ width: "100%", aspectRatio: "1", objectFit: "cover", display: "block" }} />
+              )}
+            </div>
+            <div className="text-center" style={{ padding: "20px 16px 24px" }}>
+              <h3 className="dspl" style={{ fontSize: "1.4rem", color: "#F5F7FA" }}>{CATALOG[catActive]?.name || products[catActive].catalogue}</h3>
+              <p className="eyebrow" style={{ fontSize: 10, color: "#00A8FF", marginTop: 6 }}>{products[catActive].catalogue}</p>
+              <a href={wa(`Halo, saya tertarik desain ${products[catActive].catalogue} di kategori Badminton.`)} target="_blank" rel="noopener" className="btn" style={{ display: "inline-flex", marginTop: 20, padding: "14px 32px", fontSize: 13 }}>
+                Pesan via WhatsApp <span aria-hidden="true" style={{ marginLeft: 4 }}>→</span>
+              </a>
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* ===== TOAST NOTIFICATIONS ===== */}
       <div className="toast-wrap">
