@@ -457,7 +457,7 @@ export function CorporateCollectionLanding({ products, waNumber }: Props) {
                 <li className="flex gap-3"><span className="orange">—</span><span>Nama dan nomor punggung</span></li>
                 <li className="flex gap-3"><span className="orange">—</span><span>Revisi desain tanpa batas</span></li>
               </ul>
-              <a href={waClosing} target="_blank" rel="noopener noreferrer" className="btn mt-10 lg:mt-12 inline-flex items-center justify-between gap-4 label border border-white/25 text-[#F3F0E8] px-6 py-4 hover:border-[#F26A21] hover:text-[#F26A21]">
+              <a href={waClosing} target="_blank" rel="noopener noreferrer" className="btn hide-mobile mt-10 lg:mt-12 inline-flex items-center justify-between gap-4 label border border-white/25 text-[#F3F0E8] px-6 py-4 hover:border-[#F26A21] hover:text-[#F26A21]">
                 Pilih Atasan <span>→</span>
               </a>
             </div>
@@ -482,7 +482,7 @@ export function CorporateCollectionLanding({ products, waNumber }: Props) {
                 <li className="flex gap-3"><span className="orange">—</span><span>Celana full custom siap tanding</span></li>
                 <li className="flex gap-3"><span className="orange">—</span><span>Prioritas jadwal produksi</span></li>
               </ul>
-              <a href={waClosing} target="_blank" rel="noopener noreferrer" className="btn mt-10 lg:mt-12 inline-flex items-center justify-between gap-4 label bg-[#F26A21] text-[#0D0F11] px-6 py-4 hover:bg-[#F3F0E8]">
+              <a href={waClosing} target="_blank" rel="noopener noreferrer" className="btn hide-mobile mt-10 lg:mt-12 inline-flex items-center justify-between gap-4 label bg-[#F26A21] text-[#0D0F11] px-6 py-4 hover:bg-[#F3F0E8]">
                 Pilih Setelan <span>→</span>
               </a>
             </div>
