@@ -162,6 +162,117 @@
   .jmf .h-hero { font-size: 5.2rem; }
 }
 
+/* ===== Modern hero helpers ===== */
+.jmf { scroll-behavior: smooth; }
+.jmf [id] { scroll-margin-top: 20px; }
+.jmf .grad-cyan {
+  background: linear-gradient(92deg, var(--cyan-bright) 0%, var(--cyan) 60%, #8FDFF9 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+.jmf .text-outline {
+  color: transparent;
+  -webkit-text-stroke: 2px rgba(255,255,255,.85);
+}
+.jmf .badge-glass {
+  background: rgba(10,32,52,.72);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(255,255,255,.15);
+  border-radius: 16px;
+  box-shadow: 0 22px 44px -20px rgba(0,0,0,.7);
+}
+@keyframes jmf-floaty {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+}
+.jmf .floaty { animation: jmf-floaty 5.5s ease-in-out infinite; }
+.jmf .floaty-slow { animation: jmf-floaty 7s ease-in-out 1.1s infinite; }
+@media (prefers-reduced-motion: reduce) {
+  .jmf .floaty, .jmf .floaty-slow { animation: none; }
+}
+
+/* ===== Focus states ===== */
+.jmf .btn:focus-visible,
+.jmf .btn-line:focus-visible {
+  outline: 2px solid var(--cyan-bright);
+  outline-offset: 3px;
+}
+.jmf a:not(.btn):focus-visible {
+  outline: 2px solid var(--cyan);
+  outline-offset: 3px;
+  border-radius: 6px;
+}
+
+/* ===== Photo cards (masalah section) ===== */
+.jmf .photo-card {
+  position: relative;
+  border-radius: 22px;
+  overflow: hidden;
+  border: 1px solid #E1E9F1;
+  background: #F4F7FA;
+}
+.jmf .photo-card img { transition: transform .6s cubic-bezier(.2,.7,.2,1); }
+.jmf .photo-card:hover img { transform: scale(1.05); }
+.jmf .photo-tag {
+  position: absolute;
+  left: 12px;
+  bottom: 12px;
+  background: rgba(6,26,46,.82);
+  color: #fff;
+  font-size: .7rem;
+  font-weight: 700;
+  letter-spacing: .18em;
+  padding: .4rem .8rem;
+  border-radius: 999px;
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+}
+
+/* ===== Icon badges (keunggulan) ===== */
+.jmf .icon-badge {
+  width: 52px;
+  height: 52px;
+  border-radius: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(41,171,226,.12);
+  color: var(--cyan);
+  border: 1px solid rgba(41,171,226,.25);
+  flex: none;
+}
+.jmf .icon-badge svg { width: 24px; height: 24px; }
+.jmf .icon-badge-warm {
+  background: rgba(255,107,53,.12);
+  border-color: rgba(255,107,53,.3);
+  color: var(--orange);
+}
+
+/* ===== Steps (cara order) ===== */
+.jmf .step-dot {
+  width: 46px;
+  height: 46px;
+  border-radius: 999px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: "Anton", sans-serif;
+  font-size: 1.1rem;
+  color: var(--navy-deep);
+  background: rgba(255,255,255,.92);
+  flex: none;
+  box-shadow: 0 10px 24px -12px rgba(0,0,0,.5);
+}
+
+/* ===== Chip glow ===== */
+.jmf .chip-glow {
+  border-color: rgba(41,171,226,.4);
+  background: rgba(41,171,226,.1);
+  color: #CFF0FF;
+}
+
 /* ===== Catalog ===== */
 .jmf .catalog-card {
   background: #fff;
