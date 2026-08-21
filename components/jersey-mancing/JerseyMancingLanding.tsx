@@ -338,36 +338,34 @@ export default function JerseyMancingLanding({ products, waNumber }: Props) {
       </section>
 
       {/* ===== 6. CUSTOM + CARA ORDER ===== */}
-      <section className="relative overflow-hidden" style={{ background: "linear-gradient(135deg,var(--navy-deep) 0%,#0A1E35 50%,#0E2A47 100%)" }}>
-        <div className="absolute -top-32 -right-32 w-[400px] h-[400px] rounded-full pointer-events-none" style={{ background: "radial-gradient(circle,rgba(41,171,226,.1),transparent 65%)" }} />
-        <div className="absolute -bottom-20 -left-20 w-[300px] h-[300px] rounded-full pointer-events-none" style={{ background: "radial-gradient(circle,rgba(255,107,53,.08),transparent 65%)" }} />
+      <section className="relative overflow-hidden" style={{ background: "var(--gray)" }}>
+        <div className="absolute -top-32 -right-32 w-[400px] h-[400px] rounded-full pointer-events-none" style={{ background: "radial-gradient(circle,rgba(41,171,226,.06),transparent 65%)" }} />
 
         <div className="relative mx-auto max-w-6xl px-6 py-20 md:py-28">
           <div className="grid gap-12 lg:grid-cols-2 lg:items-center">
             {/* Left — Copy */}
             <div className="reveal">
-              <div className="inline-flex items-center gap-2 rounded-full px-4 py-1.5 kicker" style={{ background: "rgba(41,171,226,.1)", border: "1px solid rgba(41,171,226,.3)", color: "var(--cyan-bright)" }}>
+              <div className="inline-flex items-center gap-2 rounded-full px-4 py-1.5 kicker" style={{ background: "rgba(41,171,226,.08)", border: "1px solid rgba(41,171,226,.25)", color: "var(--cyan)" }}>
                 CUSTOM SESUKA HATI
               </div>
-              <h2 className="mt-7 text-[clamp(2rem,4vw,3.2rem)] leading-[1.05] tracking-tight text-white">
+              <h2 className="mt-7 text-[clamp(2rem,4vw,3.2rem)] leading-[1.05] tracking-tight" style={{ color: "var(--navy-deep)" }}>
                 Custom sesuai<br />
-                <span className="grad-cyan">identitas kamu.</span>
+                <span style={{ color: "var(--cyan)" }}>identitas kamu.</span>
               </h2>
-              <div className="mt-7 space-y-3 text-base md:text-lg" style={{ color: "#C8DCE8" }}>
+              <div className="mt-7 space-y-3 text-base md:text-lg" style={{ color: "var(--ink-soft)" }}>
                 <p>Punya nama tim? Punya komunitas? Punya sponsor?</p>
                 <p>Atau ingin bikin jersey dengan nama sendiri?</p>
               </div>
-              <p className="mt-5 display text-[clamp(2rem,3.5vw,2.8rem)] text-white">Bisa.</p>
-              <p className="mt-4 max-w-md text-sm md:text-base leading-relaxed" style={{ color: "#8FAFC4" }}>
+              <p className="mt-5 display text-[clamp(2rem,3.5vw,2.8rem)]" style={{ color: "var(--navy-deep)" }}>Bisa.</p>
+              <p className="mt-4 max-w-md text-sm md:text-base leading-relaxed" style={{ color: "var(--ink-soft)" }}>
                 Kamu cukup kirim detail custom yang diinginkan. Tim kami akan membantu menyesuaikan desain jersey dengan identitas kamu.
               </p>
             </div>
 
             {/* Right — Steps Card */}
             <div className="reveal relative">
-              <div className="absolute inset-0 rounded-[24px] opacity-40" style={{ background: "linear-gradient(135deg,rgba(41,171,226,.2),rgba(255,107,53,.15))", filter: "blur(40px)" }} />
-              <div className="relative rounded-[24px] p-8 md:p-10" style={{ background: "rgba(255,255,255,.04)", border: "1px solid rgba(255,255,255,.08)", backdropFilter: "blur(12px)", WebkitBackdropFilter: "blur(12px)" }}>
-                <p className="kicker" style={{ color: "rgba(200,220,232,.5)" }}>CARA ORDER</p>
+              <div className="relative rounded-[24px] p-8 md:p-10 bg-white" style={{ boxShadow: "0 20px 60px -15px rgba(0,0,0,.12)" }}>
+                <p className="kicker" style={{ color: "var(--ink-soft)" }}>CARA ORDER</p>
 
                 <div className="mt-8 space-y-8">
                   {[
@@ -378,18 +376,18 @@ export default function JerseyMancingLanding({ products, waNumber }: Props) {
                     <div key={s.n} className="flex gap-5">
                       <div className="step-dot">{s.n}</div>
                       <div>
-                        <p className="font-bold text-base md:text-lg text-white">{s.title}</p>
-                        <p className="mt-1.5 text-sm leading-relaxed" style={{ color: "#8FAFC4" }}>{s.desc}</p>
+                        <p className="font-bold text-base md:text-lg" style={{ color: "var(--navy-deep)" }}>{s.title}</p>
+                        <p className="mt-1.5 text-sm leading-relaxed" style={{ color: "var(--ink-soft)" }}>{s.desc}</p>
                       </div>
                     </div>
                   ))}
                 </div>
 
-                <div className="mt-8 pt-6" style={{ borderTop: "1px solid rgba(255,255,255,.08)" }}>
-                  <p className="display text-xl md:text-2xl text-white">
-                    Nameset <span className="grad-cyan">+</span> Logo <span className="grad-cyan">+</span> Sponsor — semua <span style={{ color: "var(--orange-cta)" }}>gratis.</span>
+                <div className="mt-8 pt-6" style={{ borderTop: "1px solid #E1E9F1" }}>
+                  <p className="display text-xl md:text-2xl" style={{ color: "var(--navy-deep)" }}>
+                    Nameset <span style={{ color: "var(--cyan)" }}>+</span> Logo <span style={{ color: "var(--cyan)" }}>+</span> Sponsor — semua <span style={{ color: "var(--orange-cta)" }}>gratis.</span>
                   </p>
-                  <p className="mt-2 text-sm" style={{ color: "#6A8FA6" }}>Tanpa perlu bikin desain dari nol.</p>
+                  <p className="mt-2 text-sm" style={{ color: "var(--ink-soft)" }}>Tanpa perlu bikin desain dari nol.</p>
                 </div>
               </div>
             </div>
