@@ -206,16 +206,18 @@ export function CorporateCollectionLanding({ products, waNumber }: Props) {
           </div>
         </div>
 
-        <div className="relative border-t border-white/12">
-          <div className="mx-auto max-w-[1400px] px-6 lg:px-12 py-5 flex items-center gap-5 overflow-x-auto" style={{ scrollbarWidth: "none" }}>
-            <span className="label text-[#A6A8AA] shrink-0 hidden sm:inline">Kategori</span>
+        <div className="relative border-t border-white/12 overflow-hidden">
+          <div className="mx-auto max-w-[1400px] px-6 lg:px-12 py-5 flex items-center gap-5 overflow-x-hidden">
+            <span className="label text-[#A6A8AA] shrink-0 hidden sm:inline">Keunggulan</span>
             <span className="hidden sm:block w-8 h-px bg-[#F26A21] shrink-0" />
-            <nav className="flex items-center gap-2 shrink-0">
-              <a href="#koleksi" className="btn label px-5 py-3 bg-[#F26A21] text-[#0D0F11] whitespace-nowrap">Corporate</a>
-              <a href="/jersey-army" className="btn label px-5 py-3 border border-white/15 text-[#A6A8AA] whitespace-nowrap hover:text-[#F3F0E8] hover:border-[#F26A21]">Army</a>
-              <a href="/jersey-badminton" className="btn label px-5 py-3 border border-white/15 text-[#A6A8AA] whitespace-nowrap hover:text-[#F3F0E8] hover:border-[#F26A21]">Badminton</a>
-              <a href="/jersey-mancing" className="btn label px-5 py-3 border border-white/15 text-[#A6A8AA] whitespace-nowrap hover:text-[#F3F0E8] hover:border-[#F26A21]">Fishing</a>
-            </nav>
+            <div className="flex items-center gap-8 shrink-0 marquee-track">
+              {["Free Custom Logo", "Free Nameset & Nomor", "Full Printing", "Bisa Tambah Sponsor", "Dry-Fit Premium", "Jahitan Rapi", "Revisi Tanpa Batas", "Bisa Satuan", "Harga Pabrik", "Free Custom Logo", "Free Nameset & Nomor", "Full Printing", "Bisa Tambah Sponsor", "Dry-Fit Premium"].map((item, i) => (
+                <span key={i} className="label text-[#F3F0E8]/70 whitespace-nowrap flex items-center gap-3">
+                  <span className="w-1.5 h-1.5 bg-[#F26A21] rounded-full shrink-0" />
+                  {item}
+                </span>
+              ))}
+            </div>
           </div>
         </div>
       </section>
