@@ -201,7 +201,7 @@ export const CATALOG_PRODUCTS: CategoryProducts[] = [
     ],
   },
   {
-    id: "corporate",
+    id: "instansi-corporate",
     label: "Instansi/Corporate",
     products: [
       { id: "cr-1", catalogue: "CR-001", image: "/products/placeholder.svg", alt: "Jersey Corporate Design 1" },

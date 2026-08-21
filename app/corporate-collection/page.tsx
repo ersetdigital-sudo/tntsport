@@ -40,7 +40,7 @@ export default async function CorporateCollectionPage() {
   const category = catalogData?.find((c) => c.id === config.catalogId);
   const products = category?.products.length
     ? category.products
-    : CATALOG_PRODUCTS.find((c) => c.id === "corporate")?.products ?? [];
+    : CATALOG_PRODUCTS.find((c) => c.id === "instansi-corporate")?.products ?? [];
 
   return <CorporateCollectionLanding products={products} waNumber={brand?.whatsappNumber ?? "6285179733737"} />;
 }

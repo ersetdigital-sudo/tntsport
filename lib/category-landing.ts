@@ -1400,7 +1400,7 @@ export const CATEGORY_LANDINGS: Record<string, CategoryLandingConfig> = {
 
   corporate: {
     slug: "corporate-collection",
-    catalogId: "corporate",
+    catalogId: "instansi-corporate",
     eyebrow: "👔 Jersey Corporate Custom",
     headline: ["Bikin Timmu", "Tampil Lebih Profesional."],
     headlineSub: "Custom Logo, Nama, Nomor & Sponsor",

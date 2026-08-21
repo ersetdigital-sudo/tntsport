@@ -17,25 +17,30 @@ interface Props {
 }
 
 const CATALOG_NAMES: Record<string, string> = {
-  "CR-001": "Gathering 01 — Depan",
-  "CR-002": "Gathering 01 — Belakang",
-  "CR-003": "Gathering 01 — Samping",
-  "CR-004": "Satu Set Lengkap",
-  "CR-005": "Siap Kirim",
-  "CR-006": "Detail Nameset",
-  "CR-007": "Corporate Design 07",
-  "CR-008": "Corporate Design 08",
-  "CR-009": "Corporate Design 09",
-  "CR-010": "Corporate Design 10",
+  "GET TNT-01": "Corporate Design 01",
+  "GET TNT-02": "Corporate Design 02",
+  "GET TNT-03": "Corporate Design 03",
+  "GET TNT-04": "Corporate Design 04",
+  "GET TNT-05": "Corporate Design 05",
+  "GET TNT-06": "Corporate Design 06",
+  "GET TNT-07": "Corporate Design 07",
+  "GET TNT-08": "Corporate Design 08",
+  "GET TNT-09": "Corporate Design 09",
+  "GET TNT-010": "Corporate Design 10",
+  "GET TNT-011": "Corporate Design 11",
+  "GET TNT-012": "Corporate Design 12",
+  "GET TNT-013": "Corporate Design 13",
+  "GET TNT-014": "Corporate Design 14",
+  "GET TNT-015": "Corporate Design 15",
 };
 
 const LOCAL_IMAGES: Record<string, string> = {
-  "CR-001": "/landing/corporate-collection/e9abbd89-51da-4ae6-b186-1459c360c0e7.png",
-  "CR-002": "/landing/corporate-collection/b5898a2d-f724-445c-8859-d1774ca3d299.png",
-  "CR-003": "/landing/corporate-collection/3b806c4b-a511-4394-b3b8-162537cc54b2.png",
-  "CR-004": "/landing/corporate-collection/ec9f3a8b-bd2b-4ee4-a5c1-98e89fbfe64a.png",
-  "CR-005": "/landing/corporate-collection/82733519-f02e-4b1f-9e2c-eeaab326f176.png",
-  "CR-006": "/landing/corporate-collection/e1f690fa-7f35-4347-8961-3bb3e734c1bf.png",
+  "GET TNT-01": "/landing/corporate-collection/e9abbd89-51da-4ae6-b186-1459c360c0e7.png",
+  "GET TNT-02": "/landing/corporate-collection/b5898a2d-f724-445c-8859-d1774ca3d299.png",
+  "GET TNT-03": "/landing/corporate-collection/3b806c4b-a511-4394-b3b8-162537cc54b2.png",
+  "GET TNT-04": "/landing/corporate-collection/ec9f3a8b-bd2b-4ee4-a5c1-98e89fbfe64a.png",
+  "GET TNT-05": "/landing/corporate-collection/82733519-f02e-4b1f-9e2c-eeaab326f176.png",
+  "GET TNT-06": "/landing/corporate-collection/e1f690fa-7f35-4347-8961-3bb3e734c1bf.png",
 };
 
 const FAQS = [
