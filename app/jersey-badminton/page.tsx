@@ -10,18 +10,19 @@ const config = CATEGORY_LANDINGS.badminton;
 
 export async function generateMetadata(): Promise<Metadata> {
   const brand = await getBrand();
-  const baseUrl = brand.url || "https://www.tntsportapparel.id";
+  const baseUrl = "https://www.tntsportapparel.id";
   const ogImage = `${baseUrl}/api/og/katalog?category=${encodeURIComponent(config.catalogId)}`;
   return {
     title: config.seo.title,
     description: config.seo.description,
-    alternates: { canonical: `/${config.slug}` },
+    alternates: { canonical: `${baseUrl}/${config.slug}` },
     openGraph: {
       title: config.seo.title,
       description: config.seo.description,
       url: `${baseUrl}/${config.slug}`,
       type: "website",
       locale: "id_ID",
+      siteName: "TNT SPORT APPAREL",
       images: [{ url: ogImage, width: 1200, height: 630, alt: config.eyebrow }],
     },
     twitter: {
@@ -80,7 +81,7 @@ export default async function JerseyBadmintonPage() {
     ? category.products
     : CATALOG_PRODUCTS.find((c) => c.id === "badminton")?.products ?? [];
 
-  const baseUrl = brand.url || "https://www.tntsportapparel.id";
+  const baseUrl = "https://www.tntsportapparel.id";
   const jsonLd = buildJsonLd(brand.name, baseUrl);
 
   return (
