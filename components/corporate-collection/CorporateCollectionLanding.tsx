@@ -89,6 +89,27 @@ export function CorporateCollectionLanding({ products, waNumber }: Props) {
     return () => io.disconnect();
   }, []);
 
+  /* ── bigword scroll highlight (mobile only) ── */
+  useEffect(() => {
+    if (window.matchMedia("(min-width: 1024px)").matches) return;
+    const words = document.querySelectorAll<HTMLElement>(".corp .bigword");
+    if (!words.length) return;
+    const io = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((e) => {
+          if (e.isIntersecting) {
+            (e.target as HTMLElement).classList.add("is-active");
+          } else {
+            (e.target as HTMLElement).classList.remove("is-active");
+          }
+        });
+      },
+      { threshold: 0.6, rootMargin: "-20% 0px -20% 0px" }
+    );
+    words.forEach((w) => io.observe(w));
+    return () => io.disconnect();
+  }, []);
+
   /* ── parallax ── */
   useEffect(() => {
     const par = heroRef.current;

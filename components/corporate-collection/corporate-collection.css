@@ -136,6 +136,12 @@
   color: var(--corp-orange);
   transform: translateX(10px);
 }
+@media (max-width: 1023px) {
+  .corp .bigword.is-active {
+    color: var(--corp-orange) !important;
+    transform: translateX(10px) !important;
+  }
+}
 
 /* ---- horizontal scroll ---- */
 .corp .hscroll {
