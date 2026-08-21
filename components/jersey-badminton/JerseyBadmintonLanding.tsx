@@ -205,7 +205,7 @@ export function JerseyBadmintonLanding({ products, waNumber }: Props) {
   return (
     <div className="jbm">
       {/* ===== FLOATING LOGO ===== */}
-      <header className="fixed top-0 inset-x-0 z-50 backdrop-blur-xl bg-[#06152D]/70 border-b border-white/[.07]">
+      <header className="fixed top-0 inset-x-0 z-50 backdrop-blur-xl bg-[#06152D]/70 border-b border-white/[.07] hidden">
         <div className="max-w-[1400px] mx-auto px-5 sm:px-8 h-[68px] flex items-center justify-between">
           <div className="flex items-center gap-2.5">
             <span className="w-2 h-2 rounded-full bg-[#E91E8C] shadow-[0_0_14px_#E91E8C]" />
@@ -345,7 +345,7 @@ export function JerseyBadmintonLanding({ products, waNumber }: Props) {
             <h2 className="dspl" style={{ fontSize: "clamp(2rem, 5vw, 3.5rem)" }}>Pilih desain yang sesuai <span style={{ color: "#00A8FF" }}>karakter timmu</span>.</h2>
             <p style={{ marginTop: 20, color: "#D9DEE7" }}>Beragam desain badminton dengan karakter sporty, modern, dan kompetitif.</p>
           </div>
-          <div style={{ marginTop: 48, display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(300px, 1fr))", gap: 24 }}>
+          <div className="jbm-collection-grid" style={{ marginTop: 48, gap: 24 }}>
             {products.map((p, i) => {
               const isHidden = i >= 9 && !showAll;
               return (

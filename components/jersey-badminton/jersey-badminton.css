@@ -232,6 +232,18 @@
   transform: translateY(-3px);
 }
 
+/* ---- collection grid ---- */
+.jbm-collection-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+}
+
+@media (min-width: 641px) {
+  .jbm-collection-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
 /* ---- num ---- */
 .jbm .num {
   font-family: "Barlow Condensed", sans-serif;
