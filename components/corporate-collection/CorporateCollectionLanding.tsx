@@ -166,7 +166,7 @@ export function CorporateCollectionLanding({ products, waNumber }: Props) {
               <li className="flex items-center gap-3"><span className="orange">✓</span><span className="label text-[#F3F0E8]">Bisa Tambah Sponsor</span></li>
             </ul>
             <div className="reveal mt-10">
-              <a href="#koleksi" className="btn inline-flex items-center justify-center gap-3 label bg-[#F26A21] text-[#0D0F11] text-[12px] px-10 py-5 shadow-[0_18px_40px_-18px_rgba(242,106,33,.9)] hover:bg-[#F3F0E8]">
+              <a href="#koleksi" className="btn hide-mobile inline-flex items-center justify-center gap-3 label bg-[#F26A21] text-[#0D0F11] text-[12px] px-10 py-5 shadow-[0_18px_40px_-18px_rgba(242,106,33,.9)] hover:bg-[#F3F0E8]">
                 Pilih Desain <span>→</span>
               </a>
             </div>
