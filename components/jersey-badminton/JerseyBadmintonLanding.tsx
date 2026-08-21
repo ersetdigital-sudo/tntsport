@@ -172,17 +172,20 @@ export function JerseyBadmintonLanding({ products, waNumber }: Props) {
   return (
     <div className="jbm">
       {/* ===== FLOATING LOGO ===== */}
-      <header style={{
-        position: "fixed", top: 0, left: 0, right: 0, zIndex: 50,
-        backdropFilter: "blurxl", WebkitBackdropFilter: "blur(24px)",
-        background: "rgba(6,21,45,.7)", borderBottom: "1px solid rgba(255,255,255,.07)",
-      }}>
-        <div style={{ maxWidth: 1400, margin: "0 auto", padding: "0 20px", height: 68, display: "flex", alignItems: "center", justifyContent: "space-between" }}>
-          <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
-            <span style={{ width: 8, height: 8, borderRadius: "50%", background: "#E91E8C", boxShadow: "0 0 14px #E91E8C" }} />
-            <span className="dspl" style={{ fontSize: 17, letterSpacing: "0.04em" }}>Badminton<span style={{ color: "#00A8FF" }}> Collection</span></span>
+      <header className="fixed top-0 inset-x-0 z-50 backdrop-blur-xl bg-[#06152D]/70 border-b border-white/[.07]">
+        <div className="max-w-[1400px] mx-auto px-5 sm:px-8 h-[68px] flex items-center justify-between">
+          <div className="flex items-center gap-2.5">
+            <span className="w-2 h-2 rounded-full bg-[#E91E8C] shadow-[0_0_14px_#E91E8C]" />
+            <span className="dspl text-[17px] tracking-wide">Badminton<span className="text-[#00A8FF]"> Collection</span></span>
           </div>
-          <a href="#collection" className="btn" style={{ padding: "0 20px", fontSize: 11.5 }}>Pilih Desain</a>
+          <nav className="hidden md:flex items-center gap-9 eyebrow text-[10.5px] text-[#D9DEE7]/85">
+            <a href="#value" className="hover:text-white transition-colors">Keunggulan</a>
+            <a href="#collection" className="hover:text-white transition-colors">Koleksi</a>
+            <a href="#harga" className="hover:text-white transition-colors">Harga</a>
+            <a href="#custom" className="hover:text-white transition-colors">Custom</a>
+            <a href="#target" className="hover:text-white transition-colors">Untuk Siapa</a>
+          </nav>
+          <a href="#collection" className="btn px-5 py-2 text-[11.5px]">Pilih Desain</a>
         </div>
       </header>
 

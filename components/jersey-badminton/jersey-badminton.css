@@ -651,6 +651,7 @@
 }
 
 .jbm .hero-figure {
+  position: relative;
   width: 92%;
   max-width: none;
   height: auto;
