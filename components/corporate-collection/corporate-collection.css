@@ -317,3 +317,12 @@
   from { transform: translateY(0); }
   to { transform: translateY(-100%); }
 }
+
+/* ---- foto nyata auto-scroll ---- */
+@keyframes corp-foto-scroll {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+.corp .corp-foto-track:hover {
+  animation-play-state: paused;
+}

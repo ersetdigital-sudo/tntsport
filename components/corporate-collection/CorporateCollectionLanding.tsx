@@ -544,24 +544,40 @@ export function CorporateCollectionLanding({ products, waNumber }: Props) {
           </Marquee>
         </div>
 
-        {/* Bukti Foto dari Pelanggan */}
-        <div className="mt-16 mx-auto max-w-[1400px] px-6 lg:px-12">
-          <div className="flex items-center gap-3 mb-6">
-            <span className="w-8 h-px bg-[#F26A21]" />
-            <span className="label text-[#A6A8AA] text-[10px]">Foto Nyata dari Lapangan — Bukan Edit, Bukan Rekayasa</span>
+        {/* Bukti Foto dari Pelanggan — Auto-scroll marquee */}
+        <div className="mt-16 mx-auto max-w-[1400px] overflow-hidden">
+          <div className="px-6 lg:px-12 mb-6">
+            <div className="flex items-center gap-3">
+              <span className="w-8 h-px bg-[#F26A21]" />
+              <span className="label text-[#A6A8AA] text-[10px]">Foto Nyata dari Lapangan — Bukan Edit, Bukan Rekayasa</span>
+            </div>
           </div>
-          <div className="overflow-x-auto flex gap-4 pb-4" style={{ scrollbarWidth: "none" }}>
-            {[
-              { src: "/landing/jersey-futsal/4c090b09-6b9d-4d9a-a061-ca955c49c520.png", alt: "Komunitas memakai jersey custom TNT" },
-              { src: "/landing/jersey-futsal/93c90d93-45be-4137-b10d-d810ada22df4.png", alt: "Tim memakai jersey custom kuning" },
-              { src: "/landing/jersey-futsal/0cde4945-3487-4e3d-ba70-e94156ac55e3.png", alt: "Pemain memakai jersey custom lengan panjang" },
-              { src: "/landing/jersey-futsal/3af292c0-b13f-4a74-b94e-c0b6885f633c.png", alt: "Komunitas jersey maroon" },
-              { src: "/landing/jersey-futsal/21bccec1-b05a-464e-bc44-54cb90c01dde.png", alt: "Tim junior memakai jersey custom biru" },
-            ].map((g, i) => (
-              <div key={i} className="shrink-0 w-[65vw] sm:w-[40vw] lg:w-[280px] aspect-[4/3] rounded-xl overflow-hidden border border-white/10">
-                <img src={g.src} alt={g.alt} loading="lazy" className="w-full h-full object-cover hover:scale-105 transition-transform duration-500" />
-              </div>
-            ))}
+          <div className="relative">
+            <div
+              className="flex gap-4"
+              style={{
+                width: "max-content",
+                animation: "corp-foto-scroll 30s linear infinite",
+              }}
+            >
+              {[...[
+                { src: "/landing/jersey-futsal/4c090b09-6b9d-4d9a-a061-ca955c49c520.png", alt: "Komunitas memakai jersey custom TNT" },
+                { src: "/landing/jersey-futsal/93c90d93-45be-4137-b10d-d810ada22df4.png", alt: "Tim memakai jersey custom kuning" },
+                { src: "/landing/jersey-futsal/0cde4945-3487-4e3d-ba70-e94156ac55e3.png", alt: "Pemain memakai jersey custom lengan panjang" },
+                { src: "/landing/jersey-futsal/3af292c0-b13f-4a74-b94e-c0b6885f633c.png", alt: "Komunitas jersey maroon" },
+                { src: "/landing/jersey-futsal/21bccec1-b05a-464e-bc44-54cb90c01dde.png", alt: "Tim junior memakai jersey custom biru" },
+              ], ...[
+                { src: "/landing/jersey-futsal/4c090b09-6b9d-4d9a-a061-ca955c49c520.png", alt: "Komunitas memakai jersey custom TNT" },
+                { src: "/landing/jersey-futsal/93c90d93-45be-4137-b10d-d810ada22df4.png", alt: "Tim memakai jersey custom kuning" },
+                { src: "/landing/jersey-futsal/0cde4945-3487-4e3d-ba70-e94156ac55e3.png", alt: "Pemain memakai jersey custom lengan panjang" },
+                { src: "/landing/jersey-futsal/3af292c0-b13f-4a74-b94e-c0b6885f633c.png", alt: "Komunitas jersey maroon" },
+                { src: "/landing/jersey-futsal/21bccec1-b05a-464e-bc44-54cb90c01dde.png", alt: "Tim junior memakai jersey custom biru" },
+              ]].map((g, i) => (
+                <div key={i} className="shrink-0 w-[65vw] sm:w-[40vw] lg:w-[280px] aspect-[4/3] rounded-xl overflow-hidden border border-white/10">
+                  <img src={g.src} alt={g.alt} loading="lazy" className="w-full h-full object-cover hover:scale-105 transition-transform duration-500" />
+                </div>
+              ))}
+            </div>
           </div>
         </div>
       </section>
