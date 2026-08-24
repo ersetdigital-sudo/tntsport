@@ -59,16 +59,42 @@ const FAQS = [
 const TIERS = {
   ecer: {
     atasan: 75, setelan: 145, minA: "Bisa pesan mulai 1 pcs", minS: "Bisa pesan mulai 1 set",
-    bulletsAtasan: ["Full printing, pilih dari katalog desain", "Nama dan nomor punggung", "Revisi desain tanpa batas"],
+    bulletsAtasan: [
+      "Full printing, pilih dari katalog desain",
+      "Nama dan nomor punggung",
+      "Revisi desain tanpa batas",
+      "Bahan dry-fit standar liga pro, nyaman dan tidak bau",
+      "Printing sublime, warna cerah dan tahan bertahun-tahun",
+    ],
     noteAtasan: "Mau desain custom sendiri? Order minimal 6 pcs",
-    bulletsSetelan: ["Semua benefit paket atasan", "Celana full custom siap tanding", "Prioritas jadwal produksi"],
+    bulletsSetelan: [
+      "Full printing, pilih dari katalog desain",
+      "Nama dan nomor punggung",
+      "Revisi desain tanpa batas",
+      "Bahan dry-fit standar liga pro, nyaman dan tidak bau",
+      "Printing sublime, warna cerah dan tahan bertahun-tahun",
+      "Celana non printing",
+    ],
     noteSetelan: "",
   },
   lusin: {
     atasan: 65, setelan: 120, minA: "Minimal pembelian 12 pcs", minS: "Minimal pembelian 12 set",
-    bulletsAtasan: ["Bebas desain sendiri atau pilih dari katalog kami", "Nama dan nomor punggung, gratis", "Revisi desain tanpa batas sampai tim kamu puas"],
+    bulletsAtasan: [
+      "Bebas desain sendiri atau pilih dari katalog kami",
+      "Nama dan nomor punggung, gratis",
+      "Revisi desain tanpa batas sampai tim kamu puas",
+      "Bahan dry-fit standar liga pro, nyaman dan tidak bau",
+      "Printing sublime, warna cerah dan tahan bertahun-tahun",
+    ],
     noteAtasan: "",
-    bulletsSetelan: ["Semua benefit paket atasan lusin", "Celana full custom siap tanding", "Prioritas jadwal produksi + bonus nameset"],
+    bulletsSetelan: [
+      "Bebas desain sendiri atau pilih dari katalog kami",
+      "Nama dan nomor punggung, gratis",
+      "Revisi desain tanpa batas sampai tim kamu puas",
+      "Bahan dry-fit standar liga pro, nyaman dan tidak bau",
+      "Printing sublime, warna cerah dan tahan bertahun-tahun",
+      "Celana non printing",
+    ],
     noteSetelan: "",
   },
 };

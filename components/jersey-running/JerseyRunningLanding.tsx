@@ -605,8 +605,8 @@ export default function JerseyRunningLanding({ products, waNumber }: Props) {
               <p className="mt-2 text-sm text-[var(--muted)]">{prices[priceMode].labelAtasan}</p>
               <ul className="price-list">
                 {(priceMode === "ecer"
-                  ? ["Full printing, pilih dari katalog desain", "Nama dan nomor punggung", "Revisi desain tanpa batas"]
-                  : ["Bebas desain sendiri atau pilih dari katalog kami", "Nama dan nomor punggung, gratis", "Revisi desain tanpa batas sampai tim kamu puas"]
+                  ? ["Full printing, pilih dari katalog desain", "Nama dan nomor punggung", "Revisi desain tanpa batas", "Bahan dry-fit standar liga pro, nyaman dan tidak bau", "Printing sublime, warna cerah dan tahan bertahun-tahun"]
+                  : ["Bebas desain sendiri atau pilih dari katalog kami", "Nama dan nomor punggung, gratis", "Revisi desain tanpa batas sampai tim kamu puas", "Bahan dry-fit standar liga pro, nyaman dan tidak bau", "Printing sublime, warna cerah dan tahan bertahun-tahun"]
                 ).map((item) => (
                   <li key={item}><span className="tick" aria-hidden="true">✓</span>{item}</li>
                 ))}
@@ -632,8 +632,8 @@ export default function JerseyRunningLanding({ products, waNumber }: Props) {
               <p className="mt-2 text-sm text-[var(--muted)]">{prices[priceMode].labelSetelan}</p>
               <ul className="price-list">
                 {(priceMode === "ecer"
-                  ? ["Semua benefit paket atasan", "Celana full custom siap tanding", "Prioritas jadwal produksi"]
-                  : ["Semua benefit paket atasan lusin", "Celana full custom siap tanding", "Prioritas jadwal produksi + bonus nameset"]
+                  ? ["Full printing, pilih dari katalog desain", "Nama dan nomor punggung", "Revisi desain tanpa batas", "Bahan dry-fit standar liga pro, nyaman dan tidak bau", "Printing sublime, warna cerah dan tahan bertahun-tahun", "Celana non printing"]
+                  : ["Bebas desain sendiri atau pilih dari katalog kami", "Nama dan nomor punggung, gratis", "Revisi desain tanpa batas sampai tim kamu puas", "Bahan dry-fit standar liga pro, nyaman dan tidak bau", "Printing sublime, warna cerah dan tahan bertahun-tahun", "Celana non printing"]
                 ).map((item) => (
                   <li key={item}><span className="tick" aria-hidden="true">✓</span>{item}</li>
                 ))}

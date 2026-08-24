@@ -502,8 +502,8 @@ export default function JerseyBasketLanding({ products, waNumber }: Props) {
               </p>
               <ul className="mt-7 pt-6 space-y-3 text-[15px] flex-1" style={{ borderTop: "1px solid rgba(255,255,255,.12)" }}>
                 {(priceMode === "ecer"
-                  ? ["Full printing, pilih dari katalog desain", "Nama dan nomor punggung", "Revisi desain tanpa batas"]
-                  : ["Bebas desain sendiri atau pilih dari katalog kami", "Nama dan nomor punggung, gratis", "Revisi desain tanpa batas sampai tim kamu puas"]
+                  ? ["Full printing, pilih dari katalog desain", "Nama dan nomor punggung", "Revisi desain tanpa batas", "Bahan dry-fit standar liga pro, nyaman dan tidak bau", "Printing sublime, warna cerah dan tahan bertahun-tahun"]
+                  : ["Bebas desain sendiri atau pilih dari katalog kami", "Nama dan nomor punggung, gratis", "Revisi desain tanpa batas sampai tim kamu puas", "Bahan dry-fit standar liga pro, nyaman dan tidak bau", "Printing sublime, warna cerah dan tahan bertahun-tahun"]
                 ).map((item) => (
                   <li key={item} className="flex gap-3"><span className="volt-text">✚</span><span style={{ color: "#e7e7ee" }}>{item}</span></li>
                 ))}
@@ -532,8 +532,8 @@ export default function JerseyBasketLanding({ products, waNumber }: Props) {
               </p>
               <ul className="mt-7 pt-6 space-y-3 text-[15px] flex-1" style={{ borderTop: "1px solid rgba(255,255,255,.12)" }}>
                 {(priceMode === "ecer"
-                  ? ["Semua benefit paket atasan", "Celana full custom siap tanding", "Prioritas jadwal produksi"]
-                  : ["Semua benefit paket atasan lusin", "Celana full custom siap tanding", "Prioritas jadwal produksi + bonus nameset"]
+                  ? ["Full printing, pilih dari katalog desain", "Nama dan nomor punggung", "Revisi desain tanpa batas", "Bahan dry-fit standar liga pro, nyaman dan tidak bau", "Printing sublime, warna cerah dan tahan bertahun-tahun", "Celana non printing"]
+                  : ["Bebas desain sendiri atau pilih dari katalog kami", "Nama dan nomor punggung, gratis", "Revisi desain tanpa batas sampai tim kamu puas", "Bahan dry-fit standar liga pro, nyaman dan tidak bau", "Printing sublime, warna cerah dan tahan bertahun-tahun", "Celana non printing"]
                 ).map((item) => (
                   <li key={item} className="flex gap-3"><span className="volt-text">✚</span><span style={{ color: "#e7e7ee" }}>{item}</span></li>
                 ))}

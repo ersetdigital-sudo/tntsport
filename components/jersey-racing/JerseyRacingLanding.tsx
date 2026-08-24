@@ -655,8 +655,8 @@ export default function JerseyRacingLanding({ products, waNumber }: Props) {
               </p>
               <ul className="mb-9 flex-1 pt-6" style={{ borderTop: "1px solid rgba(255,255,255,.1)" }}>
                 {(priceMode === "ecer"
-                  ? ["Full printing, pilih dari katalog desain", "Nama dan nomor punggung", "Revisi desain tanpa batas"]
-                  : ["Bebas desain sendiri atau pilih dari katalog kami", "Nama dan nomor punggung, gratis", "Revisi desain tanpa batas sampai tim kamu puas"]
+                  ? ["Full printing, pilih dari katalog desain", "Nama dan nomor punggung", "Revisi desain tanpa batas", "Bahan dry-fit standar liga pro, nyaman dan tidak bau", "Printing sublime, warna cerah dan tahan bertahun-tahun"]
+                  : ["Bebas desain sendiri atau pilih dari katalog kami", "Nama dan nomor punggung, gratis", "Revisi desain tanpa batas sampai tim kamu puas", "Bahan dry-fit standar liga pro, nyaman dan tidak bau", "Printing sublime, warna cerah dan tahan bertahun-tahun"]
                 ).map((f, i) => (
                   <li key={i} className="flex gap-3 items-start mb-3.5">
                     <svg className="w-5 h-5 mt-0.5 shrink-0" viewBox="0 0 20 20" fill="none" stroke="#ff2233" strokeWidth="2.6" strokeLinecap="round" strokeLinejoin="round"><path d="M4 10.5l4 4 8-9" /></svg>
@@ -687,7 +687,7 @@ export default function JerseyRacingLanding({ products, waNumber }: Props) {
               </p>
               <p className="mb-7" style={{ fontSize: ".92rem", color: "#8e97a6" }}>Minimal pembelian 12 set</p>
               <ul className="mb-9 flex-1 pt-6" style={{ borderTop: "1px solid rgba(255,255,255,.1)" }}>
-                {["Semua benefit paket atasan", "Celana full custom siap tanding", "Prioritas jadwal produksi"].map((f, i) => (
+                {["Full printing, pilih dari katalog desain", "Nama dan nomor punggung", "Revisi desain tanpa batas", "Bahan dry-fit standar liga pro, nyaman dan tidak bau", "Printing sublime, warna cerah dan tahan bertahun-tahun", "Celana non printing"].map((f, i) => (
                   <li key={i} className="flex gap-3 items-start mb-3.5">
                     <svg className="w-5 h-5 mt-0.5 shrink-0" viewBox="0 0 20 20" fill="none" stroke="#ff2233" strokeWidth="2.6" strokeLinecap="round" strokeLinejoin="round"><path d="M4 10.5l4 4 8-9" /></svg>
                     <span style={{ color: "#d3d8e1" }}>{f}</span>

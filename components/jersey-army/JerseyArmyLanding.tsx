@@ -264,8 +264,8 @@ export default function JerseyArmyLanding({ products, waNumber }: Props) {
                   <p className="cond text-[11px]" style={{ color: "rgba(244,241,232,.55)" }}>Semua sudah termasuk</p>
                   <ul className="mt-6 space-y-3.5 text-[15px]">
                     {(priceMode === "ecer"
-                      ? ["Full printing, pilih dari katalog desain", "Nama dan nomor punggung", "Revisi desain tanpa batas"]
-                      : ["Bebas desain sendiri atau pilih dari katalog kami", "Nama dan nomor punggung, gratis", "Revisi desain tanpa batas sampai tim kamu puas"]
+                      ? ["Full printing, pilih dari katalog desain", "Nama dan nomor punggung", "Revisi desain tanpa batas", "Bahan dry-fit standar liga pro, nyaman dan tidak bau", "Printing sublime, warna cerah dan tahan bertahun-tahun"]
+                      : ["Bebas desain sendiri atau pilih dari katalog kami", "Nama dan nomor punggung, gratis", "Revisi desain tanpa batas sampai tim kamu puas", "Bahan dry-fit standar liga pro, nyaman dan tidak bau", "Printing sublime, warna cerah dan tahan bertahun-tahun"]
                     ).map((item) => (
                       <li key={item} className="flex gap-3"><span className="gold">✓</span> {item}</li>
                     ))}

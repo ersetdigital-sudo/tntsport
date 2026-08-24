@@ -606,6 +606,8 @@ export default function JerseyMancingLanding({ products, waNumber }: Props) {
                 <li className="flex gap-3"><span className="check">✓</span> Full printing, pilih dari katalog desain</li>
                 <li className="flex gap-3"><span className="check">✓</span> Nama dan nomor punggung</li>
                 <li className="flex gap-3"><span className="check">✓</span> Revisi desain tanpa batas</li>
+                <li className="flex gap-3"><span className="check">✓</span> Bahan dry-fit standar liga pro, nyaman dan tidak bau</li>
+                <li className="flex gap-3"><span className="check">✓</span> Printing sublime, warna cerah dan tahan bertahun-tahun</li>
               </ul>
               <p className="mt-7 pt-6 text-base" style={{ borderTop: "1px solid #E1E9F1", color: "var(--ink-soft)" }}>
                 Order rombongan atau satuan sama-sama bisa. Kirim nama, logo, atau desain kamu — tim kami yang bantu susun.

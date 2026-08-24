@@ -537,7 +537,7 @@ export function JerseyBadmintonLanding({ products, waNumber }: Props) {
             </div>
             <ul className="price-list" style={{ listStyle: "none", padding: 0, margin: 0, display: "flex", flexDirection: "column", gap: 16, fontSize: 15, color: "#D9DEE7" }}>
               <li><span className="eyebrow" style={{ fontSize: 9.5, color: "rgba(217,222,231,.45)" }}>Semua paket termasuk</span></li>
-              {["Full printing, pilih dari katalog desain", "Nama dan nomor punggung", "Revisi desain tanpa batas"].map((item) => (
+              {["Full printing, pilih dari katalog desain", "Nama dan nomor punggung", "Revisi desain tanpa batas", "Bahan dry-fit standar liga pro, nyaman dan tidak bau", "Printing sublime, warna cerah dan tahan bertahun-tahun"].map((item) => (
                 <li key={item}><span style={{ color: "#00A8FF" }}>✓</span>{item}</li>
               ))}
             </ul>
