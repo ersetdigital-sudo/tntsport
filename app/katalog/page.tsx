@@ -452,7 +452,7 @@ function Hero({ waLink }: { waLink: string }) {
         {/* Hero image */}
         <div className="hero-photo pointer-events-none absolute inset-x-0 bottom-0 z-10 h-[490px] lg:bottom-0 lg:left-[44%] lg:right-[-8%] lg:top-0 lg:h-full">
           <Image
-            src="https://res.cloudinary.com/dqjh7utdb/image/upload/v1787562493/k3oijzuk0wkv4yguml2d.png"
+            src="/0df8a74d-b39f-4bc5-8d55-0be10a01cbe2.png"
             alt="Tiga atlet mengenakan jersey custom TNT SPORT APPAREL"
             fill
             priority
