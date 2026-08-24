@@ -61,11 +61,15 @@ const TIERS = {
     atasan: 75, setelan: 145, minA: "Bisa pesan mulai 1 pcs", minS: "Bisa pesan mulai 1 set",
     bulletsAtasan: ["Full printing, pilih dari katalog desain", "Nama dan nomor punggung", "Revisi desain tanpa batas"],
     noteAtasan: "Mau desain custom sendiri? Order minimal 6 pcs",
+    bulletsSetelan: ["Semua benefit paket atasan", "Celana full custom siap tanding", "Prioritas jadwal produksi"],
+    noteSetelan: "",
   },
   lusin: {
     atasan: 65, setelan: 120, minA: "Minimal pembelian 12 pcs", minS: "Minimal pembelian 12 set",
     bulletsAtasan: ["Bebas desain sendiri atau pilih dari katalog kami", "Nama dan nomor punggung, gratis", "Revisi desain tanpa batas sampai tim kamu puas"],
     noteAtasan: "",
+    bulletsSetelan: ["Semua benefit paket atasan lusin", "Celana full custom siap tanding", "Prioritas jadwal produksi + bonus nameset"],
+    noteSetelan: "",
   },
 };
 
@@ -487,12 +491,12 @@ export function CorporateCollectionLanding({ products, waNumber }: Props) {
                 <span className="display text-2xl lg:text-4xl orange pb-1">RB</span>
                 <span className="label text-[#A6A8AA] pb-2 text-sm">/set</span>
               </div>
-              <p className="mt-4 text-[12px] lg:text-[13px] text-[#A6A8AA]">{t.minS}</p>
+              {t.noteSetelan && <p className="mt-4 text-[12px] lg:text-[13px] text-[#A6A8AA]">{t.noteSetelan}</p>}
               <div className="h-px bg-white/12 my-8" />
               <ul className="space-y-3 text-[14px] lg:text-[15px] text-[#F3F0E8]/85">
-                <li className="flex gap-3"><span className="orange">—</span><span>Semua benefit paket atasan</span></li>
-                <li className="flex gap-3"><span className="orange">—</span><span>Celana full custom siap tanding</span></li>
-                <li className="flex gap-3"><span className="orange">—</span><span>Prioritas jadwal produksi</span></li>
+                {t.bulletsSetelan.map((b: string, i: number) => (
+                  <li key={i} className="flex gap-3"><span className="orange">—</span><span>{b}</span></li>
+                ))}
               </ul>
               <a href={waClosing} target="_blank" rel="noopener noreferrer" className="btn hide-mobile mt-10 lg:mt-12 inline-flex items-center justify-between gap-4 label bg-[#F26A21] text-[#0D0F11] px-6 py-4 hover:bg-[#F3F0E8]">
                 Pilih Setelan <span>→</span>
