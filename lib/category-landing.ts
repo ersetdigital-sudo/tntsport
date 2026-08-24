@@ -100,7 +100,6 @@ export interface CategoryLandingConfig {
     atasan: LandingPriceCard;
     setelan: LandingPriceCard;
     bulk: { headline: string; accent: string; sub: string; cta: string };
-    features?: { icon: string; text: string }[];
   };
   steps: {
     headline: string;
@@ -249,13 +248,6 @@ export const CATEGORY_LANDINGS: Record<string, CategoryLandingConfig> = {
       headline: "Pilih Paket ",
       headlineAccent: "Timmu",
       sub: "Pilih jumlah pembelian, harga akan menyesuaikan otomatis.",
-      features: [
-        { icon: "🎨", text: "Full Printing Atasan" },
-        { icon: "👖", text: "Celana Non-Printing" },
-        { icon: "💧", text: "Dry-Fit Premium" },
-        { icon: "🏆", text: "Standar Liga Pro" },
-        { icon: "✨", text: "Anti-Bau" },
-      ],
       atasan: {
         kicker: "Jersey Atasan",
         badge: "FLEKSIBEL",
@@ -476,13 +468,6 @@ export const CATEGORY_LANDINGS: Record<string, CategoryLandingConfig> = {
       headline: "Pilih Paket ",
       headlineAccent: "Tim Voli Kamu",
       sub: "Pilih jumlah pembelian, harga akan menyesuaikan otomatis.",
-      features: [
-        { icon: "🎨", text: "Full Printing Atasan" },
-        { icon: "👖", text: "Celana Non-Printing" },
-        { icon: "💧", text: "Dry-Fit Premium" },
-        { icon: "🏆", text: "Standar Liga Pro" },
-        { icon: "✨", text: "Anti-Bau" },
-      ],
       atasan: {
         kicker: "Jersey Atasan",
         badge: "FLEKSIBEL",
@@ -703,13 +688,6 @@ export const CATEGORY_LANDINGS: Record<string, CategoryLandingConfig> = {
       headline: "Pilih Paket ",
       headlineAccent: "Tim Basket Kamu",
       sub: "Pilih jumlah pembelian, harga akan menyesuaikan otomatis.",
-      features: [
-        { icon: "🎨", text: "Full Printing Atasan" },
-        { icon: "👖", text: "Celana Non-Printing" },
-        { icon: "💧", text: "Dry-Fit Premium" },
-        { icon: "🏆", text: "Standar Liga Pro" },
-        { icon: "✨", text: "Anti-Bau" },
-      ],
       atasan: {
         kicker: "Jersey Atasan",
         badge: "FLEKSIBEL",
@@ -1069,13 +1047,6 @@ export const CATEGORY_LANDINGS: Record<string, CategoryLandingConfig> = {
       headline: "Pilih Paket ",
       headlineAccent: "Komunitasmu",
       sub: "Pilih jumlah pembelian, harga akan menyesuaikan otomatis.",
-      features: [
-        { icon: "🎨", text: "Full Printing Atasan" },
-        { icon: "👖", text: "Celana Non-Printing" },
-        { icon: "💧", text: "Dry-Fit Premium" },
-        { icon: "🏆", text: "Standar Liga Pro" },
-        { icon: "✨", text: "Anti-Bau" },
-      ],
       atasan: {
         kicker: "Jersey Atasan",
         badge: "FLEKSIBEL",
@@ -1270,13 +1241,6 @@ export const CATEGORY_LANDINGS: Record<string, CategoryLandingConfig> = {
       headline: "Pilih ",
       headlineAccent: "paket timmu",
       sub: "Pilih jumlah pembelian, harga akan menyesuaikan otomatis.",
-      features: [
-        { icon: "🎨", text: "Full Printing Atasan" },
-        { icon: "👖", text: "Celana Non-Printing" },
-        { icon: "💧", text: "Dry-Fit Premium" },
-        { icon: "🏆", text: "Standar Liga Pro" },
-        { icon: "✨", text: "Anti-Bau" },
-      ],
       atasan: {
         kicker: "Paket Custom Lengkap",
         badge: "FLEKSIBEL",
@@ -1514,13 +1478,6 @@ export const CATEGORY_LANDINGS: Record<string, CategoryLandingConfig> = {
       headline: "Pilih Paket ",
       headlineAccent: "Timmu.",
       sub: "Pilih jumlah pembelian, harga akan menyesuaikan otomatis.",
-      features: [
-        { icon: "🎨", text: "Full Printing Atasan" },
-        { icon: "👖", text: "Celana Non-Printing" },
-        { icon: "💧", text: "Dry-Fit Premium" },
-        { icon: "🏆", text: "Standar Liga Pro" },
-        { icon: "✨", text: "Anti-Bau" },
-      ],
       atasan: {
         kicker: "Jersey Atasan",
         badge: "FLEKSIBEL",

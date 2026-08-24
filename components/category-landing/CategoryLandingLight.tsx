@@ -286,11 +286,10 @@ function PurchaseNotif({ pops }: { pops: { name: string; city: string; product: 
 }
 
 /* ─── Price Section ─── */
-function PriceSection({ atasan, setelan, bulk, waAtasan, waSetelan, waBulk, eyebrowAtasan, features }: {
+function PriceSection({ atasan, setelan, bulk, waAtasan, waSetelan, waBulk, eyebrowAtasan }: {
   atasan: LandingPriceCard; setelan: LandingPriceCard;
   bulk: { headline: string; accent: string; sub: string; cta: string };
   waAtasan: string; waSetelan: string; waBulk: string; eyebrowAtasan: string;
-  features?: { icon: string; text: string }[];
 }) {
   const [mode, setMode] = useState<"ecer" | "lusin">("ecer");
   const wrapRef = useRef<HTMLDivElement>(null);
@@ -329,16 +328,6 @@ function PriceSection({ atasan, setelan, bulk, waAtasan, waSetelan, waBulk, eyeb
           ))}
         </div>
       </div>
-      {features && features.length > 0 && (
-        <div className="mt-6 flex flex-wrap justify-center gap-3 reveal">
-          {features.map((f) => (
-            <span key={f.text} className="inline-flex items-center gap-2 rounded-full border px-4 py-2 text-[12px]" style={{ borderColor: "var(--line)", color: "var(--ink-soft)" }}>
-              <span style={{ color: "var(--blue)" }}>{f.icon}</span>
-              {f.text}
-            </span>
-          ))}
-        </div>
-      )}
       <div className="mt-10 grid md:grid-cols-2 gap-5">
         {cards.map(({ card, wa, label }) => (
           <article key={card.name} className={`price-card card rounded-3xl p-7 sm:p-8 flex flex-col relative reveal ${card.highlighted ? "price-card-hl" : ""}`}>
@@ -646,7 +635,7 @@ export function CategoryLandingLight({ config, products, testimonials, waNumber 
                 <h2 className="display text-3xl sm:text-6xl">{config.pricing.headline}<span className="blue-text">{config.pricing.headlineAccent}</span></h2>
                 <p className="mt-3 sm:mt-4 text-sm sm:text-lg" style={{ color: "var(--muted)" }}>{config.pricing.sub}</p>
               </div>
-              <PriceSection atasan={config.pricing.atasan} setelan={config.pricing.setelan} bulk={config.pricing.bulk} waAtasan={buildWhatsAppLink(waNumber, config.wa.atasan)} waSetelan={buildWhatsAppLink(waNumber, config.wa.setelan)} waBulk={buildWhatsAppLink(waNumber, config.wa.bulk)} eyebrowAtasan={config.eyebrow} features={config.pricing.features} />
+              <PriceSection atasan={config.pricing.atasan} setelan={config.pricing.setelan} bulk={config.pricing.bulk} waAtasan={buildWhatsAppLink(waNumber, config.wa.atasan)} waSetelan={buildWhatsAppLink(waNumber, config.wa.setelan)} waBulk={buildWhatsAppLink(waNumber, config.wa.bulk)} eyebrowAtasan={config.eyebrow} />
             </div>
           </section>
 

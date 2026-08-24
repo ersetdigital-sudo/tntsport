@@ -293,6 +293,31 @@ export function CorporateCollectionLanding({ products, waNumber }: Props) {
         </div>
       </section>
 
+      {/* ═══════════ BAHAN KAIN ═══════════ */}
+      <section className="bg-[#17191C] py-24 lg:py-36">
+        <div className="mx-auto max-w-[1400px] px-6 lg:px-12">
+          <div className="grid lg:grid-cols-12 gap-12 lg:gap-16 items-center">
+            <div className="lg:col-span-7">
+              <span className="reveal label text-[#4ADE80] block mb-6">BAHAN KAIN</span>
+              <h2 className="reveal display text-[9vw] sm:text-[6vw] lg:text-[4.2rem] leading-[1.05] text-[#F3F0E8]">
+                DRY-FIT BERKUALITAS,<br />STANDAR <span className="text-[#4ADE80]">LIGA PRO.</span>
+              </h2>
+            </div>
+            <div className="lg:col-span-5">
+              <p className="reveal text-[15px] text-[#A6A8AA] leading-relaxed mb-8">
+                Bahan kain yang digunakan dry-fit yang berkualitas dan sudah standar liga pro, nyaman dan tidak bau.
+              </p>
+              <div className="reveal h-px bg-white/15 mb-8" />
+              <div className="reveal flex flex-wrap gap-4">
+                <span className="label text-[#F3F0E8] tracking-[0.15em]">NYAMAN DIPAKAI</span>
+                <span className="label text-[#F3F0E8] tracking-[0.15em]">TIDAK BAU</span>
+                <span className="label text-[#F3F0E8] tracking-[0.15em]">STANDAR LIGA PRO</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* ═══════════ CUSTOMIZATION ═══════════ */}
       <section id="custom" className="bg-[#F3F0E8] text-[#17191C] py-24 lg:py-36">
         <div className="mx-auto max-w-[1400px] px-6 lg:px-12 grid lg:grid-cols-12 gap-12 lg:gap-16 items-center">
