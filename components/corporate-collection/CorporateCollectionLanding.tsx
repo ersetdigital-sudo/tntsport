@@ -608,7 +608,10 @@ export function CorporateCollectionLanding({ products, waNumber }: Props) {
               <span className="label text-[#A6A8AA] relative z-10">Team Gathering</span>
             </div>
             <div className="reveal ph border border-white/12 aspect-[3/4] flex items-end p-5"><span className="label text-[#A6A8AA]">Sports Day</span></div>
-            <div className="reveal ph border border-white/12 aspect-[3/4] lg:mt-10 flex items-end p-5"><span className="label text-[#A6A8AA]">Company Community</span></div>
+            <div className="reveal ph border border-white/12 aspect-[3/4] lg:mt-10 flex items-end p-5 relative overflow-hidden">
+              <img src="https://res.cloudinary.com/dqjh7utdb/image/upload/v1787565402/hnvoihx8o2oapdhc7pyk.png" alt="Company Community" className="absolute inset-0 w-full h-full object-cover" />
+              <span className="label text-[#A6A8AA] relative z-10">Company Community</span>
+            </div>
           </div>
         </div>
       </section>
