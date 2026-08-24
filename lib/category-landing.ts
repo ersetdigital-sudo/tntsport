@@ -100,6 +100,7 @@ export interface CategoryLandingConfig {
     atasan: LandingPriceCard;
     setelan: LandingPriceCard;
     bulk: { headline: string; accent: string; sub: string; cta: string };
+    features?: { icon: string; text: string }[];
   };
   steps: {
     headline: string;
@@ -248,6 +249,13 @@ export const CATEGORY_LANDINGS: Record<string, CategoryLandingConfig> = {
       headline: "Pilih Paket ",
       headlineAccent: "Timmu",
       sub: "Pilih jumlah pembelian, harga akan menyesuaikan otomatis.",
+      features: [
+        { icon: "🎨", text: "Full Printing Atasan" },
+        { icon: "👖", text: "Celana Non-Printing" },
+        { icon: "💧", text: "Dry-Fit Premium" },
+        { icon: "🏆", text: "Standar Liga Pro" },
+        { icon: "✨", text: "Anti-Bau" },
+      ],
       atasan: {
         kicker: "Jersey Atasan",
         badge: "FLEKSIBEL",
@@ -468,6 +476,13 @@ export const CATEGORY_LANDINGS: Record<string, CategoryLandingConfig> = {
       headline: "Pilih Paket ",
       headlineAccent: "Tim Voli Kamu",
       sub: "Pilih jumlah pembelian, harga akan menyesuaikan otomatis.",
+      features: [
+        { icon: "🎨", text: "Full Printing Atasan" },
+        { icon: "👖", text: "Celana Non-Printing" },
+        { icon: "💧", text: "Dry-Fit Premium" },
+        { icon: "🏆", text: "Standar Liga Pro" },
+        { icon: "✨", text: "Anti-Bau" },
+      ],
       atasan: {
         kicker: "Jersey Atasan",
         badge: "FLEKSIBEL",
@@ -688,6 +703,13 @@ export const CATEGORY_LANDINGS: Record<string, CategoryLandingConfig> = {
       headline: "Pilih Paket ",
       headlineAccent: "Tim Basket Kamu",
       sub: "Pilih jumlah pembelian, harga akan menyesuaikan otomatis.",
+      features: [
+        { icon: "🎨", text: "Full Printing Atasan" },
+        { icon: "👖", text: "Celana Non-Printing" },
+        { icon: "💧", text: "Dry-Fit Premium" },
+        { icon: "🏆", text: "Standar Liga Pro" },
+        { icon: "✨", text: "Anti-Bau" },
+      ],
       atasan: {
         kicker: "Jersey Atasan",
         badge: "FLEKSIBEL",
@@ -1047,6 +1069,13 @@ export const CATEGORY_LANDINGS: Record<string, CategoryLandingConfig> = {
       headline: "Pilih Paket ",
       headlineAccent: "Komunitasmu",
       sub: "Pilih jumlah pembelian, harga akan menyesuaikan otomatis.",
+      features: [
+        { icon: "🎨", text: "Full Printing Atasan" },
+        { icon: "👖", text: "Celana Non-Printing" },
+        { icon: "💧", text: "Dry-Fit Premium" },
+        { icon: "🏆", text: "Standar Liga Pro" },
+        { icon: "✨", text: "Anti-Bau" },
+      ],
       atasan: {
         kicker: "Jersey Atasan",
         badge: "FLEKSIBEL",
@@ -1241,6 +1270,13 @@ export const CATEGORY_LANDINGS: Record<string, CategoryLandingConfig> = {
       headline: "Pilih ",
       headlineAccent: "paket timmu",
       sub: "Pilih jumlah pembelian, harga akan menyesuaikan otomatis.",
+      features: [
+        { icon: "🎨", text: "Full Printing Atasan" },
+        { icon: "👖", text: "Celana Non-Printing" },
+        { icon: "💧", text: "Dry-Fit Premium" },
+        { icon: "🏆", text: "Standar Liga Pro" },
+        { icon: "✨", text: "Anti-Bau" },
+      ],
       atasan: {
         kicker: "Paket Custom Lengkap",
         badge: "FLEKSIBEL",
@@ -1478,6 +1514,13 @@ export const CATEGORY_LANDINGS: Record<string, CategoryLandingConfig> = {
       headline: "Pilih Paket ",
       headlineAccent: "Timmu.",
       sub: "Pilih jumlah pembelian, harga akan menyesuaikan otomatis.",
+      features: [
+        { icon: "🎨", text: "Full Printing Atasan" },
+        { icon: "👖", text: "Celana Non-Printing" },
+        { icon: "💧", text: "Dry-Fit Premium" },
+        { icon: "🏆", text: "Standar Liga Pro" },
+        { icon: "✨", text: "Anti-Bau" },
+      ],
       atasan: {
         kicker: "Jersey Atasan",
         badge: "FLEKSIBEL",
@@ -1486,10 +1529,14 @@ export const CATEGORY_LANDINGS: Record<string, CategoryLandingConfig> = {
         prices: { ecer: "75rb", lusin: "65rb" },
         notes: { ecer: "Bisa pesan mulai 1 pcs", lusin: "Minimal pembelian 12 pcs" },
         points: [
-          "Full printing & desain bebas",
+          "Full printing, pilih dari katalog desain",
           "Nama dan nomor punggung",
           "Revisi desain tanpa batas",
         ],
+        pointsByMode: {
+          ecer: ["Full printing, pilih dari katalog desain", "Nama dan nomor punggung", "Revisi desain tanpa batas"],
+          lusin: ["Bebas desain sendiri atau pilih dari katalog kami", "Nama dan nomor punggung, gratis", "Revisi desain tanpa batas sampai tim kamu puas"],
+        },
         cta: "Pilih Atasan",
       },
       setelan: {
@@ -1504,7 +1551,12 @@ export const CATEGORY_LANDINGS: Record<string, CategoryLandingConfig> = {
           "Celana full custom siap tanding",
           "Prioritas jadwal produksi",
         ],
+        pointsByMode: {
+          ecer: ["Semua benefit paket atasan", "Celana full custom siap tanding", "Prioritas jadwal produksi"],
+          lusin: ["Semua benefit paket atasan lusin", "Celana full custom siap tanding", "Prioritas jadwal produksi + bonus nameset"],
+        },
         cta: "Pilih Setelan",
+        highlighted: true,
       },
       bulk: {
         headline: "Butuh Lebih dari ",

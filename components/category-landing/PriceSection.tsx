@@ -12,6 +12,7 @@ interface Props {
   waSetelan: string;
   waBulk: string;
   eyebrowAtasan: string;
+  features?: { icon: string; text: string }[];
 }
 
 type Mode = "ecer" | "lusin";
@@ -20,7 +21,7 @@ type Mode = "ecer" | "lusin";
  * Section Harga dengan toggle Ecer/Lusin ala referensi:
  * pill gradien bergeser mengikuti tombol aktif, harga cross-fade.
  */
-export function PriceSection({ atasan, setelan, bulk, waAtasan, waSetelan, waBulk, eyebrowAtasan }: Props) {
+export function PriceSection({ atasan, setelan, bulk, waAtasan, waSetelan, waBulk, eyebrowAtasan, features }: Props) {
   const [mode, setMode] = useState<Mode>("ecer");
 
   const wrapRef = useRef<HTMLDivElement>(null);
@@ -76,6 +77,18 @@ export function PriceSection({ atasan, setelan, bulk, waAtasan, waSetelan, waBul
           ))}
         </div>
       </div>
+
+      {/* Feature strip */}
+      {features && features.length > 0 && (
+        <div className="mt-6 flex flex-wrap justify-center gap-3 reveal">
+          {features.map((f) => (
+            <span key={f.text} className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-4 py-2 text-[12px] text-[#A6A8AA]">
+              <span className="text-[#ff6b00]">{f.icon}</span>
+              {f.text}
+            </span>
+          ))}
+        </div>
+      )}
 
       {/* Kartu harga */}
       <div className="mt-10 grid md:grid-cols-2 gap-5">
