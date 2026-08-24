@@ -592,11 +592,7 @@ export function CorporateCollectionLanding({ products, waNumber }: Props) {
                 Bukan Cuma Jersey.<br /><span className="orange">Ini Identitas Timmu.</span>
               </h2>
             </div>
-            <div className="lg:col-span-4">
-              <p className="reveal text-[15px] text-[#A6A8AA] leading-relaxed">
-                Slot foto tim — siap diisi dengan dokumentasi asli tim dan perusahaan kamu.
-              </p>
-            </div>
+
           </div>
           <div className="mt-14 lg:mt-20 grid grid-cols-2 lg:grid-cols-4 gap-4 lg:gap-6">
             <div className="reveal ph border border-white/12 aspect-[3/4] flex items-end p-5 relative overflow-hidden">
