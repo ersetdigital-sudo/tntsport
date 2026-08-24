@@ -454,10 +454,10 @@ export function CorporateCollectionLanding({ products, waNumber }: Props) {
                 <span className="display text-2xl lg:text-4xl text-[#F3F0E8] pb-1">RB</span>
                 <span className="label text-[#A6A8AA] pb-2 text-sm">/pcs</span>
               </div>
-              <p className="mt-4 text-[12px] lg:text-[13px] text-[#A6A8AA]">{t.minA}</p>
+              <p className="mt-4 text-[12px] lg:text-[13px] text-[#A6A8AA]">Mau desain custom sendiri? Order minimal 6 pcs</p>
               <div className="h-px bg-white/12 my-8" />
               <ul className="space-y-3 text-[14px] lg:text-[15px] text-[#F3F0E8]/85">
-                <li className="flex gap-3"><span className="orange">—</span><span>Full printing &amp; desain bebas</span></li>
+                <li className="flex gap-3"><span className="orange">—</span><span>Full printing, pilih dari katalog desain</span></li>
                 <li className="flex gap-3"><span className="orange">—</span><span>Nama dan nomor punggung</span></li>
                 <li className="flex gap-3"><span className="orange">—</span><span>Revisi desain tanpa batas</span></li>
               </ul>
