@@ -176,7 +176,7 @@ export function CorporateCollectionLanding({ products, waNumber }: Props) {
             <div className="relative">
               <img
                 ref={heroRef}
-                src="/landing/corporate-collection/af987cf0-5c27-49a2-8a78-60a1078a3ab4.png"
+                src="https://res.cloudinary.com/dqjh7utdb/image/upload/v1787562493/k3oijzuk0wkv4yguml2d.png"
                 alt="Jersey corporate custom tampak depan"
                 className="w-full h-[52vh] lg:h-[76vh] object-contain drop-shadow-[0_30px_60px_rgba(0,0,0,.7)]"
               />

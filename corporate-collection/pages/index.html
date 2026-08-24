@@ -1,0 +1,627 @@
+<!DOCTYPE html>
+<html lang="id"><head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Corporate Collection — Jersey Corporate Custom Premium</title>
+<meta name="description" content="Jersey custom untuk perusahaan, instansi, dan tim yang ingin tampil lebih kompak dan profesional. Custom logo, nama, nomor, dan sponsor.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+<link href="https://fonts.googleapis.com/css2?family=Anton&amp;family=Archivo:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet">
+<style>
+  :root{--charcoal:#17191C;--cream:#F3F0E8;--orange:#F26A21;--gray:#A6A8AA;--black:#0D0F11;}
+  html{scroll-behavior:smooth;}
+  body{background:var(--charcoal);color:var(--cream);font-family:"Archivo",system-ui,sans-serif;-webkit-font-smoothing:antialiased;overflow-x:hidden;}
+  .display{font-family:"Anton",Impact,sans-serif;text-transform:uppercase;letter-spacing:-0.01em;line-height:0.94;font-weight:400;}
+  .label{font-size:11px;letter-spacing:0.28em;text-transform:uppercase;font-weight:600;}
+  .orange{color:var(--orange);}
+  .grid-lines{background-image:linear-gradient(to right, rgba(166,168,170,.10) 1px, transparent 1px);background-size:25% 100%;}
+  .noise::before{content:"";position:absolute;inset:0;pointer-events:none;opacity:.35;
+    background-image:radial-gradient(circle at 20% 15%, rgba(242,106,33,.10), transparent 45%),radial-gradient(circle at 85% 80%, rgba(255,255,255,.05), transparent 50%);}
+  .reveal{opacity:0;transform:translateY(28px);transition:opacity .9s cubic-bezier(.22,.61,.36,1),transform .9s cubic-bezier(.22,.61,.36,1);}
+  .reveal.in{opacity:1;transform:none;}
+  .lineGrow{transform:scaleX(0);transform-origin:left;transition:transform 1.1s cubic-bezier(.22,.61,.36,1);}
+  .lineGrow.in{transform:scaleX(1);}
+  .card-img{transition:transform 1.1s cubic-bezier(.22,.61,.36,1);}
+  .card:hover .card-img,.shot:hover .card-img{transform:scale(1.06);}
+  .card{transition:border-color .45s ease,background-color .45s ease;}
+  .card:hover{border-color:var(--orange);background:rgba(242,106,33,.04);}
+  .card .pick{transition:color .35s ease;}
+  .card:hover .pick{color:var(--orange);}
+  .btn{transition:background-color .35s ease,color .35s ease,transform .35s ease,border-color .35s ease;}
+  .btn:hover{transform:translateY(-2px);}
+  .navlink{position:relative;}
+  .navlink::after{content:"";position:absolute;left:0;bottom:-6px;height:1px;width:100%;background:var(--orange);transform:scaleX(0);transform-origin:left;transition:transform .4s ease;}
+  .navlink:hover::after{transform:scaleX(1);}
+  .bigword{transition:color .4s ease,transform .4s ease;}
+  .bigword:hover{color:var(--orange);transform:translateX(10px);}
+  .hscroll{display:flex;gap:1.5rem;overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none;-webkit-overflow-scrolling:touch;}
+  .hscroll::-webkit-scrollbar{display:none;}
+  .hscroll > *{scroll-snap-align:start;flex:0 0 auto;}
+  .shot{position:relative;overflow:hidden;}
+  .shot .ov{position:absolute;inset:0;background:linear-gradient(to top, rgba(13,15,17,.85), transparent 55%);opacity:.9;transition:opacity .45s ease;}
+  .shot:hover .ov{opacity:1;}
+  .faq-body{max-height:0;overflow:hidden;transition:max-height .5s cubic-bezier(.22,.61,.36,1);}
+  .faq.open .faq-body{max-height:340px;}
+  .faq .plus{transition:transform .4s ease,color .4s ease;}
+  .faq.open .plus{transform:rotate(45deg);color:var(--orange);}
+  .faq.open .q{color:var(--orange);}
+  .ph{background-image:repeating-linear-gradient(135deg, rgba(166,168,170,.10) 0 10px, transparent 10px 20px);}
+  .streak{position:absolute;top:0;left:58%;width:1px;height:100%;background:linear-gradient(to bottom,transparent,rgba(242,106,33,.55),transparent);animation:streak 6.5s ease-in-out infinite;}
+  @keyframes streak{0%,100%{opacity:.15;transform:translateY(-12%);}50%{opacity:.8;transform:translateY(12%);}}
+  .marquee-track{animation:marq 26s linear infinite;}
+  @keyframes marq{from{transform:translateX(0);}to{transform:translateX(-50%);}}
+  @media (prefers-reduced-motion: reduce){.reveal,.lineGrow{transition:none;opacity:1;transform:none;}.marquee-track{animation:none;}.streak{animation:none;opacity:.3;}}
+</style>
+<script src="https://cdn.moda.app/runtime-libs/tailwind-browser-4.1.13-index.global.min.js"></script><style data-moda-export-fonts="true">@font-face { font-family: 'Archivo'; src: url("../fonts/archivo-thin.ttf") format("truetype"); font-style: normal; font-weight: 100; font-display: swap; }
+@font-face { font-family: 'Archivo'; src: url("../fonts/archivo-thinitalic.ttf") format("truetype"); font-style: italic; font-weight: 100; font-display: swap; }
+@font-face { font-family: 'Archivo'; src: url("../fonts/archivo-extralight.ttf") format("truetype"); font-style: normal; font-weight: 200; font-display: swap; }
+@font-face { font-family: 'Archivo'; src: url("../fonts/archivo-extralightitalic.ttf") format("truetype"); font-style: italic; font-weight: 200; font-display: swap; }
+@font-face { font-family: 'Archivo'; src: url("../fonts/archivo-light.ttf") format("truetype"); font-style: normal; font-weight: 300; font-display: swap; }
+@font-face { font-family: 'Archivo'; src: url("../fonts/archivo-lightitalic.ttf") format("truetype"); font-style: italic; font-weight: 300; font-display: swap; }
+@font-face { font-family: 'Archivo'; src: url("../fonts/archivo-regular.ttf") format("truetype"); font-style: normal; font-weight: 400; font-display: swap; }
+@font-face { font-family: 'Archivo'; src: url("../fonts/archivo-italic.ttf") format("truetype"); font-style: italic; font-weight: 400; font-display: swap; }
+@font-face { font-family: 'Archivo'; src: url("../fonts/archivo-medium.ttf") format("truetype"); font-style: normal; font-weight: 500; font-display: swap; }
+@font-face { font-family: 'Archivo'; src: url("../fonts/archivo-mediumitalic.ttf") format("truetype"); font-style: italic; font-weight: 500; font-display: swap; }
+@font-face { font-family: 'Archivo'; src: url("../fonts/archivo-semibold.ttf") format("truetype"); font-style: normal; font-weight: 600; font-display: swap; }
+@font-face { font-family: 'Archivo'; src: url("../fonts/archivo-semibolditalic.ttf") format("truetype"); font-style: italic; font-weight: 600; font-display: swap; }
+@font-face { font-family: 'Archivo'; src: url("../fonts/archivo-bold.ttf") format("truetype"); font-style: normal; font-weight: 700; font-display: swap; }
+@font-face { font-family: 'Archivo'; src: url("../fonts/archivo-bolditalic.ttf") format("truetype"); font-style: italic; font-weight: 700; font-display: swap; }
+@font-face { font-family: 'Archivo'; src: url("../fonts/archivo-extrabold.ttf") format("truetype"); font-style: normal; font-weight: 800; font-display: swap; }
+@font-face { font-family: 'Archivo'; src: url("../fonts/archivo-extrabolditalic.ttf") format("truetype"); font-style: italic; font-weight: 800; font-display: swap; }
+@font-face { font-family: 'Archivo'; src: url("../fonts/archivo-black.ttf") format("truetype"); font-style: normal; font-weight: 900; font-display: swap; }
+@font-face { font-family: 'Archivo'; src: url("../fonts/archivo-blackitalic.ttf") format("truetype"); font-style: italic; font-weight: 900; font-display: swap; }
+@font-face { font-family: 'Anton'; src: url("../fonts/anton-regular.ttf") format("truetype"); font-style: normal; font-weight: 400; font-display: swap; }</style></head>
+<body class="antialiased">
+
+<!-- HERO -->
+<section id="top" class="relative min-h-[100svh] flex flex-col overflow-hidden bg-[#0D0F11]">
+  <div class="absolute inset-0 bg-[radial-gradient(circle_at_72%_45%,rgba(242,106,33,.20),transparent_58%)]"></div>
+  <div class="absolute inset-0 pointer-events-none" style="box-shadow:inset 0 0 220px 60px rgba(13,15,17,.9);"></div>
+  <span class="streak hidden lg:block"></span>
+
+  <div class="relative mx-auto w-full max-w-[1400px] px-6 lg:px-12 pt-8 lg:pt-10">
+    <span class="label text-[#F3F0E8] text-[10px] sm:text-[11px]">Corporate&nbsp;Collection</span>
+  </div>
+
+  <div class="relative mx-auto w-full max-w-[1400px] px-6 lg:px-12 flex-1 grid lg:grid-cols-12 gap-10 lg:gap-8 items-center py-10 lg:py-14">
+    <div class="lg:col-span-7">
+      <div class="reveal flex items-center gap-4 mb-7">
+        <span class="block w-12 h-px bg-[#F26A21]"></span>
+        <span class="label text-[#F26A21]">Jersey Corporate Custom</span>
+      </div>
+      <h1 class="reveal display text-[14vw] sm:text-[10vw] lg:text-[5.6rem] xl:text-[6.4rem] text-[#F3F0E8] leading-[0.9]">Bikin Timmu<br>Tampil Lebih <span class="orange">Profesional.</span></h1>
+      <p class="reveal mt-7 text-base lg:text-xl text-[#F3F0E8]/90 max-w-xl leading-snug">Jersey custom untuk perusahaan, instansi, komunitas, dan tim yang ingin tampil kompak dengan identitas sendiri.</p>
+      <ul class="reveal mt-8 grid grid-cols-1 sm:grid-cols-2 gap-x-8 gap-y-3 max-w-xl">
+        <li class="flex items-center gap-3"><span class="orange">✓</span><span class="label text-[#F3F0E8]">Free Custom Logo</span></li>
+        <li class="flex items-center gap-3"><span class="orange">✓</span><span class="label text-[#F3F0E8]">Free Nameset &amp; Nomor</span></li>
+        <li class="flex items-center gap-3"><span class="orange">✓</span><span class="label text-[#F3F0E8]">Full Printing</span></li>
+        <li class="flex items-center gap-3"><span class="orange">✓</span><span class="label text-[#F3F0E8]">Bisa Tambah Sponsor</span></li>
+      </ul>
+      <div class="reveal mt-10"><a href="#koleksi" class="btn inline-flex items-center justify-center gap-3 label bg-[#F26A21] text-[#0D0F11] text-[12px] px-10 py-5 shadow-[0_18px_40px_-18px_rgba(242,106,33,.9)] hover:bg-[#F3F0E8]">Pilih Desain <span>→</span></a></div>
+      <div class="reveal mt-6 label text-[#A6A8AA]">20+ Desain <span class="orange">•</span> Siap Custom <span class="orange">•</span> Untuk Tim &amp; Perusahaan</div>
+    </div>
+
+    <div class="lg:col-span-5 relative">
+      <div class="relative">
+        <img src="https://res.cloudinary.com/dqjh7utdb/image/upload/v1787562493/k3oijzuk0wkv4yguml2d.png" alt="Jersey corporate custom tampak depan" data-parallax="" class="w-full h-[52vh] lg:h-[76vh] object-contain drop-shadow-[0_30px_60px_rgba(0,0,0,.7)]">
+        <div class="hidden sm:block absolute top-4 lg:top-10 -left-2 lg:-left-6 border border-white/15 bg-[#0D0F11]/80 backdrop-blur px-5 py-4">
+          <span class="label orange block">Custom Available</span>
+          <span class="label text-[#F3F0E8] block mt-2 text-[10px]">Logo • Nama • Nomor • Sponsor</span>
+        </div>
+        <div class="absolute bottom-2 lg:bottom-8 right-0 flex flex-col items-end gap-2">
+          <span class="label border border-white/15 bg-[#0D0F11]/80 backdrop-blur px-3 py-2 text-[#F3F0E8]">Dry-Fit</span>
+          <span class="label border border-white/15 bg-[#0D0F11]/80 backdrop-blur px-3 py-2 text-[#F3F0E8]">Full Print</span>
+          <span class="label border border-[#F26A21]/60 bg-[#F26A21]/10 backdrop-blur px-3 py-2 orange">Premium Quality</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="relative border-t border-white/12">
+    <div class="mx-auto max-w-[1400px] px-6 lg:px-12 py-5 flex items-center gap-5 overflow-x-auto" style="scrollbar-width:none;">
+      <span class="label text-[#A6A8AA] shrink-0 hidden sm:inline">Kategori</span>
+      <span class="hidden sm:block w-8 h-px bg-[#F26A21] shrink-0"></span>
+      <nav class="flex items-center gap-2 shrink-0">
+        <a href="#koleksi" class="btn label px-5 py-3 bg-[#F26A21] text-[#0D0F11] whitespace-nowrap">Corporate</a>
+        <a href="#koleksi" class="btn label px-5 py-3 border border-white/15 text-[#A6A8AA] whitespace-nowrap hover:text-[#F3F0E8] hover:border-[#F26A21]">Army</a>
+        <a href="#koleksi" class="btn label px-5 py-3 border border-white/15 text-[#A6A8AA] whitespace-nowrap hover:text-[#F3F0E8] hover:border-[#F26A21]">Badminton</a>
+        <a href="#koleksi" class="btn label px-5 py-3 border border-white/15 text-[#A6A8AA] whitespace-nowrap hover:text-[#F3F0E8] hover:border-[#F26A21]">Fishing</a>
+      </nav>
+    </div>
+  </div>
+</section>
+
+<!-- TRUST BAR -->
+<section class="bg-[#0D0F11] border-y border-white/10">
+  <div class="mx-auto max-w-[1400px] px-6 lg:px-12 py-12 lg:py-16 grid grid-cols-2 lg:grid-cols-4 gap-x-8 gap-y-10">
+    <div class="reveal">
+      <span class="display text-[13vw] sm:text-[7vw] lg:text-[3.4rem] text-[#F3F0E8] block leading-none">20+</span>
+      <span class="label text-[#A6A8AA] block mt-3">Desain Siap Custom</span>
+    </div>
+    <div class="reveal lg:border-l lg:border-white/10 lg:pl-8">
+      <span class="display text-[13vw] sm:text-[7vw] lg:text-[3.4rem] orange block leading-none">Full</span>
+      <span class="label text-[#A6A8AA] block mt-3">Printing</span>
+    </div>
+    <div class="reveal lg:border-l lg:border-white/10 lg:pl-8">
+      <span class="display text-[13vw] sm:text-[7vw] lg:text-[3.4rem] text-[#F3F0E8] block leading-none">Free</span>
+      <span class="label text-[#A6A8AA] block mt-3">Custom Identitas</span>
+    </div>
+    <div class="reveal lg:border-l lg:border-white/10 lg:pl-8">
+      <span class="display text-[8vw] sm:text-[5vw] lg:text-[2.6rem] text-[#F3F0E8] block leading-[1.05] break-words">Tim &amp;<br>Perusahaan</span>
+      <span class="label text-[#A6A8AA] block mt-3">Skala Berapa Pun</span>
+    </div>
+  </div>
+</section>
+
+<!-- PROBLEM / NEED -->
+<section id="keunggulan" class="bg-[#F3F0E8] text-[#17191C] py-24 lg:py-36">
+  <div class="mx-auto max-w-[1400px] px-6 lg:px-12">
+    <div class="grid lg:grid-cols-12 gap-10">
+      <div class="lg:col-span-7">
+        <span class="reveal label text-[#A6A8AA] block mb-8">Keunggulan</span>
+        <h2 class="reveal display text-[10vw] sm:text-[7vw] lg:text-[4.4rem]">Bukan Sekadar Seragam.<br><span class="orange">Identitas.</span></h2>
+      </div>
+      <div class="lg:col-span-5 lg:pt-24">
+        <p class="reveal text-[15px] leading-relaxed text-[#17191C]/75">Jersey corporate yang dirancang untuk berbagai aktivitas perusahaan — mulai dari event, gathering, olahraga, outing, komunitas internal, hingga kegiatan promosi brand.</p>
+      </div>
+    </div>
+    <div class="mt-20 lg:mt-28 grid sm:grid-cols-2 lg:grid-cols-4 gap-x-10 gap-y-14">
+      <div class="reveal"><div class="lineGrow h-px bg-[#17191C]/20 mb-6"></div><span class="display text-4xl text-[#F26A21] block">01</span><h3 class="display text-2xl mt-4">Dry-Fit Nyaman</h3><p class="mt-3 text-[15px] leading-relaxed text-[#17191C]/70">Ringan dan nyaman digunakan untuk berbagai aktivitas.</p></div>
+      <div class="reveal"><div class="lineGrow h-px bg-[#17191C]/20 mb-6"></div><span class="display text-4xl text-[#F26A21] block">02</span><h3 class="display text-2xl mt-4">Full Printing</h3><p class="mt-3 text-[15px] leading-relaxed text-[#17191C]/70">Desain dapat disesuaikan dengan identitas visual perusahaan.</p></div>
+      <div class="reveal"><div class="lineGrow h-px bg-[#17191C]/20 mb-6"></div><span class="display text-4xl text-[#F26A21] block">03</span><h3 class="display text-2xl mt-4">Custom Identitas</h3><p class="mt-3 text-[15px] leading-relaxed text-[#17191C]/70">Logo perusahaan, nama, nomor, dan sponsor dapat disesuaikan.</p></div>
+      <div class="reveal"><div class="lineGrow h-px bg-[#17191C]/20 mb-6"></div><span class="display text-4xl text-[#F26A21] block">04</span><h3 class="display text-2xl mt-4">Jahitan Rapi &amp; Kuat</h3><p class="mt-3 text-[15px] leading-relaxed text-[#17191C]/70">Finishing rapi untuk menghasilkan jersey yang nyaman dan profesional.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- PRODUCT QUALITY -->
+<section id="kualitas" class="bg-[#17191C] py-24 lg:py-36">
+  <div class="mx-auto max-w-[1400px] px-6 lg:px-12 grid lg:grid-cols-12 gap-12 lg:gap-16 items-center">
+    <div class="lg:col-span-5 reveal">
+      <div class="overflow-hidden shot"><img src="../images/f7be3d49-3fa0-475b-9a25-654be5ba1eb3.png" alt="Detail close-up bahan jersey dry-fit" class="card-img w-full h-auto"></div>
+      <div class="mt-4 flex items-center gap-4"><span class="block w-10 h-px bg-[#F26A21]"></span><span class="label text-[#A6A8AA]">Detail Bahan</span></div>
+    </div>
+    <div class="lg:col-span-7">
+      <span class="reveal label text-[#A6A8AA] block mb-8">Kualitas Produk</span>
+      <h2 class="reveal display text-[9vw] sm:text-[6vw] lg:text-[3.6rem] text-[#F3F0E8]">Bukan Cuma Terlihat Profesional.<br><span class="orange">Nyaman Dipakai Seharian.</span></h2>
+      <p class="reveal mt-8 text-[15px] text-[#A6A8AA] leading-relaxed max-w-xl">Karena jersey corporate bukan hanya soal tampilan. Kenyamanan dan kualitas juga harus diperhatikan.</p>
+      <div class="mt-12 grid sm:grid-cols-2 gap-x-10 gap-y-10">
+        <div class="reveal"><div class="h-px bg-white/15 mb-5"></div><h3 class="display text-xl text-[#F3F0E8]">Dry-Fit Nyaman</h3><p class="mt-3 text-[15px] text-[#A6A8AA] leading-relaxed">Ringan, adem, dan nyaman digunakan untuk berbagai aktivitas.</p></div>
+        <div class="reveal"><div class="h-px bg-white/15 mb-5"></div><h3 class="display text-xl text-[#F3F0E8]">Full Printing</h3><p class="mt-3 text-[15px] text-[#A6A8AA] leading-relaxed">Warna dan desain tampil maksimal dengan printing pada seluruh permukaan jersey.</p></div>
+        <div class="reveal"><div class="h-px bg-white/15 mb-5"></div><h3 class="display text-xl text-[#F3F0E8]">Bahan Berkualitas</h3><p class="mt-3 text-[15px] text-[#A6A8AA] leading-relaxed">Material dirancang untuk memberikan kenyamanan saat digunakan.</p></div>
+        <div class="reveal"><div class="h-px bg-white/15 mb-5"></div><h3 class="display text-xl text-[#F3F0E8]">Jahitan Rapi &amp; Kuat</h3><p class="mt-3 text-[15px] text-[#A6A8AA] leading-relaxed">Finishing rapi dengan jahitan yang dibuat untuk penggunaan jangka panjang.</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CUSTOMIZATION -->
+<section id="custom" class="bg-[#F3F0E8] text-[#17191C] py-24 lg:py-36">
+  <div class="mx-auto max-w-[1400px] px-6 lg:px-12 grid lg:grid-cols-12 gap-12 lg:gap-16 items-center">
+    <div class="lg:col-span-6">
+      <span class="reveal label text-[#A6A8AA] block mb-8">Customization</span>
+      <h2 class="reveal display text-[10vw] sm:text-[7vw] lg:text-[4rem]">Jersey-nya Bisa Dibuat<br><span class="orange">Sesuai Identitas Timmu.</span></h2>
+      <p class="reveal mt-8 text-[15px] leading-relaxed text-[#17191C]/75 max-w-lg">Tidak perlu menggunakan jersey yang terlihat generik. Sesuaikan detail jersey dengan identitas perusahaan, komunitas, event, atau tim kamu.</p>
+      <div class="mt-12 border-t border-[#17191C]/15">
+        <div class="reveal bigword display text-[11vw] lg:text-[3.4rem] py-3 border-b border-[#17191C]/15">Logo Perusahaan</div>
+        <div class="reveal bigword display text-[11vw] lg:text-[3.4rem] py-3 border-b border-[#17191C]/15">Nama Pemain</div>
+        <div class="reveal bigword display text-[11vw] lg:text-[3.4rem] py-3 border-b border-[#17191C]/15">Nomor</div>
+        <div class="reveal bigword display text-[11vw] lg:text-[3.4rem] py-3 border-b border-[#17191C]/15">Sponsor</div>
+        <div class="reveal bigword display text-[11vw] lg:text-[3.4rem] py-3 border-b border-[#17191C]/15">Warna Brand</div>
+      </div>
+      <div class="reveal mt-10"><a href="#koleksi" class="btn inline-flex items-center gap-3 label bg-[#17191C] text-[#F3F0E8] px-8 py-4 hover:bg-[#F26A21] hover:text-[#0D0F11]">Custom Sekarang <span>→</span></a></div>
+    </div>
+    <div class="lg:col-span-6 grid grid-cols-2 gap-4">
+      <div class="reveal shot overflow-hidden"><img src="../images/e9abbd89-51da-4ae6-b186-1459c360c0e7.png" alt="Variasi jersey tampak depan" class="card-img w-full aspect-[4/5] object-cover"></div>
+      <div class="reveal shot overflow-hidden mt-10"><img src="../images/b5898a2d-f724-445c-8859-d1774ca3d299.png" alt="Variasi jersey tampak belakang dengan nameset" class="card-img w-full aspect-[4/5] object-cover"></div>
+      <div class="reveal shot overflow-hidden"><img src="../images/3b806c4b-a511-4394-b3b8-162537cc54b2.png" alt="Variasi jersey sudut samping" class="card-img w-full aspect-[4/5] object-cover"></div>
+      <div class="reveal shot overflow-hidden mt-10"><img src="../images/ec9f3a8b-bd2b-4ee4-a5c1-98e89fbfe64a.png" alt="Satu set jersey dan celana" class="card-img w-full aspect-[4/5] object-cover"></div>
+    </div>
+  </div>
+</section>
+
+<!-- COLLECTION -->
+<section id="koleksi" class="bg-[#17191C] py-24 lg:py-36">
+  <div class="mx-auto max-w-[1400px] px-6 lg:px-12">
+    <span class="reveal label text-[#A6A8AA] block mb-8">Collection</span>
+    <h2 class="reveal display text-[9vw] sm:text-[6.4vw] lg:text-[4rem] text-[#F3F0E8] max-w-4xl">Pilih Desain yang Sesuai <span class="orange">Karakter Timmu.</span></h2>
+    <p class="reveal mt-6 text-[15px] text-[#A6A8AA] max-w-xl leading-relaxed">Beragam desain corporate dengan karakter sporty, modern, dan profesional.</p>
+
+    <div class="mt-14 lg:mt-20 grid sm:grid-cols-2 lg:grid-cols-3 gap-5 lg:gap-6">
+      <article class="card reveal border border-white/12 bg-[#17191C] p-4 flex flex-col">
+        <div class="relative overflow-hidden bg-[#0D0F11] aspect-[4/5] flex items-center justify-center"><img src="../images/e9abbd89-51da-4ae6-b186-1459c360c0e7.png" alt="Gathering 01 — Depan" class="card-img w-full h-full object-cover"></div>
+        <div class="mt-5 flex items-end justify-between gap-4">
+          <div><h3 class="display text-lg text-[#F3F0E8] leading-tight">Gathering 01 — Depan</h3><span class="label text-[#A6A8AA] block mt-2">CORP-01</span></div>
+          <a href="#harga" class="btn label border border-white/20 text-[#F3F0E8] px-4 py-3 whitespace-nowrap hover:bg-[#F26A21] hover:border-[#F26A21] hover:text-[#0D0F11]">Pilih Desain</a>
+        </div>
+      </article>
+      <article class="card reveal border border-white/12 bg-[#17191C] p-4 flex flex-col">
+        <div class="relative overflow-hidden bg-[#0D0F11] aspect-[4/5] flex items-center justify-center"><img src="../images/b5898a2d-f724-445c-8859-d1774ca3d299.png" alt="Gathering 01 — Belakang" class="card-img w-full h-full object-cover"></div>
+        <div class="mt-5 flex items-end justify-between gap-4">
+          <div><h3 class="display text-lg text-[#F3F0E8] leading-tight">Gathering 01 — Belakang</h3><span class="label text-[#A6A8AA] block mt-2">CORP-02</span></div>
+          <a href="#harga" class="btn label border border-white/20 text-[#F3F0E8] px-4 py-3 whitespace-nowrap hover:bg-[#F26A21] hover:border-[#F26A21] hover:text-[#0D0F11]">Pilih Desain</a>
+        </div>
+      </article>
+      <article class="card reveal border border-white/12 bg-[#17191C] p-4 flex flex-col">
+        <div class="relative overflow-hidden bg-[#0D0F11] aspect-[4/5] flex items-center justify-center"><img src="../images/3b806c4b-a511-4394-b3b8-162537cc54b2.png" alt="Gathering 01 — Samping" class="card-img w-full h-full object-cover"></div>
+        <div class="mt-5 flex items-end justify-between gap-4">
+          <div><h3 class="display text-lg text-[#F3F0E8] leading-tight">Gathering 01 — Samping</h3><span class="label text-[#A6A8AA] block mt-2">CORP-03</span></div>
+          <a href="#harga" class="btn label border border-white/20 text-[#F3F0E8] px-4 py-3 whitespace-nowrap hover:bg-[#F26A21] hover:border-[#F26A21] hover:text-[#0D0F11]">Pilih Desain</a>
+        </div>
+      </article>
+      <article class="card reveal border border-white/12 bg-[#17191C] p-4 flex flex-col">
+        <div class="relative overflow-hidden bg-[#0D0F11] aspect-[4/5] flex items-center justify-center"><img src="../images/ec9f3a8b-bd2b-4ee4-a5c1-98e89fbfe64a.png" alt="Satu Set Lengkap" class="card-img w-full h-full object-cover"></div>
+        <div class="mt-5 flex items-end justify-between gap-4">
+          <div><h3 class="display text-lg text-[#F3F0E8] leading-tight">Satu Set Lengkap</h3><span class="label text-[#A6A8AA] block mt-2">CORP-04</span></div>
+          <a href="#harga" class="btn label border border-white/20 text-[#F3F0E8] px-4 py-3 whitespace-nowrap hover:bg-[#F26A21] hover:border-[#F26A21] hover:text-[#0D0F11]">Pilih Desain</a>
+        </div>
+      </article>
+      <article class="card reveal border border-white/12 bg-[#17191C] p-4 flex flex-col">
+        <div class="relative overflow-hidden bg-[#0D0F11] aspect-[4/5] flex items-center justify-center"><img src="../images/82733519-f02e-4b1f-9e2c-eeaab326f176.png" alt="Siap Kirim" class="card-img w-full h-full object-cover"></div>
+        <div class="mt-5 flex items-end justify-between gap-4">
+          <div><h3 class="display text-lg text-[#F3F0E8] leading-tight">Siap Kirim</h3><span class="label text-[#A6A8AA] block mt-2">CORP-05</span></div>
+          <a href="#harga" class="btn label border border-white/20 text-[#F3F0E8] px-4 py-3 whitespace-nowrap hover:bg-[#F26A21] hover:border-[#F26A21] hover:text-[#0D0F11]">Pilih Desain</a>
+        </div>
+      </article>
+      <article class="card reveal border border-white/12 bg-[#17191C] p-4 flex flex-col">
+        <div class="relative overflow-hidden bg-[#0D0F11] aspect-[4/5] flex items-center justify-center"><img src="../images/e1f690fa-7f35-4347-8961-3bb3e734c1bf.png" alt="Detail Nameset" class="card-img w-full h-full object-cover"></div>
+        <div class="mt-5 flex items-end justify-between gap-4">
+          <div><h3 class="display text-lg text-[#F3F0E8] leading-tight">Detail Nameset</h3><span class="label text-[#A6A8AA] block mt-2">CORP-06</span></div>
+          <a href="#harga" class="btn label border border-white/20 text-[#F3F0E8] px-4 py-3 whitespace-nowrap hover:bg-[#F26A21] hover:border-[#F26A21] hover:text-[#0D0F11]">Pilih Desain</a>
+        </div>
+      </article>
+      <article class="card reveal border border-white/12 bg-[#17191C] p-4 flex flex-col">
+        <div class="relative overflow-hidden bg-[#0D0F11] aspect-[4/5] flex items-center justify-center"><span class="ph absolute inset-0"></span><span class="relative label text-[#A6A8AA]">Slot Desain</span></div>
+        <div class="mt-5 flex items-end justify-between gap-4">
+          <div><h3 class="display text-lg text-[#F3F0E8] leading-tight">Slot Desain — Upload</h3><span class="label text-[#A6A8AA] block mt-2">CORP-07</span></div>
+          <a href="#harga" class="btn label border border-white/20 text-[#F3F0E8] px-4 py-3 whitespace-nowrap hover:bg-[#F26A21] hover:border-[#F26A21] hover:text-[#0D0F11]">Pilih Desain</a>
+        </div>
+      </article>
+      <article class="card reveal border border-white/12 bg-[#17191C] p-4 flex flex-col">
+        <div class="relative overflow-hidden bg-[#0D0F11] aspect-[4/5] flex items-center justify-center"><span class="ph absolute inset-0"></span><span class="relative label text-[#A6A8AA]">Slot Desain</span></div>
+        <div class="mt-5 flex items-end justify-between gap-4">
+          <div><h3 class="display text-lg text-[#F3F0E8] leading-tight">Slot Desain — Upload</h3><span class="label text-[#A6A8AA] block mt-2">CORP-08</span></div>
+          <a href="#harga" class="btn label border border-white/20 text-[#F3F0E8] px-4 py-3 whitespace-nowrap hover:bg-[#F26A21] hover:border-[#F26A21] hover:text-[#0D0F11]">Pilih Desain</a>
+        </div>
+      </article>
+      <article class="card reveal border border-white/12 bg-[#17191C] p-4 flex flex-col">
+        <div class="relative overflow-hidden bg-[#0D0F11] aspect-[4/5] flex items-center justify-center"><span class="ph absolute inset-0"></span><span class="relative label text-[#A6A8AA]">Slot Desain</span></div>
+        <div class="mt-5 flex items-end justify-between gap-4">
+          <div><h3 class="display text-lg text-[#F3F0E8] leading-tight">Slot Desain — Upload</h3><span class="label text-[#A6A8AA] block mt-2">CORP-09</span></div>
+          <a href="#harga" class="btn label border border-white/20 text-[#F3F0E8] px-4 py-3 whitespace-nowrap hover:bg-[#F26A21] hover:border-[#F26A21] hover:text-[#0D0F11]">Pilih Desain</a>
+        </div>
+      </article>
+    </div>
+
+    <div class="mt-16 text-center">
+      <a href="#harga" class="btn inline-flex items-center gap-3 label border border-white/25 text-[#F3F0E8] px-10 py-5 hover:border-[#F26A21] hover:text-[#F26A21]">Lihat Semua 20 Desain <span>↓</span></a>
+      <p class="reveal mt-6 label text-[#A6A8AA]">Desain baru terus ditambahkan tiap bulan</p>
+    </div>
+  </div>
+</section>
+
+<!-- HOW IT WORKS -->
+<section id="proses" class="bg-[#F3F0E8] text-[#17191C] py-24 lg:py-36">
+  <div class="mx-auto max-w-[1400px] px-6 lg:px-12">
+    <span class="reveal label text-[#A6A8AA] block mb-8">How It Works</span>
+    <h2 class="reveal display text-[10vw] sm:text-[7vw] lg:text-[4rem] max-w-4xl">Dari Desain<br><span class="orange">Jadi Jersey Timmu.</span></h2>
+    <div class="mt-16 lg:mt-24 relative">
+      <div class="lineGrow reveal hidden lg:block absolute top-[14px] left-0 right-0 h-px bg-[#17191C]/20"></div>
+      <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-x-8 gap-y-14">
+        <div class="reveal relative"><span class="hidden lg:block w-[9px] h-[9px] bg-[#F26A21] rounded-full mb-8 mt-[10px]"></span><span class="display text-[3.2rem] text-[#17191C]/20 block leading-none lg:hidden">01</span><span class="label orange hidden lg:block mb-3">01</span><h3 class="display text-xl mt-2">Pilih Desain</h3><p class="mt-3 text-[15px] text-[#17191C]/70 leading-relaxed">Pilih desain corporate yang paling cocok.</p></div>
+        <div class="reveal relative"><span class="hidden lg:block w-[9px] h-[9px] bg-[#F26A21] rounded-full mb-8 mt-[10px]"></span><span class="display text-[3.2rem] text-[#17191C]/20 block leading-none lg:hidden">02</span><span class="label orange hidden lg:block mb-3">02</span><h3 class="display text-xl mt-2">Kirim Data</h3><p class="mt-3 text-[15px] text-[#17191C]/70 leading-relaxed">Kirim logo, nama, nomor, sponsor, dan detail lainnya.</p></div>
+        <div class="reveal relative"><span class="hidden lg:block w-[9px] h-[9px] bg-[#F26A21] rounded-full mb-8 mt-[10px]"></span><span class="display text-[3.2rem] text-[#17191C]/20 block leading-none lg:hidden">03</span><span class="label orange hidden lg:block mb-3">03</span><h3 class="display text-xl mt-2">Proses Custom</h3><p class="mt-3 text-[15px] text-[#17191C]/70 leading-relaxed">Desain disesuaikan dengan kebutuhan tim.</p></div>
+        <div class="reveal relative"><span class="hidden lg:block w-[9px] h-[9px] bg-[#F26A21] rounded-full mb-8 mt-[10px]"></span><span class="display text-[3.2rem] text-[#17191C]/20 block leading-none lg:hidden">04</span><span class="label orange hidden lg:block mb-3">04</span><h3 class="display text-xl mt-2">Siap Digunakan</h3><p class="mt-3 text-[15px] text-[#17191C]/70 leading-relaxed">Jersey diproses dan siap digunakan untuk aktivitas tim.</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- HARGA -->
+<section id="harga" class="bg-[#17191C] py-24 lg:py-36 grid-lines">
+  <div class="mx-auto max-w-[1400px] px-6 lg:px-12">
+    <div class="grid lg:grid-cols-12 gap-10 items-end">
+      <div class="lg:col-span-7">
+        <span class="reveal label text-[#A6A8AA] block mb-8">Harga</span>
+        <h2 class="reveal display text-[10vw] sm:text-[7vw] lg:text-[4.4rem] text-[#F3F0E8]">Pilih Paket<br><span class="orange">Timmu.</span></h2>
+      </div>
+      <div class="lg:col-span-5">
+        <p class="reveal text-[15px] text-[#A6A8AA] leading-relaxed mb-8">Pilih jumlah pembelian, harga akan menyesuaikan otomatis.</p>
+        <div class="reveal inline-flex border border-white/15 p-1" role="tablist" aria-label="Jumlah pembelian">
+          <button type="button" data-tier="ecer" role="tab" aria-selected="true" class="tier-btn label px-6 py-3 bg-[#F26A21] text-[#0D0F11]">Ecer</button>
+          <button type="button" data-tier="lusin" role="tab" aria-selected="false" class="tier-btn label px-6 py-3 text-[#A6A8AA] hover:text-[#F3F0E8]">Lusin — Hemat</button>
+        </div>
+      </div>
+    </div>
+    <div class="mt-16 lg:mt-24 grid lg:grid-cols-2 gap-px bg-white/12 border border-white/12">
+      <div class="reveal bg-[#17191C] p-8 lg:p-12 flex flex-col">
+        <div class="flex items-start justify-between gap-4"><span class="label text-[#A6A8AA]">Jersey Atasan</span><span class="label text-[#A6A8AA] border border-white/15 px-3 py-1">Fleksibel</span></div>
+        <h3 class="display text-3xl lg:text-4xl mt-8 text-[#F3F0E8]">Atasan Saja</h3>
+        <div class="mt-8 flex flex-wrap items-end gap-x-3 gap-y-1">
+          <span class="label text-[#A6A8AA] pb-3">Rp</span>
+          <span class="display text-[19vw] sm:text-[10vw] lg:text-[6.5rem] leading-[0.85] text-[#F3F0E8]" data-price="atasan">75</span>
+          <span class="display text-3xl lg:text-4xl text-[#F3F0E8] pb-1">RB</span>
+          <span class="label text-[#A6A8AA] pb-3">/pcs</span>
+        </div>
+        <p class="mt-5 text-[13px] text-[#A6A8AA]" data-min="atasan">Bisa pesan mulai 1 pcs</p>
+        <div class="h-px bg-white/12 my-10"></div>
+        <ul class="space-y-4 text-[15px] text-[#F3F0E8]/85">
+          <li class="flex gap-4"><span class="orange">—</span><span>Full printing &amp; desain bebas</span></li>
+          <li class="flex gap-4"><span class="orange">—</span><span>Nama dan nomor punggung</span></li>
+          <li class="flex gap-4"><span class="orange">—</span><span>Revisi desain tanpa batas</span></li>
+        </ul>
+        <a href="#final" class="btn mt-12 inline-flex items-center justify-between gap-4 label border border-white/25 text-[#F3F0E8] px-7 py-4 hover:border-[#F26A21] hover:text-[#F26A21]">Pilih Atasan <span>→</span></a>
+      </div>
+      <div class="reveal relative bg-[#17191C] p-8 lg:p-12 flex flex-col">
+        <span class="absolute top-0 left-0 right-0 h-px bg-[#F26A21]"></span>
+        <div class="flex items-start justify-between gap-4"><span class="label orange">Atasan + Celana</span><span class="label bg-[#F26A21] text-[#0D0F11] px-3 py-1">Paling Diminati</span></div>
+        <h3 class="display text-3xl lg:text-4xl mt-8 text-[#F3F0E8]">Jersey Setelan</h3>
+        <div class="mt-8 flex flex-wrap items-end gap-x-3 gap-y-1">
+          <span class="label orange pb-3">Rp</span>
+          <span class="display text-[19vw] sm:text-[10vw] lg:text-[6.5rem] leading-[0.85] orange" data-price="setelan">145</span>
+          <span class="display text-3xl lg:text-4xl orange pb-1">RB</span>
+          <span class="label text-[#A6A8AA] pb-3">/set</span>
+        </div>
+        <p class="mt-5 text-[13px] text-[#A6A8AA]" data-min="setelan">Bisa pesan mulai 1 set</p>
+        <div class="h-px bg-white/12 my-10"></div>
+        <ul class="space-y-4 text-[15px] text-[#F3F0E8]/85">
+          <li class="flex gap-4"><span class="orange">—</span><span>Semua benefit paket atasan</span></li>
+          <li class="flex gap-4"><span class="orange">—</span><span>Celana full custom siap tanding</span></li>
+          <li class="flex gap-4"><span class="orange">—</span><span>Prioritas jadwal produksi</span></li>
+        </ul>
+        <a href="#final" class="btn mt-12 inline-flex items-center justify-between gap-4 label bg-[#F26A21] text-[#0D0F11] px-7 py-4 hover:bg-[#F3F0E8]">Pilih Setelan <span>→</span></a>
+      </div>
+    </div>
+    <div class="reveal mt-8 border border-white/12 px-8 lg:px-12 py-8 flex flex-col md:flex-row md:items-center justify-between gap-6">
+      <div>
+        <h4 class="display text-2xl lg:text-3xl text-[#F3F0E8]">Butuh Lebih dari <span class="orange">50 Pcs?</span></h4>
+        <p class="mt-2 text-[15px] text-[#A6A8AA]">Dapatkan harga proyek khusus untuk perusahaan, instansi, komunitas, dan event.</p>
+      </div>
+      <a href="#final" class="btn shrink-0 inline-flex items-center gap-3 label border border-[#F26A21] text-[#F26A21] px-7 py-4 hover:bg-[#F26A21] hover:text-[#0D0F11]">Minta Harga Khusus <span>→</span></a>
+    </div>
+  </div>
+</section>
+
+<!-- TESTIMONIAL -->
+<section class="bg-[#0D0F11] py-24 lg:py-36 overflow-hidden">
+  <div class="mx-auto max-w-[1400px] px-6 lg:px-12">
+    <div class="grid lg:grid-cols-12 gap-10 items-end">
+      <div class="lg:col-span-8">
+        <span class="reveal label text-[#A6A8AA] block mb-8">Testimonial</span>
+        <h2 class="reveal display text-[9vw] sm:text-[6.4vw] lg:text-[3.8rem] text-[#F3F0E8]">Mereka Sudah Tampil Bersama.<br><span class="orange">Sekarang Giliran Timmu.</span></h2>
+      </div>
+      <div class="lg:col-span-4 lg:text-right flex lg:justify-end gap-3">
+        <button type="button" data-tprev="" class="btn label border border-white/20 text-[#F3F0E8] w-12 h-12 hover:border-[#F26A21] hover:text-[#F26A21]" aria-label="Testimonial sebelumnya">←</button>
+        <button type="button" data-tnext="" class="btn label border border-white/20 text-[#F3F0E8] w-12 h-12 hover:border-[#F26A21] hover:text-[#F26A21]" aria-label="Testimonial berikutnya">→</button>
+      </div>
+    </div>
+  </div>
+  <div class="mt-14 lg:mt-20 pl-6 lg:pl-12">
+    <div class="hscroll pr-6 lg:pr-12" data-tcarousel="">
+      <article class="w-[82vw] sm:w-[46vw] lg:w-[30rem] border border-white/12 p-8 lg:p-10 flex flex-col">
+        <div class="label orange tracking-[0.4em]">★★★★★</div>
+        <p class="display text-2xl lg:text-[1.75rem] mt-8 text-[#F3F0E8] leading-tight">“Testimonial Customer”</p>
+        <p class="mt-5 text-[15px] text-[#A6A8AA] leading-relaxed">Slot testimoni 1 — siap diisi dengan ulasan asli dari klien.</p>
+        <div class="mt-auto pt-10 flex items-center gap-4">
+          <span class="w-12 h-12 ph border border-white/12 shrink-0"></span>
+          <div><span class="label text-[#F3F0E8] block">Nama Customer</span><span class="label text-[#A6A8AA] block mt-1">Nama Perusahaan / Tim</span></div>
+        </div>
+      </article>
+      <article class="w-[82vw] sm:w-[46vw] lg:w-[30rem] border border-white/12 p-8 lg:p-10 flex flex-col">
+        <div class="label orange tracking-[0.4em]">★★★★★</div>
+        <p class="display text-2xl lg:text-[1.75rem] mt-8 text-[#F3F0E8] leading-tight">“Testimonial Customer”</p>
+        <p class="mt-5 text-[15px] text-[#A6A8AA] leading-relaxed">Slot testimoni 2 — siap diisi dengan ulasan asli dari klien.</p>
+        <div class="mt-auto pt-10 flex items-center gap-4">
+          <span class="w-12 h-12 ph border border-white/12 shrink-0"></span>
+          <div><span class="label text-[#F3F0E8] block">Nama Customer</span><span class="label text-[#A6A8AA] block mt-1">Nama Perusahaan / Tim</span></div>
+        </div>
+      </article>
+      <article class="w-[82vw] sm:w-[46vw] lg:w-[30rem] border border-white/12 p-8 lg:p-10 flex flex-col">
+        <div class="label orange tracking-[0.4em]">★★★★★</div>
+        <p class="display text-2xl lg:text-[1.75rem] mt-8 text-[#F3F0E8] leading-tight">“Testimonial Customer”</p>
+        <p class="mt-5 text-[15px] text-[#A6A8AA] leading-relaxed">Slot testimoni 3 — siap diisi dengan ulasan asli dari klien.</p>
+        <div class="mt-auto pt-10 flex items-center gap-4">
+          <span class="w-12 h-12 ph border border-white/12 shrink-0"></span>
+          <div><span class="label text-[#F3F0E8] block">Nama Customer</span><span class="label text-[#A6A8AA] block mt-1">Nama Perusahaan / Tim</span></div>
+        </div>
+      </article>
+    </div>
+  </div>
+  <div class="mx-auto max-w-[1400px] px-6 lg:px-12 mt-10">
+    <p class="reveal text-[13px] text-[#A6A8AA]">Slot testimonial masih kosong — kirimkan testimoni asli dari klien kamu dan kami isikan ke slot ini.</p>
+  </div>
+</section>
+
+<!-- REAL TEAM GALLERY -->
+<section class="bg-[#17191C] py-24 lg:py-36">
+  <div class="mx-auto max-w-[1400px] px-6 lg:px-12">
+    <div class="grid lg:grid-cols-12 gap-10 items-end">
+      <div class="lg:col-span-8">
+        <span class="reveal label text-[#A6A8AA] block mb-8">Team Gallery</span>
+        <h2 class="reveal display text-[9vw] sm:text-[6.4vw] lg:text-[3.8rem] text-[#F3F0E8]">Bukan Cuma Jersey.<br><span class="orange">Ini Identitas Timmu.</span></h2>
+      </div>
+      <div class="lg:col-span-4"><p class="reveal text-[15px] text-[#A6A8AA] leading-relaxed">Slot foto tim — siap diisi dengan dokumentasi asli tim dan perusahaan kamu.</p></div>
+    </div>
+    <div class="mt-14 lg:mt-20 grid grid-cols-2 lg:grid-cols-4 gap-4 lg:gap-6">
+      <div class="reveal ph border border-white/12 aspect-[3/4] flex items-end p-5"><span class="label text-[#A6A8AA]">Corporate Event</span></div>
+      <div class="reveal ph border border-white/12 aspect-[3/4] lg:mt-10 flex items-end p-5"><span class="label text-[#A6A8AA]">Team Gathering</span></div>
+      <div class="reveal ph border border-white/12 aspect-[3/4] flex items-end p-5"><span class="label text-[#A6A8AA]">Sports Day</span></div>
+      <div class="reveal ph border border-white/12 aspect-[3/4] lg:mt-10 flex items-end p-5"><span class="label text-[#A6A8AA]">Company Community</span></div>
+    </div>
+    <p class="reveal mt-8 text-[13px] text-[#A6A8AA]">Placeholder — belum ada foto tim asli yang diberikan.</p>
+  </div>
+</section>
+
+<!-- UNTUK SIAPA -->
+<section id="untuk-siapa" class="bg-[#F3F0E8] text-[#17191C] py-24 lg:py-36">
+  <div class="mx-auto max-w-[1400px] px-6 lg:px-12">
+    <div class="grid lg:grid-cols-12 gap-10">
+      <div class="lg:col-span-7">
+        <span class="reveal label text-[#A6A8AA] block mb-8">Untuk Siapa</span>
+        <h2 class="reveal display text-[10vw] sm:text-[7vw] lg:text-[4.4rem]">Dibuat untuk<br>Tim yang Bergerak Bersama.</h2>
+      </div>
+      <div class="lg:col-span-5 lg:pt-28"><p class="reveal text-[15px] leading-relaxed text-[#17191C]/70">Dari aktivitas internal hingga event perusahaan, tampilkan identitas tim secara konsisten dan profesional.</p></div>
+    </div>
+    <div class="mt-16 border-t border-[#17191C]/15">
+      <div class="reveal flex items-baseline gap-6 border-b border-[#17191C]/15 py-4"><span class="label text-[#F26A21] w-10">01</span><span class="bigword display text-[9vw] lg:text-[3.6rem]">Perusahaan</span></div>
+      <div class="reveal flex items-baseline gap-6 border-b border-[#17191C]/15 py-4"><span class="label text-[#F26A21] w-10">02</span><span class="bigword display text-[9vw] lg:text-[3.6rem]">Instansi</span></div>
+      <div class="reveal flex items-baseline gap-6 border-b border-[#17191C]/15 py-4"><span class="label text-[#F26A21] w-10">03</span><span class="bigword display text-[9vw] lg:text-[3.6rem]">Corporate Event</span></div>
+      <div class="reveal flex items-baseline gap-6 border-b border-[#17191C]/15 py-4"><span class="label text-[#F26A21] w-10">04</span><span class="bigword display text-[9vw] lg:text-[3.6rem]">Gathering</span></div>
+      <div class="reveal flex items-baseline gap-6 border-b border-[#17191C]/15 py-4"><span class="label text-[#F26A21] w-10">05</span><span class="bigword display text-[9vw] lg:text-[3.6rem]">Komunitas</span></div>
+      <div class="reveal flex items-baseline gap-6 border-b border-[#17191C]/15 py-4"><span class="label text-[#F26A21] w-10">06</span><span class="bigword display text-[9vw] lg:text-[3.6rem]">Organisasi</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section id="faq" class="bg-[#17191C] py-24 lg:py-36">
+  <div class="mx-auto max-w-[1400px] px-6 lg:px-12 grid lg:grid-cols-12 gap-12">
+    <div class="lg:col-span-4">
+      <span class="reveal label text-[#A6A8AA] block mb-8">FAQ</span>
+      <h2 class="reveal display text-[10vw] sm:text-[7vw] lg:text-[3.4rem] text-[#F3F0E8]">Yang Sering<br><span class="orange">Ditanyakan.</span></h2>
+    </div>
+    <div class="lg:col-span-8 border-t border-white/12">
+      <div class="faq reveal border-b border-white/12">
+        <button type="button" class="w-full flex items-start justify-between gap-6 text-left py-7">
+          <span class="q display text-lg lg:text-2xl text-[#F3F0E8] transition-colors">Apakah bisa custom logo perusahaan?</span>
+          <span class="plus display text-2xl text-[#A6A8AA] shrink-0 leading-none">+</span>
+        </button>
+        <div class="faq-body"><p class="text-[15px] text-[#A6A8AA] leading-relaxed pb-7 pr-10 max-w-2xl">Bisa. Logo perusahaan dapat dipasang pada jersey sesuai posisi dan ukuran yang kamu inginkan.</p></div>
+      </div>
+      <div class="faq reveal border-b border-white/12">
+        <button type="button" class="w-full flex items-start justify-between gap-6 text-left py-7">
+          <span class="q display text-lg lg:text-2xl text-[#F3F0E8] transition-colors">Apakah bisa custom nama dan nomor?</span>
+          <span class="plus display text-2xl text-[#A6A8AA] shrink-0 leading-none">+</span>
+        </button>
+        <div class="faq-body"><p class="text-[15px] text-[#A6A8AA] leading-relaxed pb-7 pr-10 max-w-2xl">Bisa. Nama dan nomor punggung dapat disesuaikan untuk setiap anggota tim.</p></div>
+      </div>
+      <div class="faq reveal border-b border-white/12">
+        <button type="button" class="w-full flex items-start justify-between gap-6 text-left py-7">
+          <span class="q display text-lg lg:text-2xl text-[#F3F0E8] transition-colors">Apakah bisa menggunakan desain sendiri?</span>
+          <span class="plus display text-2xl text-[#A6A8AA] shrink-0 leading-none">+</span>
+        </button>
+        <div class="faq-body"><p class="text-[15px] text-[#A6A8AA] leading-relaxed pb-7 pr-10 max-w-2xl">Bisa. Kamu dapat mengirimkan desain sendiri untuk diproses, atau memilih dari koleksi yang tersedia.</p></div>
+      </div>
+      <div class="faq reveal border-b border-white/12">
+        <button type="button" class="w-full flex items-start justify-between gap-6 text-left py-7">
+          <span class="q display text-lg lg:text-2xl text-[#F3F0E8] transition-colors">Apakah bisa custom warna sesuai brand perusahaan?</span>
+          <span class="plus display text-2xl text-[#A6A8AA] shrink-0 leading-none">+</span>
+        </button>
+        <div class="faq-body"><p class="text-[15px] text-[#A6A8AA] leading-relaxed pb-7 pr-10 max-w-2xl">Bisa. Warna jersey dapat disesuaikan dengan warna brand perusahaan.</p></div>
+      </div>
+      <div class="faq reveal border-b border-white/12">
+        <button type="button" class="w-full flex items-start justify-between gap-6 text-left py-7">
+          <span class="q display text-lg lg:text-2xl text-[#F3F0E8] transition-colors">Apakah tersedia untuk kebutuhan perusahaan dalam jumlah banyak?</span>
+          <span class="plus display text-2xl text-[#A6A8AA] shrink-0 leading-none">+</span>
+        </button>
+        <div class="faq-body"><p class="text-[15px] text-[#A6A8AA] leading-relaxed pb-7 pr-10 max-w-2xl">Tersedia. Untuk kebutuhan di atas 50 pcs, hubungi kami untuk penawaran harga proyek khusus.</p></div>
+      </div>
+      <div class="faq reveal border-b border-white/12">
+        <button type="button" class="w-full flex items-start justify-between gap-6 text-left py-7">
+          <span class="q display text-lg lg:text-2xl text-[#F3F0E8] transition-colors">Bagaimana proses pemesanannya?</span>
+          <span class="plus display text-2xl text-[#A6A8AA] shrink-0 leading-none">+</span>
+        </button>
+        <div class="faq-body"><p class="text-[15px] text-[#A6A8AA] leading-relaxed pb-7 pr-10 max-w-2xl">Pilih desain, kirim data (logo, nama, nomor, sponsor), desain disesuaikan, lalu jersey diproses hingga siap digunakan.</p></div>
+      </div>
+      <div class="faq reveal border-b border-white/12">
+        <button type="button" class="w-full flex items-start justify-between gap-6 text-left py-7">
+          <span class="q display text-lg lg:text-2xl text-[#F3F0E8] transition-colors">Berapa lama proses produksinya?</span>
+          <span class="plus display text-2xl text-[#A6A8AA] shrink-0 leading-none">+</span>
+        </button>
+        <div class="faq-body"><p class="text-[15px] text-[#A6A8AA] leading-relaxed pb-7 pr-10 max-w-2xl">Estimasi waktu produksi menyesuaikan jumlah pesanan dan tingkat kerumitan desain. Hubungi kami untuk estimasi pastinya.</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FINAL CTA -->
+<section id="final" class="relative noise bg-[#0D0F11] py-28 lg:py-44 overflow-hidden">
+  <div class="mx-auto max-w-[1100px] px-6 relative text-center">
+    <span class="reveal label text-[#A6A8AA] block mb-10">Corporate Collection</span>
+    <h2 class="reveal display text-[10vw] sm:text-[7vw] lg:text-[4.8rem] text-[#F3F0E8]">Siap Bikin Timmu<br>Tampil Lebih <span class="orange">Profesional?</span></h2>
+    <p class="reveal mt-8 text-[15px] lg:text-lg text-[#A6A8AA] max-w-2xl mx-auto leading-relaxed">Pilih desain corporate favoritmu, sesuaikan dengan identitas perusahaan, lalu buat jersey untuk timmu.</p>
+    <ul class="reveal mt-12 grid sm:grid-cols-2 gap-x-10 gap-y-4 max-w-2xl mx-auto text-left">
+      <li class="flex items-center gap-4 border-b border-white/10 pb-3"><span class="orange">✓</span><span class="label text-[#F3F0E8]">Free Custom Logo</span></li>
+      <li class="flex items-center gap-4 border-b border-white/10 pb-3"><span class="orange">✓</span><span class="label text-[#F3F0E8]">Free Custom Nameset</span></li>
+      <li class="flex items-center gap-4 border-b border-white/10 pb-3"><span class="orange">✓</span><span class="label text-[#F3F0E8]">Free Custom Nomor</span></li>
+      <li class="flex items-center gap-4 border-b border-white/10 pb-3"><span class="orange">✓</span><span class="label text-[#F3F0E8]">Bisa Tambah Sponsor</span></li>
+      <li class="flex items-center gap-4 border-b border-white/10 pb-3 sm:col-span-2"><span class="orange">✓</span><span class="label text-[#F3F0E8]">Desain Sesuai Identitas Tim</span></li>
+    </ul>
+    <div class="reveal mt-14"><a href="#koleksi" class="btn inline-flex items-center gap-3 label bg-[#F26A21] text-[#0D0F11] px-10 py-5 hover:bg-[#F3F0E8]">Pilih Desain Corporate <span>→</span></a></div>
+    <div class="reveal mt-8 label text-[#A6A8AA]">Pilih Desain <span class="orange">•</span> Kirim Data <span class="orange">•</span> Custom <span class="orange">•</span> Selesai</div>
+  </div>
+</section>
+
+<footer class="bg-[#0D0F11] border-t border-white/10">
+  <div class="mx-auto max-w-[1400px] px-6 lg:px-12 py-10 flex flex-col sm:flex-row items-center justify-between gap-4">
+    <span class="label text-[#F3F0E8]">Corporate Collection</span>
+  </div>
+</footer>
+
+<script>
+  const io = new IntersectionObserver((entries)=>{
+    entries.forEach((e,i)=>{ if(e.isIntersecting){ setTimeout(()=>e.target.classList.add('in'), Math.min(i*80,320)); io.unobserve(e.target);} });
+  },{threshold:0.12, rootMargin:'0px 0px -6% 0px'});
+  document.querySelectorAll('.reveal,.lineGrow').forEach(el=>io.observe(el));
+
+  // Pricing tier toggle
+  const TIERS = {
+    ecer:  { atasan:75, setelan:145, minA:'Bisa pesan mulai 1 pcs', minS:'Bisa pesan mulai 1 set' },
+    lusin: { atasan:65, setelan:120, minA:'Minimal pembelian 12 pcs', minS:'Minimal pembelian 12 set' }
+  };
+  function animateNum(el, to){
+    const from = parseInt(el.textContent,10) || 0;
+    if(from===to){el.textContent=to;return;}
+    const dur=520, t0=performance.now();
+    (function step(t){ const k=Math.min((t-t0)/dur,1); const e=1-Math.pow(1-k,3);
+      el.textContent = Math.round(from+(to-from)*e); if(k<1) requestAnimationFrame(step); })(t0);
+  }
+  const tierBtns = document.querySelectorAll('.tier-btn');
+  tierBtns.forEach(btn=>btn.addEventListener('click',()=>{
+    const t = TIERS[btn.dataset.tier];
+    tierBtns.forEach(b=>{ const on=b===btn; b.setAttribute('aria-selected',on);
+      b.className='tier-btn label px-6 py-3 '+(on?'bg-[#F26A21] text-[#0D0F11]':'text-[#A6A8AA] hover:text-[#F3F0E8]'); });
+    animateNum(document.querySelector('[data-price="atasan"]'), t.atasan);
+    animateNum(document.querySelector('[data-price="setelan"]'), t.setelan);
+    document.querySelector('[data-min="atasan"]').textContent = t.minA;
+    document.querySelector('[data-min="setelan"]').textContent = t.minS;
+  }));
+
+  // FAQ accordion
+  document.querySelectorAll('.faq').forEach(f=>{
+    f.querySelector('button').addEventListener('click',()=>{
+      const open=f.classList.contains('open');
+      document.querySelectorAll('.faq.open').forEach(o=>o.classList.remove('open'));
+      if(!open) f.classList.add('open');
+    });
+  });
+
+  // Testimonial carousel: auto-slide + manual
+  const tc = document.querySelector('[data-tcarousel]');
+  if(tc){
+    const step = () => tc.querySelector('article').offsetWidth + 24;
+    const go = d => tc.scrollBy({left:d*step(), behavior:'smooth'});
+    document.querySelector('[data-tnext]').addEventListener('click',()=>go(1));
+    document.querySelector('[data-tprev]').addEventListener('click',()=>go(-1));
+    let paused=false;
+    tc.addEventListener('pointerenter',()=>paused=true);
+    tc.addEventListener('pointerleave',()=>paused=false);
+    tc.addEventListener('touchstart',()=>paused=true,{passive:true});
+    setInterval(()=>{
+      if(paused||window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+      if(tc.scrollLeft + tc.clientWidth >= tc.scrollWidth - 8) tc.scrollTo({left:0,behavior:'smooth'});
+      else go(1);
+    },4500);
+  }
+
+  // Hero parallax
+  const par = document.querySelector('img[data-parallax]');
+  if(par && !window.matchMedia('(prefers-reduced-motion: reduce)').matches){
+    let ticking=false;
+    window.addEventListener('scroll',()=>{ if(ticking) return; ticking=true;
+      requestAnimationFrame(()=>{ const y=Math.min(window.scrollY,900);
+        par.style.transform='translate3d(0,'+(y*0.05)+'px,0)'; ticking=false; }); },{passive:true});
+  }
+</script>
+
+</body></html>

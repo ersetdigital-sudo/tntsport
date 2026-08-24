@@ -1406,7 +1406,7 @@ export const CATEGORY_LANDINGS: Record<string, CategoryLandingConfig> = {
     headlineSub: "Custom Logo, Nama, Nomor & Sponsor",
     subheadline:
       "Jersey custom untuk perusahaan, instansi, komunitas, dan tim yang ingin tampil kompak dengan identitas sendiri. Bahan dry-fit, full printing, jahitan rapi.",
-    heroImage: "/landing/corporate-collection/af987cf0-5c27-49a2-8a78-60a1078a3ab4.png",
+    heroImage: "https://res.cloudinary.com/dqjh7utdb/image/upload/v1787562493/k3oijzuk0wkv4yguml2d.png",
     heroImageAlt: "Jersey corporate custom tampak depan",
     heroBadge: { kicker: "Custom Available", text: "Logo · Nama · Nomor · Sponsor" },
     trustBar: [
