@@ -603,11 +603,9 @@ export default function JerseyMancingLanding({ products, waNumber }: Props) {
             <div className="card-light p-8 md:p-10 flex flex-col justify-center reveal" style={{ transitionDelay: ".08s" }}>
               <p className="kicker" style={{ color: "var(--ink-soft)" }}>SUDAH TERMASUK</p>
               <ul className="mt-5 space-y-4 text-base md:text-lg" style={{ color: "var(--ink-soft)" }}>
-                <li className="flex gap-3"><span className="check">✓</span> Bahan dry fit premium</li>
-                <li className="flex gap-3"><span className="check">✓</span> Desain fishing eksklusif</li>
-                <li className="flex gap-3"><span className="check">✓</span> Custom nameset GRATIS</li>
-                <li className="flex gap-3"><span className="check">✓</span> Custom logo tim &amp; komunitas GRATIS</li>
-                <li className="flex gap-3"><span className="check">✓</span> Custom logo sponsor GRATIS</li>
+                <li className="flex gap-3"><span className="check">✓</span> Full printing, pilih dari katalog desain</li>
+                <li className="flex gap-3"><span className="check">✓</span> Nama dan nomor punggung</li>
+                <li className="flex gap-3"><span className="check">✓</span> Revisi desain tanpa batas</li>
               </ul>
               <p className="mt-7 pt-6 text-base" style={{ borderTop: "1px solid #E1E9F1", color: "var(--ink-soft)" }}>
                 Order rombongan atau satuan sama-sama bisa. Kirim nama, logo, atau desain kamu — tim kami yang bantu susun.

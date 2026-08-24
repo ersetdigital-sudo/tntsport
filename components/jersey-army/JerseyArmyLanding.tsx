@@ -263,7 +263,10 @@ export default function JerseyArmyLanding({ products, waNumber }: Props) {
                 <div className="p-8 sm:p-10">
                   <p className="cond text-[11px]" style={{ color: "rgba(244,241,232,.55)" }}>Semua sudah termasuk</p>
                   <ul className="mt-6 space-y-3.5 text-[15px]">
-                    {["Bahan dry fit premium", "Full printing & desain bebas", "Nama dan nomor punggung", "Logo tim, komunitas & sponsor", "Revisi desain dibantu"].map((item) => (
+                    {(priceMode === "ecer"
+                      ? ["Full printing, pilih dari katalog desain", "Nama dan nomor punggung", "Revisi desain tanpa batas"]
+                      : ["Bebas desain sendiri atau pilih dari katalog kami", "Nama dan nomor punggung, gratis", "Revisi desain tanpa batas sampai tim kamu puas"]
+                    ).map((item) => (
                       <li key={item} className="flex gap-3"><span className="gold">✓</span> {item}</li>
                     ))}
                   </ul>

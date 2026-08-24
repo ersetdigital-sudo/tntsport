@@ -604,9 +604,12 @@ export default function JerseyRunningLanding({ products, waNumber }: Props) {
               </div>
               <p className="mt-2 text-sm text-[var(--muted)]">{prices[priceMode].labelAtasan}</p>
               <ul className="price-list">
-                <li><span className="tick" aria-hidden="true">✓</span>Full printing, tanpa batas warna</li>
-                <li><span className="tick" aria-hidden="true">✓</span>Nama &amp; nomor start</li>
-                <li><span className="tick" aria-hidden="true">✓</span>Revisi desain tanpa batas</li>
+                {(priceMode === "ecer"
+                  ? ["Full printing, pilih dari katalog desain", "Nama dan nomor punggung", "Revisi desain tanpa batas"]
+                  : ["Bebas desain sendiri atau pilih dari katalog kami", "Nama dan nomor punggung, gratis", "Revisi desain tanpa batas sampai tim kamu puas"]
+                ).map((item) => (
+                  <li key={item}><span className="tick" aria-hidden="true">✓</span>{item}</li>
+                ))}
               </ul>
               <a href={waLink("Halo, saya mau tanya harga jersey running (atasan).")} target="_blank" rel="noopener" className="btn btn-ghost price-cta">Pilih Atasan →</a>
             </article>
@@ -628,9 +631,12 @@ export default function JerseyRunningLanding({ products, waNumber }: Props) {
               </div>
               <p className="mt-2 text-sm text-[var(--muted)]">{prices[priceMode].labelSetelan}</p>
               <ul className="price-list">
-                <li><span className="tick" aria-hidden="true">✓</span>Semua benefit paket atasan</li>
-                <li><span className="tick" aria-hidden="true">✓</span>Celana full custom siap tanding</li>
-                <li><span className="tick" aria-hidden="true">✓</span>Prioritas jadwal produksi</li>
+                {(priceMode === "ecer"
+                  ? ["Semua benefit paket atasan", "Celana full custom siap tanding", "Prioritas jadwal produksi"]
+                  : ["Semua benefit paket atasan lusin", "Celana full custom siap tanding", "Prioritas jadwal produksi + bonus nameset"]
+                ).map((item) => (
+                  <li key={item}><span className="tick" aria-hidden="true">✓</span>{item}</li>
+                ))}
               </ul>
               <a href={waLink("Halo, saya mau tanya harga jersey running (setelan).")} target="_blank" rel="noopener" className="btn btn-primary price-cta">Pilih Setelan →</a>
             </article>

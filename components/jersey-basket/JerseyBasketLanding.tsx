@@ -501,9 +501,12 @@ export default function JerseyBasketLanding({ products, waNumber }: Props) {
                 {priceMode === "ecer" ? "Bisa pesan mulai 1 pcs" : "Minimal pembelian 12 pcs"}
               </p>
               <ul className="mt-7 pt-6 space-y-3 text-[15px] flex-1" style={{ borderTop: "1px solid rgba(255,255,255,.12)" }}>
-                <li className="flex gap-3"><span className="volt-text">✚</span><span style={{ color: "#e7e7ee" }}>Full printing & desain bebas</span></li>
-                <li className="flex gap-3"><span className="volt-text">✚</span><span style={{ color: "#e7e7ee" }}>Nama dan nomor punggung</span></li>
-                <li className="flex gap-3"><span className="volt-text">✚</span><span style={{ color: "#e7e7ee" }}>Revisi desain tanpa batas</span></li>
+                {(priceMode === "ecer"
+                  ? ["Full printing, pilih dari katalog desain", "Nama dan nomor punggung", "Revisi desain tanpa batas"]
+                  : ["Bebas desain sendiri atau pilih dari katalog kami", "Nama dan nomor punggung, gratis", "Revisi desain tanpa batas sampai tim kamu puas"]
+                ).map((item) => (
+                  <li key={item} className="flex gap-3"><span className="volt-text">✚</span><span style={{ color: "#e7e7ee" }}>{item}</span></li>
+                ))}
               </ul>
               <div className="mt-auto pt-8">
                 <a href={buildWA("Halo TNT SPORT APPAREL, saya mau pesan Jersey Atasan saja (basket). Minta info lengkapnya dong!")} target="_blank" rel="noopener" className="btn btn-ghost w-full text-base py-4">Pilih Atasan</a>
@@ -528,9 +531,12 @@ export default function JerseyBasketLanding({ products, waNumber }: Props) {
                 {priceMode === "ecer" ? "Bisa pesan mulai 1 set" : "Minimal pembelian 12 set"}
               </p>
               <ul className="mt-7 pt-6 space-y-3 text-[15px] flex-1" style={{ borderTop: "1px solid rgba(255,255,255,.12)" }}>
-                <li className="flex gap-3"><span className="volt-text">✚</span><span style={{ color: "#e7e7ee" }}>Semua benefit paket atasan</span></li>
-                <li className="flex gap-3"><span className="volt-text">✚</span><span style={{ color: "#e7e7ee" }}>Celana full custom siap tanding</span></li>
-                <li className="flex gap-3"><span className="volt-text">✚</span><span style={{ color: "#e7e7ee" }}>Prioritas jadwal produksi</span></li>
+                {(priceMode === "ecer"
+                  ? ["Semua benefit paket atasan", "Celana full custom siap tanding", "Prioritas jadwal produksi"]
+                  : ["Semua benefit paket atasan lusin", "Celana full custom siap tanding", "Prioritas jadwal produksi + bonus nameset"]
+                ).map((item) => (
+                  <li key={item} className="flex gap-3"><span className="volt-text">✚</span><span style={{ color: "#e7e7ee" }}>{item}</span></li>
+                ))}
               </ul>
               <div className="mt-auto pt-8">
                 <a href={buildWA("Halo TNT SPORT APPAREL, saya mau pesan Jersey Setelan atasan + celana (basket). Minta info lengkapnya dong!")} target="_blank" rel="noopener" className="btn btn-volt w-full text-base py-4">Pilih Setelan</a>

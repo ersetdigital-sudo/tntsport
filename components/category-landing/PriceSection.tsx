@@ -113,7 +113,7 @@ export function PriceSection({ atasan, setelan, bulk, waAtasan, waSetelan, waBul
             </p>
 
             <ul className="mt-7 pt-6 border-t border-white/10 space-y-3 text-[15px] flex-1">
-              {card.points.map((p) => (
+              {(card.pointsByMode?.[mode] ?? card.points).map((p) => (
                 <li key={p} className="flex gap-3">
                   <span className="text-[#ff6b00]" aria-hidden="true">✓</span>
                   <span className="text-white/80">{p}</span>
