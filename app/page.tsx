@@ -77,6 +77,11 @@ function buildJsonLd(brand: Brand, socialLinks: SocialLink[], reviews: Review[])
         position: index + 1,
         item: {
           "@type": "Review",
+          itemReviewed: {
+            "@type": "Product",
+            name: "Jersey Custom Full Printing",
+            url: brand.url,
+          },
           reviewBody: review.quote,
           author: { "@type": "Person", name: review.name },
           reviewRating: {

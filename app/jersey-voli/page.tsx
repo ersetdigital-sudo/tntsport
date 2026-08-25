@@ -72,6 +72,11 @@ function buildJsonLd(brandName: string, brandUrl: string, reviews: { quote: stri
         position: index + 1,
         item: {
           "@type": "Review",
+          itemReviewed: {
+            "@type": "Product",
+            name: "Jersey Voli Custom",
+            url: "https://www.tntsportapparel.id/jersey-voli",
+          },
           reviewBody: review.quote,
           author: { "@type": "Person", name: review.name },
           reviewRating: {

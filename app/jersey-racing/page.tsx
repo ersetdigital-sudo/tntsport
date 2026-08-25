@@ -121,18 +121,33 @@ function buildJsonLd(brandName: string, brandUrl: string) {
       review: [
         {
           "@type": "Review",
+          itemReviewed: {
+            "@type": "Product",
+            name: "Jersey Racing Custom",
+            url: "https://www.tntsportapparel.id/jersey-racing",
+          },
           reviewBody: "Jersey dari TNT Sport benar-benar beda kualitasnya. Bahan adem, printing tajam.",
           author: { "@type": "Person", name: "Andri" },
           reviewRating: { "@type": "Rating", ratingValue: 5, bestRating: 5 },
         },
         {
           "@type": "Review",
+          itemReviewed: {
+            "@type": "Product",
+            name: "Jersey Racing Custom",
+            url: "https://www.tntsportapparel.id/jersey-racing",
+          },
           reviewBody: "Kami pesan untuk tim drag race — warnanya bold, nama dan nomor start terlihat jelas.",
           author: { "@type": "Person", name: "Rizky" },
           reviewRating: { "@type": "Rating", ratingValue: 5, bestRating: 5 },
         },
         {
           "@type": "Review",
+          itemReviewed: {
+            "@type": "Product",
+            name: "Jersey Racing Custom",
+            url: "https://www.tntsportapparel.id/jersey-racing",
+          },
           reviewBody: "Order satuan dulu buat tes, hasilnya langsung oke. Sekarang tim kami sudah pesan ulang.",
           author: { "@type": "Person", name: "Dimas" },
           reviewRating: { "@type": "Rating", ratingValue: 5, bestRating: 5 },
