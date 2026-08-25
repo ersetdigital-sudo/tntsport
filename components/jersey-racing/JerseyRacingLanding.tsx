@@ -710,10 +710,14 @@ export default function JerseyRacingLanding({ products, waNumber }: Props) {
               <p className="display" style={{ fontSize: "clamp(1.5rem,3.6vw,2rem)", marginBottom: "1.25rem" }}>Jersey Setelan</p>
               <p className="flex items-baseline gap-2 mb-2">
                 <span className="cond font-bold text-lg" style={{ color: "var(--yellow)" }}>Rp</span>
-                <span className="display leading-none" style={{ fontSize: "clamp(2.6rem,7vw,3.6rem)", color: "var(--yellow)" }}>145RB</span>
+                <span key={priceMode + "-setelan"} className="display leading-none" style={{ fontSize: "clamp(2.6rem,7vw,3.6rem)", color: "var(--yellow)" }}>
+                  {priceMode === "ecer" ? "145RB" : "125RB"}
+                </span>
                 <span className="cond font-bold text-base" style={{ color: "#8e97a6" }}>/set</span>
               </p>
-              <p className="mb-7" style={{ fontSize: ".92rem", color: "#8e97a6" }}>Minimal pembelian 12 set</p>
+              <p key={priceMode + "-setelan-note"} className="mb-7" style={{ fontSize: ".92rem", color: "#8e97a6" }}>
+                {priceMode === "ecer" ? "Mau desain custom sendiri? Order minimal 6 pcs" : "Minimal pembelian 12 set"}
+              </p>
               <ul className="mb-9 flex-1 pt-6" style={{ borderTop: "1px solid rgba(255,255,255,.1)" }}>
                 {["Full printing, pilih dari katalog desain", "Nama dan nomor punggung", "Revisi desain tanpa batas", "Bahan dry-fit standar liga pro, nyaman dan tidak bau", "Printing sublime, warna cerah dan tahan bertahun-tahun", "Celana non printing"].map((f, i) => (
                   <li key={i} className="flex gap-3 items-start mb-3.5">
