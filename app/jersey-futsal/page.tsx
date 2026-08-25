@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { CategoryLanding } from "@/components/category-landing/CategoryLanding";
 import { CATEGORY_LANDINGS, getCategoryLanding } from "@/lib/category-landing";
 import { CATALOG_PRODUCTS } from "@/lib/products";
-import { getBrand, getCatalogData, getKatalogTestimonials } from "@/lib/queries";
+import { getBrand, getCatalogData, getFabrics, getKatalogTestimonials } from "@/lib/queries";
 
 export const revalidate = 3600;
 
@@ -107,10 +107,11 @@ function buildJsonLd(brandName: string, brandUrl: string, reviews: { quote: stri
 
 export default async function JerseyFutsalPage() {
   const cfg = getCategoryLanding(config.slug)!;
-  const [brand, catalogData, dbTestimonials] = await Promise.all([
+  const [brand, catalogData, dbTestimonials, fabrics] = await Promise.all([
     getBrand(),
     getCatalogData(),
     getKatalogTestimonials(),
+    getFabrics(),
   ]);
 
   const category = catalogData?.find((c) => c.id === cfg.catalogId);
@@ -144,6 +145,7 @@ export default async function JerseyFutsalPage() {
         products={products}
         testimonials={testimonials}
         waNumber={brand.whatsappNumber || "628115491117"}
+        fabrics={fabrics}
       />
     </>
   );

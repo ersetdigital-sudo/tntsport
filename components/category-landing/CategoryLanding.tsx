@@ -9,8 +9,10 @@ import { PriceSection } from "@/components/category-landing/PriceSection";
 import { ScrollReveal } from "@/components/category-landing/ScrollReveal";
 import { TestimonialCarousel } from "@/components/category-landing/TestimonialCarousel";
 import { GalleryMarquee } from "@/components/category-landing/GalleryMarquee";
+import { FabricCatalog } from "@/components/FabricCatalog";
 import { buildWhatsAppLink } from "@/lib/wa";
 import type { CategoryLandingConfig, LandingTestimonial } from "@/lib/category-landing";
+import type { Fabric } from "@/lib/types";
 
 const PageViewTracker = dynamic(() => import("@/components/PageViewTracker").then(m => m.PageViewTracker));
 const ViewContentTracker = dynamic(() => import("@/components/ViewContentTracker").then(m => m.ViewContentTracker));
@@ -76,9 +78,10 @@ interface Props {
   products: GridProduct[];
   testimonials: LandingTestimonial[];
   waNumber: string;
+  fabrics?: Fabric[];
 }
 
-export function CategoryLanding({ config, products, testimonials, waNumber }: Props) {
+export function CategoryLanding({ config, products, testimonials, waNumber, fabrics }: Props) {
   const wa = (msg: string) => buildWhatsAppLink(waNumber, msg);
   const waOrder = wa(config.wa.order);
   const waPromo = wa(config.wa.promo);
@@ -404,6 +407,60 @@ export function CategoryLanding({ config, products, testimonials, waNumber }: Pr
           </div>
         </section>
 
+        {/* ================= KATALOG DESAIN ================= */}
+        <section id="desain" className="py-20 md:py-28">
+          <div className="max-w-6xl mx-auto px-5">
+            <div className="max-w-3xl reveal">
+              <p className="kicker text-[11px] text-[#ff9d2e] mb-4">Katalog Desain</p>
+              <h2 className="display text-3xl sm:text-5xl">
+                {config.catalog.designsHeadline.slice(0, -1).map((line) => (
+                  <span key={line} className="block">{line}</span>
+                ))}
+                <span className="fire-text block">{config.catalog.designsHeadline[config.catalog.designsHeadline.length - 1]}</span>
+              </h2>
+              <p className="mt-5 text-[#9aa1ad] text-base sm:text-lg leading-relaxed">{config.catalog.designsSub}</p>
+            </div>
+
+            <CategoryDesignGrid
+              products={products}
+              waNumber={waNumber}
+              waMessageTemplate={config.wa.designTemplate}
+            />
+
+            <div className="mt-10 flex flex-col sm:flex-row items-center justify-center gap-x-7 gap-y-4 reveal">
+              <WhatsAppLeadLink
+                href={waOrder}
+                label={`Pesan Desain — ${config.eyebrow}`}
+                className="btn-fire rounded-full px-7 py-4 font-bold text-white text-center cursor-pointer"
+              >
+                {config.catalog.designsCta} →
+              </WhatsAppLeadLink>
+              <p className="text-sm text-[#9aa1ad] text-center">{config.catalog.designsFootnote}</p>
+            </div>
+          </div>
+        </section>
+
+        {/* ================= PILIHAN BAHAN ================= */}
+        {fabrics && fabrics.length > 0 && (
+          <section id="bahan" className="py-20 md:py-28 bg-[#0f1115] border-y border-white/10">
+            <div className="max-w-6xl mx-auto px-5">
+              <div className="max-w-3xl reveal">
+                <p className="kicker text-[11px] text-[#ff9d2e] mb-4">Pilihan Bahan</p>
+                <h2 className="display text-3xl sm:text-5xl">
+                  Pilih bahannya.
+                  <br />
+                  <span className="fire-text">Rasakan bedanya.</span>
+                </h2>
+                <p className="mt-5 text-[#9aa1ad] text-base sm:text-lg leading-relaxed">
+                  Semua bahan bisa dikombinasikan dengan desain custom apa pun. Konsultasi gratis — tim kami bantu pilihkan yang paling pas.
+                </p>
+              </div>
+
+              <FabricCatalog fabrics={fabrics} waNumber={waNumber} />
+            </div>
+          </section>
+        )}
+
         {/* ================= HARGA ================= */}
         <section id="harga" className="py-20 md:py-28 relative overflow-hidden">
           <div className="absolute inset-0 -z-10">
@@ -439,39 +496,6 @@ export function CategoryLanding({ config, products, testimonials, waNumber }: Pr
               waBulk={buildWhatsAppLink(waNumber, config.wa.bulk)}
               eyebrowAtasan={config.eyebrow}
             />
-          </div>
-        </section>
-
-        {/* ================= KATALOG DESAIN ================= */}
-        <section id="desain" className="py-20 md:py-28">
-          <div className="max-w-6xl mx-auto px-5">
-            <div className="max-w-3xl reveal">
-              <p className="kicker text-[11px] text-[#ff9d2e] mb-4">Katalog Desain</p>
-              <h2 className="display text-3xl sm:text-5xl">
-                {config.catalog.designsHeadline.slice(0, -1).map((line) => (
-                  <span key={line} className="block">{line}</span>
-                ))}
-                <span className="fire-text block">{config.catalog.designsHeadline[config.catalog.designsHeadline.length - 1]}</span>
-              </h2>
-              <p className="mt-5 text-[#9aa1ad] text-base sm:text-lg leading-relaxed">{config.catalog.designsSub}</p>
-            </div>
-
-            <CategoryDesignGrid
-              products={products}
-              waNumber={waNumber}
-              waMessageTemplate={config.wa.designTemplate}
-            />
-
-            <div className="mt-10 flex flex-col sm:flex-row items-center justify-center gap-x-7 gap-y-4 reveal">
-              <WhatsAppLeadLink
-                href={waOrder}
-                label={`Pesan Desain — ${config.eyebrow}`}
-                className="btn-fire rounded-full px-7 py-4 font-bold text-white text-center cursor-pointer"
-              >
-                {config.catalog.designsCta} →
-              </WhatsAppLeadLink>
-              <p className="text-sm text-[#9aa1ad] text-center">{config.catalog.designsFootnote}</p>
-            </div>
           </div>
         </section>
 
