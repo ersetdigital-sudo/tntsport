@@ -571,13 +571,6 @@ export default function JerseyBasketLanding({ products, waNumber }: Props) {
             </article>
           </div>
 
-          {/* Ecer Footnote */}
-          {priceMode === "ecer" && (
-            <p className="mt-4 text-center text-xs" style={{ color: "#8c8c99" }}>
-              Mau desain custom sendiri? Order minimal 6 pcs
-            </p>
-          )}
-
           {/* Bulk */}
           <div className="mt-5 bulk-strip flex flex-col sm:flex-row sm:items-center justify-between gap-5 p-7 sm:px-9 reveal">
             <div>

@@ -753,12 +753,6 @@ export default function JerseyRacingLanding({ products, waNumber }: Props) {
             </a>
           </div>
 
-          {/* Ecer Footnote */}
-          {priceMode === "ecer" && (
-            <p className="rv mt-4 text-center text-xs" style={{ color: "#8e97a6" }}>
-              Mau desain custom sendiri? Order minimal 6 pcs
-            </p>
-          )}
         </div>
       </section>
 

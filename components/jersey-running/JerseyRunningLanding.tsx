@@ -680,12 +680,6 @@ export default function JerseyRunningLanding({ products, waNumber }: Props) {
             <a href={waLink("Halo, saya mau tanya harga khusus bulk 50+ pcs jersey running.")} target="_blank" rel="noopener" className="btn btn-ghost shrink-0 px-6 py-3">Minta Harga Khusus →</a>
           </div>
 
-          {/* Ecer Footnote */}
-          {priceMode === "ecer" && (
-            <p className="reveal mt-4 text-center text-xs" style={{ color: "var(--ink-soft)" }}>
-              Mau desain custom sendiri? Order minimal 6 pcs
-            </p>
-          )}
         </div>
       </section>
 
