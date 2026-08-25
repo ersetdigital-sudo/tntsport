@@ -127,7 +127,7 @@ function Lightbox({
         <img
           src={item.image}
           alt={item.alt}
-          className="max-h-[80vh] w-auto rounded-lg object-contain shadow-2xl"
+          className="max-h-[80vh] w-auto rounded-2xl object-contain shadow-2xl"
         />
         <div className="mt-4 text-center">
           <span className="fc-label text-[11px]" style={{ color: "var(--fc-green)" }}>{item.code}</span>
@@ -325,24 +325,24 @@ export function FantasyClubLanding({ products, waNumber }: { products: FantasyCl
                 onClick={() => openZoom(i)}
                 className={`fc-card fc-reveal group block text-left cursor-pointer ${i % 2 === 1 ? "md:mt-12" : ""}`}
               >
-                <div className="fc-frame relative overflow-hidden rounded-xl" style={{ background: "var(--fc-black)" }}>
-                  <div className="aspect-[4/5] overflow-hidden">
+                <div className="fc-frame relative overflow-hidden rounded-2xl border border-white/[0.06]" style={{ background: "#1a1c1e" }}>
+                  <div className="aspect-[4/5] overflow-hidden p-4">
                     {/* eslint-disable-next-line @next/next/no-img-element */}
                     <img
                       src={item.image}
                       alt={item.alt}
-                      className="w-full h-full object-cover"
+                      className="w-full h-full object-contain drop-shadow-lg transition-transform duration-700 group-hover:scale-105"
                       loading="lazy"
                     />
                   </div>
                   {/* Hover overlay */}
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 rounded-2xl" />
                   <div className="absolute bottom-0 left-0 right-0 p-4 translate-y-4 group-hover:translate-y-0 opacity-0 group-hover:opacity-100 transition-all duration-500">
                     <span className="fc-label text-[10px]" style={{ color: "var(--fc-green)" }}>KLIK UNTUK ZOOM →</span>
                   </div>
                 </div>
                 <div className="mt-3 px-1">
-                  <div className="fc-label text-[10px] md:text-[11px]" style={{ color: "var(--fc-green)" }}>{item.code}</div>
+                  <div className="fc-label text-[10px] md:text-[11px] tracking-wider" style={{ color: "var(--fc-green)" }}>{item.code}</div>
                   <div className="fc-cname fc-display text-[14px] md:text-[16px] mt-1 leading-tight">{item.name}</div>
                 </div>
               </button>
