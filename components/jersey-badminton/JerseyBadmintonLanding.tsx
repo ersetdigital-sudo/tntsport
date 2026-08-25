@@ -495,6 +495,32 @@ export function JerseyBadmintonLanding({ products, waNumber }: Props) {
         )}
       </section>
 
+      {/* ===== BAHAN KAIN ===== */}
+      <section id="bahan" style={{ position: "relative", padding: "80px 0", background: "rgba(8,11,16,.6)", borderTop: "1px solid rgba(255,255,255,.08)", borderBottom: "1px solid rgba(255,255,255,.08)" }}>
+        <div style={{ maxWidth: 1280, margin: "0 auto", padding: "0 20px" }}>
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(320px, 1fr))", gap: 48, alignItems: "center" }}>
+            <div className="reveal">
+              <p className="eyebrow" style={{ fontSize: 11, color: "#00A8FF", marginBottom: 16 }}>Bahan Kain</p>
+              <h2 className="dspl" style={{ fontSize: "clamp(2rem, 5vw, 3.5rem)", lineHeight: 1.05 }}>
+                Dry-Fit Berkualitas,<br />
+                Standar <span style={{ color: "#00A8FF" }}>Liga Pro.</span>
+              </h2>
+            </div>
+            <div className="reveal">
+              <p style={{ fontSize: 15, color: "#D9DEE7", lineHeight: 1.7, marginBottom: 32 }}>
+                Bahan kain yang digunakan dry-fit yang berkualitas dan sudah standar liga pro, nyaman dan tidak bau.
+              </p>
+              <div style={{ height: 1, background: "rgba(255,255,255,.12)", marginBottom: 32 }} />
+              <div style={{ display: "flex", flexWrap: "wrap", gap: 16 }}>
+                <span className="eyebrow" style={{ fontSize: 11, color: "rgba(217,222,231,.80)" }}>Nyaman Dipakai</span>
+                <span className="eyebrow" style={{ fontSize: 11, color: "rgba(217,222,231,.80)" }}>Tidak Bau</span>
+                <span className="eyebrow" style={{ fontSize: 11, color: "rgba(217,222,231,.80)" }}>Standar Liga Pro</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* ===== HARGA ===== */}
       <section id="harga" style={{ position: "relative", padding: "80px 0", overflow: "hidden" }}>
         <div className="hero-glow g1" style={{ opacity: 0.45, right: "-24%", top: "8%" }} />
@@ -542,6 +568,12 @@ export function JerseyBadmintonLanding({ products, waNumber }: Props) {
               ))}
             </ul>
           </div>
+
+          {priceMode === "ecer" && (
+            <p className="reveal eyebrow" style={{ fontSize: 10, color: "rgba(217,222,231,.55)", marginTop: 32, textAlign: "center" }}>
+              Mau desain custom sendiri? Order minimal 6 pcs
+            </p>
+          )}
 
           {/* spec rail */}
           <div className="reveal" style={{ marginTop: 48, display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 40 }}>
