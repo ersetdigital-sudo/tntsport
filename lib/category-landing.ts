@@ -500,7 +500,7 @@ export const CATEGORY_LANDINGS: Record<string, CategoryLandingConfig> = {
     },
     pricing: {
       headline: "Pilih Paket ",
-      headlineAccent: "Tim Voli Kamu",
+        headlineAccent: "Tim Voli Kamu",
       sub: "Pilih jumlah pembelian, harga akan menyesuaikan otomatis.",
       atasan: {
         kicker: "Jersey Atasan",
@@ -508,7 +508,7 @@ export const CATEGORY_LANDINGS: Record<string, CategoryLandingConfig> = {
         name: "Atasan Saja",
         unit: "/pcs",
         prices: { ecer: "75rb", lusin: "65rb" },
-        notes: { ecer: "Bisa pesan mulai 1 pcs", lusin: "Minimal pembelian 12 pcs" },
+        notes: { ecer: "Mau desain custom sendiri? Order minimal 6 pcs", lusin: "Minimal pembelian 12 pcs" },
         points: [
           "Full printing, pilih dari katalog desain",
           "Nama dan nomor punggung",
@@ -540,7 +540,7 @@ export const CATEGORY_LANDINGS: Record<string, CategoryLandingConfig> = {
         name: "Jersey Setelan",
         unit: "/set",
         prices: { ecer: "145rb", lusin: "120rb" },
-        notes: { ecer: "Bisa pesan mulai 1 set", lusin: "Minimal pembelian 12 set" },
+        notes: { ecer: "Mau desain custom sendiri? Order minimal 6 pcs", lusin: "Minimal pembelian 12 set" },
         points: [
           "Full printing, pilih dari katalog desain",
           "Nama dan nomor punggung",
