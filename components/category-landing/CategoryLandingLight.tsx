@@ -360,6 +360,11 @@ function PriceSection({ atasan, setelan, bulk, waAtasan, waSetelan, waBulk, eyeb
           </article>
         ))}
       </div>
+      {mode === "ecer" && (
+        <p className="mt-4 text-center text-xs sm:text-sm reveal" style={{ color: "var(--muted)" }}>
+          Mau desain custom sendiri? Order minimal 6 pcs
+        </p>
+      )}
       <div className="mt-5 card rounded-3xl px-5 py-5 sm:px-9 sm:py-7 flex flex-col sm:flex-row sm:items-center justify-between gap-5 reveal" style={{ borderColor: "rgba(10,104,224,.3)" }}>
         <div>
           <h3 className="display text-2xl sm:text-4xl">{bulk.headline}<span className="blue-text">{bulk.accent}</span></h3>
