@@ -1,8 +1,18 @@
+import Link from "next/link";
 import type { Brand } from "@/lib/types";
 
-/**
- * Footer — modern minimal footer for the landing page bio-link card.
- */
+const LANDING_LINKS = [
+  { href: "/jersey-futsal", label: "Jersey Futsal" },
+  { href: "/jersey-voli", label: "Jersey Voli" },
+  { href: "/jersey-basket", label: "Jersey Basket" },
+  { href: "/jersey-racing", label: "Jersey Racing" },
+  { href: "/jersey-running", label: "Jersey Running" },
+  { href: "/jersey-mancing", label: "Jersey Mancing" },
+  { href: "/jersey-army", label: "Jersey Army" },
+  { href: "/jersey-badminton", label: "Jersey Badminton" },
+  { href: "/corporate-collection", label: "Corporate Collection" },
+];
+
 export function Footer({ brand }: { brand: Brand }) {
   const year = new Date().getFullYear();
 
@@ -18,6 +28,19 @@ export function Footer({ brand }: { brand: Brand }) {
           <p className="max-w-xs text-xs leading-relaxed text-charcoal">
             Tempat bikin jersey futsal custom. Desain bebas, harga pabrik, kirim se-Indonesia.
           </p>
+        </div>
+
+        {/* Landing page links */}
+        <div className="mt-6 flex flex-wrap justify-center gap-x-3 gap-y-1.5">
+          {LANDING_LINKS.map((link) => (
+            <Link
+              key={link.href}
+              href={link.href}
+              className="text-[11px] text-charcoal transition hover:text-primary hover:underline"
+            >
+              {link.label}
+            </Link>
+          ))}
         </div>
       </div>
 
