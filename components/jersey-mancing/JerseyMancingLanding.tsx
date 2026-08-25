@@ -566,6 +566,30 @@ export default function JerseyMancingLanding({ products, waNumber }: Props) {
         )}
       </section>
 
+      {/* ===== 9.5 BAHAN KAIN ===== */}
+      <section style={{ background: "var(--gray)" }}>
+        <div className="mx-auto max-w-5xl px-6 py-20 md:py-28">
+          <div className="text-center reveal">
+            <p className="kicker" style={{ color: "var(--cyan)" }}>Material</p>
+            <div className="rule mx-auto mt-4 mb-6" />
+            <h2 className="text-3xl md:text-4xl lg:text-5xl" style={{ color: "var(--navy-deep)" }}>Bahan Kain Premium</h2>
+            <p className="mt-4 text-base md:text-lg" style={{ color: "var(--ink-soft)" }}>Kami hanya menggunakan bahan kain terbaik untuk jersey mancing Anda</p>
+          </div>
+          <div className="mt-12 flex flex-wrap justify-center gap-3">
+            {[
+              { name: "Nyaman Dipakai", desc: "Lembut di kulit, tidak gatal" },
+              { name: "Tidak Bau", desc: "Anti bakteri, tetap segar" },
+              { name: "Standar Liga Pro", desc: "Kualitas yang dipakai atlet profesional" },
+            ].map((item) => (
+              <div key={item.name} className="card-dark p-5 text-center reveal" style={{ minWidth: "180px" }}>
+                <p className="display text-lg" style={{ color: "var(--orange-bright)" }}>{item.name}</p>
+                <p className="mt-2 text-sm" style={{ color: "var(--ink-soft)" }}>{item.desc}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
       {/* ===== 10. HARGA ===== */}
       <section id="harga" style={{ background: "var(--gray)" }}>
         <div className="mx-auto max-w-5xl px-6 py-20 md:py-28">

@@ -480,6 +480,34 @@ export default function JerseyRacingLanding({ products, waNumber }: Props) {
         </div>
       </section>
 
+      {/* ===== 3.6 BAHAN KAIN ===== */}
+      <section className="bg-[var(--ink-2)] slash-both speedlines">
+        <div className="mx-auto max-w-7xl px-5 sm:px-8 py-16 sm:py-24">
+          <div className="text-center max-w-2xl mx-auto rv">
+            <p className="kicker">Material</p>
+            <h2 className="display mt-4" style={{ fontSize: "clamp(1.9rem,4.8vw,3.4rem)" }}>
+              Bahan Kain{" "}
+              <span style={{ color: "var(--red-hot)" }}>Premium</span>
+            </h2>
+            <p className="mt-5 text-base sm:text-lg leading-relaxed" style={{ color: "#9aa2b1" }}>
+              Kami hanya menggunakan bahan kain terbaik untuk jersey racing Anda
+            </p>
+          </div>
+          <div className="mt-12 flex flex-wrap justify-center gap-3">
+            {[
+              { name: "Nyaman Dipakai", desc: "Lembut di kulit, tidak gatal" },
+              { name: "Tidak Bau", desc: "Anti bakteri, tetap segar" },
+              { name: "Standar Liga Pro", desc: "Kualitas yang dipakai atlet profesional" },
+            ].map((item) => (
+              <div key={item.name} className="card rounded-lg p-5 text-center rv" style={{ minWidth: "180px" }}>
+                <p className="cond font-bold text-sm" style={{ color: "#d3d8e1" }}>{item.name}</p>
+                <p className="mt-2 text-xs" style={{ color: "#8e97a6" }}>{item.desc}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
       {/* ===== 4. DETAIL CUSTOMIZATION ===== */}
       <section id="custom" className="relative py-12 sm:py-20 lg:py-28 bg-[var(--ink-2)] slash-both speedlines">
         <div className="mx-auto max-w-7xl px-5 sm:px-8 pt-6 sm:pt-8">
@@ -724,6 +752,13 @@ export default function JerseyRacingLanding({ products, waNumber }: Props) {
               Minta Harga Khusus →
             </a>
           </div>
+
+          {/* Ecer Footnote */}
+          {priceMode === "ecer" && (
+            <p className="rv mt-4 text-center text-xs" style={{ color: "#8e97a6" }}>
+              Mau desain custom sendiri? Order minimal 6 pcs
+            </p>
+          )}
         </div>
       </section>
 

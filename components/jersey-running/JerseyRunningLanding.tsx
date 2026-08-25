@@ -479,6 +479,33 @@ export default function JerseyRunningLanding({ products, waNumber }: Props) {
         </div>
       </section>
 
+      {/* ===== 5.5 BAHAN KAIN ===== */}
+      <section className="relative border-y border-[var(--line)] bg-[var(--ink-2)] py-20 sm:py-24 lg:py-28">
+        <div className="absolute inset-0 tex-speed-soft" aria-hidden="true" />
+        <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+          <div className="reveal max-w-2xl text-center mx-auto">
+            <p className="kicker">Material</p>
+            <h2 className="mt-3 font-display text-3xl leading-tight sm:text-4xl lg:text-[2.75rem]">Bahan Kain <span className="text-[var(--accent)]">Premium</span></h2>
+            <div className="rule-accent mt-5" />
+            <p className="mt-5 text-base sm:text-lg" style={{ color: "var(--ink-soft)" }}>
+              Kami hanya menggunakan bahan kain terbaik untuk jersey running Anda
+            </p>
+          </div>
+          <div className="mt-12 flex flex-wrap justify-center gap-3">
+            {[
+              { name: "Nyaman Dipakai", desc: "Lembut di kulit, tidak gatal" },
+              { name: "Tidak Bau", desc: "Anti bakteri, tetap segar" },
+              { name: "Standar Liga Pro", desc: "Kualitas yang dipakai atlet profesional" },
+            ].map((item) => (
+              <div key={item.name} className="card p-5 text-center reveal" style={{ minWidth: "180px" }}>
+                <p className="font-display text-base">{item.name}</p>
+                <p className="mt-2 text-sm" style={{ color: "var(--ink-soft)" }}>{item.desc}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
       {/* ===== 6. DETAIL CUSTOMIZATION ===== */}
       <section id="kustomisasi" className="relative border-y border-[var(--line)] bg-[var(--ink-2)] py-20 sm:py-24 lg:py-28">
         <div className="absolute inset-0 tex-speed-soft" aria-hidden="true" />
@@ -652,6 +679,13 @@ export default function JerseyRunningLanding({ products, waNumber }: Props) {
             </div>
             <a href={waLink("Halo, saya mau tanya harga khusus bulk 50+ pcs jersey running.")} target="_blank" rel="noopener" className="btn btn-ghost shrink-0 px-6 py-3">Minta Harga Khusus →</a>
           </div>
+
+          {/* Ecer Footnote */}
+          {priceMode === "ecer" && (
+            <p className="reveal mt-4 text-center text-xs" style={{ color: "var(--ink-soft)" }}>
+              Mau desain custom sendiri? Order minimal 6 pcs
+            </p>
+          )}
         </div>
       </section>
 
@@ -840,9 +874,8 @@ export default function JerseyRunningLanding({ products, waNumber }: Props) {
             <a href="#top" className="font-kicker text-xs uppercase tracking-[0.16em] text-[var(--muted-2)] hover:text-[var(--accent-deep)] transition-colors">Kembali ke atas ↑</a>
           </div>
         </div>
-      </footer>
 
-      {/* ===== Floating WhatsApp ===== */}
+      </footer>
       <a
         href={waLink("Halo TNT Sport Apparel, saya mau tanya jersey running custom.")}
         target="_blank"

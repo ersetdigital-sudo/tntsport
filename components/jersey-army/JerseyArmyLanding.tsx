@@ -221,7 +221,85 @@ export default function JerseyArmyLanding({ products, waNumber }: Props) {
         </div>
       </section>
 
-      {/* ===== 6. HARGA ===== */}
+      {/* ===== 6. KATALOG ===== */}
+      <section id="katalog" className="py-14 sm:py-24 lg:py-32" style={{ borderTop: "1px solid rgba(181,155,91,.15)", background: "linear-gradient(180deg,rgba(25,53,36,.28),transparent)" }}>
+        <div className="max-w-6xl mx-auto px-5">
+          <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-6 fadeup">
+            <div>
+              <p className="cond text-xs gold mb-4">Katalog</p>
+              <h2 className="display text-3xl sm:text-5xl lg:text-6xl">20 DESAIN ARMY<br /><span className="gold">SIAP CUSTOM</span></h2>
+            </div>
+            <p className="cond text-xs sm:text-right max-w-xs" style={{ color: "rgba(244,241,232,.6)" }}>Klik desain untuk melihat detail lebih besar</p>
+          </div>
+
+          <div className="mt-12 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+            {products.map((p, i) => (
+              <button key={p.id} className="tile fadeup" onClick={() => setCatalogActive(i)}>
+                {p.image.includes("placeholder") ? (
+                  <div className="ph jersey-ph w-full aspect-[4/5]" data-code={p.catalogue} />
+                ) : (
+                  <img src={p.image} alt={p.alt} className="cat-img w-full aspect-[4/5] object-cover" loading="lazy" />
+                )}
+                <div className="meta">
+                  <span className="cond text-[11px]">{p.catalogue}</span>
+                  <span className="zoom cond text-[11px] gold">Lihat ↗</span>
+                </div>
+              </button>
+            ))}
+          </div>
+
+          <p className="mt-10 text-center fadeup" style={{ color: "rgba(244,241,232,.6)" }}>
+            Belum ketemu yang pas? <a href="#cta" className="gold underline underline-offset-4">Minta rekomendasi desain</a>
+          </p>
+        </div>
+
+        {/* Catalog Lightbox */}
+        {catalogActive !== null && products[catalogActive] && (
+          <div className="fixed inset-0 z-[60] flex items-center justify-center p-4" style={{ background: "rgba(4,6,5,.88)", backdropFilter: "blur(4px)" }} onClick={() => setCatalogActive(null)} role="dialog" aria-modal="true">
+            <div className="relative w-full max-w-lg" style={{ background: "var(--black)", border: "1px solid rgba(181,155,91,.35)" }} onClick={(e) => e.stopPropagation()}>
+              <button onClick={() => setCatalogActive(null)} aria-label="Tutup" className="absolute -top-3 -right-3 w-10 h-10 text-xl leading-none flex items-center justify-center rounded-full transition" style={{ background: "var(--cream)", color: "var(--black)" }}>×</button>
+              {products[catalogActive].image.includes("placeholder") ? (
+                <div className="ph jersey-ph w-full aspect-square" data-code={products[catalogActive].catalogue} />
+              ) : (
+                <img src={products[catalogActive].image} alt={products[catalogActive].alt} className="w-full aspect-square object-cover" />
+              )}
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 p-6" style={{ borderTop: "1px solid rgba(181,155,91,.25)" }}>
+                <div>
+                  <p className="cond text-sm">{products[catalogActive].catalogue}</p>
+                  <p className="text-sm" style={{ color: "rgba(244,241,232,.6)" }}>Army Collection</p>
+                </div>
+                <a href={wa(`Halo, saya tertarik desain ${products[catalogActive].catalogue} di kategori Jersey Army.`)} target="_blank" rel="noopener" className="btn"><span>Order Sekarang</span><span className="ico" aria-hidden="true">↗</span></a>
+              </div>
+            </div>
+          </div>
+        )}
+      </section>
+
+      {/* ===== 6.5 BAHAN KAIN ===== */}
+      <section className="py-14 sm:py-24 lg:py-32" style={{ borderTop: "1px solid rgba(181,155,91,.15)" }}>
+        <div className="max-w-6xl mx-auto px-5 text-center">
+          <p className="cond text-xs gold mb-4">Material</p>
+          <h2 className="display text-3xl sm:text-5xl lg:text-6xl fadeup">BAHAN KAIN <span className="gold">PREMIUM</span></h2>
+          <div className="rule my-10" />
+          <p className="max-w-2xl mx-auto text-lg leading-relaxed fadeup" style={{ color: "rgba(244,241,232,.78)" }}>
+            Kami hanya menggunakan bahan kain terbaik untuk jersey army Anda
+          </p>
+          <div className="mt-12 flex flex-wrap justify-center gap-3">
+            {[
+              { name: "Nyaman Dipakai", desc: "Lembut di kulit, tidak gatal" },
+              { name: "Tidak Bau", desc: "Anti bakteri, tetap segar" },
+              { name: "Standar Liga Pro", desc: "Kualitas yang dipakai atlet profesional" },
+            ].map((item) => (
+              <div key={item.name} className="card p-5 text-center fadeup" style={{ minWidth: "180px" }}>
+                <p className="display text-lg gold">{item.name}</p>
+                <p className="mt-2 text-sm" style={{ color: "rgba(244,241,232,.7)" }}>{item.desc}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ===== 7. HARGA ===== */}
       <section id="harga" className="relative py-14 sm:py-24 lg:py-32 overflow-hidden" style={{ borderTop: "1px solid rgba(181,155,91,.15)" }}>
         <div className="gridbg" />
         <div className="relative max-w-6xl mx-auto px-5">
@@ -295,60 +373,6 @@ export default function JerseyArmyLanding({ products, waNumber }: Props) {
             <a href={wa("Halo TNT SPORT APPAREL, saya butuh jersey army lebih dari 50 pcs. Minta harga khusus dong!")} target="_blank" rel="noopener" className="btn whitespace-nowrap self-start sm:self-auto"><span>Minta Harga Khusus</span><span className="ico" aria-hidden="true">↗</span></a>
           </div>
         </div>
-      </section>
-
-      {/* ===== 7. KATALOG ===== */}
-      <section id="katalog" className="py-14 sm:py-24 lg:py-32" style={{ borderTop: "1px solid rgba(181,155,91,.15)", background: "linear-gradient(180deg,rgba(25,53,36,.28),transparent)" }}>
-        <div className="max-w-6xl mx-auto px-5">
-          <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-6 fadeup">
-            <div>
-              <p className="cond text-xs gold mb-4">Katalog</p>
-              <h2 className="display text-3xl sm:text-5xl lg:text-6xl">20 DESAIN ARMY<br /><span className="gold">SIAP CUSTOM</span></h2>
-            </div>
-            <p className="cond text-xs sm:text-right max-w-xs" style={{ color: "rgba(244,241,232,.6)" }}>Klik desain untuk melihat detail lebih besar</p>
-          </div>
-
-          <div className="mt-12 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-            {products.map((p, i) => (
-              <button key={p.id} className="tile fadeup" onClick={() => setCatalogActive(i)}>
-                {p.image.includes("placeholder") ? (
-                  <div className="ph jersey-ph w-full aspect-[4/5]" data-code={p.catalogue} />
-                ) : (
-                  <img src={p.image} alt={p.alt} className="cat-img w-full aspect-[4/5] object-cover" loading="lazy" />
-                )}
-                <div className="meta">
-                  <span className="cond text-[11px]">{p.catalogue}</span>
-                  <span className="zoom cond text-[11px] gold">Lihat ↗</span>
-                </div>
-              </button>
-            ))}
-          </div>
-
-          <p className="mt-10 text-center fadeup" style={{ color: "rgba(244,241,232,.6)" }}>
-            Belum ketemu yang pas? <a href="#cta" className="gold underline underline-offset-4">Minta rekomendasi desain</a>
-          </p>
-        </div>
-
-        {/* Catalog Lightbox */}
-        {catalogActive !== null && products[catalogActive] && (
-          <div className="fixed inset-0 z-[60] flex items-center justify-center p-4" style={{ background: "rgba(4,6,5,.88)", backdropFilter: "blur(4px)" }} onClick={() => setCatalogActive(null)} role="dialog" aria-modal="true">
-            <div className="relative w-full max-w-lg" style={{ background: "var(--black)", border: "1px solid rgba(181,155,91,.35)" }} onClick={(e) => e.stopPropagation()}>
-              <button onClick={() => setCatalogActive(null)} aria-label="Tutup" className="absolute -top-3 -right-3 w-10 h-10 text-xl leading-none flex items-center justify-center rounded-full transition" style={{ background: "var(--cream)", color: "var(--black)" }}>×</button>
-              {products[catalogActive].image.includes("placeholder") ? (
-                <div className="ph jersey-ph w-full aspect-square" data-code={products[catalogActive].catalogue} />
-              ) : (
-                <img src={products[catalogActive].image} alt={products[catalogActive].alt} className="w-full aspect-square object-cover" />
-              )}
-              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 p-6" style={{ borderTop: "1px solid rgba(181,155,91,.25)" }}>
-                <div>
-                  <p className="cond text-sm">{products[catalogActive].catalogue}</p>
-                  <p className="text-sm" style={{ color: "rgba(244,241,232,.6)" }}>Army Collection</p>
-                </div>
-                <a href={wa(`Halo, saya tertarik desain ${products[catalogActive].catalogue} di kategori Jersey Army.`)} target="_blank" rel="noopener" className="btn"><span>Order Sekarang</span><span className="ico" aria-hidden="true">↗</span></a>
-              </div>
-            </div>
-          </div>
-        )}
       </section>
 
       {/* ===== 8. GALERI ===== */}

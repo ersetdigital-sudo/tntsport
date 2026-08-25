@@ -460,6 +460,33 @@ export default function JerseyBasketLanding({ products, waNumber }: Props) {
         </div>
       </section>
 
+      {/* ===== 3.45 BAHAN KAIN ===== */}
+      <section className="relative grain" style={{ background: "#101014" }}>
+        <div className="relative z-10 mx-auto max-w-7xl px-5 sm:px-8 py-16 sm:py-24">
+          <div className="text-center max-w-2xl mx-auto reveal">
+            <p className="kicker text-xs" style={{ color: "#8c8c99" }}>Material</p>
+            <h2 className="display mt-4" style={{ fontSize: "clamp(1.9rem,5vw,3.6rem)" }}>
+              Bahan Kain <span className="volt-text">Premium</span>
+            </h2>
+            <p className="mt-5 text-base sm:text-lg leading-relaxed" style={{ color: "#c9c9d2" }}>
+              Kami hanya menggunakan bahan kain terbaik untuk jersey basket Anda
+            </p>
+          </div>
+          <div className="mt-12 flex flex-wrap justify-center gap-3">
+            {[
+              { name: "Nyaman Dipakai", desc: "Lembut di kulit, tidak gatal" },
+              { name: "Tidak Bau", desc: "Anti bakteri, tetap segar" },
+              { name: "Standar Liga Pro", desc: "Kualitas yang dipakai atlet profesional" },
+            ].map((item) => (
+              <div key={item.name} className="card p-5 text-center reveal" style={{ minWidth: "180px" }}>
+                <p className="display-flat text-lg">{item.name}</p>
+                <p className="mt-2 text-sm" style={{ color: "#8c8c99" }}>{item.desc}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
       {/* ===== 3.5 HARGA ===== */}
       <section id="harga" className="relative grain" style={{ background: "#101014" }}>
         <div className="relative z-10 mx-auto max-w-7xl px-5 sm:px-8 py-16 sm:py-24">
@@ -543,6 +570,13 @@ export default function JerseyBasketLanding({ products, waNumber }: Props) {
               </div>
             </article>
           </div>
+
+          {/* Ecer Footnote */}
+          {priceMode === "ecer" && (
+            <p className="mt-4 text-center text-xs" style={{ color: "#8c8c99" }}>
+              Mau desain custom sendiri? Order minimal 6 pcs
+            </p>
+          )}
 
           {/* Bulk */}
           <div className="mt-5 bulk-strip flex flex-col sm:flex-row sm:items-center justify-between gap-5 p-7 sm:px-9 reveal">
