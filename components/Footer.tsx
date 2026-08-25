@@ -11,6 +11,7 @@ const LANDING_LINKS = [
   { href: "/jersey-army", label: "Jersey Army" },
   { href: "/jersey-badminton", label: "Jersey Badminton" },
   { href: "/corporate-collection", label: "Corporate Collection" },
+  { href: "/fantasy-club", label: "Fantasy Club" },
 ];
 
 export function Footer({ brand }: { brand: Brand }) {
