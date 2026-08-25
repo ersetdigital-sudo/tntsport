@@ -323,7 +323,7 @@ export function FantasyClubLanding({ products, waNumber }: { products: FantasyCl
                 key={item.code}
                 type="button"
                 onClick={() => openZoom(i)}
-                className={`fc-card fc-reveal group block text-left cursor-pointer ${i % 2 === 1 ? "md:mt-12" : ""}`}
+                className="fc-card fc-reveal group block text-left cursor-pointer"
               >
                 <div className="fc-frame relative overflow-hidden rounded-2xl border border-white/[0.06]" style={{ background: "#1a1c1e" }}>
                   <div className="aspect-[4/5] overflow-hidden p-4">
