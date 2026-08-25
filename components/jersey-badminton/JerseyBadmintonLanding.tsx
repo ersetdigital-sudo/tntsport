@@ -313,30 +313,6 @@ export function JerseyBadmintonLanding({ products, waNumber }: Props) {
         </div>
       </section>
 
-      {/* ===== VALUE ===== */}
-      <section id="value" style={{ position: "relative", padding: "80px 0", borderTop: "1px solid rgba(255,255,255,.08)" }}>
-        <div style={{ maxWidth: 1280, margin: "0 auto", padding: "0 20px" }}>
-          <div className="reveal" style={{ maxWidth: "48rem" }}>
-            <h2 className="dspl" style={{ fontSize: "clamp(2rem, 5vw, 3.5rem)" }}>Dibuat untuk <span style={{ color: "#155EEF" }}>game</span> yang cepat.</h2>
-            <p style={{ marginTop: 20, color: "#D9DEE7", lineHeight: 1.6 }}>Badminton menuntut gerakan cepat, fokus tinggi, dan kenyamanan maksimal. Karena itu, jersey yang digunakan juga harus siap mengikuti setiap gerakan di lapangan.</p>
-          </div>
-          <div style={{ marginTop: 48, display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(250px, 1fr))", gap: 20 }}>
-            {[
-              { icon: <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#00A8FF" strokeWidth="1.6" strokeLinecap="round"><path d="M12 3v10" /><path d="M8 7l4-4 4 4" /><path d="M4 14v5a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-5" /></svg>, title: "Dry-Fit Adem", desc: "Ringan dan nyaman digunakan untuk latihan maupun pertandingan." },
-              { icon: <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#00A8FF" strokeWidth="1.6" strokeLinecap="round"><rect x="3" y="9" width="18" height="8" rx="2" /><path d="M7 9V4h10v5" /><path d="M7 17v3h10v-3" /></svg>, title: "Full Printing", desc: "Desain dicetak secara penuh agar visual jersey terlihat lebih maksimal dan berkarakter." },
-              { icon: <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#00A8FF" strokeWidth="1.6" strokeLinecap="round"><path d="M4 18c4-10 12-10 16 0" /><path d="M4 12h2M9 12h2M14 12h2M19 12h1" /></svg>, title: "Jahitan Kuat", desc: "Jahitan rapi dan kuat untuk mendukung aktivitas olahraga yang intens." },
-              { icon: <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#E91E8C" strokeWidth="1.6" strokeLinecap="round"><path d="M15 4l5 5L9 20H4v-5z" /><path d="M13 6l5 5" /></svg>, title: "Free Custom", desc: "Nameset, nomor, logo klub, komunitas, dan sponsor dapat disesuaikan." },
-            ].map((f, i) => (
-              <div key={i} className="reveal card" style={{ padding: 28 }}>
-                {f.icon}
-                <h3 className="dspl" style={{ fontSize: "1.25rem", marginTop: 20 }}>{f.title}</h3>
-                <p style={{ marginTop: 10, fontSize: 14, color: "#D9DEE7", lineHeight: 1.6 }}>{f.desc}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
       {/* ===== COLLECTION ===== */}
       <section id="collection" style={{ position: "relative", padding: "80px 0", background: "rgba(8,11,16,.6)", borderTop: "1px solid rgba(255,255,255,.08)", borderBottom: "1px solid rgba(255,255,255,.08)" }}>
         <div className="mesh" style={{ opacity: 0.6 }} />
@@ -383,6 +359,32 @@ export function JerseyBadmintonLanding({ products, waNumber }: Props) {
         </div>
       </section>
 
+      {/* ===== BAHAN KAIN ===== */}
+      <section id="bahan" style={{ position: "relative", padding: "80px 0", background: "rgba(8,11,16,.6)", borderTop: "1px solid rgba(255,255,255,.08)", borderBottom: "1px solid rgba(255,255,255,.08)" }}>
+        <div style={{ maxWidth: 1280, margin: "0 auto", padding: "0 20px" }}>
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(320px, 1fr))", gap: 48, alignItems: "center" }}>
+            <div className="reveal">
+              <p className="eyebrow" style={{ fontSize: 11, color: "#00A8FF", marginBottom: 16 }}>Bahan Kain</p>
+              <h2 className="dspl" style={{ fontSize: "clamp(2rem, 5vw, 3.5rem)", lineHeight: 1.05 }}>
+                Dry-Fit Berkualitas,<br />
+                Standar <span style={{ color: "#00A8FF" }}>Liga Pro.</span>
+              </h2>
+            </div>
+            <div className="reveal">
+              <p style={{ fontSize: 15, color: "#D9DEE7", lineHeight: 1.7, marginBottom: 32 }}>
+                Bahan kain yang digunakan dry-fit yang berkualitas dan sudah standar liga pro, nyaman dan tidak bau.
+              </p>
+              <div style={{ height: 1, background: "rgba(255,255,255,.12)", marginBottom: 32 }} />
+              <div style={{ display: "flex", flexWrap: "wrap", gap: 16 }}>
+                <span className="eyebrow" style={{ fontSize: 11, color: "rgba(217,222,231,.80)" }}>Nyaman Dipakai</span>
+                <span className="eyebrow" style={{ fontSize: 11, color: "rgba(217,222,231,.80)" }}>Tidak Bau</span>
+                <span className="eyebrow" style={{ fontSize: 11, color: "rgba(217,222,231,.80)" }}>Standar Liga Pro</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* ===== TEAM IDENTITY ===== */}
       <section style={{ position: "relative", padding: "80px 0", overflow: "hidden" }}>
         <div className="speed" style={{ opacity: 0.6 }}><span /><span /><span /><span /><span /></div>
@@ -407,6 +409,30 @@ export function JerseyBadmintonLanding({ products, waNumber }: Props) {
               Setiap pemain punya nama.<br /><span style={{ color: "#155EEF" }}>Setiap tim punya identitas.</span>
             </p>
            </div>
+        </div>
+      </section>
+
+      {/* ===== VALUE ===== */}
+      <section id="value" style={{ position: "relative", padding: "80px 0", borderTop: "1px solid rgba(255,255,255,.08)" }}>
+        <div style={{ maxWidth: 1280, margin: "0 auto", padding: "0 20px" }}>
+          <div className="reveal" style={{ maxWidth: "48rem" }}>
+            <h2 className="dspl" style={{ fontSize: "clamp(2rem, 5vw, 3.5rem)" }}>Dibuat untuk <span style={{ color: "#155EEF" }}>game</span> yang cepat.</h2>
+            <p style={{ marginTop: 20, color: "#D9DEE7", lineHeight: 1.6 }}>Badminton menuntut gerakan cepat, fokus tinggi, dan kenyamanan maksimal. Karena itu, jersey yang digunakan juga harus siap mengikuti setiap gerakan di lapangan.</p>
+          </div>
+          <div style={{ marginTop: 48, display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(250px, 1fr))", gap: 20 }}>
+            {[
+              { icon: <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#00A8FF" strokeWidth="1.6" strokeLinecap="round"><path d="M12 3v10" /><path d="M8 7l4-4 4 4" /><path d="M4 14v5a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-5" /></svg>, title: "Dry-Fit Adem", desc: "Ringan dan nyaman digunakan untuk latihan maupun pertandingan." },
+              { icon: <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#00A8FF" strokeWidth="1.6" strokeLinecap="round"><rect x="3" y="9" width="18" height="8" rx="2" /><path d="M7 9V4h10v5" /><path d="M7 17v3h10v-3" /></svg>, title: "Full Printing", desc: "Desain dicetak secara penuh agar visual jersey terlihat lebih maksimal dan berkarakter." },
+              { icon: <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#00A8FF" strokeWidth="1.6" strokeLinecap="round"><path d="M4 18c4-10 12-10 16 0" /><path d="M4 12h2M9 12h2M14 12h2M19 12h1" /></svg>, title: "Jahitan Kuat", desc: "Jahitan rapi dan kuat untuk mendukung aktivitas olahraga yang intens." },
+              { icon: <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#E91E8C" strokeWidth="1.6" strokeLinecap="round"><path d="M15 4l5 5L9 20H4v-5z" /><path d="M13 6l5 5" /></svg>, title: "Free Custom", desc: "Nameset, nomor, logo klub, komunitas, dan sponsor dapat disesuaikan." },
+            ].map((f, i) => (
+              <div key={i} className="reveal card" style={{ padding: 28 }}>
+                {f.icon}
+                <h3 className="dspl" style={{ fontSize: "1.25rem", marginTop: 20 }}>{f.title}</h3>
+                <p style={{ marginTop: 10, fontSize: 14, color: "#D9DEE7", lineHeight: 1.6 }}>{f.desc}</p>
+              </div>
+            ))}
+          </div>
         </div>
       </section>
 
@@ -493,32 +519,6 @@ export function JerseyBadmintonLanding({ products, waNumber }: Props) {
             </div>
           </div>
         )}
-      </section>
-
-      {/* ===== BAHAN KAIN ===== */}
-      <section id="bahan" style={{ position: "relative", padding: "80px 0", background: "rgba(8,11,16,.6)", borderTop: "1px solid rgba(255,255,255,.08)", borderBottom: "1px solid rgba(255,255,255,.08)" }}>
-        <div style={{ maxWidth: 1280, margin: "0 auto", padding: "0 20px" }}>
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(320px, 1fr))", gap: 48, alignItems: "center" }}>
-            <div className="reveal">
-              <p className="eyebrow" style={{ fontSize: 11, color: "#00A8FF", marginBottom: 16 }}>Bahan Kain</p>
-              <h2 className="dspl" style={{ fontSize: "clamp(2rem, 5vw, 3.5rem)", lineHeight: 1.05 }}>
-                Dry-Fit Berkualitas,<br />
-                Standar <span style={{ color: "#00A8FF" }}>Liga Pro.</span>
-              </h2>
-            </div>
-            <div className="reveal">
-              <p style={{ fontSize: 15, color: "#D9DEE7", lineHeight: 1.7, marginBottom: 32 }}>
-                Bahan kain yang digunakan dry-fit yang berkualitas dan sudah standar liga pro, nyaman dan tidak bau.
-              </p>
-              <div style={{ height: 1, background: "rgba(255,255,255,.12)", marginBottom: 32 }} />
-              <div style={{ display: "flex", flexWrap: "wrap", gap: 16 }}>
-                <span className="eyebrow" style={{ fontSize: 11, color: "rgba(217,222,231,.80)" }}>Nyaman Dipakai</span>
-                <span className="eyebrow" style={{ fontSize: 11, color: "rgba(217,222,231,.80)" }}>Tidak Bau</span>
-                <span className="eyebrow" style={{ fontSize: 11, color: "rgba(217,222,231,.80)" }}>Standar Liga Pro</span>
-              </div>
-            </div>
-          </div>
-        </div>
       </section>
 
       {/* ===== HARGA ===== */}
