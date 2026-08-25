@@ -66,6 +66,76 @@ const STEPS = [
   { num: "04", title: "SIAP DIPRODUKSI", desc: "Setelah desain disepakati, jersey siap masuk proses produksi." },
 ];
 
+function Lightbox({
+  items,
+  active,
+  onClose,
+  onPrev,
+  onNext,
+}: {
+  items: FantasyClubProduct[];
+  active: number;
+  onClose: () => void;
+  onPrev: () => void;
+  onNext: () => void;
+}) {
+  if (active < 0 || active >= items.length) return null;
+  const item = items[active];
+
+  return (
+    <div
+      className="fixed inset-0 z-[110] flex items-center justify-center p-4"
+      style={{ background: "rgba(0,0,0,.88)", backdropFilter: "blur(6px)" }}
+      onClick={onClose}
+      role="dialog"
+      aria-modal="true"
+      aria-label={item.name}
+    >
+      {/* Close */}
+      <button
+        onClick={onClose}
+        className="absolute top-5 right-5 z-[120] flex h-10 w-10 items-center justify-center rounded-full border border-white/20 bg-black/50 text-white text-lg transition hover:bg-white/20"
+        aria-label="Tutup"
+      >
+        ✕
+      </button>
+
+      {/* Prev */}
+      <button
+        onClick={(e) => { e.stopPropagation(); onPrev(); }}
+        className="absolute left-3 top-1/2 -translate-y-1/2 z-[120] flex h-12 w-12 items-center justify-center rounded-full border border-white/20 bg-black/50 text-white text-2xl transition hover:bg-white/20 md:left-6"
+        aria-label="Sebelumnya"
+      >
+        ‹
+      </button>
+
+      {/* Next */}
+      <button
+        onClick={(e) => { e.stopPropagation(); onNext(); }}
+        className="absolute right-3 top-1/2 -translate-y-1/2 z-[120] flex h-12 w-12 items-center justify-center rounded-full border border-white/20 bg-black/50 text-white text-2xl transition hover:bg-white/20 md:right-6"
+        aria-label="Berikutnya"
+      >
+        ›
+      </button>
+
+      {/* Image */}
+      <div className="relative max-h-[80vh] max-w-[90vw]" onClick={(e) => e.stopPropagation()}>
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img
+          src={item.image}
+          alt={item.alt}
+          className="max-h-[80vh] w-auto rounded-lg object-contain shadow-2xl"
+        />
+        <div className="mt-4 text-center">
+          <span className="fc-label text-[11px]" style={{ color: "var(--fc-green)" }}>{item.code}</span>
+          <h3 className="fc-display text-[18px] md:text-[22px] text-white mt-1">{item.name}</h3>
+          <span className="fc-label text-[10px] text-white/50 mt-2 block">{active + 1} / {items.length}</span>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 function useReveal() {
   const ref = useRef<HTMLDivElement>(null);
   useEffect(() => {
@@ -123,8 +193,29 @@ function PriceToggle({ active, onChange }: { active: string; onChange: (k: strin
 export function FantasyClubLanding({ products }: { products: FantasyClubProduct[] }) {
   const rootRef = useReveal();
   const [qty, setQty] = useState("ecer");
+  const [zoomIdx, setZoomIdx] = useState<number | null>(null);
   const price = PRICE_DATA[qty as keyof typeof PRICE_DATA];
   const collection = products.length > 0 ? products : FALLBACK_COLLECTION;
+
+  const openZoom = (i: number) => setZoomIdx(i);
+  const closeZoom = () => setZoomIdx(null);
+  const prevZoom = () => setZoomIdx((p) => (p !== null ? (p - 1 + collection.length) % collection.length : null));
+  const nextZoom = () => setZoomIdx((p) => (p !== null ? (p + 1) % collection.length : null));
+
+  useEffect(() => {
+    if (zoomIdx === null) return;
+    const handleKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") closeZoom();
+      if (e.key === "ArrowLeft") prevZoom();
+      if (e.key === "ArrowRight") nextZoom();
+    };
+    document.body.style.overflow = "hidden";
+    window.addEventListener("keydown", handleKey);
+    return () => {
+      document.body.style.overflow = "";
+      window.removeEventListener("keydown", handleKey);
+    };
+  }, [zoomIdx]);
 
   return (
     <div ref={rootRef} className="fantasy-club">
@@ -215,10 +306,11 @@ export function FantasyClubLanding({ products }: { products: FantasyClubProduct[
           {/* Modern grid — alternating vertical offset */}
           <div className="mt-14 md:mt-20 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6">
             {collection.map((item, i) => (
-              <a
+              <button
                 key={item.code}
-                href="#custom"
-                className={`fc-card fc-reveal group block ${i % 2 === 1 ? "md:mt-12" : ""}`}
+                type="button"
+                onClick={() => openZoom(i)}
+                className={`fc-card fc-reveal group block text-left cursor-pointer ${i % 2 === 1 ? "md:mt-12" : ""}`}
               >
                 <div className="fc-frame relative overflow-hidden rounded-xl" style={{ background: "var(--fc-black)" }}>
                   <div className="aspect-[4/5] overflow-hidden">
@@ -233,14 +325,14 @@ export function FantasyClubLanding({ products }: { products: FantasyClubProduct[
                   {/* Hover overlay */}
                   <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
                   <div className="absolute bottom-0 left-0 right-0 p-4 translate-y-4 group-hover:translate-y-0 opacity-0 group-hover:opacity-100 transition-all duration-500">
-                    <span className="fc-label text-[10px]" style={{ color: "var(--fc-green)" }}>PILIH DESAIN →</span>
+                    <span className="fc-label text-[10px]" style={{ color: "var(--fc-green)" }}>KLIK UNTUK ZOOM →</span>
                   </div>
                 </div>
                 <div className="mt-3 px-1">
                   <div className="fc-label text-[10px] md:text-[11px]" style={{ color: "var(--fc-green)" }}>{item.code}</div>
                   <div className="fc-cname fc-display text-[14px] md:text-[16px] mt-1 leading-tight">{item.name}</div>
                 </div>
-              </a>
+              </button>
             ))}
           </div>
         </div>
@@ -513,6 +605,17 @@ export function FantasyClubLanding({ products }: { products: FantasyClubProduct[
           </div>
         </div>
       </section>
+
+      {/* LIGHTBOX */}
+      {zoomIdx !== null && (
+        <Lightbox
+          items={collection}
+          active={zoomIdx}
+          onClose={closeZoom}
+          onPrev={prevZoom}
+          onNext={nextZoom}
+        />
+      )}
     </div>
   );
 }
