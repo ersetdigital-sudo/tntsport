@@ -624,21 +624,6 @@ export function CategoryLandingLight({ config, products, testimonials, waNumber 
             </div>
           </section>
 
-          {/* ═══ HARGA ═══ */}
-          <section id="harga" className="py-16 sm:py-20 md:py-28 relative overflow-hidden">
-            <div className="absolute inset-0 -z-10">
-              <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[46rem] h-[26rem] blur-3xl" style={{ background: "radial-gradient(circle,rgba(47,143,255,.16),transparent 68%)" }} />
-              <div className="absolute inset-0 net-bg opacity-40" />
-            </div>
-            <div className="max-w-5xl mx-auto px-5">
-              <div className="text-center reveal">
-                <h2 className="display text-3xl sm:text-6xl">{config.pricing.headline}<span className="blue-text">{config.pricing.headlineAccent}</span></h2>
-                <p className="mt-3 sm:mt-4 text-sm sm:text-lg" style={{ color: "var(--muted)" }}>{config.pricing.sub}</p>
-              </div>
-              <PriceSection atasan={config.pricing.atasan} setelan={config.pricing.setelan} bulk={config.pricing.bulk} waAtasan={buildWhatsAppLink(waNumber, config.wa.atasan)} waSetelan={buildWhatsAppLink(waNumber, config.wa.setelan)} waBulk={buildWhatsAppLink(waNumber, config.wa.bulk)} eyebrowAtasan={config.eyebrow} />
-            </div>
-          </section>
-
           {/* ═══ KATALOG DESAIN ═══ */}
           <section id="desain" className="py-16 sm:py-20 md:py-28 border-y" style={{ background: "var(--paper-2)", borderColor: "var(--line)" }}>
             <div className="max-w-6xl mx-auto px-5">
@@ -655,6 +640,47 @@ export function CategoryLandingLight({ config, products, testimonials, waNumber 
                 <WhatsAppLeadLink href={waOrder} label={`Pesan Desain — ${config.eyebrow}`} className="btn-blue rounded-full px-6 py-3.5 sm:px-7 sm:py-4 font-bold text-white text-center text-sm sm:text-base">{config.catalog.designsCta} →</WhatsAppLeadLink>
                 <p className="text-xs sm:text-sm text-center" style={{ color: "var(--muted)" }}>{config.catalog.designsFootnote}</p>
               </div>
+            </div>
+          </section>
+
+          {/* ═══ BAHAN KAIN ═══ */}
+          <section id="bahan" className="py-16 sm:py-20 md:py-28">
+            <div className="max-w-6xl mx-auto px-5">
+              <div className="grid md:grid-cols-2 gap-10 md:gap-16 items-center">
+                <div className="reveal">
+                  <p className="kicker text-[11px] mb-4" style={{ color: "var(--blue)" }}>Bahan Kain</p>
+                  <h2 className="display text-2xl sm:text-5xl" style={{ lineHeight: 1.05 }}>
+                    Dry-Fit Berkualitas,<br />
+                    Standar <span className="blue-text">Liga Pro.</span>
+                  </h2>
+                </div>
+                <div className="reveal">
+                  <p className="text-sm sm:text-base leading-relaxed" style={{ color: "var(--muted)", marginBottom: 32 }}>
+                    Bahan kain yang digunakan dry-fit yang berkualitas dan sudah standar liga pro, nyaman dan tidak bau.
+                  </p>
+                  <div style={{ height: 1, background: "var(--line)", marginBottom: 32 }} />
+                  <div className="flex flex-wrap gap-4">
+                    {["Nyaman Dipakai", "Tidak Bau", "Standar Liga Pro"].map((tag) => (
+                      <span key={tag} className="kicker text-[11px]" style={{ color: "var(--ink-soft)" }}>{tag}</span>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          {/* ═══ HARGA ═══ */}
+          <section id="harga" className="py-16 sm:py-20 md:py-28 relative overflow-hidden">
+            <div className="absolute inset-0 -z-10">
+              <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[46rem] h-[26rem] blur-3xl" style={{ background: "radial-gradient(circle,rgba(47,143,255,.16),transparent 68%)" }} />
+              <div className="absolute inset-0 net-bg opacity-40" />
+            </div>
+            <div className="max-w-5xl mx-auto px-5">
+              <div className="text-center reveal">
+                <h2 className="display text-3xl sm:text-6xl">{config.pricing.headline}<span className="blue-text">{config.pricing.headlineAccent}</span></h2>
+                <p className="mt-3 sm:mt-4 text-sm sm:text-lg" style={{ color: "var(--muted)" }}>{config.pricing.sub}</p>
+              </div>
+              <PriceSection atasan={config.pricing.atasan} setelan={config.pricing.setelan} bulk={config.pricing.bulk} waAtasan={buildWhatsAppLink(waNumber, config.wa.atasan)} waSetelan={buildWhatsAppLink(waNumber, config.wa.setelan)} waBulk={buildWhatsAppLink(waNumber, config.wa.bulk)} eyebrowAtasan={config.eyebrow} />
             </div>
           </section>
 
