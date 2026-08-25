@@ -702,40 +702,6 @@ export default function JerseyRacingLanding({ products, waNumber }: Props) {
                 Pilih Atasan →
               </a>
             </article>
-
-            {/* Setelan */}
-            <article className="card card-hi rounded-lg p-7 sm:p-9 flex flex-col relative overflow-hidden rv-r">
-              <div className="absolute top-0 right-0 cond font-bold text-white px-4 py-1.5" style={{ fontSize: ".72rem", letterSpacing: ".18em", background: "var(--red)", clipPath: "polygon(14% 0,100% 0,100% 100%,0 100%)" }}>Paling Diminati</div>
-              <p className="cond font-bold text-sm mt-3 mb-2" style={{ color: "var(--red-hot)", letterSpacing: ".16em" }}>Atasan + Celana</p>
-              <p className="display" style={{ fontSize: "clamp(1.5rem,3.6vw,2rem)", marginBottom: "1.25rem" }}>Jersey Setelan</p>
-              <p className="flex items-baseline gap-2 mb-2">
-                <span className="cond font-bold text-lg" style={{ color: "var(--yellow)" }}>Rp</span>
-                <span key={priceMode + "-setelan"} className="display leading-none" style={{ fontSize: "clamp(2.6rem,7vw,3.6rem)", color: "var(--yellow)" }}>
-                  {priceMode === "ecer" ? "145RB" : "125RB"}
-                </span>
-                <span className="cond font-bold text-base" style={{ color: "#8e97a6" }}>/set</span>
-              </p>
-              <p key={priceMode + "-setelan-note"} className="mb-7" style={{ fontSize: ".92rem", color: "#8e97a6" }}>
-                {priceMode === "ecer" ? "Mau desain custom sendiri? Order minimal 6 pcs" : "Minimal pembelian 12 set"}
-              </p>
-              <ul className="mb-9 flex-1 pt-6" style={{ borderTop: "1px solid rgba(255,255,255,.1)" }}>
-                {["Full printing, pilih dari katalog desain", "Nama dan nomor punggung", "Revisi desain tanpa batas", "Bahan dry-fit standar liga pro, nyaman dan tidak bau", "Printing sublime, warna cerah dan tahan bertahun-tahun", "Celana non printing"].map((f, i) => (
-                  <li key={i} className="flex gap-3 items-start mb-3.5">
-                    <svg className="w-5 h-5 mt-0.5 shrink-0" viewBox="0 0 20 20" fill="none" stroke="#ff2233" strokeWidth="2.6" strokeLinecap="round" strokeLinejoin="round"><path d="M4 10.5l4 4 8-9" /></svg>
-                    <span style={{ color: "#d3d8e1" }}>{f}</span>
-                  </li>
-                ))}
-              </ul>
-              <a
-                href={waLink("Halo TNT SPORT APPAREL, saya tertarik paket Jersey Setelan racing. Bisa info lebih lanjut?")}
-                target="_blank"
-                rel="noopener"
-                className="btn-primary cond text-white font-bold text-base px-7 py-3.5 text-center"
-                style={{ borderRadius: "6px" }}
-              >
-                Pilih Setelan →
-              </a>
-            </article>
           </div>
 
           {/* Bulk */}
