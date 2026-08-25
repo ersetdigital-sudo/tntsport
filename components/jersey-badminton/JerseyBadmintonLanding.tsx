@@ -436,91 +436,6 @@ export function JerseyBadmintonLanding({ products, waNumber }: Props) {
         </div>
       </section>
 
-      {/* ===== TESTIMONI ===== */}
-      <section id="testimoni" className="relative py-20 md:py-28">
-        <div style={{ maxWidth: 1280, margin: "0 auto", padding: "0 20px" }}>
-          {/* header */}
-          <div className="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-6 mb-12">
-            <div className="max-w-2xl">
-              <p className="eyebrow flex items-center gap-2 text-[11px]" style={{ color: "#00A8FF" }}>
-                <span>🏆</span> KATA MEREKA YANG SUDAH MAIN PAKAI
-              </p>
-              <h2 className="dspl mt-3" style={{ fontSize: "clamp(1.7rem, 4.2vw, 2.8rem)", color: "#fff", lineHeight: 1 }}>
-                BUKTI BUKAN <span style={{ color: "#00A8FF" }}>JANJI.</span>
-              </h2>
-            </div>
-            <div className="flex items-center gap-4">
-              <div className="text-right">
-                <p className="dspl text-3xl" style={{ color: "#F5A623" }}>4.9<span className="text-lg">/5</span></p>
-                <p className="eyebrow text-[8.5px]" style={{ color: "rgba(217,222,231,.5)", marginTop: 4 }}>1.2RB+ REVIEW TIM</p>
-              </div>
-              <div className="h-10 w-px bg-white/10" />
-              <p className="text-[13px] max-w-[220px]" style={{ color: "rgba(217,222,231,.65)" }}>
-                Review asli dari klub, komunitas, dan event yang udah pakai jersey TNT.
-              </p>
-            </div>
-          </div>
-
-          {/* testimonial grid */}
-          <div className="grid gap-5 md:grid-cols-2 lg:grid-cols-3">
-            {TESTIMONI.map((t) => (
-              <article key={t.nama} className="tst-card reveal group" style={{ padding: 26 }}>
-                {/* quote mark */}
-                <span className="dspl absolute -top-1 right-5 select-none" style={{ fontSize: "5rem", color: "rgba(0,168,255,.12)", lineHeight: 1 }}>&ldquo;</span>
-                <div className="flex items-center gap-1 text-[13px]" style={{ color: "#F5A623" }}>
-                  {"★".repeat(t.rating)}
-                </div>
-                <p className="relative mt-4 text-[14.5px] leading-relaxed" style={{ color: "#E6EAF2" }}>&ldquo;{t.quote}&rdquo;</p>
-                <div className="mt-6 flex items-center gap-3.5">
-                  <span className="grid h-11 w-11 flex-none place-items-center rounded-full dspl text-[15px]" style={{ background: "linear-gradient(135deg,#155EEF,#00A8FF)", color: "#fff" }}>
-                    {t.nama.split(" ").map((w) => w[0]).slice(0, 2).join("")}
-                  </span>
-                  <div className="min-w-0">
-                    <p className="text-[14px] font-bold truncate" style={{ color: "#F5F7FA" }}>{t.nama}</p>
-                    <p className="eyebrow text-[8px] truncate" style={{ color: "rgba(217,222,231,.5)", marginTop: 3 }}>{t.role}</p>
-                  </div>
-                </div>
-                <p className="eyebrow mt-4 pt-4 border-t border-white/[.07] text-[8.5px]" style={{ color: "#00A8FF" }}>✓ ORDER {t.desain}</p>
-              </article>
-            ))}
-          </div>
-
-          {/* bukti foto strip */}
-          <div className="mt-14 overflow-hidden">
-            <p className="eyebrow text-[10px] mb-5 flex items-center gap-3" style={{ color: "rgba(217,222,231,.55)" }}>
-              <span className="h-px w-8" style={{ background: "rgba(0,168,255,.6)" }} />
-              FOTO NYATA DARI LAPANGAN — BUKAN EDIT, BUKAN REKAYASA
-            </p>
-            <div className="gallery-marquee">
-              {[...GALLERY_IMAGES, ...GALLERY_IMAGES].map((g, i) => (
-                <div key={i} role="button" tabIndex={0} onClick={() => setGalleryActive(i % GALLERY_IMAGES.length)} onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') setGalleryActive(i % GALLERY_IMAGES.length); }} className="cursor-pointer overflow-hidden rounded-2xl" style={{ width: 260, height: 195, flexShrink: 0 }}>
-                  <img src={g.src} alt={g.alt} loading="lazy" style={{ width: "100%", height: "100%", objectFit: "cover", display: "block", transition: "transform .5s" }} onMouseEnter={(e) => (e.currentTarget.style.transform = "scale(1.05)")} onMouseLeave={(e) => (e.currentTarget.style.transform = "scale(1)")} />
-                </div>
-              ))}
-            </div>
-          </div>
-
-          {/* CTA */}
-          <div className="mt-16 md:mt-20 flex flex-col items-center gap-4">
-            <a href={wa("Halo TNT SPORT APPAREL, saya lihat testimoni & galeri hasil jersey, saya mau order juga!")} target="_blank" rel="noopener" className="btn px-10 py-4 text-sm">
-              Gabung 500+ Tim — Order Sekarang <span aria-hidden="true">→</span>
-            </a>
-            <p className="eyebrow text-[9px]" style={{ color: "rgba(217,222,231,.40)" }}>Gratis konsultasi desain via WhatsApp</p>
-          </div>
-        </div>
-        {galleryActive !== null && GALLERY_IMAGES[galleryActive] && (
-          <div className="fixed inset-0 z-[110] flex items-center justify-center p-4" style={{ background: "rgba(0,0,0,.85)", backdropFilter: "blur(4px)" }} onClick={() => setGalleryActive(null)} role="dialog" aria-modal="true">
-            <div className="relative my-auto" style={{ maxWidth: "92vw" }} onClick={(e) => e.stopPropagation()}>
-              <button type="button" onClick={() => setGalleryActive(null)} aria-label="Tutup" className="absolute -top-2 -right-2 z-10 grid h-10 w-10 cursor-pointer place-items-center rounded-full text-white shadow-lg" style={{ background: "#155EEF" }}>
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M6 6l12 12M18 6L6 18" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" /></svg>
-              </button>
-              <img src={GALLERY_IMAGES[galleryActive].src} alt={GALLERY_IMAGES[galleryActive].alt} className="max-h-[82vh] w-auto max-w-full rounded-2xl object-contain shadow-2xl" style={{ border: "1px solid rgba(255,255,255,.1)" }} />
-              <p className="mt-3 text-center text-sm" style={{ color: "rgba(255,255,255,.6)" }}>{GALLERY_IMAGES[galleryActive].alt}</p>
-            </div>
-          </div>
-        )}
-      </section>
-
       {/* ===== HARGA ===== */}
       <section id="harga" style={{ position: "relative", padding: "80px 0", overflow: "hidden" }}>
         <div className="hero-glow g1" style={{ opacity: 0.45, right: "-24%", top: "8%" }} />
@@ -649,6 +564,91 @@ export function JerseyBadmintonLanding({ products, waNumber }: Props) {
             ))}
           </div>
         </div>
+      </section>
+
+      {/* ===== TESTIMONI ===== */}
+      <section id="testimoni" className="relative py-20 md:py-28">
+        <div style={{ maxWidth: 1280, margin: "0 auto", padding: "0 20px" }}>
+          {/* header */}
+          <div className="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-6 mb-12">
+            <div className="max-w-2xl">
+              <p className="eyebrow flex items-center gap-2 text-[11px]" style={{ color: "#00A8FF" }}>
+                <span>🏆</span> KATA MEREKA YANG SUDAH MAIN PAKAI
+              </p>
+              <h2 className="dspl mt-3" style={{ fontSize: "clamp(1.7rem, 4.2vw, 2.8rem)", color: "#fff", lineHeight: 1 }}>
+                BUKTI BUKAN <span style={{ color: "#00A8FF" }}>JANJI.</span>
+              </h2>
+            </div>
+            <div className="flex items-center gap-4">
+              <div className="text-right">
+                <p className="dspl text-3xl" style={{ color: "#F5A623" }}>4.9<span className="text-lg">/5</span></p>
+                <p className="eyebrow text-[8.5px]" style={{ color: "rgba(217,222,231,.5)", marginTop: 4 }}>1.2RB+ REVIEW TIM</p>
+              </div>
+              <div className="h-10 w-px bg-white/10" />
+              <p className="text-[13px] max-w-[220px]" style={{ color: "rgba(217,222,231,.65)" }}>
+                Review asli dari klub, komunitas, dan event yang udah pakai jersey TNT.
+              </p>
+            </div>
+          </div>
+
+          {/* testimonial grid */}
+          <div className="grid gap-5 md:grid-cols-2 lg:grid-cols-3">
+            {TESTIMONI.map((t) => (
+              <article key={t.nama} className="tst-card reveal group" style={{ padding: 26 }}>
+                {/* quote mark */}
+                <span className="dspl absolute -top-1 right-5 select-none" style={{ fontSize: "5rem", color: "rgba(0,168,255,.12)", lineHeight: 1 }}>&ldquo;</span>
+                <div className="flex items-center gap-1 text-[13px]" style={{ color: "#F5A623" }}>
+                  {"★".repeat(t.rating)}
+                </div>
+                <p className="relative mt-4 text-[14.5px] leading-relaxed" style={{ color: "#E6EAF2" }}>&ldquo;{t.quote}&rdquo;</p>
+                <div className="mt-6 flex items-center gap-3.5">
+                  <span className="grid h-11 w-11 flex-none place-items-center rounded-full dspl text-[15px]" style={{ background: "linear-gradient(135deg,#155EEF,#00A8FF)", color: "#fff" }}>
+                    {t.nama.split(" ").map((w) => w[0]).slice(0, 2).join("")}
+                  </span>
+                  <div className="min-w-0">
+                    <p className="text-[14px] font-bold truncate" style={{ color: "#F5F7FA" }}>{t.nama}</p>
+                    <p className="eyebrow text-[8px] truncate" style={{ color: "rgba(217,222,231,.5)", marginTop: 3 }}>{t.role}</p>
+                  </div>
+                </div>
+                <p className="eyebrow mt-4 pt-4 border-t border-white/[.07] text-[8.5px]" style={{ color: "#00A8FF" }}>✓ ORDER {t.desain}</p>
+              </article>
+            ))}
+          </div>
+
+          {/* bukti foto strip */}
+          <div className="mt-14 overflow-hidden">
+            <p className="eyebrow text-[10px] mb-5 flex items-center gap-3" style={{ color: "rgba(217,222,231,.55)" }}>
+              <span className="h-px w-8" style={{ background: "rgba(0,168,255,.6)" }} />
+              FOTO NYATA DARI LAPANGAN — BUKAN EDIT, BUKAN REKAYASA
+            </p>
+            <div className="gallery-marquee">
+              {[...GALLERY_IMAGES, ...GALLERY_IMAGES].map((g, i) => (
+                <div key={i} role="button" tabIndex={0} onClick={() => setGalleryActive(i % GALLERY_IMAGES.length)} onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') setGalleryActive(i % GALLERY_IMAGES.length); }} className="cursor-pointer overflow-hidden rounded-2xl" style={{ width: 260, height: 195, flexShrink: 0 }}>
+                  <img src={g.src} alt={g.alt} loading="lazy" style={{ width: "100%", height: "100%", objectFit: "cover", display: "block", transition: "transform .5s" }} onMouseEnter={(e) => (e.currentTarget.style.transform = "scale(1.05)")} onMouseLeave={(e) => (e.currentTarget.style.transform = "scale(1)")} />
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* CTA */}
+          <div className="mt-16 md:mt-20 flex flex-col items-center gap-4">
+            <a href={wa("Halo TNT SPORT APPAREL, saya lihat testimoni & galeri hasil jersey, saya mau order juga!")} target="_blank" rel="noopener" className="btn px-10 py-4 text-sm">
+              Gabung 500+ Tim — Order Sekarang <span aria-hidden="true">→</span>
+            </a>
+            <p className="eyebrow text-[9px]" style={{ color: "rgba(217,222,231,.40)" }}>Gratis konsultasi desain via WhatsApp</p>
+          </div>
+        </div>
+        {galleryActive !== null && GALLERY_IMAGES[galleryActive] && (
+          <div className="fixed inset-0 z-[110] flex items-center justify-center p-4" style={{ background: "rgba(0,0,0,.85)", backdropFilter: "blur(4px)" }} onClick={() => setGalleryActive(null)} role="dialog" aria-modal="true">
+            <div className="relative my-auto" style={{ maxWidth: "92vw" }} onClick={(e) => e.stopPropagation()}>
+              <button type="button" onClick={() => setGalleryActive(null)} aria-label="Tutup" className="absolute -top-2 -right-2 z-10 grid h-10 w-10 cursor-pointer place-items-center rounded-full text-white shadow-lg" style={{ background: "#155EEF" }}>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M6 6l12 12M18 6L6 18" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" /></svg>
+              </button>
+              <img src={GALLERY_IMAGES[galleryActive].src} alt={GALLERY_IMAGES[galleryActive].alt} className="max-h-[82vh] w-auto max-w-full rounded-2xl object-contain shadow-2xl" style={{ border: "1px solid rgba(255,255,255,.1)" }} />
+              <p className="mt-3 text-center text-sm" style={{ color: "rgba(255,255,255,.6)" }}>{GALLERY_IMAGES[galleryActive].alt}</p>
+            </div>
+          </div>
+        )}
       </section>
 
       {/* ===== FINAL CTA ===== */}
