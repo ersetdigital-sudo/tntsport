@@ -663,7 +663,7 @@ export default function JerseyRacingLanding({ products, waNumber }: Props) {
           </div>
 
           {/* Price cards */}
-          <div className="rv mt-10 grid lg:grid-cols-2 gap-5 sm:gap-6">
+          <div className="rv mt-10 max-w-lg mx-auto">
             {/* Atasan */}
             <article className="card rounded-lg p-7 sm:p-9 flex flex-col rv-l">
               <div className="flex items-start justify-between gap-4 mb-2">
