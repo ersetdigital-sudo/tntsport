@@ -1,0 +1,477 @@
+<!DOCTYPE html>
+<html lang="id"><head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Army Collection — Jersey Army untuk Tim yang Punya Identitas</title>
+<meta name="description" content="Army Collection: 20+ desain jersey bergaya military &amp; tactical, siap custom nama, nomor, logo tim, komunitas, instansi, dan sponsor.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&amp;family=Barlow+Condensed:wght@500;600;700&amp;family=Source+Sans+3:ital,wght@0,300;0,400;0,600;1,400&amp;display=swap" rel="stylesheet">
+<style>
+  :root{
+    --black:#070A08;
+    --forest:#193524;
+    --military:#315B3A;
+    --gold:#B59B5B;
+    --cream:#F4F1E8;
+  }
+  body{background:var(--black);color:var(--cream);font-family:"Source Sans 3",system-ui,sans-serif;-webkit-font-smoothing:antialiased;}
+  .display{font-family:"Bebas Neue",Impact,sans-serif;letter-spacing:.02em;line-height:.92;}
+  .cond{font-family:"Barlow Condensed",sans-serif;letter-spacing:.14em;text-transform:uppercase;}
+  .gold{color:var(--gold);}
+  .rule{height:1px;background:linear-gradient(90deg,transparent,rgba(181,155,91,.55),transparent);}
+  .btn{position:relative;isolation:isolate;overflow:hidden;display:inline-flex;align-items:center;justify-content:center;gap:.75rem;
+    background:linear-gradient(135deg,#D9BE7C 0%,var(--gold) 45%,#8E7538 100%);color:#0B0D0A;
+    font-family:"Barlow Condensed",sans-serif;font-weight:700;letter-spacing:.14em;text-transform:uppercase;
+    padding:.95rem 2.25rem;border:0;border-radius:999px;line-height:1;
+    box-shadow:0 1px 0 rgba(255,255,255,.35) inset,0 10px 24px -12px rgba(181,155,91,.75);
+    transition:transform .3s cubic-bezier(.2,.8,.25,1),box-shadow .3s ease,filter .3s ease;}
+  .btn::after{content:"";position:absolute;inset:0;z-index:-1;border-radius:inherit;
+    background:linear-gradient(100deg,transparent 35%,rgba(255,255,255,.55) 50%,transparent 65%);
+    transform:translateX(-120%);transition:transform .7s ease;}
+  .btn:hover{transform:translateY(-2px);filter:brightness(1.05);box-shadow:0 1px 0 rgba(255,255,255,.45) inset,0 18px 34px -14px rgba(181,155,91,.9);}
+  .btn:hover::after{transform:translateX(120%);}
+  .btn:active{transform:translateY(0);}
+  .btn .ico{display:inline-flex;transition:transform .3s cubic-bezier(.2,.8,.25,1);}
+  .btn:hover .ico{transform:translate(3px,-3px);}
+  .btn-ghost{position:relative;display:inline-flex;align-items:center;justify-content:center;gap:.75rem;
+    border:1px solid rgba(244,241,232,.28);color:var(--cream);background:rgba(244,241,232,.04);
+    -webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px);
+    font-family:"Barlow Condensed",sans-serif;font-weight:600;letter-spacing:.14em;text-transform:uppercase;
+    padding:.95rem 2.25rem;border-radius:999px;line-height:1;
+    transition:transform .3s cubic-bezier(.2,.8,.25,1),border-color .3s,color .3s,background .3s;}
+  .btn-ghost:hover{border-color:var(--gold);color:var(--gold);background:rgba(181,155,91,.1);transform:translateY(-2px);}
+  @media (prefers-reduced-motion:reduce){.btn,.btn-ghost,.btn .ico,.btn::after{transition:none!important;}}
+  .camo{background:
+     radial-gradient(60% 50% at 20% 20%, rgba(49,91,58,.35), transparent 70%),
+     radial-gradient(50% 60% at 85% 70%, rgba(25,53,36,.55), transparent 70%),
+     var(--black);}
+  .card{background:linear-gradient(180deg,rgba(25,53,36,.55),rgba(7,10,8,.65));border:1px solid rgba(181,155,91,.18);}
+  .num{font-family:"Bebas Neue",sans-serif;font-size:3rem;line-height:1;color:rgba(181,155,91,.55);}
+  .fadeup{opacity:0;transform:translateY(28px);transition:opacity .9s cubic-bezier(.16,1,.3,1),transform .9s cubic-bezier(.16,1,.3,1);}
+  .fadeup.in{opacity:1;transform:none;}
+  .lift{transition:transform .5s cubic-bezier(.16,1,.3,1),border-color .5s,box-shadow .5s;}
+  .lift:hover{transform:translateY(-8px);border-color:rgba(181,155,91,.6);box-shadow:0 28px 60px -30px rgba(0,0,0,.95),0 0 0 1px rgba(181,155,91,.12);}
+  .sheen{position:absolute;inset:0;pointer-events:none;background:linear-gradient(115deg,transparent 35%,rgba(244,241,232,.10) 48%,transparent 62%);transform:translateX(-120%);transition:transform 1.1s cubic-bezier(.16,1,.3,1);}
+  .lift:hover .sheen{transform:translateX(120%);}
+  html{scroll-behavior:smooth;}
+  .gridbg{position:absolute;inset:0;pointer-events:none;opacity:.5;
+     background-image:linear-gradient(rgba(181,155,91,.07) 1px,transparent 1px),linear-gradient(90deg,rgba(181,155,91,.07) 1px,transparent 1px);
+     background-size:64px 64px;
+     -webkit-mask-image:radial-gradient(75% 60% at 50% 40%,#000,transparent 100%);
+     mask-image:radial-gradient(75% 60% at 50% 40%,#000,transparent 100%);}
+  .price{display:inline-block;transition:opacity .35s ease,transform .45s cubic-bezier(.16,1,.3,1);}
+  .price.swap{opacity:0;transform:translateY(-14px);}
+  /* placeholder katalog */
+  .jersey-ph{position:relative;background:
+      repeating-linear-gradient(135deg, rgba(244,241,232,.035) 0 14px, transparent 14px 28px),
+      radial-gradient(70% 60% at 30% 25%, rgba(49,91,58,.75), transparent 70%),
+      radial-gradient(60% 60% at 80% 80%, rgba(181,155,91,.22), transparent 70%),
+      linear-gradient(160deg,#12251A,#070A08);}
+  .jersey-ph::after{content:attr(data-code);position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);
+      font-family:"Bebas Neue",sans-serif;font-size:clamp(1.5rem,4vw,2.6rem);letter-spacing:.08em;color:rgba(244,241,232,.28);}
+  .tile{position:relative;overflow:hidden;border:1px solid rgba(181,155,91,.2);cursor:zoom-in;
+      transition:transform .55s cubic-bezier(.16,1,.3,1),border-color .4s;}
+  .tile:hover{transform:translateY(-6px);border-color:rgba(181,155,91,.6);}
+  .tile .ph{transition:transform .7s cubic-bezier(.16,1,.3,1);}
+  .tile:hover .ph{transform:scale(1.08);}
+  .tile .meta{position:absolute;left:0;right:0;bottom:0;padding:.85rem 1rem;
+      background:linear-gradient(to top,rgba(7,10,8,.92),transparent);display:flex;justify-content:space-between;align-items:center;}
+  .tile .zoom{opacity:0;transform:translateY(6px);transition:.4s;}
+  .tile:hover .zoom{opacity:1;transform:none;}
+  @media (prefers-reduced-motion:reduce){.fadeup{opacity:1;transform:none;transition:none}.lift:hover{transform:none}.sheen{display:none}}
+</style>
+<script src="https://cdn.moda.app/runtime-libs/tailwind-browser-4.1.13-index.global.min.js"></script><style data-moda-export-fonts="true">@font-face { font-family: 'Source Sans 3'; src: url("../fonts/sourcesans3-extralight.ttf") format("truetype"); font-style: normal; font-weight: 200; font-display: swap; }
+@font-face { font-family: 'Source Sans 3'; src: url("../fonts/sourcesans3-extralightitalic.ttf") format("truetype"); font-style: italic; font-weight: 200; font-display: swap; }
+@font-face { font-family: 'Source Sans 3'; src: url("../fonts/sourcesans3-light.ttf") format("truetype"); font-style: normal; font-weight: 300; font-display: swap; }
+@font-face { font-family: 'Source Sans 3'; src: url("../fonts/sourcesans3-lightitalic.ttf") format("truetype"); font-style: italic; font-weight: 300; font-display: swap; }
+@font-face { font-family: 'Source Sans 3'; src: url("../fonts/sourcesans3-regular.ttf") format("truetype"); font-style: normal; font-weight: 400; font-display: swap; }
+@font-face { font-family: 'Source Sans 3'; src: url("../fonts/sourcesans3-italic.ttf") format("truetype"); font-style: italic; font-weight: 400; font-display: swap; }
+@font-face { font-family: 'Source Sans 3'; src: url("../fonts/sourcesans3-medium.ttf") format("truetype"); font-style: normal; font-weight: 500; font-display: swap; }
+@font-face { font-family: 'Source Sans 3'; src: url("../fonts/sourcesans3-mediumitalic.ttf") format("truetype"); font-style: italic; font-weight: 500; font-display: swap; }
+@font-face { font-family: 'Source Sans 3'; src: url("../fonts/sourcesans3-semibold.ttf") format("truetype"); font-style: normal; font-weight: 600; font-display: swap; }
+@font-face { font-family: 'Source Sans 3'; src: url("../fonts/sourcesans3-semibolditalic.ttf") format("truetype"); font-style: italic; font-weight: 600; font-display: swap; }
+@font-face { font-family: 'Source Sans 3'; src: url("../fonts/sourcesans3-bold.ttf") format("truetype"); font-style: normal; font-weight: 700; font-display: swap; }
+@font-face { font-family: 'Source Sans 3'; src: url("../fonts/sourcesans3-bolditalic.ttf") format("truetype"); font-style: italic; font-weight: 700; font-display: swap; }
+@font-face { font-family: 'Source Sans 3'; src: url("../fonts/sourcesans3-extrabold.ttf") format("truetype"); font-style: normal; font-weight: 800; font-display: swap; }
+@font-face { font-family: 'Source Sans 3'; src: url("../fonts/sourcesans3-extrabolditalic.ttf") format("truetype"); font-style: italic; font-weight: 800; font-display: swap; }
+@font-face { font-family: 'Source Sans 3'; src: url("../fonts/sourcesans3-black.ttf") format("truetype"); font-style: normal; font-weight: 900; font-display: swap; }
+@font-face { font-family: 'Source Sans 3'; src: url("../fonts/sourcesans3-blackitalic.ttf") format("truetype"); font-style: italic; font-weight: 900; font-display: swap; }
+@font-face { font-family: 'Bebas Neue'; src: url("../fonts/bebasneue-regular.ttf") format("truetype"); font-style: normal; font-weight: 400; font-display: swap; }
+@font-face { font-family: 'Barlow Condensed'; src: url("../fonts/barlowcondensed-thin.ttf") format("truetype"); font-style: normal; font-weight: 100; font-display: swap; }
+@font-face { font-family: 'Barlow Condensed'; src: url("../fonts/barlowcondensed-thinitalic.ttf") format("truetype"); font-style: italic; font-weight: 100; font-display: swap; }
+@font-face { font-family: 'Barlow Condensed'; src: url("../fonts/barlowcondensed-extralight.ttf") format("truetype"); font-style: normal; font-weight: 200; font-display: swap; }
+@font-face { font-family: 'Barlow Condensed'; src: url("../fonts/barlowcondensed-extralightitalic.ttf") format("truetype"); font-style: italic; font-weight: 200; font-display: swap; }
+@font-face { font-family: 'Barlow Condensed'; src: url("../fonts/barlowcondensed-light.ttf") format("truetype"); font-style: normal; font-weight: 300; font-display: swap; }
+@font-face { font-family: 'Barlow Condensed'; src: url("../fonts/barlowcondensed-lightitalic.ttf") format("truetype"); font-style: italic; font-weight: 300; font-display: swap; }
+@font-face { font-family: 'Barlow Condensed'; src: url("../fonts/barlowcondensed-regular.ttf") format("truetype"); font-style: normal; font-weight: 400; font-display: swap; }
+@font-face { font-family: 'Barlow Condensed'; src: url("../fonts/barlowcondensed-italic.ttf") format("truetype"); font-style: italic; font-weight: 400; font-display: swap; }
+@font-face { font-family: 'Barlow Condensed'; src: url("../fonts/barlowcondensed-medium.ttf") format("truetype"); font-style: normal; font-weight: 500; font-display: swap; }
+@font-face { font-family: 'Barlow Condensed'; src: url("../fonts/barlowcondensed-mediumitalic.ttf") format("truetype"); font-style: italic; font-weight: 500; font-display: swap; }
+@font-face { font-family: 'Barlow Condensed'; src: url("../fonts/barlowcondensed-semibold.ttf") format("truetype"); font-style: normal; font-weight: 600; font-display: swap; }
+@font-face { font-family: 'Barlow Condensed'; src: url("../fonts/barlowcondensed-semibolditalic.ttf") format("truetype"); font-style: italic; font-weight: 600; font-display: swap; }
+@font-face { font-family: 'Barlow Condensed'; src: url("../fonts/barlowcondensed-bold.ttf") format("truetype"); font-style: normal; font-weight: 700; font-display: swap; }
+@font-face { font-family: 'Barlow Condensed'; src: url("../fonts/barlowcondensed-bolditalic.ttf") format("truetype"); font-style: italic; font-weight: 700; font-display: swap; }
+@font-face { font-family: 'Barlow Condensed'; src: url("../fonts/barlowcondensed-extrabold.ttf") format("truetype"); font-style: normal; font-weight: 800; font-display: swap; }
+@font-face { font-family: 'Barlow Condensed'; src: url("../fonts/barlowcondensed-extrabolditalic.ttf") format("truetype"); font-style: italic; font-weight: 800; font-display: swap; }
+@font-face { font-family: 'Barlow Condensed'; src: url("../fonts/barlowcondensed-black.ttf") format("truetype"); font-style: normal; font-weight: 900; font-display: swap; }
+@font-face { font-family: 'Barlow Condensed'; src: url("../fonts/barlowcondensed-blackitalic.ttf") format("truetype"); font-style: italic; font-weight: 900; font-display: swap; }</style></head>
+<body class="camo">
+
+<!-- NAV -->
+<header class="sticky top-0 z-50 backdrop-blur bg-[rgba(7,10,8,.78)] border-b border-[rgba(181,155,91,.18)]">
+  <div class="max-w-6xl mx-auto px-5 h-16 flex items-center justify-between">
+    <span class="display text-2xl sm:text-3xl">ARMY <span class="gold">COLLECTION</span></span>
+    <span class="flex items-center gap-5">
+    <a href="#katalog" class="cond text-xs sm:text-sm hidden sm:inline text-[rgba(244,241,232,.8)] hover:text-[var(--gold)] transition">Katalog</a>
+    <a href="#harga" class="cond text-xs sm:text-sm hidden sm:inline text-[rgba(244,241,232,.8)] hover:text-[var(--gold)] transition">Harga</a>
+    <a href="#katalog" class="cond text-xs sm:text-sm gold border border-[rgba(181,155,91,.5)] rounded-full px-5 py-2 hover:bg-[rgba(181,155,91,.14)] hover:border-[var(--gold)] transition">Pilih Desain</a>
+    </span>
+  </div>
+</header>
+
+<!-- HERO -->
+<section class="relative min-h-[92vh] flex items-center overflow-hidden">
+  <img src="../images/df62916f-610f-46cc-a278-6b32be359ad2.png" alt="Rak jersey Army Collection di studio gelap" class="absolute inset-0 w-full h-full object-cover object-center opacity-60">
+  <div class="absolute inset-0" style="background:linear-gradient(90deg,rgba(7,10,8,.95) 0%,rgba(7,10,8,.72) 45%,rgba(7,10,8,.35) 100%)"></div>
+  <div class="absolute inset-x-0 bottom-0 h-48" style="background:linear-gradient(to top,var(--black),transparent)"></div>
+
+  <div class="relative max-w-6xl mx-auto px-5 py-24 w-full">
+    <p class="cond gold text-xs sm:text-sm mb-5">Army Collection</p>
+    <h1 class="display text-[3.4rem] sm:text-8xl lg:text-9xl max-w-4xl">
+      TAMPIL SOLID.<br><span class="gold">TAMPIL BERKARAKTER.</span>
+    </h1>
+    <p class="cond text-sm sm:text-base mt-6 text-[rgba(244,241,232,.85)]">Jersey Army untuk tim yang punya identitas</p>
+    <div class="rule my-8 max-w-md"></div>
+    <p class="max-w-xl text-base sm:text-lg text-[rgba(244,241,232,.8)] leading-relaxed">
+      Bukan sekadar jersey warna hijau. <strong class="text-[var(--cream)]">Army Collection</strong> dibuat untuk kamu yang ingin tampil
+      <strong class="text-[var(--cream)]">kompak, tangguh, dan berbeda</strong> bersama tim, komunitas, instansi, maupun organisasi.
+      Desain bergaya <strong class="text-[var(--cream)]">military &amp; tactical</strong>, siap menemani berbagai aktivitas.
+    </p>
+    <div class="mt-10 flex flex-wrap items-center gap-4">
+      <a href="#katalog" class="btn"><span>Pilih Desain Army</span><span class="ico" aria-hidden="true">↗</span></a>
+      <span class="cond text-xs sm:text-sm text-[rgba(244,241,232,.7)]">20+ desain siap custom</span>
+    </div>
+  </div>
+</section>
+
+<!-- IDENTITAS -->
+<section class="py-24 sm:py-32 border-t border-[rgba(181,155,91,.15)]">
+  <div class="max-w-6xl mx-auto px-5 grid lg:grid-cols-12 gap-12 items-center">
+    <div class="lg:col-span-7 fadeup">
+      <h2 class="display text-5xl sm:text-7xl">SATU TIM.<br><span class="gold">SATU IDENTITAS.</span></h2>
+      <div class="rule my-8 max-w-sm"></div>
+      <p class="text-lg text-[rgba(244,241,232,.8)] leading-relaxed">
+        Pernah lihat tim datang dengan jersey yang seragam dan langsung kelihatan kompak? Itulah kekuatan sebuah jersey.
+        Bukan cuma pakaian, <strong class="text-[var(--cream)]">tapi identitas yang membuat sebuah tim terlihat lebih solid.</strong>
+      </p>
+      <p class="mt-5 text-lg text-[rgba(244,241,232,.7)] leading-relaxed">
+        Mulai dari nama anggota, logo komunitas, nama instansi, sampai sponsor — semuanya bisa disesuaikan dengan kebutuhan tim kamu.
+      </p>
+      <p class="cond gold text-base sm:text-lg mt-8">Bikin jersey yang benar-benar punya tim kamu.</p>
+    </div>
+    <div class="lg:col-span-5 fadeup">
+      <div class="border border-[rgba(181,155,91,.25)] p-3">
+        <img src="../images/5603bdcb-4a48-47d3-a72a-0e9a26630672.png" alt="Jersey army terlipat" class="w-full h-[420px] sm:h-[520px] object-cover">
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TACTICAL -->
+<section class="py-24 sm:py-32" style="background:linear-gradient(180deg,rgba(25,53,36,.35),transparent)">
+  <div class="max-w-5xl mx-auto px-5 text-center fadeup">
+    <h2 class="display text-4xl sm:text-6xl">DESAIN TACTICAL YANG BIKIN TIM<br class="hidden sm:block"> TERLIHAT LEBIH <span class="gold">BERKARAKTER</span></h2>
+    <p class="mt-7 text-lg text-[rgba(244,241,232,.78)] max-w-2xl mx-auto leading-relaxed">
+      Setiap desain Army Collection punya karakter <strong class="text-[var(--cream)]">military, tactical, dan rugged</strong> yang cocok untuk berbagai kebutuhan.
+    </p>
+    <div class="rule my-10"></div>
+    <p class="cond text-xs sm:text-sm text-[rgba(244,241,232,.65)] mb-5">Cocok untuk</p>
+    <div class="flex flex-wrap justify-center gap-3">
+      <span class="cond text-xs sm:text-sm border border-[rgba(181,155,91,.35)] px-4 py-2">Komunitas</span>
+      <span class="cond text-xs sm:text-sm border border-[rgba(181,155,91,.35)] px-4 py-2">Instansi</span>
+      <span class="cond text-xs sm:text-sm border border-[rgba(181,155,91,.35)] px-4 py-2">Corporate</span>
+      <span class="cond text-xs sm:text-sm border border-[rgba(181,155,91,.35)] px-4 py-2">Organisasi</span>
+      <span class="cond text-xs sm:text-sm border border-[rgba(181,155,91,.35)] px-4 py-2">Tim Outdoor</span>
+      <span class="cond text-xs sm:text-sm border border-[rgba(181,155,91,.35)] px-4 py-2">Event</span>
+      <span class="cond text-xs sm:text-sm border border-[rgba(181,155,91,.35)] px-4 py-2">Gathering</span>
+    </div>
+    <div class="mt-14 grid sm:grid-cols-3 gap-5 text-left">
+      <div class="card p-7"><p class="display text-3xl">MAU TAMPIL FORMAL?</p><p class="cond gold mt-3 text-sm">Bisa.</p></div>
+      <div class="card p-7"><p class="display text-3xl">MAU TERLIHAT TACTICAL?</p><p class="cond gold mt-3 text-sm">Bisa.</p></div>
+      <div class="card p-7"><p class="display text-3xl">MAU LEBIH AGRESIF?</p><p class="cond gold mt-3 text-sm">Tinggal pilih modelnya.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- PROSES -->
+<section id="pilih" class="py-24 sm:py-32 border-t border-[rgba(181,155,91,.15)]">
+  <div class="max-w-6xl mx-auto px-5 grid lg:grid-cols-2 gap-14 items-start">
+    <div class="fadeup">
+      <h2 class="display text-4xl sm:text-6xl">PILIH DESAINNYA.<br><span class="gold">KAMI YANG BIKIN JADI MILIK TIMMU.</span></h2>
+      <p class="mt-7 text-lg text-[rgba(244,241,232,.78)] leading-relaxed">
+        Nggak perlu pusing mulai dari desain kosong. <strong class="text-[var(--cream)]">Pilih salah satu dari 20+ desain Army yang sudah tersedia.</strong>
+      </p>
+      <p class="cond gold text-base mt-8">Custom sesuai kebutuhan tim.</p>
+      <a href="#katalog" class="btn mt-8"><span>Pilih Desain Army</span><span class="ico" aria-hidden="true">↗</span></a>
+    </div>
+    <div class="card p-8 sm:p-10 fadeup">
+      <p class="cond text-sm gold mb-6">Kemudian kirim</p>
+      <ul class="space-y-4 text-lg">
+        <li class="flex gap-4 items-start border-b border-[rgba(181,155,91,.15)] pb-4"><span class="gold">✓</span> Nama tim / komunitas</li>
+        <li class="flex gap-4 items-start border-b border-[rgba(181,155,91,.15)] pb-4"><span class="gold">✓</span> Logo</li>
+        <li class="flex gap-4 items-start border-b border-[rgba(181,155,91,.15)] pb-4"><span class="gold">✓</span> Nameset</li>
+        <li class="flex gap-4 items-start border-b border-[rgba(181,155,91,.15)] pb-4"><span class="gold">✓</span> Nomor</li>
+        <li class="flex gap-4 items-start"><span class="gold">✓</span> Logo sponsor</li>
+      </ul>
+      <p class="mt-7 text-[rgba(244,241,232,.7)]">Tim kami akan membantu menyesuaikan desain sesuai identitas kamu.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ALASAN -->
+<section class="py-24 sm:py-32" style="background:linear-gradient(180deg,transparent,rgba(25,53,36,.4),transparent)">
+  <div class="max-w-6xl mx-auto px-5">
+    <h2 class="display text-4xl sm:text-6xl max-w-3xl fadeup">KENAPA BANYAK TIM MEMILIH <span class="gold">JERSEY CUSTOM?</span></h2>
+    <div class="rule my-10"></div>
+    <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
+      <div class="card p-8 fadeup"><p class="num">01</p><h3 class="cond text-lg mt-3">Identitas Lebih Kuat</h3><p class="mt-3 text-[rgba(244,241,232,.75)]">Logo dan nama tim membuat jersey terasa lebih personal dan profesional.</p></div>
+      <div class="card p-8 fadeup"><p class="num">02</p><h3 class="cond text-lg mt-3">Tim Terlihat Lebih Kompak</h3><p class="mt-3 text-[rgba(244,241,232,.75)]">Satu desain yang seragam membuat seluruh anggota terlihat sebagai satu kesatuan.</p></div>
+      <div class="card p-8 fadeup"><p class="num">03</p><h3 class="cond text-lg mt-3">Desain Lebih Berkarakter</h3><p class="mt-3 text-[rgba(244,241,232,.75)]">Gaya Army &amp; Tactical memberikan tampilan yang tegas dan maskulin.</p></div>
+      <div class="card p-8 fadeup"><p class="num">04</p><h3 class="cond text-lg mt-3">Bisa Custom</h3><p class="mt-3 text-[rgba(244,241,232,.75)]">Sesuaikan nama, nomor, logo, sponsor, dan elemen lainnya sesuai kebutuhan.</p></div>
+      <div class="card p-8 fadeup"><p class="num">05</p><h3 class="cond text-lg mt-3">Siap untuk Berbagai Aktivitas</h3><p class="mt-3 text-[rgba(244,241,232,.75)]">Cocok untuk kegiatan komunitas, outdoor, event, gathering, maupun aktivitas tim lainnya.</p></div>
+      <div class="card p-8 flex flex-col justify-center fadeup" style="border-color:rgba(181,155,91,.45)">
+        <p class="display text-4xl gold">20+</p>
+        <p class="cond text-sm mt-2">Desain Army siap custom</p>
+        <a href="#cta" class="cond gold text-sm mt-5 underline underline-offset-4">Lihat pilihannya →</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- HARGA -->
+<section id="harga" class="relative py-24 sm:py-32 border-t border-[rgba(181,155,91,.15)] overflow-hidden">
+  <div class="gridbg"></div>
+  <div class="relative max-w-6xl mx-auto px-5">
+
+    <div class="text-center fadeup">
+      <p class="cond text-xs gold mb-4">Harga &amp; paket</p>
+      <h2 class="display text-4xl sm:text-6xl">PILIH <span class="gold">PAKET TIMMU</span></h2>
+      <p class="mt-4 text-[rgba(244,241,232,.72)]">Pilih jumlah pembelian, harga akan menyesuaikan otomatis.</p>
+    </div>
+
+    <!-- TOGGLE -->
+    <div class="mt-9 flex justify-center fadeup">
+      <div id="toggle" class="relative inline-flex p-1.5 rounded-full border border-[rgba(181,155,91,.35)] bg-[rgba(7,10,8,.85)]">
+        <span id="knob" class="absolute top-1.5 bottom-1.5 left-1.5 rounded-full bg-[var(--gold)] transition-all duration-500" style="transition-timing-function:cubic-bezier(.16,1,.3,1);width:calc(50% - .375rem)"></span>
+        <button data-mode="ecer" class="tgl relative z-10 cond text-xs sm:text-sm px-6 sm:px-9 py-2.5 rounded-full transition-colors duration-300 text-[var(--black)]">Ecer</button>
+        <button data-mode="lusin" class="tgl relative z-10 cond text-xs sm:text-sm px-6 sm:px-9 py-2.5 rounded-full transition-colors duration-300 text-[rgba(244,241,232,.8)]">Lusin • Hemat</button>
+      </div>
+    </div>
+    <p id="hemat" class="mt-4 text-center cond text-[11px] text-[rgba(244,241,232,.55)] transition-opacity duration-300">Mulai 12 pcs otomatis dapat harga lusin</p>
+
+    <!-- KARTU -->
+    <div class="mt-10 max-w-3xl mx-auto">
+      <div class="lift fadeup relative overflow-hidden rounded-2xl border border-[rgba(181,155,91,.5)]" style="background:linear-gradient(165deg,rgba(25,53,36,.96),rgba(9,16,11,.99))">
+        <div class="sheen"></div>
+        <div class="relative grid sm:grid-cols-2">
+          <!-- sisi harga -->
+          <div class="p-8 sm:p-10 border-b sm:border-b-0 sm:border-r border-[rgba(181,155,91,.22)]">
+            <p class="cond text-[11px] gold">Jersey Army Atasan</p>
+            <h3 class="display text-3xl sm:text-4xl mt-1.5">PAKET CUSTOM LENGKAP</h3>
+            <div class="mt-8 flex items-end gap-2">
+              <span class="gold display text-2xl pb-3">Rp</span>
+              <span class="price display text-6xl sm:text-7xl leading-none gold" data-ecer="85rb" data-lusin="75rb">85rb</span>
+              <span class="cond text-sm text-[rgba(244,241,232,.6)] pb-3">/pcs</span>
+            </div>
+            <p class="note cond text-[11px] mt-3 text-[rgba(244,241,232,.7)]" data-ecer="Bisa beli satuan, tanpa minimal" data-lusin="Harga lusin aktif mulai 12 pcs">Bisa beli satuan, tanpa minimal</p>
+            <a href="#katalog" class="btn mt-8 w-full"><span>Pilih Desain</span><span class="ico" aria-hidden="true">↗</span></a>
+          </div>
+          <!-- sisi benefit -->
+          <div class="p-8 sm:p-10">
+            <p class="cond text-[11px] text-[rgba(244,241,232,.55)]">Semua sudah termasuk</p>
+            <ul class="mt-6 space-y-3.5 text-[15px]">
+              <li class="flex gap-3"><span class="gold">✓</span> Bahan dry fit premium</li>
+              <li class="flex gap-3"><span class="gold">✓</span> Full printing &amp; desain bebas</li>
+              <li class="flex gap-3"><span class="gold">✓</span> Nama dan nomor punggung</li>
+              <li class="flex gap-3"><span class="gold">✓</span> Logo tim, komunitas &amp; sponsor</li>
+              <li class="flex gap-3"><span class="gold">✓</span> Revisi desain dibantu</li>
+            </ul>
+          </div>
+        </div>
+        <!-- catatan custom desain -->
+        <div class="relative border-t border-[rgba(181,155,91,.22)] px-8 sm:px-10 py-5 flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-4 justify-between bg-[rgba(7,10,8,.55)]">
+          <p class="cond text-[11px] text-[rgba(244,241,232,.75)]">Mau desain sendiri dari nol? <span class="gold">Minimal 6 pcs</span>, harga tetap sama.</p>
+          <a href="#cta" class="cond text-[11px] gold underline underline-offset-4 whitespace-nowrap">Konsultasi desain →</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- strip info -->
+    <div class="mt-5 grid sm:grid-cols-3 gap-5 fadeup">
+      <div class="rounded-xl border border-[rgba(181,155,91,.2)] p-5 text-center"><p class="display text-3xl gold">FREE</p><p class="cond text-[11px] mt-1 text-[rgba(244,241,232,.65)]">Biaya desain &amp; nameset</p></div>
+      <div class="rounded-xl border border-[rgba(181,155,91,.2)] p-5 text-center"><p class="display text-3xl gold">6</p><p class="cond text-[11px] mt-1 text-[rgba(244,241,232,.65)]">Minimal pcs desain sendiri</p></div>
+      <div class="rounded-xl border border-[rgba(181,155,91,.2)] p-5 text-center"><p class="display text-3xl gold">12</p><p class="cond text-[11px] mt-1 text-[rgba(244,241,232,.65)]">Pcs untuk harga lusin</p></div>
+    </div>
+
+    <!-- bar order besar -->
+    <div class="mt-5 rounded-2xl border border-[rgba(181,155,91,.3)] p-7 sm:p-8 flex flex-col sm:flex-row sm:items-center justify-between gap-5 fadeup lift" style="background:linear-gradient(120deg,rgba(25,53,36,.6),rgba(7,10,8,.9))">
+      <div>
+        <h3 class="display text-2xl sm:text-4xl">BUTUH LEBIH DARI 50 PCS?</h3>
+        <p class="mt-2 text-[rgba(244,241,232,.7)] text-[15px]">Harga proyek khusus untuk komunitas, instansi, sekolah, dan event.</p>
+      </div>
+      <a href="#cta" class="btn whitespace-nowrap self-start sm:self-auto"><span>Minta Harga Khusus</span><span class="ico" aria-hidden="true">↗</span></a>
+    </div>
+  </div>
+</section>
+
+<!-- KATALOG -->
+<section id="katalog" class="py-24 sm:py-32 border-t border-[rgba(181,155,91,.15)]" style="background:linear-gradient(180deg,rgba(25,53,36,.28),transparent)">
+  <div class="max-w-6xl mx-auto px-5">
+    <div class="flex flex-col sm:flex-row sm:items-end justify-between gap-6 fadeup">
+      <div>
+        <p class="cond text-xs gold mb-4">Katalog</p>
+        <h2 class="display text-4xl sm:text-6xl">20 DESAIN ARMY<br><span class="gold">SIAP CUSTOM</span></h2>
+      </div>
+      <p class="cond text-xs text-[rgba(244,241,232,.6)] sm:text-right max-w-xs">Klik desain untuk melihat detail lebih besar</p>
+    </div>
+
+    <div id="grid-katalog" class="mt-12 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4"></div>
+
+    <p class="mt-10 text-center text-[rgba(244,241,232,.6)] fadeup">Belum ketemu yang pas? <a href="#cta" class="gold underline underline-offset-4">Minta rekomendasi desain</a></p>
+  </div>
+</section>
+
+<!-- MODAL KATALOG -->
+<div id="modal" class="fixed inset-0 z-[60] hidden items-center justify-center p-4" aria-hidden="true">
+  <div id="modal-bg" class="absolute inset-0 bg-[rgba(4,6,5,.88)] backdrop-blur-sm opacity-0 transition-opacity duration-300"></div>
+  <div id="modal-box" class="relative w-full max-w-lg bg-[var(--black)] border border-[rgba(181,155,91,.35)] opacity-0 scale-95 translate-y-3 transition-all duration-400" style="transition-timing-function:cubic-bezier(.16,1,.3,1)">
+    <button id="modal-close" aria-label="Tutup" class="absolute -top-3 -right-3 w-10 h-10 bg-[var(--cream)] text-[var(--black)] text-xl leading-none flex items-center justify-center rounded-full hover:bg-[var(--gold)] transition">×</button>
+    <div id="modal-img" class="w-full aspect-square jersey-ph"></div>
+    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 p-6 border-t border-[rgba(181,155,91,.25)]">
+      <div>
+        <p id="modal-code" class="cond text-sm">ARMY-01</p>
+        <p id="modal-cat" class="text-sm text-[rgba(244,241,232,.6)]">Army Collection</p>
+      </div>
+      <a href="#cta" id="modal-cta" class="btn"><span>Order Sekarang</span><span class="ico" aria-hidden="true">↗</span></a>
+    </div>
+  </div>
+</div>
+
+<!-- MANIFESTO -->
+<section class="py-28 sm:py-36 border-y border-[rgba(181,155,91,.15)]">
+  <div class="max-w-4xl mx-auto px-5 text-center fadeup">
+    <h2 class="display text-4xl sm:text-7xl">JANGAN BIARKAN TIMMU <span class="gold">TERLIHAT BIASA.</span></h2>
+    <p class="mt-8 text-lg sm:text-xl text-[rgba(244,241,232,.8)] leading-relaxed">
+      Kalau sudah punya komunitas, organisasi, atau tim... <strong class="text-[var(--cream)]">bikin identitas yang bisa langsung dikenali.</strong>
+    </p>
+    <p class="mt-5 text-lg sm:text-xl text-[rgba(244,241,232,.8)] leading-relaxed">
+      Karena ketika semua anggota memakai jersey yang sama, <strong class="gold">kekompakan bukan cuma terlihat — tapi terasa.</strong>
+    </p>
+  </div>
+</section>
+
+<!-- CTA -->
+<section id="cta" class="relative py-28 sm:py-36 overflow-hidden">
+  <div class="absolute inset-0 opacity-25" style="background:radial-gradient(60% 60% at 50% 40%, rgba(49,91,58,.9), transparent 70%)"></div>
+  <div class="relative max-w-4xl mx-auto px-5 text-center fadeup">
+    <h2 class="display text-5xl sm:text-8xl">SIAP BIKIN <span class="gold">JERSEY ARMY</span> TIMMU?</h2>
+    <p class="cond text-sm sm:text-base mt-6 text-[rgba(244,241,232,.85)]">Pilih desain favoritmu sekarang</p>
+    <div class="rule my-9 max-w-lg mx-auto"></div>
+    <p class="cond text-xs sm:text-sm text-[rgba(244,241,232,.7)]">20+ Desain Army • Siap Custom • Bisa untuk Tim &amp; Komunitas</p>
+    <p class="mt-6 text-lg text-[rgba(244,241,232,.8)]">Pilih desain yang paling cocok dengan karakter tim kamu.</p>
+    <div class="mt-10 flex flex-wrap justify-center gap-4">
+      <a href="#katalog" class="btn"><span>Pilih Desain Army</span><span class="ico" aria-hidden="true">↗</span></a>
+      <a href="#pilih" class="btn-ghost">Konsultasi Custom</a>
+    </div>
+    <p class="cond gold text-sm mt-12">Tampil solid. Tampil berkarakter. Tampil sebagai satu tim.</p>
+  </div>
+</section>
+
+<footer class="border-t border-[rgba(181,155,91,.18)] py-10">
+  <div class="max-w-6xl mx-auto px-5 flex flex-col sm:flex-row gap-4 items-center justify-between">
+    <span class="display text-2xl">ARMY <span class="gold">COLLECTION</span></span>
+    <span class="cond text-xs text-[rgba(244,241,232,.55)]">Jersey Custom Military &amp; Tactical</span>
+  </div>
+</footer>
+
+<script>
+  const io = new IntersectionObserver((es)=>{es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}})},{threshold:.15});
+  document.querySelectorAll('.fadeup').forEach((el,i)=>{el.style.transitionDelay=(i%3*90)+'ms';io.observe(el)});
+
+  /* ---- toggle harga ecer / lusin ---- */
+  (function(){
+    const btns=document.querySelectorAll('.tgl'), knob=document.getElementById('knob'),
+          hemat=document.getElementById('hemat');
+    let current='ecer';
+    function moveKnob(){
+      const b=[...btns].find(x=>x.dataset.mode===current); if(!b) return;
+      knob.style.left=b.offsetLeft+'px'; knob.style.width=b.offsetWidth+'px';
+    }
+    function setMode(mode,btn){
+      current=mode; moveKnob();
+      btns.forEach(b=>{
+        const on = b.dataset.mode===mode;
+        b.classList.toggle('text-[var(--black)]',on);
+        b.classList.toggle('text-[rgba(244,241,232,.8)]',!on);
+      });
+      hemat.textContent = (mode==='ecer')
+        ? 'Mulai 12 pcs otomatis dapat harga lusin'
+        : 'Harga lusin aktif — hemat Rp10.000 per jersey';
+      document.querySelectorAll('.price, .note').forEach(el=>{
+        const val = el.dataset[mode]; if(!val) return;
+        if(el.classList.contains('price')){
+          el.classList.add('swap');
+          setTimeout(()=>{el.textContent=val;el.classList.remove('swap');},220);
+        } else { el.textContent = val; }
+      });
+    }
+    btns.forEach(b=>b.addEventListener('click',()=>setMode(b.dataset.mode,b)));
+    setMode('ecer');
+    window.addEventListener('resize',moveKnob);
+    window.addEventListener('load',moveKnob);
+    if(document.fonts&&document.fonts.ready) document.fonts.ready.then(moveKnob);
+  })();
+
+  /* ---- katalog 20 desain (placeholder) ---- */
+  const tipe = ['Tactical','Rugged','Camo','Urban Army','Stealth'];
+  const grid = document.getElementById('grid-katalog');
+  const items = [];
+  for(let i=1;i<=20;i++){
+    const code = 'ARMY-' + String(i).padStart(2,'0');
+    const cat  = tipe[(i-1)%tipe.length];
+    items.push({code,cat});
+    const t = document.createElement('button');
+    t.className = 'tile fadeup';
+    t.setAttribute('data-i', i-1);
+    t.innerHTML =
+      '<div class="ph jersey-ph w-full aspect-[4/5]" data-code="'+code+'"></div>' +
+      '<div class="meta"><span class="cond text-[11px]">'+code+'</span>' +
+      '<span class="zoom cond text-[11px] gold">Lihat &nearr;</span></div>';
+    grid.appendChild(t);
+    io.observe(t);
+  }
+
+  /* ---- modal zoom ---- */
+  const modal=document.getElementById('modal'), mbg=document.getElementById('modal-bg'),
+        mbox=document.getElementById('modal-box'), mimg=document.getElementById('modal-img'),
+        mcode=document.getElementById('modal-code'), mcat=document.getElementById('modal-cat');
+  function openModal(i){
+    const it=items[i];
+    mimg.setAttribute('data-code',it.code); mcode.textContent=it.code; mcat.textContent=it.cat+' • Army Collection';
+    modal.classList.remove('hidden'); modal.classList.add('flex'); modal.setAttribute('aria-hidden','false');
+    document.body.style.overflow='hidden';
+    requestAnimationFrame(()=>{mbg.classList.add('opacity-100');mbox.classList.remove('opacity-0','scale-95','translate-y-3');});
+  }
+  function closeModal(){
+    mbg.classList.remove('opacity-100'); mbox.classList.add('opacity-0','scale-95','translate-y-3');
+    setTimeout(()=>{modal.classList.add('hidden');modal.classList.remove('flex');modal.setAttribute('aria-hidden','true');document.body.style.overflow='';},280);
+  }
+  grid.addEventListener('click',e=>{const t=e.target.closest('.tile'); if(t) openModal(+t.dataset.i);});
+  document.getElementById('modal-close').addEventListener('click',closeModal);
+  mbg.addEventListener('click',closeModal);
+  document.getElementById('modal-cta').addEventListener('click',closeModal);
+  document.addEventListener('keydown',e=>{if(e.key==='Escape'&&!modal.classList.contains('hidden'))closeModal();});
+</script>
+
+</body></html>

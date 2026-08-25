@@ -167,7 +167,7 @@ export default function JerseyRunningLanding({ products, waNumber }: Props) {
   );
 
   const prices = {
-    ecer: { atasan: "75RB", setelan: "145RB", labelAtasan: "Bisa pesan mulai 1 pcs", labelSetelan: "Bisa pesan mulai 1 set", note: "Order 12 pcs ke atas, hemat sampai Rp25.000/pcs" },
+    ecer: { atasan: "75RB", setelan: "145RB", labelAtasan: "Mau desain custom sendiri? Order minimal 6 pcs", labelSetelan: "Mau desain custom sendiri? Order minimal 6 pcs", note: "Order 12 pcs ke atas, hemat sampai Rp25.000/pcs" },
     lusin: { atasan: "65RB", setelan: "120RB", labelAtasan: "Minimal pembelian 12 pcs", labelSetelan: "Minimal pembelian 12 set", note: "Harga lusinan aktif — hemat Rp10.000/pcs & Rp25.000/set" },
   };
 

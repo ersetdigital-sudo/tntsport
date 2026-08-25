@@ -1,0 +1,928 @@
+<!DOCTYPE html>
+<html lang="id"><head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TNT Sport Apparel — Jersey Racing Custom | Full Printing, Bisa Satuan</title>
+<meta name="description" content="Jersey racing custom full printing. Atasan 95rb satuan, 85rb mulai 12 pcs. Langsung dari pabrik. 20 desain racing siap pilih, bisa order satuan. Custom desain dari nol minimal 6 pcs. Gratis desain, revisi bebas, beli 6 gratis 1. TNT SPORT APPAREL est. 2017.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+<link href="https://fonts.googleapis.com/css2?family=Archivo+Black&amp;family=Barlow+Condensed:wght@600;700&amp;family=Barlow:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#08090c;
+    --ink-2:#101318;
+    --ink-3:#171b22;
+    --line:rgba(255,255,255,.10);
+    --line-2:rgba(255,255,255,.18);
+    --red:#d81020;
+    --red-hot:#ff2233;
+    --yellow:#ffd400;
+    --amber:#ffc400;
+    --txt:#f4f5f7;
+    --muted:#9aa2b1;
+  }
+  html{scroll-behavior:smooth;}
+  body{
+    background:var(--ink);
+    color:var(--txt);
+    font-family:"Barlow",system-ui,sans-serif;
+    overflow-x:hidden;
+  }
+  .display{font-family:"Archivo Black",Impact,sans-serif;letter-spacing:-.015em;line-height:.92;text-transform:uppercase;}
+  .cond{font-family:"Barlow Condensed",sans-serif;text-transform:uppercase;letter-spacing:.06em;}
+
+  /* diagonal speed-line texture */
+  .speedlines{
+    background-image:repeating-linear-gradient(115deg,
+      rgba(255,255,255,.055) 0px, rgba(255,255,255,.055) 2px,
+      transparent 2px, transparent 11px);
+  }
+  .grid-tex{
+    background-image:linear-gradient(rgba(255,255,255,.035) 1px,transparent 1px),
+                     linear-gradient(90deg,rgba(255,255,255,.035) 1px,transparent 1px);
+    background-size:56px 56px;
+  }
+  /* angular slash divider between sections */
+  .slash-top{clip-path:polygon(0 3.2vw,100% 0,100% 100%,0 100%);}
+  .slash-both{clip-path:polygon(0 3.2vw,100% 0,100% calc(100% - 3.2vw),0 100%);}
+
+  .chk{stroke:var(--red-hot);}
+
+  /* accent bar used on section headings */
+  .kicker{
+    display:inline-flex;align-items:center;gap:.6rem;
+    font-family:"Barlow Condensed",sans-serif;text-transform:uppercase;
+    letter-spacing:.22em;font-weight:700;font-size:.8rem;color:var(--yellow);
+  }
+  .kicker::before{content:"";width:26px;height:3px;background:var(--red-hot);display:block;transform:skewX(-25deg);}
+
+  .btn-primary{
+    background:linear-gradient(100deg,var(--red-hot),var(--red));
+    box-shadow:0 10px 30px -8px rgba(255,34,51,.55), inset 0 1px 0 rgba(255,255,255,.25);
+    transition:transform .18s ease, box-shadow .18s ease, filter .18s ease;
+  }
+  .btn-primary:hover{transform:translateY(-2px);box-shadow:0 16px 38px -8px rgba(255,34,51,.7), inset 0 1px 0 rgba(255,255,255,.3);filter:saturate(1.1);}
+  .btn-ghost{border:1.5px solid var(--line-2);transition:border-color .18s ease,background .18s ease,transform .18s ease;}
+  .btn-ghost:hover{border-color:rgba(255,255,255,.5);background:rgba(255,255,255,.06);transform:translateY(-2px);}
+
+  .card{background:linear-gradient(180deg,var(--ink-3),var(--ink-2));border:1px solid var(--line);}
+  .card-hi{border-color:rgba(255,34,51,.45);box-shadow:0 0 0 1px rgba(255,34,51,.14),0 24px 60px -30px rgba(255,34,51,.5);}
+  .pricetab{color:#9aa2b1;background:transparent;cursor:pointer;}
+  .pricetab:hover{color:#fff;}
+  .pricetab.is-on{background:var(--red);color:#fff;box-shadow:0 8px 24px -12px rgba(255,34,51,.8);}
+
+  /* number badge with racing skew */
+  .numtag{
+    font-family:"Archivo Black",sans-serif;
+    transform:skewX(-10deg);
+    background:linear-gradient(140deg,var(--red-hot),var(--red));
+  }
+  .numtag span{display:block;transform:skewX(10deg);}
+
+  /* reveal on scroll */
+  .rv{opacity:0;transform:translateY(26px);transition:opacity .7s cubic-bezier(.2,.7,.2,1),transform .7s cubic-bezier(.2,.7,.2,1);}
+  .rv.in{opacity:1;transform:none;}
+  /* varian reveal */
+  .rv-l{opacity:0;transform:translateX(-38px);transition:opacity .8s cubic-bezier(.2,.7,.2,1),transform .8s cubic-bezier(.2,.7,.2,1);}
+  .rv-r{opacity:0;transform:translateX(38px);transition:opacity .8s cubic-bezier(.2,.7,.2,1),transform .8s cubic-bezier(.2,.7,.2,1);}
+  .rv-z{opacity:0;transform:scale(.93);transition:opacity .8s cubic-bezier(.2,.7,.2,1),transform .8s cubic-bezier(.2,.7,.2,1);}
+  .rv-l.in,.rv-r.in,.rv-z.in{opacity:1;transform:none;}
+  /* hero: masuk sendiri saat load */
+  .hero-up{opacity:0;transform:translateY(30px);animation:heroUp .9s cubic-bezier(.2,.7,.2,1) forwards;}
+  @keyframes heroUp{to{opacity:1;transform:none;}}
+  /* garis merah nyapu di bawah judul section */
+  .swipe{position:relative;}
+  .swipe::after{content:"";position:absolute;left:0;bottom:-14px;height:3px;width:0;background:linear-gradient(90deg,var(--red),var(--yellow));transition:width .9s cubic-bezier(.2,.7,.2,1) .15s;}
+  .swipe.in::after{width:88px;}
+  /* scroll cue */
+  .scrollcue{animation:cueBob 2.4s ease-in-out infinite;}
+  @keyframes cueBob{0%,100%{transform:translateY(0);}50%{transform:translateY(7px);}}
+  /* angka statistik */
+  .statnum{font-variant-numeric:tabular-nums;}
+  @media (prefers-reduced-motion:reduce){
+    .rv,.rv-l,.rv-r,.rv-z{opacity:1;transform:none;transition:none;}
+    .hero-up{opacity:1;transform:none;animation:none;}
+    .swipe.in::after{width:88px;transition:none;}
+    .scrollcue{animation:none;}
+    html{scroll-behavior:auto;}
+  }
+
+  /* customization callouts: dot + label */
+  .cal{position:absolute;transform:translate(-50%,-50%);display:flex;align-items:center;gap:.5rem;white-space:nowrap;}
+  .cal[data-side="left"]{flex-direction:row-reverse;}
+  .hot{position:relative;flex:0 0 auto;width:clamp(12px,1.4vw,16px);height:clamp(12px,1.4vw,16px);border-radius:9999px;
+    background:var(--red-hot);box-shadow:0 0 0 3px rgba(255,34,51,.25),0 0 14px rgba(255,34,51,.75);}
+  .hot::after{content:"";position:absolute;inset:0;border-radius:9999px;border:2px solid rgba(255,255,255,.9);}
+  .cal b{
+    font-family:"Barlow Condensed",sans-serif;text-transform:uppercase;letter-spacing:.07em;
+    font-size:clamp(.6rem,1.15vw,.82rem);font-weight:700;color:var(--yellow);
+    background:rgba(8,9,12,.88);border:1px solid rgba(255,212,0,.35);
+    padding:.22em .6em;border-radius:3px;line-height:1.25;
+    backdrop-filter:blur(4px);
+  }
+  /* keep edge labels inside the frame */
+  .cal[data-side="left"]{transform:translate(-8%,-50%);}
+  .cal[data-side="right"]{transform:translate(-92%,-50%);}
+  .cal[style*="left:50%"]{transform:translate(-50%,-50%);flex-direction:column;gap:.35rem;}
+
+  /* horizontal-scroll affordance */
+  .scroll-x{position:relative;}
+  .scroll-x::after{
+    content:"";position:absolute;top:0;bottom:0;right:0;width:44px;pointer-events:none;
+    background:linear-gradient(to left,var(--ink-3),transparent);
+  }
+  @media (min-width:640px){.scroll-x::after{display:none;}}
+
+  details[open] .faq-ico{transform:rotate(45deg);}
+  .faq-ico{transition:transform .22s ease;}
+  details summary::-webkit-details-marker{display:none;}
+
+  table.cmp th, table.cmp td{border-bottom:1px solid var(--line);}
+  table.cmp tr:last-child td{border-bottom:none;}
+</style>
+<script src="https://cdn.moda.app/runtime-libs/tailwind-browser-4.1.13-index.global.min.js"></script><style data-moda-export-fonts="true">@font-face { font-family: 'Barlow'; src: url("../fonts/barlow-thin.ttf") format("truetype"); font-style: normal; font-weight: 100; font-display: swap; }
+@font-face { font-family: 'Barlow'; src: url("../fonts/barlow-thinitalic.ttf") format("truetype"); font-style: italic; font-weight: 100; font-display: swap; }
+@font-face { font-family: 'Barlow'; src: url("../fonts/barlow-extralight.ttf") format("truetype"); font-style: normal; font-weight: 200; font-display: swap; }
+@font-face { font-family: 'Barlow'; src: url("../fonts/barlow-extralightitalic.ttf") format("truetype"); font-style: italic; font-weight: 200; font-display: swap; }
+@font-face { font-family: 'Barlow'; src: url("../fonts/barlow-light.ttf") format("truetype"); font-style: normal; font-weight: 300; font-display: swap; }
+@font-face { font-family: 'Barlow'; src: url("../fonts/barlow-lightitalic.ttf") format("truetype"); font-style: italic; font-weight: 300; font-display: swap; }
+@font-face { font-family: 'Barlow'; src: url("../fonts/barlow-regular.ttf") format("truetype"); font-style: normal; font-weight: 400; font-display: swap; }
+@font-face { font-family: 'Barlow'; src: url("../fonts/barlow-italic.ttf") format("truetype"); font-style: italic; font-weight: 400; font-display: swap; }
+@font-face { font-family: 'Barlow'; src: url("../fonts/barlow-medium.ttf") format("truetype"); font-style: normal; font-weight: 500; font-display: swap; }
+@font-face { font-family: 'Barlow'; src: url("../fonts/barlow-mediumitalic.ttf") format("truetype"); font-style: italic; font-weight: 500; font-display: swap; }
+@font-face { font-family: 'Barlow'; src: url("../fonts/barlow-semibold.ttf") format("truetype"); font-style: normal; font-weight: 600; font-display: swap; }
+@font-face { font-family: 'Barlow'; src: url("../fonts/barlow-semibolditalic.ttf") format("truetype"); font-style: italic; font-weight: 600; font-display: swap; }
+@font-face { font-family: 'Barlow'; src: url("../fonts/barlow-bold.ttf") format("truetype"); font-style: normal; font-weight: 700; font-display: swap; }
+@font-face { font-family: 'Barlow'; src: url("../fonts/barlow-bolditalic.ttf") format("truetype"); font-style: italic; font-weight: 700; font-display: swap; }
+@font-face { font-family: 'Barlow'; src: url("../fonts/barlow-extrabold.ttf") format("truetype"); font-style: normal; font-weight: 800; font-display: swap; }
+@font-face { font-family: 'Barlow'; src: url("../fonts/barlow-extrabolditalic.ttf") format("truetype"); font-style: italic; font-weight: 800; font-display: swap; }
+@font-face { font-family: 'Barlow'; src: url("../fonts/barlow-black.ttf") format("truetype"); font-style: normal; font-weight: 900; font-display: swap; }
+@font-face { font-family: 'Barlow'; src: url("../fonts/barlow-blackitalic.ttf") format("truetype"); font-style: italic; font-weight: 900; font-display: swap; }
+@font-face { font-family: 'Archivo Black'; src: url("../fonts/archivoblack-regular.ttf") format("truetype"); font-style: normal; font-weight: 400; font-display: swap; }
+@font-face { font-family: 'Barlow Condensed'; src: url("../fonts/barlowcondensed-thin.ttf") format("truetype"); font-style: normal; font-weight: 100; font-display: swap; }
+@font-face { font-family: 'Barlow Condensed'; src: url("../fonts/barlowcondensed-thinitalic.ttf") format("truetype"); font-style: italic; font-weight: 100; font-display: swap; }
+@font-face { font-family: 'Barlow Condensed'; src: url("../fonts/barlowcondensed-extralight.ttf") format("truetype"); font-style: normal; font-weight: 200; font-display: swap; }
+@font-face { font-family: 'Barlow Condensed'; src: url("../fonts/barlowcondensed-extralightitalic.ttf") format("truetype"); font-style: italic; font-weight: 200; font-display: swap; }
+@font-face { font-family: 'Barlow Condensed'; src: url("../fonts/barlowcondensed-light.ttf") format("truetype"); font-style: normal; font-weight: 300; font-display: swap; }
+@font-face { font-family: 'Barlow Condensed'; src: url("../fonts/barlowcondensed-lightitalic.ttf") format("truetype"); font-style: italic; font-weight: 300; font-display: swap; }
+@font-face { font-family: 'Barlow Condensed'; src: url("../fonts/barlowcondensed-regular.ttf") format("truetype"); font-style: normal; font-weight: 400; font-display: swap; }
+@font-face { font-family: 'Barlow Condensed'; src: url("../fonts/barlowcondensed-italic.ttf") format("truetype"); font-style: italic; font-weight: 400; font-display: swap; }
+@font-face { font-family: 'Barlow Condensed'; src: url("../fonts/barlowcondensed-medium.ttf") format("truetype"); font-style: normal; font-weight: 500; font-display: swap; }
+@font-face { font-family: 'Barlow Condensed'; src: url("../fonts/barlowcondensed-mediumitalic.ttf") format("truetype"); font-style: italic; font-weight: 500; font-display: swap; }
+@font-face { font-family: 'Barlow Condensed'; src: url("../fonts/barlowcondensed-semibold.ttf") format("truetype"); font-style: normal; font-weight: 600; font-display: swap; }
+@font-face { font-family: 'Barlow Condensed'; src: url("../fonts/barlowcondensed-semibolditalic.ttf") format("truetype"); font-style: italic; font-weight: 600; font-display: swap; }
+@font-face { font-family: 'Barlow Condensed'; src: url("../fonts/barlowcondensed-bold.ttf") format("truetype"); font-style: normal; font-weight: 700; font-display: swap; }
+@font-face { font-family: 'Barlow Condensed'; src: url("../fonts/barlowcondensed-bolditalic.ttf") format("truetype"); font-style: italic; font-weight: 700; font-display: swap; }
+@font-face { font-family: 'Barlow Condensed'; src: url("../fonts/barlowcondensed-extrabold.ttf") format("truetype"); font-style: normal; font-weight: 800; font-display: swap; }
+@font-face { font-family: 'Barlow Condensed'; src: url("../fonts/barlowcondensed-extrabolditalic.ttf") format("truetype"); font-style: italic; font-weight: 800; font-display: swap; }
+@font-face { font-family: 'Barlow Condensed'; src: url("../fonts/barlowcondensed-black.ttf") format("truetype"); font-style: normal; font-weight: 900; font-display: swap; }
+@font-face { font-family: 'Barlow Condensed'; src: url("../fonts/barlowcondensed-blackitalic.ttf") format("truetype"); font-style: italic; font-weight: 900; font-display: swap; }</style></head>
+<body class="antialiased">
+
+<!-- ══════════ LOGO (floating, tanpa navbar) ══════════ -->
+<a href="#top" class="absolute top-6 left-5 sm:top-8 sm:left-8 z-40 flex items-center gap-2.5">
+  <img src="../images/0460e30c-5642-4ce7-8a22-1bc9c63f0ad1.jpg" alt="Logo TNT SPORT APPAREL" class="w-10 h-10 sm:w-11 sm:h-11 rounded object-cover">
+  <span class="cond font-bold text-[.95rem] sm:text-base tracking-[.16em] leading-none text-white" style="text-shadow:0 2px 12px rgba(0,0,0,.8);">TNT Sport<span class="text-[var(--red-hot)]">.</span></span>
+</a>
+
+<!-- ══════════ 1. HERO ══════════ -->
+<section id="top" class="relative min-h-[100svh] flex items-center overflow-hidden pt-20 sm:pt-24 pb-16">
+  <!-- base gelap + glow merah dari kanan -->
+  <div class="absolute inset-0" style="background:radial-gradient(95% 70% at 96% 30%,rgba(255,34,51,.22),transparent 62%),linear-gradient(160deg,#0b0d11 0%,#08090c 55%,#0a0b0f 100%);"></div>
+  <div class="absolute inset-0 grid-tex opacity-[.55]"></div>
+  <div class="absolute inset-0 speedlines opacity-40"></div>
+
+  <!-- panel diagonal ala livery jersey (kanan) -->
+  <div id="heroArt" class="absolute inset-y-0 right-0 w-[34%] sm:w-[44%] md:w-[46%] opacity-70 sm:opacity-80 pointer-events-none will-change-transform" aria-hidden="true">
+    <div class="absolute inset-y-0 right-0 w-full" style="background:linear-gradient(105deg,transparent 0%,rgba(255,212,0,.07) 46%,rgba(255,212,0,.02) 100%);clip-path:polygon(34% 0,100% 0,100% 100%,0 100%);"></div>
+    <div class="absolute inset-y-0 right-0 w-full" style="background:linear-gradient(105deg,transparent 0%,rgba(255,34,51,.20) 62%,rgba(255,34,51,.04) 100%);clip-path:polygon(56% 0,84% 0,44% 100%,16% 100%);"></div>
+    <div class="absolute inset-y-0 right-0 w-full" style="background:var(--yellow);opacity:.42;clip-path:polygon(84% 0,85.6% 0,73.6% 100%,72% 100%);"></div>
+    <div class="absolute inset-y-0 right-0 w-full" style="background:var(--red-hot);opacity:.5;clip-path:polygon(89% 0,90.4% 0,78.4% 100%,77% 100%);"></div>
+  </div>
+
+  <div class="absolute inset-x-0 bottom-0 h-32 bg-gradient-to-t from-[#08090c] to-transparent"></div>
+  <!-- scroll cue -->
+  <a href="#kenapa" aria-label="Scroll ke bawah" class="scrollcue absolute bottom-8 left-5 sm:left-8 z-20 hidden md:flex items-center gap-3 text-[#8e97a6] hover:text-white transition">
+    <span class="block w-9 h-[1.5px] bg-gradient-to-r from-[var(--red-hot)] to-transparent"></span>
+    <span class="cond text-[.68rem] font-bold tracking-[.24em]">SCROLL</span>
+  </a>
+
+  <div class="relative z-10 max-w-7xl mx-auto px-5 sm:px-8 w-full">
+    <div class="grid md:grid-cols-[1.15fr_.85fr] gap-10 md:gap-8 lg:gap-10 items-center">
+
+      <!-- ── KIRI: headline + CTA ── -->
+      <div>
+        <p class="kicker mb-6 hero-up" style="animation-delay:.05s">🏁 Custom Jersey Racing</p>
+        <h1 class="display text-[clamp(2.5rem,8vw,5.4rem)] mb-7 hero-up" style="animation-delay:.18s">
+          Jersey Racing Custom,<br>
+          <span class="text-[var(--red-hot)]">Bikin Tim Kamu</span><br>
+          Tampil Beda
+        </h1>
+        <p class="text-[clamp(1.05rem,2.2vw,1.28rem)] text-[#c9cfda] max-w-xl leading-relaxed mb-8 hero-up" style="animation-delay:.32s">
+          Full printing tajam, desain bebas, custom nama &amp; nomor start. Cocok buat komunitas touring, drag race, sampai track day.
+        </p>
+
+        <!-- harga: dipisah garis biar kebaca sebagai fakta, bukan hiasan -->
+        <div class="flex items-stretch gap-4 mb-9 hero-up" style="animation-delay:.44s">
+          <span class="w-[3px] shrink-0 bg-gradient-to-b from-[var(--red-hot)] to-[var(--yellow)] rounded-full"></span>
+          <p class="cond text-[clamp(1rem,2.2vw,1.28rem)] font-bold text-[var(--yellow)] tracking-[.04em] self-center">
+            Mulai <span class="display text-[clamp(1.5rem,3.4vw,2.2rem)] align-middle">85 RIBU</span> / pcs
+            <span class="block text-[#8e97a6] text-[.86rem] tracking-[.12em] mt-1">20 DESAIN RACING SIAP PILIH</span>
+          </p>
+        </div>
+
+        <div class="flex flex-col sm:flex-row gap-3.5 sm:gap-4 hero-up" style="animation-delay:.56s">
+          <a href="#" data-wa="Halo TNT SPORT APPAREL, saya mau order jersey racing custom. Boleh dibantu?" class="js-wa btn-primary cond text-white font-bold text-base sm:text-lg px-8 py-4 rounded text-center">🏁 Order Jersey Sekarang →</a>
+          <a href="#harga" class="btn-ghost cond font-bold text-base sm:text-lg px-8 py-4 rounded text-center text-white">Lihat Harga</a>
+        </div>
+      </div>
+
+      <!-- ── KANAN: komposisi tipografi ── -->
+      <div class="relative hidden md:block h-[26rem] lg:h-[30rem] hero-up" style="animation-delay:.4s" aria-hidden="true">
+        <!-- nomor start besar -->
+        <p class="display absolute -top-6 right-0 leading-[.78] text-[13.5rem] xl:text-[16rem] tracking-tighter text-transparent select-none" style="-webkit-text-stroke:2px rgba(255,255,255,.11);">07</p>
+        <p class="display absolute top-[7.2rem] right-2 leading-none text-[3.1rem] xl:text-[3.6rem] text-[var(--yellow)] select-none">TNT<span class="text-[var(--red-hot)]">.</span></p>
+
+        <!-- label vertikal -->
+        <p class="cond absolute top-2 left-1 text-[.68rem] font-bold tracking-[.42em] text-[#6d7684] [writing-mode:vertical-rl] select-none">EST. 2017 · INDONESIA</p>
+
+        <!-- garis + spec kecil -->
+        <div class="absolute right-2 top-[12.4rem] w-[13.5rem] h-px bg-gradient-to-l from-[var(--red-hot)]/70 to-transparent"></div>
+        <ul class="absolute right-2 top-[13.4rem] space-y-2 text-right cond text-[.72rem] font-bold tracking-[.24em] text-[#8e97a6] select-none">
+          <li>FULL PRINT</li>
+          <li>CUSTOM DESIGN</li>
+          <li class="text-[var(--yellow)]">RACING</li>
+          <li>TOURING</li>
+        </ul>
+
+        <!-- chip nomor kecil -->
+        <div class="absolute left-1 bottom-0 flex items-center gap-2 select-none">
+          <span class="cond text-[.7rem] font-bold tracking-[.2em] text-[#4d5563]">NO.</span>
+          <span class="cond text-[.78rem] font-bold tracking-[.14em] text-[#8e97a6] border border-white/10 px-2.5 py-1 rounded">46</span>
+          <span class="cond text-[.78rem] font-bold tracking-[.14em] text-[#8e97a6] border border-white/10 px-2.5 py-1 rounded">99</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ══════════ TRUST BAR ══════════ -->
+<section class="relative z-10 bg-[var(--red)] speedlines">
+  <div class="max-w-7xl mx-auto px-5 sm:px-8 py-5">
+    <ul class="flex flex-wrap items-center justify-center gap-x-7 gap-y-3 cond font-bold text-[.85rem] sm:text-[.95rem] text-white">
+      <li class="flex items-center gap-2"><svg class="w-4 h-4 shrink-0" viewBox="0 0 20 20" fill="none" stroke="#fff" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 10.5l4 4 8-9"></path></svg>Langsung Dari Pabrik</li>
+      <li class="hidden sm:block w-px h-4 bg-white/40"></li>
+      <li class="flex items-center gap-2"><svg class="w-4 h-4 shrink-0" viewBox="0 0 20 20" fill="none" stroke="#fff" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 10.5l4 4 8-9"></path></svg>Bisa Order Satuan</li>
+      <li class="hidden sm:block w-px h-4 bg-white/40"></li>
+      <li class="flex items-center gap-2"><svg class="w-4 h-4 shrink-0" viewBox="0 0 20 20" fill="none" stroke="#fff" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 10.5l4 4 8-9"></path></svg>Gratis Desain + Revisi Bebas</li>
+      <li class="hidden sm:block w-px h-4 bg-white/40"></li>
+      <li class="flex items-center gap-2"><svg class="w-4 h-4 shrink-0" viewBox="0 0 20 20" fill="none" stroke="#fff" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 10.5l4 4 8-9"></path></svg>Beli 6 Gratis 1</li>
+    </ul>
+  </div>
+</section>
+
+<!-- ══════════ 2. KENAPA PILIH KAMI ══════════ -->
+<section id="kenapa" class="relative py-20 sm:py-28 grid-tex">
+  <div class="max-w-7xl mx-auto px-5 sm:px-8">
+    <div class="max-w-4xl mb-14">
+      <p class="kicker mb-5 rv">Kenapa Beda</p>
+      <h2 class="display text-[clamp(1.9rem,5.4vw,3.5rem)] mb-7 rv swipe">
+        Bukan Cuma Jersey.<br><span class="text-[var(--red-hot)]">Ini Identitas Tim Kamu.</span>
+      </h2>
+      <p class="text-[1.05rem] sm:text-lg text-[#b3bac6] leading-relaxed rv">
+        Komunitas racing dan touring sering kumpul di banyak event — dari sirkuit lokal sampai kopdar antar kota. Jersey yang asal jadi bikin tim kamu kelihatan kurang niat. Kami bantu bikin identitas visual yang benar-benar dipikirin.
+      </p>
+    </div>
+
+    <div class="grid md:grid-cols-3 gap-5 sm:gap-6">
+      <!-- 1 -->
+      <article class="card rounded-lg p-7 sm:p-8 relative overflow-hidden rv">
+        <div class="absolute -top-6 -right-4 display text-[5.5rem] text-white/[.045] select-none">01</div>
+        <div class="numtag w-12 h-12 grid place-items-center mb-6 rounded"><span class="text-white text-xl leading-none">01</span></div>
+        <h3 class="cond text-xl sm:text-[1.35rem] font-bold mb-3.5">Ruang Sponsor Yang Rapi</h3>
+        <p class="text-[#a8b0bd] leading-relaxed">Desain bisa disusun dengan slot logo sponsor yang jelas dan proporsional.</p>
+      </article>
+      <!-- 2 -->
+      <article class="card rounded-lg p-7 sm:p-8 relative overflow-hidden rv">
+        <div class="absolute -top-6 -right-4 display text-[5.5rem] text-white/[.045] select-none">02</div>
+        <div class="numtag w-12 h-12 grid place-items-center mb-6 rounded"><span class="text-white text-xl leading-none">02</span></div>
+        <h3 class="cond text-xl sm:text-[1.35rem] font-bold mb-3.5">Bisa Satuan, Gak Perlu Ngajak Satu Tim</h3>
+        <p class="text-[#a8b0bd] leading-relaxed">Order 1 pcs bisa, pilih dari katalog. Butuh desain sendiri buat tim? Mulai 6 pcs.</p>
+      </article>
+      <!-- 3 -->
+      <article class="card rounded-lg p-7 sm:p-8 relative overflow-hidden rv">
+        <div class="absolute -top-6 -right-4 display text-[5.5rem] text-white/[.045] select-none">03</div>
+        <div class="numtag w-12 h-12 grid place-items-center mb-6 rounded"><span class="text-white text-xl leading-none">03</span></div>
+        <h3 class="cond text-xl sm:text-[1.35rem] font-bold mb-3.5">Desain Bener-Bener Punya Identitas</h3>
+        <p class="text-[#a8b0bd] leading-relaxed">Kirim logo tim/komunitas dan warna yang kamu mau — di paket custom, jersey jadi representasi identitas tim di setiap event.</p>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════ 3. CUSTOM vs SATUAN ══════════ -->
+<section id="pilihan" class="relative py-20 sm:py-28 bg-[var(--ink-2)] slash-both speedlines">
+  <div class="max-w-7xl mx-auto px-5 sm:px-8 pt-8">
+    <div class="max-w-3xl mb-14">
+      <p class="kicker mb-5 rv">Pilihan Order</p>
+      <h2 class="display text-[clamp(1.9rem,5.4vw,3.5rem)] rv swipe">
+        Jersey Racing — Pilih Sesuai <span class="text-[var(--red-hot)]">Kebutuhan Tim Kamu</span>
+      </h2>
+    </div>
+
+    <div class="grid lg:grid-cols-2 gap-5 sm:gap-6 mb-16">
+      <!-- FULL TEAM -->
+      <article class="card card-hi rounded-lg p-7 sm:p-9 flex flex-col relative overflow-hidden rv-l">
+        <div class="absolute top-0 right-0 bg-[var(--red)] cond font-bold text-[.72rem] tracking-[.18em] text-white px-4 py-1.5" style="clip-path:polygon(14% 0,100% 0,100% 100%,0 100%);">Paling Lengkap</div>
+        <p class="cond text-[var(--red-hot)] font-bold tracking-[.16em] text-sm mb-2 mt-3">Custom Desain Full Team</p>
+        <p class="display text-[clamp(1.6rem,4vw,2.2rem)] mb-6">Minimal 6 pcs</p>
+        <ul class="space-y-3.5 mb-9 flex-1">
+          <li class="flex gap-3 items-start"><svg class="w-5 h-5 mt-0.5 shrink-0" viewBox="0 0 20 20" fill="none" stroke="#ff2233" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 10.5l4 4 8-9"></path></svg><span class="text-[#d3d8e1]">Desain dari nol</span></li>
+          <li class="flex gap-3 items-start"><svg class="w-5 h-5 mt-0.5 shrink-0" viewBox="0 0 20 20" fill="none" stroke="#ff2233" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 10.5l4 4 8-9"></path></svg><span class="text-[#d3d8e1]">Bebas warna &amp; motif</span></li>
+          <li class="flex gap-3 items-start"><svg class="w-5 h-5 mt-0.5 shrink-0" viewBox="0 0 20 20" fill="none" stroke="#ff2233" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 10.5l4 4 8-9"></path></svg><span class="text-[#d3d8e1]">Logo tim</span></li>
+          <li class="flex gap-3 items-start"><svg class="w-5 h-5 mt-0.5 shrink-0" viewBox="0 0 20 20" fill="none" stroke="#ff2233" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 10.5l4 4 8-9"></path></svg><span class="text-[#d3d8e1]">Logo sponsor</span></li>
+          <li class="flex gap-3 items-start"><svg class="w-5 h-5 mt-0.5 shrink-0" viewBox="0 0 20 20" fill="none" stroke="#ff2233" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 10.5l4 4 8-9"></path></svg><span class="text-[#d3d8e1]">Nama &amp; nomor start</span></li>
+          <li class="flex gap-3 items-start"><svg class="w-5 h-5 mt-0.5 shrink-0" viewBox="0 0 20 20" fill="none" stroke="#ff2233" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 10.5l4 4 8-9"></path></svg><span class="text-[#d3d8e1]">Cocok untuk komunitas/tim</span></li>
+        </ul>
+        <a href="#" data-wa="Halo TNT SPORT APPAREL, saya mau konsultasi custom desain jersey untuk tim (minimal 6 pcs)." class="js-wa btn-primary cond text-white font-bold text-base px-7 py-3.5 rounded text-center">Konsultasi Custom Team →</a>
+      </article>
+
+      <!-- SATUAN -->
+      <article class="card rounded-lg p-7 sm:p-9 flex flex-col rv-r">
+        <p class="cond text-[#8e97a6] font-bold tracking-[.16em] text-sm mb-2 mt-3">Order Satuan</p>
+        <p class="display text-[clamp(1.6rem,4vw,2.2rem)] mb-6">Mulai 1 pcs</p>
+        <ul class="space-y-3.5 mb-9 flex-1">
+          <li class="flex gap-3 items-start"><svg class="w-5 h-5 mt-0.5 shrink-0" viewBox="0 0 20 20" fill="none" stroke="#ff2233" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 10.5l4 4 8-9"></path></svg><span class="text-[#d3d8e1]">Pilih desain katalog</span></li>
+          <li class="flex gap-3 items-start"><svg class="w-5 h-5 mt-0.5 shrink-0" viewBox="0 0 20 20" fill="none" stroke="#ff2233" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 10.5l4 4 8-9"></path></svg><span class="text-[#d3d8e1]">Custom nama</span></li>
+          <li class="flex gap-3 items-start"><svg class="w-5 h-5 mt-0.5 shrink-0" viewBox="0 0 20 20" fill="none" stroke="#ff2233" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 10.5l4 4 8-9"></path></svg><span class="text-[#d3d8e1]">Custom nomor start</span></li>
+          <li class="flex gap-3 items-start"><svg class="w-5 h-5 mt-0.5 shrink-0" viewBox="0 0 20 20" fill="none" stroke="#ff2233" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 10.5l4 4 8-9"></path></svg><span class="text-[#d3d8e1]">Tambah logo tim</span></li>
+          <li class="flex gap-3 items-start"><svg class="w-5 h-5 mt-0.5 shrink-0" viewBox="0 0 20 20" fill="none" stroke="#ff2233" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 10.5l4 4 8-9"></path></svg><span class="text-[#d3d8e1]">Tambah logo sponsor</span></li>
+          <li class="flex gap-3 items-start"><svg class="w-5 h-5 mt-0.5 shrink-0" viewBox="0 0 20 20" fill="none" stroke="#ff2233" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 10.5l4 4 8-9"></path></svg><span class="text-[#d3d8e1]">Tidak perlu pesan satu tim</span></li>
+          <li class="flex gap-3 items-start"><svg class="w-5 h-5 mt-0.5 shrink-0" viewBox="0 0 20 20" fill="none" stroke="#5d6675" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 5l10 10M15 5L5 15"></path></svg><span class="text-[#7c8492]">Warna &amp; motif ikut desain katalog</span></li>
+        </ul>
+        <div class="p-3.5 rounded bg-white/[.04] border border-white/10 mb-6 -mt-3">
+          <p class="text-[.87rem] text-[#9aa2b1] leading-relaxed">Desain katalog dipakai apa adanya — yang bisa ditambah cuma <strong class="text-[#d3d8e1]">nama, nomor start, logo tim, dan logo sponsor</strong>. Mau ganti warna atau motif? Ambil paket custom (min. 6 pcs).</p>
+        </div>
+        <a href="#katalog" class="btn-ghost cond text-white font-bold text-base px-7 py-3.5 rounded text-center">Pilih Desain →</a>
+      </article>
+    </div>
+
+    <!-- TABEL PERBANDINGAN -->
+    <div class="rv">
+      <h3 class="cond text-xl sm:text-2xl font-bold mb-6 text-center">Perbandingan Singkat</h3>
+      <p class="sm:hidden text-[.8rem] text-[#7c8492] mb-3 text-center">← Geser tabel untuk lihat kolom satuan →</p>
+      <div class="card rounded-lg overflow-hidden">
+        <div class="overflow-x-auto scroll-x">
+          <table class="cmp w-full min-w-[520px] text-left">
+            <thead>
+              <tr class="bg-white/[.04]">
+                <th class="cond font-bold text-[.8rem] tracking-[.14em] text-[#8e97a6] px-5 sm:px-7 py-4"></th>
+                <th class="cond font-bold text-[.85rem] sm:text-[.95rem] tracking-[.1em] text-white px-5 sm:px-7 py-4">Custom Full Team</th>
+                <th class="cond font-bold text-[.85rem] sm:text-[.95rem] tracking-[.1em] text-white px-5 sm:px-7 py-4">Katalog Satuan</th>
+              </tr>
+            </thead>
+            <tbody class="text-[.95rem]">
+              <tr><td class="px-5 sm:px-7 py-4 text-[#b3bac6] font-medium">Minimum</td><td class="px-5 sm:px-7 py-4 cond font-bold text-[var(--red-hot)] text-lg">6 pcs</td><td class="px-5 sm:px-7 py-4 cond font-bold text-[var(--red-hot)] text-lg">1 pcs</td></tr>
+              <tr><td class="px-5 sm:px-7 py-4 text-[#b3bac6] font-medium">Desain dari nol</td><td class="px-5 sm:px-7 py-4"><svg class="w-5 h-5" viewBox="0 0 20 20" fill="none" stroke="#ff2233" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 10.5l4 4 8-9"></path></svg></td><td class="px-5 sm:px-7 py-4 text-[#5d6675] text-lg leading-none">—</td></tr>
+              <tr><td class="px-5 sm:px-7 py-4 text-[#b3bac6] font-medium">Pilih desain katalog</td><td class="px-5 sm:px-7 py-4 text-[#5d6675] text-lg leading-none">—</td><td class="px-5 sm:px-7 py-4"><svg class="w-5 h-5" viewBox="0 0 20 20" fill="none" stroke="#ff2233" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 10.5l4 4 8-9"></path></svg></td></tr>
+              <tr><td class="px-5 sm:px-7 py-4 text-[#b3bac6] font-medium">Ganti warna &amp; motif</td><td class="px-5 sm:px-7 py-4"><svg class="w-5 h-5" viewBox="0 0 20 20" fill="none" stroke="#ff2233" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 10.5l4 4 8-9"></path></svg></td><td class="px-5 sm:px-7 py-4 text-[#5d6675] text-lg leading-none">—</td></tr>
+              <tr><td class="px-5 sm:px-7 py-4 text-[#b3bac6] font-medium">Nama</td><td class="px-5 sm:px-7 py-4"><svg class="w-5 h-5" viewBox="0 0 20 20" fill="none" stroke="#ff2233" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 10.5l4 4 8-9"></path></svg></td><td class="px-5 sm:px-7 py-4"><svg class="w-5 h-5" viewBox="0 0 20 20" fill="none" stroke="#ff2233" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 10.5l4 4 8-9"></path></svg></td></tr>
+              <tr><td class="px-5 sm:px-7 py-4 text-[#b3bac6] font-medium">Nomor start</td><td class="px-5 sm:px-7 py-4"><svg class="w-5 h-5" viewBox="0 0 20 20" fill="none" stroke="#ff2233" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 10.5l4 4 8-9"></path></svg></td><td class="px-5 sm:px-7 py-4"><svg class="w-5 h-5" viewBox="0 0 20 20" fill="none" stroke="#ff2233" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 10.5l4 4 8-9"></path></svg></td></tr>
+              <tr><td class="px-5 sm:px-7 py-4 text-[#b3bac6] font-medium">Logo</td><td class="px-5 sm:px-7 py-4"><svg class="w-5 h-5" viewBox="0 0 20 20" fill="none" stroke="#ff2233" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 10.5l4 4 8-9"></path></svg></td><td class="px-5 sm:px-7 py-4"><svg class="w-5 h-5" viewBox="0 0 20 20" fill="none" stroke="#ff2233" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 10.5l4 4 8-9"></path></svg></td></tr>
+              <tr><td class="px-5 sm:px-7 py-4 text-[#b3bac6] font-medium">Sponsor</td><td class="px-5 sm:px-7 py-4"><svg class="w-5 h-5" viewBox="0 0 20 20" fill="none" stroke="#ff2233" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 10.5l4 4 8-9"></path></svg></td><td class="px-5 sm:px-7 py-4"><svg class="w-5 h-5" viewBox="0 0 20 20" fill="none" stroke="#ff2233" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 10.5l4 4 8-9"></path></svg></td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════ KATALOG / GALERI ══════════ -->
+<section id="katalog" class="relative py-20 sm:py-28 grid-tex">
+  <div class="max-w-7xl mx-auto px-5 sm:px-8">
+    <div class="max-w-3xl mb-12">
+      <p class="kicker mb-5 rv">Katalog Desain</p>
+      <h2 class="display text-[clamp(1.9rem,5.4vw,3.5rem)] mb-6 rv swipe">Pilih Basis Desain, <span class="text-[var(--red-hot)]">Sisanya Kita Custom</span></h2>
+      <p class="text-[1.05rem] text-[#b3bac6] leading-relaxed rv">Ini 6 dari <strong class="text-white">20 desain racing</strong> yang sudah siap. Order satuan: tinggal tambah nama, nomor start, logo tim &amp; sponsor. Mau ganti warna, motif, atau desain dari nol? Ambil paket custom minimal 6 pcs.</p>
+    </div>
+
+    <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-5 sm:gap-6">
+      <figure class="card rounded-lg overflow-hidden group rv-z">
+        <div class="aspect-square overflow-hidden bg-white">
+          <img src="../images/2fd986e0-6b39-4ce6-b718-51788954a9b2.jpg" alt="Desain jersey racing custom TNT-RACING 01 TNT SPORT APPAREL, tampak depan dan belakang" class="w-full h-full object-contain transition-transform duration-700 group-hover:scale-[1.05]">
+        </div>
+        <figcaption class="p-5 flex items-center justify-between gap-4">
+          <div>
+            <p class="cond font-bold text-lg leading-tight">TNT-RACING 01</p>
+            <p class="text-sm text-[#8e97a6] mt-1">Navy / Putih / Teal</p>
+          </div>
+          <a href="#" data-wa="Halo TNT SPORT APPAREL, saya tertarik dengan desain *TNT-RACING 01* di kategori *Racing*. Bisa info lebih lanjut?" class="js-wa cond text-[.8rem] font-bold tracking-[.12em] text-[var(--yellow)] hover:text-white transition shrink-0">Pilih →</a>
+        </figcaption>
+      </figure>
+      <figure class="card rounded-lg overflow-hidden group rv-z">
+        <div class="aspect-square overflow-hidden bg-white">
+          <img src="../images/2d8164c3-faa7-42f8-a711-3215c0f0806b.jpg" alt="Desain jersey racing custom TNT-RACING 02 TNT SPORT APPAREL, tampak depan dan belakang" class="w-full h-full object-contain transition-transform duration-700 group-hover:scale-[1.05]">
+        </div>
+        <figcaption class="p-5 flex items-center justify-between gap-4">
+          <div>
+            <p class="cond font-bold text-lg leading-tight">TNT-RACING 02</p>
+            <p class="text-sm text-[#8e97a6] mt-1">Hitam / Kuning / Merah</p>
+          </div>
+          <a href="#" data-wa="Halo TNT SPORT APPAREL, saya tertarik dengan desain *TNT-RACING 02* di kategori *Racing*. Bisa info lebih lanjut?" class="js-wa cond text-[.8rem] font-bold tracking-[.12em] text-[var(--yellow)] hover:text-white transition shrink-0">Pilih →</a>
+        </figcaption>
+      </figure>
+      <figure class="card rounded-lg overflow-hidden group rv-z">
+        <div class="aspect-square overflow-hidden bg-white">
+          <img src="../images/46fbb49e-7505-4839-a43e-5887ca5b1f76.jpg" alt="Desain jersey racing custom TNT-RACING 03 TNT SPORT APPAREL, tampak depan dan belakang" class="w-full h-full object-contain transition-transform duration-700 group-hover:scale-[1.05]">
+        </div>
+        <figcaption class="p-5 flex items-center justify-between gap-4">
+          <div>
+            <p class="cond font-bold text-lg leading-tight">TNT-RACING 03</p>
+            <p class="text-sm text-[#8e97a6] mt-1">Biru / Hijau Neon / Magenta</p>
+          </div>
+          <a href="#" data-wa="Halo TNT SPORT APPAREL, saya tertarik dengan desain *TNT-RACING 03* di kategori *Racing*. Bisa info lebih lanjut?" class="js-wa cond text-[.8rem] font-bold tracking-[.12em] text-[var(--yellow)] hover:text-white transition shrink-0">Pilih →</a>
+        </figcaption>
+      </figure>
+      <figure class="card rounded-lg overflow-hidden group rv-z">
+        <div class="aspect-square overflow-hidden bg-white">
+          <img src="../images/ea1c6a5b-1fb2-437f-baa3-69b3edbac2d1.jpg" alt="Desain jersey racing custom TNT-RACING 04 TNT SPORT APPAREL, tampak depan dan belakang" class="w-full h-full object-contain transition-transform duration-700 group-hover:scale-[1.05]">
+        </div>
+        <figcaption class="p-5 flex items-center justify-between gap-4">
+          <div>
+            <p class="cond font-bold text-lg leading-tight">TNT-RACING 04</p>
+            <p class="text-sm text-[#8e97a6] mt-1">Pink / Hijau Neon</p>
+          </div>
+          <a href="#" data-wa="Halo TNT SPORT APPAREL, saya tertarik dengan desain *TNT-RACING 04* di kategori *Racing*. Bisa info lebih lanjut?" class="js-wa cond text-[.8rem] font-bold tracking-[.12em] text-[var(--yellow)] hover:text-white transition shrink-0">Pilih →</a>
+        </figcaption>
+      </figure>
+      <figure class="card rounded-lg overflow-hidden group rv-z">
+        <div class="aspect-square overflow-hidden bg-white">
+          <img src="../images/30c6a691-e83a-4cae-9a6a-40ddd2982ebd.jpg" alt="Desain jersey racing custom TNT-RACING 05 TNT SPORT APPAREL, tampak depan dan belakang" class="w-full h-full object-contain transition-transform duration-700 group-hover:scale-[1.05]">
+        </div>
+        <figcaption class="p-5 flex items-center justify-between gap-4">
+          <div>
+            <p class="cond font-bold text-lg leading-tight">TNT-RACING 05</p>
+            <p class="text-sm text-[#8e97a6] mt-1">Hitam / Putih / Oranye</p>
+          </div>
+          <a href="#" data-wa="Halo TNT SPORT APPAREL, saya tertarik dengan desain *TNT-RACING 05* di kategori *Racing*. Bisa info lebih lanjut?" class="js-wa cond text-[.8rem] font-bold tracking-[.12em] text-[var(--yellow)] hover:text-white transition shrink-0">Pilih →</a>
+        </figcaption>
+      </figure>
+      <figure class="card rounded-lg overflow-hidden group rv-z">
+        <div class="aspect-square overflow-hidden bg-white">
+          <img src="../images/b0dc9b4d-7e6b-4400-9dcd-34f44946e187.jpg" alt="Desain jersey racing custom TNT-RACING 06 TNT SPORT APPAREL, tampak depan dan belakang" class="w-full h-full object-contain transition-transform duration-700 group-hover:scale-[1.05]">
+        </div>
+        <figcaption class="p-5 flex items-center justify-between gap-4">
+          <div>
+            <p class="cond font-bold text-lg leading-tight">TNT-RACING 06</p>
+            <p class="text-sm text-[#8e97a6] mt-1">Hitam / Pink / Kuning</p>
+          </div>
+          <a href="#" data-wa="Halo TNT SPORT APPAREL, saya tertarik dengan desain *TNT-RACING 06* di kategori *Racing*. Bisa info lebih lanjut?" class="js-wa cond text-[.8rem] font-bold tracking-[.12em] text-[var(--yellow)] hover:text-white transition shrink-0">Pilih →</a>
+        </figcaption>
+      </figure>
+    </div>
+
+    <p class="mt-8 text-sm text-[#8e97a6] rv">Masih ada 14 desain racing lagi, plus kategori futsal, voli, basket, badminton, running, fishing, army, dan corporate. <a href="#" target="_blank" rel="noopener" class="text-[var(--yellow)] font-semibold hover:text-white transition underline decoration-[var(--red-hot)]/40 underline-offset-4">Lihat katalog lengkap →</a></p>
+  </div>
+</section>
+
+<!-- ══════════ 4. DETAIL CUSTOMIZATION ══════════ -->
+<section id="custom" class="relative py-20 sm:py-28 bg-[var(--ink-2)] slash-both speedlines">
+  <div class="max-w-7xl mx-auto px-5 sm:px-8 pt-8">
+    <div class="max-w-3xl mb-14">
+      <p class="kicker mb-5 rv">Detail Customization</p>
+      <h2 class="display text-[clamp(1.8rem,5vw,3.3rem)] rv swipe">Bebas Custom Detail Yang Bikin Jersey Kamu <span class="text-[var(--red-hot)]">Punya Karakter</span></h2>
+    </div>
+
+    <div class="grid lg:grid-cols-[1.15fr,.85fr] gap-10 lg:gap-14 items-center">
+      <!-- visual + hotspots -->
+      <div class="relative rv">
+        <div class="card rounded-lg overflow-hidden relative">
+          <img src="../images/df5ecff4-6109-4bbc-adef-56c6158be7b3.png" alt="Diagram bagian jersey TNT Sport Apparel yang bisa dicustom: logo tim, nomor start, nama rider, logo sponsor" class="w-full h-auto block">
+          <!-- labeled callouts over the flat-lay -->
+          <span class="cal" style="left:43%;top:20%;" data-side="left"><i class="hot"></i><b>Logo Tim</b></span>
+          <span class="cal" style="left:50%;top:34%;" data-side="right"><i class="hot"></i><b>Panel Sponsor</b></span>
+          <span class="cal" style="left:50%;top:47%;" data-side="right"><i class="hot"></i><b>Nomor Start</b></span>
+          <span class="cal" style="left:20%;top:33%;" data-side="left"><i class="hot"></i><b>Area Lengan</b></span>
+          <span class="cal" style="left:80%;top:33%;" data-side="right"><i class="hot"></i><b>Nama Rider</b></span>
+          <span class="cal" style="left:26%;top:63%;" data-side="left"><i class="hot"></i><b>Warna Tim</b></span>
+          <span class="cal" style="left:74%;top:63%;" data-side="right"><i class="hot"></i><b>Motif Racing</b></span>
+        </div>
+        <p class="text-[.8rem] text-[#7c8492] mt-3.5 italic">Visual ilustrasi — area bertanda bisa dicustom di paket custom (min. 6 pcs). Untuk order satuan: nama, nomor start, logo tim &amp; sponsor saja.</p>
+      </div>
+
+      <!-- list -->
+      <div class="rv">
+        <p class="text-[1.05rem] text-[#b3bac6] leading-relaxed mb-8">Di paket <strong class="text-white">custom minimal 6 pcs</strong>, setiap bagian bisa diatur sesuai identitas tim kamu. Ini yang biasanya paling sering dicustom:</p>
+        <ul class="grid sm:grid-cols-2 gap-x-6 gap-y-4">
+          <li class="flex gap-3 items-center"><span class="w-2.5 h-2.5 shrink-0 bg-[var(--yellow)]" style="transform:skewX(-20deg);"></span><span class="cond font-semibold text-[1.02rem] tracking-[.04em]">Logo Tim</span></li>
+          <li class="flex gap-3 items-center"><span class="w-2.5 h-2.5 shrink-0 bg-[var(--yellow)]" style="transform:skewX(-20deg);"></span><span class="cond font-semibold text-[1.02rem] tracking-[.04em]">Nomor Start</span></li>
+          <li class="flex gap-3 items-center"><span class="w-2.5 h-2.5 shrink-0 bg-[var(--yellow)]" style="transform:skewX(-20deg);"></span><span class="cond font-semibold text-[1.02rem] tracking-[.04em]">Nama Rider</span></li>
+          <li class="flex gap-3 items-center"><span class="w-2.5 h-2.5 shrink-0 bg-[var(--yellow)]" style="transform:skewX(-20deg);"></span><span class="cond font-semibold text-[1.02rem] tracking-[.04em]">Panel Sponsor</span></li>
+          <li class="flex gap-3 items-center"><span class="w-2.5 h-2.5 shrink-0 bg-[var(--yellow)]" style="transform:skewX(-20deg);"></span><span class="cond font-semibold text-[1.02rem] tracking-[.04em]">Warna Tim</span></li>
+          <li class="flex gap-3 items-center"><span class="w-2.5 h-2.5 shrink-0 bg-[var(--yellow)]" style="transform:skewX(-20deg);"></span><span class="cond font-semibold text-[1.02rem] tracking-[.04em]">Motif Racing</span></li>
+          <li class="flex gap-3 items-center"><span class="w-2.5 h-2.5 shrink-0 bg-[var(--yellow)]" style="transform:skewX(-20deg);"></span><span class="cond font-semibold text-[1.02rem] tracking-[.04em]">Area Lengan</span></li>
+          <li class="flex gap-3 items-center"><span class="w-2.5 h-2.5 shrink-0 bg-[var(--yellow)]" style="transform:skewX(-20deg);"></span><span class="cond font-semibold text-[1.02rem] tracking-[.04em]">Area Depan</span></li>
+          <li class="flex gap-3 items-center"><span class="w-2.5 h-2.5 shrink-0 bg-[var(--yellow)]" style="transform:skewX(-20deg);"></span><span class="cond font-semibold text-[1.02rem] tracking-[.04em]">Area Belakang</span></li>
+        </ul>
+        <a href="#" data-wa="Halo TNT SPORT APPAREL, saya mau custom jersey racing. Ini detail yang saya butuhkan:" class="js-wa btn-primary cond inline-block text-white font-bold text-base px-7 py-3.5 rounded mt-9">Diskusi Detail Desain →</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════ 5. SPESIFIKASI ══════════ -->
+<section id="spek" class="relative py-20 sm:py-28 grid-tex">
+  <div class="max-w-7xl mx-auto px-5 sm:px-8">
+    <div class="grid lg:grid-cols-2 gap-12 lg:gap-16 items-start">
+      <div>
+        <p class="kicker mb-5 rv">Spesifikasi Produk</p>
+        <h2 class="display text-[clamp(1.9rem,5.2vw,3.4rem)] mb-7 rv swipe">Dibuat Untuk <span class="text-[var(--red-hot)]">Nyaman Dipakai Seharian</span></h2>
+        <div class="card rounded-lg p-6 sm:p-8 rv-l">
+          <div class="pb-5 mb-6 border-b border-white/10">
+            <p class="display text-[clamp(1.4rem,3.4vw,1.9rem)]">Dry Fit Premium</p>
+          </div>
+          <ul class="grid sm:grid-cols-2 gap-x-6 gap-y-4">
+            <li class="flex gap-3 items-start"><svg class="w-5 h-5 mt-0.5 shrink-0" viewBox="0 0 20 20" fill="none" stroke="#ff2233" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 10.5l4 4 8-9"></path></svg><span class="text-[#d3d8e1]">Ringan</span></li>
+            <li class="flex gap-3 items-start"><svg class="w-5 h-5 mt-0.5 shrink-0" viewBox="0 0 20 20" fill="none" stroke="#ff2233" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 10.5l4 4 8-9"></path></svg><span class="text-[#d3d8e1]">Adem</span></li>
+            <li class="flex gap-3 items-start"><svg class="w-5 h-5 mt-0.5 shrink-0" viewBox="0 0 20 20" fill="none" stroke="#ff2233" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 10.5l4 4 8-9"></path></svg><span class="text-[#d3d8e1]">Full printing</span></li>
+            <li class="flex gap-3 items-start"><svg class="w-5 h-5 mt-0.5 shrink-0" viewBox="0 0 20 20" fill="none" stroke="#ff2233" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 10.5l4 4 8-9"></path></svg><span class="text-[#d3d8e1]">Unisex</span></li>
+            <li class="flex gap-3 items-start"><svg class="w-5 h-5 mt-0.5 shrink-0" viewBox="0 0 20 20" fill="none" stroke="#ff2233" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 10.5l4 4 8-9"></path></svg><span class="text-[#d3d8e1]">Lengan pendek</span></li>
+            <li class="flex gap-3 items-start"><svg class="w-5 h-5 mt-0.5 shrink-0" viewBox="0 0 20 20" fill="none" stroke="#ff2233" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 10.5l4 4 8-9"></path></svg><span class="text-[#d3d8e1]">Kerah polo berkancing</span></li>
+            <li class="flex gap-3 items-start sm:col-span-2"><svg class="w-5 h-5 mt-0.5 shrink-0" viewBox="0 0 20 20" fill="none" stroke="#ff2233" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 10.5l4 4 8-9"></path></svg><span class="text-[#d3d8e1]">Cocok untuk touring &amp; event seharian</span></li>
+          </ul>
+          <div class="mt-7 pt-6 border-t border-white/10">
+            <p class="cond font-bold tracking-[.16em] text-[.8rem] text-[#8e97a6] mb-3">Ukuran Tersedia</p>
+            <div class="flex flex-wrap gap-2">
+              <span class="cond font-bold text-sm px-3.5 py-2 rounded bg-white/[.06] border border-white/10">S</span>
+              <span class="cond font-bold text-sm px-3.5 py-2 rounded bg-white/[.06] border border-white/10">M</span>
+              <span class="cond font-bold text-sm px-3.5 py-2 rounded bg-white/[.06] border border-white/10">L</span>
+              <span class="cond font-bold text-sm px-3.5 py-2 rounded bg-white/[.06] border border-white/10">XL</span>
+              <span class="cond font-bold text-sm px-3.5 py-2 rounded bg-white/[.06] border border-white/10">2XL</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="rv-r">
+        <div class="card rounded-lg overflow-hidden">
+          <img src="../images/faf53238-29dd-4127-ad0c-3dc7dd627b38.png" alt="Model duduk memakai jersey custom TNT SPORT APPAREL, bahan dryfit full printing" class="w-full h-auto block" loading="lazy">
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════ HARGA ══════════ -->
+<section id="harga" class="relative py-20 sm:py-28 bg-[var(--ink-2)] slash-both speedlines">
+  <div class="max-w-7xl mx-auto px-5 sm:px-8">
+    <div class="max-w-3xl mb-10">
+      <p class="kicker mb-5 rv">Daftar Harga</p>
+      <h2 class="display text-[clamp(1.9rem,5.2vw,3.4rem)] mb-5 rv swipe">Pilih Paket <span class="text-[var(--red-hot)]">Tim Kamu</span></h2>
+      <p class="text-[1.05rem] text-[#b3bac6] leading-relaxed rv">Pilih jumlah pembelian, harga menyesuaikan otomatis.</p>
+    </div>
+
+    <!-- TOGGLE -->
+    <div class="flex justify-center mb-10 rv">
+      <div class="inline-flex p-1 rounded-full bg-white/[.05] border border-white/10" role="tablist" aria-label="Pilih jumlah pembelian">
+        <button type="button" id="tabEcer" role="tab" aria-selected="true" class="pricetab is-on cond font-bold text-[.82rem] tracking-[.14em] px-6 py-2.5 rounded-full transition">Ecer</button>
+        <button type="button" id="tabLusin" role="tab" aria-selected="false" class="pricetab cond font-bold text-[.82rem] tracking-[.14em] px-6 py-2.5 rounded-full transition">Lusinan · Hemat</button>
+      </div>
+    </div>
+
+    <div class="grid lg:grid-cols-2 gap-5 sm:gap-6 mb-10">
+      <!-- ATASAN -->
+      <article class="card rounded-lg p-7 sm:p-9 flex flex-col rv-l">
+        <div class="flex items-start justify-between gap-4 mb-2">
+          <p class="cond text-[#8e97a6] font-bold tracking-[.16em] text-sm">Jersey Atasan</p>
+          <span class="cond font-bold text-[.68rem] tracking-[.16em] text-[#9aa2b1] px-3 py-1.5 rounded bg-white/[.06] border border-white/10">Fleksibel</span>
+        </div>
+        <p class="display text-[clamp(1.5rem,3.6vw,2rem)] mb-5">Atasan Saja</p>
+        <p class="flex items-baseline gap-2 mb-2">
+          <span class="cond font-bold text-[var(--yellow)] text-lg">Rp</span>
+          <span class="display text-[clamp(2.6rem,7vw,3.6rem)] text-[var(--yellow)] leading-none" data-price="atasan">95RB</span>
+          <span class="cond font-bold text-[#8e97a6] text-base">/pcs</span>
+        </p>
+        <p class="text-[.92rem] text-[#8e97a6] mb-7" data-note="atasan">Bisa pesan mulai 1 pcs</p>
+        <ul class="space-y-3.5 mb-9 flex-1 pt-6 border-t border-white/10">
+          <li class="flex gap-3 items-start"><svg class="w-5 h-5 mt-0.5 shrink-0" viewBox="0 0 20 20" fill="none" stroke="#ff2233" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 10.5l4 4 8-9"></path></svg><span class="text-[#d3d8e1]">Full printing</span></li>
+          <li class="flex gap-3 items-start"><svg class="w-5 h-5 mt-0.5 shrink-0" viewBox="0 0 20 20" fill="none" stroke="#ff2233" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 10.5l4 4 8-9"></path></svg><span class="text-[#d3d8e1]">Nama &amp; nomor start</span></li>
+          <li class="flex gap-3 items-start"><svg class="w-5 h-5 mt-0.5 shrink-0" viewBox="0 0 20 20" fill="none" stroke="#ff2233" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 10.5l4 4 8-9"></path></svg><span class="text-[#d3d8e1]">Revisi desain tanpa batas</span></li>
+        </ul>
+        <a href="#" data-wa="Halo TNT SPORT APPAREL, saya tertarik paket Atasan Saja jersey racing. Bisa info lebih lanjut?" class="js-wa btn-ghost cond text-white font-bold text-base px-7 py-3.5 rounded text-center">Pilih Atasan →</a>
+      </article>
+
+      <!-- SETELAN -->
+      <article class="card card-hi rounded-lg p-7 sm:p-9 flex flex-col relative overflow-hidden rv-r">
+        <div class="absolute top-0 right-0 bg-[var(--red)] cond font-bold text-[.72rem] tracking-[.18em] text-white px-4 py-1.5" style="clip-path:polygon(14% 0,100% 0,100% 100%,0 100%);">Paling Diminati</div>
+        <p class="cond text-[var(--red-hot)] font-bold tracking-[.16em] text-sm mb-2 mt-3">Atasan + Celana</p>
+        <p class="display text-[clamp(1.5rem,3.6vw,2rem)] mb-5">Jersey Setelan</p>
+        <p class="flex items-baseline gap-2 mb-2">
+          <span class="cond font-bold text-[var(--yellow)] text-lg">Rp</span>
+          <span class="display text-[clamp(2.6rem,7vw,3.6rem)] text-[var(--yellow)] leading-none">120RB</span>
+          <span class="cond font-bold text-[#8e97a6] text-base">/set</span>
+        </p>
+        <p class="text-[.92rem] text-[#8e97a6] mb-7">Minimal pembelian 12 set</p>
+        <ul class="space-y-3.5 mb-9 flex-1 pt-6 border-t border-white/10">
+          <li class="flex gap-3 items-start"><svg class="w-5 h-5 mt-0.5 shrink-0" viewBox="0 0 20 20" fill="none" stroke="#ff2233" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 10.5l4 4 8-9"></path></svg><span class="text-[#d3d8e1]">Semua benefit paket atasan</span></li>
+          <li class="flex gap-3 items-start"><svg class="w-5 h-5 mt-0.5 shrink-0" viewBox="0 0 20 20" fill="none" stroke="#ff2233" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 10.5l4 4 8-9"></path></svg><span class="text-[#d3d8e1]">Celana full custom siap tanding</span></li>
+          <li class="flex gap-3 items-start"><svg class="w-5 h-5 mt-0.5 shrink-0" viewBox="0 0 20 20" fill="none" stroke="#ff2233" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 10.5l4 4 8-9"></path></svg><span class="text-[#d3d8e1]">Prioritas jadwal produksi</span></li>
+        </ul>
+        <a href="#" data-wa="Halo TNT SPORT APPAREL, saya tertarik paket Jersey Setelan racing. Bisa info lebih lanjut?" class="js-wa btn-primary cond text-white font-bold text-base px-7 py-3.5 rounded text-center">Pilih Setelan →</a>
+      </article>
+    </div>
+
+    <div class="card rounded-lg p-6 sm:p-8 flex flex-wrap items-center justify-between gap-5 rv">
+      <div>
+        <p class="cond font-bold text-[1.15rem] sm:text-[1.35rem] mb-1.5">Butuh lebih dari <span class="text-[var(--red-hot)]">50 pcs</span>?</p>
+        <p class="text-[.97rem] text-[#9aa2b1]">Harga proyek khusus untuk komunitas, klub, sekolah, dan event.</p>
+      </div>
+      <a href="#" data-wa="Halo TNT SPORT APPAREL, saya mau minta harga khusus untuk order jersey racing di atas 50 pcs." class="js-wa btn-primary cond text-white font-bold text-[.95rem] px-6 py-3 rounded shrink-0">Minta Harga Khusus →</a>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════ 6. CARA ORDER ══════════ -->
+<section id="cara-order" class="relative py-20 sm:py-28 grid-tex">
+  <div class="max-w-7xl mx-auto px-5 sm:px-8 pt-8">
+    <div class="max-w-3xl mb-14">
+      <p class="kicker mb-5 rv">Cara Order</p>
+      <h2 class="display text-[clamp(1.9rem,5.4vw,3.5rem)] rv swipe">Cara Order — <span class="text-[var(--red-hot)]">Cuma 5 Langkah</span></h2>
+    </div>
+
+    <ol class="grid sm:grid-cols-2 lg:grid-cols-5 gap-5 sm:gap-6">
+      <li class="card rounded-lg p-7 relative overflow-hidden rv">
+        <div class="numtag w-12 h-12 grid place-items-center mb-6 rounded"><span class="text-white text-xl leading-none">1</span></div>
+        <h3 class="cond text-xl font-bold mb-3">Chat Admin</h3>
+        <p class="text-[#a8b0bd] leading-relaxed text-[.97rem]">Ceritakan kebutuhan jersey kamu.</p>
+      </li>
+      <li class="card rounded-lg p-7 relative overflow-hidden rv">
+        <div class="numtag w-12 h-12 grid place-items-center mb-6 rounded"><span class="text-white text-xl leading-none">2</span></div>
+        <h3 class="cond text-xl font-bold mb-3">Desain</h3>
+        <p class="text-[#a8b0bd] leading-relaxed text-[.97rem]">Kami buatkan mockup sesuai brief, revisi bebas.</p>
+      </li>
+      <li class="card rounded-lg p-7 relative overflow-hidden rv">
+        <div class="numtag w-12 h-12 grid place-items-center mb-6 rounded"><span class="text-white text-xl leading-none">3</span></div>
+        <h3 class="cond text-xl font-bold mb-3">ACC &amp; DP</h3>
+        <p class="text-[#a8b0bd] leading-relaxed text-[.97rem]">Setujui desain dan DP 50%.</p>
+      </li>
+      <li class="card rounded-lg p-7 relative overflow-hidden rv">
+        <div class="numtag w-12 h-12 grid place-items-center mb-6 rounded"><span class="text-white text-xl leading-none">4</span></div>
+        <h3 class="cond text-xl font-bold mb-3">Produksi</h3>
+        <p class="text-[#a8b0bd] leading-relaxed text-[.97rem]">Dikerjakan cepat langsung di pabrik kami.</p>
+      </li>
+      <li class="card rounded-lg p-7 relative overflow-hidden rv">
+        <div class="numtag w-12 h-12 grid place-items-center mb-6 rounded"><span class="text-white text-xl leading-none">5</span></div>
+        <h3 class="cond text-xl font-bold mb-3">Kirim</h3>
+        <p class="text-[#a8b0bd] leading-relaxed text-[.97rem]">Dikemas aman, jersey siap dipakai.</p>
+      </li>
+    </ol>
+
+    <div class="mt-12 text-center rv">
+      <a href="#" data-wa="Halo TNT SPORT APPAREL, saya mau mulai order jersey racing custom." class="js-wa btn-primary cond inline-block text-white font-bold text-lg px-9 py-4 rounded">🏁 Mulai Order Sekarang →</a>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════ 7. TESTIMONI (PLACEHOLDER) ══════════ -->
+<section id="testimoni" class="relative py-20 sm:py-28 bg-[var(--ink-2)] slash-both speedlines">
+  <div class="max-w-7xl mx-auto px-5 sm:px-8">
+    <div class="max-w-3xl mb-6">
+      <p class="kicker mb-5 rv">Ulasan Pelanggan</p>
+      <h2 class="display text-[clamp(1.9rem,5.4vw,3.5rem)] rv swipe">Kata Pelanggan <span class="text-[var(--red-hot)]">Kami</span></h2>
+    </div>
+
+    <div class="grid md:grid-cols-3 gap-5 sm:gap-6">
+      <article class="card rounded-lg p-7 rv">
+        <div class="flex gap-1 mb-5" aria-label="5 dari 5 bintang"><svg class="w-5 h-5" viewBox="0 0 20 20" fill="#ffc400"><path d="M10 1.5l2.6 5.3 5.9.8-4.3 4.1 1 5.8L10 14.8l-5.2 2.7 1-5.8L1.5 7.6l5.9-.8z"></path></svg><svg class="w-5 h-5" viewBox="0 0 20 20" fill="#ffc400"><path d="M10 1.5l2.6 5.3 5.9.8-4.3 4.1 1 5.8L10 14.8l-5.2 2.7 1-5.8L1.5 7.6l5.9-.8z"></path></svg><svg class="w-5 h-5" viewBox="0 0 20 20" fill="#ffc400"><path d="M10 1.5l2.6 5.3 5.9.8-4.3 4.1 1 5.8L10 14.8l-5.2 2.7 1-5.8L1.5 7.6l5.9-.8z"></path></svg><svg class="w-5 h-5" viewBox="0 0 20 20" fill="#ffc400"><path d="M10 1.5l2.6 5.3 5.9.8-4.3 4.1 1 5.8L10 14.8l-5.2 2.7 1-5.8L1.5 7.6l5.9-.8z"></path></svg><svg class="w-5 h-5" viewBox="0 0 20 20" fill="#ffc400"><path d="M10 1.5l2.6 5.3 5.9.8-4.3 4.1 1 5.8L10 14.8l-5.2 2.7 1-5.8L1.5 7.6l5.9-.8z"></path></svg></div>
+        <p class="text-[#c9cfda] leading-relaxed italic mb-6">“Order 24 pcs jersey futsal buat tim kantor, semua puas banget. Bahan dryfit-nya adem, jahitan rapi, dan yang paling penting—desainnya persis kayak yang kami mau. Harga segini dapat kualitas segini, worth it banget sih.”</p>
+        <p class="cond font-bold tracking-[.08em] text-white">— Verified Buyer</p>
+        <p class="text-sm text-[#8e97a6] mt-1">Tim kantor · 24 pcs</p>
+      </article>
+      <article class="card rounded-lg p-7 rv">
+        <div class="flex gap-1 mb-5" aria-label="5 dari 5 bintang"><svg class="w-5 h-5" viewBox="0 0 20 20" fill="#ffc400"><path d="M10 1.5l2.6 5.3 5.9.8-4.3 4.1 1 5.8L10 14.8l-5.2 2.7 1-5.8L1.5 7.6l5.9-.8z"></path></svg><svg class="w-5 h-5" viewBox="0 0 20 20" fill="#ffc400"><path d="M10 1.5l2.6 5.3 5.9.8-4.3 4.1 1 5.8L10 14.8l-5.2 2.7 1-5.8L1.5 7.6l5.9-.8z"></path></svg><svg class="w-5 h-5" viewBox="0 0 20 20" fill="#ffc400"><path d="M10 1.5l2.6 5.3 5.9.8-4.3 4.1 1 5.8L10 14.8l-5.2 2.7 1-5.8L1.5 7.6l5.9-.8z"></path></svg><svg class="w-5 h-5" viewBox="0 0 20 20" fill="#ffc400"><path d="M10 1.5l2.6 5.3 5.9.8-4.3 4.1 1 5.8L10 14.8l-5.2 2.7 1-5.8L1.5 7.6l5.9-.8z"></path></svg><svg class="w-5 h-5" viewBox="0 0 20 20" fill="#ffc400"><path d="M10 1.5l2.6 5.3 5.9.8-4.3 4.1 1 5.8L10 14.8l-5.2 2.7 1-5.8L1.5 7.6l5.9-.8z"></path></svg></div>
+        <p class="text-[#c9cfda] leading-relaxed italic mb-6">“Udah 4 kali order jersey voli di sini. Yang bikin loyal: desainnya selalu fresh, revisi gratis sampai cocok, dan CS-nya fast response banget. Kali ini 50 pcs selesai 5 hari, top!”</p>
+        <p class="cond font-bold tracking-[.08em] text-white">— Verified Buyer</p>
+        <p class="text-sm text-[#8e97a6] mt-1">Klub voli · 50 pcs</p>
+      </article>
+      <article class="card rounded-lg p-7 rv">
+        <div class="flex gap-1 mb-5" aria-label="5 dari 5 bintang"><svg class="w-5 h-5" viewBox="0 0 20 20" fill="#ffc400"><path d="M10 1.5l2.6 5.3 5.9.8-4.3 4.1 1 5.8L10 14.8l-5.2 2.7 1-5.8L1.5 7.6l5.9-.8z"></path></svg><svg class="w-5 h-5" viewBox="0 0 20 20" fill="#ffc400"><path d="M10 1.5l2.6 5.3 5.9.8-4.3 4.1 1 5.8L10 14.8l-5.2 2.7 1-5.8L1.5 7.6l5.9-.8z"></path></svg><svg class="w-5 h-5" viewBox="0 0 20 20" fill="#ffc400"><path d="M10 1.5l2.6 5.3 5.9.8-4.3 4.1 1 5.8L10 14.8l-5.2 2.7 1-5.8L1.5 7.6l5.9-.8z"></path></svg><svg class="w-5 h-5" viewBox="0 0 20 20" fill="#ffc400"><path d="M10 1.5l2.6 5.3 5.9.8-4.3 4.1 1 5.8L10 14.8l-5.2 2.7 1-5.8L1.5 7.6l5.9-.8z"></path></svg><svg class="w-5 h-5" viewBox="0 0 20 20" fill="#ffc400"><path d="M10 1.5l2.6 5.3 5.9.8-4.3 4.1 1 5.8L10 14.8l-5.2 2.7 1-5.8L1.5 7.6l5.9-.8z"></path></svg></div>
+        <p class="text-[#c9cfda] leading-relaxed italic mb-6">“Komunitas cyclist kami pesan 80 pcs jersey sepeda. Bahan breathable, nggak gerah pas gowes jarak jauh. Desainnya juga kece, banyak yang nanya custom di mana. TNT SPORT APPAREL jawabannya!”</p>
+        <p class="cond font-bold tracking-[.08em] text-white">— Verified Buyer</p>
+        <p class="text-sm text-[#8e97a6] mt-1">Komunitas cyclist · 80 pcs</p>
+      </article>
+    </div>
+
+    <div class="mt-10 flex flex-wrap items-center justify-center gap-x-10 gap-y-5 py-7 px-6 card rounded-lg rv">
+      <div class="text-center">
+        <p class="display text-[clamp(1.6rem,4vw,2.3rem)] text-[var(--yellow)] statnum" data-count="350" data-suffix="K+">0K+</p>
+        <p class="cond text-[.8rem] tracking-[.16em] text-[#8e97a6] mt-1">Order Selesai</p>
+      </div>
+      <div class="w-px h-10 bg-white/10 hidden sm:block"></div>
+      <div class="text-center">
+        <p class="display text-[clamp(1.6rem,4vw,2.3rem)] text-[var(--yellow)] statnum" data-count="9" data-suffix="K+">0K+</p>
+        <p class="cond text-[.8rem] tracking-[.16em] text-[#8e97a6] mt-1">Klien Puas</p>
+      </div>
+      <div class="w-px h-10 bg-white/10 hidden sm:block"></div>
+      <div class="text-center">
+        <p class="display text-[clamp(1.6rem,4vw,2.3rem)] text-[var(--yellow)]"><span class="statnum" data-count="4.9" data-suffix="">0</span> <span class="text-[1.1rem] align-middle">★</span></p>
+        <p class="cond text-[.8rem] tracking-[.16em] text-[#8e97a6] mt-1">Rating</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════ 10. FAQ ══════════ -->
+<section id="faq" class="relative py-20 sm:py-28 grid-tex">
+  <div class="max-w-4xl mx-auto px-5 sm:px-8">
+    <div class="mb-12">
+      <p class="kicker mb-5 rv">FAQ</p>
+      <h2 class="display text-[clamp(1.9rem,5.4vw,3.5rem)] rv swipe">Pertanyaan <span class="text-[var(--red-hot)]">Yang Sering Masuk</span></h2>
+    </div>
+
+    <div class="space-y-3.5">
+      <details class="card rounded-lg overflow-hidden group rv">
+        <summary class="flex items-center justify-between gap-5 p-6 cursor-pointer list-none">
+          <h3 class="cond text-lg sm:text-xl font-bold">Bisa custom nama &amp; nomor start sendiri gak?</h3>
+          <svg class="faq-ico w-5 h-5 shrink-0 text-[var(--red-hot)]" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><path d="M10 4v12M4 10h12"></path></svg>
+        </summary>
+        <p class="px-6 pb-6 text-[#b3bac6] leading-relaxed">Bisa banget. Kirim nama dan nomor start yang kamu mau lewat WhatsApp, kami cetak sesuai request. Revisi desain gratis tanpa batas sampai cocok.</p>
+      </details>
+
+      <details class="card rounded-lg overflow-hidden group rv">
+        <summary class="flex items-center justify-between gap-5 p-6 cursor-pointer list-none">
+          <h3 class="cond text-lg sm:text-xl font-bold">Berapa lama proses produksinya?</h3>
+          <svg class="faq-ico w-5 h-5 shrink-0 text-[var(--red-hot)]" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><path d="M10 4v12M4 10h12"></path></svg>
+        </summary>
+        <p class="px-6 pb-6 text-[#b3bac6] leading-relaxed">Produksi dimulai setelah desain disetujui dan DP masuk. Jadwal pengerjaan disepakati bersama sesuai jumlah dan kebutuhanmu.</p>
+      </details>
+
+      <details class="card rounded-lg overflow-hidden group rv">
+        <summary class="flex items-center justify-between gap-5 p-6 cursor-pointer list-none">
+          <h3 class="cond text-lg sm:text-xl font-bold">Apakah bisa order satuan?</h3>
+          <svg class="faq-ico w-5 h-5 shrink-0 text-[var(--red-hot)]" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><path d="M10 4v12M4 10h12"></path></svg>
+        </summary>
+        <p class="px-6 pb-6 text-[#b3bac6] leading-relaxed">Bisa, mulai 1 pcs dari desain katalog. Yang bisa ditambah: nama, nomor start, logo tim, dan logo sponsor — warna dan motifnya ikut desain katalog. Kalau mau ganti warna, motif, atau desain dari nol, minimal 6 pcs. Order 6 pcs juga dapat bonus 1 pcs gratis, berlaku kelipatannya.</p>
+      </details>
+
+      <details class="card rounded-lg overflow-hidden group rv">
+        <summary class="flex items-center justify-between gap-5 p-6 cursor-pointer list-none">
+          <h3 class="cond text-lg sm:text-xl font-bold">Bisa masukin banyak logo sponsor?</h3>
+          <svg class="faq-ico w-5 h-5 shrink-0 text-[var(--red-hot)]" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><path d="M10 4v12M4 10h12"></path></svg>
+        </summary>
+        <p class="px-6 pb-6 text-[#b3bac6] leading-relaxed">Bisa, tinggal kirim logo-logo sponsornya, nanti kami bantu susun tata letaknya biar rapi dan proporsional di jersey.</p>
+      </details>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════ 11. CTA PENUTUP ══════════ -->
+<section class="relative py-24 sm:py-32 overflow-hidden bg-[var(--ink-2)] slash-top">
+  <img src="../images/96eb0470-acc4-4fee-91c9-ed8a950ce71b.png" alt="" class="absolute inset-0 w-full h-full object-cover opacity-25">
+  <div class="absolute inset-0 bg-gradient-to-t from-[#08090c] via-[#08090c]/85 to-[#08090c]/70"></div>
+  <div class="absolute inset-0 speedlines opacity-60"></div>
+  <div class="relative max-w-4xl mx-auto px-5 sm:px-8 text-center pt-8">
+    <h2 class="display text-[clamp(1.9rem,5.6vw,3.8rem)] mb-7 rv swipe">Saatnya Komunitas Kamu Punya <span class="text-[var(--red-hot)]">Identitas Sendiri</span> di Setiap Event</h2>
+    <p class="text-[1.1rem] sm:text-xl text-[#c9cfda] leading-relaxed mb-10 max-w-2xl mx-auto rv">Jangan cuma kumpul bareng — tampil kompak dengan jersey satu identitas.</p>
+    <a href="#" data-wa="Halo TNT SPORT APPAREL, saya mau order jersey racing untuk komunitas saya." class="js-wa btn-primary cond inline-block text-white font-bold text-lg sm:text-xl px-10 py-5 rounded rv">🏁 Order Jersey Racing Sekarang →</a>
+  </div>
+</section>
+
+<!-- ══════════ FOOTER ══════════ -->
+<footer class="bg-[#050609] border-t border-white/10 py-14">
+  <div class="max-w-7xl mx-auto px-5 sm:px-8">
+    <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-8">
+      <div>
+        <div class="flex items-center gap-2.5 mb-4">
+          <img src="../images/0460e30c-5642-4ce7-8a22-1bc9c63f0ad1.jpg" alt="Logo TNT SPORT APPAREL" class="w-9 h-9 rounded object-cover">
+          <span class="cond font-bold text-base tracking-[.16em]">TNT SPORT APPAREL</span>
+        </div>
+        <p class="text-[.92rem] text-[#7c8492] max-w-md leading-relaxed">Jersey racing custom full printing langsung dari pabrik. Gratis desain, revisi bebas, bisa order satuan. Est. 2017.</p>
+      </div>
+      <div class="flex flex-col gap-3">
+        <a href="#" data-wa="Halo TNT SPORT APPAREL, saya mau tanya soal jersey racing custom." class="js-wa btn-primary cond text-white font-bold text-sm px-6 py-3 rounded text-center">Chat WhatsApp →</a>
+        <div class="flex gap-5 cond text-[.82rem] font-semibold text-[#7c8492] justify-center">
+          <a href="#katalog" class="hover:text-white transition">Katalog</a>
+          <a href="#cara-order" class="hover:text-white transition">Cara Order</a>
+          <a href="#faq" class="hover:text-white transition">FAQ</a>
+        </div>
+      </div>
+    </div>
+    <p class="mt-10 pt-7 border-t border-white/[.07] text-[.82rem] text-[#5d6675]">© <span id="yr">2026</span> TNT Sport Apparel. Semua hak dilindungi.</p>
+  </div>
+</footer>
+
+<script>
+/* WhatsApp bisnis TNT Sport Apparel (dari tntsport.vercel.app) */
+var WA_NUMBER = "628115491117";
+
+(function () {
+  /* Wire every CTA to WhatsApp with its own prefilled message */
+  document.querySelectorAll(".js-wa").forEach(function (el) {
+    var msg = el.getAttribute("data-wa") || "Halo TNT SPORT APPAREL!";
+    el.setAttribute("href", "https://wa.me/" + WA_NUMBER + "?text=" + encodeURIComponent(msg));
+    el.setAttribute("target", "_blank");
+    el.setAttribute("rel", "noopener");
+  });
+
+  /* Footer year */
+  var yr = document.getElementById("yr");
+  if (yr) yr.textContent = new Date().getFullYear();
+
+
+  /* Toggle harga: Ecer vs Lusinan */
+  var tEcer = document.getElementById("tabEcer");
+  var tLusin = document.getElementById("tabLusin");
+  var elPrice = document.querySelector('[data-price="atasan"]');
+  var elNote = document.querySelector('[data-note="atasan"]');
+  if (tEcer && tLusin && elPrice && elNote) {
+    var TIER = {
+      ecer:  { harga: "95RB", note: "Bisa pesan mulai 1 pcs" },
+      lusin: { harga: "85RB", note: "Minimal pembelian 12 pcs" }
+    };
+    function setTier(key) {
+      elPrice.textContent = TIER[key].harga;
+      elNote.textContent = TIER[key].note;
+      var on = key === "ecer" ? tEcer : tLusin;
+      var off = key === "ecer" ? tLusin : tEcer;
+      on.classList.add("is-on");
+      on.setAttribute("aria-selected", "true");
+      off.classList.remove("is-on");
+      off.setAttribute("aria-selected", "false");
+    }
+    tEcer.addEventListener("click", function () { setTier("ecer"); });
+    tLusin.addEventListener("click", function () { setTier("lusin"); });
+  }
+
+  /* Parallax halus di hero */
+  var heroArt = document.getElementById("heroArt");
+  var reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  if (heroArt && !reduce) {
+    var raf = false;
+    window.addEventListener("scroll", function () {
+      if (raf) return;
+      raf = true;
+      requestAnimationFrame(function () {
+        var y = window.pageYOffset;
+        if (y < window.innerHeight) {
+          heroArt.style.transform = "translateY(" + (y * 0.12) + "px)";
+        }
+        raf = false;
+      });
+    }, { passive: true });
+  }
+
+  /* Count-up angka statistik */
+  function countUp(el) {
+    var raw = el.getAttribute("data-count");
+    var suffix = el.getAttribute("data-suffix") || "";
+    var target = parseFloat(raw);
+    var dec = raw.indexOf(".") > -1 ? 1 : 0;
+    var dur = 1400, t0 = null;
+    function tick(ts) {
+      if (!t0) t0 = ts;
+      var p = Math.min((ts - t0) / dur, 1);
+      var eased = 1 - Math.pow(1 - p, 3);
+      el.textContent = (target * eased).toFixed(dec) + (p === 1 ? suffix : (dec ? "" : suffix));
+      if (p < 1) requestAnimationFrame(tick);
+      else el.textContent = raw + suffix;
+    }
+    requestAnimationFrame(tick);
+  }
+
+  /* Scroll reveal */
+  var items = document.querySelectorAll(".rv, .rv-l, .rv-r, .rv-z");
+  var stats = document.querySelectorAll("[data-count]");
+  if (!("IntersectionObserver" in window)) {
+    items.forEach(function (n) { n.classList.add("in"); });
+    stats.forEach(function (n) { n.textContent = n.getAttribute("data-count") + (n.getAttribute("data-suffix") || ""); });
+    return;
+  }
+  if (stats.length) {
+    var sio = new IntersectionObserver(function (es) {
+      es.forEach(function (e) {
+        if (e.isIntersecting) {
+          if (reduce) { e.target.textContent = e.target.getAttribute("data-count") + (e.target.getAttribute("data-suffix") || ""); }
+          else { countUp(e.target); }
+          sio.unobserve(e.target);
+        }
+      });
+    }, { threshold: 0.5 });
+    stats.forEach(function (n) { sio.observe(n); });
+  }
+  var io = new IntersectionObserver(function (entries) {
+    entries.forEach(function (e) {
+      if (e.isIntersecting) {
+        var sibs = Array.prototype.slice.call(e.target.parentNode.children).filter(function(c){return c.classList.contains("rv");});
+        var i = sibs.indexOf(e.target);
+        e.target.style.transitionDelay = (i > 0 ? Math.min(i, 5) * 70 : 0) + "ms";
+        e.target.classList.add("in");
+        io.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.12, rootMargin: "0px 0px -8% 0px" });
+  items.forEach(function (n) { io.observe(n); });
+})();
+</script>
+
+</body></html>

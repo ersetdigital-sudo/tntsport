@@ -1,0 +1,861 @@
+<!DOCTYPE html>
+<html lang="id" class="no-js"><head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Custom Jersey Voli — Custom Nama, Nomor &amp; Logo, Bisa Satuan</title>
+<meta name="description" content="Jersey voli custom nama, nomor, dan logo tim sendiri. Bahan Dry Fit ringan &amp; elastis, full printing rapi, bisa order satuan. Cocok buat klub, tim sekolah, dan komunitas kantor.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700&amp;family=Saira+Condensed:wght@600;700;800&amp;display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#ffffff;
+    --paper-2:#f4f7fb;
+    --paper-3:#eaf0f8;
+    --line:#dbe4f0;
+    --ink:#0d1b2a;
+    --ink-soft:#31465e;
+    --muted:#647c99;
+    --blue:#0a68e0;
+    --blue-2:#2f8fff;
+    --blue-deep:#064aa8;
+    --sky:#e4f0ff;
+  }
+  html{scroll-behavior:smooth;}
+  body{
+    background:var(--paper);
+    color:var(--ink);
+    font-family:"Archivo",system-ui,sans-serif;
+    -webkit-font-smoothing:antialiased;
+    overflow-x:hidden;
+  }
+  .display{font-family:"Saira Condensed",system-ui,sans-serif;font-weight:800;letter-spacing:-.005em;line-height:.96;text-transform:uppercase;}
+  .kicker{font-family:"Saira Condensed",sans-serif;font-weight:700;letter-spacing:.2em;text-transform:uppercase;}
+  .blue-text{background:linear-gradient(100deg,var(--blue-2),var(--blue) 55%,var(--blue-deep));-webkit-background-clip:text;background-clip:text;color:transparent;}
+
+  .btn-blue{
+    background:linear-gradient(100deg,var(--blue-2),var(--blue) 60%,var(--blue-deep));
+    box-shadow:0 10px 28px -10px rgba(10,104,224,.6), inset 0 1px 0 rgba(255,255,255,.35);
+    transition:transform .18s ease, box-shadow .18s ease, filter .18s ease;
+  }
+  .btn-blue:hover{transform:translateY(-2px);box-shadow:0 18px 38px -12px rgba(10,104,224,.72), inset 0 1px 0 rgba(255,255,255,.45);filter:saturate(1.06);}
+  .btn-outline{border:1.5px solid var(--line);background:#fff;color:var(--ink);transition:border-color .18s ease,background .18s ease,color .18s ease;}
+  .btn-outline:hover{border-color:var(--blue);background:var(--sky);color:var(--blue-deep);}
+
+  .card{background:#fff;border:1px solid var(--line);box-shadow:0 1px 2px rgba(13,27,42,.04), 0 12px 28px -22px rgba(13,27,42,.28);}
+  .card-hl{border-color:rgba(10,104,224,.4);box-shadow:0 0 0 1px rgba(10,104,224,.09), 0 26px 50px -28px rgba(10,104,224,.45);}
+  .card-cta{margin-top:auto;padding-top:1.75rem;}
+
+  .price-card{background:linear-gradient(180deg,#ffffff,var(--paper-2));}
+  .price-card-hl{
+    background:linear-gradient(165deg,rgba(47,143,255,.14),rgba(10,104,224,.05) 45%,#ffffff 85%);
+    border-color:rgba(10,104,224,.42);
+    box-shadow:0 0 0 1px rgba(10,104,224,.1), 0 34px 64px -34px rgba(10,104,224,.5);
+  }
+  .qty-toggle{background:#fff;border:1px solid var(--line);box-shadow:0 8px 22px -18px rgba(13,27,42,.35);}
+  .qty-btn{
+    position:relative;z-index:1;border-radius:9999px;padding:.6rem 1.4rem;
+    font-family:"Saira Condensed",sans-serif;font-weight:700;letter-spacing:.14em;
+    text-transform:uppercase;font-size:.78rem;color:var(--muted);
+    transition:color .25s ease;white-space:nowrap;
+  }
+  .qty-btn.is-active{color:#fff;}
+  .qty-pill{
+    position:absolute;z-index:0;top:.375rem;bottom:.375rem;left:.375rem;
+    border-radius:9999px;
+    background:linear-gradient(100deg,var(--blue-2),var(--blue-deep));
+    box-shadow:0 6px 18px -6px rgba(10,104,224,.75);
+    transition:transform .32s cubic-bezier(.4,.9,.3,1), width .32s cubic-bezier(.4,.9,.3,1);
+  }
+  [data-price],[data-note]{transition:opacity .18s ease;}
+  .price-swap [data-price],.price-swap [data-note]{opacity:0;}
+
+  /* ===== slot foto (placeholder, tinggal ganti jadi <img>) ===== */
+  .ph{
+    display:grid;place-items:center;text-align:center;
+    background:
+      repeating-linear-gradient(135deg,rgba(10,104,224,.05) 0 10px,transparent 10px 20px),
+      linear-gradient(160deg,var(--paper-3),var(--paper-2));
+    border:1px dashed rgba(10,104,224,.28);
+    color:var(--muted);
+  }
+  .ph-label{font-family:"Saira Condensed",sans-serif;font-weight:700;letter-spacing:.16em;text-transform:uppercase;font-size:.66rem;color:#8aa0bd;}
+
+  .hero-ph{aspect-ratio:5/4;border-radius:1rem;}
+  @media (min-width:640px){ .hero-ph{aspect-ratio:16/10;} }
+  @media (min-width:1024px){ .hero-ph{aspect-ratio:4/5;} }
+
+  /* foto hero cutout: tanpa frame, tanpa background */
+  .hero-cut{
+    display:block;
+    aspect-ratio:1/1;
+    object-fit:contain;
+    object-position:center bottom;
+    filter:drop-shadow(0 26px 26px rgba(13,27,42,.22));
+  }
+  @media (min-width:1024px){ .hero-cut{aspect-ratio:5/6;} }
+
+  /* galeri foto berjalan */
+  .gal-wrap{
+    overflow:hidden;
+    -webkit-mask-image:linear-gradient(90deg,transparent,#000 5%,#000 95%,transparent);
+    mask-image:linear-gradient(90deg,transparent,#000 5%,#000 95%,transparent);
+  }
+  .gal-track{display:flex;gap:1rem;width:max-content;animation:galslide 42s linear infinite;}
+  .gal-wrap:hover .gal-track{animation-play-state:paused;}
+  .gal-item{flex:0 0 auto;width:15rem;margin:0;}
+  .gal-item .ph,.gal-item img{
+    width:100%;height:15rem;border-radius:1rem;display:block;object-fit:cover;
+  }
+  @keyframes galslide{to{transform:translateX(calc(-50% - .5rem));}}
+  @media (min-width:640px){ .gal-item{width:17rem;} .gal-item .ph,.gal-item img{height:17rem;} }
+
+  /* katalog desain */
+  .cat-item{position:relative;overflow:hidden;border-radius:1rem;background:#fff;border:1px solid var(--line);}
+  .cat-item img{width:100%;aspect-ratio:4/5;object-fit:cover;display:block;transition:transform .4s ease;}
+  .cat-item .ph{width:100%;aspect-ratio:4/5;border:0;}
+  .cat-item:hover img{transform:scale(1.05);}
+  .cat-badge{
+    position:absolute;top:.6rem;left:.6rem;
+    background:rgba(255,255,255,.92);
+    border:1px solid var(--line);
+    border-radius:9999px;padding:.2rem .6rem;
+    font-family:"Saira Condensed",sans-serif;font-weight:700;
+    font-size:.68rem;letter-spacing:.12em;color:var(--blue-deep);
+  }
+  .cat-name{
+    position:absolute;inset-inline:0;bottom:0;padding:.9rem .8rem .8rem;
+    background:linear-gradient(transparent,rgba(255,255,255,.95) 55%);
+    font-family:"Saira Condensed",sans-serif;font-weight:700;
+    text-transform:uppercase;letter-spacing:.03em;font-size:1rem;line-height:1.1;color:var(--ink);
+  }
+
+  .net{
+    background-image:linear-gradient(rgba(10,104,224,.08) 1px,transparent 1px),linear-gradient(90deg,rgba(10,104,224,.08) 1px,transparent 1px);
+    background-size:22px 22px;
+  }
+  .stripe{background:repeating-linear-gradient(115deg,rgba(10,104,224,.1) 0 2px,transparent 2px 16px);}
+
+  .reveal{opacity:0;transform:translateY(28px);transition:opacity .7s cubic-bezier(.2,.7,.2,1),transform .7s cubic-bezier(.2,.7,.2,1);}
+  .reveal.in{opacity:1;transform:none;}
+  .faq-ico{position:relative;display:block;width:1rem;height:1rem;flex:0 0 auto;transition:transform .22s ease;}
+  .faq-ico::before,.faq-ico::after{
+    content:"";position:absolute;top:50%;left:0;width:100%;height:2px;
+    border-radius:2px;background:var(--blue);transform:translateY(-50%);
+  }
+  .faq-ico::after{transform:translateY(-50%) rotate(90deg);transition:opacity .22s ease;}
+  details.faq[open] .faq-ico::after{opacity:0;}
+  details.faq summary::-webkit-details-marker{display:none;}
+  .marquee{display:flex;gap:2.5rem;width:max-content;animation:slide 26s linear infinite;}
+  @keyframes slide{to{transform:translateX(-50%);}}
+  #popwrap{transition:transform .45s cubic-bezier(.2,.8,.2,1),opacity .45s ease;}
+  #popwrap.hide{transform:translateY(140%);opacity:0;pointer-events:none;}
+  @media (prefers-reduced-motion:reduce){
+    .marquee,.gal-track{animation:none;}
+    .reveal{opacity:1;transform:none;transition:none;}
+    html{scroll-behavior:auto;}
+  }
+
+  /* JS mati / belum jalan: konten (termasuk foto hero) tetap tampil */
+  html.no-js .reveal{opacity:1;transform:none;transition:none;}
+
+  /* export / cetak: semua elemen reveal dipaksa tampil & foto ikut tercetak */
+  @media print{
+    .reveal{opacity:1 !important;transform:none !important;transition:none !important;}
+    .hero-cut{
+      filter:none !important;
+      -webkit-print-color-adjust:exact;
+      print-color-adjust:exact;
+      break-inside:avoid;
+    }
+    .marquee,.gal-track{animation:none !important;}
+    #popwrap{display:none !important;}
+  }
+</style>
+<script src="https://cdn.moda.app/runtime-libs/tailwind-browser-4.1.13-index.global.min.js"></script><style data-moda-export-fonts="true">@font-face { font-family: 'Archivo'; src: url("../fonts/archivo-thin.ttf") format("truetype"); font-style: normal; font-weight: 100; font-display: swap; }
+@font-face { font-family: 'Archivo'; src: url("../fonts/archivo-thinitalic.ttf") format("truetype"); font-style: italic; font-weight: 100; font-display: swap; }
+@font-face { font-family: 'Archivo'; src: url("../fonts/archivo-extralight.ttf") format("truetype"); font-style: normal; font-weight: 200; font-display: swap; }
+@font-face { font-family: 'Archivo'; src: url("../fonts/archivo-extralightitalic.ttf") format("truetype"); font-style: italic; font-weight: 200; font-display: swap; }
+@font-face { font-family: 'Archivo'; src: url("../fonts/archivo-light.ttf") format("truetype"); font-style: normal; font-weight: 300; font-display: swap; }
+@font-face { font-family: 'Archivo'; src: url("../fonts/archivo-lightitalic.ttf") format("truetype"); font-style: italic; font-weight: 300; font-display: swap; }
+@font-face { font-family: 'Archivo'; src: url("../fonts/archivo-regular.ttf") format("truetype"); font-style: normal; font-weight: 400; font-display: swap; }
+@font-face { font-family: 'Archivo'; src: url("../fonts/archivo-italic.ttf") format("truetype"); font-style: italic; font-weight: 400; font-display: swap; }
+@font-face { font-family: 'Archivo'; src: url("../fonts/archivo-medium.ttf") format("truetype"); font-style: normal; font-weight: 500; font-display: swap; }
+@font-face { font-family: 'Archivo'; src: url("../fonts/archivo-mediumitalic.ttf") format("truetype"); font-style: italic; font-weight: 500; font-display: swap; }
+@font-face { font-family: 'Archivo'; src: url("../fonts/archivo-semibold.ttf") format("truetype"); font-style: normal; font-weight: 600; font-display: swap; }
+@font-face { font-family: 'Archivo'; src: url("../fonts/archivo-semibolditalic.ttf") format("truetype"); font-style: italic; font-weight: 600; font-display: swap; }
+@font-face { font-family: 'Archivo'; src: url("../fonts/archivo-bold.ttf") format("truetype"); font-style: normal; font-weight: 700; font-display: swap; }
+@font-face { font-family: 'Archivo'; src: url("../fonts/archivo-bolditalic.ttf") format("truetype"); font-style: italic; font-weight: 700; font-display: swap; }
+@font-face { font-family: 'Archivo'; src: url("../fonts/archivo-extrabold.ttf") format("truetype"); font-style: normal; font-weight: 800; font-display: swap; }
+@font-face { font-family: 'Archivo'; src: url("../fonts/archivo-extrabolditalic.ttf") format("truetype"); font-style: italic; font-weight: 800; font-display: swap; }
+@font-face { font-family: 'Archivo'; src: url("../fonts/archivo-black.ttf") format("truetype"); font-style: normal; font-weight: 900; font-display: swap; }
+@font-face { font-family: 'Archivo'; src: url("../fonts/archivo-blackitalic.ttf") format("truetype"); font-style: italic; font-weight: 900; font-display: swap; }
+@font-face { font-family: 'Saira Condensed'; src: url("../fonts/sairacondensed-thin.ttf") format("truetype"); font-style: normal; font-weight: 100; font-display: swap; }
+@font-face { font-family: 'Saira Condensed'; src: url("../fonts/sairacondensed-extralight.ttf") format("truetype"); font-style: normal; font-weight: 200; font-display: swap; }
+@font-face { font-family: 'Saira Condensed'; src: url("../fonts/sairacondensed-light.ttf") format("truetype"); font-style: normal; font-weight: 300; font-display: swap; }
+@font-face { font-family: 'Saira Condensed'; src: url("../fonts/sairacondensed-regular.ttf") format("truetype"); font-style: normal; font-weight: 400; font-display: swap; }
+@font-face { font-family: 'Saira Condensed'; src: url("../fonts/sairacondensed-medium.ttf") format("truetype"); font-style: normal; font-weight: 500; font-display: swap; }
+@font-face { font-family: 'Saira Condensed'; src: url("../fonts/sairacondensed-semibold.ttf") format("truetype"); font-style: normal; font-weight: 600; font-display: swap; }
+@font-face { font-family: 'Saira Condensed'; src: url("../fonts/sairacondensed-bold.ttf") format("truetype"); font-style: normal; font-weight: 700; font-display: swap; }
+@font-face { font-family: 'Saira Condensed'; src: url("../fonts/sairacondensed-extrabold.ttf") format("truetype"); font-style: normal; font-weight: 800; font-display: swap; }
+@font-face { font-family: 'Saira Condensed'; src: url("../fonts/sairacondensed-black.ttf") format("truetype"); font-style: normal; font-weight: 900; font-display: swap; }</style></head>
+<body>
+<script>document.documentElement.classList.remove('no-js');</script>
+
+<!-- ================= NAV ================= -->
+<header class="fixed top-0 inset-x-0 z-40 backdrop-blur-md bg-white/85 border-b" style="border-color:var(--line)">
+  <div class="max-w-6xl mx-auto px-5 h-16 flex items-center justify-between gap-4">
+    <a href="#hero" class="display text-xl sm:text-2xl tracking-tight">
+      TIM<span class="blue-text">KITA</span><span class="text-[10px] align-super ml-1 tracking-[.2em]" style="color:var(--muted)">VOLI</span>
+    </a>
+    <nav class="hidden md:flex items-center gap-7 text-sm font-semibold" style="color:var(--ink-soft)">
+      <a href="#kenapa" class="hover:text-[color:var(--blue)] transition">Kenapa Kami</a>
+      <a href="#katalog" class="hover:text-[color:var(--blue)] transition">Pilihan Order</a>
+      <a href="#harga" class="hover:text-[color:var(--blue)] transition">Harga</a>
+      <a href="#desain" class="hover:text-[color:var(--blue)] transition">Desain</a>
+      <a href="#cara" class="hover:text-[color:var(--blue)] transition">Cara Order</a>
+      <a href="#faq" class="hover:text-[color:var(--blue)] transition">FAQ</a>
+    </nav>
+    <a href="#order" class="btn-blue rounded-full px-5 py-2.5 text-sm font-bold text-white whitespace-nowrap">Order Sekarang</a>
+  </div>
+</header>
+
+<!-- ================= HERO ================= -->
+<section id="hero" class="relative pt-28 pb-16 md:pt-36 md:pb-24 overflow-hidden">
+  <div class="absolute inset-0 -z-10">
+    <div class="absolute inset-0 net opacity-60"></div>
+    <div class="absolute -top-40 -left-40 w-[36rem] h-[36rem] rounded-full blur-3xl" style="background:radial-gradient(circle,rgba(47,143,255,.22),transparent 65%)"></div>
+    <div class="absolute top-1/3 -right-32 w-[30rem] h-[30rem] rounded-full blur-3xl" style="background:radial-gradient(circle,rgba(10,104,224,.14),transparent 65%)"></div>
+    <div class="absolute inset-x-0 bottom-0 h-40" style="background:linear-gradient(180deg,transparent,#fff)"></div>
+  </div>
+
+  <div class="max-w-6xl mx-auto px-5 grid lg:grid-cols-12 gap-10 lg:gap-8 items-center">
+    <div class="lg:col-span-7 reveal">
+      <p class="kicker text-[11px] sm:text-xs flex items-center gap-2 mb-5" style="color:var(--blue)">
+        <span class="inline-block w-6 h-px" style="background:var(--blue)"></span>
+        🏐 Custom Jersey Voli
+      </p>
+      <h1 class="display text-[2.6rem] leading-[.96] sm:text-6xl lg:text-[4.35rem]">
+        Jersey Voli Satu Tim,<br class="hidden sm:block">
+        <span class="blue-text">Satu Semangat</span>
+      </h1>
+      <p class="display text-xl sm:text-2xl mt-3" style="color:var(--ink-soft)">Custom Nama, Nomor &amp; Logo Sendiri</p>
+      <p class="mt-6 text-base sm:text-lg max-w-xl leading-relaxed" style="color:var(--muted)">
+        Bahan Dry Fit ringan &amp; elastis, full printing rapi, desain bebas sesuai identitas tim. Cocok buat klub voli, tim sekolah, komunitas kantor, sampai turnamen antar RT.
+      </p>
+
+      <div class="mt-8 flex flex-col sm:flex-row gap-3 sm:items-center">
+        <a href="#order" class="btn-blue rounded-full px-7 py-4 font-bold text-white text-center">🏐 Order Jersey Voli Sekarang →</a>
+        <a href="#desain" class="btn-outline rounded-full px-7 py-4 font-semibold text-center">Lihat Katalog Desain</a>
+      </div>
+
+      <!-- trust bar -->
+      <div class="mt-9 pt-7 border-t grid grid-cols-2 sm:grid-cols-4 gap-y-4 gap-x-3" style="border-color:var(--line)">
+        <div class="flex items-start gap-2"><span style="color:var(--blue)" class="mt-px">✅</span><span class="text-sm font-semibold">100+ Tim Sudah Order</span></div>
+        <div class="flex items-start gap-2"><span style="color:var(--blue)" class="mt-px">✅</span><span class="text-sm font-semibold">Bisa Satuan</span></div>
+        <div class="flex items-start gap-2"><span style="color:var(--blue)" class="mt-px">✅</span><span class="text-sm font-semibold">Bahan Dry Fit Ringan</span></div>
+        <div class="flex items-start gap-2"><span style="color:var(--blue)" class="mt-px">✅</span><span class="text-sm font-semibold">Packing Aman</span></div>
+      </div>
+    </div>
+
+    <div class="lg:col-span-5 reveal">
+      <div class="relative">
+        <div class="absolute inset-6 blur-3xl -z-10" style="background:radial-gradient(circle,rgba(47,143,255,.3),transparent 70%)"></div>
+        <!-- FOTO HERO (cutout tanpa background) -->
+        <img src="../images/467d7ffe-76d0-493e-987d-2f03bc27eb1b.png" alt="Dua model memakai jersey voli custom putih navy, pegang bola voli" class="hero-cut w-full" width="1254" height="1254" loading="eager" decoding="sync" fetchpriority="high">
+        <div class="absolute bottom-0 left-0 sm:left-2 lg:-bottom-2 lg:-left-2 card card-hl rounded-xl px-4 py-3">
+          <p class="kicker text-[10px]" style="color:var(--blue)">Full Printing</p>
+          <p class="display text-lg leading-none mt-1">Nama · Nomor · Logo</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= MARQUEE ================= -->
+<div class="border-y py-3 overflow-hidden" style="border-color:var(--line);background:var(--paper-2)">
+  <div class="marquee kicker text-sm" style="color:#93a8c4">
+    <span>Voli Indoor</span><span style="color:var(--blue)">✦</span><span>Klub Voli</span><span style="color:var(--blue)">✦</span><span>Tim Sekolah</span><span style="color:var(--blue)">✦</span><span>Komunitas Kantor</span><span style="color:var(--blue)">✦</span><span>Dry Fit Ringan</span><span style="color:var(--blue)">✦</span><span>Bisa Satuan</span><span style="color:var(--blue)">✦</span>
+    <span>Voli Indoor</span><span style="color:var(--blue)">✦</span><span>Klub Voli</span><span style="color:var(--blue)">✦</span><span>Tim Sekolah</span><span style="color:var(--blue)">✦</span><span>Komunitas Kantor</span><span style="color:var(--blue)">✦</span><span>Dry Fit Ringan</span><span style="color:var(--blue)">✦</span><span>Bisa Satuan</span><span style="color:var(--blue)">✦</span>
+  </div>
+</div>
+
+<!-- ================= KENAPA PILIH KAMI ================= -->
+<section id="kenapa" class="py-20 md:py-28">
+  <div class="max-w-6xl mx-auto px-5">
+    <div class="max-w-3xl reveal">
+      <p class="kicker text-[11px] mb-4" style="color:var(--blue)">Kenapa Pilih Kami</p>
+      <h2 class="display text-3xl sm:text-5xl">Jersey Voli Yang Nyaman Dipake<br class="hidden sm:block"> Dari Servis Pertama Sampai <span class="blue-text">Set Penentuan</span></h2>
+      <p class="mt-6 text-base sm:text-lg leading-relaxed" style="color:var(--muted)">
+        Voli itu olahraga yang banyak gerak eksplosif — lompat, smash, diving. Jersey yang kaku atau gerah bisa ganggu performa. Makanya kami fokus di bahan yang benar-benar ringan dan gak nempel pas keringetan.
+      </p>
+    </div>
+
+    <div class="mt-12 grid md:grid-cols-3 gap-5">
+      <div class="card rounded-2xl p-7 reveal">
+        <div class="w-12 h-12 rounded-xl grid place-items-center text-2xl mb-5" style="background:var(--sky);border:1px solid rgba(10,104,224,.22)">🪶</div>
+        <h3 class="display text-2xl">Bahan Ringan &amp; Elastis</h3>
+        <p class="mt-3 leading-relaxed" style="color:var(--muted)">Dry Fit khusus yang gak bikin gerah, cocok buat gerakan cepat dan lompatan tinggi.</p>
+      </div>
+      <div class="card rounded-2xl p-7 reveal">
+        <div class="w-12 h-12 rounded-xl grid place-items-center text-2xl mb-5" style="background:var(--sky);border:1px solid rgba(10,104,224,.22)">🧾</div>
+        <h3 class="display text-2xl">Bisa Satuan, Gak Ribet</h3>
+        <p class="mt-3 leading-relaxed" style="color:var(--muted)">Mau order buat satu tim atau cuma buat diri sendiri, sama-sama gampang.</p>
+      </div>
+      <div class="card rounded-2xl p-7 reveal">
+        <div class="w-12 h-12 rounded-xl grid place-items-center text-2xl mb-5" style="background:var(--sky);border:1px solid rgba(10,104,224,.22)">🎨</div>
+        <h3 class="display text-2xl">Desain Bebas Sesuai Identitas Tim</h3>
+        <p class="mt-3 leading-relaxed" style="color:var(--muted)">Kirim logo klub/sekolah, pilih warna, kami wujudkan jadi jersey yang benar-benar “punya tim kamu”.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= PILIHAN ORDER ================= -->
+<section id="katalog" class="py-20 md:py-28 border-y" style="background:var(--paper-2);border-color:var(--line)">
+  <div class="max-w-6xl mx-auto px-5">
+    <div class="max-w-3xl reveal">
+      <p class="kicker text-[11px] mb-4" style="color:var(--blue)">Pilihan Order</p>
+      <h2 class="display text-3xl sm:text-5xl">Jersey Voli —<br class="hidden sm:block"> <span class="blue-text">Pilih Sesuai Kebutuhan Tim Kamu</span></h2>
+      <p class="mt-5 text-base sm:text-lg leading-relaxed" style="color:var(--muted)">Mau desain full custom buat satu tim, atau cuma butuh 1 pcs buat diri sendiri? Dua-duanya bisa!</p>
+    </div>
+
+    <div class="mt-12 grid lg:grid-cols-2 gap-6">
+      <!-- Card 1 -->
+      <article class="card card-hl rounded-2xl overflow-hidden flex flex-col reveal">
+        <div class="relative">
+          <!-- SLOT FOTO: ganti div.ph dengan <img class="w-full h-56 sm:h-64 object-cover"> -->
+          <div class="ph w-full h-56 sm:h-64" style="border:0">
+            <div>
+              <p class="text-2xl">🏐</p>
+              <p class="ph-label mt-2">Foto Tim Voli · 6 Jersey Satu Set</p>
+            </div>
+          </div>
+          <span class="absolute top-4 left-4 btn-blue rounded-full px-3 py-1 text-[11px] font-bold text-white tracking-wide">PALING POPULER</span>
+        </div>
+        <div class="p-7 flex flex-col flex-1">
+          <p class="kicker text-[11px]" style="color:var(--blue)">Min. 6 pcs</p>
+          <h3 class="display text-3xl mt-2">🎨 Custom Desain Full Team</h3>
+          <p class="mt-3 leading-relaxed" style="color:var(--muted)">Minimal order 6 pcs. Desain jersey 100% sesuai request — warna, motif, logo klub/sekolah, semua bisa disesuaikan biar tim voli kamu punya identitas sendiri.</p>
+          <ul class="mt-5 space-y-2.5 text-sm">
+            <li class="flex gap-2.5"><span style="color:var(--blue)">✅</span><span>Bebas request desain dari nol</span></li>
+            <li class="flex gap-2.5"><span style="color:var(--blue)">✅</span><span>Cocok buat tim voli sekolah, klub, komunitas kantor</span></li>
+            <li class="flex gap-2.5"><span style="color:var(--blue)">✅</span><span>Harga makin hemat per pcs kalau order makin banyak</span></li>
+          </ul>
+          <div class="card-cta"><a href="#order" class="btn-blue rounded-full px-6 py-3.5 font-bold text-white text-center block">Konsultasi Desain Tim →</a></div>
+        </div>
+      </article>
+
+      <!-- Card 2 -->
+      <article class="card rounded-2xl overflow-hidden flex flex-col reveal">
+        <div class="relative">
+          <div class="ph w-full h-56 sm:h-64" style="border:0">
+            <div>
+              <p class="text-2xl">👕</p>
+              <p class="ph-label mt-2">Foto Jersey Satuan</p>
+            </div>
+          </div>
+        </div>
+        <div class="p-7 flex flex-col flex-1">
+          <p class="kicker text-[11px]" style="color:var(--blue)">1 pcs</p>
+          <h3 class="display text-3xl mt-2">🏐 Order Satuan</h3>
+          <p class="mt-3 leading-relaxed" style="color:var(--muted)">Cukup 1 pcs, gak perlu ngajak satu tim. Pilih dari desain katalog yang sudah tersedia, lalu tinggal custom:</p>
+          <ul class="mt-5 space-y-2.5 text-sm">
+            <li class="flex gap-2.5"><span style="color:var(--blue)">✅</span><span>Nama &amp; Nomor Punggung</span></li>
+            <li class="flex gap-2.5"><span style="color:var(--blue)">✅</span><span>Logo Tim</span></li>
+            <li class="flex gap-2.5"><span style="color:var(--blue)">✅</span><span>Logo Sponsor</span></li>
+          </ul>
+          <p class="mt-4 text-sm italic" style="color:#8aa0bd">(Desain dasar mengikuti katalog, bukan custom dari nol)</p>
+          <div class="card-cta"><a href="#desain" class="btn-outline rounded-full px-6 py-3.5 font-semibold text-center block">Pilih Desain Katalog →</a></div>
+        </div>
+      </article>
+    </div>
+
+    <p class="mt-7 text-sm card rounded-xl px-5 py-4 reveal" style="color:var(--ink-soft)">
+      💡 Mau desain benar-benar baru dari nol? Minimal order 6 pcs. Mau cepat &amp; simpel? Order satuan langsung dari katalog yang ada.
+    </p>
+  </div>
+</section>
+
+<!-- ================= HARGA ================= -->
+<section id="harga" class="py-20 md:py-28 relative overflow-hidden">
+  <div class="absolute inset-0 -z-10">
+    <div class="absolute top-0 left-1/2 -translate-x-1/2 w-[46rem] h-[26rem] blur-3xl" style="background:radial-gradient(circle,rgba(47,143,255,.16),transparent 68%)"></div>
+    <div class="absolute inset-0 net opacity-40"></div>
+  </div>
+
+  <div class="max-w-5xl mx-auto px-5">
+    <div class="text-center reveal">
+      <h2 class="display text-4xl sm:text-6xl">Pilih Paket <span class="blue-text">Tim Voli Kamu</span></h2>
+      <p class="mt-4 text-base sm:text-lg" style="color:var(--muted)">Pilih jumlah pembelian, harga akan menyesuaikan otomatis.</p>
+    </div>
+
+    <div class="mt-8 flex justify-center reveal">
+      <div role="tablist" aria-label="Pilih jumlah pembelian" class="qty-toggle relative inline-flex items-center rounded-full p-1.5 gap-1">
+        <span id="qtyPill" class="qty-pill" aria-hidden="true"></span>
+        <button role="tab" aria-selected="true" data-qty="ecer" class="qty-btn is-active">Ecer</button>
+        <button role="tab" aria-selected="false" data-qty="lusin" class="qty-btn">Lusin <span class="opacity-60">·</span> Hemat</button>
+      </div>
+    </div>
+
+    <div class="mt-10 grid md:grid-cols-2 gap-5">
+      <!-- Atasan -->
+      <article class="card price-card rounded-3xl p-7 sm:p-8 flex flex-col reveal">
+        <div class="flex items-start justify-between gap-3">
+          <p class="kicker text-[11px] pt-1" style="color:var(--muted)">Jersey Atasan</p>
+          <span class="rounded-full px-3 py-1 text-[10px] font-bold tracking-wide border" style="border-color:var(--line);color:var(--ink-soft)">FLEKSIBEL</span>
+        </div>
+
+        <h3 class="display text-4xl mt-4">Atasan Saja</h3>
+
+        <div class="mt-6 flex items-end gap-1.5">
+          <span class="display text-2xl pb-2" style="color:var(--muted)">Rp</span>
+          <span class="display text-6xl sm:text-7xl leading-none" data-price="atasan">95rb</span>
+          <span class="pb-2.5 text-lg" style="color:var(--muted)">/pcs</span>
+        </div>
+        <p class="mt-2.5 text-sm" style="color:var(--muted)" data-note="atasan">Bisa pesan mulai 1 pcs</p>
+
+        <ul class="mt-7 pt-6 border-t space-y-3 text-[15px] flex-1" style="border-color:var(--line)">
+          <li class="flex gap-3"><span style="color:var(--blue)">✓</span><span style="color:var(--ink-soft)">Full printing &amp; desain bebas</span></li>
+          <li class="flex gap-3"><span style="color:var(--blue)">✓</span><span style="color:var(--ink-soft)">Nama dan nomor punggung</span></li>
+          <li class="flex gap-3"><span style="color:var(--blue)">✓</span><span style="color:var(--ink-soft)">Revisi desain tanpa batas</span></li>
+        </ul>
+
+        <div class="card-cta">
+          <a href="#order" class="btn-outline rounded-full pl-6 pr-3 py-3.5 font-semibold flex items-center justify-between gap-3">
+            <span>Pilih Atasan</span>
+            <span class="w-8 h-8 rounded-full grid place-items-center text-sm shrink-0" style="background:var(--sky);color:var(--blue-deep)">↗</span>
+          </a>
+        </div>
+      </article>
+
+      <!-- Setelan -->
+      <article class="card price-card price-card-hl rounded-3xl p-7 sm:p-8 flex flex-col relative reveal">
+        <div class="flex items-start justify-between gap-3">
+          <p class="kicker text-[11px] pt-1" style="color:var(--blue)">Atasan + Celana</p>
+          <span class="btn-blue rounded-full px-3 py-1 text-[10px] font-bold text-white tracking-wide whitespace-nowrap">PALING DIMINATI</span>
+        </div>
+
+        <h3 class="display text-4xl mt-4">Jersey Setelan</h3>
+
+        <div class="mt-6 flex items-end gap-1.5">
+          <span class="display text-2xl pb-2" style="color:var(--blue)">Rp</span>
+          <span class="display text-6xl sm:text-7xl leading-none blue-text" data-price="setelan">145rb</span>
+          <span class="pb-2.5 text-lg" style="color:var(--muted)">/set</span>
+        </div>
+        <p class="mt-2.5 text-sm" style="color:var(--muted)" data-note="setelan">Bisa pesan mulai 1 set</p>
+
+        <ul class="mt-7 pt-6 border-t space-y-3 text-[15px] flex-1" style="border-color:var(--line)">
+          <li class="flex gap-3"><span style="color:var(--blue)">✓</span><span style="color:var(--ink-soft)">Semua benefit paket atasan</span></li>
+          <li class="flex gap-3"><span style="color:var(--blue)">✓</span><span style="color:var(--ink-soft)">Celana full custom siap tanding</span></li>
+          <li class="flex gap-3"><span style="color:var(--blue)">✓</span><span style="color:var(--ink-soft)">Prioritas jadwal produksi</span></li>
+        </ul>
+
+        <div class="card-cta">
+          <a href="#order" class="btn-blue rounded-full pl-6 pr-3 py-3.5 font-bold text-white flex items-center justify-between gap-3">
+            <span>Pilih Setelan</span>
+            <span class="w-8 h-8 rounded-full grid place-items-center text-sm shrink-0" style="background:rgba(255,255,255,.22)">↗</span>
+          </a>
+        </div>
+      </article>
+    </div>
+
+    <!-- Bulk strip -->
+    <div class="mt-5 card rounded-3xl px-7 py-7 sm:px-9 flex flex-col sm:flex-row sm:items-center justify-between gap-5 reveal" style="border-color:rgba(10,104,224,.3)">
+      <div>
+        <h3 class="display text-3xl sm:text-4xl">Butuh Lebih dari <span class="blue-text">50 Pcs?</span></h3>
+        <p class="mt-2 text-sm sm:text-base" style="color:var(--muted)">Dapatkan harga proyek khusus untuk klub, sekolah, dan event turnamen.</p>
+      </div>
+      <a href="#order" class="btn-blue rounded-full px-6 py-3.5 font-bold text-white text-center whitespace-nowrap shrink-0">Minta Harga Khusus</a>
+    </div>
+  </div>
+</section>
+
+<!-- ================= KATALOG DESAIN ================= -->
+<section id="desain" class="py-20 md:py-28 border-y" style="background:var(--paper-2);border-color:var(--line)">
+  <div class="max-w-6xl mx-auto px-5">
+    <div class="max-w-3xl reveal">
+      <p class="kicker text-[11px] mb-4" style="color:var(--blue)">Katalog Desain</p>
+      <h2 class="display text-3xl sm:text-5xl">Desain Siap Pakai,<br class="hidden sm:block"> <span class="blue-text">Tinggal Custom Nama &amp; Nomor</span></h2>
+      <p class="mt-5 text-base sm:text-lg leading-relaxed" style="color:var(--muted)">
+        Semua desain di bawah bisa langsung dipesan satuan. Tinggal pilih nomor desainnya, kirim nama, nomor punggung, dan logo tim — sisanya kami yang urus.
+      </p>
+    </div>
+
+    <div id="catGrid" class="mt-12 grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4"></div>
+  </div>
+</section>
+
+<!-- ================= CARA ORDER ================= -->
+<section id="cara" class="py-20 md:py-28">
+  <div class="max-w-6xl mx-auto px-5">
+    <div class="max-w-3xl reveal">
+      <p class="kicker text-[11px] mb-4" style="color:var(--blue)">Cara Order</p>
+      <h2 class="display text-3xl sm:text-5xl">Order Gampang, <span class="blue-text">Tinggal 4 Langkah</span></h2>
+    </div>
+
+    <div class="mt-12 grid sm:grid-cols-2 lg:grid-cols-4 gap-5">
+      <div class="card rounded-2xl p-6 relative overflow-hidden reveal">
+        <span class="display absolute -top-3 -right-1 text-[6rem] leading-none select-none" style="color:rgba(10,104,224,.07)">01</span>
+        <p class="kicker text-[11px]" style="color:var(--blue)">Langkah 1</p>
+        <h3 class="display text-2xl mt-2">Pilih Desain</h3>
+        <p class="mt-2.5 text-sm leading-relaxed" style="color:var(--muted)">Browse katalog atau kirim referensi desain sendiri.</p>
+      </div>
+      <div class="card rounded-2xl p-6 relative overflow-hidden reveal">
+        <span class="display absolute -top-3 -right-1 text-[6rem] leading-none select-none" style="color:rgba(10,104,224,.07)">02</span>
+        <p class="kicker text-[11px]" style="color:var(--blue)">Langkah 2</p>
+        <h3 class="display text-2xl mt-2">Isi Detail</h3>
+        <p class="mt-2.5 text-sm leading-relaxed" style="color:var(--muted)">Nama, nomor, ukuran, dan jumlah pemain.</p>
+      </div>
+      <div class="card rounded-2xl p-6 relative overflow-hidden reveal">
+        <span class="display absolute -top-3 -right-1 text-[6rem] leading-none select-none" style="color:rgba(10,104,224,.07)">03</span>
+        <p class="kicker text-[11px]" style="color:var(--blue)">Langkah 3</p>
+        <h3 class="display text-2xl mt-2">Konfirmasi &amp; Bayar</h3>
+        <p class="mt-2.5 text-sm leading-relaxed" style="color:var(--muted)">Cek preview desain dulu sebelum produksi.</p>
+      </div>
+      <div class="card rounded-2xl p-6 relative overflow-hidden reveal">
+        <span class="display absolute -top-3 -right-1 text-[6rem] leading-none select-none" style="color:rgba(10,104,224,.07)">04</span>
+        <p class="kicker text-[11px]" style="color:var(--blue)">Langkah 4</p>
+        <h3 class="display text-2xl mt-2">Jersey Sampai di Tanganmu</h3>
+        <p class="mt-2.5 text-sm leading-relaxed" style="color:var(--muted)">Dikirim rapi dengan packing aman.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= TESTIMONI ================= -->
+<section id="testimoni" class="py-20 md:py-28 border-y" style="background:var(--paper-2);border-color:var(--line)">
+  <div class="max-w-6xl mx-auto px-5">
+    <div class="max-w-3xl reveal">
+      <p class="kicker text-[11px] mb-4" style="color:var(--blue)">Ulasan Pelanggan</p>
+      <h2 class="display text-3xl sm:text-5xl">Kata <span class="blue-text">Pelanggan Kami</span></h2>
+      <p class="mt-5 text-base sm:text-lg" style="color:var(--muted)">Klub, tim sekolah, dan komunitas voli sudah percaya kualitas jersey kami.</p>
+    </div>
+
+    <!-- Galeri foto berjalan -->
+    <div class="mt-12 card rounded-3xl p-6 sm:p-8 reveal" style="border-color:rgba(10,104,224,.24)">
+      <div class="flex flex-col sm:flex-row sm:items-end justify-between gap-4">
+        <div>
+          <span class="inline-flex items-center gap-2 rounded-full px-3 py-1.5 text-[10px] font-bold tracking-wider border" style="border-color:var(--line);color:var(--ink-soft)">
+            <span class="w-1.5 h-1.5 rounded-full" style="background:var(--blue)"></span> BUKTI BUKAN JANJI
+          </span>
+          <h3 class="display text-3xl sm:text-4xl mt-4">Hasil <span class="blue-text">Nyata</span> dari Pelanggan Kami</h3>
+        </div>
+        <p class="text-sm sm:text-right sm:max-w-[15rem] leading-relaxed" style="color:var(--muted)">
+          Foto asli jersey yang sudah diterima pelanggan — bukan edit, bukan rekayasa.
+        </p>
+      </div>
+
+      <div class="gal-wrap mt-7">
+        <div class="gal-track" id="galTrack"></div>
+      </div>
+
+      <div class="mt-7 flex justify-center">
+        <a href="#order" class="btn-blue rounded-full px-7 py-3.5 font-bold text-white text-center inline-flex items-center gap-2">
+          Mau Jersey Seperti Ini? Order Sekarang <span>→</span>
+        </a>
+      </div>
+    </div>
+
+    <div id="testiGrid" class="mt-12 grid sm:grid-cols-2 lg:grid-cols-3 gap-5"></div>
+  </div>
+</section>
+
+<!-- ================= PROMO / URGENCY ================= -->
+<section id="promo" class="py-20 md:py-28 relative overflow-hidden">
+  <div class="absolute inset-0 -z-10">
+    <div class="absolute inset-0 stripe opacity-70"></div>
+    <div class="absolute inset-0" style="background:linear-gradient(180deg,#fff 0%,rgba(255,255,255,.72) 45%,#fff 100%)"></div>
+  </div>
+  <div class="max-w-4xl mx-auto px-5 text-center reveal">
+    <p class="kicker text-[11px] mb-4" style="color:var(--blue)">Promo Terbatas</p>
+    <h2 class="display text-3xl sm:text-5xl">Promo Spesial Buat Tim<br class="hidden sm:block"> Yang <span class="blue-text">Order Minggu Ini</span></h2>
+    <p class="mt-6 text-base sm:text-lg leading-relaxed max-w-2xl mx-auto" style="color:var(--muted)">
+      Order minggu ini dan dapatkan potongan harga khusus untuk pembelian di atas 10 pcs. Slot produksi terbatas tiap minggunya, buruan amankan sebelum kehabisan!
+    </p>
+    <div class="mt-8 flex justify-center">
+      <a href="#order" class="btn-blue rounded-full px-8 py-4 font-bold text-white">Klaim Promo Sekarang →</a>
+    </div>
+    <p class="mt-5 text-sm" style="color:#8aa0bd">⏳ Estimasi produksi 7 hari kerja setelah desain disetujui.</p>
+  </div>
+</section>
+
+<!-- ================= FAQ ================= -->
+<section id="faq" class="py-20 md:py-28 border-y" style="background:var(--paper-2);border-color:var(--line)">
+  <div class="max-w-3xl mx-auto px-5">
+    <div class="reveal">
+      <p class="kicker text-[11px] mb-4" style="color:var(--blue)">FAQ</p>
+      <h2 class="display text-3xl sm:text-5xl">Pertanyaan Yang <span class="blue-text">Sering Ditanya</span></h2>
+    </div>
+
+    <div class="mt-10 space-y-3">
+      <details class="faq card rounded-xl px-5 py-4 reveal" open="">
+        <summary class="flex items-start justify-between gap-4 cursor-pointer list-none font-bold text-lg">
+          <span>Bisa custom nama &amp; nomor sendiri gak?</span>
+          <span class="faq-ico mt-1.5" aria-hidden="true"></span>
+        </summary>
+        <p class="mt-3 leading-relaxed" style="color:var(--muted)">Bisa banget! Tinggal isi form order, kami cetak sesuai request kamu.</p>
+      </details>
+
+      <details class="faq card rounded-xl px-5 py-4 reveal">
+        <summary class="flex items-start justify-between gap-4 cursor-pointer list-none font-bold text-lg">
+          <span>Berapa lama proses produksinya?</span>
+          <span class="faq-ico mt-1.5" aria-hidden="true"></span>
+        </summary>
+        <p class="mt-3 leading-relaxed" style="color:var(--muted)">Rata-rata 7 hari kerja tergantung jumlah pesanan.</p>
+      </details>
+
+      <details class="faq card rounded-xl px-5 py-4 reveal">
+        <summary class="flex items-start justify-between gap-4 cursor-pointer list-none font-bold text-lg">
+          <span>Apakah bisa order satuan?</span>
+          <span class="faq-ico mt-1.5" aria-hidden="true"></span>
+        </summary>
+        <p class="mt-3 leading-relaxed" style="color:var(--muted)">Bisa, order 1 pcs bisa langsung custom nama, nomor punggung, logo tim, dan logo sponsor — desain dasarnya mengikuti katalog yang sudah ada.</p>
+      </details>
+
+      <details class="faq card rounded-xl px-5 py-4 reveal">
+        <summary class="flex items-start justify-between gap-4 cursor-pointer list-none font-bold text-lg">
+          <span>Kalau mau desain custom dari nol gimana?</span>
+          <span class="faq-ico mt-1.5" aria-hidden="true"></span>
+        </summary>
+        <p class="mt-3 leading-relaxed" style="color:var(--muted)">Untuk desain full custom (bukan dari katalog), minimal order 6 pcs ya, biar bisa kami produksi khusus buat tim kamu.</p>
+      </details>
+
+      <details class="faq card rounded-xl px-5 py-4 reveal">
+        <summary class="flex items-start justify-between gap-4 cursor-pointer list-none font-bold text-lg">
+          <span>Bahannya cocok buat gerakan lompat &amp; smash?</span>
+          <span class="faq-ico mt-1.5" aria-hidden="true"></span>
+        </summary>
+        <p class="mt-3 leading-relaxed" style="color:var(--muted)">Cocok, kami pakai Dry Fit ringan yang elastis dan menyerap keringat, jadi tetap nyaman meski banyak gerakan eksplosif.</p>
+      </details>
+    </div>
+  </div>
+</section>
+
+<!-- ================= CTA PENUTUP ================= -->
+<section id="order" class="py-20 md:py-32 relative overflow-hidden">
+  <div class="absolute inset-0 -z-10">
+    <div class="absolute inset-x-0 bottom-0 h-full" style="background:radial-gradient(60% 70% at 50% 100%,rgba(47,143,255,.22),transparent 70%)"></div>
+    <div class="absolute inset-0 net opacity-50"></div>
+  </div>
+  <div class="max-w-3xl mx-auto px-5 text-center reveal">
+    <h2 class="display text-4xl sm:text-6xl">Saatnya Tim Voli Kamu<br> <span class="blue-text">Tampil Kompak di Lapangan</span></h2>
+    <p class="mt-6 text-lg" style="color:var(--muted)">Jangan cuma latihan bareng — tampil kompak juga dengan jersey satu identitas.</p>
+    <div class="mt-9">
+      <a href="#" class="btn-blue inline-block rounded-full px-9 py-5 text-lg font-bold text-white">🏐 Order Jersey Voli Sekarang →</a>
+    </div>
+    <p class="mt-5 text-sm" style="color:#8aa0bd">Gratis konsultasi desain · Bisa satuan · Packing aman</p>
+  </div>
+</section>
+
+<!-- ================= FOOTER ================= -->
+<footer class="border-t py-10" style="border-color:var(--line)">
+  <div class="max-w-6xl mx-auto px-5 flex flex-col sm:flex-row gap-4 items-center justify-between text-sm" style="color:var(--muted)">
+    <p class="display text-xl" style="color:var(--ink)">TIM<span class="blue-text">KITA</span> <span class="text-[10px] tracking-[.2em] align-super">VOLI</span></p>
+    <p>© 2026 · Custom Jersey Voli</p>
+  </div>
+</footer>
+
+<!-- ================= POPUP SOCIAL PROOF ================= -->
+<div id="popwrap" class="hide fixed bottom-4 left-4 z-50 max-w-[19rem] sm:max-w-sm">
+  <div class="card rounded-xl p-3.5 pr-9 shadow-2xl relative" style="border-color:rgba(10,104,224,.28)">
+    <button id="popclose" aria-label="Tutup notifikasi" class="absolute top-2 right-2.5 text-lg leading-none" style="color:#9db2cd">×</button>
+    <div class="flex items-start gap-2.5">
+      <span class="mt-1 w-2 h-2 rounded-full shrink-0 animate-pulse" style="background:var(--blue)"></span>
+      <div class="min-w-0">
+        <p class="text-sm font-bold leading-snug"><span id="popname">Bagas - Sumedang</span></p>
+        <p class="text-[13px] leading-snug mt-.5" style="color:var(--muted)">baru memesan <em class="not-italic font-semibold" style="color:var(--ink)" id="popitem">Jersey Voli Custom Full Printing</em></p>
+        <p class="text-[11px] mt-1.5" style="color:#9db2cd"><span id="poptime">5 menit yang lalu</span> · <span style="color:#0f9d58">✅ Verified</span></p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  /* ---------- katalog desain (slot foto) ---------- */
+  (function(){
+    var grid = document.getElementById('catGrid');
+    if(!grid) return;
+    var names = [
+      ['Spike Blue','Indoor'],['Ace Serve','Klub'],['Net Guard','Sekolah'],['Rally Wave','Indoor'],
+      ['Setter Pro','Klub'],['Block Line','Sekolah'],['Smash Force','Indoor'],['Court Vision','Klub'],
+      ['Libero Flow','Sekolah'],['Deuce Point','Indoor'],['Jump Reach','Klub'],['Match Set','Sekolah'],
+      ['Sky Ball','Indoor'],['Digs Master','Klub'],['Tribun Voli','Sekolah']
+    ];
+    var html = '';
+    names.forEach(function(n, i){
+      var num = String(i+1).padStart(2,'0');
+      html +=
+        '<article class="cat-item reveal">' +
+          '<div class="ph">' +
+            '<div class="px-2">' +
+              '<p class="display text-3xl" style="color:rgba(10,104,224,.18)">' + num + '</p>' +
+              '<p class="ph-label mt-1">Foto Desain</p>' +
+            '</div>' +
+          '</div>' +
+          '<span class="cat-badge">' + n[1] + '</span>' +
+          '<p class="cat-name">' + n[0] + '</p>' +
+        '</article>';
+    });
+    grid.innerHTML = html;
+  })();
+
+  /* ---------- testimoni ---------- */
+  (function(){
+    var grid = document.getElementById('testiGrid');
+    if(!grid) return;
+    var data = [
+      ['Bahannya ringan banget, dipake latihan smash &amp; lompat gak bikin risih. Warnanya juga awet gak pudar.','Dita, Klub Voli Srikandi','Yogyakarta'],
+      ['Order 12 pcs buat tim voli sekolah, semua ukuran pas dan nomor punggungnya rapi. Anak-anak pede pas turnamen.','Pak Hendra, SMAN 3 Voli','Semarang'],
+      ['Awalnya ragu order satuan, ternyata beneran bisa 1 pcs. Logo klub dicetak tajam, gak pecah sama sekali.','Rani, Voli Putri Garuda','Surabaya'],
+      ['Desain dari nol dibantuin sampai fix. Tim voli kantor kami akhirnya punya jersey identitas sendiri.','Adi, Komunitas Voli Kantor','Bekasi'],
+      ['Elastis dan gak nempel walau keringetan pas main 3 set penuh. Nyaman buat diving juga.','Sinta, Klub Voli Merapi','Yogyakarta'],
+      ['Packing rapi, sampai tepat waktu sebelum turnamen antar RT. Bakal order lagi buat tim cadangan.','Yusuf, Voli Karang Taruna','Bandung']
+    ];
+    var html = '';
+    data.forEach(function(d){
+      html +=
+        '<figure class="card rounded-2xl p-6 flex flex-col reveal">' +
+          '<span class="self-start rounded-full px-2.5 py-1 text-[11px] font-bold" style="background:rgba(15,157,88,.1);color:#0f7a45;border:1px solid rgba(15,157,88,.28)">✅ Verified Buyer</span>' +
+          '<div class="mt-3 tracking-wider" style="color:#f5a524">★★★★★</div>' +
+          '<blockquote class="mt-3 text-[15px] leading-relaxed italic flex-1" style="color:var(--ink-soft)">“' + d[0] + '”</blockquote>' +
+          '<figcaption class="mt-4 pt-4 border-t" style="border-color:var(--line)">' +
+            '<p class="font-bold">— ' + d[1] + '</p>' +
+            '<p class="text-sm mt-.5" style="color:var(--muted)">📍 ' + d[2] + '</p>' +
+          '</figcaption>' +
+        '</figure>';
+    });
+    grid.innerHTML = html;
+  })();
+
+  /* ---------- galeri foto berjalan (slot placeholder) ---------- */
+  (function(){
+    var track = document.getElementById('galTrack');
+    if(!track) return;
+    var caps = ['Klub Voli Srikandi','SMAN 3 Voli','Voli Putri Garuda','Komunitas Voli Kantor','Voli Karang Taruna'];
+    var html = '';
+    caps.forEach(function(c){
+      html +=
+        '<figure class="gal-item">' +
+          '<div class="ph">' +
+            '<div class="px-3">' +
+              '<p class="text-2xl">🏐</p>' +
+              '<p class="ph-label mt-2">Foto Asli</p>' +
+              '<p class="text-xs mt-1" style="color:#9db2cd">' + c + '</p>' +
+            '</div>' +
+          '</div>' +
+        '</figure>';
+    });
+    track.innerHTML = html;
+    /* duplikasi supaya loop mulus */
+    Array.prototype.slice.call(track.children).forEach(function(el){
+      var c = el.cloneNode(true);
+      c.setAttribute('aria-hidden','true');
+      track.appendChild(c);
+    });
+  })();
+
+  /* ---------- scroll reveal ---------- */
+  (function(){
+    var els = document.querySelectorAll('.reveal');
+    if(!('IntersectionObserver' in window)){ els.forEach(function(e){e.classList.add('in');}); return; }
+    var io = new IntersectionObserver(function(entries){
+      entries.forEach(function(en){
+        if(en.isIntersecting){ en.target.classList.add('in'); io.unobserve(en.target); }
+      });
+    },{threshold:.12, rootMargin:'0px 0px -40px 0px'});
+    els.forEach(function(e){ io.observe(e); });
+  })();
+
+  /* ---------- toggle harga ecer / lusin ---------- */
+  (function(){
+    var PRICE = {
+      ecer:  { atasan:'95rb', setelan:'145rb', note:'Bisa pesan mulai 1 pcs',   noteSet:'Bisa pesan mulai 1 set' },
+      lusin: { atasan:'85rb', setelan:'120rb', note:'Minimal pembelian 12 pcs', noteSet:'Minimal pembelian 12 set' }
+    };
+    var btns = document.querySelectorAll('.qty-btn');
+    var pill = document.getElementById('qtyPill');
+    if(!btns.length || !pill) return;
+
+    var elA = document.querySelector('[data-price="atasan"]');
+    var elS = document.querySelector('[data-price="setelan"]');
+    var nA  = document.querySelector('[data-note="atasan"]');
+    var nS  = document.querySelector('[data-note="setelan"]');
+    var section = document.getElementById('harga');
+
+    function movePill(btn){
+      var wrap = btn.parentElement.getBoundingClientRect();
+      var r = btn.getBoundingClientRect();
+      pill.style.width = r.width + 'px';
+      pill.style.transform = 'translateX(' + (r.left - wrap.left - 6) + 'px)';
+    }
+
+    function apply(key, btn){
+      var p = PRICE[key];
+      section.classList.add('price-swap');
+      setTimeout(function(){
+        elA.textContent = p.atasan;
+        elS.textContent = p.setelan;
+        nA.textContent  = p.note;
+        nS.textContent  = p.noteSet;
+        section.classList.remove('price-swap');
+      }, 180);
+      btns.forEach(function(b){
+        var on = b === btn;
+        b.classList.toggle('is-active', on);
+        b.setAttribute('aria-selected', on ? 'true' : 'false');
+      });
+      movePill(btn);
+    }
+
+    btns.forEach(function(b){
+      b.addEventListener('click', function(){ apply(b.dataset.qty, b); });
+    });
+
+    var first = btns[0];
+    requestAnimationFrame(function(){ movePill(first); });
+    window.addEventListener('resize', function(){
+      var active = document.querySelector('.qty-btn.is-active') || first;
+      movePill(active);
+    });
+  })();
+
+  /* ---------- popup social proof ---------- */
+  (function(){
+    var data = [
+      ['Bagas - Sumedang','Jersey Voli Custom Full Printing','5 menit yang lalu'],
+      ['Nadia - Malang','Custom Desain Full Team 12 pcs','8 menit yang lalu'],
+      ['Fikri - Depok','Jersey Voli Satuan + Nama &amp; Nomor','11 menit yang lalu'],
+      ['Sari - Palembang','Jersey Voli Custom Full Printing','14 menit yang lalu'],
+      ['Gilang - Denpasar','Custom Desain Full Team 8 pcs','17 menit yang lalu'],
+      ['Mega - Medan','Jersey Voli Satuan + Logo Sponsor','20 menit yang lalu'],
+      ['Rio - Solo','Jersey Voli Custom Full Printing','23 menit yang lalu'],
+      ['Tika - Pontianak','Custom Desain Full Team 15 pcs','26 menit yang lalu']
+    ];
+    var wrap = document.getElementById('popwrap');
+    var nameEl = document.getElementById('popname');
+    var itemEl = document.getElementById('popitem');
+    var timeEl = document.getElementById('poptime');
+    var i = 0, stopped = false, timer;
+
+    document.getElementById('popclose').addEventListener('click', function(){
+      stopped = true; wrap.classList.add('hide'); clearTimeout(timer);
+    });
+
+    function show(){
+      if(stopped) return;
+      var d = data[i % data.length]; i++;
+      nameEl.textContent = d[0];
+      itemEl.innerHTML = d[1];
+      timeEl.textContent = d[2];
+      wrap.classList.remove('hide');
+      timer = setTimeout(function(){
+        wrap.classList.add('hide');
+        timer = setTimeout(show, 4000);
+      }, 5500);
+    }
+    setTimeout(show, 3500);
+  })();
+</script>
+
+</body></html>

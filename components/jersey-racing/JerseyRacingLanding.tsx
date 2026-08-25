@@ -679,7 +679,7 @@ export default function JerseyRacingLanding({ products, waNumber }: Props) {
                 <span className="cond font-bold text-base" style={{ color: "#8e97a6" }}>/pcs</span>
               </p>
               <p key={priceMode + "-atasan"} className="mb-7" style={{ fontSize: ".92rem", color: "#8e97a6" }}>
-                {priceMode === "ecer" ? "Bisa pesan mulai 1 pcs" : "Minimal pembelian 12 pcs"}
+                {priceMode === "ecer" ? "Mau desain custom sendiri? Order minimal 6 pcs" : "Minimal pembelian 12 pcs"}
               </p>
               <ul className="mb-9 flex-1 pt-6" style={{ borderTop: "1px solid rgba(255,255,255,.1)" }}>
                 {(priceMode === "ecer"

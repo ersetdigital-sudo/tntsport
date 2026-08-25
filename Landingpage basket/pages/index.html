@@ -1,0 +1,906 @@
+<!DOCTYPE html>
+<html lang="id"><head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Custom Jersey Basket — Jersey, Nama, dan Nomor Sesuai Keinginan Kamu</title>
+<meta name="description" content="Jersey basket custom nama, nomor, dan logo tim sendiri. Bahan Dry Fit ringan, full printing tajam, bisa order satuan. 20 desain siap pilih atau custom dari nol.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+<link href="https://fonts.googleapis.com/css2?family=Anton&amp;family=Barlow+Condensed:ital,wght@0,600;0,700;0,800;1,700;1,800&amp;family=Barlow:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
+<style>
+  :root{
+    --void:#08080a;
+    --coal:#101014;
+    --coal-2:#17171c;
+    --smoke:#22222a;
+    --line:rgba(255,255,255,.12);
+    --line-2:rgba(255,255,255,.07);
+    --chalk:#ffffff;
+    --chalk-soft:#c9c9d2;
+    --muted:#8c8c99;
+    --volt:#ffe500;
+    --volt-deep:#e6ce00;
+    --flare:#ff2d1f;
+    --flare-deep:#d41a0e;
+  }
+  html{scroll-behavior:smooth;}
+  body{
+    background:var(--void);
+    color:var(--chalk);
+    font-family:"Barlow",system-ui,sans-serif;
+    -webkit-font-smoothing:antialiased;
+    overflow-x:hidden;
+  }
+  ::selection{background:var(--volt);color:#000;}
+
+  /* ===== tipografi street: besar, condensed, sedikit miring ===== */
+  .display{
+    font-family:"Anton",system-ui,sans-serif;
+    font-weight:400;
+    text-transform:uppercase;
+    /* line-height dinaikin dari .86 -> 1.08 biar antar baris gak nabrak */
+    line-height:1.08;
+    /* letter-spacing dari -.012em -> 0 biar huruf gak dempet */
+    letter-spacing:0;
+    transform:skewX(-4deg);
+  }
+  .display-flat{
+    font-family:"Anton",system-ui,sans-serif;
+    font-weight:400;text-transform:uppercase;
+    line-height:.9;letter-spacing:-.008em;
+  }
+  /* Judul card fitur (3 kolom badge 01/02/03).
+     Anton itu condensed + skew, jadi baris cenderung terlihat "menempel":
+     line-height dinaikkan ke 1.2 dan letter-spacing dilonggarkan ke 0.
+     Dipisah dari .display-flat supaya step "Cara Pesan" & card order tidak ikut berubah. */
+  .card-title{
+    line-height:1.2;
+    letter-spacing:0;
+    margin-bottom:.875rem; /* 14px jarak ke paragraf deskripsi */
+    /* text-wrap:balance sengaja TIDAK dipakai: judul sudah punya <br /> manual,
+       dan balance malah memecah card 1 jadi 3 baris sehingga tingginya beda. */
+  }
+  /* Ketiga judul dipatok 3 baris (3 x 1.2em) supaya paragraf deskripsi mulai
+     di ketinggian yang sama — card judul pendek tidak terlihat lebih lega
+     daripada card judul panjang. Card 1 memang 3 baris di layar sempit. */
+  @media (min-width:1024px){
+    .card-title{min-height:2.4em;}
+  }
+  @media (min-width:640px) and (max-width:1023px){
+    .card-title{min-height:3.6em;}
+  }
+  .cond{font-family:"Barlow Condensed",system-ui,sans-serif;text-transform:uppercase;}
+  .kicker{
+    font-family:"Barlow Condensed",sans-serif;font-weight:800;
+    letter-spacing:.22em;text-transform:uppercase;
+  }
+  .volt-text{color:var(--volt);}
+  .flare-text{color:var(--flare);}
+  .stroke-text{
+    color:transparent;
+    -webkit-text-stroke:1.6px rgba(255,255,255,.42);
+  }
+  @media (min-width:1024px){ .stroke-text{-webkit-text-stroke-width:2.2px;} }
+
+  /* ===== headline hero: spacing khusus ===== */
+  .hero-title{
+    line-height:1.12;
+    letter-spacing:-.005em;
+    /* jarak ke subheadline dikasih lega */
+    margin-bottom:2rem;
+  }
+  /* di layar kecil headline makin panjang, jadi line-height dilonggarin lagi
+     dan letter-spacing dibalikin ke 0 supaya tetep kebaca */
+  @media (max-width:639px){
+    .hero-title{
+      line-height:1.18;
+      letter-spacing:0;
+      margin-bottom:1.5rem;
+    }
+  }
+
+  /* ===== tekstur latar: grain + garis lapangan ===== */
+  .grain::before{
+    content:"";position:absolute;inset:0;pointer-events:none;z-index:0;
+    opacity:.5;mix-blend-mode:overlay;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)' opacity='.42'/%3E%3C/svg%3E");
+  }
+  .hatch{
+    background-image:repeating-linear-gradient(115deg,rgba(255,255,255,.045) 0 2px,transparent 2px 9px);
+  }
+
+  /* ===== tombol ===== */
+  .btn{
+    display:inline-flex;align-items:center;justify-content:center;gap:.55rem;
+    font-family:"Barlow Condensed",sans-serif;font-weight:800;text-transform:uppercase;
+    letter-spacing:.06em;white-space:nowrap;
+    transition:transform .16s ease, box-shadow .16s ease, background .16s ease, color .16s ease;
+  }
+  .btn-volt{
+    background:var(--volt);color:#0a0a0a;
+    box-shadow:6px 6px 0 0 var(--flare);
+  }
+  .btn-volt:hover{transform:translate(-2px,-2px);box-shadow:9px 9px 0 0 var(--flare);}
+  .btn-volt:active{transform:translate(2px,2px);box-shadow:3px 3px 0 0 var(--flare);}
+  .btn-ghost{
+    background:transparent;color:var(--chalk);
+    border:1.5px solid rgba(255,255,255,.34);
+  }
+  .btn-ghost:hover{border-color:var(--volt);color:var(--volt);background:rgba(255,229,0,.07);}
+  .btn-flare{
+    background:var(--flare);color:#fff;
+    box-shadow:6px 6px 0 0 #000;
+  }
+  .btn-flare:hover{transform:translate(-2px,-2px);box-shadow:9px 9px 0 0 #000;}
+
+  /* ===== kartu ===== */
+  .card{background:var(--coal);border:1px solid var(--line);}
+  .card-volt{border-color:rgba(255,229,0,.5);box-shadow:0 0 0 1px rgba(255,229,0,.12), 0 30px 60px -40px rgba(255,229,0,.4);}
+  .tape{
+    position:absolute;top:-.85rem;left:1.5rem;
+    background:var(--volt);color:#0a0a0a;
+    font-family:"Barlow Condensed",sans-serif;font-weight:800;
+    font-size:.72rem;letter-spacing:.16em;text-transform:uppercase;
+    padding:.3rem .8rem;transform:rotate(-1.6deg);
+  }
+  .tape-flare{background:var(--flare);color:#fff;}
+
+  /* ===== hero foto: cutout pemain, figur sudah mengisi frame sumber =====
+     Sumber 1768x2360 (potret, ~3:4). Subjek mengisi x .10-.87 dan y .045-.94,
+     jadi TIDAK perlu zoom/transform sama sekali — cukup object-fit:contain.
+     Ini sengaja simpel: pendekatan width-% + translate sebelumnya bikin
+     figur meluber keluar frame dan susah diprediksi antar breakpoint. */
+  .hero-cut-wrap{
+    position:relative;
+    aspect-ratio:3/4;
+    overflow:hidden;
+  }
+  .hero-cut{
+    width:100%;
+    height:100%;
+    object-fit:contain;
+    object-position:center bottom;
+    display:block;
+    filter:drop-shadow(0 30px 36px rgba(0,0,0,.72)) contrast(1.05) saturate(1.04);
+  }
+  @media (max-width:1023px){
+    /* mobile: frame lebih pendek supaya hero gak kepanjangan. object-fit:contain
+       menyusutkan figur agar utuh di dalam rasio ini, jadi kaki gak kepotong. */
+    .hero-cut-wrap{aspect-ratio:1/1;max-width:19rem;margin-inline:auto;}
+  }
+  /* cahaya di belakang subjek */
+  .hero-glow{
+    /* glow dinaikkan ke tengah badan (figur potret), bukan 52% seperti foto landscape lama */
+    position:absolute;left:50%;top:44%;transform:translate(-50%,-50%);
+    width:72%;aspect-ratio:1/1;border-radius:9999px;
+    background:radial-gradient(circle,rgba(255,229,0,.3),rgba(255,45,31,.13) 46%,transparent 70%);
+    filter:blur(18px);
+    z-index:0;
+  }
+  .hero-arc{
+    /* arc jadi garis tanah tipis di bawah sepatu */
+    position:absolute;left:50%;bottom:7%;transform:translateX(-50%);
+    width:62%;height:14%;
+    border-top:2px solid rgba(255,229,0,.45);
+    border-radius:50% 50% 0 0/100% 100% 0 0;
+    z-index:0;
+  }
+
+  /* ===== marquee ===== */
+  .mq{overflow:hidden;}
+  .mq-track{display:flex;width:max-content;animation:mqs 26s linear infinite;}
+  .mq-track span{
+    display:inline-flex;align-items:center;gap:1.6rem;padding-right:1.6rem;
+    font-family:"Anton",sans-serif;text-transform:uppercase;
+  }
+  @keyframes mqs{to{transform:translateX(-50%);}}
+  @media (prefers-reduced-motion:reduce){ .mq-track{animation:none;} }
+
+  /* ===== slot foto ===== */
+  .ph{
+    display:grid;place-items:center;text-align:center;
+    background:
+      repeating-linear-gradient(135deg,rgba(255,229,0,.05) 0 10px,transparent 10px 20px),
+      linear-gradient(165deg,var(--coal-2),var(--coal));
+    border:1px dashed rgba(255,229,0,.26);
+    color:var(--muted);
+  }
+  .ph-label{
+    font-family:"Barlow Condensed",sans-serif;font-weight:800;
+    letter-spacing:.16em;text-transform:uppercase;font-size:.64rem;color:#7d7d8a;
+  }
+
+  /* katalog */
+  .cat-item{position:relative;overflow:hidden;background:var(--coal);border:1px solid var(--line);}
+  .cat-item .ph,.cat-item img{width:100%;aspect-ratio:4/5;display:block;object-fit:cover;border:0;}
+  .cat-item img{transition:transform .4s ease;}
+  .cat-item:hover img{transform:scale(1.06);}
+  .cat-num{
+    position:absolute;top:0;left:0;
+    background:var(--volt);color:#0a0a0a;
+    font-family:"Anton",sans-serif;font-size:.78rem;
+    padding:.18rem .5rem;letter-spacing:.04em;
+  }
+  .cat-name{
+    position:absolute;inset-inline:0;bottom:0;padding:1.4rem .7rem .6rem;
+    background:linear-gradient(transparent,rgba(8,8,10,.94) 58%);
+    font-family:"Barlow Condensed",sans-serif;font-weight:700;text-transform:uppercase;
+    font-size:.78rem;letter-spacing:.06em;color:#e7e7ee;
+  }
+
+  /* langkah order */
+  .step-num{
+    font-family:"Anton",sans-serif;font-size:3.4rem;line-height:.8;
+    color:transparent;-webkit-text-stroke:1.6px rgba(255,229,0,.55);
+  }
+
+  /* testimoni: badge inisial */
+  .ini{
+    display:grid;place-items:center;flex:0 0 auto;
+    width:3rem;height:3rem;border-radius:9999px;
+    background:linear-gradient(150deg,var(--smoke),var(--coal));
+    border:1.5px solid rgba(255,229,0,.42);
+    font-family:"Anton",sans-serif;font-size:1.05rem;color:var(--volt);
+    letter-spacing:.02em;
+  }
+  .stars{color:var(--volt);letter-spacing:.12em;font-size:.9rem;}
+  .verified{
+    display:inline-flex;align-items:center;gap:.3rem;
+    font-family:"Barlow Condensed",sans-serif;font-weight:800;
+    font-size:.66rem;letter-spacing:.14em;text-transform:uppercase;
+    color:#0a0a0a;background:var(--volt);padding:.16rem .5rem;
+  }
+
+  /* FAQ */
+  .faq{border-bottom:1px solid var(--line);}
+  .faq summary{
+    cursor:pointer;list-style:none;
+    display:flex;align-items:flex-start;justify-content:space-between;gap:1rem;
+    padding:1.35rem 0;
+    font-family:"Barlow Condensed",sans-serif;font-weight:700;text-transform:uppercase;
+    font-size:1.06rem;letter-spacing:.02em;color:#f2f2f6;
+    transition:color .16s ease;
+  }
+  .faq summary::-webkit-details-marker{display:none;}
+  .faq summary:hover{color:var(--volt);}
+  .faq .sign{
+    flex:0 0 auto;width:1.6rem;height:1.6rem;position:relative;margin-top:.1rem;
+    border:1.5px solid rgba(255,255,255,.3);
+  }
+  .faq .sign::before,.faq .sign::after{
+    content:"";position:absolute;background:var(--volt);
+    left:50%;top:50%;transform:translate(-50%,-50%);
+  }
+  .faq .sign::before{width:.7rem;height:1.6px;}
+  .faq .sign::after{width:1.6px;height:.7rem;transition:transform .2s ease,opacity .2s ease;}
+  .faq[open] .sign::after{transform:translate(-50%,-50%) rotate(90deg);opacity:0;}
+  .faq[open] summary{color:var(--volt);}
+  .faq-body{padding:0 0 1.4rem;color:var(--chalk-soft);max-width:56ch;line-height:1.65;}
+
+  /* popup social proof */
+  .pop{
+    position:fixed;left:1rem;bottom:1rem;z-index:60;
+    display:flex;align-items:center;gap:.8rem;
+    background:var(--coal);border:1px solid var(--line);
+    border-left:4px solid var(--volt);
+    padding:.7rem .9rem;max-width:22rem;
+    box-shadow:0 24px 50px -22px rgba(0,0,0,.9);
+    transition:transform .45s cubic-bezier(.3,.9,.3,1), opacity .45s ease;
+  }
+  .pop.hide{transform:translateY(140%);opacity:0;pointer-events:none;}
+  .pop-dot{
+    flex:0 0 auto;width:.55rem;height:.55rem;border-radius:9999px;background:var(--volt);
+    box-shadow:0 0 0 4px rgba(255,229,0,.16);
+  }
+  /* di mobile, popup naik di atas bar CTA supaya gak tumpang tindih */
+  @media (max-width:767px){
+    .pop{left:.5rem;right:.5rem;max-width:none;bottom:calc(4.4rem + env(safe-area-inset-bottom));}
+  }
+
+  /* reveal */
+  .reveal{opacity:0;transform:translateY(20px);transition:opacity .6s ease, transform .6s cubic-bezier(.3,.9,.3,1);}
+  .reveal.in{opacity:1;transform:none;}
+  @media (prefers-reduced-motion:reduce){ .reveal{opacity:1;transform:none;transition:none;} }
+
+  /* bar bawah mobile */
+  .dock{
+    position:fixed;left:0;right:0;bottom:0;z-index:50;
+    background:rgba(8,8,10,.94);border-top:1px solid var(--line);
+    backdrop-filter:blur(8px);
+    padding:.6rem .8rem calc(.6rem + env(safe-area-inset-bottom));
+    transition:transform .3s ease, opacity .3s ease;
+  }
+  /* dock disembunyikan selama hero masih kelihatan, biar gak nutupin foto */
+  .dock.dock-off{transform:translateY(115%);opacity:0;pointer-events:none;}
+  @media (min-width:768px){ .dock{display:none;} }
+</style>
+<script src="https://cdn.moda.app/runtime-libs/tailwind-browser-4.1.13-index.global.min.js"></script><style data-moda-export-fonts="true">@font-face { font-family: 'Barlow Condensed'; src: url("../fonts/barlowcondensed-thin.ttf") format("truetype"); font-style: normal; font-weight: 100; font-display: swap; }
+@font-face { font-family: 'Barlow Condensed'; src: url("../fonts/barlowcondensed-thinitalic.ttf") format("truetype"); font-style: italic; font-weight: 100; font-display: swap; }
+@font-face { font-family: 'Barlow Condensed'; src: url("../fonts/barlowcondensed-extralight.ttf") format("truetype"); font-style: normal; font-weight: 200; font-display: swap; }
+@font-face { font-family: 'Barlow Condensed'; src: url("../fonts/barlowcondensed-extralightitalic.ttf") format("truetype"); font-style: italic; font-weight: 200; font-display: swap; }
+@font-face { font-family: 'Barlow Condensed'; src: url("../fonts/barlowcondensed-light.ttf") format("truetype"); font-style: normal; font-weight: 300; font-display: swap; }
+@font-face { font-family: 'Barlow Condensed'; src: url("../fonts/barlowcondensed-lightitalic.ttf") format("truetype"); font-style: italic; font-weight: 300; font-display: swap; }
+@font-face { font-family: 'Barlow Condensed'; src: url("../fonts/barlowcondensed-regular.ttf") format("truetype"); font-style: normal; font-weight: 400; font-display: swap; }
+@font-face { font-family: 'Barlow Condensed'; src: url("../fonts/barlowcondensed-italic.ttf") format("truetype"); font-style: italic; font-weight: 400; font-display: swap; }
+@font-face { font-family: 'Barlow Condensed'; src: url("../fonts/barlowcondensed-medium.ttf") format("truetype"); font-style: normal; font-weight: 500; font-display: swap; }
+@font-face { font-family: 'Barlow Condensed'; src: url("../fonts/barlowcondensed-mediumitalic.ttf") format("truetype"); font-style: italic; font-weight: 500; font-display: swap; }
+@font-face { font-family: 'Barlow Condensed'; src: url("../fonts/barlowcondensed-semibold.ttf") format("truetype"); font-style: normal; font-weight: 600; font-display: swap; }
+@font-face { font-family: 'Barlow Condensed'; src: url("../fonts/barlowcondensed-semibolditalic.ttf") format("truetype"); font-style: italic; font-weight: 600; font-display: swap; }
+@font-face { font-family: 'Barlow Condensed'; src: url("../fonts/barlowcondensed-bold.ttf") format("truetype"); font-style: normal; font-weight: 700; font-display: swap; }
+@font-face { font-family: 'Barlow Condensed'; src: url("../fonts/barlowcondensed-bolditalic.ttf") format("truetype"); font-style: italic; font-weight: 700; font-display: swap; }
+@font-face { font-family: 'Barlow Condensed'; src: url("../fonts/barlowcondensed-extrabold.ttf") format("truetype"); font-style: normal; font-weight: 800; font-display: swap; }
+@font-face { font-family: 'Barlow Condensed'; src: url("../fonts/barlowcondensed-extrabolditalic.ttf") format("truetype"); font-style: italic; font-weight: 800; font-display: swap; }
+@font-face { font-family: 'Barlow Condensed'; src: url("../fonts/barlowcondensed-black.ttf") format("truetype"); font-style: normal; font-weight: 900; font-display: swap; }
+@font-face { font-family: 'Barlow Condensed'; src: url("../fonts/barlowcondensed-blackitalic.ttf") format("truetype"); font-style: italic; font-weight: 900; font-display: swap; }
+@font-face { font-family: 'Barlow'; src: url("../fonts/barlow-thin.ttf") format("truetype"); font-style: normal; font-weight: 100; font-display: swap; }
+@font-face { font-family: 'Barlow'; src: url("../fonts/barlow-thinitalic.ttf") format("truetype"); font-style: italic; font-weight: 100; font-display: swap; }
+@font-face { font-family: 'Barlow'; src: url("../fonts/barlow-extralight.ttf") format("truetype"); font-style: normal; font-weight: 200; font-display: swap; }
+@font-face { font-family: 'Barlow'; src: url("../fonts/barlow-extralightitalic.ttf") format("truetype"); font-style: italic; font-weight: 200; font-display: swap; }
+@font-face { font-family: 'Barlow'; src: url("../fonts/barlow-light.ttf") format("truetype"); font-style: normal; font-weight: 300; font-display: swap; }
+@font-face { font-family: 'Barlow'; src: url("../fonts/barlow-lightitalic.ttf") format("truetype"); font-style: italic; font-weight: 300; font-display: swap; }
+@font-face { font-family: 'Barlow'; src: url("../fonts/barlow-regular.ttf") format("truetype"); font-style: normal; font-weight: 400; font-display: swap; }
+@font-face { font-family: 'Barlow'; src: url("../fonts/barlow-italic.ttf") format("truetype"); font-style: italic; font-weight: 400; font-display: swap; }
+@font-face { font-family: 'Barlow'; src: url("../fonts/barlow-medium.ttf") format("truetype"); font-style: normal; font-weight: 500; font-display: swap; }
+@font-face { font-family: 'Barlow'; src: url("../fonts/barlow-mediumitalic.ttf") format("truetype"); font-style: italic; font-weight: 500; font-display: swap; }
+@font-face { font-family: 'Barlow'; src: url("../fonts/barlow-semibold.ttf") format("truetype"); font-style: normal; font-weight: 600; font-display: swap; }
+@font-face { font-family: 'Barlow'; src: url("../fonts/barlow-semibolditalic.ttf") format("truetype"); font-style: italic; font-weight: 600; font-display: swap; }
+@font-face { font-family: 'Barlow'; src: url("../fonts/barlow-bold.ttf") format("truetype"); font-style: normal; font-weight: 700; font-display: swap; }
+@font-face { font-family: 'Barlow'; src: url("../fonts/barlow-bolditalic.ttf") format("truetype"); font-style: italic; font-weight: 700; font-display: swap; }
+@font-face { font-family: 'Barlow'; src: url("../fonts/barlow-extrabold.ttf") format("truetype"); font-style: normal; font-weight: 800; font-display: swap; }
+@font-face { font-family: 'Barlow'; src: url("../fonts/barlow-extrabolditalic.ttf") format("truetype"); font-style: italic; font-weight: 800; font-display: swap; }
+@font-face { font-family: 'Barlow'; src: url("../fonts/barlow-black.ttf") format("truetype"); font-style: normal; font-weight: 900; font-display: swap; }
+@font-face { font-family: 'Barlow'; src: url("../fonts/barlow-blackitalic.ttf") format("truetype"); font-style: italic; font-weight: 900; font-display: swap; }
+@font-face { font-family: 'Anton'; src: url("../fonts/anton-regular.ttf") format("truetype"); font-style: normal; font-weight: 400; font-display: swap; }</style></head>
+<body>
+
+<!-- ===================== NAV ===================== -->
+<header class="sticky top-0 z-40" style="background:rgba(8,8,10,.9);backdrop-filter:blur(10px);border-bottom:1px solid var(--line-2)">
+  <div class="mx-auto max-w-7xl px-5 sm:px-8 h-16 flex items-center justify-between">
+    <a href="#hero" class="display-flat text-xl sm:text-2xl tracking-tight">
+      JERSEY<span class="volt-text">BASKET</span>
+    </a>
+    <nav class="hidden md:flex items-center gap-7 cond text-sm font-bold tracking-widest" style="color:var(--chalk-soft)">
+      <a href="#kenapa" class="hover:text-white transition-colors">Kenapa Kami</a>
+      <a href="#katalog" class="hover:text-white transition-colors">Desain</a>
+      <a href="#cara-order" class="hover:text-white transition-colors">Cara Pesan</a>
+      <a href="#testimoni" class="hover:text-white transition-colors">Testimoni</a>
+      <a href="#faq" class="hover:text-white transition-colors">FAQ</a>
+    </nav>
+    <a href="#order" class="btn btn-volt text-sm px-4 py-2.5">Pesan Sekarang</a>
+  </div>
+</header>
+
+<!-- ===================== 1. HERO ===================== -->
+<section id="hero" class="relative overflow-hidden grain hatch" style="background:radial-gradient(120% 90% at 78% 12%,rgba(255,229,0,.11),transparent 55%),radial-gradient(90% 80% at 8% 90%,rgba(255,45,31,.12),transparent 58%),var(--void)">
+  <!-- teks raksasa latar -->
+  <p aria-hidden="true" class="display stroke-text absolute select-none pointer-events-none hidden lg:block" style="top:14%;left:-3%;font-size:clamp(6rem,17vw,17rem);opacity:.1;z-index:0">BALL OUT</p>
+
+  <div class="relative z-10 mx-auto max-w-7xl px-5 sm:px-8 pt-12 pb-20 md:pb-16 lg:pt-20 lg:pb-24">
+    <div class="grid lg:grid-cols-[1.02fr_1fr] gap-10 lg:gap-6 items-center">
+
+      <!-- kolom teks -->
+      <div class="reveal">
+        <p class="kicker text-xs sm:text-sm inline-flex items-center gap-2 px-3 py-1.5" style="color:var(--volt);border:1px solid rgba(255,229,0,.42);background:rgba(255,229,0,.06)">
+          🏀 Custom Jersey Basket
+        </p>
+
+        <h1 class="display hero-title mt-5" style="font-size:clamp(3.1rem,8.6vw,6.6rem)">
+          Jersey Kamu.<br>
+          <span class="volt-text">Nama Kamu.</span><br>
+          Game Kamu.
+        </h1>
+
+        <p class="text-base sm:text-lg leading-relaxed max-w-xl" style="color:var(--chalk-soft)">
+          Bahan Dry Fit ringan, full printing tajam, desain bebas — dari street ball sampai liga
+          komunitas. Custom nama, nomor, dan logo tim sendiri, tanpa proses yang rumit.
+        </p>
+
+        <div class="mt-8 flex flex-wrap items-center gap-3">
+          <a href="#order" class="btn btn-volt text-base sm:text-lg px-7 py-4" data-wa="" data-msg="Halo, saya ingin memesan jersey basket custom. Boleh dibantu?">
+            🔥 Pesan Jersey Sekarang →
+          </a>
+          <a href="#katalog" class="btn btn-ghost text-base px-6 py-4">Lihat 20 Desain Siap Pilih</a>
+        </div>
+
+        <!-- trust bar -->
+        <ul class="mt-9 flex flex-wrap items-center gap-x-5 gap-y-3 cond text-xs lg:text-sm font-bold tracking-wide" style="color:#d5d5de">
+          <li class="flex items-center gap-2"><span class="volt-text">✚</span>100+ Tim Telah Memesan</li>
+          <li class="flex items-center gap-2"><span class="volt-text">✚</span>Bisa Satuan</li>
+          <li class="flex items-center gap-2"><span class="volt-text">✚</span>Bahan Dry Fit Premium</li>
+          <li class="flex items-center gap-2"><span class="volt-text">✚</span>Packing Aman</li>
+        </ul>
+      </div>
+
+      <!-- kolom foto cutout -->
+      <div class="relative reveal">
+        <div class="hero-glow" aria-hidden="true"></div>
+        <div class="hero-arc" aria-hidden="true"></div>
+        <div class="hero-cut-wrap relative z-10">
+          <img class="hero-cut" src="../images/fefef2d5-6e2e-4daa-a4fd-ccaa58f0fc60.png" alt="Pemain basket memakai jersey custom full printing biru-oranye nomor 10 sedang mendribel bola">
+        </div>
+        <!-- stiker angka -->
+        <div class="absolute z-20 hidden sm:block" style="top:4%;right:6%">
+          <div class="display-flat text-center px-3 py-2" style="background:var(--flare);color:#fff;transform:rotate(6deg);box-shadow:5px 5px 0 0 #000">
+            <span class="block text-2xl leading-none">FULL</span>
+            <span class="block text-xs tracking-widest" style="font-family:'Barlow Condensed',sans-serif">PRINTING</span>
+          </div>
+        </div>
+        <div class="absolute z-20" style="bottom:4%;left:2%">
+          <div class="cond px-3 py-2 text-sm font-extrabold tracking-widest" style="background:var(--volt);color:#0a0a0a;transform:rotate(-3deg);box-shadow:5px 5px 0 0 #000">
+            DRY FIT · ADEM
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- marquee pemisah -->
+  <div class="mq relative z-10 py-3" style="background:var(--volt);color:#0a0a0a;border-top:2px solid #000;border-bottom:2px solid #000">
+    <div class="mq-track text-lg sm:text-xl">
+      <span>
+        STREETBALL <span class="flare-text">●</span> LIGA KOMUNITAS <span class="flare-text">●</span> 3X3 <span class="flare-text">●</span>
+        BISA SATUAN <span class="flare-text">●</span> 20 DESAIN SIAP PILIH <span class="flare-text">●</span>
+        CUSTOM DARI NOL <span class="flare-text">●</span> DRY FIT PREMIUM <span class="flare-text">●</span>
+      </span>
+      <span aria-hidden="true">
+        STREETBALL <span class="flare-text">●</span> LIGA KOMUNITAS <span class="flare-text">●</span> 3X3 <span class="flare-text">●</span>
+        BISA SATUAN <span class="flare-text">●</span> 20 DESAIN SIAP PILIH <span class="flare-text">●</span>
+        CUSTOM DARI NOL <span class="flare-text">●</span> DRY FIT PREMIUM <span class="flare-text">●</span>
+      </span>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== 2. KENAPA PILIH KAMI ===================== -->
+<section id="kenapa" class="relative grain" style="background:var(--coal)">
+  <div class="relative z-10 mx-auto max-w-7xl px-5 sm:px-8 py-16 sm:py-24">
+    <div class="grid lg:grid-cols-[1.15fr_.85fr] gap-10 lg:gap-14 items-start">
+      <div class="reveal">
+        <p class="kicker text-xs" style="color:var(--flare)">Kenapa Pilih Kami</p>
+        <h2 class="display mt-4" style="font-size:clamp(1.85rem,4.2vw,3.15rem)">
+          Jersey yang salah pilih hanya menaikkan <span class="volt-text">rasa percaya diri</span>,
+          bukan performa di lapangan
+        </h2>
+      </div>
+      <p class="reveal text-base sm:text-lg leading-relaxed lg:pt-16" style="color:var(--chalk-soft)">
+        Basket adalah permainan cepat — crossover, drive, jump shot. Jersey yang kaku atau berbahan
+        panas akan mengganggu pergerakan. Kami merancang jersey yang benar-benar diperhitungkan
+        untuk bergerak, bukan sekadar untuk difoto.
+      </p>
+    </div>
+
+    <div class="mt-14 grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
+      <article class="reveal card relative p-7 pt-10 pb-8">
+        <span class="tape">01</span>
+        <p class="display-flat card-title text-2xl sm:text-[1.7rem]">Bahan ringan,<br>tidak lembap saat berkeringat</p>
+        <p class="leading-relaxed" style="color:var(--chalk-soft)">
+          Dry Fit premium, tetap sejuk meski bermain full court 2 jam nonstop.
+        </p>
+      </article>
+      <article class="reveal card relative p-7 pt-10 pb-8">
+        <span class="tape">02</span>
+        <p class="display-flat card-title text-2xl sm:text-[1.7rem]">Bisa satuan, tanpa<br>minimum satu tim</p>
+        <p class="leading-relaxed" style="color:var(--chalk-soft)">
+          Baik pesanan 1 pcs untuk pribadi maupun jumlah besar untuk tim, harganya tetap wajar.
+        </p>
+      </article>
+      <article class="reveal card relative p-7 pt-10 pb-8 sm:col-span-2 lg:col-span-1">
+        <span class="tape tape-flare">03</span>
+        <p class="display-flat card-title text-2xl sm:text-[1.7rem]">Desain dengan<br>identitas sendiri</p>
+        <p class="leading-relaxed" style="color:var(--chalk-soft)">
+          Bukan template pasaran — kirim logo, pilih warna, dan jersey kamu punya identitasnya sendiri.
+        </p>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== 3. PILIHAN ORDER + KATALOG ===================== -->
+<section id="order" class="relative grain" style="background:var(--void)">
+  <div class="relative z-10 mx-auto max-w-7xl px-5 sm:px-8 py-16 sm:py-24">
+    <div class="max-w-3xl reveal">
+      <p class="kicker text-xs volt-text">Pilihan Order</p>
+      <h2 class="display mt-4" style="font-size:clamp(1.9rem,5vw,3.6rem)">
+        20 desain siap pilih, atau rancang dari nol — <span class="flare-text">sesuai kebutuhan kamu</span>
+      </h2>
+      <p class="mt-5 text-base sm:text-lg leading-relaxed" style="color:var(--chalk-soft)">
+        Ingin praktis? Pilih saja dari 20 desain yang tersedia. Ingin tampil berbeda?
+        Custom sepenuhnya juga bisa.
+      </p>
+    </div>
+
+    <!-- dua kartu pilihan -->
+    <div class="mt-12 grid lg:grid-cols-2 gap-5">
+
+      <!-- card 1: custom -->
+      <article class="reveal card card-volt relative p-7 sm:p-9 flex flex-col">
+        <span class="tape">Min. 6 pcs</span>
+        <p class="text-3xl">🎨</p>
+        <h3 class="display mt-3 text-3xl sm:text-4xl">Custom desain<br>full team</h3>
+        <p class="mt-4 leading-relaxed" style="color:var(--chalk-soft)">
+          Minimal order 6 pcs. Desain 100% dari nol — warna, motif, dan logo tim sepenuhnya kamu
+          tentukan. Cocok untuk tim yang ingin punya identitas sendiri, bukan jersey pasaran.
+        </p>
+        <ul class="mt-6 space-y-3 cond text-base font-semibold tracking-wide" style="color:#e7e7ee">
+          <li class="flex gap-3"><span class="volt-text">✚</span>Bebas mengajukan desain dari nol</li>
+          <li class="flex gap-3"><span class="volt-text">✚</span>Cocok untuk komunitas streetball, tim liga, dan klub basket</li>
+          <li class="flex gap-3"><span class="volt-text">✚</span>Semakin banyak pesanan, semakin hemat per pcs</li>
+        </ul>
+        <div class="mt-auto pt-8">
+          <a href="#" data-wa="" data-msg="Halo, saya ingin berkonsultasi mengenai desain jersey basket custom full team (min. 6 pcs)." class="btn btn-volt w-full text-base py-4">Konsultasi Desain Tim →</a>
+        </div>
+      </article>
+
+      <!-- card 2: satuan -->
+      <article class="reveal card relative p-7 sm:p-9 flex flex-col">
+        <span class="tape tape-flare">1 pcs</span>
+        <p class="text-3xl">🏀</p>
+        <h3 class="display mt-3 text-3xl sm:text-4xl">Order satuan</h3>
+        <p class="mt-4 leading-relaxed" style="color:var(--chalk-soft)">
+          Cukup 1 pcs. Pilih dari <strong class="text-white">20 desain siap pakai</strong>, lalu
+          tinggal custom:
+        </p>
+        <ul class="mt-6 space-y-3 cond text-base font-semibold tracking-wide" style="color:#e7e7ee">
+          <li class="flex gap-3"><span class="volt-text">✚</span>Nama &amp; Nomor Punggung</li>
+          <li class="flex gap-3"><span class="volt-text">✚</span>Logo Tim</li>
+          <li class="flex gap-3"><span class="volt-text">✚</span>Logo Sponsor</li>
+        </ul>
+        <p class="mt-5 text-sm italic" style="color:var(--muted)">
+          (Desain dasar mengikuti katalog, bukan custom dari nol)
+        </p>
+        <div class="mt-auto pt-8">
+          <a href="#katalog" class="btn btn-ghost w-full text-base py-4">Pilih Dari 20 Desain →</a>
+        </div>
+      </article>
+    </div>
+
+    <!-- catatan kecil -->
+    <div class="reveal mt-6 flex items-start gap-3 p-5" style="background:var(--coal-2);border-left:4px solid var(--flare)">
+      <span class="text-xl leading-none">💡</span>
+      <p class="leading-relaxed" style="color:var(--chalk-soft)">
+        Ingin desain yang benar-benar baru? <strong class="text-white">Minimal order 6 pcs.</strong>
+        Ingin langsung pesan? Pilih saja dari 20 desain yang sudah tersedia.
+      </p>
+    </div>
+  </div>
+
+  <!-- grid katalog 20 desain -->
+  <div id="katalog" class="relative z-10 mx-auto max-w-7xl px-5 sm:px-8 pb-16 sm:pb-24">
+    <div class="reveal flex flex-wrap items-end justify-between gap-4 border-t pt-12" style="border-color:var(--line)">
+      <div>
+        <p class="kicker text-xs" style="color:var(--flare)">Katalog Desain</p>
+        <h3 class="display mt-3" style="font-size:clamp(1.7rem,4vw,2.8rem)">20 Desain Siap Pilih</h3>
+      </div>
+      <p class="cond text-sm font-bold tracking-widest" style="color:var(--muted)">
+        Cukup sebutkan nomornya saat memesan
+      </p>
+    </div>
+    <div id="catGrid" class="mt-8 grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3 sm:gap-4"></div>
+    <div class="reveal mt-8 text-center">
+      <a href="#" data-wa="" data-msg="Halo, saya ingin melihat katalog 20 desain jersey basket. Boleh dikirimkan?" class="btn btn-flare text-base px-7 py-4">Tanyakan Desain Yang Diinginkan →</a>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== 4. CARA ORDER ===================== -->
+<section id="cara-order" class="relative grain hatch" style="background:var(--coal)">
+  <div class="relative z-10 mx-auto max-w-7xl px-5 sm:px-8 py-16 sm:py-24">
+    <div class="max-w-2xl reveal">
+      <p class="kicker text-xs volt-text">Cara Pesan</p>
+      <h2 class="display mt-4" style="font-size:clamp(1.9rem,5vw,3.6rem)">
+        Proses pesanan mudah, hanya <span class="volt-text">4 langkah</span>
+      </h2>
+    </div>
+
+    <ol class="mt-12 grid sm:grid-cols-2 lg:grid-cols-4 gap-5">
+      <li class="reveal card p-7">
+        <p class="step-num">1</p>
+        <p class="display-flat mt-4 text-xl">Pilih Desain</p>
+        <p class="mt-2 leading-relaxed" style="color:var(--chalk-soft)">Pilih dari 20 desain atau kirimkan referensi sendiri.</p>
+      </li>
+      <li class="reveal card p-7">
+        <p class="step-num">2</p>
+        <p class="display-flat mt-4 text-xl">Isi Detail</p>
+        <p class="mt-2 leading-relaxed" style="color:var(--chalk-soft)">Nama, nomor, ukuran, jumlah pemain.</p>
+      </li>
+      <li class="reveal card p-7">
+        <p class="step-num">3</p>
+        <p class="display-flat mt-4 text-xl">Konfirmasi &amp; Bayar</p>
+        <p class="mt-2 leading-relaxed" style="color:var(--chalk-soft)">Periksa preview terlebih dahulu sebelum produksi dimulai.</p>
+      </li>
+      <li class="reveal card p-7" style="border-color:rgba(255,229,0,.45)">
+        <p class="step-num" style="-webkit-text-stroke-color:var(--volt)">4</p>
+        <p class="display-flat mt-4 text-xl">Jersey Tiba Di Tangan Kamu</p>
+        <p class="mt-2 leading-relaxed" style="color:var(--chalk-soft)">Dikirim rapi dengan pengemasan aman.</p>
+      </li>
+    </ol>
+  </div>
+</section>
+
+<!-- ===================== 5. TESTIMONI ===================== -->
+<section id="testimoni" class="relative grain" style="background:var(--void)">
+  <div class="relative z-10 mx-auto max-w-7xl px-5 sm:px-8 py-16 sm:py-24">
+    <div class="max-w-2xl reveal">
+      <p class="kicker text-xs" style="color:var(--flare)">Ulasan Pelanggan</p>
+      <h2 class="display mt-4" style="font-size:clamp(1.9rem,5vw,3.6rem)">
+        Ulasan dari mereka yang <span class="volt-text">sudah memesan</span>
+      </h2>
+      <p class="mt-5 text-base sm:text-lg leading-relaxed" style="color:var(--chalk-soft)">
+        Komunitas streetball hingga tim liga telah mempercayai kualitas jersey kami.
+      </p>
+    </div>
+
+    <div class="mt-12 grid sm:grid-cols-2 lg:grid-cols-3 gap-5" id="testiGrid"></div>
+  </div>
+</section>
+
+<!-- ===================== 7. URGENCY / PROMO ===================== -->
+<section class="relative overflow-hidden grain" style="background:var(--volt);color:#0a0a0a">
+  <p aria-hidden="true" class="display absolute select-none pointer-events-none" style="top:-8%;right:-2%;font-size:clamp(7rem,18vw,16rem);color:rgba(0,0,0,.07);z-index:0">PROMO</p>
+  <div class="relative z-10 mx-auto max-w-7xl px-5 sm:px-8 py-16 sm:py-20">
+    <div class="grid lg:grid-cols-[1.2fr_.8fr] gap-8 items-center">
+      <div class="reveal">
+        <p class="kicker text-xs" style="color:var(--flare-deep)">Slot Produksi Terbatas</p>
+        <h2 class="display mt-4" style="font-size:clamp(1.9rem,5.2vw,3.7rem)">
+          Promo untuk tim yang memesan minggu ini
+        </h2>
+        <p class="mt-5 text-base sm:text-lg leading-relaxed font-medium" style="color:#26260a">
+          Pesan minggu ini dan dapatkan potongan harga khusus untuk pembelian di atas 10 pcs.
+          Slot produksi terbatas, segera amankan tempat kamu.
+        </p>
+      </div>
+      <div class="reveal lg:justify-self-end">
+        <a href="#" data-wa="" data-msg="Halo, saya ingin mengklaim promo jersey basket minggu ini (di atas 10 pcs)." class="btn btn-flare text-base sm:text-lg px-8 py-5 w-full lg:w-auto">Klaim Promo Sekarang →</a>
+        <p class="mt-4 cond text-sm font-bold tracking-widest text-center lg:text-right" style="color:#3d3d10">
+          Berlaku untuk pesanan di atas 10 pcs
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== 8. FAQ ===================== -->
+<section id="faq" class="relative grain" style="background:var(--coal)">
+  <div class="relative z-10 mx-auto max-w-7xl px-5 sm:px-8 py-16 sm:py-24">
+    <div class="grid lg:grid-cols-[.8fr_1.2fr] gap-10 lg:gap-14">
+      <div class="reveal">
+        <p class="kicker text-xs volt-text">FAQ</p>
+        <h2 class="display mt-4" style="font-size:clamp(1.9rem,4.6vw,3.2rem)">
+          Masih ada<br>pertanyaan?
+        </h2>
+        <p class="mt-5 leading-relaxed" style="color:var(--chalk-soft)">
+          Kalau pertanyaan kamu belum ada di sini, langsung hubungi kami — akan segera dibalas.
+        </p>
+        <a href="#" data-wa="" data-msg="Halo, saya ingin menanyakan beberapa hal mengenai jersey basket custom." class="btn btn-ghost mt-6 text-base px-6 py-3.5">Hubungi Kami →</a>
+      </div>
+
+      <div class="reveal">
+        <details class="faq" open="">
+          <summary>Bisakah custom nama &amp; nomor sendiri?<span class="sign" aria-hidden="true"></span></summary>
+          <p class="faq-body">Bisa. Cukup isi formulir pesanan, dan kami cetak sesuai permintaan kamu.</p>
+        </details>
+        <details class="faq">
+          <summary>Berapa lama proses produksinya?<span class="sign" aria-hidden="true"></span></summary>
+          <p class="faq-body">Rata-rata 7 hari kerja tergantung jumlah pesanan.</p>
+        </details>
+        <details class="faq">
+          <summary>Ada berapa pilihan desain?<span class="sign" aria-hidden="true"></span></summary>
+          <p class="faq-body">Tersedia 20 desain siap pilih. Jika menginginkan desain lain, tersedia opsi custom dari nol dengan minimal order 6 pcs.</p>
+        </details>
+        <details class="faq">
+          <summary>Bisa order satuan?<span class="sign" aria-hidden="true"></span></summary>
+          <p class="faq-body">Bisa. Pesanan 1 pcs dapat langsung custom nama, nomor punggung, logo tim, dan logo sponsor — desain dasar mengikuti salah satu dari 20 desain yang tersedia.</p>
+        </details>
+        <details class="faq">
+          <summary>Apakah bahannya cocok untuk bermain full court dalam waktu lama?<span class="sign" aria-hidden="true"></span></summary>
+          <p class="faq-body">Cocok. Dry Fit ringan dan menyerap keringat, sehingga tetap nyaman meski bermain lama.</p>
+        </details>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== 9. CTA PENUTUP ===================== -->
+<section class="relative overflow-hidden grain hatch" style="background:radial-gradient(100% 90% at 50% 0%,rgba(255,45,31,.18),transparent 60%),var(--void)">
+  <div class="relative z-10 mx-auto max-w-4xl px-5 sm:px-8 py-20 sm:py-28 text-center">
+    <p class="kicker text-xs volt-text reveal">Mulai Sekarang</p>
+    <h2 class="display mt-5 reveal" style="font-size:clamp(2.3rem,7vw,5.2rem)">
+      Saatnya tim kamu punya <span class="volt-text">jersey sendiri</span>
+    </h2>
+    <p class="mt-6 text-lg reveal" style="color:var(--chalk-soft)">
+      Tinggalkan jersey pasaran. Bangun identitas tim kamu di lapangan.
+    </p>
+    <div class="mt-10 reveal">
+      <a href="#" data-wa="" data-msg="Halo, saya ingin memesan jersey basket custom sekarang." class="btn btn-volt text-base sm:text-xl px-9 py-5">🔥 Pesan Jersey Basket Sekarang →</a>
+    </div>
+    <p class="mt-6 cond text-sm font-bold tracking-widest reveal" style="color:var(--muted)">
+      100+ tim telah memesan · bisa satuan · dry fit premium
+    </p>
+  </div>
+</section>
+
+<!-- ===================== FOOTER ===================== -->
+<footer style="background:var(--coal);border-top:1px solid var(--line)">
+  <div class="mx-auto max-w-7xl px-5 sm:px-8 pt-10 pb-24 md:pb-10 flex flex-col sm:flex-row items-center justify-between gap-5">
+    <a href="#hero" class="display-flat text-xl">JERSEY<span class="volt-text">BASKET</span></a>
+    <nav class="flex flex-wrap items-center justify-center gap-x-6 gap-y-2 cond text-sm font-bold tracking-widest" style="color:var(--muted)">
+      <a href="#kenapa" class="hover:text-white transition-colors">Kenapa Kami</a>
+      <a href="#katalog" class="hover:text-white transition-colors">Desain</a>
+      <a href="#cara-order" class="hover:text-white transition-colors">Cara Pesan</a>
+      <a href="#faq" class="hover:text-white transition-colors">FAQ</a>
+    </nav>
+    <p class="text-sm" style="color:var(--muted)">© 2026 Jersey Basket Custom</p>
+  </div>
+</footer>
+
+<!-- bar CTA mobile -->
+<div class="dock dock-off" id="dock">
+  <a href="#" data-wa="" data-msg="Halo, saya ingin memesan jersey basket custom. Boleh dibantu?" class="btn btn-volt w-full text-base py-3.5">🔥 Pesan Jersey Sekarang →</a>
+</div>
+
+<!-- ===================== 6. POP-UP NOTIFIKASI ===================== -->
+<div id="popwrap" class="pop hide" role="status" aria-live="polite">
+  <span class="pop-dot" aria-hidden="true"></span>
+  <div class="min-w-0 flex-1">
+    <p class="text-sm leading-snug">
+      <strong id="popname" class="text-white"></strong>, baru memesan
+      <em id="popitem" class="not-italic" style="color:var(--chalk-soft)"></em>,
+      <span id="poptime" style="color:var(--muted)"></span>
+    </p>
+    <p class="mt-1"><span class="verified">✔ Verified</span></p>
+  </div>
+  <button id="popclose" aria-label="Tutup notifikasi" class="flex-none text-lg leading-none px-1" style="color:var(--muted)">×</button>
+</div>
+
+<script>
+/* ================= NOMOR WHATSAPP =================
+   GANTI satu nilai di bawah ini aja — semua tombol CTA ikut berubah.
+   Format: kode negara tanpa tanda +, tanpa spasi. Contoh: 6281234567890
+=================================================== */
+var WA_NUMBER = '6281234567890';
+
+(function(){
+  var links = document.querySelectorAll('[data-wa]');
+  Array.prototype.forEach.call(links, function(a){
+    var msg = a.getAttribute('data-msg') || 'Halo, saya ingin memesan jersey basket custom.';
+    a.setAttribute('href','https://wa.me/' + WA_NUMBER + '?text=' + encodeURIComponent(msg));
+    a.setAttribute('target','_blank');
+    a.setAttribute('rel','noopener');
+  });
+})();
+
+/* ---------- katalog 20 slot ---------- */
+(function(){
+  var grid = document.getElementById('catGrid');
+  if(!grid) return;
+  var names = [
+    'Street Fade','Court Lines','Blackout','Volt Strike','Retro Block',
+    'Urban Camo','Half Court','Fastbreak','Downtown','Chalk Mark',
+    'Night Game','Crossover','Alley Oop','Rim Shot','Backboard',
+    'Hardwood','Buzzer Beat','Full Court','Triple Threat','Home Turf'
+  ];
+  var html = '';
+  names.forEach(function(n,i){
+    var num = (i+1) < 10 ? '0' + (i+1) : '' + (i+1);
+    html +=
+      '<figure class="cat-item">' +
+        '<div class="ph">' +
+          '<div class="px-2">' +
+            '<p class="text-xl">🏀</p>' +
+            '<p class="ph-label mt-2">Slot Foto Desain</p>' +
+          '</div>' +
+        '</div>' +
+        '<span class="cat-num">' + num + '</span>' +
+        '<figcaption class="cat-name">' + n + '</figcaption>' +
+      '</figure>';
+  });
+  grid.innerHTML = html;
+})();
+
+/* ---------- testimoni (inisial, tanpa foto) ---------- */
+(function(){
+  var grid = document.getElementById('testiGrid');
+  if(!grid) return;
+  var data = [
+    ['FA','Fajar','Komunitas Streetball Jogja','Yogyakarta','Bahannya sangat ringan dan pergerakan terasa bebas, tidak kaku seperti jersey berkualitas rendah. Desainnya juga benar-benar sesuai permintaan.'],
+    ['DW','Dwi','Tim Liga Basket Bekasi','Bekasi','Pesanan 12 pcs untuk tim, semua ukuran pas. Hasil printing tajam dan nomor punggung tidak mengelupas meski sudah sering dicuci.'],
+    ['AR','Arif','3x3 Kalibata Squad','Jakarta','Saya hanya memesan satuan, tetapi tetap dilayani dengan baik. Nama dan nomor sesuai, pengirimannya rapi dan cepat.'],
+    ['NP','Nanda','Basket Putri Sleman','Sleman','Desain dari nol dibantu hingga final. Warnanya persis seperti logo klub kami. Sangat memuaskan.'],
+    ['BG','Bagas','Komunitas Streetball Malang','Malang','Bermain full court 2 jam tetap terasa sejuk dan tidak lembap di badan. Ini yang membedakannya dari jersey murah.'],
+    ['RS','Rizky','Klub Basket Semarang','Semarang','Harga sangat wajar untuk kualitas seperti ini. Tim kami sudah melakukan pemesanan ulang dua kali.']
+  ];
+  var html = '';
+  data.forEach(function(d){
+    html +=
+      '<article class="reveal card p-7 flex flex-col">' +
+        '<p><span class="verified">✔ Verified Buyer</span></p>' +
+        '<p class="stars mt-4" aria-label="5 dari 5 bintang">★★★★★</p>' +
+        '<blockquote class="mt-4 leading-relaxed" style="color:var(--chalk-soft)">“' + d[4] + '”</blockquote>' +
+        '<div class="mt-auto pt-6 flex items-center gap-3">' +
+          '<span class="ini" aria-hidden="true">' + d[0] + '</span>' +
+          '<div>' +
+            '<p class="cond font-extrabold tracking-wide text-white">— ' + d[1] + ', ' + d[2] + '</p>' +
+            '<p class="text-sm mt-.5" style="color:var(--muted)">📍 ' + d[3] + '</p>' +
+          '</div>' +
+        '</div>' +
+      '</article>';
+  });
+  grid.innerHTML = html;
+})();
+
+/* ---------- scroll reveal ---------- */
+(function(){
+  function bind(){
+    var els = document.querySelectorAll('.reveal:not(.in)');
+    if(!('IntersectionObserver' in window)){
+      Array.prototype.forEach.call(els, function(e){ e.classList.add('in'); });
+      return;
+    }
+    var io = new IntersectionObserver(function(entries){
+      entries.forEach(function(en){
+        if(en.isIntersecting){ en.target.classList.add('in'); io.unobserve(en.target); }
+      });
+    },{threshold:.12, rootMargin:'0px 0px -40px 0px'});
+    Array.prototype.forEach.call(els, function(e){ io.observe(e); });
+  }
+  bind();
+  /* elemen yang dibuat lewat JS di atas ikut diamati */
+  requestAnimationFrame(bind);
+})();
+
+/* ---------- dock muncul setelah hero lewat ---------- */
+(function(){
+  var dock = document.getElementById('dock');
+  var hero = document.getElementById('hero');
+  if(!dock || !hero) return;
+  if(!('IntersectionObserver' in window)){ dock.classList.remove('dock-off'); return; }
+  var io = new IntersectionObserver(function(entries){
+    entries.forEach(function(en){
+      /* hero masih kelihatan >25% -> dock disembunyikan */
+      dock.classList.toggle('dock-off', en.intersectionRatio > .25);
+    });
+  },{threshold:[0,.25,.5,1]});
+  io.observe(hero);
+})();
+
+/* ---------- popup social proof ---------- */
+(function(){
+  var data = [
+    ['Reza - Bandung','Jersey Basket Custom Full Printing','2 menit yang lalu'],
+    ['Dimas - Surabaya','Custom Desain Full Team 10 pcs','6 menit yang lalu'],
+    ['Yoga - Yogyakarta','Jersey Basket Satuan + Nama &amp; Nomor','9 menit yang lalu'],
+    ['Putri - Makassar','Jersey Basket Custom Full Printing','13 menit yang lalu'],
+    ['Andre - Tangerang','Custom Desain Full Team 8 pcs','17 menit yang lalu'],
+    ['Bima - Semarang','Jersey Basket Satuan + Logo Sponsor','21 menit yang lalu'],
+    ['Galih - Balikpapan','Jersey Basket Custom Full Printing','25 menit yang lalu'],
+    ['Sandi - Medan','Custom Desain Full Team 14 pcs','29 menit yang lalu']
+  ];
+  var wrap = document.getElementById('popwrap');
+  var nameEl = document.getElementById('popname');
+  var itemEl = document.getElementById('popitem');
+  var timeEl = document.getElementById('poptime');
+  var closeEl = document.getElementById('popclose');
+  if(!wrap || !closeEl) return;
+  var i = 0, stopped = false, timer;
+
+  closeEl.addEventListener('click', function(){
+    stopped = true; wrap.classList.add('hide'); clearTimeout(timer);
+  });
+
+  function show(){
+    if(stopped) return;
+    var d = data[i % data.length]; i++;
+    nameEl.textContent = d[0];
+    itemEl.innerHTML = d[1];
+    timeEl.textContent = d[2];
+    wrap.classList.remove('hide');
+    timer = setTimeout(function(){
+      wrap.classList.add('hide');
+      timer = setTimeout(show, 4200);
+    }, 5500);
+  }
+  setTimeout(show, 3500);
+})();
+</script>
+
+</body></html>

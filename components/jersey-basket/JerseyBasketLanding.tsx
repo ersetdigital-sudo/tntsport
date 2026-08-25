@@ -525,7 +525,7 @@ export default function JerseyBasketLanding({ products, waNumber }: Props) {
                 <span className="pb-2.5 text-lg" style={{ color: "#8c8c99" }}>/pcs</span>
               </div>
               <p key={priceMode + "-atasan"} className="mt-2.5 text-sm price-fade" style={{ color: "#8c8c99" }}>
-                {priceMode === "ecer" ? "Bisa pesan mulai 1 pcs" : "Minimal pembelian 12 pcs"}
+                {priceMode === "ecer" ? "Mau desain custom sendiri? Order minimal 6 pcs" : "Minimal pembelian 12 pcs"}
               </p>
               <ul className="mt-7 pt-6 space-y-3 text-[15px] flex-1" style={{ borderTop: "1px solid rgba(255,255,255,.12)" }}>
                 {(priceMode === "ecer"
@@ -555,7 +555,7 @@ export default function JerseyBasketLanding({ products, waNumber }: Props) {
                 <span className="pb-2.5 text-lg" style={{ color: "#8c8c99" }}>/set</span>
               </div>
               <p key={priceMode + "-setelan"} className="mt-2.5 text-sm price-fade" style={{ color: "#8c8c99" }}>
-                {priceMode === "ecer" ? "Bisa pesan mulai 1 set" : "Minimal pembelian 12 set"}
+                {priceMode === "ecer" ? "Mau desain custom sendiri? Order minimal 6 pcs" : "Minimal pembelian 12 set"}
               </p>
               <ul className="mt-7 pt-6 space-y-3 text-[15px] flex-1" style={{ borderTop: "1px solid rgba(255,255,255,.12)" }}>
                 {(priceMode === "ecer"

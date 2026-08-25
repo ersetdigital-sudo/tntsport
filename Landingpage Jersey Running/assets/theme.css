@@ -1,0 +1,517 @@
+/* ==========================================================================
+   TNT SPORT APPAREL — theme tokens & components
+   "Energetic Sunrise": light, airy, athletic minimalist.
+   Sunrise gradient accent (orange → pink). Mobile-first.
+   ========================================================================== */
+
+:root {
+  /* Surfaces — light */
+  --ink: #ffffff;          /* page background */
+  --ink-2: #fdf8f5;        /* alternating section band (warm off-white) */
+  --surface: #ffffff;      /* card background */
+  --surface-2: #f6f2ef;    /* inset / segmented control track */
+
+  /* Lines & separators */
+  --line: rgba(26, 26, 26, 0.10);
+  --line-strong: rgba(26, 26, 26, 0.18);
+
+  /* Sunrise accent — orange primary, pink secondary */
+  --accent: #ff7a45;
+  --accent-2: #ff4d8d;
+  --accent-deep: #e85a28;  /* darker orange for text on white (AA contrast) */
+  --accent-soft: rgba(255, 122, 69, 0.12);
+  --accent-glow: rgba(255, 122, 69, 0.34);
+  --grad-sunrise: linear-gradient(100deg, #ff7a45 0%, #ff4d8d 100%);
+
+  /* Type */
+  --text: #1a1a1a;
+  --muted: #5c5955;
+  --muted-2: #8a857f;
+}
+
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 76px;
+}
+
+body {
+  background-color: var(--ink);
+  color: var(--text);
+  font-family: "Barlow", system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+
+/* ---------- Type roles ---------- */
+.font-display { font-family: "Archivo Black", system-ui, sans-serif; font-weight: 400; }
+.font-kicker  { font-family: "Barlow Condensed", system-ui, sans-serif; }
+.kicker {
+  font-family: "Barlow Condensed", system-ui, sans-serif;
+  text-transform: uppercase;
+  letter-spacing: 0.22em;
+  font-weight: 600;
+  font-size: 0.82rem;
+  color: var(--accent-deep);
+}
+.kicker-muted { color: var(--muted-2); }
+
+/* Gradient text for accented headline words */
+.text-sunrise {
+  background: var(--grad-sunrise);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+/* ---------- Textures: soft sunrise light — diffuse gradient washes only ----------
+   Class names kept for markup stability. No repeating patterns anywhere: stripes
+   and grids read busy at full-bleed size and fight the content. */
+.tex-grid {
+  background-image:
+    radial-gradient(ellipse 60% 50% at 15% 0%, rgba(255, 122, 69, 0.07), transparent 70%),
+    radial-gradient(ellipse 50% 45% at 90% 10%, rgba(255, 77, 141, 0.06), transparent 70%);
+}
+/* Hero / feature bands: wide, diffuse sunrise glow — no stripes, no repetition.
+   Two soft light pools set off-canvas so only their falloff shows. */
+.tex-speed {
+  background-image:
+    radial-gradient(ellipse 55% 60% at 10% -12%, rgba(255, 122, 69, 0.085), transparent 60%),
+    radial-gradient(ellipse 50% 55% at 90% 4%, rgba(255, 77, 141, 0.05), transparent 58%);
+}
+/* Quieter variant for content-dense sections */
+.tex-speed-soft {
+  background-image:
+    radial-gradient(ellipse 60% 55% at 0% -5%, rgba(255, 122, 69, 0.05), transparent 58%),
+    radial-gradient(ellipse 55% 50% at 100% 105%, rgba(255, 77, 141, 0.035), transparent 60%);
+}
+.fade-edges {
+  -webkit-mask-image: radial-gradient(ellipse 100% 85% at 50% 45%, #000 55%, transparent 100%);
+  mask-image: radial-gradient(ellipse 100% 85% at 50% 45%, #000 55%, transparent 100%);
+}
+
+/* ---------- Accent rule ---------- */
+.rule-accent {
+  height: 3px;
+  width: 52px;
+  background: var(--grad-sunrise);
+  border-radius: 2px;
+}
+
+/* ---------- Buttons ---------- */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.6rem;
+  font-family: "Barlow Condensed", system-ui, sans-serif;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  line-height: 1;
+  border-radius: 8px;
+  transition: transform 0.18s ease, box-shadow 0.18s ease, background-color 0.18s ease,
+    border-color 0.18s ease, color 0.18s ease, filter 0.18s ease;
+  will-change: transform;
+}
+.btn:active { transform: translateY(1px); }
+
+.btn-primary {
+  background: var(--grad-sunrise);
+  color: #fff;
+  box-shadow: 0 10px 26px -10px var(--accent-glow);
+}
+.btn-primary:hover {
+  filter: saturate(1.08) brightness(1.04);
+  box-shadow: 0 16px 34px -10px var(--accent-glow);
+  transform: translateY(-2px);
+}
+
+.btn-ghost {
+  background: #fff;
+  color: var(--text);
+  border: 1px solid var(--line-strong);
+}
+.btn-ghost:hover {
+  border-color: var(--accent);
+  color: var(--accent-deep);
+  background: var(--accent-soft);
+  transform: translateY(-2px);
+}
+
+/* ---------- Cards ---------- */
+.card {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  box-shadow: 0 1px 2px rgba(26, 26, 26, 0.04), 0 8px 24px -14px rgba(26, 26, 26, 0.14);
+  transition: transform 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
+}
+.card-hover:hover {
+  transform: translateY(-4px);
+  border-color: rgba(255, 122, 69, 0.45);
+  box-shadow: 0 18px 44px -20px rgba(255, 122, 69, 0.42);
+}
+
+/* ---------- Catalog thumbs ---------- */
+.thumb {
+  position: relative;
+  aspect-ratio: 1 / 1;
+  overflow: hidden;
+  background: #f4efec;
+  border-radius: 12px 12px 0 0;
+}
+.thumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.5s cubic-bezier(0.2, 0.7, 0.3, 1);
+}
+.card-hover:hover .thumb img { transform: scale(1.06); }
+
+/* ---------- Hotspots ---------- */
+.hotspot {
+  position: absolute;
+  width: 26px;
+  height: 26px;
+  margin: -13px 0 0 -13px;
+  border-radius: 999px;
+  background: var(--accent);
+  border: 2px solid #fff;
+  box-shadow: 0 0 0 0 var(--accent-glow), 0 2px 8px rgba(26, 26, 26, 0.3);
+  animation: pulse-ring 2.4s ease-out infinite;
+  display: grid;
+  place-items: center;
+  font-family: "Barlow Condensed", system-ui, sans-serif;
+  font-weight: 700;
+  font-size: 0.78rem;
+  color: #fff;
+}
+@keyframes pulse-ring {
+  0%   { box-shadow: 0 0 0 0 var(--accent-glow), 0 2px 8px rgba(26, 26, 26, 0.3); }
+  70%  { box-shadow: 0 0 0 14px rgba(255, 122, 69, 0), 0 2px 8px rgba(26, 26, 26, 0.3); }
+  100% { box-shadow: 0 0 0 0 rgba(255, 122, 69, 0), 0 2px 8px rgba(26, 26, 26, 0.3); }
+}
+
+/* ---------- Accordion (FAQ) ---------- */
+.faq-item summary { list-style: none; cursor: pointer; }
+.faq-item summary::-webkit-details-marker { display: none; }
+.faq-item summary .chev { transition: transform 0.25s ease; }
+.faq-item[open] summary .chev { transform: rotate(45deg); }
+.faq-item[open] { border-color: rgba(255, 122, 69, 0.45); }
+.faq-body {
+  overflow: hidden;
+  animation: faq-open 0.28s ease;
+}
+@keyframes faq-open {
+  from { opacity: 0; transform: translateY(-6px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ---------- Scroll reveal ---------- */
+.reveal {
+  opacity: 0;
+  transform: translateY(26px);
+  transition: opacity 0.7s cubic-bezier(0.2, 0.7, 0.3, 1),
+              transform 0.7s cubic-bezier(0.2, 0.7, 0.3, 1);
+}
+.reveal.is-in { opacity: 1; transform: none; }
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  .reveal { opacity: 1; transform: none; transition: none; }
+  .hotspot { animation: none; }
+  .btn:hover, .card-hover:hover { transform: none; }
+}
+
+/* ---------- Price toggle ---------- */
+.seg {
+  display: inline-flex;
+  padding: 4px;
+  background: var(--surface-2);
+  border: 1px solid var(--line);
+  border-radius: 999px;
+}
+.seg button {
+  font-family: "Barlow Condensed", system-ui, sans-serif;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  font-size: 0.92rem;
+  padding: 0.55rem 1.5rem;
+  border-radius: 999px;
+  color: var(--muted);
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+.seg button[aria-selected="true"] {
+  background: var(--grad-sunrise);
+  color: #fff;
+}
+
+/* ---------- Pricing cards ---------- */
+.price-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  padding: 1.9rem 1.75rem;
+  border-radius: 18px;
+}
+@media (min-width: 640px) {
+  .price-card { padding: 2.25rem 2rem; }
+}
+
+/* Featured card: subtle sunrise wash + gradient hairline on top */
+.price-card-featured {
+  border-color: rgba(255, 122, 69, 0.42);
+  background:
+    linear-gradient(180deg, rgba(255, 122, 69, 0.07) 0%, rgba(255, 255, 255, 0) 62%),
+    var(--surface);
+  box-shadow: 0 2px 4px rgba(26, 26, 26, 0.04), 0 24px 54px -26px rgba(255, 122, 69, 0.5);
+}
+.price-badge {
+  position: absolute;
+  top: 0;
+  right: 1.75rem;
+  transform: translateY(-50%);
+  padding: 0.4rem 0.9rem;
+  border-radius: 999px;
+  background: var(--grad-sunrise);
+  color: #fff;
+  font-family: "Barlow Condensed", system-ui, sans-serif;
+  font-weight: 700;
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.16em;
+  white-space: nowrap;
+  box-shadow: 0 8px 20px -8px var(--accent-glow);
+}
+
+/* Head block gets a min-height so both cards' price rows align */
+.price-head { min-height: 7.5rem; }
+@media (max-width: 767px) {
+  .price-head { min-height: 0; }
+}
+
+.price-figure {
+  display: flex;
+  align-items: flex-end;
+  gap: 0.4rem;
+  margin-top: 1.5rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--line);
+  color: var(--text);
+}
+
+.price-list {
+  margin-top: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+  font-size: 0.97rem;
+}
+.price-list li {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.7rem;
+}
+
+/* CTA pinned to the bottom so both cards end on the same line */
+.price-cta {
+  margin-top: auto;
+  padding-top: 0.95rem;
+  padding-bottom: 0.95rem;
+  width: 100%;
+}
+.price-list + .price-cta { margin-top: 2rem; }
+
+/* Feature ticks — circular badge */
+.tick {
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: 1.15rem;
+  height: 1.15rem;
+  margin-top: 0.12rem;
+  border-radius: 999px;
+  background: var(--accent-soft);
+  color: var(--accent-deep);
+  font-size: 0.66rem;
+  font-weight: 700;
+  line-height: 1;
+}
+
+/* Small label chips */
+.chip {
+  flex: none;
+  padding: 0.28rem 0.65rem;
+  border: 1px solid var(--line-strong);
+  border-radius: 6px;
+  font-family: "Barlow Condensed", system-ui, sans-serif;
+  font-size: 0.7rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  color: var(--muted);
+}
+.chip-accent {
+  border-color: rgba(255, 122, 69, 0.45);
+  background: var(--accent-soft);
+  color: var(--accent-deep);
+}
+
+/* ---------- Steps ---------- */
+.step-num {
+  font-family: "Archivo Black", system-ui, sans-serif;
+  font-size: 2.6rem;
+  line-height: 1;
+  color: transparent;
+  -webkit-text-stroke: 1.5px rgba(255, 122, 69, 0.6);
+}
+
+/* ---------- Comparison table (desktop) ---------- */
+.cmp-wrap {
+  border: 1px solid var(--line);
+  border-radius: 18px;
+  background: var(--surface);
+  box-shadow: 0 1px 2px rgba(26, 26, 26, 0.04), 0 12px 34px -22px rgba(26, 26, 26, 0.18);
+  overflow: hidden;
+}
+.cmp {
+  border-collapse: separate;
+  border-spacing: 0;
+}
+.cmp th,
+.cmp td {
+  padding: 1.05rem 1.4rem;
+  text-align: left;
+  vertical-align: middle;
+}
+
+/* Header row */
+.cmp thead th {
+  padding-top: 1.6rem;
+  padding-bottom: 1.4rem;
+  border-bottom: 1px solid var(--line);
+  vertical-align: bottom;
+}
+.cmp-coltitle {
+  display: block;
+  font-family: "Archivo Black", system-ui, sans-serif;
+  font-weight: 400;
+  font-size: 1.06rem;
+  letter-spacing: 0;
+  text-transform: none;
+  color: var(--text);
+}
+.cmp-colnote {
+  display: block;
+  margin-top: 0.3rem;
+  font-family: "Barlow Condensed", system-ui, sans-serif;
+  font-weight: 700;
+  font-size: 0.76rem;
+  text-transform: uppercase;
+  letter-spacing: 0.16em;
+  color: var(--muted-2);
+}
+
+/* Row label column */
+.cmp tbody th[scope="row"] {
+  font-family: "Barlow Condensed", system-ui, sans-serif;
+  font-weight: 700;
+  font-size: 0.84rem;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  color: var(--muted-2);
+  background: var(--ink-2);
+}
+.cmp tbody td {
+  color: var(--muted);
+  border-top: 1px solid var(--line);
+}
+.cmp tbody th[scope="row"] { border-top: 1px solid var(--line); }
+.cmp tbody tr:first-child th,
+.cmp tbody tr:first-child td { border-top: none; }
+.cmp tbody td strong {
+  font-family: "Archivo Black", system-ui, sans-serif;
+  font-weight: 400;
+  color: var(--text);
+}
+.cmp tbody td .tick { display: inline-grid; margin-right: 0.5rem; vertical-align: -0.18em; }
+
+/* Highlighted column — the recommended option */
+.cmp .cmp-col-hi {
+  background: linear-gradient(180deg, rgba(255, 122, 69, 0.075), rgba(255, 122, 69, 0.03));
+  box-shadow: inset 1px 0 0 rgba(255, 122, 69, 0.22), inset -1px 0 0 rgba(255, 122, 69, 0.22);
+}
+.cmp thead .cmp-col-hi { border-radius: 14px 14px 0 0; }
+.cmp thead .cmp-col-hi .cmp-colnote { color: var(--accent-deep); }
+.cmp tbody tr:last-child .cmp-col-hi {
+  box-shadow: inset 1px 0 0 rgba(255, 122, 69, 0.22), inset -1px 0 0 rgba(255, 122, 69, 0.22),
+    inset 0 -1px 0 rgba(255, 122, 69, 0.22);
+}
+
+/* ---------- Comparison cards (mobile) ---------- */
+.cmp-m {
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  background: var(--surface);
+  padding: 1.35rem 1.3rem 1.45rem;
+}
+.cmp-m-hi {
+  border-color: rgba(255, 122, 69, 0.42);
+  background: linear-gradient(180deg, rgba(255, 122, 69, 0.07) 0%, rgba(255, 255, 255, 0) 55%), var(--surface);
+}
+.cmp-m-title {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.6rem;
+  font-family: "Archivo Black", system-ui, sans-serif;
+  font-size: 1.05rem;
+  color: var(--text);
+}
+.cmp-m-tag {
+  padding: 0.24rem 0.6rem;
+  border-radius: 999px;
+  background: var(--accent-soft);
+  color: var(--accent-deep);
+  font-family: "Barlow Condensed", system-ui, sans-serif;
+  font-weight: 700;
+  font-size: 0.68rem;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+}
+.cmp-m-list { margin-top: 1.1rem; }
+.cmp-m-list > div {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 1.25rem;
+  padding: 0.68rem 0;
+  border-top: 1px solid var(--line);
+}
+.cmp-m-list > div:first-child { border-top: none; padding-top: 0; }
+.cmp-m-list dt {
+  flex: none;
+  max-width: 45%;
+  font-family: "Barlow Condensed", system-ui, sans-serif;
+  font-weight: 700;
+  font-size: 0.78rem;
+  text-transform: uppercase;
+  letter-spacing: 0.13em;
+  color: var(--muted-2);
+}
+.cmp-m-list dd {
+  text-align: right;
+  font-size: 0.93rem;
+  color: var(--text);
+}
+
+/* ---------- Floating WA ---------- */
+.wa-float {
+  position: fixed;
+  right: 1rem;
+  bottom: 1rem;
+  z-index: 50;
+  box-shadow: 0 12px 30px -8px rgba(255, 122, 69, 0.55);
+}

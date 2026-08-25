@@ -1,0 +1,700 @@
+<!DOCTYPE html>
+<html lang="id"><head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Badminton Collection — Jersey Badminton Custom Premium</title>
+<meta name="description" content="Jersey badminton custom untuk tim yang siap tampil kompetitif. Dry-fit adem, full printing, jahitan kuat, free custom nameset dan logo.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800&amp;family=Barlow:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
+<style>
+:root{
+  --navy:#06152D; --royal:#155EEF; --electric:#00A8FF; --magenta:#E91E8C;
+  --off:#F5F7FA; --gray:#D9DEE7; --black:#080B10;
+}
+html{scroll-behavior:smooth}
+body{background:var(--navy);color:var(--off);font-family:"Barlow",system-ui,sans-serif;overflow-x:hidden}
+.dspl{font-family:"Barlow Condensed","Barlow",sans-serif;text-transform:uppercase;font-weight:800;letter-spacing:-0.01em;line-height:0.94}
+.eyebrow{font-family:"Barlow Condensed",sans-serif;text-transform:uppercase;letter-spacing:.28em;font-weight:700}
+.grad-text{background:linear-gradient(100deg,#fff 15%,var(--electric) 60%,var(--royal) 95%);-webkit-background-clip:text;background-clip:text;color:transparent}
+.mesh{position:absolute;inset:0;pointer-events:none;
+  background:
+   radial-gradient(60% 50% at 78% 22%, rgba(21,94,239,.38), transparent 70%),
+   radial-gradient(45% 40% at 12% 78%, rgba(0,168,255,.18), transparent 70%),
+   radial-gradient(30% 30% at 95% 85%, rgba(233,30,140,.16), transparent 70%);}
+.grid-lines{position:absolute;inset:0;pointer-events:none;opacity:.5;
+  background-image:linear-gradient(rgba(217,222,231,.06) 1px,transparent 1px),linear-gradient(90deg,rgba(217,222,231,.06) 1px,transparent 1px);
+  background-size:88px 88px;
+  -webkit-mask-image:radial-gradient(ellipse at 50% 30%,#000,transparent 78%);
+  mask-image:radial-gradient(ellipse at 50% 30%,#000,transparent 78%);}
+/* diagonal speed lines */
+.speed{position:absolute;inset:-20% -10%;pointer-events:none;overflow:hidden}
+.speed span{position:absolute;top:-40%;height:180%;width:1px;transform:rotate(18deg);
+  background:linear-gradient(to bottom,transparent,rgba(0,168,255,.55),transparent);
+  animation:slide 7s linear infinite;opacity:.35}
+.speed span:nth-child(2){left:28%;animation-delay:-1.4s;background:linear-gradient(to bottom,transparent,rgba(21,94,239,.6),transparent)}
+.speed span:nth-child(3){left:52%;animation-delay:-3.1s}
+.speed span:nth-child(4){left:71%;animation-delay:-4.6s;background:linear-gradient(to bottom,transparent,rgba(233,30,140,.45),transparent)}
+.speed span:nth-child(5){left:88%;animation-delay:-5.8s}
+.speed span:nth-child(1){left:9%}
+@keyframes slide{0%{transform:translateY(-30%) rotate(18deg);opacity:0}20%{opacity:.4}80%{opacity:.4}100%{transform:translateY(30%) rotate(18deg);opacity:0}}
+.slash{position:absolute;width:170%;height:2px;left:-35%;background:linear-gradient(90deg,transparent,rgba(21,94,239,.55),rgba(0,168,255,.65),transparent);transform:rotate(-8deg)}
+.card{background:linear-gradient(180deg,rgba(255,255,255,.045),rgba(255,255,255,.015));border:1px solid rgba(217,222,231,.12);border-radius:18px;transition:transform .45s cubic-bezier(.2,.7,.2,1),box-shadow .45s,border-color .45s}
+.card:hover{transform:translateY(-8px);border-color:rgba(0,168,255,.45);box-shadow:0 24px 60px -20px rgba(21,94,239,.55),0 0 0 1px rgba(0,168,255,.15)}
+.card img{transition:transform .6s cubic-bezier(.2,.7,.2,1)}
+.card:hover img{transform:scale(1.04)}
+.btn{position:relative;display:inline-flex;align-items:center;gap:.6rem;background:linear-gradient(100deg,var(--royal),var(--electric));color:#fff;font-family:"Barlow Condensed",sans-serif;font-weight:800;text-transform:uppercase;letter-spacing:.12em;border-radius:999px;box-shadow:0 14px 40px -12px rgba(21,94,239,.85);transition:transform .3s,box-shadow .3s}
+.btn:hover{transform:translateY(-2px);box-shadow:0 20px 55px -12px rgba(0,168,255,.9)}
+.btn-ghost{border:1px solid rgba(217,222,231,.28);border-radius:999px;font-family:"Barlow Condensed",sans-serif;font-weight:700;text-transform:uppercase;letter-spacing:.12em;transition:border-color .3s,color .3s,background .3s}
+.btn-ghost:hover{border-color:var(--electric);background:rgba(0,168,255,.08)}
+.reveal{opacity:0;transform:translateY(26px);transition:opacity .8s cubic-bezier(.2,.7,.2,1),transform .8s cubic-bezier(.2,.7,.2,1)}
+.reveal.in{opacity:1;transform:none}
+.chip{border:1px solid rgba(217,222,231,.16);border-radius:14px;background:rgba(255,255,255,.03);transition:border-color .35s,background .35s,transform .35s}
+.chip:hover{border-color:rgba(21,94,239,.6);background:rgba(21,94,239,.1);transform:translateY(-3px)}
+.num{font-family:"Barlow Condensed",sans-serif;font-weight:800;-webkit-text-stroke:1px rgba(0,168,255,.7);color:transparent}
+@media (prefers-reduced-motion: reduce){.reveal{opacity:1;transform:none}.speed span{animation:none}}
+
+/* ---------- HERO ---------- */
+#hero{background:
+  radial-gradient(120% 90% at 78% 30%, #0A2B5C 0%, rgba(10,43,92,0) 62%),
+  radial-gradient(90% 80% at 8% 8%, #111B42 0%, rgba(17,27,66,0) 60%),
+  linear-gradient(165deg,#06152D 0%,#071A38 45%,#06152D 100%);}
+.hero-glow{position:absolute;pointer-events:none;border-radius:50%;filter:blur(90px);will-change:transform,opacity}
+.g1{width:60vw;height:60vw;max-width:820px;max-height:820px;right:-6%;top:2%;background:radial-gradient(circle,rgba(0,168,255,.34),rgba(0,168,255,0) 68%);animation:breathe 12s ease-in-out infinite}
+.g2{width:42vw;height:42vw;max-width:560px;max-height:560px;left:-10%;bottom:-14%;background:radial-gradient(circle,rgba(21,94,239,.30),rgba(21,94,239,0) 70%);animation:breathe 16s ease-in-out infinite reverse}
+.g3{width:26vw;height:26vw;max-width:340px;max-height:340px;right:38%;bottom:4%;background:radial-gradient(circle,rgba(233,30,140,.20),rgba(233,30,140,0) 70%);animation:drift 18s ease-in-out infinite}
+@keyframes breathe{0%,100%{transform:scale(1) translate3d(0,0,0);opacity:.85}50%{transform:scale(1.12) translate3d(0,-2%,0);opacity:1}}
+@keyframes drift{0%,100%{transform:translate3d(0,0,0)}50%{transform:translate3d(-6%,-8%,0)}}
+/* streaks */
+.streaks{position:absolute;inset:0;overflow:hidden;pointer-events:none}
+.streaks i{position:absolute;display:block;height:1.5px;border-radius:2px;transform:rotate(-18deg);opacity:0;
+  animation:dash 5.5s cubic-bezier(.3,.1,.2,1) infinite}
+@keyframes dash{0%{transform:translate3d(-24vw,0,0) rotate(-18deg);opacity:0}12%{opacity:.9}55%{opacity:.5}100%{transform:translate3d(26vw,0,0) rotate(-18deg);opacity:0}}
+/* particles */
+.dot{position:absolute;width:4px;height:4px;border-radius:50%;background:rgba(245,247,250,.55);box-shadow:0 0 10px rgba(0,168,255,.8);animation:float 9s ease-in-out infinite}
+@keyframes float{0%,100%{transform:translate3d(0,0,0);opacity:.25}50%{transform:translate3d(0,-26px,0);opacity:.85}}
+.hero-h1{font-size:clamp(2.9rem,8.6vw,7.4rem);line-height:.9;letter-spacing:-.015em}
+.sharp{background:linear-gradient(96deg,#155EEF 0%,#00A8FF 55%,#7FD7FF 100%);-webkit-background-clip:text;background-clip:text;color:transparent}
+.vert-label{writing-mode:vertical-rl;letter-spacing:.5em}
+.hero-figure{filter:drop-shadow(0 46px 60px rgba(3,10,24,.75)) drop-shadow(0 0 70px rgba(0,168,255,.24));
+  animation:heroIn 1.3s cubic-bezier(.2,.7,.2,1) both;will-change:transform}
+@keyframes heroIn{from{opacity:0;transform:scale(.94) translateY(22px)}to{opacity:1;transform:none}}
+.trust{display:flex;align-items:center;gap:1.1rem;flex-wrap:wrap}
+.trust span{position:relative;padding-right:1.1rem}
+.trust span:not(:last-child):after{content:"";position:absolute;right:0;top:50%;transform:translateY(-50%);width:1px;height:12px;background:rgba(217,222,231,.28)}
+.ph-tile{position:relative;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;background:radial-gradient(120% 100% at 30% 15%,color-mix(in srgb,var(--c1) 55%,transparent),transparent 62%),linear-gradient(150deg,color-mix(in srgb,var(--c2) 26%,#080B10),#080B10 70%);overflow:hidden}
+.ph-tile:before{content:"";position:absolute;inset:0;background-image:repeating-linear-gradient(115deg,rgba(255,255,255,.055) 0 1px,transparent 1px 22px);opacity:.9}
+.ph-tile:after{content:"";position:absolute;width:150%;height:60%;left:-25%;bottom:-28%;background:radial-gradient(closest-side,color-mix(in srgb,var(--c2) 45%,transparent),transparent);filter:blur(28px)}
+.ph-code{position:relative;font-size:2.6rem;letter-spacing:.06em;color:rgba(245,247,250,.9)}
+.ph-tag{position:relative;padding:6px 14px;border-radius:999px;border:1px solid rgba(255,255,255,.18);color:rgba(245,247,250,.7);background:rgba(8,11,16,.35);backdrop-filter:blur(6px)}
+.cat-item[data-extra]{display:none}
+.cat-item.show{display:block}
+/* toast notif pembelian */
+#toastWrap{position:fixed;left:20px;bottom:20px;z-index:60;display:flex;flex-direction:column;gap:10px;pointer-events:none}
+.toast{display:flex;align-items:center;gap:14px;min-width:280px;max-width:340px;padding:12px 16px 12px 12px;border-radius:14px;background:rgba(10,17,32,.82);border:1px solid rgba(217,222,231,.14);box-shadow:0 24px 60px -22px rgba(0,0,0,.9);backdrop-filter:blur(14px);opacity:0;transform:translateY(14px) scale(.97);transition:opacity .5s cubic-bezier(.2,.7,.2,1),transform .5s cubic-bezier(.2,.7,.2,1)}
+.toast.in{opacity:1;transform:none}
+.toast-dot{position:relative;width:9px;height:9px;border-radius:99px;background:#22C55E;flex:none}
+.toast-dot:after{content:"";position:absolute;inset:-5px;border-radius:99px;border:1px solid rgba(34,197,94,.55);animation:tpulse 1.9s ease-out infinite}
+@keyframes tpulse{0%{transform:scale(.6);opacity:1}100%{transform:scale(1.5);opacity:0}}
+.toast b{color:#fff;font-weight:600}
+@media (max-width:640px){#toastWrap{left:12px;right:12px;bottom:12px}.toast{min-width:0;max-width:none}}
+.price-tab{position:relative;color:rgba(217,222,231,.42);padding:0 0 14px;background:none;transition:color .35s}
+.price-tab:hover{color:rgba(255,255,255,.8)}
+.price-tab:after{content:"";position:absolute;left:0;bottom:0;height:2px;width:100%;background:linear-gradient(90deg,var(--royal),var(--electric));transform:scaleX(0);transform-origin:left;transition:transform .5s cubic-bezier(.2,.7,.2,1)}
+.price-tab.is-on{color:#fff}
+.price-tab.is-on:after{transform:scaleX(1)}
+.price-rule{height:1px;background:linear-gradient(90deg,rgba(217,222,231,.16),rgba(217,222,231,.03))}
+.price-list li{display:flex;gap:12px;align-items:baseline}
+.spec{position:relative;padding-top:18px}
+.spec:before{content:"";position:absolute;top:0;left:0;width:100%;height:1px;background:linear-gradient(90deg,rgba(0,168,255,.75),rgba(217,222,231,.08))}
+.spec:nth-child(3):before{background:linear-gradient(90deg,rgba(233,30,140,.7),rgba(217,222,231,.08))}
+.bulk-rail{border-top:1px solid rgba(217,222,231,.12)}
+.arrow-link{position:relative;padding-bottom:6px;transition:color .3s}
+.arrow-link:after{content:"";position:absolute;left:0;bottom:0;height:1px;width:100%;background:currentColor;transform:scaleX(.35);transform-origin:left;transition:transform .45s cubic-bezier(.2,.7,.2,1)}
+.arrow-link:hover{color:#7FD7FF}
+.arrow-link:hover:after{transform:scaleX(1)}
+.bulk-unused{background:linear-gradient(100deg,rgba(21,94,239,.20),rgba(6,21,45,.6) 55%,rgba(233,30,140,.08))}
+#priceNum{transition:opacity .28s ease,transform .28s ease}
+#priceNum.swap{opacity:0;transform:translateY(8px)}
+.hero-arc{position:absolute;border:1px solid rgba(0,168,255,.16);border-radius:50%;pointer-events:none}
+</style>
+<script src="https://cdn.moda.app/runtime-libs/tailwind-browser-4.1.13-index.global.min.js"></script><style data-moda-export-fonts="true">@font-face { font-family: 'Barlow'; src: url("../fonts/barlow-thin.ttf") format("truetype"); font-style: normal; font-weight: 100; font-display: swap; }
+@font-face { font-family: 'Barlow'; src: url("../fonts/barlow-thinitalic.ttf") format("truetype"); font-style: italic; font-weight: 100; font-display: swap; }
+@font-face { font-family: 'Barlow'; src: url("../fonts/barlow-extralight.ttf") format("truetype"); font-style: normal; font-weight: 200; font-display: swap; }
+@font-face { font-family: 'Barlow'; src: url("../fonts/barlow-extralightitalic.ttf") format("truetype"); font-style: italic; font-weight: 200; font-display: swap; }
+@font-face { font-family: 'Barlow'; src: url("../fonts/barlow-light.ttf") format("truetype"); font-style: normal; font-weight: 300; font-display: swap; }
+@font-face { font-family: 'Barlow'; src: url("../fonts/barlow-lightitalic.ttf") format("truetype"); font-style: italic; font-weight: 300; font-display: swap; }
+@font-face { font-family: 'Barlow'; src: url("../fonts/barlow-regular.ttf") format("truetype"); font-style: normal; font-weight: 400; font-display: swap; }
+@font-face { font-family: 'Barlow'; src: url("../fonts/barlow-italic.ttf") format("truetype"); font-style: italic; font-weight: 400; font-display: swap; }
+@font-face { font-family: 'Barlow'; src: url("../fonts/barlow-medium.ttf") format("truetype"); font-style: normal; font-weight: 500; font-display: swap; }
+@font-face { font-family: 'Barlow'; src: url("../fonts/barlow-mediumitalic.ttf") format("truetype"); font-style: italic; font-weight: 500; font-display: swap; }
+@font-face { font-family: 'Barlow'; src: url("../fonts/barlow-semibold.ttf") format("truetype"); font-style: normal; font-weight: 600; font-display: swap; }
+@font-face { font-family: 'Barlow'; src: url("../fonts/barlow-semibolditalic.ttf") format("truetype"); font-style: italic; font-weight: 600; font-display: swap; }
+@font-face { font-family: 'Barlow'; src: url("../fonts/barlow-bold.ttf") format("truetype"); font-style: normal; font-weight: 700; font-display: swap; }
+@font-face { font-family: 'Barlow'; src: url("../fonts/barlow-bolditalic.ttf") format("truetype"); font-style: italic; font-weight: 700; font-display: swap; }
+@font-face { font-family: 'Barlow'; src: url("../fonts/barlow-extrabold.ttf") format("truetype"); font-style: normal; font-weight: 800; font-display: swap; }
+@font-face { font-family: 'Barlow'; src: url("../fonts/barlow-extrabolditalic.ttf") format("truetype"); font-style: italic; font-weight: 800; font-display: swap; }
+@font-face { font-family: 'Barlow'; src: url("../fonts/barlow-black.ttf") format("truetype"); font-style: normal; font-weight: 900; font-display: swap; }
+@font-face { font-family: 'Barlow'; src: url("../fonts/barlow-blackitalic.ttf") format("truetype"); font-style: italic; font-weight: 900; font-display: swap; }
+@font-face { font-family: 'Barlow Condensed'; src: url("../fonts/barlowcondensed-thin.ttf") format("truetype"); font-style: normal; font-weight: 100; font-display: swap; }
+@font-face { font-family: 'Barlow Condensed'; src: url("../fonts/barlowcondensed-thinitalic.ttf") format("truetype"); font-style: italic; font-weight: 100; font-display: swap; }
+@font-face { font-family: 'Barlow Condensed'; src: url("../fonts/barlowcondensed-extralight.ttf") format("truetype"); font-style: normal; font-weight: 200; font-display: swap; }
+@font-face { font-family: 'Barlow Condensed'; src: url("../fonts/barlowcondensed-extralightitalic.ttf") format("truetype"); font-style: italic; font-weight: 200; font-display: swap; }
+@font-face { font-family: 'Barlow Condensed'; src: url("../fonts/barlowcondensed-light.ttf") format("truetype"); font-style: normal; font-weight: 300; font-display: swap; }
+@font-face { font-family: 'Barlow Condensed'; src: url("../fonts/barlowcondensed-lightitalic.ttf") format("truetype"); font-style: italic; font-weight: 300; font-display: swap; }
+@font-face { font-family: 'Barlow Condensed'; src: url("../fonts/barlowcondensed-regular.ttf") format("truetype"); font-style: normal; font-weight: 400; font-display: swap; }
+@font-face { font-family: 'Barlow Condensed'; src: url("../fonts/barlowcondensed-italic.ttf") format("truetype"); font-style: italic; font-weight: 400; font-display: swap; }
+@font-face { font-family: 'Barlow Condensed'; src: url("../fonts/barlowcondensed-medium.ttf") format("truetype"); font-style: normal; font-weight: 500; font-display: swap; }
+@font-face { font-family: 'Barlow Condensed'; src: url("../fonts/barlowcondensed-mediumitalic.ttf") format("truetype"); font-style: italic; font-weight: 500; font-display: swap; }
+@font-face { font-family: 'Barlow Condensed'; src: url("../fonts/barlowcondensed-semibold.ttf") format("truetype"); font-style: normal; font-weight: 600; font-display: swap; }
+@font-face { font-family: 'Barlow Condensed'; src: url("../fonts/barlowcondensed-semibolditalic.ttf") format("truetype"); font-style: italic; font-weight: 600; font-display: swap; }
+@font-face { font-family: 'Barlow Condensed'; src: url("../fonts/barlowcondensed-bold.ttf") format("truetype"); font-style: normal; font-weight: 700; font-display: swap; }
+@font-face { font-family: 'Barlow Condensed'; src: url("../fonts/barlowcondensed-bolditalic.ttf") format("truetype"); font-style: italic; font-weight: 700; font-display: swap; }
+@font-face { font-family: 'Barlow Condensed'; src: url("../fonts/barlowcondensed-extrabold.ttf") format("truetype"); font-style: normal; font-weight: 800; font-display: swap; }
+@font-face { font-family: 'Barlow Condensed'; src: url("../fonts/barlowcondensed-extrabolditalic.ttf") format("truetype"); font-style: italic; font-weight: 800; font-display: swap; }
+@font-face { font-family: 'Barlow Condensed'; src: url("../fonts/barlowcondensed-black.ttf") format("truetype"); font-style: normal; font-weight: 900; font-display: swap; }
+@font-face { font-family: 'Barlow Condensed'; src: url("../fonts/barlowcondensed-blackitalic.ttf") format("truetype"); font-style: italic; font-weight: 900; font-display: swap; }</style></head>
+<body class="antialiased">
+
+<!-- NAV -->
+<header class="fixed top-0 inset-x-0 z-50 backdrop-blur-xl bg-[#06152D]/70 border-b border-white/[.07]">
+  <div class="max-w-[1400px] mx-auto px-5 sm:px-8 h-[68px] flex items-center justify-between">
+    <div class="flex items-center gap-2.5">
+      <span class="w-2 h-2 rounded-full bg-[#E91E8C] shadow-[0_0_14px_#E91E8C]"></span>
+      <span class="dspl text-[17px] tracking-wide">Badminton<span class="text-[#00A8FF]"> Collection</span></span>
+    </div>
+    <nav class="hidden md:flex items-center gap-9 eyebrow text-[10.5px] text-[#D9DEE7]/85">
+      <a href="#value" class="hover:text-white transition-colors">Keunggulan</a>
+      <a href="#collection" class="hover:text-white transition-colors">Koleksi</a>
+      <a href="#harga" class="hover:text-white transition-colors">Harga</a>
+      <a href="#custom" class="hover:text-white transition-colors">Custom</a>
+      <a href="#target" class="hover:text-white transition-colors">Untuk Siapa</a>
+    </nav>
+    <a href="#collection" class="btn px-5 py-2 text-[11.5px]">Pilih Desain</a>
+  </div>
+</header>
+
+<!-- HERO -->
+<section id="hero" class="relative min-h-[100svh] flex items-center pt-24 pb-14 lg:pt-20 lg:pb-0 overflow-hidden">
+  <!-- ambient -->
+  <div class="hero-glow g1"></div><div class="hero-glow g2"></div><div class="hero-glow g3"></div>
+  <div class="grid-lines"></div>
+  <div class="hero-arc w-[70vw] h-[70vw] max-w-[900px] max-h-[900px] right-[-14%] top-[-12%]"></div>
+  <div class="hero-arc w-[46vw] h-[46vw] max-w-[560px] max-h-[560px] right-[2%] bottom-[-18%] opacity-60"></div>
+  <div class="streaks" id="streaks"></div>
+  <div class="speed opacity-70"><span></span><span></span><span></span><span></span><span></span></div>
+
+  <div class="relative w-full max-w-[1400px] mx-auto px-5 sm:px-8 grid lg:grid-cols-[45fr_55fr] gap-10 lg:gap-4 items-center lg:items-end">
+
+    <!-- COPY -->
+    <div class="order-1 lg:pr-6">
+      <p class="reveal eyebrow text-[10.5px] text-[#00A8FF] mb-6 flex items-center gap-3">
+        <span class="w-8 h-px bg-[#00A8FF]/70 inline-block"></span>Badminton Collection
+      </p>
+      <h1 class="reveal dspl hero-h1">Main cepat.<br>Tampil <span class="sharp">lebih<br>tajam.</span></h1>
+      <p class="reveal mt-7 text-lg sm:text-xl font-semibold text-[#F5F7FA] max-w-lg leading-snug">Jersey badminton custom untuk tim yang siap tampil <span class="text-[#00A8FF]">kompetitif</span>.</p>
+      <p class="reveal mt-4 text-[15px] text-[#D9DEE7]/85 leading-relaxed max-w-md">Desain sporty dan bahan dry-fit yang nyaman. Custom nameset, nomor, logo, serta sponsor agar tim tampil kompak di setiap pertandingan.</p>
+      <div class="reveal mt-9"><a href="#collection" class="btn px-9 py-4 text-sm">Pilih Desain <span aria-hidden="true">→</span></a></div>
+    </div>
+
+    <!-- PRODUCT -->
+    <div class="order-2 relative flex justify-center lg:justify-end self-end lg:col-start-2 lg:row-start-1 lg:row-span-2 lg:mb-[-6vh] lg:mt-[6vh]">
+      <div class="absolute bottom-0 left-1/2 -translate-x-1/2 w-[78%] aspect-square rounded-full bg-[radial-gradient(circle,rgba(0,168,255,.30),rgba(21,94,239,.14)_45%,transparent_70%)] blur-[60px]"></div>
+      <span class="dot" style="left:12%;top:26%"></span>
+      <span class="dot" style="left:78%;top:16%;animation-delay:-3s"></span>
+      <span class="dot" style="left:88%;top:58%;animation-delay:-5s;background:rgba(233,30,140,.7);box-shadow:0 0 10px rgba(233,30,140,.8)"></span>
+      <span class="dot" style="left:24%;top:72%;animation-delay:-1.5s"></span>
+
+      <img id="heroImg" src="../images/c7feb97a-5f8f-4114-9788-ad01760eaede.png" alt="Model mengenakan jersey badminton custom BD-10" class="hero-figure relative w-[92%] sm:w-[78%] lg:w-[118%] lg:max-w-none lg:mr-[-6%] h-auto">
+
+      <div class="absolute top-[16%] right-[2%] lg:right-[6%] px-3.5 py-1.5 rounded-full bg-[#06152D]/70 backdrop-blur-md border border-white/15 eyebrow text-[9.5px] text-[#F5F7FA]">BD-10</div>
+      <div class="hidden lg:block absolute right-[-8px] bottom-[16%] vert-label eyebrow text-[9px] text-[#D9DEE7]/25">Performance Teamwear</div>
+    </div>
+
+    <div class="order-3 reveal trust eyebrow text-[10px] text-[#D9DEE7]/70 lg:col-start-1 lg:row-start-2 lg:mt-7 lg:mb-[10vh]">
+      <span>20+ Desain</span><span>Siap Custom</span><span>Klub &amp; Komunitas</span>
+    </div>
+  </div>
+
+  <div class="hidden lg:block absolute left-8 bottom-8 eyebrow text-[9px] text-[#D9DEE7]/20">Play Hard • Play Smart</div>
+</section>
+
+<!-- VALUE -->
+<section id="value" class="relative py-20 md:py-28 border-t border-white/8">
+  <div class="max-w-7xl mx-auto px-5 sm:px-8">
+    <div class="reveal max-w-3xl">
+      <h2 class="dspl text-4xl sm:text-5xl lg:text-6xl">Dibuat untuk <span class="text-[#155EEF]">game</span> yang cepat.</h2>
+      <p class="mt-5 text-[#D9DEE7] leading-relaxed">Badminton menuntut gerakan cepat, fokus tinggi, dan kenyamanan maksimal. Karena itu, jersey yang digunakan juga harus siap mengikuti setiap gerakan di lapangan.</p>
+    </div>
+    <div class="mt-12 grid sm:grid-cols-2 lg:grid-cols-4 gap-5">
+      <div class="reveal card p-7">
+        <svg class="w-8 h-8 mb-5" viewBox="0 0 24 24" fill="none" stroke="#00A8FF" stroke-width="1.6" stroke-linecap="round"><path d="M12 3v10"></path><path d="M8 7l4-4 4 4"></path><path d="M4 14v5a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-5"></path></svg>
+        <h3 class="dspl text-xl">Dry-Fit Adem</h3>
+        <p class="mt-2.5 text-sm text-[#D9DEE7] leading-relaxed">Ringan dan nyaman digunakan untuk latihan maupun pertandingan.</p>
+      </div>
+      <div class="reveal card p-7">
+        <svg class="w-8 h-8 mb-5" viewBox="0 0 24 24" fill="none" stroke="#00A8FF" stroke-width="1.6" stroke-linecap="round"><rect x="3" y="9" width="18" height="8" rx="2"></rect><path d="M7 9V4h10v5"></path><path d="M7 17v3h10v-3"></path></svg>
+        <h3 class="dspl text-xl">Full Printing</h3>
+        <p class="mt-2.5 text-sm text-[#D9DEE7] leading-relaxed">Desain dicetak secara penuh agar visual jersey terlihat lebih maksimal dan berkarakter.</p>
+      </div>
+      <div class="reveal card p-7">
+        <svg class="w-8 h-8 mb-5" viewBox="0 0 24 24" fill="none" stroke="#00A8FF" stroke-width="1.6" stroke-linecap="round"><path d="M4 18c4-10 12-10 16 0"></path><path d="M4 12h2M9 12h2M14 12h2M19 12h1"></path></svg>
+        <h3 class="dspl text-xl">Jahitan Kuat</h3>
+        <p class="mt-2.5 text-sm text-[#D9DEE7] leading-relaxed">Jahitan rapi dan kuat untuk mendukung aktivitas olahraga yang intens.</p>
+      </div>
+      <div class="reveal card p-7">
+        <svg class="w-8 h-8 mb-5" viewBox="0 0 24 24" fill="none" stroke="#E91E8C" stroke-width="1.6" stroke-linecap="round"><path d="M15 4l5 5L9 20H4v-5z"></path><path d="M13 6l5 5"></path></svg>
+        <h3 class="dspl text-xl">Free Custom</h3>
+        <p class="mt-2.5 text-sm text-[#D9DEE7] leading-relaxed">Nameset, nomor, logo klub, komunitas, dan sponsor dapat disesuaikan.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- COLLECTION -->
+<section id="collection" class="relative py-20 md:py-28 bg-[#080B10]/60 border-y border-white/8">
+  <div class="mesh opacity-60"></div>
+  <div class="relative max-w-7xl mx-auto px-5 sm:px-8">
+    <div class="reveal max-w-3xl">
+      <p class="eyebrow text-[11px] text-[#00A8FF] mb-4">Collection</p>
+      <h2 class="dspl text-4xl sm:text-5xl lg:text-6xl">Pilih desain yang sesuai <span class="text-[#00A8FF]">karakter timmu</span>.</h2>
+      <p class="mt-5 text-[#D9DEE7]">Beragam desain badminton dengan karakter sporty, modern, dan kompetitif.</p>
+    </div>
+    <div class="mt-12 grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+      <article class="reveal card overflow-hidden cat-item">
+        <div class="overflow-hidden"><img src="../images/8d0eccb8-8282-4119-9048-e5daf0dee6ac.png" alt="Jersey badminton BD-10 merah" class="w-full aspect-square object-cover"></div>
+        <div class="p-6 flex items-end justify-between gap-4">
+          <div><h3 class="dspl text-2xl">Crimson Strike</h3><p class="eyebrow text-[10.5px] text-[#00A8FF] mt-1.5">BD-10</p></div>
+          <a href="#custom" class="btn-ghost text-[11px] px-4 py-2 text-[#F5F7FA]">Pilih Desain</a>
+        </div>
+      </article>
+      <article class="reveal card overflow-hidden cat-item">
+        <div class="overflow-hidden"><img src="../images/40d3ab5c-7d26-44ab-8eb6-ac1f904435ce.png" alt="Jersey badminton BD-09 hijau" class="w-full aspect-square object-cover"></div>
+        <div class="p-6 flex items-end justify-between gap-4">
+          <div><h3 class="dspl text-2xl">Green Rally</h3><p class="eyebrow text-[10.5px] text-[#00A8FF] mt-1.5">BD-09</p></div>
+          <a href="#custom" class="btn-ghost text-[11px] px-4 py-2 text-[#F5F7FA]">Pilih Desain</a>
+        </div>
+      </article>
+      <article class="reveal card overflow-hidden cat-item">
+        <div class="overflow-hidden"><img src="../images/c37fd7cc-2feb-412a-bb7e-4da483008ffa.png" alt="Jersey badminton BD-03 kuning ungu" class="w-full aspect-square object-cover"></div>
+        <div class="p-6 flex items-end justify-between gap-4">
+          <div><h3 class="dspl text-2xl">Amber Smash</h3><p class="eyebrow text-[10.5px] text-[#00A8FF] mt-1.5">BD-03</p></div>
+          <a href="#custom" class="btn-ghost text-[11px] px-4 py-2 text-[#F5F7FA]">Pilih Desain</a>
+        </div>
+      </article>
+      <article class="reveal card overflow-hidden cat-item">
+        <div class="ph-tile aspect-square" style="--c1:#155EEF;--c2:#00A8FF">
+          <span class="ph-code dspl">BD-01</span>
+          <span class="ph-tag eyebrow text-[9px]">Segera Hadir</span>
+        </div>
+        <div class="p-6 flex items-end justify-between gap-4">
+          <div><h3 class="dspl text-2xl text-[#F5F7FA]/75">Blue Falcon</h3><p class="eyebrow text-[10.5px] text-[#D9DEE7]/40 mt-1.5">BD-01</p></div>
+          <a href="#custom" class="btn-ghost text-[11px] px-4 py-2 text-[#F5F7FA]/70">Tanya Desain</a>
+        </div>
+      </article>
+      <article class="reveal card overflow-hidden cat-item">
+        <div class="ph-tile aspect-square" style="--c1:#0B2A6B;--c2:#155EEF">
+          <span class="ph-code dspl">BD-02</span>
+          <span class="ph-tag eyebrow text-[9px]">Segera Hadir</span>
+        </div>
+        <div class="p-6 flex items-end justify-between gap-4">
+          <div><h3 class="dspl text-2xl text-[#F5F7FA]/75">Night Rally</h3><p class="eyebrow text-[10.5px] text-[#D9DEE7]/40 mt-1.5">BD-02</p></div>
+          <a href="#custom" class="btn-ghost text-[11px] px-4 py-2 text-[#F5F7FA]/70">Tanya Desain</a>
+        </div>
+      </article>
+      <article class="reveal card overflow-hidden cat-item">
+        <div class="ph-tile aspect-square" style="--c1:#00A8FF;--c2:#0B4FA8">
+          <span class="ph-code dspl">BD-04</span>
+          <span class="ph-tag eyebrow text-[9px]">Segera Hadir</span>
+        </div>
+        <div class="p-6 flex items-end justify-between gap-4">
+          <div><h3 class="dspl text-2xl text-[#F5F7FA]/75">Storm Court</h3><p class="eyebrow text-[10.5px] text-[#D9DEE7]/40 mt-1.5">BD-04</p></div>
+          <a href="#custom" class="btn-ghost text-[11px] px-4 py-2 text-[#F5F7FA]/70">Tanya Desain</a>
+        </div>
+      </article>
+      <article class="reveal card overflow-hidden cat-item">
+        <div class="ph-tile aspect-square" style="--c1:#6B2AE0;--c2:#E91E8C">
+          <span class="ph-code dspl">BD-05</span>
+          <span class="ph-tag eyebrow text-[9px]">Segera Hadir</span>
+        </div>
+        <div class="p-6 flex items-end justify-between gap-4">
+          <div><h3 class="dspl text-2xl text-[#F5F7FA]/75">Violet Drive</h3><p class="eyebrow text-[10.5px] text-[#D9DEE7]/40 mt-1.5">BD-05</p></div>
+          <a href="#custom" class="btn-ghost text-[11px] px-4 py-2 text-[#F5F7FA]/70">Tanya Desain</a>
+        </div>
+      </article>
+      <article class="reveal card overflow-hidden cat-item">
+        <div class="ph-tile aspect-square" style="--c1:#1B2637;--c2:#55627A">
+          <span class="ph-code dspl">BD-06</span>
+          <span class="ph-tag eyebrow text-[9px]">Segera Hadir</span>
+        </div>
+        <div class="p-6 flex items-end justify-between gap-4">
+          <div><h3 class="dspl text-2xl text-[#F5F7FA]/75">Ace Mono</h3><p class="eyebrow text-[10.5px] text-[#D9DEE7]/40 mt-1.5">BD-06</p></div>
+          <a href="#custom" class="btn-ghost text-[11px] px-4 py-2 text-[#F5F7FA]/70">Tanya Desain</a>
+        </div>
+      </article>
+      <article class="reveal card overflow-hidden cat-item">
+        <div class="ph-tile aspect-square" style="--c1:#0FB9C9;--c2:#00A8FF">
+          <span class="ph-code dspl">BD-07</span>
+          <span class="ph-tag eyebrow text-[9px]">Segera Hadir</span>
+        </div>
+        <div class="p-6 flex items-end justify-between gap-4">
+          <div><h3 class="dspl text-2xl text-[#F5F7FA]/75">Cyan Sprint</h3><p class="eyebrow text-[10.5px] text-[#D9DEE7]/40 mt-1.5">BD-07</p></div>
+          <a href="#custom" class="btn-ghost text-[11px] px-4 py-2 text-[#F5F7FA]/70">Tanya Desain</a>
+        </div>
+      </article>
+      <article class="reveal card overflow-hidden cat-item" data-extra="1">
+        <div class="ph-tile aspect-square" style="--c1:#D22D4A;--c2:#E91E8C">
+          <span class="ph-code dspl">BD-08</span>
+          <span class="ph-tag eyebrow text-[9px]">Segera Hadir</span>
+        </div>
+        <div class="p-6 flex items-end justify-between gap-4">
+          <div><h3 class="dspl text-2xl text-[#F5F7FA]/75">Red Pulse</h3><p class="eyebrow text-[10.5px] text-[#D9DEE7]/40 mt-1.5">BD-08</p></div>
+          <a href="#custom" class="btn-ghost text-[11px] px-4 py-2 text-[#F5F7FA]/70">Tanya Desain</a>
+        </div>
+      </article>
+      <article class="reveal card overflow-hidden cat-item" data-extra="1">
+        <div class="ph-tile aspect-square" style="--c1:#155EEF;--c2:#0FB9C9">
+          <span class="ph-code dspl">BD-11</span>
+          <span class="ph-tag eyebrow text-[9px]">Segera Hadir</span>
+        </div>
+        <div class="p-6 flex items-end justify-between gap-4">
+          <div><h3 class="dspl text-2xl text-[#F5F7FA]/75">Neon Court</h3><p class="eyebrow text-[10.5px] text-[#D9DEE7]/40 mt-1.5">BD-11</p></div>
+          <a href="#custom" class="btn-ghost text-[11px] px-4 py-2 text-[#F5F7FA]/70">Tanya Desain</a>
+        </div>
+      </article>
+      <article class="reveal card overflow-hidden cat-item" data-extra="1">
+        <div class="ph-tile aspect-square" style="--c1:#121A2A;--c2:#2C3A55">
+          <span class="ph-code dspl">BD-12</span>
+          <span class="ph-tag eyebrow text-[9px]">Segera Hadir</span>
+        </div>
+        <div class="p-6 flex items-end justify-between gap-4">
+          <div><h3 class="dspl text-2xl text-[#F5F7FA]/75">Shadow Line</h3><p class="eyebrow text-[10.5px] text-[#D9DEE7]/40 mt-1.5">BD-12</p></div>
+          <a href="#custom" class="btn-ghost text-[11px] px-4 py-2 text-[#F5F7FA]/70">Tanya Desain</a>
+        </div>
+      </article>
+      <article class="reveal card overflow-hidden cat-item" data-extra="1">
+        <div class="ph-tile aspect-square" style="--c1:#E91E8C;--c2:#6B2AE0">
+          <span class="ph-code dspl">BD-13</span>
+          <span class="ph-tag eyebrow text-[9px]">Segera Hadir</span>
+        </div>
+        <div class="p-6 flex items-end justify-between gap-4">
+          <div><h3 class="dspl text-2xl text-[#F5F7FA]/75">Magenta Rush</h3><p class="eyebrow text-[10.5px] text-[#D9DEE7]/40 mt-1.5">BD-13</p></div>
+          <a href="#custom" class="btn-ghost text-[11px] px-4 py-2 text-[#F5F7FA]/70">Tanya Desain</a>
+        </div>
+      </article>
+      <article class="reveal card overflow-hidden cat-item" data-extra="1">
+        <div class="ph-tile aspect-square" style="--c1:#0B4FA8;--c2:#0FB9C9">
+          <span class="ph-code dspl">BD-14</span>
+          <span class="ph-tag eyebrow text-[9px]">Segera Hadir</span>
+        </div>
+        <div class="p-6 flex items-end justify-between gap-4">
+          <div><h3 class="dspl text-2xl text-[#F5F7FA]/75">Ocean Fast</h3><p class="eyebrow text-[10.5px] text-[#D9DEE7]/40 mt-1.5">BD-14</p></div>
+          <a href="#custom" class="btn-ghost text-[11px] px-4 py-2 text-[#F5F7FA]/70">Tanya Desain</a>
+        </div>
+      </article>
+      <article class="reveal card overflow-hidden cat-item" data-extra="1">
+        <div class="ph-tile aspect-square" style="--c1:#39435A;--c2:#6E7C96">
+          <span class="ph-code dspl">BD-15</span>
+          <span class="ph-tag eyebrow text-[9px]">Segera Hadir</span>
+        </div>
+        <div class="p-6 flex items-end justify-between gap-4">
+          <div><h3 class="dspl text-2xl text-[#F5F7FA]/75">Titan Grey</h3><p class="eyebrow text-[10.5px] text-[#D9DEE7]/40 mt-1.5">BD-15</p></div>
+          <a href="#custom" class="btn-ghost text-[11px] px-4 py-2 text-[#F5F7FA]/70">Tanya Desain</a>
+        </div>
+      </article>
+      <article class="reveal card overflow-hidden cat-item" data-extra="1">
+        <div class="ph-tile aspect-square" style="--c1:#00A8FF;--c2:#7FD7FF">
+          <span class="ph-code dspl">BD-16</span>
+          <span class="ph-tag eyebrow text-[9px]">Segera Hadir</span>
+        </div>
+        <div class="p-6 flex items-end justify-between gap-4">
+          <div><h3 class="dspl text-2xl text-[#F5F7FA]/75">Sky Serve</h3><p class="eyebrow text-[10.5px] text-[#D9DEE7]/40 mt-1.5">BD-16</p></div>
+          <a href="#custom" class="btn-ghost text-[11px] px-4 py-2 text-[#F5F7FA]/70">Tanya Desain</a>
+        </div>
+      </article>
+      <article class="reveal card overflow-hidden cat-item" data-extra="1">
+        <div class="ph-tile aspect-square" style="--c1:#06152D;--c2:#155EEF">
+          <span class="ph-code dspl">BD-17</span>
+          <span class="ph-tag eyebrow text-[9px]">Segera Hadir</span>
+        </div>
+        <div class="p-6 flex items-end justify-between gap-4">
+          <div><h3 class="dspl text-2xl text-[#F5F7FA]/75">Deep Court</h3><p class="eyebrow text-[10.5px] text-[#D9DEE7]/40 mt-1.5">BD-17</p></div>
+          <a href="#custom" class="btn-ghost text-[11px] px-4 py-2 text-[#F5F7FA]/70">Tanya Desain</a>
+        </div>
+      </article>
+      <article class="reveal card overflow-hidden cat-item" data-extra="1">
+        <div class="ph-tile aspect-square" style="--c1:#155EEF;--c2:#E91E8C">
+          <span class="ph-code dspl">BD-18</span>
+          <span class="ph-tag eyebrow text-[9px]">Segera Hadir</span>
+        </div>
+        <div class="p-6 flex items-end justify-between gap-4">
+          <div><h3 class="dspl text-2xl text-[#F5F7FA]/75">Flash Point</h3><p class="eyebrow text-[10.5px] text-[#D9DEE7]/40 mt-1.5">BD-18</p></div>
+          <a href="#custom" class="btn-ghost text-[11px] px-4 py-2 text-[#F5F7FA]/70">Tanya Desain</a>
+        </div>
+      </article>
+      <article class="reveal card overflow-hidden cat-item" data-extra="1">
+        <div class="ph-tile aspect-square" style="--c1:#232C3F;--c2:#155EEF">
+          <span class="ph-code dspl">BD-19</span>
+          <span class="ph-tag eyebrow text-[9px]">Segera Hadir</span>
+        </div>
+        <div class="p-6 flex items-end justify-between gap-4">
+          <div><h3 class="dspl text-2xl text-[#F5F7FA]/75">Iron Smash</h3><p class="eyebrow text-[10.5px] text-[#D9DEE7]/40 mt-1.5">BD-19</p></div>
+          <a href="#custom" class="btn-ghost text-[11px] px-4 py-2 text-[#F5F7FA]/70">Tanya Desain</a>
+        </div>
+      </article>
+      <article class="reveal card overflow-hidden cat-item" data-extra="1">
+        <div class="ph-tile aspect-square" style="--c1:#0B4FA8;--c2:#00A8FF">
+          <span class="ph-code dspl">BD-20</span>
+          <span class="ph-tag eyebrow text-[9px]">Segera Hadir</span>
+        </div>
+        <div class="p-6 flex items-end justify-between gap-4">
+          <div><h3 class="dspl text-2xl text-[#F5F7FA]/75">Prime Blue</h3><p class="eyebrow text-[10.5px] text-[#D9DEE7]/40 mt-1.5">BD-20</p></div>
+          <a href="#custom" class="btn-ghost text-[11px] px-4 py-2 text-[#F5F7FA]/70">Tanya Desain</a>
+        </div>
+      </article>
+      </div>
+      <div class="reveal mt-10 flex flex-col sm:flex-row items-center justify-center gap-4">
+        <button id="catMore" class="btn-ghost px-8 py-3.5 text-[11.5px] text-[#F5F7FA]">Lihat Semua 20 Desain <span aria-hidden="true">↓</span></button>
+        <p class="eyebrow text-[9.5px] text-[#D9DEE7]/40">Desain baru terus ditambahkan tiap bulan</p>
+      </div>
+  </div>
+</section>
+
+<!-- TEAM IDENTITY -->
+<section class="relative py-20 md:py-28 overflow-hidden">
+  <div class="speed opacity-60"><span></span><span></span><span></span><span></span><span></span></div>
+  <div class="relative max-w-7xl mx-auto px-5 sm:px-8 grid lg:grid-cols-2 gap-14 items-center">
+    <div class="reveal relative order-2 lg:order-1">
+      <div class="absolute -inset-6 rounded-[32px] bg-[radial-gradient(60%_60%_at_50%_50%,rgba(233,30,140,.22),transparent_70%)] blur-2xl"></div>
+      <div class="relative rounded-[26px] overflow-hidden border border-white/12">
+        <img src="../images/40d3ab5c-7d26-44ab-8eb6-ac1f904435ce.png" alt="Pemain badminton dengan jersey tim custom" class="w-full h-auto">
+      </div>
+    </div>
+    <div class="reveal order-1 lg:order-2">
+      <h2 class="dspl text-4xl sm:text-5xl lg:text-6xl">Satu tim. <span class="text-[#E91E8C]">Satu identitas.</span></h2>
+      <p class="mt-5 text-[#D9DEE7] leading-relaxed max-w-lg">Bikin jersey yang bukan cuma seragam, tapi menjadi identitas klub kamu.</p>
+      <div class="mt-8 grid grid-cols-2 sm:grid-cols-3 gap-3">
+        <div class="chip px-4 py-3 eyebrow text-[10.5px]">Nama Pemain</div>
+        <div class="chip px-4 py-3 eyebrow text-[10.5px]">Nomor Pemain</div>
+        <div class="chip px-4 py-3 eyebrow text-[10.5px]">Logo Klub</div>
+        <div class="chip px-4 py-3 eyebrow text-[10.5px]">Logo Komunitas</div>
+        <div class="chip px-4 py-3 eyebrow text-[10.5px]">Logo Sponsor</div>
+      </div>
+      <p class="dspl text-2xl sm:text-3xl mt-9 leading-tight">Setiap pemain punya nama.<br><span class="text-[#155EEF]">Setiap tim punya identitas.</span></p>
+    </div>
+  </div>
+</section>
+
+<!-- HARGA -->
+<section id="harga" class="relative py-20 md:py-28 overflow-hidden">
+  <div class="hero-glow g1" style="opacity:.45;right:-24%;top:8%"></div>
+  <div class="grid-lines"></div>
+  <div class="relative max-w-5xl mx-auto px-5 sm:px-8 text-center">
+    <p class="reveal eyebrow text-[10.5px] text-[#00A8FF] mb-4">Harga &amp; Paket</p>
+    <h2 class="reveal dspl text-4xl sm:text-5xl lg:text-6xl">Pilih <span class="sharp">paket timmu</span>.</h2>
+    <p class="reveal mt-4 text-[#D9DEE7]/85">Pilih jumlah pembelian, harga akan menyesuaikan otomatis.</p>
+
+    <!-- pilihan harga: tanpa bingkai, indikator garis -->
+    <div class="reveal mt-10 flex justify-center gap-10" role="tablist">
+      <button id="tabEcer" role="tab" aria-selected="true" class="price-tab is-on eyebrow text-[11px]">Ecer</button>
+      <button id="tabLusin" role="tab" aria-selected="false" class="price-tab eyebrow text-[11px]">Lusin • Hemat</button>
+    </div>
+    <div class="reveal price-rule max-w-md mx-auto"></div>
+    <p class="reveal mt-4 eyebrow text-[9.5px] text-[#D9DEE7]/40">Mulai 12 pcs otomatis dapat harga lusin</p>
+
+    <!-- harga: editorial, tanpa kotak -->
+    <div class="reveal mt-12 text-left grid md:grid-cols-[1.05fr_.95fr] gap-10 md:gap-16 items-start">
+      <div>
+        <p class="eyebrow text-[9.5px] text-[#00A8FF]/80">Paket Custom Lengkap</p>
+        <div class="mt-4 flex items-end gap-2.5">
+          <span class="dspl text-2xl text-[#D9DEE7]/60 pb-3">Rp</span>
+          <span id="priceNum" class="dspl text-7xl sm:text-8xl sharp leading-[.85]">95<span class="text-5xl sm:text-6xl">RB</span></span>
+          <span class="eyebrow text-[10px] text-[#D9DEE7]/55 pb-4">/pcs</span>
+        </div>
+        <div class="mt-5 flex flex-wrap items-center gap-4">
+          <p id="priceNote" class="eyebrow text-[9.5px] text-[#D9DEE7]/55">Bisa beli satuan, tanpa minimal</p>
+          <span id="saveBadge" class="hidden eyebrow text-[9.5px] text-[#E91E8C]">Hemat 10rb / pcs</span>
+        </div>
+        <div class="mt-9">
+          <a href="#final" class="btn px-8 py-4 text-sm">Pilih Desain <span aria-hidden="true">→</span></a>
+        </div>
+      </div>
+      <ul class="price-list space-y-4 text-[15px] text-[#D9DEE7] md:pt-3">
+        <li class="eyebrow text-[9.5px] text-[#D9DEE7]/45">Semua paket termasuk</li>
+        <li><span class="text-[#00A8FF]">✓</span>Bahan dry-fit premium</li>
+        <li><span class="text-[#00A8FF]">✓</span>Full printing &amp; desain bebas</li>
+        <li><span class="text-[#00A8FF]">✓</span>Nama dan nomor punggung</li>
+        <li><span class="text-[#00A8FF]">✓</span>Logo tim, komunitas &amp; sponsor</li>
+        <li><span class="text-[#00A8FF]">✓</span>Revisi desain dibantu</li>
+      </ul>
+    </div>
+
+    <!-- spec rail: borderless, angka besar bertingkat -->
+    <div class="reveal mt-12 grid grid-cols-3 gap-6 sm:gap-10">
+      <div class="spec text-left">
+        <p class="dspl text-4xl sm:text-5xl sharp leading-none">Free</p>
+        <p class="eyebrow text-[9px] text-[#D9DEE7]/50 mt-3">Biaya desain &amp; nameset</p>
+      </div>
+      <div class="spec text-left">
+        <p class="dspl text-4xl sm:text-5xl leading-none">6<span class="text-[.42em] text-[#D9DEE7]/45 align-super ml-1">PCS</span></p>
+        <p class="eyebrow text-[9px] text-[#D9DEE7]/50 mt-3">Minimal desain sendiri</p>
+      </div>
+      <div class="spec text-left">
+        <p class="dspl text-4xl sm:text-5xl leading-none">12<span class="text-[.42em] text-[#D9DEE7]/45 align-super ml-1">PCS</span></p>
+        <p class="eyebrow text-[9px] text-[#D9DEE7]/50 mt-3">Otomatis harga lusin</p>
+      </div>
+    </div>
+
+    <!-- bulk: baris editorial minimal, tanpa kotak -->
+    <div class="reveal bulk-rail mt-14 pt-8 flex flex-col md:flex-row md:items-baseline gap-5 md:gap-10 text-left">
+      <h3 class="dspl text-2xl sm:text-[2rem] leading-none shrink-0">Lebih dari <span class="text-[#E91E8C]">50 pcs</span>?</h3>
+      <p class="text-sm text-[#D9DEE7]/70 flex-1 leading-relaxed">Harga proyek khusus untuk komunitas, instansi, sekolah, dan event.</p>
+      <a href="#final" class="arrow-link eyebrow text-[10.5px] text-[#00A8FF] shrink-0 self-start md:self-auto">Minta Harga Khusus <span aria-hidden="true">↗</span></a>
+    </div>
+  </div>
+</section>
+
+<!-- CUSTOM -->
+<section id="custom" class="relative py-20 md:py-28 bg-[#080B10]/60 border-y border-white/8">
+  <div class="max-w-7xl mx-auto px-5 sm:px-8">
+    <div class="reveal max-w-3xl">
+      <h2 class="dspl text-4xl sm:text-5xl lg:text-6xl">Desain sesuai <span class="text-[#00A8FF]">timmu</span>.</h2>
+      <p class="mt-5 text-[#D9DEE7] leading-relaxed">Tidak perlu mulai dari desain kosong. Pilih desain favorit dari koleksi yang tersedia, lalu sesuaikan dengan identitas tim kamu.</p>
+    </div>
+    <div class="mt-12 grid sm:grid-cols-2 lg:grid-cols-4 gap-5">
+      <div class="reveal card p-7"><p class="num text-5xl">01</p><h3 class="dspl text-xl mt-4">Pilih Desain</h3><p class="mt-2.5 text-sm text-[#D9DEE7] leading-relaxed">Pilih desain badminton yang paling sesuai dengan karakter tim.</p></div>
+      <div class="reveal card p-7"><p class="num text-5xl">02</p><h3 class="dspl text-xl mt-4">Kirim Data</h3><p class="mt-2.5 text-sm text-[#D9DEE7] leading-relaxed">Kirim nama, nomor, logo, dan sponsor.</p></div>
+      <div class="reveal card p-7"><p class="num text-5xl">03</p><h3 class="dspl text-xl mt-4">Custom</h3><p class="mt-2.5 text-sm text-[#D9DEE7] leading-relaxed">Desain disesuaikan dengan identitas tim kamu.</p></div>
+      <div class="reveal card p-7"><p class="num text-5xl">04</p><h3 class="dspl text-xl mt-4">Siap Dimainkan</h3><p class="mt-2.5 text-sm text-[#D9DEE7] leading-relaxed">Jersey siap digunakan untuk latihan, pertandingan, turnamen, maupun event tim.</p></div>
+    </div>
+    <div class="reveal mt-11"><a href="#final" class="btn px-9 py-4 text-sm">Mulai Custom</a></div>
+  </div>
+</section>
+
+<!-- TARGET -->
+<section id="target" class="relative py-20 md:py-28">
+  <div class="max-w-7xl mx-auto px-5 sm:px-8 grid lg:grid-cols-[1fr_1.1fr] gap-12 items-center">
+    <div class="reveal">
+      <h2 class="dspl text-4xl sm:text-5xl lg:text-6xl">Untuk tim yang serius <span class="text-[#155EEF]">di lapangan</span>.</h2>
+      <p class="mt-5 text-[#D9DEE7] leading-relaxed max-w-lg">Dari latihan rutin sampai pertandingan besar, gunakan jersey yang membuat tim terlihat lebih kompak dan profesional.</p>
+    </div>
+    <div class="reveal grid grid-cols-2 sm:grid-cols-3 gap-4">
+      <div class="chip px-5 py-6 eyebrow text-[11px]">Klub Badminton</div>
+      <div class="chip px-5 py-6 eyebrow text-[11px]">Komunitas</div>
+      <div class="chip px-5 py-6 eyebrow text-[11px]">Sekolah</div>
+      <div class="chip px-5 py-6 eyebrow text-[11px]">Kampus</div>
+      <div class="chip px-5 py-6 eyebrow text-[11px]">Turnamen</div>
+      <div class="chip px-5 py-6 eyebrow text-[11px]">Tim Kompetitif</div>
+    </div>
+  </div>
+</section>
+
+<!-- FINAL CTA -->
+<section id="final" class="relative py-24 md:py-32 overflow-hidden border-t border-white/8">
+  <div class="mesh"></div>
+  <div class="speed"><span></span><span></span><span></span><span></span><span></span></div>
+  <div class="relative max-w-4xl mx-auto px-5 sm:px-8 text-center reveal">
+    <h2 class="dspl text-4xl sm:text-6xl lg:text-7xl">Siap tampil <span class="grad-text">lebih tajam</span> di lapangan?</h2>
+    <p class="mt-6 text-lg text-[#F5F7FA] font-semibold">Pilih desain badminton favoritmu dan custom sesuai identitas tim.</p>
+    <p class="mt-4 eyebrow text-[10.5px] text-[#D9DEE7]/80">20+ Desain <span class="text-[#E91E8C]">•</span> Siap Custom <span class="text-[#E91E8C]">•</span> Untuk Klub &amp; Komunitas</p>
+    <div class="mt-10"><a href="#collection" class="btn px-10 py-5 text-base">Pilih Desain Badminton →</a></div>
+  </div>
+</section>
+
+<footer class="border-t border-white/8 py-10">
+  <div class="max-w-7xl mx-auto px-5 sm:px-8 flex flex-col sm:flex-row gap-4 items-center justify-between text-sm text-[#D9DEE7]/70">
+    <span class="dspl text-base">Badminton<span class="text-[#00A8FF]"> Collection</span></span>
+    <span>Custom Jersey · Klub &amp; Komunitas</span>
+  </div>
+</footer>
+
+<script>
+const io=new IntersectionObserver((es)=>{es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}})},{threshold:.14});
+document.querySelectorAll('.reveal').forEach((el,i)=>{el.style.transitionDelay=(i%4*70)+'ms';io.observe(el)});
+
+/* dynamic speed streaks */
+(function(){
+  const wrap=document.getElementById('streaks');if(!wrap)return;
+  const colors=['rgba(0,168,255,.9)','rgba(21,94,239,.85)','rgba(127,215,255,.7)','rgba(233,30,140,.6)'];
+  for(let i=0;i<9;i++){
+    const s=document.createElement('i');
+    const c=colors[i%4];
+    s.style.top=(6+Math.random()*84)+'%';
+    s.style.left=(Math.random()*70)+'%';
+    s.style.width=(80+Math.random()*260)+'px';
+    s.style.background='linear-gradient(90deg,transparent,'+c+',transparent)';
+    s.style.animationDelay=(-Math.random()*5.5)+'s';
+    s.style.animationDuration=(4.5+Math.random()*3.5)+'s';
+    wrap.appendChild(s);
+  }
+})();
+
+/* price toggle */
+(function(){
+  const ecer=document.getElementById('tabEcer'),lusin=document.getElementById('tabLusin');
+  const num=document.getElementById('priceNum'),note=document.getElementById('priceNote'),badge=document.getElementById('saveBadge');
+  if(!ecer)return;
+  function set(mode){
+    const on=mode==='lusin';
+    lusin.classList.toggle('is-on',on);ecer.classList.toggle('is-on',!on);
+    lusin.setAttribute('aria-selected',on);ecer.setAttribute('aria-selected',!on);
+    num.classList.add('swap');
+    setTimeout(()=>{
+      num.innerHTML=(on?'85':'95')+'<span class="text-5xl sm:text-6xl">RB</span>';
+      note.textContent=on?'Berlaku untuk pembelian mulai 12 pcs':'Bisa beli satuan, tanpa minimal';
+      badge.classList.toggle('hidden',!on);
+      num.classList.remove('swap');
+    },220);
+  }
+  ecer.addEventListener('click',()=>set('ecer'));
+  lusin.addEventListener('click',()=>set('lusin'));
+})();
+
+/* subtle parallax on the hero figure */
+(function(){
+  const img=document.getElementById('heroImg');
+  if(!img||window.matchMedia('(prefers-reduced-motion: reduce)').matches)return;
+  let tx=0,ty=0,cx=0,cy=0,raf=null;
+  window.addEventListener('mousemove',e=>{
+    tx=(e.clientX/window.innerWidth-.5)*18;
+    ty=(e.clientY/window.innerHeight-.5)*12;
+    if(!raf)raf=requestAnimationFrame(loop);
+  },{passive:true});
+  function loop(){
+    cx+=(tx-cx)*.06;cy+=(ty-cy)*.06;
+    img.style.transform='translate3d('+cx.toFixed(2)+'px,'+cy.toFixed(2)+'px,0)';
+    raf=(Math.abs(tx-cx)>.1||Math.abs(ty-cy)>.1)?requestAnimationFrame(loop):null;
+  }
+})();
+
+/* katalog: lihat semua */
+(function(){
+  const btn=document.getElementById('catMore');if(!btn)return;
+  btn.addEventListener('click',()=>{
+    document.querySelectorAll('.cat-item[data-extra]').forEach(el=>el.classList.add('show'));
+    btn.remove();
+  });
+})();
+
+/* notif pembelian */
+(function(){
+  const wrap=document.createElement('div');wrap.id='toastWrap';document.body.appendChild(wrap);
+  const nama=['Rizky','Andi','Dewi','Bagus','Putri','Fajar','Hendra','Sinta','Yoga','Nabila','Reza','Tari','Bima','Aditya','Lia'];
+  const kota=['Bandung','Surabaya','Jakarta','Semarang','Yogyakarta','Malang','Medan','Solo','Bekasi','Denpasar','Makassar','Tangerang'];
+  const item=['BD-10 Crimson Strike','BD-09 Green Rally','BD-03 Amber Smash','jersey custom klub','jersey custom komunitas'];
+  const qty=[6,12,12,14,16,18,20,24];
+  const r=a=>a[Math.floor(Math.random()*a.length)];
+  function show(){
+    if(document.hidden)return;
+    const t=document.createElement('div');t.className='toast';
+    t.innerHTML='<span class="toast-dot"></span><div class="text-[12.5px] leading-snug text-[#D9DEE7]/80"><b>'+r(nama)+'</b> dari '+r(kota)+' baru pesan <b>'+r(qty)+' pcs</b> '+r(item)+'<div class="eyebrow text-[8.5px] text-[#D9DEE7]/40 mt-1.5">'+(Math.floor(Math.random()*28)+2)+' menit lalu &middot; Terverifikasi</div></div>';
+    wrap.appendChild(t);
+    requestAnimationFrame(()=>t.classList.add('in'));
+    setTimeout(()=>{t.classList.remove('in');setTimeout(()=>t.remove(),600)},5200);
+  }
+  function loop(){setTimeout(()=>{show();loop()},6000+Math.random()*7000)}
+  setTimeout(()=>{show();loop()},4500);
+})();
+</script>
+
+</body></html>
