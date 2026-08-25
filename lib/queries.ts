@@ -350,3 +350,44 @@ export async function getFabrics(): Promise<Fabric[]> {
       return d !== 0 ? d : 0;
     });
 }
+
+// ---------------------------------------------------------------------------
+// Fantasy Club Products
+// ---------------------------------------------------------------------------
+export interface FantasyClubProduct {
+  code: string;
+  name: string;
+  image: string;
+  alt: string;
+}
+
+export async function getFantasyClubProducts(): Promise<FantasyClubProduct[]> {
+  if (!supabaseConfigured()) return [];
+  const supabase = await createClient();
+
+  const { data: category } = await supabase
+    .from("product_categories")
+    .select("id")
+    .eq("slug", "fantasy-club")
+    .single();
+
+  if (!category) return [];
+
+  const { data: products, error } = await supabase
+    .from("products")
+    .select("id, name, slug, product_images(url, alt, sort_order)")
+    .eq("category_id", category.id)
+    .order("sort_order");
+
+  if (error || !products?.length) return [];
+
+  return products.map((p) => {
+    const img = (p as any).product_images?.sort((a: any, b: any) => a.sort_order - b.sort_order)?.[0];
+    return {
+      code: p.slug?.toUpperCase().replace(/-/g, "-") ?? p.id.slice(0, 8).toUpperCase(),
+      name: p.name,
+      image: cloudinaryUrl(img?.url ?? "/products/placeholder.svg", { width: 600 }),
+      alt: img?.alt ?? p.name,
+    };
+  });
+}

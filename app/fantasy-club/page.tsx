@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { FantasyClubLanding } from "@/components/fantasy-club/FantasyClubLanding";
-import { getBrand } from "@/lib/queries";
+import { getBrand, getFantasyClubProducts } from "@/lib/queries";
 
 export const revalidate = 3600;
 
@@ -72,7 +72,7 @@ function buildJsonLd(brandName: string, brandUrl: string) {
 }
 
 export default async function FantasyClubPage() {
-  const brand = await getBrand();
+  const [brand, products] = await Promise.all([getBrand(), getFantasyClubProducts()]);
   const baseUrl = brand.url || "https://www.tntsportapparel.id";
   const jsonLd = buildJsonLd(brand.name, baseUrl);
 
@@ -85,7 +85,7 @@ export default async function FantasyClubPage() {
           dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
         />
       ))}
-      <FantasyClubLanding />
+      <FantasyClubLanding products={products} />
     </>
   );
 }

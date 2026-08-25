@@ -1,14 +1,15 @@
 "use client";
 
-import { useEffect, useRef, useState, type ReactNode } from "react";
+import { useEffect, useRef, useState } from "react";
+import type { FantasyClubProduct } from "@/lib/queries";
 import "./fantasy-club.css";
 
-const COLLECTION = [
-  { code: "FC-001", name: "BOCA JUNIOR FANTASY", img: "/landing/fantasy-club/ee7afb07-e08f-4a12-b847-945de15133f2.png" },
-  { code: "FC-002", name: "BOCA JUNIOR CONCEPT", img: "/landing/fantasy-club/be9ed3ea-c751-4c0f-8f07-d9a52229448a.png" },
-  { code: "FC-003", name: "BELGICA FANTASY EDITION", img: "/landing/fantasy-club/70b10d97-130f-464f-b313-8473755d9609.png" },
-  { code: "FC-004", name: "BAYERN MUNCHEN FANTASY EDITION", img: "/landing/fantasy-club/bbc8cac1-af3a-409b-953b-a53b688f2b55.png" },
-  { code: "FC-005", name: "AUSTRALIA FANTASY EDITION", img: "/landing/fantasy-club/8c80ebc5-df95-4758-9d52-26438b64158c.png" },
+const FALLBACK_COLLECTION: FantasyClubProduct[] = [
+  { code: "FC-001", name: "BOCA JUNIOR FANTASY", image: "/landing/fantasy-club/ee7afb07-e08f-4a12-b847-945de15133f2.png", alt: "FC-001 Boca Junior Fantasy" },
+  { code: "FC-002", name: "BOCA JUNIOR CONCEPT", image: "/landing/fantasy-club/be9ed3ea-c751-4c0f-8f07-d9a52229448a.png", alt: "FC-002 Boca Junior Concept" },
+  { code: "FC-003", name: "BELGICA FANTASY EDITION", image: "/landing/fantasy-club/70b10d97-130f-464f-b313-8473755d9609.png", alt: "FC-003 Belgica Fantasy Edition" },
+  { code: "FC-004", name: "BAYERN MUNCHEN FANTASY EDITION", image: "/landing/fantasy-club/bbc8cac1-af3a-409b-953b-a53b688f2b55.png", alt: "FC-004 Bayern Munchen Fantasy Edition" },
+  { code: "FC-005", name: "AUSTRALIA FANTASY EDITION", image: "/landing/fantasy-club/8c80ebc5-df95-4758-9d52-26438b64158c.png", alt: "FC-005 Australia Fantasy Edition" },
 ];
 
 const PRICE_DATA = {
@@ -119,39 +120,16 @@ function PriceToggle({ active, onChange }: { active: string; onChange: (k: strin
   );
 }
 
-export function FantasyClubLanding() {
+export function FantasyClubLanding({ products }: { products: FantasyClubProduct[] }) {
   const rootRef = useReveal();
   const [qty, setQty] = useState("ecer");
   const price = PRICE_DATA[qty as keyof typeof PRICE_DATA];
+  const collection = products.length > 0 ? products : FALLBACK_COLLECTION;
 
   return (
     <div ref={rootRef} className="fantasy-club">
-      {/* NAVBAR */}
-      <header className="fixed top-0 inset-x-0 z-50 border-b fc-hair" style={{ background: "rgba(23,25,28,0.88)", backdropFilter: "blur(10px)" }}>
-        <nav className="max-w-[1400px] mx-auto px-5 md:px-10 h-[64px] md:h-[76px] flex items-center justify-between">
-          <a href="#top" className="fc-display text-[20px] md:text-[24px] tracking-[.02em]">FANTASY<span style={{ color: "var(--fc-green)" }}>.</span>CLUB</a>
-          <div className="hidden lg:flex items-center gap-10 fc-label" style={{ color: "var(--fc-gray)" }}>
-            <a href="#koleksi" className="hover:text-[#F3F0E8] transition-colors">KOLEKSI</a>
-            <a href="#harga" className="hover:text-[#F3F0E8] transition-colors">HARGA</a>
-            <a href="#keunggulan" className="hover:text-[#F3F0E8] transition-colors">KEUNGGULAN</a>
-            <a href="#custom" className="hover:text-[#F3F0E8] transition-colors">CUSTOM</a>
-            <a href="#inspirasi" className="hover:text-[#F3F0E8] transition-colors">INSPIRASI</a>
-          </div>
-          <a href="#koleksi" className="fc-btn text-[12px] md:text-[13px] px-4 md:px-6 py-2.5 md:py-3">PILIH DESAIN</a>
-        </nav>
-        <div className="lg:hidden border-t fc-hair">
-          <div className="px-5 py-2.5 flex items-center justify-between fc-label overflow-x-auto gap-6" style={{ color: "var(--fc-gray)" }}>
-            <a href="#koleksi">KOLEKSI</a>
-            <a href="#harga">HARGA</a>
-            <a href="#keunggulan">KEUNGGULAN</a>
-            <a href="#custom">CUSTOM</a>
-            <a href="#inspirasi">INSPIRASI</a>
-          </div>
-        </div>
-      </header>
-
       {/* HERO */}
-      <section id="top" className="relative overflow-hidden fc-noise pt-[110px] lg:pt-[76px]" style={{ background: "var(--fc-charcoal)" }}>
+      <section id="top" className="relative overflow-hidden fc-noise pt-14" style={{ background: "var(--fc-charcoal)" }}>
         <div className="absolute inset-0 fc-grid-lines opacity-60" />
         <div className="absolute inset-0" style={{ background: "radial-gradient(120% 80% at 78% 20%,rgba(255,255,255,.07),transparent 60%)" }} />
         <div className="fc-diag" style={{ top: "34%", left: "-5%", width: "70%" }} />
@@ -222,7 +200,7 @@ export function FantasyClubLanding() {
         </div>
       </section>
 
-      {/* COLLECTION */}
+      {/* COLLECTION — from Supabase */}
       <section id="koleksi" className="relative fc-noise" style={{ background: "var(--fc-charcoal)" }}>
         <div className="max-w-[1400px] mx-auto px-5 md:px-10 py-24 md:py-36">
           <div className="grid lg:grid-cols-12 gap-8 items-end">
@@ -230,24 +208,38 @@ export function FantasyClubLanding() {
               <h2 className="fc-reveal fc-display mt-6 text-[clamp(38px,6.4vw,80px)]">PILIH DESAIN<br />YANG PUNYA KARAKTER.</h2>
             </div>
             <div className="lg:col-span-4 lg:col-start-9">
-              <p className="fc-reveal text-[15px] leading-[1.7]" style={{ color: "var(--fc-gray)" }}>20+ desain Fantasy Club siap dipilih dan dikustomisasi sesuai identitas tim kamu.</p>
+              <p className="fc-reveal text-[15px] leading-[1.7]" style={{ color: "var(--fc-gray)" }}>{collection.length}+ desain Fantasy Club siap dipilih dan dikustomisasi sesuai identitas tim kamu.</p>
             </div>
           </div>
 
-          <div className="mt-14 md:mt-20 grid grid-cols-2 lg:grid-cols-5 gap-x-5 gap-y-12 md:gap-y-16">
-            {COLLECTION.map((item, i) => (
+          {/* Modern grid — alternating vertical offset */}
+          <div className="mt-14 md:mt-20 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6">
+            {collection.map((item, i) => (
               <a
                 key={item.code}
                 href="#custom"
-                className={`fc-card fc-reveal group block ${i % 2 === 1 ? "lg:mt-12" : ""}`}
+                className={`fc-card fc-reveal group block ${i % 2 === 1 ? "md:mt-12" : ""}`}
               >
-                <div className="fc-frame border fc-hair overflow-hidden" style={{ background: "var(--fc-black)" }}>
-                  {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img src={item.img} alt={`${item.code} ${item.name}`} className="w-full aspect-[4/5] object-cover" />
+                <div className="fc-frame relative overflow-hidden rounded-xl" style={{ background: "var(--fc-black)" }}>
+                  <div className="aspect-[4/5] overflow-hidden">
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img
+                      src={item.image}
+                      alt={item.alt}
+                      className="w-full h-full object-cover"
+                      loading="lazy"
+                    />
+                  </div>
+                  {/* Hover overlay */}
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                  <div className="absolute bottom-0 left-0 right-0 p-4 translate-y-4 group-hover:translate-y-0 opacity-0 group-hover:opacity-100 transition-all duration-500">
+                    <span className="fc-label text-[10px]" style={{ color: "var(--fc-green)" }}>PILIH DESAIN →</span>
+                  </div>
                 </div>
-                <div className="mt-4 fc-label" style={{ color: "var(--fc-green)" }}>{item.code}</div>
-                <div className="fc-cname fc-display text-[16px] md:text-[19px] mt-1">{item.name}</div>
-                <div className="fc-cta fc-label mt-2" style={{ color: "var(--fc-gray)" }}>PILIH DESAIN →</div>
+                <div className="mt-3 px-1">
+                  <div className="fc-label text-[10px] md:text-[11px]" style={{ color: "var(--fc-green)" }}>{item.code}</div>
+                  <div className="fc-cname fc-display text-[14px] md:text-[16px] mt-1 leading-tight">{item.name}</div>
+                </div>
               </a>
             ))}
           </div>
@@ -464,9 +456,7 @@ export function FantasyClubLanding() {
                 <a
                   key={a}
                   href="#custom"
-                  className={`fc-aud fc-reveal block border-t fc-hair py-4 md:py-5 relative ${i === AUDIENCES.length - 1 ? "border-b" : ""} ${
-                    i === 1 ? "lg:pl-[12%]" : i === 3 ? "" : i === 5 ? "lg:pl-[12%]" : i === 7 ? "lg:pl-[28%]" : ""
-                  }`}
+                  className={`fc-aud fc-reveal block border-t fc-hair py-4 md:py-5 relative ${i === AUDIENCES.length - 1 ? "border-b" : ""}`}
                 >
                   <span className="fc-display text-[clamp(30px,5.6vw,64px)]">{a}</span>
                   <span className="fc-rule absolute bottom-0 left-0 right-0 h-px" style={{ background: "var(--fc-green)" }} />
