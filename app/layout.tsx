@@ -1,4 +1,5 @@
 import type { Metadata, Viewport } from "next";
+import Script from "next/script";
 import { Barlow, Barlow_Condensed, IBM_Plex_Mono } from "next/font/google";
 import { ThemeProvider } from "next-themes";
 import { getBrand } from "@/lib/queries";
@@ -127,26 +128,24 @@ export default async function RootLayout({
         {/* llms.txt discovery for AI assistants */}
         <link rel="alternate" type="text/plain" href="/llms.txt" title="TNT SPORT APPAREL — LLM Ringkasan" />
         <link rel="alternate" type="text/plain" href="/llms-full.txt" title="TNT SPORT APPAREL — LLM Konten Lengkap" />
-        {/* Meta Pixel — loaded SYNCHRONOUSLY in <head> so fbq is guaranteed
-            to exist before any React component mounts. This eliminates the
-            race condition where tracking functions (trackContact, trackLead)
-            fire before fbq is defined. The fbq stub queues calls until
-            fbevents.js loads, then replays them. GTM's own pixel init is
-            blocked by fbq's internal `if(f.fbq)return` guard. */}
-        <script
+      </head>
+      <body className="antialiased">
+        {/* Meta Pixel — deferred to avoid render-blocking */}
+        <Script
+          id="meta-pixel"
+          strategy="afterInteractive"
           dangerouslySetInnerHTML={{
-            __html: `!function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!1;t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,document,'script','https://connect.facebook.net/en_US/fbevents.js');fbq('init','${brand.metaPixelId}');fbq('track','PageView');`,
+            __html: `!function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,document,'script','https://connect.facebook.net/en_US/fbevents.js');fbq('init','${brand.metaPixelId}');fbq('track','PageView');`,
           }}
         />
-        {/* Google Tag Manager */}
-        <script
+        {/* Google Tag Manager — deferred to avoid render-blocking */}
+        <Script
+          id="gtm"
+          strategy="afterInteractive"
           dangerouslySetInnerHTML={{
             __html: `(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);})(window,document,'script','dataLayer','GTM-TWSXRF55');`,
           }}
         />
-        {/* End Google Tag Manager */}
-      </head>
-      <body className="antialiased">
         {/* Google Tag Manager (noscript) */}
         <noscript>
           <iframe
@@ -156,7 +155,6 @@ export default async function RootLayout({
             style={{ display: "none", visibility: "hidden" }}
           />
         </noscript>
-        {/* End Google Tag Manager (noscript) */}
         <ThemeProvider
           attribute="class"
           defaultTheme="dark"
