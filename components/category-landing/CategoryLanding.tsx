@@ -9,10 +9,8 @@ import { PriceSection } from "@/components/category-landing/PriceSection";
 import { ScrollReveal } from "@/components/category-landing/ScrollReveal";
 import { TestimonialCarousel } from "@/components/category-landing/TestimonialCarousel";
 import { GalleryMarquee } from "@/components/category-landing/GalleryMarquee";
-import { FabricCatalog } from "@/components/FabricCatalog";
 import { buildWhatsAppLink } from "@/lib/wa";
 import type { CategoryLandingConfig, LandingTestimonial } from "@/lib/category-landing";
-import type { Fabric } from "@/lib/types";
 
 const PageViewTracker = dynamic(() => import("@/components/PageViewTracker").then(m => m.PageViewTracker));
 const ViewContentTracker = dynamic(() => import("@/components/ViewContentTracker").then(m => m.ViewContentTracker));
@@ -78,10 +76,9 @@ interface Props {
   products: GridProduct[];
   testimonials: LandingTestimonial[];
   waNumber: string;
-  fabrics?: Fabric[];
 }
 
-export function CategoryLanding({ config, products, testimonials, waNumber, fabrics }: Props) {
+export function CategoryLanding({ config, products, testimonials, waNumber }: Props) {
   const wa = (msg: string) => buildWhatsAppLink(waNumber, msg);
   const waOrder = wa(config.wa.order);
   const waPromo = wa(config.wa.promo);
@@ -441,25 +438,31 @@ export function CategoryLanding({ config, products, testimonials, waNumber, fabr
         </section>
 
         {/* ================= PILIHAN BAHAN ================= */}
-        {fabrics && fabrics.length > 0 && (
-          <section id="bahan" className="py-20 md:py-28 bg-[#0f1115] border-y border-white/10">
-            <div className="max-w-6xl mx-auto px-5">
-              <div className="max-w-3xl reveal">
-                <p className="kicker text-[11px] text-[#ff9d2e] mb-4">Pilihan Bahan</p>
-                <h2 className="display text-3xl sm:text-5xl">
-                  Pilih bahannya.
+        <section id="bahan" className="py-20 md:py-28 bg-[#0f1115] border-y border-white/10">
+          <div className="max-w-6xl mx-auto px-5">
+            <div className="grid lg:grid-cols-12 gap-12 lg:gap-16 items-center">
+              <div className="lg:col-span-7 reveal">
+                <p className="kicker text-[11px] text-[#ff6b00] mb-6">Bahan Kain</p>
+                <h2 className="display text-[9vw] sm:text-[6vw] lg:text-[4.2rem] leading-[1.05]">
+                  Dry-Fit Berkualitas,
                   <br />
-                  <span className="fire-text">Rasakan bedanya.</span>
+                  Standar <span className="fire-text">Liga Pro.</span>
                 </h2>
-                <p className="mt-5 text-[#9aa1ad] text-base sm:text-lg leading-relaxed">
-                  Semua bahan bisa dikombinasikan dengan desain custom apa pun. Konsultasi gratis — tim kami bantu pilihkan yang paling pas.
-                </p>
               </div>
-
-              <FabricCatalog fabrics={fabrics} waNumber={waNumber} />
+              <div className="lg:col-span-5 reveal">
+                <p className="text-[15px] text-[#9aa1ad] leading-relaxed mb-8">
+                  Bahan kain yang digunakan dry-fit yang berkualitas dan sudah standar liga pro, nyaman dan tidak bau.
+                </p>
+                <div className="h-px bg-white/15 mb-8" />
+                <div className="flex flex-wrap gap-4">
+                  <span className="kicker text-[11px] text-white/80 tracking-[0.15em]">Nyaman Dipakai</span>
+                  <span className="kicker text-[11px] text-white/80 tracking-[0.15em]">Tidak Bau</span>
+                  <span className="kicker text-[11px] text-white/80 tracking-[0.15em]">Standar Liga Pro</span>
+                </div>
+              </div>
             </div>
-          </section>
-        )}
+          </div>
+        </section>
 
         {/* ================= HARGA ================= */}
         <section id="harga" className="py-20 md:py-28 relative overflow-hidden">

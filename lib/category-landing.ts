@@ -50,6 +50,7 @@ export interface LandingPriceCard {
   unit: string;
   prices: { ecer: string; lusin: string };
   notes: { ecer: string; lusin: string };
+  footnote?: { ecer?: string; lusin?: string };
   points: string[];
   pointsByMode?: { ecer: string[]; lusin: string[] };
   cta: string;
@@ -255,6 +256,7 @@ export const CATEGORY_LANDINGS: Record<string, CategoryLandingConfig> = {
         unit: "/pcs",
         prices: { ecer: "75rb", lusin: "65rb" },
         notes: { ecer: "Bisa pesan mulai 1 pcs", lusin: "Minimal pembelian 12 pcs" },
+        footnote: { ecer: "Mau desain custom sendiri? Order minimal 6 pcs" },
         points: [
           "Full printing, pilih dari katalog desain",
           "Nama dan nomor punggung",
@@ -287,6 +289,7 @@ export const CATEGORY_LANDINGS: Record<string, CategoryLandingConfig> = {
         unit: "/set",
         prices: { ecer: "145rb", lusin: "120rb" },
         notes: { ecer: "Bisa pesan mulai 1 set", lusin: "Minimal pembelian 12 set" },
+        footnote: { ecer: "Mau desain custom sendiri? Order minimal 6 pcs" },
         points: [
           "Full printing, pilih dari katalog desain",
           "Nama dan nomor punggung",
@@ -1366,12 +1369,13 @@ export const CATEGORY_LANDINGS: Record<string, CategoryLandingConfig> = {
       headlineAccent: "paket timmu",
       sub: "Pilih jumlah pembelian, harga akan menyesuaikan otomatis.",
       atasan: {
-        kicker: "Paket Custom Lengkap",
+        kicker: "Jersey Atasan",
         badge: "FLEKSIBEL",
         name: "Atasan Saja",
         unit: "/pcs",
-        prices: { ecer: "95rb", lusin: "85rb" },
-        notes: { ecer: "Bisa beli satuan, tanpa minimal", lusin: "Berlaku untuk pembelian mulai 12 pcs" },
+        prices: { ecer: "75rb", lusin: "65rb" },
+        notes: { ecer: "Bisa pesan mulai 1 pcs", lusin: "Minimal pembelian 12 pcs" },
+        footnote: { ecer: "Mau desain custom sendiri? Order minimal 6 pcs" },
         points: [
           "Full printing, pilih dari katalog desain",
           "Nama dan nomor punggung",

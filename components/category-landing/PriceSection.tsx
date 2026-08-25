@@ -111,6 +111,11 @@ export function PriceSection({ atasan, setelan, bulk, waAtasan, waSetelan, waBul
             <p key={mode + "note"} className="mt-2.5 text-sm text-[#9aa1ad] price-fade">
               {card.notes[mode]}
             </p>
+            {card.footnote?.[mode] && (
+              <p key={mode + "footnote"} className="mt-2 text-xs italic text-white/40 price-fade">
+                {card.footnote[mode]}
+              </p>
+            )}
 
             <ul className="mt-7 pt-6 border-t border-white/10 space-y-3 text-[15px] flex-1">
               {(card.pointsByMode?.[mode] ?? card.points).map((p) => (
