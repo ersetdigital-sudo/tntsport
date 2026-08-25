@@ -1,0 +1,224 @@
+@font-face {
+  font-family: "Archivo";
+  src: url("/fonts/archivo-regular.ttf") format("truetype");
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Archivo";
+  src: url("/fonts/archivo-medium.ttf") format("truetype");
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Archivo";
+  src: url("/fonts/archivo-semibold.ttf") format("truetype");
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Archivo";
+  src: url("/fonts/archivo-bold.ttf") format("truetype");
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Archivo";
+  src: url("/fonts/archivo-extrabold.ttf") format("truetype");
+  font-style: normal;
+  font-weight: 800;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Archivo";
+  src: url("/fonts/archivo-black.ttf") format("truetype");
+  font-style: normal;
+  font-weight: 900;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Saira Condensed";
+  src: url("/fonts/sairacondensed-semibold.ttf") format("truetype");
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Saira Condensed";
+  src: url("/fonts/sairacondensed-bold.ttf") format("truetype");
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Saira Condensed";
+  src: url("/fonts/sairacondensed-extrabold.ttf") format("truetype");
+  font-style: normal;
+  font-weight: 800;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Saira Condensed";
+  src: url("/fonts/sairacondensed-black.ttf") format("truetype");
+  font-style: normal;
+  font-weight: 900;
+  font-display: swap;
+}
+
+.fantasy-club {
+  --fc-charcoal: #17191C;
+  --fc-cream: #F3F0E8;
+  --fc-green: #00C52B;
+  --fc-gray: #A6A8AA;
+  --fc-black: #0D0F11;
+
+  background: var(--fc-charcoal);
+  color: var(--fc-cream);
+  font-family: "Archivo", system-ui, sans-serif;
+  overflow-x: hidden;
+}
+
+.fantasy-club .fc-display {
+  font-family: "Saira Condensed", "Archivo", sans-serif;
+  font-weight: 800;
+  text-transform: uppercase;
+  line-height: 0.88;
+  letter-spacing: -0.01em;
+}
+
+.fantasy-club .fc-label {
+  font-family: "Archivo", sans-serif;
+  text-transform: uppercase;
+  letter-spacing: 0.22em;
+  font-size: 11px;
+  font-weight: 600;
+}
+
+.fantasy-club .fc-num {
+  font-family: "Saira Condensed", sans-serif;
+  font-weight: 900;
+  line-height: 0.8;
+}
+
+.fantasy-club .fc-hair {
+  border-color: rgba(166, 168, 170, 0.18);
+}
+
+.fantasy-club .fc-grid-lines {
+  background-image: linear-gradient(to right, rgba(166, 168, 170, 0.08) 1px, transparent 1px);
+  background-size: 12.5% 100%;
+}
+
+.fantasy-club .fc-noise::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0.35;
+  background-image: radial-gradient(rgba(255, 255, 255, 0.045) 1px, transparent 1px);
+  background-size: 3px 3px;
+}
+
+.fantasy-club .fc-reveal {
+  opacity: 0;
+  transform: translateY(28px);
+  transition: opacity 0.9s cubic-bezier(0.16, 0.84, 0.44, 1),
+    transform 0.9s cubic-bezier(0.16, 0.84, 0.44, 1);
+}
+.fantasy-club .fc-reveal.fc-in {
+  opacity: 1;
+  transform: none;
+}
+
+.fantasy-club .fc-card:hover img {
+  transform: scale(1.03);
+}
+.fantasy-club .fc-card img {
+  transition: transform 0.7s cubic-bezier(0.16, 0.84, 0.44, 1);
+}
+.fantasy-club .fc-card:hover .fc-frame {
+  border-color: var(--fc-green);
+}
+.fantasy-club .fc-card:hover .fc-cname {
+  transform: translateY(-4px);
+}
+.fantasy-club .fc-cname {
+  transition: transform 0.4s ease;
+}
+.fantasy-club .fc-card .fc-cta {
+  opacity: 0;
+  transform: translateY(6px);
+  transition: all 0.4s ease;
+}
+.fantasy-club .fc-card:hover .fc-cta {
+  opacity: 1;
+  transform: none;
+}
+.fantasy-club .fc-frame {
+  transition: border-color 0.4s ease;
+}
+
+.fantasy-club .fc-aud {
+  transition: color 0.35s ease;
+}
+.fantasy-club .fc-aud:hover {
+  color: var(--fc-green);
+}
+.fantasy-club .fc-aud .fc-rule {
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.5s cubic-bezier(0.16, 0.84, 0.44, 1);
+}
+.fantasy-club .fc-aud:hover .fc-rule {
+  transform: scaleX(1);
+}
+.fantasy-club .fc-aud .fc-peek {
+  opacity: 0;
+  transition: opacity 0.45s ease;
+}
+.fantasy-club .fc-aud:hover .fc-peek {
+  opacity: 0.75;
+}
+
+.fantasy-club .fc-btn {
+  background: var(--fc-green);
+  color: var(--fc-black);
+  font-family: "Saira Condensed", sans-serif;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  transition: transform 0.3s ease, filter 0.3s ease;
+}
+.fantasy-club .fc-btn:hover {
+  transform: translateY(-2px);
+  filter: brightness(1.08);
+}
+
+.fantasy-club .fc-diag {
+  position: absolute;
+  background: linear-gradient(90deg, rgba(0, 197, 43, 0.55), rgba(0, 197, 43, 0));
+  height: 1px;
+  transform: rotate(-24deg);
+  transform-origin: left center;
+}
+
+.fantasy-club .fc-outline-btn {
+  border: 2px solid var(--fc-charcoal);
+  transition: background 0.3s ease, color 0.3s ease;
+}
+.fantasy-club .fc-outline-btn:hover {
+  background: var(--fc-charcoal);
+  color: var(--fc-cream);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .fantasy-club .fc-reveal {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+}

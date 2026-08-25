@@ -1,0 +1,596 @@
+<!DOCTYPE html>
+<html lang="id"><head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>FANTASY CLUB — Fantasy Football Apparel / 2026</title>
+<meta name="description" content="Koleksi jersey fantasy dengan desain berani, modern, dan siap dikustomisasi dengan identitas tim kamu.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+<link href="https://fonts.googleapis.com/css2?family=Saira+Condensed:wght@600;700;800;900&amp;family=Archivo:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
+<style>
+  :root{
+    --charcoal:#17191C;
+    --cream:#F3F0E8;
+    --green:#00C52B;
+    --gray:#A6A8AA;
+    --black:#0D0F11;
+  }
+  html{scroll-behavior:smooth;}
+  body{background:var(--charcoal);color:var(--cream);font-family:"Archivo",system-ui,sans-serif;overflow-x:hidden;}
+  .display{font-family:"Saira Condensed","Archivo",sans-serif;font-weight:800;text-transform:uppercase;line-height:.88;letter-spacing:-0.01em;}
+  .label{font-family:"Archivo",sans-serif;text-transform:uppercase;letter-spacing:.22em;font-size:11px;font-weight:600;}
+  .num{font-family:"Saira Condensed",sans-serif;font-weight:900;line-height:.8;}
+  .hair{border-color:rgba(166,168,170,.18);}
+  .grid-lines{
+    background-image:linear-gradient(to right,rgba(166,168,170,.08) 1px,transparent 1px);
+    background-size:12.5% 100%;
+  }
+  .noise:after{
+    content:"";position:absolute;inset:0;pointer-events:none;opacity:.35;
+    background-image:radial-gradient(rgba(255,255,255,.045) 1px,transparent 1px);
+    background-size:3px 3px;
+  }
+  .reveal{opacity:0;transform:translateY(28px);transition:opacity .9s cubic-bezier(.16,.84,.44,1),transform .9s cubic-bezier(.16,.84,.44,1);}
+  .reveal.in{opacity:1;transform:none;}
+  .card:hover img{transform:scale(1.03);}
+  .card img{transition:transform .7s cubic-bezier(.16,.84,.44,1);}
+  .card:hover .frame{border-color:var(--green);}
+  .card:hover .cname{transform:translateY(-4px);}
+  .cname{transition:transform .4s ease;}
+  .card .cta{opacity:0;transform:translateY(6px);transition:all .4s ease;}
+  .card:hover .cta{opacity:1;transform:none;}
+  .frame{transition:border-color .4s ease;}
+  .aud{transition:color .35s ease;}
+  .aud:hover{color:var(--green);}
+  .aud .rule{transform:scaleX(0);transform-origin:left;transition:transform .5s cubic-bezier(.16,.84,.44,1);}
+  .aud:hover .rule{transform:scaleX(1);}
+  .aud .peek{opacity:0;transition:opacity .45s ease;}
+  .aud:hover .peek{opacity:.75;}
+  .btn{background:var(--green);color:var(--black);font-family:"Saira Condensed",sans-serif;font-weight:800;text-transform:uppercase;letter-spacing:.06em;transition:transform .3s ease,filter .3s ease;}
+  .btn:hover{transform:translateY(-2px);filter:brightness(1.08);}
+  .diag{position:absolute;background:linear-gradient(90deg,rgba(0,197,43,.55),rgba(0,197,43,0));height:1px;transform:rotate(-24deg);transform-origin:left center;}
+  @media (prefers-reduced-motion:reduce){.reveal{opacity:1;transform:none;transition:none;}}
+</style>
+<script src="https://cdn.moda.app/runtime-libs/tailwind-browser-4.1.13-index.global.min.js"></script><style data-moda-export-fonts="true">@font-face { font-family: 'Archivo'; src: url("../fonts/archivo-thin.ttf") format("truetype"); font-style: normal; font-weight: 100; font-display: swap; }
+@font-face { font-family: 'Archivo'; src: url("../fonts/archivo-thinitalic.ttf") format("truetype"); font-style: italic; font-weight: 100; font-display: swap; }
+@font-face { font-family: 'Archivo'; src: url("../fonts/archivo-extralight.ttf") format("truetype"); font-style: normal; font-weight: 200; font-display: swap; }
+@font-face { font-family: 'Archivo'; src: url("../fonts/archivo-extralightitalic.ttf") format("truetype"); font-style: italic; font-weight: 200; font-display: swap; }
+@font-face { font-family: 'Archivo'; src: url("../fonts/archivo-light.ttf") format("truetype"); font-style: normal; font-weight: 300; font-display: swap; }
+@font-face { font-family: 'Archivo'; src: url("../fonts/archivo-lightitalic.ttf") format("truetype"); font-style: italic; font-weight: 300; font-display: swap; }
+@font-face { font-family: 'Archivo'; src: url("../fonts/archivo-regular.ttf") format("truetype"); font-style: normal; font-weight: 400; font-display: swap; }
+@font-face { font-family: 'Archivo'; src: url("../fonts/archivo-italic.ttf") format("truetype"); font-style: italic; font-weight: 400; font-display: swap; }
+@font-face { font-family: 'Archivo'; src: url("../fonts/archivo-medium.ttf") format("truetype"); font-style: normal; font-weight: 500; font-display: swap; }
+@font-face { font-family: 'Archivo'; src: url("../fonts/archivo-mediumitalic.ttf") format("truetype"); font-style: italic; font-weight: 500; font-display: swap; }
+@font-face { font-family: 'Archivo'; src: url("../fonts/archivo-semibold.ttf") format("truetype"); font-style: normal; font-weight: 600; font-display: swap; }
+@font-face { font-family: 'Archivo'; src: url("../fonts/archivo-semibolditalic.ttf") format("truetype"); font-style: italic; font-weight: 600; font-display: swap; }
+@font-face { font-family: 'Archivo'; src: url("../fonts/archivo-bold.ttf") format("truetype"); font-style: normal; font-weight: 700; font-display: swap; }
+@font-face { font-family: 'Archivo'; src: url("../fonts/archivo-bolditalic.ttf") format("truetype"); font-style: italic; font-weight: 700; font-display: swap; }
+@font-face { font-family: 'Archivo'; src: url("../fonts/archivo-extrabold.ttf") format("truetype"); font-style: normal; font-weight: 800; font-display: swap; }
+@font-face { font-family: 'Archivo'; src: url("../fonts/archivo-extrabolditalic.ttf") format("truetype"); font-style: italic; font-weight: 800; font-display: swap; }
+@font-face { font-family: 'Archivo'; src: url("../fonts/archivo-black.ttf") format("truetype"); font-style: normal; font-weight: 900; font-display: swap; }
+@font-face { font-family: 'Archivo'; src: url("../fonts/archivo-blackitalic.ttf") format("truetype"); font-style: italic; font-weight: 900; font-display: swap; }
+@font-face { font-family: 'Saira Condensed'; src: url("../fonts/sairacondensed-thin.ttf") format("truetype"); font-style: normal; font-weight: 100; font-display: swap; }
+@font-face { font-family: 'Saira Condensed'; src: url("../fonts/sairacondensed-extralight.ttf") format("truetype"); font-style: normal; font-weight: 200; font-display: swap; }
+@font-face { font-family: 'Saira Condensed'; src: url("../fonts/sairacondensed-light.ttf") format("truetype"); font-style: normal; font-weight: 300; font-display: swap; }
+@font-face { font-family: 'Saira Condensed'; src: url("../fonts/sairacondensed-regular.ttf") format("truetype"); font-style: normal; font-weight: 400; font-display: swap; }
+@font-face { font-family: 'Saira Condensed'; src: url("../fonts/sairacondensed-medium.ttf") format("truetype"); font-style: normal; font-weight: 500; font-display: swap; }
+@font-face { font-family: 'Saira Condensed'; src: url("../fonts/sairacondensed-semibold.ttf") format("truetype"); font-style: normal; font-weight: 600; font-display: swap; }
+@font-face { font-family: 'Saira Condensed'; src: url("../fonts/sairacondensed-bold.ttf") format("truetype"); font-style: normal; font-weight: 700; font-display: swap; }
+@font-face { font-family: 'Saira Condensed'; src: url("../fonts/sairacondensed-extrabold.ttf") format("truetype"); font-style: normal; font-weight: 800; font-display: swap; }
+@font-face { font-family: 'Saira Condensed'; src: url("../fonts/sairacondensed-black.ttf") format("truetype"); font-style: normal; font-weight: 900; font-display: swap; }</style></head>
+<body class="antialiased">
+
+<!-- NAVBAR -->
+<header class="fixed top-0 inset-x-0 z-50 border-b hair" style="background:rgba(23,25,28,.88);backdrop-filter:blur(10px);">
+  <nav class="max-w-[1400px] mx-auto px-5 md:px-10 h-[64px] md:h-[76px] flex items-center justify-between">
+    <a href="#top" class="display text-[20px] md:text-[24px] tracking-[.02em]">FANTASY<span style="color:var(--green)">.</span>CLUB</a>
+    <div class="hidden lg:flex items-center gap-10 label" style="color:var(--gray)">
+      <a href="#koleksi" class="hover:text-[#F3F0E8] transition-colors">KOLEKSI</a>
+      <a href="#harga" class="hover:text-[#F3F0E8] transition-colors">HARGA</a>
+      <a href="#keunggulan" class="hover:text-[#F3F0E8] transition-colors">KEUNGGULAN</a>
+      <a href="#custom" class="hover:text-[#F3F0E8] transition-colors">CUSTOM</a>
+      <a href="#inspirasi" class="hover:text-[#F3F0E8] transition-colors">INSPIRASI</a>
+    </div>
+    <a href="#koleksi" class="btn text-[12px] md:text-[13px] px-4 md:px-6 py-2.5 md:py-3">PILIH DESAIN</a>
+  </nav>
+  <div class="lg:hidden border-t hair">
+    <div class="px-5 py-2.5 flex items-center justify-between label overflow-x-auto gap-6" style="color:var(--gray)">
+      <a href="#koleksi">KOLEKSI</a>
+      <a href="#harga">HARGA</a>
+      <a href="#keunggulan">KEUNGGULAN</a>
+      <a href="#custom">CUSTOM</a>
+      <a href="#inspirasi">INSPIRASI</a>
+    </div>
+  </div>
+</header>
+
+<!-- HERO -->
+<section id="top" class="relative overflow-hidden noise pt-[110px] lg:pt-[76px]" style="background:var(--charcoal)">
+  <div class="absolute inset-0 grid-lines opacity-60"></div>
+  <div class="absolute inset-0" style="background:radial-gradient(120% 80% at 78% 20%,rgba(255,255,255,.07),transparent 60%)"></div>
+  <div class="diag" style="top:34%;left:-5%;width:70%"></div>
+  <div class="diag" style="top:62%;left:-5%;width:45%"></div>
+
+  <div class="relative max-w-[1400px] mx-auto px-5 md:px-10 pt-14 md:pt-24 pb-16 md:pb-28 grid lg:grid-cols-12 gap-10 lg:gap-6 items-center">
+    <!-- copy -->
+    <div class="lg:col-span-6 relative z-10">
+      <div class="reveal flex items-center gap-3 label" style="color:var(--gray)">
+        <span class="inline-block w-10 h-px" style="background:var(--green)"></span>
+        FANTASY CLUB / FOOTBALL APPAREL
+      </div>
+      <h1 class="reveal display mt-6 text-[clamp(56px,11vw,132px)]">
+        BUKAN JERSEY<br>YANG <span style="color:var(--green)">BIASA.</span>
+      </h1>
+      <p class="reveal mt-7 text-[clamp(17px,2.2vw,22px)] leading-[1.35] max-w-[520px]" style="color:var(--cream)">
+        Desain jersey yang lebih berani untuk tim yang ingin tampil berbeda di lapangan.
+      </p>
+      <p class="reveal mt-5 text-[15px] leading-[1.7] max-w-[520px]" style="color:var(--gray)">
+        Pilih dari koleksi desain fantasy yang modern, expressive, dan siap dikustomisasi dengan identitas tim kamu. Tambahkan logo, nama, nomor, sponsor, dan detail lainnya sesuai kebutuhan.
+      </p>
+      <div class="reveal mt-9">
+        <a href="#koleksi" class="btn inline-flex items-center gap-3 text-[15px] px-8 py-4">PILIH DESAIN <span>→</span></a>
+      </div>
+      <div class="reveal mt-6 label flex flex-wrap items-center gap-x-3 gap-y-2" style="color:var(--gray)">
+        <span>CUSTOM LOGO</span><span style="color:var(--green)">•</span>
+        <span>NAMA</span><span style="color:var(--green)">•</span>
+        <span>NOMOR</span><span style="color:var(--green)">•</span>
+        <span>SPONSOR</span>
+      </div>
+      <div class="reveal mt-12 pt-6 border-t hair flex items-center justify-between max-w-[520px] label" style="color:var(--gray)">
+        <span>FANTASY FOOTBALL COLLECTION / 2026</span>
+        <span>NO. 011</span>
+      </div>
+    </div>
+
+    <!-- visual -->
+    <div class="lg:col-span-6 relative">
+      <div class="num absolute -top-6 md:-top-12 left-0 lg:-left-16 text-[34vw] lg:text-[22vw] select-none pointer-events-none" style="color:rgba(243,240,232,.05)">23</div>
+      <div class="reveal relative">
+        <img src="../images/02e49952-8984-4f27-bf83-fddbbe1c4a8b.png" alt="Jersey Fantasy Club charcoal dengan sash electric green" class="relative w-full max-w-[620px] mx-auto">
+      </div>
+      <div class="reveal hidden md:flex absolute bottom-2 right-0 items-center gap-3 label" style="color:var(--gray)">
+        <span class="inline-block w-16 h-px" style="background:rgba(166,168,170,.4)"></span>FC / 2026
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 02 BRAND STATEMENT -->
+<section class="relative" style="background:var(--cream);color:var(--charcoal)">
+  <div class="max-w-[1400px] mx-auto px-5 md:px-10 py-24 md:py-40 grid lg:grid-cols-12 gap-10">
+    <div class="lg:col-span-1">
+      <div class="num text-[64px] md:text-[92px]" style="color:rgba(23,25,28,.14)">02</div>
+    </div>
+    <div class="lg:col-span-7 lg:col-start-3">
+      <h2 class="reveal display text-[clamp(40px,7vw,86px)]">
+        TAMPIL <span style="color:var(--green)">BEDA.</span><br>MAIN LEBIH PERCAYA DIRI.
+      </h2>
+      <p class="reveal mt-8 max-w-[560px] text-[16px] md:text-[17px] leading-[1.75]" style="color:rgba(23,25,28,.72)">
+        Fantasy Club dibuat untuk kamu yang tidak ingin memakai desain jersey yang terasa generik. Setiap desain membawa karakter visual yang lebih berani, modern, dan siap menjadi identitas baru untuk tim kamu.
+      </p>
+    </div>
+    <div class="lg:col-span-10 lg:col-start-3 mt-10 md:mt-20 border-t" style="border-color:rgba(23,25,28,.14)">
+      <div class="reveal display text-[clamp(48px,13vw,150px)] pt-6 md:pt-10 leading-[.85]">BOLD</div>
+      <div class="reveal display text-[clamp(48px,13vw,150px)] leading-[.85] lg:pl-[18%]" style="color:rgba(23,25,28,.35)">CREATIVE</div>
+      <div class="reveal display text-[clamp(48px,13vw,150px)] leading-[.85] lg:pl-[36%]">UNIQUE</div>
+    </div>
+  </div>
+</section>
+
+<!-- 03 COLLECTION -->
+<section id="koleksi" class="relative noise" style="background:var(--charcoal)">
+  <div class="max-w-[1400px] mx-auto px-5 md:px-10 py-24 md:py-36">
+    <div class="grid lg:grid-cols-12 gap-8 items-end">
+      <div class="lg:col-span-7">
+        <h2 class="reveal display mt-6 text-[clamp(38px,6.4vw,80px)]">PILIH DESAIN<br>YANG PUNYA KARAKTER.</h2>
+      </div>
+      <div class="lg:col-span-4 lg:col-start-9">
+        <p class="reveal text-[15px] leading-[1.7]" style="color:var(--gray)">20+ desain Fantasy Club siap dipilih dan dikustomisasi sesuai identitas tim kamu.</p>
+      </div>
+    </div>
+
+    <div class="mt-14 md:mt-20 grid grid-cols-2 lg:grid-cols-5 gap-x-5 gap-y-12 md:gap-y-16">
+      <!-- item -->
+      <a href="#custom" class="card reveal group block lg:mt-0">
+        <div class="frame border hair overflow-hidden" style="background:var(--black)">
+          <img src="../images/ee7afb07-e08f-4a12-b847-945de15133f2.png" alt="FC-001 Boca Junior Fantasy" class="w-full aspect-[4/5] object-cover">
+        </div>
+        <div class="mt-4 label" style="color:var(--green)">FC-001</div>
+        <div class="cname display text-[16px] md:text-[19px] mt-1">BOCA JUNIOR FANTASY</div>
+        <div class="cta label mt-2" style="color:var(--gray)">PILIH DESAIN →</div>
+      </a>
+      <a href="#custom" class="card reveal group block lg:mt-12">
+        <div class="frame border hair overflow-hidden" style="background:var(--black)">
+          <img src="../images/be9ed3ea-c751-4c0f-8f07-d9a52229448a.png" alt="FC-002 Boca Junior Concept" class="w-full aspect-[4/5] object-cover">
+        </div>
+        <div class="mt-4 label" style="color:var(--green)">FC-002</div>
+        <div class="cname display text-[16px] md:text-[19px] mt-1">BOCA JUNIOR CONCEPT</div>
+        <div class="cta label mt-2" style="color:var(--gray)">PILIH DESAIN →</div>
+      </a>
+      <a href="#custom" class="card reveal group block">
+        <div class="frame border hair overflow-hidden" style="background:var(--black)">
+          <img src="../images/70b10d97-130f-464f-b313-8473755d9609.png" alt="FC-003 Belgica Fantasy Edition" class="w-full aspect-[4/5] object-cover">
+        </div>
+        <div class="mt-4 label" style="color:var(--green)">FC-003</div>
+        <div class="cname display text-[16px] md:text-[19px] mt-1">BELGICA FANTASY EDITION</div>
+        <div class="cta label mt-2" style="color:var(--gray)">PILIH DESAIN →</div>
+      </a>
+      <a href="#custom" class="card reveal group block lg:mt-12">
+        <div class="frame border hair overflow-hidden" style="background:var(--black)">
+          <img src="../images/bbc8cac1-af3a-409b-953b-a53b688f2b55.png" alt="FC-004 Bayern Munchen Fantasy Edition" class="w-full aspect-[4/5] object-cover">
+        </div>
+        <div class="mt-4 label" style="color:var(--green)">FC-004</div>
+        <div class="cname display text-[16px] md:text-[19px] mt-1">BAYERN MUNCHEN FANTASY EDITION</div>
+        <div class="cta label mt-2" style="color:var(--gray)">PILIH DESAIN →</div>
+      </a>
+      <a href="#custom" class="card reveal group block">
+        <div class="frame border hair overflow-hidden" style="background:var(--black)">
+          <img src="../images/8c80ebc5-df95-4758-9d52-26438b64158c.png" alt="FC-005 Australia Fantasy Edition" class="w-full aspect-[4/5] object-cover">
+        </div>
+        <div class="mt-4 label" style="color:var(--green)">FC-005</div>
+        <div class="cname display text-[16px] md:text-[19px] mt-1">AUSTRALIA FANTASY EDITION</div>
+        <div class="cta label mt-2" style="color:var(--gray)">PILIH DESAIN →</div>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- 04 HARGA -->
+<section id="harga" style="background:var(--cream);color:var(--charcoal)">
+  <div class="max-w-[1200px] mx-auto px-5 md:px-10 py-24 md:py-36">
+
+    <div class="text-center max-w-[720px] mx-auto">
+      <h2 class="reveal display mt-6 text-[clamp(38px,6.4vw,76px)]">HARGA JERSEY<br><span style="color:var(--green)">FANTASY CLUB.</span></h2>
+      <p class="reveal mt-5 text-[15px] md:text-[16px] leading-[1.7]" style="color:rgba(23,25,28,.7)">Semua harga sudah termasuk desain, printing, nama dan nomor. Pilih jumlah pesanan, harga langsung menyesuaikan.</p>
+    </div>
+
+    <div class="reveal mt-10 md:mt-14 flex flex-col items-center">
+      <div class="inline-flex p-1 border" style="border-color:rgba(23,25,28,.2);background:rgba(23,25,28,.04)" role="group" aria-label="Pilih jumlah pesanan">
+        <button type="button" data-qty="ecer" aria-pressed="true" class="qty display text-[14px] md:text-[15px] px-6 md:px-9 py-3.5 transition-colors">ECER — MULAI 1 PCS</button>
+        <button type="button" data-qty="lusin" aria-pressed="false" class="qty display text-[14px] md:text-[15px] px-6 md:px-9 py-3.5 transition-colors">LUSIN — MINIMAL 12 PCS</button>
+      </div>
+      <div class="mt-3 text-[13px]" style="color:rgba(23,25,28,.55)" data-note="">Harga satuan, bisa pesan mulai 1 pcs.</div>
+    </div>
+
+    <div class="reveal mt-14 md:mt-20">
+      <div class="grid md:grid-cols-2 gap-8 md:gap-14">
+
+        <!-- paket A -->
+        <div class="pt-8 border-t-2" style="border-color:rgba(23,25,28,.25)">
+          <div class="flex items-baseline justify-between gap-4">
+            <h3 class="display text-[clamp(26px,3.2vw,36px)]">ATASAN SAJA</h3>
+            <span class="label" style="color:rgba(23,25,28,.5)">PAKET A</span>
+          </div>
+          <p class="mt-2 text-[14px]" style="color:rgba(23,25,28,.6)">Atasan full printing, siap dikustom.</p>
+
+          <div class="mt-6 flex items-baseline gap-2">
+            <span class="display text-[20px] pb-3" style="color:rgba(23,25,28,.55)">RP</span>
+            <span class="num text-[clamp(60px,8vw,92px)]" data-price="atasan">75.000</span>
+          </div>
+          <div class="label mt-1" style="color:rgba(23,25,28,.55)">PER PCS</div>
+          <div class="mt-3 text-[13px] leading-[1.6]" data-small="" style="color:rgba(23,25,28,.55)">Mau desain custom sendiri? Order minimal 6 pcs.</div>
+
+          <ul class="mt-7 space-y-3 text-[14.5px]" data-benefits="" style="color:rgba(23,25,28,.78)"></ul>
+
+          <a href="#final" class="inline-flex items-center justify-center gap-2 w-full md:w-auto mt-8 display text-[14px] px-8 py-4 border-2 transition-colors hover:bg-[#17191C] hover:text-[#F3F0E8]" style="border-color:var(--charcoal)">PILIH PAKET A <span>→</span></a>
+        </div>
+
+        <!-- paket B -->
+        <div class="pt-8 border-t-2 relative" style="border-color:var(--green)">
+          <div class="flex items-baseline justify-between gap-4">
+            <h3 class="display text-[clamp(26px,3.2vw,36px)]">ATASAN + CELANA</h3>
+            <span class="label px-2 py-[4px]" style="background:var(--green);color:var(--black)">PALING DIPILIH</span>
+          </div>
+          <p class="mt-2 text-[14px]" style="color:rgba(23,25,28,.6)">Satu set lengkap siap tanding.</p>
+
+          <div class="mt-6 flex items-baseline gap-2">
+            <span class="display text-[20px] pb-3" style="color:rgba(23,25,28,.55)">RP</span>
+            <span class="num text-[clamp(60px,8vw,92px)]" data-price="setelan" style="color:var(--green)">145.000</span>
+          </div>
+          <div class="label mt-1" style="color:rgba(23,25,28,.55)">PER SET (ATASAN + CELANA)</div>
+          <div class="mt-3 text-[13px] leading-[1.6]" data-small="" style="color:rgba(23,25,28,.55)">Mau desain custom sendiri? Order minimal 6 pcs.</div>
+
+          <ul class="mt-7 space-y-3 text-[14.5px]" data-benefits="" data-extra="Celana non printing" style="color:rgba(23,25,28,.78)"></ul>
+
+          <a href="#final" class="btn inline-flex items-center justify-center gap-2 w-full md:w-auto mt-8 text-[14px] px-8 py-4">PILIH PAKET B <span>→</span></a>
+        </div>
+      </div>
+    </div>
+
+    <div class="reveal mt-16 pt-8 border-t text-center label flex flex-wrap justify-center gap-x-8 gap-y-3" style="border-color:rgba(23,25,28,.16);color:rgba(23,25,28,.55)">
+      <span>SISTEM PRE ORDER, BUKAN READY STOCK</span>
+      <span>ATASAN FULL PRINTING · CELANA NON PRINTING</span>
+      <span>PENGERJAAN 5–7 HARI KERJA</span>
+      <span>GRATIS CUSTOM, NAMESET, LOGO &amp; SPONSOR</span>
+    </div>
+  </div>
+</section>
+
+<!-- BAHAN -->
+<section id="bahan" class="relative noise" style="background:var(--charcoal)">
+  <div class="max-w-[1400px] mx-auto px-5 md:px-10 py-16 md:py-24">
+    <div class="grid lg:grid-cols-12 gap-8 lg:gap-12 items-end">
+      <div class="lg:col-span-7">
+        <div class="label" style="color:var(--green)">BAHAN KAIN</div>
+        <h2 class="reveal display mt-4 text-[clamp(30px,4.6vw,58px)]">DRY-FIT BERKUALITAS,<br>STANDAR <span style="color:var(--green)">LIGA PRO.</span></h2>
+      </div>
+      <div class="lg:col-span-5 flex flex-col gap-4">
+        <p class="reveal text-[15px] md:text-[16px] leading-[1.7]" style="color:var(--gray)">
+          Bahan kain yang digunakan dry-fit yang berkualitas dan sudah standar liga pro, nyaman dan tidak bau.
+        </p>
+        <div class="reveal flex flex-wrap gap-x-8 gap-y-3 label pt-4 border-t hair" style="color:var(--gray)">
+          <span>NYAMAN DIPAKAI</span>
+          <span>TIDAK BAU</span>
+          <span>STANDAR LIGA PRO</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 05 WHY FANTASY -->
+<section id="keunggulan" style="background:var(--cream);color:var(--charcoal)">
+  <div class="max-w-[1400px] mx-auto px-5 md:px-10 py-24 md:py-36">
+    <div class="grid lg:grid-cols-12 gap-8">
+      <div class="lg:col-span-6">
+        <h2 class="reveal display mt-6 text-[clamp(38px,6.4vw,80px)]">SATU DESAIN.<br>BANYAK KARAKTER.</h2>
+      </div>
+      <div class="lg:col-span-5 lg:col-start-8 flex items-end">
+        <p class="reveal text-[16px] leading-[1.75]" style="color:rgba(23,25,28,.72)">Tidak semua tim ingin terlihat sama. Fantasy Club memberikan pilihan desain dengan warna, pattern, dan karakter visual yang lebih ekspresif agar jersey kamu terasa lebih personal.</p>
+      </div>
+    </div>
+
+    <div class="mt-16 md:mt-24 grid md:grid-cols-4 gap-x-8 gap-y-12 border-t" style="border-color:rgba(23,25,28,.16)">
+      <div class="reveal pt-8 md:border-r md:pr-8" style="border-color:rgba(23,25,28,.16)">
+        <div class="num text-[56px]" style="color:var(--green)">01</div>
+        <h3 class="display text-[22px] mt-3">DESAIN BERKARAKTER</h3>
+        <p class="mt-3 text-[15px] leading-[1.7]" style="color:rgba(23,25,28,.68)">Pattern dan kombinasi warna yang membuat jersey lebih standout.</p>
+      </div>
+      <div class="reveal pt-8 md:border-r md:pr-8" style="border-color:rgba(23,25,28,.16)">
+        <div class="num text-[56px]" style="color:rgba(23,25,28,.22)">02</div>
+        <h3 class="display text-[22px] mt-3">LOOK MODERN</h3>
+        <p class="mt-3 text-[15px] leading-[1.7]" style="color:rgba(23,25,28,.68)">Desain terinspirasi dari gaya football apparel masa kini.</p>
+      </div>
+      <div class="reveal pt-8 md:border-r md:pr-8" style="border-color:rgba(23,25,28,.16)">
+        <div class="num text-[56px]" style="color:rgba(23,25,28,.22)">03</div>
+        <h3 class="display text-[22px] mt-3">BISA CUSTOM</h3>
+        <p class="mt-3 text-[15px] leading-[1.7]" style="color:rgba(23,25,28,.68)">Sesuaikan logo tim, nama pemain, nomor, dan sponsor.</p>
+      </div>
+      <div class="reveal pt-8">
+        <div class="num text-[56px]" style="color:rgba(23,25,28,.22)">04</div>
+        <h3 class="display text-[22px] mt-3">SIAP PRODUKSI</h3>
+        <p class="mt-3 text-[15px] leading-[1.7]" style="color:rgba(23,25,28,.68)">Setelah desain disepakati, jersey siap diproduksi sesuai kebutuhan tim.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 06 TEAM IDENTITY -->
+<section class="relative noise overflow-hidden" style="background:var(--charcoal)">
+  <div class="absolute inset-0 grid-lines opacity-40"></div>
+  <div class="relative max-w-[1400px] mx-auto px-5 md:px-10 py-24 md:py-36">
+    <div class="grid lg:grid-cols-12 gap-8">
+      <div class="lg:col-span-6">
+        <h2 class="reveal display mt-6 text-[clamp(36px,5.6vw,72px)]">DESAIN BOLEH FANTASY.<br>IDENTITAS TETAP <span style="color:var(--green)">PUNYA KAMU.</span></h2>
+        <p class="reveal mt-6 max-w-[460px] text-[15px] leading-[1.75]" style="color:var(--gray)">Mulai dari desain dasar hingga detail terakhir, jersey dapat disesuaikan dengan identitas tim kamu.</p>
+      </div>
+    </div>
+
+    <div class="relative mt-12 md:mt-16 grid lg:grid-cols-12 items-center gap-8">
+      <div class="hidden lg:flex lg:col-span-3 flex-col gap-16 text-right">
+        <div class="reveal">
+          <div class="display text-[30px]">LOGO</div>
+          <div class="ml-auto mt-3 h-px w-[70%]" style="background:linear-gradient(90deg,transparent,var(--green))"></div>
+        </div>
+        <div class="reveal">
+          <div class="display text-[30px]">NAMA</div>
+          <div class="ml-auto mt-3 h-px w-[85%]" style="background:linear-gradient(90deg,transparent,rgba(166,168,170,.5))"></div>
+        </div>
+      </div>
+
+      <div class="lg:col-span-6 reveal">
+        <img src="../images/570faad1-9827-4ba4-86a1-b420ff83402f.png" alt="Bagian belakang jersey Fantasy Club dengan nameset dan nomor" class="w-full max-w-[560px] mx-auto">
+      </div>
+
+      <div class="hidden lg:flex lg:col-span-3 flex-col gap-16">
+        <div class="reveal">
+          <div class="display text-[30px]">NUMBER</div>
+          <div class="mt-3 h-px w-[85%]" style="background:linear-gradient(270deg,transparent,var(--green))"></div>
+        </div>
+        <div class="reveal">
+          <div class="display text-[30px]">SPONSOR</div>
+          <div class="mt-3 h-px w-[70%]" style="background:linear-gradient(270deg,transparent,rgba(166,168,170,.5))"></div>
+        </div>
+      </div>
+
+      <div class="lg:hidden grid grid-cols-2 gap-y-6 label" style="color:var(--gray)">
+        <span>LOGO</span><span>NAMA</span><span>NUMBER</span><span>SPONSOR</span>
+      </div>
+    </div>
+
+    <div class="reveal mt-14 md:mt-20 pt-8 border-t hair">
+      <div class="display text-[clamp(28px,4.4vw,54px)] leading-[1.02]">
+        YOUR TEAM.<br><span style="color:var(--gray)">YOUR COLORS.</span><br><span style="color:var(--green)">YOUR IDENTITY.</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 07 CUSTOM PROCESS -->
+<section id="custom" style="background:var(--cream);color:var(--charcoal)">
+  <div class="max-w-[1400px] mx-auto px-5 md:px-10 py-24 md:py-36">
+    <div class="grid lg:grid-cols-12 gap-8 items-end">
+      <div class="lg:col-span-7">
+        <h2 class="reveal display mt-6 text-[clamp(38px,6.4vw,80px)]">DARI DESAIN<br>JADI JERSEY TIMMU.</h2>
+      </div>
+      <div class="lg:col-span-4 lg:col-start-9">
+        <p class="reveal text-[15px] leading-[1.7]" style="color:rgba(23,25,28,.7)">Proses custom dibuat sederhana supaya kamu bisa fokus memilih desain yang paling cocok.</p>
+      </div>
+    </div>
+
+    <div class="mt-16 md:mt-24 relative">
+      <div class="hidden md:block absolute top-[30px] left-0 right-0 h-px" style="background:rgba(23,25,28,.18)"></div>
+      <div class="md:hidden absolute top-0 bottom-0 left-[10px] w-px" style="background:rgba(23,25,28,.18)"></div>
+      <div class="grid md:grid-cols-4 gap-x-8 gap-y-10">
+        <div class="reveal relative pl-10 md:pl-0">
+          <div class="absolute md:static left-0 top-[10px] w-[9px] h-[9px] md:mb-6" style="background:var(--green)"></div>
+          <div class="num text-[52px] md:mt-0 mt-1" style="color:var(--green)">01</div>
+          <h3 class="display text-[22px] mt-3">PILIH DESAIN</h3>
+          <p class="mt-3 text-[15px] leading-[1.7] pr-6" style="color:rgba(23,25,28,.68)">Pilih desain Fantasy Club yang paling sesuai dengan karakter tim.</p>
+        </div>
+        <div class="reveal relative pl-10 md:pl-0">
+          <div class="absolute md:static left-0 top-[10px] w-[9px] h-[9px] md:mb-6" style="background:rgba(23,25,28,.35)"></div>
+          <div class="num text-[52px] mt-1 md:mt-0" style="color:rgba(23,25,28,.22)">02</div>
+          <h3 class="display text-[22px] mt-3">KIRIM DATA</h3>
+          <p class="mt-3 text-[15px] leading-[1.7] pr-6" style="color:rgba(23,25,28,.68)">Kirim logo, nama pemain, nomor, sponsor, dan detail lainnya.</p>
+        </div>
+        <div class="reveal relative pl-10 md:pl-0">
+          <div class="absolute md:static left-0 top-[10px] w-[9px] h-[9px] md:mb-6" style="background:rgba(23,25,28,.35)"></div>
+          <div class="num text-[52px] mt-1 md:mt-0" style="color:rgba(23,25,28,.22)">03</div>
+          <h3 class="display text-[22px] mt-3">CUSTOM</h3>
+          <p class="mt-3 text-[15px] leading-[1.7] pr-6" style="color:rgba(23,25,28,.68)">Desain disesuaikan dengan identitas dan kebutuhan tim kamu.</p>
+        </div>
+        <div class="reveal relative pl-10 md:pl-0">
+          <div class="absolute md:static left-0 top-[10px] w-[9px] h-[9px] md:mb-6" style="background:rgba(23,25,28,.35)"></div>
+          <div class="num text-[52px] mt-1 md:mt-0" style="color:rgba(23,25,28,.22)">04</div>
+          <h3 class="display text-[22px] mt-3">SIAP DIPRODUKSI</h3>
+          <p class="mt-3 text-[15px] leading-[1.7] pr-6" style="color:rgba(23,25,28,.68)">Setelah desain disepakati, jersey siap masuk proses produksi.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 08 UNTUK SIAPA -->
+<section class="relative noise" style="background:var(--charcoal)">
+  <div class="max-w-[1400px] mx-auto px-5 md:px-10 py-24 md:py-36">
+    <div class="grid lg:grid-cols-12 gap-8">
+      <div class="lg:col-span-8">
+        <h2 class="reveal display mt-6 text-[clamp(36px,5.6vw,72px)]">DIBUAT UNTUK<br>TIM YANG TIDAK MAU TERLIHAT BIASA.</h2>
+      </div>
+    </div>
+
+    <div class="mt-14 md:mt-20 grid lg:grid-cols-12 gap-10">
+      <div class="lg:col-span-8">
+        <a href="#custom" class="aud reveal block border-t hair py-4 md:py-5 relative"><span class="display text-[clamp(30px,5.6vw,64px)]">FUTSAL TEAM</span><span class="rule absolute bottom-0 left-0 right-0 h-px" style="background:var(--green)"></span></a>
+        <a href="#custom" class="aud reveal block border-t hair py-4 md:py-5 relative lg:pl-[12%]"><span class="display text-[clamp(30px,5.6vw,64px)]">FOOTBALL CLUB</span><span class="rule absolute bottom-0 left-0 right-0 h-px" style="background:var(--green)"></span></a>
+        <a href="#custom" class="aud reveal block border-t hair py-4 md:py-5 relative"><span class="display text-[clamp(30px,5.6vw,64px)]">COMMUNITY</span><span class="rule absolute bottom-0 left-0 right-0 h-px" style="background:var(--green)"></span></a>
+        <a href="#custom" class="aud reveal block border-t hair py-4 md:py-5 relative lg:pl-[20%]"><span class="display text-[clamp(30px,5.6vw,64px)]">ACADEMY</span><span class="rule absolute bottom-0 left-0 right-0 h-px" style="background:var(--green)"></span></a>
+        <a href="#custom" class="aud reveal block border-t hair py-4 md:py-5 relative"><span class="display text-[clamp(30px,5.6vw,64px)]">SCHOOL</span><span class="rule absolute bottom-0 left-0 right-0 h-px" style="background:var(--green)"></span></a>
+        <a href="#custom" class="aud reveal block border-t hair py-4 md:py-5 relative lg:pl-[12%]"><span class="display text-[clamp(30px,5.6vw,64px)]">TOURNAMENT</span><span class="rule absolute bottom-0 left-0 right-0 h-px" style="background:var(--green)"></span></a>
+        <a href="#custom" class="aud reveal block border-t hair py-4 md:py-5 relative"><span class="display text-[clamp(30px,5.6vw,64px)]">SUPPORTER</span><span class="rule absolute bottom-0 left-0 right-0 h-px" style="background:var(--green)"></span></a>
+        <a href="#custom" class="aud reveal block border-y hair py-4 md:py-5 relative lg:pl-[28%]"><span class="display text-[clamp(30px,5.6vw,64px)]">PERSONAL</span><span class="rule absolute bottom-0 left-0 right-0 h-px" style="background:var(--green)"></span></a>
+      </div>
+      <div class="lg:col-span-3 lg:col-start-10 flex flex-col justify-end">
+        <img src="../images/12350b65-0336-4827-a052-f3e82af059ab.png" alt="Detail printing dan nameset jersey" class="w-full border hair">
+        <p class="reveal mt-6 text-[15px] leading-[1.75]" style="color:var(--gray)">Untuk tim kecil, komunitas, akademi, hingga squad turnamen. Selama kamu punya karakter, kami bantu menerjemahkannya menjadi jersey.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 09 CUSTOM FREEDOM -->
+<section id="inspirasi" style="background:var(--cream);color:var(--charcoal)">
+  <div class="max-w-[1400px] mx-auto px-5 md:px-10 py-24 md:py-36 grid lg:grid-cols-12 gap-12 items-center">
+    <div class="lg:col-span-6">
+      <h2 class="reveal display mt-6 text-[clamp(38px,6.2vw,78px)]">PUNYA REFERENSI SENDIRI?</h2>
+      <p class="reveal mt-6 text-[clamp(17px,2vw,21px)] leading-[1.4] max-w-[480px]">Kirim referensi, logo, atau warna yang kamu inginkan.</p>
+      <p class="reveal mt-5 max-w-[520px] text-[15px] leading-[1.75]" style="color:rgba(23,25,28,.7)">Tidak menemukan desain yang pas dari koleksi kami? Tidak masalah. Kamu bisa mengirim referensi desain atau kombinasi warna yang kamu suka untuk dikembangkan menjadi jersey yang sesuai dengan karakter tim kamu.</p>
+      <a href="#final" class="btn reveal inline-flex items-center gap-3 text-[14px] px-7 py-3.5 mt-8">KIRIM REFERENSI <span>→</span></a>
+    </div>
+    <div class="lg:col-span-5 lg:col-start-8 grid grid-cols-2 gap-4">
+      <img src="../images/12350b65-0336-4827-a052-f3e82af059ab.png" alt="Close-up detail printing jersey" class="reveal col-span-2 w-full object-cover aspect-[3/2]">
+      <img src="../images/02e49952-8984-4f27-bf83-fddbbe1c4a8b.png" alt="Detail jersey fantasy" class="reveal w-full object-cover aspect-square">
+      <img src="../images/570faad1-9827-4ba4-86a1-b420ff83402f.png" alt="Detail nameset jersey" class="reveal w-full object-cover aspect-square">
+    </div>
+  </div>
+</section>
+
+
+<!-- FINAL CTA -->
+<section id="final" class="relative noise overflow-hidden" style="background:var(--charcoal)">
+  <div class="absolute inset-0 grid-lines opacity-50"></div>
+  <div class="diag" style="top:20%;left:-5%;width:60%"></div>
+  <div class="relative max-w-[1400px] mx-auto px-5 md:px-10 py-28 md:py-44 text-center">
+    <h2 class="reveal display text-[clamp(44px,9.5vw,140px)]">
+      SIAP BIKIN<br>JERSEY YANG<br>BENER-BENER<br>PUNYA <span style="color:var(--green)">KARAKTER?</span>
+    </h2>
+    <p class="reveal mt-8 max-w-[620px] mx-auto text-[16px] md:text-[18px] leading-[1.6]" style="color:var(--gray)">
+      Pilih desain Fantasy Club favoritmu dan ubah menjadi jersey dengan identitas tim kamu sendiri.
+    </p>
+    <a href="#koleksi" class="btn reveal inline-flex items-center gap-3 text-[16px] px-10 py-5 mt-10">PILIH DESAIN <span>→</span></a>
+    <div class="reveal label mt-6" style="color:var(--gray)">CUSTOM LOGO • NAMA • NOMOR • SPONSOR</div>
+  </div>
+  <div class="relative max-w-[1400px] mx-auto px-5 md:px-10 pb-14">
+    <div class="border-t hair pt-8 flex flex-col md:flex-row gap-3 md:items-center md:justify-between label" style="color:var(--gray)">
+      <span class="display text-[22px]" style="color:var(--cream)">FANTASY CLUB</span>
+      <span>FOOTBALL APPAREL / 2026</span>
+    </div>
+  </div>
+</section>
+
+<script>
+  (function(){
+    var data = {
+      ecer:{atasan:'75.000',setelan:'145.000',note:'Harga satuan, bisa pesan mulai 1 pcs.',
+        small:'Mau desain custom sendiri? Order minimal 6 pcs.',
+        benefits:['Full printing, pilih dari katalog desain','Nama dan nomor punggung','Revisi desain tanpa batas','Bahan dry-fit standar liga pro, nyaman dan tidak bau','Printing sublime, warna cerah dan tahan bertahun-tahun']},
+      lusin:{atasan:'65.000',setelan:'120.000',note:'Harga hemat, berlaku untuk pemesanan minimal 12 pcs / set.',
+        small:'',
+        benefits:['Bebas desain sendiri atau pilih dari katalog kami','Nama dan nomor punggung, gratis','Revisi desain tanpa batas sampai tim kamu puas','Bahan dry-fit standar liga pro, nyaman dan tidak bau','Printing sublime, warna cerah dan tahan bertahun-tahun']}
+    };
+    function fill(key){
+      var d = data[key];
+      document.querySelectorAll('[data-benefits]').forEach(function(ul){
+        var items = d.benefits.slice();
+        if(ul.dataset.extra) items.push(ul.dataset.extra);
+        ul.innerHTML = items.map(function(t){
+          return '<li class="flex gap-3"><span style="color:var(--green)">&#10003;</span><span>'+t+'</span></li>';
+        }).join('');
+      });
+      document.querySelectorAll('[data-small]').forEach(function(s){
+        s.textContent = d.small; s.style.display = d.small ? '' : 'none';
+      });
+    }
+    var btns = document.querySelectorAll('.qty');
+    function paint(b){
+      btns.forEach(function(o){
+        var on = o===b;
+        o.setAttribute('aria-pressed', on ? 'true':'false');
+        o.style.background = on ? 'var(--green)' : 'transparent';
+        o.style.color = on ? 'var(--black)' : 'rgba(23,25,28,.6)';
+      });
+    }
+    btns.forEach(function(b){
+      b.addEventListener('click',function(){
+        var d = data[b.dataset.qty];
+        paint(b);
+        document.querySelectorAll('[data-price]').forEach(function(p){
+          p.style.transition='opacity .2s ease'; p.style.opacity='0';
+          setTimeout(function(){p.textContent = d[p.dataset.price]; p.style.opacity='1';},180);
+        });
+        var n = document.querySelector('[data-note]');
+        if(n) n.textContent = d.note;
+        fill(b.dataset.qty);
+      });
+    });
+    if(btns.length){ paint(btns[0]); fill('ecer'); }
+  })();
+  (function(){
+    var els = document.querySelectorAll('.reveal');
+    if(!('IntersectionObserver' in window)){els.forEach(function(e){e.classList.add('in');});return;}
+    var io = new IntersectionObserver(function(entries){
+      entries.forEach(function(en){
+        if(en.isIntersecting){
+          var i = Array.prototype.indexOf.call(en.target.parentNode.children, en.target);
+          en.target.style.transitionDelay = Math.min(i,6)*70 + 'ms';
+          en.target.classList.add('in');
+          io.unobserve(en.target);
+        }
+      });
+    },{threshold:0.12, rootMargin:'0px 0px -8% 0px'});
+    els.forEach(function(e){io.observe(e);});
+  })();
+</script>
+
+</body></html>
