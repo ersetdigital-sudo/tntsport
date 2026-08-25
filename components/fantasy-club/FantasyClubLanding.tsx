@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import type { FantasyClubProduct } from "@/lib/queries";
+import { buildWhatsAppLink } from "@/lib/wa";
 import "./fantasy-club.css";
 
 const FALLBACK_COLLECTION: FantasyClubProduct[] = [
@@ -72,12 +73,14 @@ function Lightbox({
   onClose,
   onPrev,
   onNext,
+  waNumber,
 }: {
   items: FantasyClubProduct[];
   active: number;
   onClose: () => void;
   onPrev: () => void;
   onNext: () => void;
+  waNumber: string;
 }) {
   if (active < 0 || active >= items.length) return null;
   const item = items[active];
@@ -130,6 +133,14 @@ function Lightbox({
           <span className="fc-label text-[11px]" style={{ color: "var(--fc-green)" }}>{item.code}</span>
           <h3 className="fc-display text-[18px] md:text-[22px] text-white mt-1">{item.name}</h3>
           <span className="fc-label text-[10px] text-white/50 mt-2 block">{active + 1} / {items.length}</span>
+          <a
+            href={buildWhatsAppLink(waNumber, `Halo TNT SPORT APPAREL, saya tertarik dengan desain *${item.name}* (${item.code}) di katalog Fantasy Club. Bisa info lebih lanjut?`)}
+            target="_blank"
+            rel="noopener"
+            className="fc-btn inline-flex items-center gap-2 mt-4 px-6 py-3 text-[13px]"
+          >
+            ORDER DESAIN INI <span>→</span>
+          </a>
         </div>
       </div>
     </div>
@@ -190,12 +201,13 @@ function PriceToggle({ active, onChange }: { active: string; onChange: (k: strin
   );
 }
 
-export function FantasyClubLanding({ products }: { products: FantasyClubProduct[] }) {
+export function FantasyClubLanding({ products, waNumber }: { products: FantasyClubProduct[]; waNumber: string }) {
   const rootRef = useReveal();
   const [qty, setQty] = useState("ecer");
   const [zoomIdx, setZoomIdx] = useState<number | null>(null);
   const price = PRICE_DATA[qty as keyof typeof PRICE_DATA];
   const collection = products.length > 0 ? products : FALLBACK_COLLECTION;
+  const wa = (msg: string) => buildWhatsAppLink(waNumber, msg);
 
   const openZoom = (i: number) => setZoomIdx(i);
   const closeZoom = () => setZoomIdx(null);
@@ -241,8 +253,9 @@ export function FantasyClubLanding({ products }: { products: FantasyClubProduct[
             <p className="fc-reveal mt-5 text-[15px] leading-[1.7] max-w-[520px]" style={{ color: "var(--fc-gray)" }}>
               Pilih dari koleksi desain fantasy yang modern, expressive, dan siap dikustomisasi dengan identitas tim kamu. Tambahkan logo, nama, nomor, sponsor, dan detail lainnya sesuai kebutuhan.
             </p>
-            <div className="fc-reveal mt-9">
+            <div className="fc-reveal mt-9 flex flex-wrap gap-4">
               <a href="#koleksi" className="fc-btn inline-flex items-center gap-3 text-[15px] px-8 py-4">PILIH DESAIN <span>→</span></a>
+              <a href={wa("Halo TNT SPORT APPAREL, saya mau tanya jersey fantasy club custom.")} target="_blank" rel="noopener" className="inline-flex items-center gap-3 rounded-full border-2 px-8 py-4 text-[15px] font-extrabold uppercase transition hover:bg-[var(--fc-green)] hover:text-[var(--fc-black)] hover:border-[var(--fc-green)]" style={{ borderColor: "var(--fc-green)", color: "var(--fc-green)" }}>CHAT ADMIN <span>→</span></a>
             </div>
             <div className="fc-reveal mt-6 fc-label flex flex-wrap items-center gap-x-3 gap-y-2" style={{ color: "var(--fc-gray)" }}>
               <span>CUSTOM LOGO</span><span style={{ color: "var(--fc-green)" }}>•</span>
@@ -370,7 +383,7 @@ export function FantasyClubLanding({ products }: { products: FantasyClubProduct[
                     <li key={i} className="flex gap-3"><span style={{ color: "var(--fc-green)" }}>✓</span><span>{b}</span></li>
                   ))}
                 </ul>
-                <a href="#final" className="fc-outline-btn inline-flex items-center justify-center gap-2 w-full md:w-auto mt-8 fc-display text-[14px] px-8 py-4">PILIH PAKET A <span>→</span></a>
+                <a href={wa("Halo TNT SPORT APPAREL, saya tertarik paket Atasan Saja jersey Fantasy Club. Bisa info lebih lanjut?")} target="_blank" rel="noopener" className="fc-outline-btn inline-flex items-center justify-center gap-2 w-full md:w-auto mt-8 fc-display text-[14px] px-8 py-4">PILIH PAKET A <span>→</span></a>
               </div>
 
               {/* Paket B */}
@@ -392,7 +405,7 @@ export function FantasyClubLanding({ products }: { products: FantasyClubProduct[
                   ))}
                   <li className="flex gap-3"><span style={{ color: "var(--fc-green)" }}>✓</span><span>Celana non printing</span></li>
                 </ul>
-                <a href="#final" className="fc-btn inline-flex items-center justify-center gap-2 w-full md:w-auto mt-8 text-[14px] px-8 py-4">PILIH PAKET B <span>→</span></a>
+                <a href={wa("Halo TNT SPORT APPAREL, saya tertarik paket Atasan + Celana jersey Fantasy Club. Bisa info lebih lanjut?")} target="_blank" rel="noopener" className="fc-btn inline-flex items-center justify-center gap-2 w-full md:w-auto mt-8 text-[14px] px-8 py-4">PILIH PAKET B <span>→</span></a>
               </div>
             </div>
           </div>
@@ -595,7 +608,10 @@ export function FantasyClubLanding({ products }: { products: FantasyClubProduct[
           <p className="fc-reveal mt-8 max-w-[620px] mx-auto text-[16px] md:text-[18px] leading-[1.6]" style={{ color: "var(--fc-gray)" }}>
             Pilih desain Fantasy Club favoritmu dan ubah menjadi jersey dengan identitas tim kamu sendiri.
           </p>
-          <a href="#koleksi" className="fc-btn fc-reveal inline-flex items-center gap-3 text-[16px] px-10 py-5 mt-10">PILIH DESAIN <span>→</span></a>
+          <div className="fc-reveal mt-10 flex flex-wrap justify-center gap-4">
+            <a href="#koleksi" className="fc-btn inline-flex items-center gap-3 text-[16px] px-10 py-5">PILIH DESAIN <span>→</span></a>
+            <a href={wa("Halo TNT SPORT APPAREL, saya mau order jersey fantasy club custom.")} target="_blank" rel="noopener" className="inline-flex items-center gap-3 rounded-full border-2 px-10 py-5 text-[16px] font-extrabold uppercase transition hover:bg-[var(--fc-green)] hover:text-[var(--fc-black)] hover:border-[var(--fc-green)]" style={{ borderColor: "var(--fc-green)", color: "var(--fc-green)" }}>CHAT VIA WHATSAPP <span>→</span></a>
+          </div>
           <div className="fc-reveal fc-label mt-6" style={{ color: "var(--fc-gray)" }}>CUSTOM LOGO • NAMA • NOMOR • SPONSOR</div>
         </div>
         <div className="relative max-w-[1400px] mx-auto px-5 md:px-10 pb-14">
@@ -614,6 +630,7 @@ export function FantasyClubLanding({ products }: { products: FantasyClubProduct[
           onClose={closeZoom}
           onPrev={prevZoom}
           onNext={nextZoom}
+          waNumber={waNumber}
         />
       )}
     </div>

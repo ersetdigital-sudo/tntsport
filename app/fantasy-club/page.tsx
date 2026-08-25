@@ -85,7 +85,7 @@ export default async function FantasyClubPage() {
           dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
         />
       ))}
-      <FantasyClubLanding products={products} />
+      <FantasyClubLanding products={products} waNumber={brand.whatsappNumber || "628115491117"} />
     </>
   );
 }
