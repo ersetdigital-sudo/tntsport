@@ -324,9 +324,9 @@ export function CorporateCollectionLanding({ products, waNumber }: Props) {
         <div className="mx-auto max-w-[1400px] px-6 lg:px-12">
           <div className="grid lg:grid-cols-12 gap-12 lg:gap-16 items-center">
             <div className="lg:col-span-7">
-              <span className="reveal label text-[#4ADE80] block mb-6">BAHAN KAIN</span>
+              <span className="reveal label text-[#F26A21] block mb-6">BAHAN KAIN</span>
               <h2 className="reveal display text-[9vw] sm:text-[6vw] lg:text-[4.2rem] leading-[1.05] text-[#F3F0E8]">
-                DRY-FIT BERKUALITAS,<br />STANDAR <span className="text-[#4ADE80]">LIGA PRO.</span>
+                DRY-FIT BERKUALITAS,<br />STANDAR <span className="text-[#F26A21]">LIGA PRO.</span>
               </h2>
             </div>
             <div className="lg:col-span-5">
