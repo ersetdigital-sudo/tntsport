@@ -710,7 +710,7 @@ export default function JerseyRacingLanding({ products, waNumber }: Props) {
               <p className="display" style={{ fontSize: "clamp(1.5rem,3.6vw,2rem)", marginBottom: "1.25rem" }}>Jersey Setelan</p>
               <p className="flex items-baseline gap-2 mb-2">
                 <span className="cond font-bold text-lg" style={{ color: "var(--yellow)" }}>Rp</span>
-                <span className="display leading-none" style={{ fontSize: "clamp(2.6rem,7vw,3.6rem)", color: "var(--yellow)" }}>120RB</span>
+                <span className="display leading-none" style={{ fontSize: "clamp(2.6rem,7vw,3.6rem)", color: "var(--yellow)" }}>145RB</span>
                 <span className="cond font-bold text-base" style={{ color: "#8e97a6" }}>/set</span>
               </p>
               <p className="mb-7" style={{ fontSize: ".92rem", color: "#8e97a6" }}>Minimal pembelian 12 set</p>
