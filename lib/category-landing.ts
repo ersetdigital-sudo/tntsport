@@ -290,7 +290,7 @@ export const CATEGORY_LANDINGS: Record<string, CategoryLandingConfig> = {
             "Tambah Sponsor +3K/Logo",
           ],
         },
-        cta: "Pilih Atasan",
+        cta: "Pilih Promo",
       },
       setelan: {
         kicker: "Full Custom",
