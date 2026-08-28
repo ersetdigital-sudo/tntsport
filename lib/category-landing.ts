@@ -286,7 +286,7 @@ export const CATEGORY_LANDINGS: Record<string, CategoryLandingConfig> = {
         cta: "Pilih Atasan",
       },
       setelan: {
-        kicker: "Atasan + Celana",
+        kicker: "Full Custom",
         badge: "PALING DIMINATI",
         name: "Jersey Setelan",
         unit: "/set",
