@@ -292,7 +292,6 @@ export const CATEGORY_LANDINGS: Record<string, CategoryLandingConfig> = {
         unit: "/set",
         prices: { ecer: "195rb", lusin: "145rb" },
         notes: { ecer: "Bisa pesan mulai 1 set", lusin: "Minimal pembelian 6 pcs" },
-        footnote: { ecer: "Mau desain custom sendiri? Order minimal 6 pcs" },
         points: [
           "Full printing, pilih dari katalog desain",
           "Nama dan nomor punggung",
@@ -303,7 +302,7 @@ export const CATEGORY_LANDINGS: Record<string, CategoryLandingConfig> = {
         ],
         pointsByMode: {
           ecer: [
-            "Full printing, pilih dari katalog desain",
+            "Bebas desain sendiri atau pilih dari katalog kami",
             "Nama dan nomor punggung",
             "Revisi desain tanpa batas",
             "Bahan dry-fit standar liga pro, nyaman dan tidak bau",
