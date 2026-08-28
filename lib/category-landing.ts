@@ -290,7 +290,7 @@ export const CATEGORY_LANDINGS: Record<string, CategoryLandingConfig> = {
         badge: "PALING DIMINATI",
         name: "Jersey Setelan",
         unit: "/set",
-        prices: { ecer: "145rb", lusin: "120rb" },
+        prices: { ecer: "195rb", lusin: "145rb" },
         notes: { ecer: "Bisa pesan mulai 1 set", lusin: "Minimal pembelian 12 set" },
         footnote: { ecer: "Mau desain custom sendiri? Order minimal 6 pcs" },
         points: [
