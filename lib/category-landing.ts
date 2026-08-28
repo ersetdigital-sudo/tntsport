@@ -302,7 +302,7 @@ export const CATEGORY_LANDINGS: Record<string, CategoryLandingConfig> = {
         ],
         pointsByMode: {
           ecer: [
-            "Bebas desain sendiri atau pilih dari katalog kami",
+            "Bebas pilih desain dari katalog atau buat sendiri",
             "Nama dan nomor punggung",
             "Revisi desain tanpa batas",
             "Bahan dry-fit standar liga pro, nyaman dan tidak bau",
@@ -310,7 +310,7 @@ export const CATEGORY_LANDINGS: Record<string, CategoryLandingConfig> = {
             "Celana non printing",
           ],
           lusin: [
-            "Bebas desain sendiri atau pilih dari katalog kami",
+            "Bebas pilih desain dari katalog atau buat sendiri",
             "Nama dan nomor punggung, gratis",
             "Revisi desain tanpa batas sampai tim kamu puas",
             "Bahan dry-fit standar liga pro, nyaman dan tidak bau",
