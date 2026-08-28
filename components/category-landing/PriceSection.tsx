@@ -22,6 +22,8 @@ interface Props {
   eyebrowAtasan: string;
   /** override label toggle Lusin (default: "Lusin · Hemat") */
   toggleLusinLabel?: string;
+  /** override label toggle Ecer (default: "Ecer") */
+  toggleEcerLabel?: string;
 }
 
 type Mode = "ecer" | "lusin";
@@ -30,7 +32,7 @@ type Mode = "ecer" | "lusin";
  * Section Harga dengan toggle Ecer/Lusin ala referensi:
  * pill gradien bergeser mengikuti tombol aktif, harga cross-fade.
  */
-export function PriceSection({ atasan, setelan, bulk, waAtasan, waAtasanEcer, waAtasanLusin, waSetelan, waSetelanEcer, waSetelanLusin, waBulk, eyebrowAtasan, toggleLusinLabel = "Lusin · Hemat" }: Props) {
+export function PriceSection({ atasan, setelan, bulk, waAtasan, waAtasanEcer, waAtasanLusin, waSetelan, waSetelanEcer, waSetelanLusin, waBulk, eyebrowAtasan, toggleLusinLabel = "Lusin · Hemat", toggleEcerLabel = "Ecer" }: Props) {
   const [mode, setMode] = useState<Mode>("ecer");
 
   const wrapRef = useRef<HTMLDivElement>(null);
@@ -89,7 +91,7 @@ export function PriceSection({ atasan, setelan, bulk, waAtasan, waAtasanEcer, wa
               onClick={() => { setMode(key); movePill(key); }}
               className={`qty-btn cursor-pointer ${mode === key ? "is-active" : ""}`}
             >
-              {key === "ecer" ? "Ecer" : toggleLusinLabel}
+              {key === "ecer" ? toggleEcerLabel : toggleLusinLabel}
             </button>
           ))}
         </div>
