@@ -9,6 +9,10 @@ interface Props {
   setelan: LandingPriceCard;
   bulk: { headline: string; accent: string; sub: string; cta: string };
   waAtasan: string;
+  /** WA template Atasan mode Ecer (fallback ke waAtasan) */
+  waAtasanEcer?: string;
+  /** WA template Atasan mode Lusin (fallback ke waAtasan) */
+  waAtasanLusin?: string;
   waSetelan: string;
   /** WA template Setelan mode Ecer (fallback ke waSetelan) */
   waSetelanEcer?: string;
@@ -26,7 +30,7 @@ type Mode = "ecer" | "lusin";
  * Section Harga dengan toggle Ecer/Lusin ala referensi:
  * pill gradien bergeser mengikuti tombol aktif, harga cross-fade.
  */
-export function PriceSection({ atasan, setelan, bulk, waAtasan, waSetelan, waSetelanEcer, waSetelanLusin, waBulk, eyebrowAtasan, toggleLusinLabel = "Lusin · Hemat" }: Props) {
+export function PriceSection({ atasan, setelan, bulk, waAtasan, waAtasanEcer, waAtasanLusin, waSetelan, waSetelanEcer, waSetelanLusin, waBulk, eyebrowAtasan, toggleLusinLabel = "Lusin · Hemat" }: Props) {
   const [mode, setMode] = useState<Mode>("ecer");
 
   const wrapRef = useRef<HTMLDivElement>(null);
@@ -53,7 +57,11 @@ export function PriceSection({ atasan, setelan, bulk, waAtasan, waSetelan, waSet
   }, [mode]);
 
   const cards: { card: LandingPriceCard; wa: string; label: string }[] = [
-    { card: atasan, wa: waAtasan, label: `${eyebrowAtasan} — Atasan` },
+    {
+      card: atasan,
+      wa: mode === "ecer" ? (waAtasanEcer ?? waAtasan) : (waAtasanLusin ?? waAtasan),
+      label: `${eyebrowAtasan} — Atasan`,
+    },
     {
       card: setelan,
       wa: mode === "ecer" ? (waSetelanEcer ?? waSetelan) : (waSetelanLusin ?? waSetelan),
@@ -118,9 +126,11 @@ export function PriceSection({ atasan, setelan, bulk, waAtasan, waSetelan, waSet
               </span>
               <span className="text-[#9aa1ad] pb-2.5 text-lg">{card.unit}</span>
             </div>
-            <p key={mode + "note"} className="mt-2.5 text-sm text-[#9aa1ad] price-fade">
-              {card.notes[mode]}
-            </p>
+            {card.notes[mode] && (
+              <p key={mode + "note"} className="mt-2.5 text-sm text-[#9aa1ad] price-fade">
+                {card.notes[mode]}
+              </p>
+            )}
             {card.footnote?.[mode] && (
               <p key={mode + "footnote"} className="mt-2 text-xs italic text-white/40 price-fade">
                 {card.footnote[mode]}
