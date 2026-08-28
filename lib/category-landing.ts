@@ -262,7 +262,7 @@ export const CATEGORY_LANDINGS: Record<string, CategoryLandingConfig> = {
         name: "JERSEY SETELAN",
         unit: "/pcs",
         prices: { ecer: "145k", lusin: "78k" },
-        notes: { ecer: "Bisa pesan mulai 1 pcs", lusin: "Minimal pembelian 12 pcs" },
+        notes: { ecer: "", lusin: "Minimal pembelian 6" },
         footnote: { ecer: "Catatan: Motif & kerah tidak dapat diubah." },
         points: [
           "Logo Tim Gratis",
