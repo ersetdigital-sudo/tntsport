@@ -259,9 +259,9 @@ export const CATEGORY_LANDINGS: Record<string, CategoryLandingConfig> = {
       atasan: {
         kicker: "promo",
         badge: "FLEKSIBEL",
-        name: "Atasan Saja",
+        name: "JERSEY SETELAN",
         unit: "/pcs",
-        prices: { ecer: "75rb", lusin: "65rb" },
+        prices: { ecer: "145k", lusin: "78k" },
         notes: { ecer: "Bisa pesan mulai 1 pcs", lusin: "Minimal pembelian 12 pcs" },
         footnote: { ecer: "Mau desain custom sendiri? Order minimal 6 pcs" },
         points: [
