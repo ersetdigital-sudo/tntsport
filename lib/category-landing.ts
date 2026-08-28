@@ -416,7 +416,7 @@ export const CATEGORY_LANDINGS: Record<string, CategoryLandingConfig> = {
       order: "Halo TNT SPORT APPAREL, saya mau konsultasi desain jersey futsal / sepak bola custom full team (min. 6 pcs). Bisa dibantu?",
       promo: "Halo TNT SPORT APPAREL, saya mau klaim promo jersey futsal & bola untuk order minggu ini. Info dong!",
       closing: "Halo TNT SPORT APPAREL, saya mau mulai order jersey futsal / sepak bola custom untuk tim saya.",
-      atasan: "Halo TNT SPORT APPAREL, saya mau pesan Jersey Atasan saja (futsal/bola). Minta info lengkapnya dong!",
+      atasan: "Halo Kak, saya mau pesan Jersey Setelan Promo. Bisa dibantu prosesnya?",
       setelan: "Halo TNT SPORT APPAREL, saya mau pesan Jersey Setelan atasan + celana (futsal/bola). Minta info lengkapnya dong!",
       setelanEcer: "Halo Kak, saya mau pesan Jersey Setelan Full Custom - Ecer. Bisa dibantu prosesnya?",
       setelanLusin: "Halo Kak, saya mau pesan Jersey Setelan Full Custom - 6 PCS. Bisa dibantu prosesnya?",
