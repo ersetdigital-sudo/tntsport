@@ -257,7 +257,7 @@ export const CATEGORY_LANDINGS: Record<string, CategoryLandingConfig> = {
       sub: "Pilih jumlah pembelian, harga akan menyesuaikan otomatis.",
       toggleLusinLabel: "6 PCS · BEST DEAL",
       atasan: {
-        kicker: "Jersey Atasan",
+        kicker: "promo",
         badge: "FLEKSIBEL",
         name: "Atasan Saja",
         unit: "/pcs",
