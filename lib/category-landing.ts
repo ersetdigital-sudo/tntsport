@@ -98,6 +98,8 @@ export interface CategoryLandingConfig {
     headline: string;
     headlineAccent: string;
     sub: string;
+    /** label toggle Lusin — override per kategori (default: "Lusin · Hemat") */
+    toggleLusinLabel?: string;
     atasan: LandingPriceCard;
     setelan: LandingPriceCard;
     bulk: { headline: string; accent: string; sub: string; cta: string };
@@ -249,6 +251,7 @@ export const CATEGORY_LANDINGS: Record<string, CategoryLandingConfig> = {
       headline: "Pilih Paket ",
       headlineAccent: "Timmu",
       sub: "Pilih jumlah pembelian, harga akan menyesuaikan otomatis.",
+      toggleLusinLabel: "6 PCS · BEST DEAL",
       atasan: {
         kicker: "Jersey Atasan",
         badge: "FLEKSIBEL",

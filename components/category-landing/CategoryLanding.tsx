@@ -498,6 +498,7 @@ export function CategoryLanding({ config, products, testimonials, waNumber }: Pr
               waSetelan={buildWhatsAppLink(waNumber, config.wa.setelan)}
               waBulk={buildWhatsAppLink(waNumber, config.wa.bulk)}
               eyebrowAtasan={config.eyebrow}
+              toggleLusinLabel={config.pricing.toggleLusinLabel}
             />
           </div>
         </section>
