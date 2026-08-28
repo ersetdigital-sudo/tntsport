@@ -155,6 +155,10 @@ export interface CategoryLandingConfig {
     closing: string;
     atasan: string;
     setelan: string;
+    /** template WA Setelan mode Ecer (override per kategori; fallback ke `setelan` jika kosong) */
+    setelanEcer?: string;
+    /** template WA Setelan mode Lusin (override per kategori; fallback ke `setelan` jika kosong) */
+    setelanLusin?: string;
     bulk: string;
     gallery: string;
     /** template pesan WA per desain — "{design}" diganti kode desain saat klik */
@@ -318,7 +322,7 @@ export const CATEGORY_LANDINGS: Record<string, CategoryLandingConfig> = {
             "Celana non printing",
           ],
         },
-        cta: "Pilih Setelan",
+        cta: "Custom Sekarang",
         highlighted: true,
       },
       bulk: {
@@ -411,6 +415,8 @@ export const CATEGORY_LANDINGS: Record<string, CategoryLandingConfig> = {
       closing: "Halo TNT SPORT APPAREL, saya mau mulai order jersey futsal / sepak bola custom untuk tim saya.",
       atasan: "Halo TNT SPORT APPAREL, saya mau pesan Jersey Atasan saja (futsal/bola). Minta info lengkapnya dong!",
       setelan: "Halo TNT SPORT APPAREL, saya mau pesan Jersey Setelan atasan + celana (futsal/bola). Minta info lengkapnya dong!",
+      setelanEcer: "Halo Kak, saya mau pesan Jersey Setelan Full Custom - Ecer. Bisa dibantu prosesnya?",
+      setelanLusin: "Halo Kak, saya mau pesan Jersey Setelan Full Custom - 6 PCS. Bisa dibantu prosesnya?",
       bulk: "Halo TNT SPORT APPAREL, saya butuh jersey lebih dari 50 pcs buat komunitas/sekolah/event. Minta harga khusus dong!",
       gallery: "Halo TNT SPORT APPAREL, saya lihat galeri hasil jersey pelanggan di landing futsal, saya mau order seperti itu!",
       designTemplate: "Halo TNT SPORT APPAREL, saya tertarik dengan desain *{design}* di katalog Jersey Futsal & Bola. Bisa info lebih lanjut?",

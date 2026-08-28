@@ -10,6 +10,10 @@ interface Props {
   bulk: { headline: string; accent: string; sub: string; cta: string };
   waAtasan: string;
   waSetelan: string;
+  /** WA template Setelan mode Ecer (fallback ke waSetelan) */
+  waSetelanEcer?: string;
+  /** WA template Setelan mode Lusin (fallback ke waSetelan) */
+  waSetelanLusin?: string;
   waBulk: string;
   eyebrowAtasan: string;
   /** override label toggle Lusin (default: "Lusin · Hemat") */
@@ -22,7 +26,7 @@ type Mode = "ecer" | "lusin";
  * Section Harga dengan toggle Ecer/Lusin ala referensi:
  * pill gradien bergeser mengikuti tombol aktif, harga cross-fade.
  */
-export function PriceSection({ atasan, setelan, bulk, waAtasan, waSetelan, waBulk, eyebrowAtasan, toggleLusinLabel = "Lusin · Hemat" }: Props) {
+export function PriceSection({ atasan, setelan, bulk, waAtasan, waSetelan, waSetelanEcer, waSetelanLusin, waBulk, eyebrowAtasan, toggleLusinLabel = "Lusin · Hemat" }: Props) {
   const [mode, setMode] = useState<Mode>("ecer");
 
   const wrapRef = useRef<HTMLDivElement>(null);
@@ -50,7 +54,11 @@ export function PriceSection({ atasan, setelan, bulk, waAtasan, waSetelan, waBul
 
   const cards: { card: LandingPriceCard; wa: string; label: string }[] = [
     { card: atasan, wa: waAtasan, label: `${eyebrowAtasan} — Atasan` },
-    { card: setelan, wa: waSetelan, label: `${eyebrowAtasan} — Setelan` },
+    {
+      card: setelan,
+      wa: mode === "ecer" ? (waSetelanEcer ?? waSetelan) : (waSetelanLusin ?? waSetelan),
+      label: `${eyebrowAtasan} — Setelan`,
+    },
   ];
 
   return (

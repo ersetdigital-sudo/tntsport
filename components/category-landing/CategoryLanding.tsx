@@ -496,6 +496,8 @@ export function CategoryLanding({ config, products, testimonials, waNumber }: Pr
               bulk={config.pricing.bulk}
               waAtasan={buildWhatsAppLink(waNumber, config.wa.atasan)}
               waSetelan={buildWhatsAppLink(waNumber, config.wa.setelan)}
+              waSetelanEcer={config.wa.setelanEcer ? buildWhatsAppLink(waNumber, config.wa.setelanEcer) : undefined}
+              waSetelanLusin={config.wa.setelanLusin ? buildWhatsAppLink(waNumber, config.wa.setelanLusin) : undefined}
               waBulk={buildWhatsAppLink(waNumber, config.wa.bulk)}
               eyebrowAtasan={config.eyebrow}
               toggleLusinLabel={config.pricing.toggleLusinLabel}
