@@ -291,7 +291,7 @@ export const CATEGORY_LANDINGS: Record<string, CategoryLandingConfig> = {
         name: "Jersey Setelan",
         unit: "/set",
         prices: { ecer: "195rb", lusin: "145rb" },
-        notes: { ecer: "Bisa pesan mulai 1 set", lusin: "Minimal pembelian 12 set" },
+        notes: { ecer: "Bisa pesan mulai 1 set", lusin: "Minimal pembelian 6 pcs" },
         footnote: { ecer: "Mau desain custom sendiri? Order minimal 6 pcs" },
         points: [
           "Full printing, pilih dari katalog desain",
