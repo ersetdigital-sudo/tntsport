@@ -12,6 +12,9 @@ import { resolveSeoCatalog } from "@/lib/seo";
  * (`/katalog?category=…&design=…`). lastModified is refreshed
  * automatically via `new Date()`.
  */
+export const dynamic = "force-dynamic";
+export const revalidate = 60;
+
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const brand = await getBrand();
   if (!brand.url) return [];
