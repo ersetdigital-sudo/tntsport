@@ -63,14 +63,6 @@ const FEATURE_ICONS: Record<string, ReactElement> = {
   ),
 };
 
-/** Akhir pekan ini (Minggu) sebagai deadline promo, format Indonesia. */
-function weekendDeadline(): string {
-  const now = new Date();
-  const day = now.getDay();
-  now.setDate(now.getDate() + (day === 0 ? 0 : 7 - day));
-  return new Intl.DateTimeFormat("id-ID", { weekday: "long", day: "numeric", month: "long" }).format(now);
-}
-
 interface Props {
   config: CategoryLandingConfig;
   products: GridProduct[];
@@ -81,9 +73,7 @@ interface Props {
 export function CategoryLanding({ config, products, testimonials, waNumber }: Props) {
   const wa = (msg: string) => buildWhatsAppLink(waNumber, msg);
   const waOrder = wa(config.wa.order);
-  const waPromo = wa(config.wa.promo);
   const waClosing = wa(config.wa.closing);
-  const deadline = weekendDeadline();
 
   return (
     <div
@@ -532,41 +522,6 @@ export function CategoryLanding({ config, products, testimonials, waNumber }: Pr
             </div>
 
             <TestimonialCarousel items={testimonials.slice(0, 6)} />
-          </div>
-        </section>
-
-        {/* ================= PROMO / URGENCY ================= */}
-        <section id="promo" className="py-20 md:py-28 relative overflow-hidden">
-          <div className="absolute inset-0 -z-10 opacity-25">
-            <Image src={config.urgency.bgImage} alt="" fill className="object-cover" sizes="100vw" />
-            <div className="absolute inset-0" style={{ background: "linear-gradient(180deg,#08090b 0%,rgba(8,9,11,.75) 45%,#08090b 100%)" }} />
-          </div>
-          <div className="max-w-4xl mx-auto px-5 text-center reveal">
-            <p className="kicker text-[11px] text-[#ff9d2e] mb-4">Promo Terbatas</p>
-            <h2 className="display text-3xl sm:text-5xl">
-              {config.urgency.headline}
-              <br className="hidden sm:block" />{" "}
-              <span className="fire-text">{config.urgency.headlineAccent}</span>
-            </h2>
-            <p className="mt-6 text-[#9aa1ad] text-base sm:text-lg leading-relaxed max-w-2xl mx-auto">
-              {config.urgency.body.replace("{deadline}", deadline)}
-            </p>
-            <div className="mt-8 flex justify-center">
-              <WhatsAppLeadLink
-                href={waPromo}
-                label={`Klaim Promo — ${config.eyebrow}`}
-                className="btn-fire rounded-full px-8 py-4 font-bold text-white cursor-pointer"
-              >
-                {config.urgency.cta} →
-              </WhatsAppLeadLink>
-            </div>
-            <p className="mt-5 text-sm text-white/45 flex items-center justify-center gap-1.5">
-              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-                <circle cx="12" cy="13" r="8" stroke="currentColor" strokeWidth="1.8" />
-                <path d="M12 9v4l2.5 2.5M9 2h6" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" />
-              </svg>
-              {config.urgency.note}
-            </p>
           </div>
         </section>
 
