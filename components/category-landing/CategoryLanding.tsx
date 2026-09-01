@@ -9,6 +9,7 @@ import { PriceSection } from "@/components/category-landing/PriceSection";
 import { ScrollReveal } from "@/components/category-landing/ScrollReveal";
 import { TestimonialCarousel } from "@/components/category-landing/TestimonialCarousel";
 import { GalleryMarquee } from "@/components/category-landing/GalleryMarquee";
+import { FloatingWhatsApp } from "@/components/FloatingWhatsApp";
 import { buildWhatsAppLink } from "@/lib/wa";
 import type { CategoryLandingConfig, LandingTestimonial } from "@/lib/category-landing";
 
@@ -507,6 +508,12 @@ export function CategoryLanding({ config, products, testimonials, waNumber }: Pr
           <p>© {new Date().getFullYear()} · {config.eyebrow}</p>
         </div>
       </footer>
+
+      <FloatingWhatsApp
+        waNumber={waNumber}
+        message={config.wa.closing}
+        label={`Floating WA — ${config.eyebrow}`}
+      />
     </div>
   );
 }
