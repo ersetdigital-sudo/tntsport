@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { ArrowRightIcon, WhatsAppIcon } from "@/components/icons";
 import { buildWhatsAppLink } from "@/lib/wa";
-import { trackContact, trackLead } from "@/components/MetaPixel";
+import { trackLead } from "@/components/MetaPixel";
 import type { Brand } from "@/lib/types";
 
 /**
@@ -41,7 +41,7 @@ export function ClosingCTA({ brand }: { brand: Brand }) {
         <div className="flex w-full flex-col gap-2.5 sm:w-auto sm:flex-row sm:items-center sm:gap-3">
           <Link
             href={waHref}
-            onClick={() => { trackLead("Home Closing CTA"); trackContact("Home Closing CTA"); }}
+            onClick={() => { trackLead("Home Closing CTA"); }}
             target="_blank"
             rel="noopener noreferrer"
             className="inline-flex h-11 w-full items-center justify-center gap-2 rounded-xl bg-white px-4 text-[13px] font-extrabold uppercase tracking-wide text-primary shadow-premium-md transition-all duration-200 hover:brightness-95 active:scale-[0.98] sm:h-12 sm:w-auto sm:px-6 sm:text-sm"

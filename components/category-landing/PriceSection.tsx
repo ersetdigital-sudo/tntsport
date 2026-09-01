@@ -58,16 +58,25 @@ export function PriceSection({ atasan, setelan, bulk, waAtasan, waAtasanEcer, wa
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [mode]);
 
-  const cards: { card: LandingPriceCard; wa: string; label: string }[] = [
+  const parsePrice = (s: string): number => {
+    const n = s.replace(/[^0-9]/g, "");
+    return n ? Number(n) * (s.includes("rb") ? 1000 : 1000) : 0;
+  };
+
+  const cards: { card: LandingPriceCard; wa: string; label: string; leadLabel: string; leadValue: number }[] = [
     {
       card: atasan,
       wa: mode === "ecer" ? (waAtasanEcer ?? waAtasan) : (waAtasanLusin ?? waAtasan),
       label: `${eyebrowAtasan} — Atasan`,
+      leadLabel: mode === "lusin" ? "Jersey Setelan Promo 6 PCS" : "Jersey Setelan Satuan",
+      leadValue: parsePrice(atasan.prices[mode]),
     },
     {
       card: setelan,
       wa: mode === "ecer" ? (waSetelanEcer ?? waSetelan) : (waSetelanLusin ?? waSetelan),
       label: `${eyebrowAtasan} — Setelan`,
+      leadLabel: mode === "lusin" ? "Jersey Full Custom 6 PCS" : "Jersey Full Custom Satuan",
+      leadValue: parsePrice(setelan.prices[mode]),
     },
   ];
 
@@ -99,7 +108,7 @@ export function PriceSection({ atasan, setelan, bulk, waAtasan, waAtasanEcer, wa
 
       {/* Kartu harga */}
       <div className="mt-10 grid md:grid-cols-2 gap-5">
-        {cards.map(({ card, wa, label }) => (
+        {cards.map(({ card, wa, label, leadLabel, leadValue }) => (
           <article
             key={card.name}
             className={`price-card card rounded-3xl p-7 sm:p-8 flex flex-col relative reveal ${card.highlighted ? "price-card-hl" : ""}`}
@@ -151,7 +160,9 @@ export function PriceSection({ atasan, setelan, bulk, waAtasan, waAtasanEcer, wa
             <div className="card-cta">
               <WhatsAppLeadLink
                 href={wa}
-                label={label}
+                label={leadLabel}
+                leadValue={leadValue}
+                leadCurrency="IDR"
                 className={
                   card.highlighted
                     ? "btn-fire rounded-full pl-6 pr-3 py-3.5 font-bold text-white flex items-center justify-between gap-3 cursor-pointer"

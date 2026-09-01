@@ -1,6 +1,6 @@
 "use client";
 
-import { trackContact, trackLead } from "@/components/MetaPixel";
+import { trackLead } from "@/components/MetaPixel";
 
 interface Props {
   href: string;
@@ -11,7 +11,7 @@ interface Props {
 
 /**
  * TrackedLink — a minimal client component that wraps an <a> tag with
- * Meta Pixel Lead + Contact tracking on click. Use this inside server
+ * Meta Pixel Lead tracking on click. Use this inside server
  * components to add tracking without converting the whole component
  * to "use client".
  *
@@ -27,7 +27,6 @@ export function TrackedLink({ href, contentName, className, children }: Props) {
       className={className}
       onClick={() => {
         trackLead(contentName);
-        trackContact(contentName);
       }}
     >
       {children}

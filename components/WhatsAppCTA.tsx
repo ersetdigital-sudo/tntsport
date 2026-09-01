@@ -1,6 +1,6 @@
 "use client";
 
-import { trackContact, trackLead } from "@/components/MetaPixel";
+import { trackLead } from "@/components/MetaPixel";
 import { WhatsAppIcon } from "@/components/icons";
 
 interface Props {
@@ -11,13 +11,12 @@ interface Props {
  * WhatsAppCTA — the green "CHAT WHATSAPP" card on the homepage.
  *
  * Replaces the DB-driven CTALinkCard for the WhatsApp item so we can
- * attach Meta Pixel Lead + Contact tracking directly via onClick.
+ * attach Meta Pixel Lead tracking directly via onClick.
  * Layout and styling match the original CTALinkCard whatsapp accent.
  */
 export function WhatsAppCTA({ href }: Props) {
   const handleClick = () => {
     trackLead("Homepage CTA");
-    trackContact("Homepage CTA");
   };
 
   return (

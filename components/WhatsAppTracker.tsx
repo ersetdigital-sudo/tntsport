@@ -1,13 +1,13 @@
 "use client";
 
 import { useEffect } from "react";
-import { trackContact, trackLead } from "@/components/MetaPixel";
+import { trackLead } from "@/components/MetaPixel";
 
 /**
  * WhatsAppTracker — lightweight event-delegation tracker for WhatsApp links.
  *
  * Attaches a single document-level click listener that fires Meta Pixel
- * Lead + Contact events for any `<a>` whose href contains "whatsapp".
+ * Lead event for any `<a>` whose href contains "whatsapp".
  * Works with both server and client rendered links — no wrapping or prop
  * changes needed.
  *
@@ -19,7 +19,6 @@ export function WhatsAppTracker() {
       const anchor = (e.target as HTMLElement).closest("a");
       if (anchor && anchor.href.includes("whatsapp")) {
         trackLead("WhatsApp CTA");
-        trackContact("WhatsApp CTA");
       }
     };
     document.addEventListener("click", handler);

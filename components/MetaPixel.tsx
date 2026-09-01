@@ -156,21 +156,20 @@ export function trackContact(
 export function trackLead(
   contentName: string,
   value: number = DEFAULT_EVENT_VALUE,
-  currency: string = DEFAULT_EVENT_CURRENCY
+  currency: string = DEFAULT_EVENT_CURRENCY,
+  contentCategory?: string
 ) {
   if (typeof window !== "undefined" && (window as any).fbq) {
     const w = window as any;
     const eventId = generateEventId("Lead");
-    w.fbq("track", "Lead", {
+    const params: Record<string, any> = {
       content_name: contentName,
+      content_category: contentCategory || "WhatsApp Lead",
       value,
       currency,
-    }, { eventID: eventId });
-    sendCAPIEvent("Lead", eventId, {
-      content_name: contentName,
-      value,
-      currency,
-    });
+    };
+    w.fbq("track", "Lead", params, { eventID: eventId });
+    sendCAPIEvent("Lead", eventId, params);
   }
 }
 
