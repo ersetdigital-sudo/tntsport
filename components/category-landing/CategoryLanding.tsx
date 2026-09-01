@@ -426,26 +426,59 @@ export function CategoryLanding({ config, products, testimonials, waNumber }: Pr
           </div>
         </section>
 
-        {/* ================= CARA ORDER ================= */}
-        <section id="cara" className="py-20 md:py-28">
+        {/* ================= KENAPA TNT SPORT APPAREL ================= */}
+        <section id="keunggulan" className="py-20 md:py-28 border-b border-white/10">
           <div className="max-w-6xl mx-auto px-5">
-            <div className="reveal">
-              <p className="kicker text-[11px] text-[#ff9d2e] mb-4">Cara Order</p>
-              <h2 className="display text-3xl sm:text-5xl">
-                {config.steps.headline}
-                <span className="fire-text">{config.steps.headlineAccent}</span>
-              </h2>
+            <div className="mb-8 grid gap-6 lg:mb-12 lg:grid-cols-[1.1fr_.9fr] lg:items-end">
+              <div className="reveal">
+                <p className="kicker text-[11px] text-[#ff9d2e] mb-4">Kenapa TNT SPORT APPAREL?</p>
+                <h2 className="display text-3xl sm:text-5xl lg:text-6xl">
+                  Dibuat untuk tim yang
+                  <br />
+                  <span className="fire-text">mau tampil maksimal.</span>
+                </h2>
+              </div>
+              <p className="max-w-xl text-sm sm:text-base text-[#9aa1ad] leading-relaxed lg:justify-self-end reveal">
+                Dari konsultasi desain sampai pengiriman, semua dikerjakan tim profesional dengan material pilihan dan mesin produksi modern.
+              </p>
             </div>
 
-            <div className="mt-12 grid sm:grid-cols-2 lg:grid-cols-4 gap-5">
-              {config.steps.items.map((s, i) => (
-                <div key={s.title} className="card rounded-2xl p-6 relative overflow-hidden reveal">
-                  <span className="display absolute -top-3 -right-1 text-[6rem] leading-none text-white/[.05] select-none" aria-hidden="true">
-                    {String(i + 1).padStart(2, "0")}
-                  </span>
-                  <p className="kicker text-[11px] text-[#ff6b00]">Langkah {i + 1}</p>
-                  <h3 className="display text-2xl mt-2">{s.title}</h3>
-                  <p className="mt-2.5 text-sm text-[#9aa1ad] leading-relaxed">{s.desc}</p>
+            {/* Feature cards */}
+            <div className="grid gap-3 sm:grid-cols-2 sm:gap-4 lg:grid-cols-4">
+              {[
+                { icon: "single", title: "Adem & Nyaman", desc: "Bahan ringan, menyerap keringat, dan nyaman untuk aktivitas fisik intens." },
+                { icon: "design", title: "Free Custom Design", desc: "Tim desainer siap mewujudkan ide jersey dengan revisi tanpa batas." },
+                { icon: "sewing", title: "Jahitan Kuat & Rapi", desc: "Dijahit presisi dengan mesin modern agar awet untuk jangka panjang." },
+                { icon: "fast", title: "Cepat & Tepat", desc: "Proses produksi terjadwal, cocok bahkan untuk turnamen mendadak." },
+              ].map((item, i) => (
+                <article key={i} className="card card-hl rounded-3xl p-5 sm:p-6 reveal transition duration-300 hover:-translate-y-1">
+                  <div className="mb-6 sm:mb-8 w-14 h-14 sm:w-16 sm:h-16 rounded-xl grid place-items-center text-white" style={{ background: "linear-gradient(135deg,var(--fire),var(--ember))", boxShadow: "0 8px 24px rgba(255,107,0,.2)" }}>
+                    {FEATURE_ICONS[item.icon]}
+                  </div>
+                  <h3 className="display text-lg sm:text-xl">{item.title}</h3>
+                  <p className="mt-2 sm:mt-3 text-xs sm:text-sm text-[#9aa1ad] leading-relaxed">{item.desc}</p>
+                </article>
+              ))}
+            </div>
+
+            {/* Info cards */}
+            <div className="mt-5 grid gap-3 sm:grid-cols-2 md:grid-cols-3">
+              {[
+                { icon: "print", title: "Mesin teknologi tinggi", desc: "Hasil print konsisten dan presisi." },
+                { icon: "design", title: "Tinta bersertifikat", desc: "Tajam, cerah, dan tidak mudah pudar." },
+                { icon: "single", title: "Pelayanan profesional", desc: "Didampingi dari konsultasi sampai kirim." },
+              ].map((item, i) => (
+                <div key={i} className="group relative overflow-hidden rounded-2xl border border-white/10 bg-gradient-to-br from-[#1a1410] to-[#100d0a] p-5 transition duration-300 hover:-translate-y-1 hover:border-[#ff6b00]/35 reveal">
+                  <div className="absolute -right-8 -top-8 h-24 w-24 rounded-full bg-[#ff6b00]/[.04] blur-2xl transition group-hover:bg-[#ff6b00]/10" />
+                  <div className="relative flex items-center gap-4">
+                    <div className="flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl border border-[#ff6b00]/25 bg-[#ff6b00]/10 shadow-[inset_0_1px_0_rgba(255,255,255,.08)] text-[#ff9d2e]">
+                      {FEATURE_ICONS[item.icon]}
+                    </div>
+                    <div>
+                      <strong className="block text-sm font-black text-white">{item.title}</strong>
+                      <span className="mt-1 block text-xs leading-relaxed text-[#9aa1ad]">{item.desc}</span>
+                    </div>
+                  </div>
                 </div>
               ))}
             </div>
