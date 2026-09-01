@@ -511,7 +511,7 @@ export function CategoryLanding({ config, products, testimonials, waNumber }: Pr
 
       <FloatingWhatsApp
         waNumber={waNumber}
-        message={config.wa.closing}
+        message={config.wa.floating || config.wa.closing}
         label={`Floating WA — ${config.eyebrow}`}
       />
     </div>

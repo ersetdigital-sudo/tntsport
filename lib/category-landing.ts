@@ -169,6 +169,8 @@ export interface CategoryLandingConfig {
     gallery: string;
     /** template pesan WA per desain — "{design}" diganti kode desain saat klik */
     designTemplate: string;
+    /** pesan untuk tombol WA melayang (floating) */
+    floating?: string;
   };
 }
 
@@ -432,6 +434,7 @@ export const CATEGORY_LANDINGS: Record<string, CategoryLandingConfig> = {
       bulk: "Halo TNT SPORT APPAREL, saya butuh jersey lebih dari 50 pcs buat komunitas/sekolah/event. Minta harga khusus dong!",
       gallery: "Halo TNT SPORT APPAREL, saya lihat galeri hasil jersey pelanggan di landing futsal, saya mau order seperti itu!",
       designTemplate: "Halo TNT SPORT APPAREL, saya tertarik dengan desain *{design}* di katalog Jersey Futsal & Bola. Bisa info lebih lanjut?",
+      floating: "Halo, saya lagi cari jersey futsal custom. Bisa kasih info harga & desainnya?",
     },
   },
 
