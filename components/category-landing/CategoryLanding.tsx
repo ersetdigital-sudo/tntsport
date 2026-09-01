@@ -166,36 +166,25 @@ export function CategoryLanding({ config, products, testimonials, waNumber }: Pr
         .cl-pop{transition:transform .45s cubic-bezier(.2,.8,.2,1),opacity .45s ease;}
         .cl-pop-hide{transform:translateY(140%);opacity:0;pointer-events:none;}
         /* ===== Carousel testimoni (auto-scroll infinite, pure CSS) ===== */
-        /* Default: strip statis yang bisa di-swipe — fallback browser lama /
-           JS gagal load / reduced-motion. */
         .t-wrap{
-          overflow-x:auto;
-          -webkit-overflow-scrolling:touch;
-          scroll-snap-type:x proximity;
+          overflow:hidden;
           -webkit-mask-image:linear-gradient(90deg,transparent,#000 4%,#000 96%,transparent);
           mask-image:linear-gradient(90deg,transparent,#000 4%,#000 96%,transparent);
         }
-        .t-track{display:flex;width:max-content;padding-inline:1.25rem;}
+        .t-track{
+          display:flex;width:max-content;padding-inline:1.25rem;
+          animation:t-slide 52s linear infinite;
+          will-change:transform;
+        }
         .t-item{
           flex:0 0 auto;
           width:min(21rem,78vw);
-          /* margin, BUKAN gap — kompatibel Safari iOS lama & loop -50% presisi */
           margin-right:1.25rem;
-          scroll-snap-align:center;
         }
-        @media (prefers-reduced-motion:no-preference){
-          .t-wrap{overflow-x:hidden;}
-          .t-track{
-            animation:t-slide 60s linear infinite;
-            will-change:transform; /* hanya di elemen yang dianimasi */
-          }
-          .t-wrap:hover .t-track,
-          .t-wrap:active .t-track,
-          .t-wrap:focus-within .t-track{animation-play-state:paused;}
-        }
+        .t-wrap:hover .t-track,
+        .t-wrap:active .t-track,
+        .t-wrap:focus-within .t-track{animation-play-state:paused;}
         @keyframes t-slide{to{transform:translateX(-50%);}}
-        /* Keputusan owner: marquee/galeri/carousel TETAP berjalan walau user
-           memilih reduce motion — hanya efek non-esensial yang dimatikan. */
         @media (prefers-reduced-motion:reduce){
           .reveal{opacity:1;transform:none;transition:none;}
           .cl-pop{transition:none;}

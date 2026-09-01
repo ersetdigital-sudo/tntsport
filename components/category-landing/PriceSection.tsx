@@ -33,7 +33,7 @@ type Mode = "ecer" | "lusin";
  * pill gradien bergeser mengikuti tombol aktif, harga cross-fade.
  */
 export function PriceSection({ atasan, setelan, bulk, waAtasan, waAtasanEcer, waAtasanLusin, waSetelan, waSetelanEcer, waSetelanLusin, waBulk, eyebrowAtasan, toggleLusinLabel = "Lusin · Hemat", toggleEcerLabel = "Ecer" }: Props) {
-  const [mode, setMode] = useState<Mode>("ecer");
+  const [mode, setMode] = useState<Mode>("lusin");
 
   const wrapRef = useRef<HTMLDivElement>(null);
   const pillRef = useRef<HTMLSpanElement>(null);
@@ -82,7 +82,7 @@ export function PriceSection({ atasan, setelan, bulk, waAtasan, waAtasanEcer, wa
           className="qty-toggle relative inline-flex items-center rounded-full p-1.5 gap-1"
         >
           <span ref={pillRef} className="qty-pill" aria-hidden="true" />
-          {(["ecer", "lusin"] as const).map((key) => (
+          {(["lusin", "ecer"] as const).map((key) => (
             <button
               key={key}
               ref={(el) => { btnRefs.current[key] = el; }}
