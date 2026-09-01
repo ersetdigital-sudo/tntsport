@@ -80,19 +80,20 @@ function ZoomModal({
 
 export function CategoryDesignGrid({ products, waNumber, waMessageTemplate }: Props) {
   const [active, setActive] = useState<GridProduct | null>(null);
+  const [showAll, setShowAll] = useState(false);
 
   if (!products.length) return null;
 
   return (
     <>
       <div className="mt-12 grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4">
-        {products.map((p) => (
+        {products.map((p, i) => (
           <button
             key={p.id}
             type="button"
             onClick={() => setActive(p)}
             aria-label={`Lihat detail desain ${p.catalogue}`}
-            className="cat-item group cursor-pointer text-left"
+            className={`cat-item group cursor-pointer text-left ${!showAll && i >= 4 ? "hidden sm:block" : ""}`}
           >
             <div className="relative aspect-[4/5] w-full overflow-hidden">
               <Image
@@ -108,6 +109,18 @@ export function CategoryDesignGrid({ products, waNumber, waMessageTemplate }: Pr
           </button>
         ))}
       </div>
+
+      {!showAll && products.length > 4 && (
+        <div className="mt-6 flex justify-center sm:hidden">
+          <button
+            type="button"
+            onClick={() => setShowAll(true)}
+            className="btn-ghost rounded-full px-7 py-3.5 font-semibold text-sm text-white/90 cursor-pointer"
+          >
+            Lihat Semua Katalog →
+          </button>
+        </div>
+      )}
 
       {active && (
         <ZoomModal
