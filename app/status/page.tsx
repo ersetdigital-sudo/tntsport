@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, Suspense } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
 import {
   ORDER_STATUS_LABELS,
@@ -33,6 +33,14 @@ function formatShortDate(dateStr: string) {
 }
 
 export default function StatusPage() {
+  return (
+    <Suspense>
+      <StatusContent />
+    </Suspense>
+  );
+}
+
+function StatusContent() {
   const searchParams = useSearchParams();
   const router = useRouter();
   const orderId = (searchParams.get("order") || "").toUpperCase();
