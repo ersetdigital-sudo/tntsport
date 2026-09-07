@@ -71,7 +71,7 @@ function StatusContent() {
       return;
     }
 
-    // Fetch fresh data using token in Authorization header
+    // Step 1: Fetch fresh order + history from DB
     fetch(`/api/track/session?order=${encodeURIComponent(orderId)}`, {
       headers: { Authorization: `Bearer ${token}` },
     })
@@ -80,16 +80,35 @@ function StatusContent() {
         return r.json();
       })
       .then((data) => {
-        if (data.order) {
-          sessionStorage.setItem(key, JSON.stringify(data));
-          setOrder(data.order);
-          setHistory(data.history);
-          setLoaded(true);
-        } else {
+        if (!data.order) {
           sessionStorage.removeItem(tokenKey);
           sessionStorage.removeItem(key);
           setShowPhoneModal(true);
+          return;
         }
+
+        // Step 2: Ensure history is complete (self-healing)
+        return fetch("/api/track/ensure-history", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ orderNumber: orderId, token }),
+        })
+          .then((r) => r.json())
+          .then((histData) => {
+            const orderData = histData.order || data.order;
+            const historyData = histData.history || data.history;
+            sessionStorage.setItem(key, JSON.stringify({ order: orderData, history: historyData }));
+            setOrder(orderData);
+            setHistory(historyData);
+            setLoaded(true);
+          })
+          .catch(() => {
+            // ensure-history failed, use session data as fallback
+            sessionStorage.setItem(key, JSON.stringify(data));
+            setOrder(data.order);
+            setHistory(data.history);
+            setLoaded(true);
+          });
       })
       .catch(() => {
         // Token expired/invalid — clear and require fresh verification
@@ -463,7 +482,7 @@ function StatusContent() {
               {history.length > 0
                 ? history[history.length - 1].note ||
                   (steps.length > 0
-                    ? steps.find((s) => s.name === history[history.length - 1].status)?.name ||
+                    ? steps.find((s) => s.name.toLowerCase() === history[history.length - 1].status.toLowerCase())?.name ||
                       ORDER_STATUS_LABELS[history[history.length - 1].status as OrderStatus]
                     : ORDER_STATUS_LABELS[history[history.length - 1].status as OrderStatus])
                 : "Pesanan sedang diproses."}
@@ -486,7 +505,7 @@ function StatusContent() {
                   <span className="mt-[7px] w-1.5 h-1.5 rounded-full bg-[#3ee86b] shrink-0" />
                   <span className="flex-1">
                     {steps.length > 0
-                      ? steps.find((s) => s.name === h.status)?.name ||
+                      ? steps.find((s) => s.name.toLowerCase() === h.status.toLowerCase())?.name ||
                         ORDER_STATUS_LABELS[h.status as OrderStatus]
                       : ORDER_STATUS_LABELS[h.status as OrderStatus]}
                     {h.note && (
