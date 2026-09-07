@@ -314,7 +314,7 @@ function StatusUpdateForm({
   const [error, setError] = useState("");
 
   const showPhotoField = ORDER_PHOTO_STAGES.includes(status);
-  const showShippingFields = status === "siap_dikirim";
+  const showShippingFields = status === "kirim";
 
   function handleSubmit(e: React.FormEvent) {
     e.preventDefault();

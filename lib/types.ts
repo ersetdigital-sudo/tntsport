@@ -211,50 +211,67 @@ export interface DbFabric {
 }
 
 // ---------------------------------------------------------------------------
-// Orders Tracking
+// Orders Tracking — 9 production steps
 // ---------------------------------------------------------------------------
 export type OrderStatus =
-  | "order_diterima"
-  | "desain_dikonfirmasi"
-  | "produksi_bahan"
-  | "printing_sublimasi"
-  | "cutting"
+  | "desain"
+  | "layout"
+  | "print"
+  | "pres"
+  | "potong"
   | "jahit"
-  | "quality_control"
   | "finishing"
   | "packing"
-  | "siap_dikirim";
+  | "kirim"
+  | "selesai";
 
 export const ORDER_STATUS_LABELS: Record<OrderStatus, string> = {
-  order_diterima: "Order Diterima",
-  desain_dikonfirmasi: "Desain Dikonfirmasi",
-  produksi_bahan: "Produksi Bahan",
-  printing_sublimasi: "Printing / Sublimasi",
-  cutting: "Cutting",
+  desain: "Desain",
+  layout: "Layout",
+  print: "Print",
+  pres: "Pres",
+  potong: "Potong",
   jahit: "Jahit",
-  quality_control: "Quality Control",
   finishing: "Finishing",
   packing: "Packing",
-  siap_dikirim: "Siap Dikirim",
+  kirim: "Kirim",
+  selesai: "Selesai",
 };
 
 export const ORDER_STATUS_LIST: OrderStatus[] = [
-  "order_diterima",
-  "desain_dikonfirmasi",
-  "produksi_bahan",
-  "printing_sublimasi",
-  "cutting",
+  "desain",
+  "layout",
+  "print",
+  "pres",
+  "potong",
   "jahit",
-  "quality_control",
   "finishing",
   "packing",
-  "siap_dikirim",
+  "kirim",
 ];
 
+/** Fixed progress percentage for each step (1-indexed) */
+export const STEP_PROGRESS: Record<number, number> = {
+  1: 11,
+  2: 22,
+  3: 33,
+  4: 44,
+  5: 56,
+  6: 67,
+  7: 78,
+  8: 89,
+  9: 95,
+};
+
+export function getProgress(step: number, hasTracking: boolean): number {
+  if (step === 9 && hasTracking) return 100;
+  return STEP_PROGRESS[step] ?? 0;
+}
+
 export const ORDER_PHOTO_STAGES: OrderStatus[] = [
-  "desain_dikonfirmasi",
-  "cutting",
-  "quality_control",
+  "desain",
+  "potong",
+  "finishing",
   "packing",
 ];
 
@@ -272,8 +289,7 @@ export interface Order {
   current_status: OrderStatus;
   tracking_number: string;
   courier: string;
-  delay_reason: string;
-  delay_estimated_date: string;
+  deadline: string | null;
   created_at: string;
   updated_at: string;
 }

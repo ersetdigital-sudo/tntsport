@@ -6,6 +6,7 @@ import {
   ORDER_STATUS_LABELS,
   ORDER_STATUS_LIST,
   ORDER_PHOTO_STAGES,
+  getProgress,
   type OrderStatus,
 } from "@/lib/types";
 
@@ -82,7 +83,8 @@ function StatusContent() {
     const stepIdx = steps.length > 0
       ? steps.findIndex((s) => s.name === order.current_status) + 1
       : ORDER_STATUS_LIST.indexOf(order.current_status) + 1;
-    const pct = Math.round(((stepIdx - 0.5) / (steps.length || 10)) * 100);
+    const hasTracking = !!(order.tracking_number && order.courier);
+    const pct = getProgress(stepIdx, hasTracking);
 
     // Animate bar
     setTimeout(() => {
@@ -266,8 +268,10 @@ function StatusContent() {
   const step = steps.length > 0
     ? steps.findIndex((s) => s.name === order.current_status) + 1
     : ORDER_STATUS_LIST.indexOf(order.current_status) + 1;
-  const totalSteps = steps.length || 10;
-  const isShipped = order.current_status === "siap_dikirim" && order.tracking_number;
+  const totalSteps = steps.length || 9;
+  const hasTracking = !!(order.tracking_number && order.courier);
+  const isShipped = order.current_status === "kirim" && hasTracking;
+  const pct = getProgress(step, hasTracking);
 
   return (
     <div className="trk-bg min-h-screen bg-grid">
@@ -475,8 +479,8 @@ function StatusContent() {
           </ol>
         </section>
 
-        {/* PENGIRIMAN */}
-        {isShipped && (
+        {/* PENGIRIMAN / KIRIM STATUS */}
+        {step === 9 && isShipped && (
           <section className="trk-card p-5 sm:p-7 mt-4 trk-reveal">
             <div className="flex items-center gap-3">
               <span className="w-10 h-10 rounded-xl bg-[rgba(34,197,94,.14)] border border-[rgba(34,197,94,.5)] grid place-items-center">
@@ -487,8 +491,8 @@ function StatusContent() {
                 </svg>
               </span>
               <div>
-                <h2 className="trk-display text-[18px]">Informasi Pengiriman</h2>
-                <p className="text-[13px] text-[#9aa0aa]">Paket sudah diserahkan ke ekspedisi</p>
+                <h2 className="trk-display text-[18px]">Pesanan Telah Dikirim</h2>
+                <p className="text-[13px] text-[#9aa0aa]">Pesanan sedang dalam perjalanan.</p>
               </div>
             </div>
             <div className="grid grid-cols-2 gap-px mt-5 bg-[#26282e] rounded-2xl overflow-hidden">
@@ -530,6 +534,24 @@ function StatusContent() {
               >
                 Salin Resi
               </button>
+            </div>
+          </section>
+        )}
+
+        {step === 9 && !isShipped && (
+          <section className="trk-card p-5 sm:p-7 mt-4 trk-reveal">
+            <div className="flex items-center gap-3">
+              <span className="w-10 h-10 rounded-xl bg-[rgba(251,191,36,.14)] border border-[rgba(251,191,36,.5)] grid place-items-center">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#fbbf24" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M3 7h11v10H3zM14 10h4l3 3v4h-7z" />
+                  <circle cx="7" cy="18" r="1.6" />
+                  <circle cx="17.5" cy="18" r="1.6" />
+                </svg>
+              </span>
+              <div>
+                <h2 className="trk-display text-[18px]">Sedang Diproses untuk Pengiriman</h2>
+                <p className="text-[13px] text-[#9aa0aa]">Pesanan sudah selesai diproduksi dan sedang disiapkan untuk pengiriman.</p>
+              </div>
             </div>
           </section>
         )}

@@ -6,23 +6,31 @@ import { useRouter } from "next/navigation";
 type StepRow = { id: string; name: string; position: number };
 
 const DEFAULT_STEPS: StepRow[] = [
-  { id: "", name: "Order Diterima", position: 1 },
-  { id: "", name: "Desain Dikonfirmasi", position: 2 },
-  { id: "", name: "Produksi Bahan", position: 3 },
-  { id: "", name: "Printing / Sublimasi", position: 4 },
-  { id: "", name: "Cutting", position: 5 },
+  { id: "", name: "Desain", position: 1 },
+  { id: "", name: "Layout", position: 2 },
+  { id: "", name: "Print", position: 3 },
+  { id: "", name: "Pres", position: 4 },
+  { id: "", name: "Potong", position: 5 },
   { id: "", name: "Jahit", position: 6 },
-  { id: "", name: "Quality Control", position: 7 },
-  { id: "", name: "Finishing", position: 8 },
-  { id: "", name: "Packing", position: 9 },
-  { id: "", name: "Siap Dikirim", position: 10 },
+  { id: "", name: "Finishing", position: 7 },
+  { id: "", name: "Packing", position: 8 },
+  { id: "", name: "Kirim", position: 9 },
 ];
 
+const STEP_PROGRESS: Record<number, number> = {
+  1: 11, 2: 22, 3: 33, 4: 44, 5: 56, 6: 67, 7: 78, 8: 89, 9: 95,
+};
+
+function getStepPct(step: number, hasTracking: boolean): number {
+  if (step === 9 && hasTracking) return 100;
+  return STEP_PROGRESS[step] ?? 0;
+}
+
 const LANES = [
-  { name: "Antre & Desain", from: 1, to: 2 },
+  { name: "Desain & Layout", from: 1, to: 2 },
   { name: "Produksi", from: 3, to: 6 },
-  { name: "QC & Finishing", from: 7, to: 9 },
-  { name: "Siap Dikirim", from: 10, to: 10 },
+  { name: "Finishing & Packing", from: 7, to: 8 },
+  { name: "Kirim", from: 9, to: 9 },
 ];
 
 type OrderData = {
@@ -40,7 +48,9 @@ type OrderData = {
   courier: string;
   tracking_number: string;
   is_done: boolean;
+  deadline: string | null;
   created_at: string;
+  pct: number;
 };
 
 type FilterKey = "all" | "baru" | "produksi" | "kirim" | "selesai";
@@ -68,6 +78,23 @@ function statusOf(o: OrderData, totalSteps: number): FilterKey {
   if (o.current_step >= totalSteps) return "kirim";
   if (o.current_step <= 1) return "baru";
   return "produksi";
+}
+
+function formatDate(dateStr: string) {
+  if (!dateStr) return "-";
+  const d = new Date(dateStr);
+  return d.toLocaleDateString("id-ID", { day: "2-digit", month: "2-digit", year: "numeric" });
+}
+
+function deadlineStatus(deadline: string | null, isDone: boolean): "normal" | "warning" | "overdue" | null {
+  if (!deadline || isDone) return null;
+  const now = new Date();
+  const dl = new Date(deadline);
+  const diffMs = dl.getTime() - now.getTime();
+  const diffDays = Math.ceil(diffMs / (1000 * 60 * 60 * 24));
+  if (diffDays <= 0) return "overdue";
+  if (diffDays <= 2) return "warning";
+  return "normal";
 }
 
 function initials(name: string) {
@@ -528,17 +555,19 @@ function ViewPesanan({
         <table className="pas-tbl w-full">
           <thead>
             <tr>
-              <th className="w-[20%]">Pesanan</th>
-              <th className="w-[25%]">Customer</th>
-              <th className="w-[25%]">Produk</th>
-              <th className="w-[20%]">Progres</th>
+              <th className="w-[18%]">Pesanan</th>
+              <th className="w-[18%]">Customer</th>
+              <th className="w-[16%]">Produk</th>
+              <th className="w-[18%]">Progres</th>
+              <th className="w-[10%]">Order</th>
+              <th className="w-[10%]">Deadline</th>
               <th className="w-[10%]">Status</th>
             </tr>
           </thead>
           <tbody>
             {filtered.length === 0 && (
               <tr>
-                <td colSpan={5}>
+                <td colSpan={7}>
                   <div className="flex flex-col items-center justify-center py-16 gap-3">
                     <span className="text-[40px] opacity-30">📋</span>
                     <p className="text-[var(--pas-muted)] text-[15px] font-medium">Tidak ada pesanan yang cocok</p>
@@ -549,8 +578,9 @@ function ViewPesanan({
             )}
             {filtered.map((o) => {
               const st = statusOf(o, steps.length);
-              const pct = Math.round((o.current_step / steps.length) * 100);
+              const pct = o.pct;
               const ini = initials(o.customer_name);
+              const dlStatus = deadlineStatus(o.deadline, o.is_done);
               return (
                 <tr key={o.id} onClick={() => openDetail(o.id)}>
                   <td>
@@ -577,12 +607,30 @@ function ViewPesanan({
                         <i style={{ width: `${pct}%` }} />
                       </span>
                       <span className="text-[12.5px] text-[var(--pas-muted)] pas-num whitespace-nowrap">
-                        {o.current_step}/10
+                        {o.current_step}/9
                       </span>
                     </div>
                     <span className="text-[12.5px] text-[var(--pas-muted)]">
                       {steps[o.current_step - 1]?.name || `Tahap ${o.current_step}`}
                     </span>
+                  </td>
+                  <td className="text-[12.5px] text-[var(--pas-muted)] whitespace-nowrap">
+                    {formatDate(o.created_at)}
+                  </td>
+                  <td className="text-[12.5px] whitespace-nowrap">
+                    {o.deadline ? (
+                      <span className={
+                        dlStatus === "overdue" ? "text-red-400" :
+                        dlStatus === "warning" ? "text-yellow-400" :
+                        "text-[var(--pas-muted)]"
+                      }>
+                        {dlStatus === "overdue" && "⚠ "}
+                        {dlStatus === "warning" && "⚠ "}
+                        {formatDate(o.deadline)}
+                      </span>
+                    ) : (
+                      <span className="text-[var(--pas-muted)]">-</span>
+                    )}
                   </td>
                   <td>
                     <span className={`pas-pill ${st}`}>{FILTER_LABEL[st]}</span>
@@ -605,7 +653,8 @@ function ViewPesanan({
         )}
         {filtered.map((o) => {
           const st = statusOf(o, steps.length);
-          const pct = Math.round((o.current_step / steps.length) * 100);
+          const pct = o.pct;
+          const dlStatus = deadlineStatus(o.deadline, o.is_done);
           return (
             <button
               key={o.id}
@@ -615,6 +664,18 @@ function ViewPesanan({
               <div className="flex items-start justify-between gap-3">
                 <div>
                   <p className="font-semibold text-[15px] pas-num">{o.id}</p>
+                  <p className="text-[12px] text-[var(--pas-muted)] mt-0.5">
+                    Order: {formatDate(o.created_at)}
+                    {o.deadline && (
+                      <span className={
+                        dlStatus === "overdue" ? " text-red-400" :
+                        dlStatus === "warning" ? " text-yellow-400" :
+                        ""
+                      }>
+                        {" · Deadline: "}{dlStatus === "overdue" || dlStatus === "warning" ? "⚠ " : ""}{formatDate(o.deadline)}
+                      </span>
+                    )}
+                  </p>
                   <p className="text-[13px] text-[var(--pas-muted)] mt-0.5">
                     {o.customer_name} · {o.customer_city}
                   </p>
@@ -629,7 +690,7 @@ function ViewPesanan({
                   <i style={{ width: `${pct}%` }} />
                 </span>
                 <span className="text-[12px] text-[var(--pas-muted)]">
-                  {o.current_step}/10
+                  {o.current_step}/9
                 </span>
               </div>
             </button>
@@ -690,7 +751,7 @@ function ViewJadwal({
                       <div className="flex items-center justify-between gap-2">
                         <span className="font-semibold text-[13.5px] pas-num">{o.id}</span>
                         <span className="text-[11.5px] text-[var(--pas-muted)] pas-num">
-                          {o.current_step}/10
+                          {o.current_step}/9
                         </span>
                       </div>
                       <p className="text-[12.5px] text-[var(--pas-muted)] mt-1">
@@ -1187,7 +1248,9 @@ function DetailSheet({
   const [note, setNote] = useState(order?.note || "");
   const [courier, setCourier] = useState(order?.courier || "");
   const [resi, setResi] = useState(order?.tracking_number || "");
+  const [deadline, setDeadline] = useState(order?.deadline ? order.deadline.slice(0, 10) : "");
   const [saving, setSaving] = useState(false);
+  const [kirimError, setKirimError] = useState("");
 
   useEffect(() => {
     if (order) {
@@ -1195,26 +1258,33 @@ function DetailSheet({
       setNote(order.note || "");
       setCourier(order.courier || "");
       setResi(order.tracking_number || "");
+      setDeadline(order.deadline ? order.deadline.slice(0, 10) : "");
     }
   }, [order]);
 
   if (!order) return null;
 
+  const hasTracking = !!(courier && resi);
   const st =
     order.is_done
       ? "selesai"
-      : step >= 10
+      : step >= 9
         ? "kirim"
         : step <= 1
           ? "baru"
           : "produksi";
 
-  const pct = Math.round((step / steps.length) * 100);
+  const pct = getStepPct(step, hasTracking);
 
   const save = async () => {
+    setKirimError("");
+    if (step === 9 && (!courier || !resi)) {
+      setKirimError("Untuk tahap Kirim, nomor resi dan ekspedisi harus diisi.");
+      return;
+    }
     setSaving(true);
     try {
-      await fetch(`/api/pesanan/orders/${order.id}/status`, {
+      const res = await fetch(`/api/pesanan/orders/${order.id}/status`, {
         method: "PATCH",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -1222,8 +1292,14 @@ function DetailSheet({
           note,
           courier,
           tracking_number: resi,
+          deadline: deadline || undefined,
         }),
       });
+      const data = await res.json();
+      if (!res.ok) {
+        setKirimError(data.error || "Gagal menyimpan");
+        return;
+      }
       onSaved("Perubahan tersimpan");
     } catch {
       onSaved("Gagal menyimpan");
@@ -1233,19 +1309,29 @@ function DetailSheet({
   };
 
   const markDone = async () => {
+    setKirimError("");
+    if (!courier || !resi) {
+      setKirimError("Untuk menandai selesai, nomor resi dan ekspedisi harus diisi.");
+      return;
+    }
     setSaving(true);
     try {
-      await fetch(`/api/pesanan/orders/${order.id}/status`, {
+      const res = await fetch(`/api/pesanan/orders/${order.id}/status`, {
         method: "PATCH",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          current_step: 10,
+          current_step: 9,
           is_done: true,
           note,
           courier,
           tracking_number: resi,
         }),
       });
+      const data = await res.json();
+      if (!res.ok) {
+        setKirimError(data.error || "Gagal menyimpan");
+        return;
+      }
       onSaved("Pesanan ditandai selesai");
     } catch {
       onSaved("Gagal menyimpan");
@@ -1285,6 +1371,34 @@ function DetailSheet({
             <p className="pas-stencil text-[9px] text-[var(--pas-muted)]">Jumlah</p>
             <p className="mt-1">{order.quantity}</p>
           </div>
+          <div>
+            <p className="pas-stencil text-[9px] text-[var(--pas-muted)]">Tanggal Order</p>
+            <p className="mt-1">{formatDate(order.created_at)}</p>
+          </div>
+          <div>
+            <p className="pas-stencil text-[9px] text-[var(--pas-muted)]">Deadline</p>
+            <p className="mt-1">{deadline ? formatDate(deadline) : "-"}</p>
+          </div>
+          <div>
+            <p className="pas-stencil text-[9px] text-[var(--pas-muted)]">Status Produksi</p>
+            <p className="mt-1">{steps[step - 1]?.name || `Tahap ${step}`}</p>
+          </div>
+          <div>
+            <p className="pas-stencil text-[9px] text-[var(--pas-muted)]">Progress</p>
+            <p className="mt-1">{pct}%</p>
+          </div>
+          {step === 9 && (courier || resi) && (
+            <>
+              <div>
+                <p className="pas-stencil text-[9px] text-[var(--pas-muted)]">Ekspedisi</p>
+                <p className="mt-1">{courier || "-"}</p>
+              </div>
+              <div>
+                <p className="pas-stencil text-[9px] text-[var(--pas-muted)]">Nomor Resi</p>
+                <p className="mt-1">{resi || "-"}</p>
+              </div>
+            </>
+          )}
           <div>
             <p className="pas-stencil text-[9px] text-[var(--pas-muted)]">Ukuran</p>
             <div className="flex flex-wrap gap-2 mt-1.5">
@@ -1370,12 +1484,28 @@ function DetailSheet({
               onChange={(e) => setResi(e.target.value)}
             />
           </div>
-          {step < 10 && (
+          {step < 9 && (
             <p className="text-[12px] text-[var(--pas-muted)] mt-2">
-              Tampil ke customer setelah tahap 10 (Siap Dikirim).
+              Tampil ke customer setelah tahap 9 (Kirim).
             </p>
           )}
         </div>
+
+        <div className="pas-card p-4 mt-4">
+          <p className="pas-stencil text-[9px] text-[var(--pas-muted)]">Tanggal Deadline</p>
+          <input
+            type="date"
+            className="pas-field w-full px-3 py-2.5 mt-2 text-[14px]"
+            value={deadline}
+            onChange={(e) => setDeadline(e.target.value)}
+          />
+        </div>
+
+        {kirimError && (
+          <p className="text-[13px] text-red-400 mt-3 bg-red-500/10 border border-red-500/20 rounded-xl px-4 py-2.5">
+            {kirimError}
+          </p>
+        )}
 
         <div className="flex gap-3 mt-5 pb-2">
           <button
@@ -1416,6 +1546,7 @@ function AddForm({
     product_name: "",
     quantity: "",
     material: "",
+    deadline: "",
   });
   const [error, setError] = useState("");
   const [saving, setSaving] = useState(false);
@@ -1446,6 +1577,7 @@ function AddForm({
           product_name: form.product_name,
           quantity: form.quantity || "-",
           material: form.material || "-",
+          deadline: form.deadline || undefined,
         }),
       });
       if (!res.ok) {
@@ -1538,6 +1670,15 @@ function AddForm({
           />
         </label>
       </div>
+      <label className="block">
+        <span className="text-[13px] text-[var(--pas-muted)]">Tanggal Deadline</span>
+        <input
+          type="date"
+          className="pas-field w-full px-4 py-2.5 mt-1.5 text-[15px]"
+          value={form.deadline}
+          onChange={set("deadline")}
+        />
+      </label>
       {error && <p className="text-[13px] text-[#f87171]">{error}</p>}
       <button className="pas-btn-accent w-full py-3.5 text-[15px]" disabled={saving}>
         {saving ? "Menyimpan…" : "Simpan Pesanan"}

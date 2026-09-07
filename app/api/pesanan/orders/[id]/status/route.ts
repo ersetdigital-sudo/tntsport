@@ -2,20 +2,19 @@ import { NextResponse } from "next/server";
 import { createClient } from "@supabase/supabase-js";
 
 const STEPS = [
-  "order_diterima",
-  "desain_dikonfirmasi",
-  "produksi_bahan",
-  "printing",
-  "cutting",
+  "desain",
+  "layout",
+  "print",
+  "pres",
+  "potong",
   "jahit",
-  "quality_control",
   "finishing",
   "packing",
-  "siap_dikirim",
+  "kirim",
 ];
 
 function statusFromStep(step: number): string {
-  return STEPS[Math.min(Math.max(step, 1), 10) - 1] || "order_diterima";
+  return STEPS[Math.min(Math.max(step, 1), 9) - 1] || "desain";
 }
 
 export async function PATCH(
@@ -24,7 +23,7 @@ export async function PATCH(
 ) {
   const { id } = await params;
   const body = await request.json();
-  const { current_step, note, courier, tracking_number, is_done } = body;
+  const { current_step, note, courier, tracking_number, is_done, deadline } = body;
 
   const supabase = createClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
@@ -36,11 +35,23 @@ export async function PATCH(
   };
 
   if (current_step !== undefined) {
-    updateData.current_status = is_done ? "selesai" : statusFromStep(current_step);
+    // Kirim validation: need tracking_number + courier to be "done"
+    if (current_step === 9 && is_done) {
+      if (!tracking_number || !courier) {
+        return NextResponse.json(
+          { error: "Untuk menandai selesai, nomor resi dan ekspedisi harus diisi." },
+          { status: 400 }
+        );
+      }
+      updateData.current_status = "selesai";
+    } else {
+      updateData.current_status = statusFromStep(current_step);
+    }
   }
   if (note !== undefined) updateData.design_notes = note;
   if (courier !== undefined) updateData.courier = courier;
   if (tracking_number !== undefined) updateData.tracking_number = tracking_number;
+  if (deadline !== undefined) updateData.deadline = deadline || null;
 
   const { error: updateError } = await supabase
     .from("orders")
@@ -54,7 +65,7 @@ export async function PATCH(
   if (current_step !== undefined) {
     await supabase.from("order_status_history").insert({
       order_id: id,
-      status: statusFromStep(current_step),
+      status: is_done && current_step === 9 ? "selesai" : statusFromStep(current_step),
       note: note || "",
     });
   }

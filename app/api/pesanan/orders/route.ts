@@ -2,16 +2,15 @@ import { NextResponse } from "next/server";
 import { createClient } from "@supabase/supabase-js";
 
 const STEPS = [
-  "order_diterima",
-  "desain_dikonfirmasi",
-  "produksi_bahan",
-  "printing",
-  "cutting",
+  "desain",
+  "layout",
+  "print",
+  "pres",
+  "potong",
   "jahit",
-  "quality_control",
   "finishing",
   "packing",
-  "siap_dikirim",
+  "kirim",
 ];
 
 function stepFromStatus(status: string): number {
@@ -20,10 +19,19 @@ function stepFromStatus(status: string): number {
 }
 
 function statusFromStep(step: number): string {
-  return STEPS[Math.min(step, 10) - 1] || "order_diterima";
+  return STEPS[Math.min(Math.max(step, 1), 9) - 1] || "desain";
 }
 
 function mapOrder(row: any) {
+  const hasTracking = !!(row.tracking_number && row.courier);
+  const step = stepFromStatus(row.current_status);
+  let pct: number;
+  if (step === 9 && hasTracking) {
+    pct = 100;
+  } else {
+    const fixed: Record<number, number> = { 1: 11, 2: 22, 3: 33, 4: 44, 5: 56, 6: 67, 7: 78, 8: 89, 9: 95 };
+    pct = fixed[step] ?? 0;
+  }
   return {
     id: row.order_number,
     customer_name: row.customer_name,
@@ -33,13 +41,15 @@ function mapOrder(row: any) {
     quantity: row.quantity ? `${row.quantity} pcs` : "-",
     material: row.material || "",
     sizes: row.sizes || "",
-    current_step: stepFromStatus(row.current_status),
+    current_step: step,
     note: row.design_notes || "",
     note_time: row.updated_at || "",
     courier: row.courier || "",
     tracking_number: row.tracking_number || "",
-    is_done: row.current_status === "selesai" || row.current_status === "siap_dikirim_done",
+    is_done: row.current_status === "selesai" || (step === 9 && hasTracking),
+    deadline: row.deadline || null,
     created_at: row.created_at,
+    pct,
   };
 }
 
@@ -72,6 +82,7 @@ export async function POST(request: Request) {
     quantity,
     material,
     sizes,
+    deadline,
   } = body;
 
   if (!id || !customer_name || !customer_phone) {
@@ -95,11 +106,11 @@ export async function POST(request: Request) {
     product_type: product_name || "",
     quantity: isNaN(qtyNum) ? 1 : qtyNum,
     sizes: sizes || "",
-    current_status: "order_diterima",
+    current_status: "desain",
   };
-  // Add optional columns only if provided (DB might not have them yet)
   if (customer_city) insertData.customer_city = customer_city;
   if (material) insertData.material = material;
+  if (deadline) insertData.deadline = deadline;
 
   const { data, error } = await supabase
     .from("orders")
