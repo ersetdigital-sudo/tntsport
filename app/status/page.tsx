@@ -33,6 +33,45 @@ function formatShortDate(dateStr: string) {
   });
 }
 
+function formatDateTime(dateStr: string) {
+  const d = new Date(dateStr);
+  const date = d.toLocaleDateString("id-ID", { day: "numeric", month: "long", year: "numeric" });
+  const time = d.toLocaleTimeString("id-ID", { hour: "2-digit", minute: "2-digit" }).replace(".", ".");
+  return `${date} • ${time} WIB`;
+}
+
+function stepDescription(status: string, hasTracking: boolean): string {
+  const map: Record<string, string> = {
+    desain: "Desain sedang dikerjakan",
+    layout: "Layout sedang disusun",
+    print: "Proses printing/sublimasi",
+    pres: "Proses pres transfer",
+    potong: "Bahan sedang dipotong",
+    jahit: "Proses penjahitan",
+    finishing: "Quality control & finishing",
+    packing: "Pesanan sedang dikemas",
+    kirim: hasTracking ? "Pesanan telah dikirim" : "Sedang diproses untuk pengiriman",
+    selesai: "Pesanan telah selesai",
+  };
+  return map[status.toLowerCase()] || "Sedang diproses";
+}
+
+function stepHighlight(status: string, hasTracking: boolean): string {
+  const map: Record<string, string> = {
+    desain: "Desain",
+    layout: "Layout",
+    print: "Printing",
+    pres: "Pres",
+    potong: "Potong",
+    jahit: "Jahit",
+    finishing: "Finishing",
+    packing: "Packing",
+    kirim: hasTracking ? "Pesanan Telah Dikirim" : "Sedang Diproses untuk Pengiriman",
+    selesai: "Pesanan Selesai",
+  };
+  return map[status.toLowerCase()] || "Sedang Diproses";
+}
+
 export default function StatusPage() {
   return (
     <Suspense>
@@ -478,20 +517,21 @@ function StatusContent() {
 
           <div className="trk-update-box mt-7">
             <p className="trk-stencil text-[9px] text-[#3ee86b]">Update Terakhir</p>
-            <p className="text-[15px] leading-relaxed mt-2">
-              {history.length > 0
-                ? history[history.length - 1].note ||
-                  (steps.length > 0
-                    ? steps.find((s) => s.name.toLowerCase() === history[history.length - 1].status.toLowerCase())?.name ||
-                      ORDER_STATUS_LABELS[history[history.length - 1].status as OrderStatus]
-                    : ORDER_STATUS_LABELS[history[history.length - 1].status as OrderStatus])
-                : "Pesanan sedang diproses."}
-            </p>
-            <p className="text-[13px] text-[#9aa0aa] mt-2">
-              {history.length > 0
-                ? formatDate(history[history.length - 1].created_at)
-                : "—"}
-            </p>
+            {history.length > 0 ? (
+              <>
+                <p className="text-[17px] font-semibold leading-relaxed mt-2">
+                  {stepHighlight(history[history.length - 1].status, hasTracking)}
+                </p>
+                <p className="text-[13px] text-[#9aa0aa] mt-1">
+                  {stepDescription(history[history.length - 1].status, hasTracking)}
+                </p>
+                <p className="text-[13px] text-[#9aa0aa] mt-2">
+                  {formatDateTime(history[history.length - 1].created_at)}
+                </p>
+              </>
+            ) : (
+              <p className="text-[15px] leading-relaxed mt-2">Pesanan sedang diproses.</p>
+            )}
           </div>
         </section>
 
@@ -500,23 +540,28 @@ function StatusContent() {
           <h2 className="trk-display text-[18px]">Riwayat Produksi</h2>
           <ol className="mt-5 space-y-3 text-[14px]">
             {history.length > 0 ? (
-              [...history].reverse().map((h: any, i: number) => (
-                <li key={i} className="flex items-start gap-3">
-                  <span className="mt-[7px] w-1.5 h-1.5 rounded-full bg-[#3ee86b] shrink-0" />
-                  <span className="flex-1">
-                    {steps.length > 0
-                      ? steps.find((s) => s.name.toLowerCase() === h.status.toLowerCase())?.name ||
-                        ORDER_STATUS_LABELS[h.status as OrderStatus]
-                      : ORDER_STATUS_LABELS[h.status as OrderStatus]}
-                    {h.note && (
-                      <span className="text-[#9aa0aa]"> — {h.note}</span>
-                    )}
-                  </span>
-                  <span className="text-[13px] text-[#9aa0aa] whitespace-nowrap">
-                    {formatShortDate(h.created_at)}
-                  </span>
-                </li>
-              ))
+              [...history].reverse().map((h: any, i: number) => {
+                const stepName = steps.length > 0
+                  ? steps.find((s) => s.name.toLowerCase() === h.status.toLowerCase())?.name ||
+                    ORDER_STATUS_LABELS[h.status as OrderStatus]
+                  : ORDER_STATUS_LABELS[h.status as OrderStatus];
+                const isKirim = h.status.toLowerCase() === "kirim";
+                const desc = isKirim
+                  ? (hasTracking ? "Pesanan telah dikirim" : "Sedang diproses untuk pengiriman")
+                  : stepDescription(h.status, hasTracking);
+                return (
+                  <li key={i} className="flex items-start gap-3">
+                    <span className="mt-[7px] w-1.5 h-1.5 rounded-full bg-[#3ee86b] shrink-0" />
+                    <span className="flex-1">
+                      <span className="font-medium">{stepName}</span>
+                      <span className="text-[#9aa0aa]"> — {desc}</span>
+                    </span>
+                    <span className="text-[13px] text-[#9aa0aa] whitespace-nowrap">
+                      {formatShortDate(h.created_at)}
+                    </span>
+                  </li>
+                );
+              })
             ) : (
               <li className="text-[#9aa0aa]">Belum ada riwayat.</li>
             )}

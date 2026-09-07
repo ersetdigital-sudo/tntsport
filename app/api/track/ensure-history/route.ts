@@ -82,10 +82,23 @@ export async function POST(request: NextRequest) {
       // Generate timestamp: spread from created_at, 5 minutes apart
       const ts = new Date(order.created_at);
       ts.setMinutes(ts.getMinutes() + i * 5);
+
+      const noteMap: Record<string, string> = {
+        desain: "Desain sedang dikerjakan",
+        layout: "Layout sedang disusun",
+        print: "Proses printing/sublimasi",
+        pres: "Proses pres transfer",
+        potong: "Bahan sedang dipotong",
+        jahit: "Proses penjahitan",
+        finishing: "Quality control & finishing",
+        packing: "Pesanan sedang dikemas",
+        kirim: i === currentStep - 1 ? "Sedang diproses untuk pengiriman" : "Proses pengiriman",
+      };
+
       toInsert.push({
         order_id: order.id,
         status: stepStatus,
-        note: i === currentStep - 1 ? "Status terkini" : "Tahap selesai",
+        note: noteMap[stepStatus] || "Tahap selesai",
         created_at: ts.toISOString(),
       });
     }
