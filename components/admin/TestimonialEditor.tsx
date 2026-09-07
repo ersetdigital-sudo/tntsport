@@ -48,8 +48,8 @@ export function TestimonialEditor({ testimonial }: TestimonialEditorProps) {
     setError(null);
 
     try {
-      const signedParams = await getCloudinarySignature({ folder: "testimonials" });
-      const result = await uploadToCloudinary(file, signedParams);
+      const uploadParams = await getCloudinarySignature({ folder: "testimonials" });
+      const result = await uploadToCloudinary(file, uploadParams);
       setImageUrl(result.url);
     } catch (err) {
       setError(err instanceof Error ? err.message : "Upload gagal");

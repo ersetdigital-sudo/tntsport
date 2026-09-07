@@ -75,7 +75,7 @@ export function ProductEditor({ product, categories }: ProductEditorProps) {
     setError(null);
 
     try {
-      const signedParams = await getCloudinarySignature({ folder: "products" });
+      const uploadParams = await getCloudinarySignature({ folder: "products" });
 
       for (const file of Array.from(files)) {
         setImages((prev) => [
@@ -92,7 +92,7 @@ export function ProductEditor({ product, categories }: ProductEditorProps) {
           });
         }
 
-        const result = await uploadToCloudinary(uploadFile, signedParams);
+        const result = await uploadToCloudinary(uploadFile, uploadParams);
 
         setImages((prev) =>
           prev.map((img) =>

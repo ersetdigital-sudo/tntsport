@@ -49,8 +49,8 @@ export function FabricEditor({ fabric }: FabricEditorProps) {
     setError(null);
 
     try {
-      const signedParams = await getCloudinarySignature({ folder: "fabrics" });
-      const result = await uploadToCloudinary(file, signedParams);
+      const uploadParams = await getCloudinarySignature({ folder: "fabrics" });
+      const result = await uploadToCloudinary(file, uploadParams);
       setImageUrl(result.url);
     } catch (err) {
       setError(err instanceof Error ? err.message : "Upload gagal");

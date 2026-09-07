@@ -97,8 +97,8 @@ export function KatalogFeatureEditor({ feature }: KatalogFeatureEditorProps) {
     setError(null);
 
     try {
-      const signedParams = await getCloudinarySignature({ folder: "katalog-features" });
-      const result = await uploadToCloudinary(file, signedParams);
+      const uploadParams = await getCloudinarySignature({ folder: "katalog-features" });
+      const result = await uploadToCloudinary(file, uploadParams);
       setIconUrl(result.url);
       setIconType("upload");
     } catch (err) {
