@@ -351,7 +351,7 @@ function StatusContent() {
               </span>
             </div>
             <div className="trk-bar">
-              <div ref={barRef} />
+              <i ref={barRef} />
             </div>
             <p className="text-[13px] text-[#9aa0aa] mt-2">
               Tahap <span className="text-white font-semibold">{step}</span> dari {totalSteps}

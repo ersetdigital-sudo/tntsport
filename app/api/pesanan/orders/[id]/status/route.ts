@@ -63,11 +63,21 @@ export async function PATCH(
   }
 
   if (current_step !== undefined) {
-    await supabase.from("order_status_history").insert({
-      order_id: id,
-      status: is_done && current_step === 9 ? "selesai" : statusFromStep(current_step),
-      note: note || "",
-    });
+    // Look up UUID from order_number for history insert
+    const { data: orderRow } = await supabase
+      .from("orders")
+      .select("id")
+      .eq("order_number", id)
+      .single();
+
+    if (orderRow) {
+      const { error: histErr } = await supabase.from("order_status_history").insert({
+        order_id: orderRow.id,
+        status: is_done && current_step === 9 ? "selesai" : statusFromStep(current_step),
+        note: note || "",
+      });
+      if (histErr) console.error("History insert failed:", histErr.message);
+    }
   }
 
   return NextResponse.json({ ok: true });
