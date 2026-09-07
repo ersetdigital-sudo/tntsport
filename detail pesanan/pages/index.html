@@ -1,0 +1,470 @@
+<!DOCTYPE html>
+<html lang="id"><head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Detail Progres Pesanan TNT260907K4XQ — TNT Sport Apparel</title>
+<meta name="description" content="Lacak progres produksi jersey custom full printing Anda di TNT Sport Apparel.">
+<style>
+  :root{
+    --bg:#0b0b0b; --bg-2:#111a14; --bg-3:#1b241e;
+    --line:#232a26; --line-2:#313743;
+    --tx:#e8ebe9; --tx-2:#979ba4; --tx-3:#6f757c;
+    --acc:#22c55e; --acc-2:#d97706;
+  }
+  html{-webkit-text-size-adjust:100%}
+  body{background:var(--bg);color:var(--tx);font-family:"Barlow",system-ui,sans-serif;overflow-x:hidden}
+  .display{font-family:"Barlow Condensed","Barlow",sans-serif;letter-spacing:.01em}
+  .mono{font-family:"IBM Plex Mono",ui-monospace,monospace}
+  .glow{
+    position:fixed;left:50%;top:-38vh;transform:translateX(-50%);
+    width:min(1200px,150vw);height:80vh;pointer-events:none;z-index:0;
+    background:radial-gradient(50% 50% at 50% 50%, rgba(34,197,94,.30), rgba(34,197,94,.07) 45%, transparent 72%);
+    filter:blur(10px);
+  }
+  .grid-lines{
+    position:fixed;inset:0;z-index:0;pointer-events:none;opacity:.30;
+    background-image:linear-gradient(to right,rgba(255,255,255,.045) 1px,transparent 1px),
+                     linear-gradient(to bottom,rgba(255,255,255,.045) 1px,transparent 1px);
+    background-size:64px 64px;
+    -webkit-mask-image:radial-gradient(70% 55% at 50% 0%, #000, transparent 75%);
+            mask-image:radial-gradient(70% 55% at 50% 0%, #000, transparent 75%);
+  }
+  .card{position:relative;background:linear-gradient(180deg,rgba(255,255,255,.05),rgba(255,255,255,.015));
+        border:1px solid var(--line);border-radius:20px;backdrop-filter:blur(8px);
+        box-shadow:0 1px 0 rgba(255,255,255,.05) inset, 0 24px 60px -40px rgba(0,0,0,.9)}
+  .h2{font-family:"Barlow Condensed","Barlow",sans-serif;font-size:clamp(19px,4.4vw,22px);
+      font-weight:600;text-transform:uppercase;letter-spacing:.045em;line-height:1}
+  .h1{font-family:"Barlow Condensed","Barlow",sans-serif;font-weight:700;
+      font-size:clamp(32px,7.4vw,58px);line-height:1.02;letter-spacing:-.005em;text-wrap:balance}
+  .meta{display:inline-flex;align-items:center;gap:7px;border-radius:11px;padding:7px 11px;
+        font-size:12.5px;line-height:1;border:1px solid rgba(255,255,255,.10);background:rgba(255,255,255,.04);
+        color:var(--tx-2)}
+  .meta-acc{border-color:rgba(34,197,94,.40);background:rgba(34,197,94,.12);color:var(--acc);font-weight:600}
+  .live{position:relative;width:6px;height:6px;border-radius:999px;background:var(--acc);flex:none}
+  .live::after{content:"";position:absolute;inset:-4px;border-radius:999px;background:rgba(34,197,94,.35);animation:ping 1.8s ease-out infinite}
+
+  /* segmented progress */
+  .segs{display:flex;gap:4px}
+  .segs > span{flex:1;height:8px;border-radius:4px;background:rgba(255,255,255,.07)}
+  .segs > span.on{background:linear-gradient(180deg,var(--acc),#16a34a);box-shadow:0 0 12px rgba(34,197,94,.5)}
+  .segs > span.cur{background:var(--acc);box-shadow:0 0 16px rgba(34,197,94,.85);animation:seg 1.8s ease-in-out infinite}
+  @keyframes seg{0%,100%{opacity:1}50%{opacity:.5}}
+
+  /* sticky bar mobile */
+  .stickycta{position:fixed;left:0;right:0;bottom:0;z-index:40;padding:10px 16px calc(10px + env(safe-area-inset-bottom));
+    background:linear-gradient(180deg,rgba(11,11,11,0),rgba(11,11,11,.92) 38%);backdrop-filter:blur(8px)}
+  @media (min-width:640px){.stickycta{display:none}}
+
+  .reveal{animation:up .55s cubic-bezier(.2,.75,.2,1) both}
+  @keyframes up{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+  .kicker{letter-spacing:.22em;text-transform:uppercase;font-size:11px;color:var(--tx-3)}
+  .divider{height:1px;background:linear-gradient(90deg,transparent,rgba(255,255,255,.12),transparent)}
+
+  /* stepper */
+  .steps{display:flex;flex-direction:column;gap:10px}
+  .step{position:relative;display:flex;gap:12px;padding:13px 14px;border-radius:16px;
+    transition:border-color .2s ease, background .2s ease;
+    background:linear-gradient(180deg,rgba(255,255,255,.045),rgba(255,255,255,.015));
+    border:1px solid var(--line)}
+  .step::after{content:"";position:absolute;left:28px;top:100%;height:10px;width:2px;
+    background:linear-gradient(180deg,rgba(34,197,94,.55),rgba(34,197,94,.12))}
+  .step.is-todo::after{background:var(--line-2)}
+  .step.is-last::after{display:none}
+  .step.is-todo{background:transparent;border-color:rgba(255,255,255,.06)}
+  .step.is-now{border-color:rgba(34,197,94,.45);
+    background:linear-gradient(135deg,rgba(34,197,94,.14),rgba(34,197,94,.02) 55%,rgba(255,255,255,.02));
+    box-shadow:0 0 0 1px rgba(34,197,94,.10), 0 14px 40px -18px rgba(34,197,94,.65)}
+
+  .dot{position:relative;z-index:1;width:30px;height:30px;border-radius:11px;display:grid;place-items:center;
+    background:var(--bg-3);border:1px solid var(--line-2);color:var(--tx-3);flex:none;
+    font-family:"IBM Plex Mono",monospace;font-size:12px;margin-top:1px}
+  .dot.done{background:rgba(34,197,94,.14);border-color:rgba(34,197,94,.5);color:var(--acc)}
+  .dot svg{width:17px;height:17px;display:block;stroke:currentColor}
+  .dot.done svg{width:16px;height:16px;stroke-width:3}
+  .dot.now{color:#04120a}
+  .dot.now{background:var(--acc);border-color:var(--acc);box-shadow:0 0 22px rgba(34,197,94,.55)}
+  .dot.now::after{content:"";position:absolute;inset:-4px;border-radius:14px;border:1px solid rgba(34,197,94,.55);animation:ping 2.2s ease-out infinite}
+  @keyframes ping{0%{transform:scale(.92);opacity:.9}100%{transform:scale(1.35);opacity:0}}
+
+  .step-body{min-width:0}
+  .step-title{font-family:"Barlow Condensed","Barlow",sans-serif;font-size:17px;font-weight:600;letter-spacing:.02em;text-transform:uppercase}
+  .step.is-todo .step-title{color:var(--tx-2);font-weight:500}
+  .step-desc{margin-top:2px;font-size:13px;color:var(--tx-2);line-height:1.5}
+  .step.is-todo .step-desc{color:var(--tx-3)}
+  .step-time{margin-top:6px;font-size:11px;color:var(--tx-3);letter-spacing:.03em}
+  .chip{border-radius:999px;padding:2px 9px;font-size:10.5px;font-weight:600;letter-spacing:.06em;text-transform:uppercase}
+  .chip-done{background:rgba(34,197,94,.10);color:rgba(34,197,94,.85);border:1px solid rgba(34,197,94,.22)}
+  .chip-now{background:var(--acc);color:#04120a}
+  .chip-next{background:rgba(255,255,255,.06);color:var(--tx-2);border:1px solid rgba(255,255,255,.12)}
+
+  /* rekap ukuran */
+  .szrow{display:flex;align-items:center;gap:12px}
+  .szlab{display:inline-block;flex:none;width:42px;text-align:center;padding:5px 0;border-radius:9px;
+    border:1px solid rgba(255,255,255,.12);background:rgba(255,255,255,.04);
+    font-family:"Barlow Condensed","Barlow",sans-serif;font-size:14px;font-weight:600;letter-spacing:.06em;color:var(--tx)}
+  .szbar{flex:1;height:10px;border-radius:999px;background:rgba(255,255,255,.05);overflow:hidden}
+  .szbar > i{display:block;height:100%;width:var(--p,0%);border-radius:999px;
+    background:linear-gradient(90deg,#16a34a,var(--acc));box-shadow:0 0 14px rgba(34,197,94,.45)}
+  .szqty{flex:none;width:34px;text-align:right;font-family:"IBM Plex Mono",monospace;font-size:15px;font-weight:600;color:var(--tx)}
+
+  .bar{height:8px;border-radius:999px;background:var(--bg-3);overflow:hidden;border:1px solid var(--line)}
+  .bar>i{display:block;height:100%;border-radius:999px;background:linear-gradient(90deg,#16a34a,var(--acc));
+    box-shadow:0 0 18px rgba(34,197,94,.6);width:var(--w,0%);transition:width 1.2s cubic-bezier(.2,.8,.2,1)}
+  a.btn{transition:transform .15s ease, box-shadow .15s ease, background .15s ease}
+  a.btn:hover{transform:translateY(-1px)}
+  @media (min-width:640px){.step{gap:14px;padding:16px 18px}.step::after{left:32px}.dot{width:34px;height:34px}}
+  @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+<script src="https://cdn.moda.app/runtime-libs/tailwind-browser-4.1.13-index.global.min.js"></script><style data-moda-export-fonts="true">@font-face { font-family: 'Barlow'; src: url("../fonts/barlow-thin.ttf") format("truetype"); font-style: normal; font-weight: 100; font-display: swap; }
+@font-face { font-family: 'Barlow'; src: url("../fonts/barlow-thinitalic.ttf") format("truetype"); font-style: italic; font-weight: 100; font-display: swap; }
+@font-face { font-family: 'Barlow'; src: url("../fonts/barlow-extralight.ttf") format("truetype"); font-style: normal; font-weight: 200; font-display: swap; }
+@font-face { font-family: 'Barlow'; src: url("../fonts/barlow-extralightitalic.ttf") format("truetype"); font-style: italic; font-weight: 200; font-display: swap; }
+@font-face { font-family: 'Barlow'; src: url("../fonts/barlow-light.ttf") format("truetype"); font-style: normal; font-weight: 300; font-display: swap; }
+@font-face { font-family: 'Barlow'; src: url("../fonts/barlow-lightitalic.ttf") format("truetype"); font-style: italic; font-weight: 300; font-display: swap; }
+@font-face { font-family: 'Barlow'; src: url("../fonts/barlow-regular.ttf") format("truetype"); font-style: normal; font-weight: 400; font-display: swap; }
+@font-face { font-family: 'Barlow'; src: url("../fonts/barlow-italic.ttf") format("truetype"); font-style: italic; font-weight: 400; font-display: swap; }
+@font-face { font-family: 'Barlow'; src: url("../fonts/barlow-medium.ttf") format("truetype"); font-style: normal; font-weight: 500; font-display: swap; }
+@font-face { font-family: 'Barlow'; src: url("../fonts/barlow-mediumitalic.ttf") format("truetype"); font-style: italic; font-weight: 500; font-display: swap; }
+@font-face { font-family: 'Barlow'; src: url("../fonts/barlow-semibold.ttf") format("truetype"); font-style: normal; font-weight: 600; font-display: swap; }
+@font-face { font-family: 'Barlow'; src: url("../fonts/barlow-semibolditalic.ttf") format("truetype"); font-style: italic; font-weight: 600; font-display: swap; }
+@font-face { font-family: 'Barlow'; src: url("../fonts/barlow-bold.ttf") format("truetype"); font-style: normal; font-weight: 700; font-display: swap; }
+@font-face { font-family: 'Barlow'; src: url("../fonts/barlow-bolditalic.ttf") format("truetype"); font-style: italic; font-weight: 700; font-display: swap; }
+@font-face { font-family: 'Barlow'; src: url("../fonts/barlow-extrabold.ttf") format("truetype"); font-style: normal; font-weight: 800; font-display: swap; }
+@font-face { font-family: 'Barlow'; src: url("../fonts/barlow-extrabolditalic.ttf") format("truetype"); font-style: italic; font-weight: 800; font-display: swap; }
+@font-face { font-family: 'Barlow'; src: url("../fonts/barlow-black.ttf") format("truetype"); font-style: normal; font-weight: 900; font-display: swap; }
+@font-face { font-family: 'Barlow'; src: url("../fonts/barlow-blackitalic.ttf") format("truetype"); font-style: italic; font-weight: 900; font-display: swap; }
+@font-face { font-family: 'Barlow Condensed'; src: url("../fonts/barlowcondensed-thin.ttf") format("truetype"); font-style: normal; font-weight: 100; font-display: swap; }
+@font-face { font-family: 'Barlow Condensed'; src: url("../fonts/barlowcondensed-thinitalic.ttf") format("truetype"); font-style: italic; font-weight: 100; font-display: swap; }
+@font-face { font-family: 'Barlow Condensed'; src: url("../fonts/barlowcondensed-extralight.ttf") format("truetype"); font-style: normal; font-weight: 200; font-display: swap; }
+@font-face { font-family: 'Barlow Condensed'; src: url("../fonts/barlowcondensed-extralightitalic.ttf") format("truetype"); font-style: italic; font-weight: 200; font-display: swap; }
+@font-face { font-family: 'Barlow Condensed'; src: url("../fonts/barlowcondensed-light.ttf") format("truetype"); font-style: normal; font-weight: 300; font-display: swap; }
+@font-face { font-family: 'Barlow Condensed'; src: url("../fonts/barlowcondensed-lightitalic.ttf") format("truetype"); font-style: italic; font-weight: 300; font-display: swap; }
+@font-face { font-family: 'Barlow Condensed'; src: url("../fonts/barlowcondensed-regular.ttf") format("truetype"); font-style: normal; font-weight: 400; font-display: swap; }
+@font-face { font-family: 'Barlow Condensed'; src: url("../fonts/barlowcondensed-italic.ttf") format("truetype"); font-style: italic; font-weight: 400; font-display: swap; }
+@font-face { font-family: 'Barlow Condensed'; src: url("../fonts/barlowcondensed-medium.ttf") format("truetype"); font-style: normal; font-weight: 500; font-display: swap; }
+@font-face { font-family: 'Barlow Condensed'; src: url("../fonts/barlowcondensed-mediumitalic.ttf") format("truetype"); font-style: italic; font-weight: 500; font-display: swap; }
+@font-face { font-family: 'Barlow Condensed'; src: url("../fonts/barlowcondensed-semibold.ttf") format("truetype"); font-style: normal; font-weight: 600; font-display: swap; }
+@font-face { font-family: 'Barlow Condensed'; src: url("../fonts/barlowcondensed-semibolditalic.ttf") format("truetype"); font-style: italic; font-weight: 600; font-display: swap; }
+@font-face { font-family: 'Barlow Condensed'; src: url("../fonts/barlowcondensed-bold.ttf") format("truetype"); font-style: normal; font-weight: 700; font-display: swap; }
+@font-face { font-family: 'Barlow Condensed'; src: url("../fonts/barlowcondensed-bolditalic.ttf") format("truetype"); font-style: italic; font-weight: 700; font-display: swap; }
+@font-face { font-family: 'Barlow Condensed'; src: url("../fonts/barlowcondensed-extrabold.ttf") format("truetype"); font-style: normal; font-weight: 800; font-display: swap; }
+@font-face { font-family: 'Barlow Condensed'; src: url("../fonts/barlowcondensed-extrabolditalic.ttf") format("truetype"); font-style: italic; font-weight: 800; font-display: swap; }
+@font-face { font-family: 'Barlow Condensed'; src: url("../fonts/barlowcondensed-black.ttf") format("truetype"); font-style: normal; font-weight: 900; font-display: swap; }
+@font-face { font-family: 'Barlow Condensed'; src: url("../fonts/barlowcondensed-blackitalic.ttf") format("truetype"); font-style: italic; font-weight: 900; font-display: swap; }
+@font-face { font-family: 'IBM Plex Mono'; src: url("../fonts/ibmplexmono-thin.ttf") format("truetype"); font-style: normal; font-weight: 100; font-display: swap; }
+@font-face { font-family: 'IBM Plex Mono'; src: url("../fonts/ibmplexmono-thinitalic.ttf") format("truetype"); font-style: italic; font-weight: 100; font-display: swap; }
+@font-face { font-family: 'IBM Plex Mono'; src: url("../fonts/ibmplexmono-extralight.ttf") format("truetype"); font-style: normal; font-weight: 200; font-display: swap; }
+@font-face { font-family: 'IBM Plex Mono'; src: url("../fonts/ibmplexmono-extralightitalic.ttf") format("truetype"); font-style: italic; font-weight: 200; font-display: swap; }
+@font-face { font-family: 'IBM Plex Mono'; src: url("../fonts/ibmplexmono-light.ttf") format("truetype"); font-style: normal; font-weight: 300; font-display: swap; }
+@font-face { font-family: 'IBM Plex Mono'; src: url("../fonts/ibmplexmono-lightitalic.ttf") format("truetype"); font-style: italic; font-weight: 300; font-display: swap; }
+@font-face { font-family: 'IBM Plex Mono'; src: url("../fonts/ibmplexmono-regular.ttf") format("truetype"); font-style: normal; font-weight: 400; font-display: swap; }
+@font-face { font-family: 'IBM Plex Mono'; src: url("../fonts/ibmplexmono-italic.ttf") format("truetype"); font-style: italic; font-weight: 400; font-display: swap; }
+@font-face { font-family: 'IBM Plex Mono'; src: url("../fonts/ibmplexmono-medium.ttf") format("truetype"); font-style: normal; font-weight: 500; font-display: swap; }
+@font-face { font-family: 'IBM Plex Mono'; src: url("../fonts/ibmplexmono-mediumitalic.ttf") format("truetype"); font-style: italic; font-weight: 500; font-display: swap; }
+@font-face { font-family: 'IBM Plex Mono'; src: url("../fonts/ibmplexmono-semibold.ttf") format("truetype"); font-style: normal; font-weight: 600; font-display: swap; }
+@font-face { font-family: 'IBM Plex Mono'; src: url("../fonts/ibmplexmono-semibolditalic.ttf") format("truetype"); font-style: italic; font-weight: 600; font-display: swap; }
+@font-face { font-family: 'IBM Plex Mono'; src: url("../fonts/ibmplexmono-bold.ttf") format("truetype"); font-style: normal; font-weight: 700; font-display: swap; }
+@font-face { font-family: 'IBM Plex Mono'; src: url("../fonts/ibmplexmono-bolditalic.ttf") format("truetype"); font-style: italic; font-weight: 700; font-display: swap; }</style></head>
+<body class="antialiased">
+<div class="glow"></div>
+<div class="grid-lines"></div>
+
+<header class="sticky top-0 z-30 border-b border-white/[.07] bg-[rgba(11,11,11,.72)] backdrop-blur-xl">
+  <div class="mx-auto flex w-full max-w-3xl items-center justify-between gap-3 px-4 py-3 sm:px-6 sm:py-3.5">
+    <div class="flex items-center gap-3">
+      <img src="../images/99e9fe11-3e8b-4eee-8950-a849a94de041.svg" alt="TNT Sport Apparel" class="h-9 w-9 rounded-lg border border-white/10">
+      <div class="leading-tight">
+        <p class="display text-[14.5px] font-semibold uppercase tracking-wide sm:text-[15px]">TNT Sport Apparel</p>
+        <p class="text-[10.5px] text-[color:var(--tx-3)] sm:text-[11px]">Pabrik Jersey Custom Full Printing</p>
+      </div>
+    </div>
+    <a href="https://wa.me/6281234567890" class="btn hidden sm:inline-flex items-center gap-2 rounded-full border border-white/[.12] bg-white/5 px-4 py-2 text-[13px] font-medium text-[color:var(--tx-2)] hover:bg-white/10 hover:text-white">
+      Hubungi CS
+    </a>
+  </div>
+</header>
+
+<div class="relative z-10 mx-auto w-full max-w-3xl px-4 pb-28 sm:px-6 sm:pb-20">
+
+  <!-- Hero / status -->
+  <section class="reveal pt-7 sm:pt-12">
+    <p class="kicker">Detail Progres Pesanan</p>
+    <h1 class="h1 mt-2.5">
+      Pesanan kamu sedang kami kerjakan<br class="hidden sm:block">
+      <span class="text-[color:var(--acc)]">sesuai jadwal</span>
+    </h1>
+
+    <div class="mt-5 flex flex-wrap items-center gap-2">
+      <button type="button" id="copyOrder" data-order="TNT260907K4XQ" class="meta mono tracking-wider text-[color:var(--tx)] hover:bg-white/[.08]" title="Salin nomor pesanan">
+        <span id="copyLabel">TNT260907K4XQ</span>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" class="h-3.5 w-3.5 text-[color:var(--tx-3)]" aria-hidden="true"><rect x="9" y="9" width="11" height="11" rx="2"></rect><path d="M5 15V5a2 2 0 0 1 2-2h8"></path></svg>
+      </button>
+      <span class="meta meta-acc"><span class="live"></span> Proses Printing</span>
+      <span class="meta">Estimasi kirim <span class="mono ml-1 text-[color:var(--tx)]">19 Sep 2026</span></span>
+    </div>
+
+    <div class="card mt-6 p-5 sm:p-6">
+      <div class="flex items-start justify-between gap-4">
+        <div>
+          <p class="kicker">Progres keseluruhan</p>
+          <p class="display mt-1.5 text-[34px] font-bold leading-none sm:text-[40px]">28<span class="ml-0.5 text-[20px] text-[color:var(--tx-3)]">%</span></p>
+        </div>
+        <div class="text-right">
+          <p class="display text-[15px] font-semibold uppercase tracking-wide">Tahap 3 <span class="text-[color:var(--tx-3)]">/ 9</span></p>
+          <p class="mono mt-1 text-[10.5px] leading-tight text-[color:var(--tx-3)]">Update 07 Sep · 14:20 WIB</p>
+        </div>
+      </div>
+      <div class="segs mt-5" role="img" aria-label="Tahap 3 dari 9 selesai">
+        <span class="on"></span><span class="on"></span><span class="cur"></span>
+        <span></span><span></span><span></span><span></span><span></span><span></span>
+      </div>
+      <div class="mono mt-2.5 flex justify-between text-[10px] uppercase tracking-wider text-[color:var(--tx-3)]">
+        <span>Desain</span><span>Kirim</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- Stepper -->
+  <section class="reveal mt-9 sm:mt-12">
+    <div class="flex items-end justify-between gap-3">
+      <h2 class="h2">Tahap Produksi</h2>
+      <span class="text-[12px] text-[color:var(--tx-3)]">3 dari 9 tahap</span>
+    </div>
+
+    <ol class="steps mt-4">
+      <li class="step">
+        <span class="dot done" aria-label="Selesai"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"></path></svg></span>
+        <div class="step-body">
+          <div class="flex flex-wrap items-center gap-x-2 gap-y-1">
+            <span class="mono text-[11px] text-[color:var(--tx-3)]">01</span>
+            <h3 class="step-title">Desain</h3>
+            <span class="chip chip-done">Selesai</span>
+          </div>
+          <p class="step-desc">Konsep &amp; mockup awal dibuat tim desain.</p>
+          <p class="mono step-time">02 Sep 2026 · 10:14</p>
+        </div>
+      </li>
+      <li class="step">
+        <span class="dot done" aria-label="Selesai"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"></path></svg></span>
+        <div class="step-body">
+          <div class="flex flex-wrap items-center gap-x-2 gap-y-1">
+            <span class="mono text-[11px] text-[color:var(--tx-3)]">02</span>
+            <h3 class="step-title">Layout</h3>
+            <span class="chip chip-done">Selesai</span>
+          </div>
+          <p class="step-desc">Penataan nama, nomor, logo &amp; ukuran per set.</p>
+          <p class="mono step-time">04 Sep 2026 · 13:22</p>
+        </div>
+      </li>
+      <li class="step is-now">
+        <span class="dot now"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 9V3h10v6"></path><rect x="3.5" y="9" width="17" height="8" rx="2"></rect><path d="M7.5 17h9v4h-9z"></path></svg></span>
+        <div class="step-body">
+          <div class="flex flex-wrap items-center gap-x-2 gap-y-1">
+            <span class="mono text-[11px] text-[color:var(--tx-3)]">03</span>
+            <h3 class="step-title">Print</h3>
+            <span class="chip chip-now">Sedang berjalan</span>
+          </div>
+          <p class="step-desc">Full printing sublimasi, 18 dari 24 panel selesai.</p>
+          <p class="mono step-time">07 Sep 2026 · 14:20</p>
+          <div class="mt-3 overflow-hidden rounded-xl border border-white/10 bg-black">
+            <img src="../images/36fd69d3-cf73-4333-8886-0dd12813ebb8.png" alt="Preview desain jersey Garuda FC tampak depan dan belakang" class="block w-full max-w-[380px]">
+          </div>
+          <p class="mt-2 text-[11.5px] text-[color:var(--tx-3)]">Preview desain <span class="mono">Rev-02</span> · tampak depan &amp; belakang ·
+            <a href="https://wa.me/6281234567890?text=Halo%20TNT%20Sport,%20saya%20mau%20tanya%20desain%20order%20TNT260907K4XQ" class="text-[color:var(--acc)] underline underline-offset-2 hover:text-white">tanya soal desain</a>
+          </p>
+        </div>
+      </li>
+      <li class="step is-todo">
+        <span class="dot"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3s5 4.2 5 8.2a5 5 0 0 1-10 0c0-2 1-3.2 2-4.2 0 2 1 3 2 3s1-4 1-7z"></path></svg></span>
+        <div class="step-body">
+          <div class="flex flex-wrap items-center gap-x-2 gap-y-1">
+            <span class="mono text-[11px] text-[color:var(--tx-3)]">04</span>
+            <h3 class="step-title">Pres</h3>
+            <span class="chip chip-next">Berikutnya</span>
+          </div>
+          <p class="step-desc">Transfer panel ke bahan dengan heat press.</p>
+          <p class="mono step-time">Estimasi 09 Sep 2026</p>
+        </div>
+      </li>
+      <li class="step is-todo">
+        <span class="dot"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="6" cy="6" r="2.4"></circle><circle cx="6" cy="18" r="2.4"></circle><path d="M20 4 8.6 15.4M20 20 8.6 8.6"></path></svg></span>
+        <div class="step-body">
+          <div class="flex flex-wrap items-center gap-x-2 gap-y-1">
+            <span class="mono text-[11px] text-[color:var(--tx-3)]">05</span>
+            <h3 class="step-title">Potong</h3>
+            
+          </div>
+          <p class="step-desc">Pemotongan pola sesuai ukuran tiap pemain.</p>
+          <p class="mono step-time">Estimasi 10 Sep 2026</p>
+        </div>
+      </li>
+      <li class="step is-todo">
+        <span class="dot"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 20 20 4"></path><path d="M14.5 4.5 19.5 9.5"></path><path d="M9 13c-3 1.2-4 4-2.2 5.8C8.6 20.6 11 19.4 11.6 17"></path></svg></span>
+        <div class="step-body">
+          <div class="flex flex-wrap items-center gap-x-2 gap-y-1">
+            <span class="mono text-[11px] text-[color:var(--tx-3)]">06</span>
+            <h3 class="step-title">Jahit</h3>
+            
+          </div>
+          <p class="step-desc">Perakitan jersey &amp; celana oleh tim jahit.</p>
+          <p class="mono step-time">Estimasi 12 Sep 2026</p>
+        </div>
+      </li>
+      <li class="step is-todo">
+        <span class="dot"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3.5 13.8 9 19 10.8 13.8 12.6 12 18 10.2 12.6 5 10.8 10.2 9z"></path><path d="M18.5 16.5 19.2 18.4 21 19.1 19.2 19.8 18.5 21.7 17.8 19.8 16 19.1 17.8 18.4z"></path></svg></span>
+        <div class="step-body">
+          <div class="flex flex-wrap items-center gap-x-2 gap-y-1">
+            <span class="mono text-[11px] text-[color:var(--tx-3)]">07</span>
+            <h3 class="step-title">Finishing</h3>
+            
+          </div>
+          <p class="step-desc">Rapikan benang, cek warna, nama &amp; nomor.</p>
+          <p class="mono step-time">Estimasi 16 Sep 2026</p>
+        </div>
+      </li>
+      <li class="step is-todo">
+        <span class="dot"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 8.2 12 3.2 3 8.2v7.6l9 5 9-5z"></path><path d="M3 8.2l9 5 9-5M12 13.2V21"></path></svg></span>
+        <div class="step-body">
+          <div class="flex flex-wrap items-center gap-x-2 gap-y-1">
+            <span class="mono text-[11px] text-[color:var(--tx-3)]">08</span>
+            <h3 class="step-title">Packing</h3>
+            
+          </div>
+          <p class="step-desc">Sortir per pemain &amp; kemas rapi.</p>
+          <p class="mono step-time">Estimasi 18 Sep 2026</p>
+        </div>
+      </li>
+      <li class="step is-todo is-last">
+        <span class="dot"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 6.5h11v10H3z"></path><path d="M14 9.5h3.8l3.2 3.2v3.8H14z"></path><circle cx="7.2" cy="18.4" r="1.9"></circle><circle cx="17.2" cy="18.4" r="1.9"></circle></svg></span>
+        <div class="step-body">
+          <div class="flex flex-wrap items-center gap-x-2 gap-y-1">
+            <span class="mono text-[11px] text-[color:var(--tx-3)]">09</span>
+            <h3 class="step-title">Kirim</h3>
+            
+          </div>
+          <p class="step-desc">Serah terima ke ekspedisi + nomor resi.</p>
+          <p class="mono step-time">Estimasi 19 Sep 2026</p>
+        </div>
+      </li>
+    </ol>
+  </section>
+
+  <!-- Rincian item -->
+  <section class="mt-10">
+    <div class="card p-5 sm:p-6">
+      <div class="flex flex-wrap items-end justify-between gap-2">
+        <h2 class="h2">Rincian Pesanan</h2>
+        <span class="text-[12px] text-[color:var(--tx-3)]">Total <span class="mono text-[color:var(--tx)]">24</span> pcs</span>
+      </div>
+
+      <div class="mt-4 grid gap-2 sm:grid-cols-2">
+        <div class="flex items-center justify-between gap-3 rounded-xl border border-white/10 bg-white/[.03] px-4 py-3.5">
+          <p class="text-[14.5px] font-medium">Setelan</p>
+          <p class="mono text-[15px] flex-none text-[color:var(--acc)]">16</p>
+        </div>
+        <div class="flex items-center justify-between gap-3 rounded-xl border border-white/10 bg-white/[.03] px-4 py-3.5">
+          <p class="text-[14.5px] font-medium">Atasan</p>
+          <p class="mono text-[15px] flex-none text-[color:var(--acc)]">8</p>
+        </div>
+      </div>
+
+      <p class="kicker mt-6">Rekap Ukuran per Item</p>
+      <div class="mt-3 overflow-x-auto rounded-xl border border-white/10">
+        <table class="w-full table-fixed min-w-0 text-[13px]">
+          <thead>
+            <tr class="bg-white/[.05] text-[11px] uppercase tracking-wider text-[color:var(--tx-3)]">
+              <th class="px-2 py-2.5 text-left font-medium" style="width:31%">Ukuran</th>
+              <th class="px-2 py-2.5 text-center font-medium" style="width:25%">Setelan</th>
+              <th class="px-2 py-2.5 text-center font-medium" style="width:22%">Atasan</th>
+              <th class="px-2 py-2.5 text-right font-medium" style="width:22%">Total</th>
+            </tr>
+          </thead>
+          <tbody class="divide-y divide-white/[.07]">
+            <tr>
+              <td class="px-2 py-2.5"><span class="szlab">S</span></td>
+              <td class="mono px-2 py-2.5 text-center text-[14px]">1</td>
+              <td class="mono px-2 py-2.5 text-center text-[14px]">1</td>
+              <td class="mono px-2 py-2.5 text-right text-[14px] font-semibold text-[color:var(--acc)]">2</td>
+            </tr>
+            <tr>
+              <td class="px-2 py-2.5"><span class="szlab">M</span></td>
+              <td class="mono px-2 py-2.5 text-center text-[14px]">4</td>
+              <td class="mono px-2 py-2.5 text-center text-[14px]">2</td>
+              <td class="mono px-2 py-2.5 text-right text-[14px] font-semibold text-[color:var(--acc)]">6</td>
+            </tr>
+            <tr>
+              <td class="px-2 py-2.5"><span class="szlab">L</span></td>
+              <td class="mono px-2 py-2.5 text-center text-[14px]">6</td>
+              <td class="mono px-2 py-2.5 text-center text-[14px]">2</td>
+              <td class="mono px-2 py-2.5 text-right text-[14px] font-semibold text-[color:var(--acc)]">8</td>
+            </tr>
+            <tr>
+              <td class="px-2 py-2.5"><span class="szlab">XL</span></td>
+              <td class="mono px-2 py-2.5 text-center text-[14px]">3</td>
+              <td class="mono px-2 py-2.5 text-center text-[14px]">2</td>
+              <td class="mono px-2 py-2.5 text-right text-[14px] font-semibold text-[color:var(--acc)]">5</td>
+            </tr>
+            <tr>
+              <td class="px-2 py-2.5"><span class="szlab">XXL</span></td>
+              <td class="mono px-2 py-2.5 text-center text-[14px]">2</td>
+              <td class="mono px-2 py-2.5 text-center text-[14px] text-[color:var(--tx-3)]">–</td>
+              <td class="mono px-2 py-2.5 text-right text-[14px] font-semibold text-[color:var(--acc)]">2</td>
+            </tr>
+            <tr>
+              <td class="px-2 py-2.5"><span class="szlab">3XL</span></td>
+              <td class="mono px-2 py-2.5 text-center text-[14px] text-[color:var(--tx-3)]">–</td>
+              <td class="mono px-2 py-2.5 text-center text-[14px]">1</td>
+              <td class="mono px-2 py-2.5 text-right text-[14px] font-semibold text-[color:var(--acc)]">1</td>
+            </tr>
+          </tbody>
+          <tfoot>
+            <tr class="border-t border-white/15 bg-white/[.04] font-semibold">
+              <td class="px-2 py-3 text-left text-[12px] uppercase tracking-wider text-[color:var(--tx-3)]">Total</td>
+              <td class="mono px-2 py-3 text-center text-[14px]">16</td>
+              <td class="mono px-2 py-3 text-center text-[14px]">8</td>
+              <td class="mono px-2 py-3 text-right text-[14px] text-[color:var(--acc)]">24</td>
+            </tr>
+          </tfoot>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="card mt-8 p-6 sm:p-8 text-center">
+    <h2 class="display text-2xl sm:text-3xl font-bold">Ada yang mau ditanyakan?</h2>
+    <p class="mt-2 text-[14px] text-[color:var(--tx-2)]">Tim CS kami siap bantu, Senin–Sabtu 08.00–20.00 WIB.</p>
+    <div class="mt-5 flex justify-center">
+      <a href="https://wa.me/6281234567890?text=Halo%20TNT%20Sport,%20saya%20mau%20tanya%20order%20TNT260907K4XQ" class="btn inline-flex w-full sm:w-auto items-center justify-center gap-2 rounded-full bg-[color:var(--acc)] px-8 py-3.5 text-[15px] font-semibold text-black hover:bg-[#2ee06b]">
+        Chat CS via WhatsApp
+      </a>
+    </div>
+    <p class="mt-4 text-[12px] text-[color:var(--tx-3)]">Semua komunikasi order ditangani lewat WhatsApp resmi TNT Sport Apparel.</p>
+  </section>
+
+  <footer class="mt-10 text-center text-[12px] text-[color:var(--tx-3)]">
+    <p>© 2026 TNT Sport Apparel — Pabrik Jersey Custom Full Printing</p>
+  </footer>
+</div>
+
+<div class="stickycta">
+  <a href="https://wa.me/6281234567890?text=Halo%20TNT%20Sport,%20saya%20mau%20tanya%20order%20TNT260907K4XQ" class="btn flex w-full items-center justify-center gap-2 rounded-full bg-[color:var(--acc)] px-6 py-3.5 text-[15px] font-semibold text-black">
+    <svg viewBox="0 0 24 24" fill="currentColor" style="width:18px;height:18px;flex:none" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2zm0 2a8 8 0 1 1-4.1 14.9l-.4-.2-2.7.7.7-2.6-.2-.4A8 8 0 0 1 12 4zm-3.2 4c-.3 0-.6.1-.8.4-.3.3-.7.9-.7 1.8 0 1 .7 2 .8 2.2.1.2 1.4 2.3 3.5 3.1 1.7.7 2.3.6 2.7.6.5-.1 1.5-.6 1.7-1.2.2-.6.2-1.1.1-1.2 0-.1-.2-.2-.4-.3l-1.3-.6c-.2-.1-.4-.1-.5.1l-.6.8c-.1.2-.3.2-.5.1-.2-.1-.9-.4-1.7-1.1-.6-.6-1-1.2-1.1-1.4-.1-.2 0-.3.1-.4l.4-.5c.1-.2.1-.3 0-.5l-.6-1.3c-.1-.3-.3-.4-.5-.4h-.4z"></path></svg>
+    Chat CS via WhatsApp
+  </a>
+</div>
+
+<script>
+(function(){
+  var b=document.getElementById('copyOrder'), l=document.getElementById('copyLabel');
+  if(!b||!navigator.clipboard) return;
+  b.addEventListener('click',function(){
+    navigator.clipboard.writeText(b.dataset.order).then(function(){
+      var o=l.textContent; l.textContent='Tersalin'; setTimeout(function(){l.textContent=o;},1400);
+    });
+  });
+})();
+</script>
+
+
+</body></html>

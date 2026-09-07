@@ -1878,6 +1878,238 @@
 }
 
 /* ================================================================
+   DETAIL PESANAN ORDER — dpo-* prefix (customer-facing detail page)
+   ================================================================ */
+.dpo-card {
+  position: relative;
+  background: linear-gradient(180deg, rgba(255,255,255,.05), rgba(255,255,255,.015));
+  border: 1px solid #232a26;
+  border-radius: 20px;
+  backdrop-filter: blur(8px);
+  box-shadow: 0 1px 0 rgba(255,255,255,.05) inset, 0 24px 60px -40px rgba(0,0,0,.9);
+}
+.dpo-kicker {
+  letter-spacing: .22em;
+  text-transform: uppercase;
+  font-size: 11px;
+  color: #6f757c;
+}
+.dpo-h1 {
+  font-family: var(--font-display), "Barlow Condensed", "Barlow", sans-serif;
+  font-weight: 700;
+  font-size: clamp(30px, 7vw, 54px);
+  line-height: 1.04;
+  letter-spacing: -.005em;
+  text-wrap: balance;
+}
+.dpo-h2 {
+  font-family: var(--font-display), "Barlow Condensed", "Barlow", sans-serif;
+  font-size: clamp(19px, 4.4vw, 22px);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: .045em;
+  line-height: 1;
+}
+.dpo-mono {
+  font-family: var(--font-mono), "IBM Plex Mono", ui-monospace, monospace;
+}
+.dpo-meta {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  border-radius: 11px;
+  padding: 7px 11px;
+  font-size: 12.5px;
+  line-height: 1;
+  border: 1px solid rgba(255,255,255,.10);
+  background: rgba(255,255,255,.04);
+  color: #979ba4;
+}
+.dpo-meta-acc {
+  border-color: rgba(34,197,94,.40);
+  background: rgba(34,197,94,.12);
+  color: #22c55e;
+  font-weight: 600;
+}
+.dpo-live {
+  position: relative;
+  width: 6px;
+  height: 6px;
+  border-radius: 999px;
+  background: #22c55e;
+  flex: none;
+}
+.dpo-live::after {
+  content: "";
+  position: absolute;
+  inset: -4px;
+  border-radius: 999px;
+  background: rgba(34,197,94,.35);
+  animation: dpo-ping 1.8s ease-out infinite;
+}
+@keyframes dpo-ping {
+  0% { transform: scale(.92); opacity: .9 }
+  100% { transform: scale(1.35); opacity: 0 }
+}
+.dpo-segs { display: flex; gap: 4px; }
+.dpo-segs > span {
+  flex: 1;
+  height: 8px;
+  border-radius: 4px;
+  background: rgba(255,255,255,.07);
+}
+.dpo-segs > span.on {
+  background: linear-gradient(180deg, #22c55e, #16a34a);
+  box-shadow: 0 0 12px rgba(34,197,94,.5);
+}
+.dpo-segs > span.cur {
+  background: #22c55e;
+  box-shadow: 0 0 16px rgba(34,197,94,.85);
+  animation: dpo-seg 1.8s ease-in-out infinite;
+}
+@keyframes dpo-seg { 0%,100% { opacity: 1 } 50% { opacity: .5 } }
+
+/* stepper */
+.dpo-steps { display: flex; flex-direction: column; gap: 10px; }
+.dpo-step {
+  position: relative;
+  display: flex;
+  gap: 12px;
+  padding: 13px 14px;
+  border-radius: 16px;
+  transition: border-color .2s ease, background .2s ease;
+  background: linear-gradient(180deg, rgba(255,255,255,.045), rgba(255,255,255,.015));
+  border: 1px solid #232a26;
+}
+.dpo-step::after {
+  content: "";
+  position: absolute;
+  left: 28px;
+  top: 100%;
+  height: 10px;
+  width: 2px;
+  background: linear-gradient(180deg, rgba(34,197,94,.55), rgba(34,197,94,.12));
+}
+.dpo-step.is-todo::after { background: #313743; }
+.dpo-step.is-last::after { display: none; }
+.dpo-step.is-todo {
+  background: transparent;
+  border-color: rgba(255,255,255,.06);
+}
+.dpo-step.is-now {
+  border-color: rgba(34,197,94,.45);
+  background: linear-gradient(135deg, rgba(34,197,94,.14), rgba(34,197,94,.02) 55%, rgba(255,255,255,.02));
+  box-shadow: 0 0 0 1px rgba(34,197,94,.10), 0 14px 40px -18px rgba(34,197,94,.65);
+}
+.dpo-dot {
+  position: relative;
+  z-index: 1;
+  width: 30px;
+  height: 30px;
+  border-radius: 11px;
+  display: grid;
+  place-items: center;
+  background: #1b241e;
+  border: 1px solid #313743;
+  color: #6f757c;
+  flex: none;
+  font-family: var(--font-mono), monospace;
+  font-size: 12px;
+  margin-top: 1px;
+}
+.dpo-dot.done {
+  background: rgba(34,197,94,.14);
+  border-color: rgba(34,197,94,.5);
+  color: #22c55e;
+}
+.dpo-dot.now {
+  color: #04120a;
+  background: #22c55e;
+  border-color: #22c55e;
+  box-shadow: 0 0 22px rgba(34,197,94,.55);
+}
+.dpo-dot.now::after {
+  content: "";
+  position: absolute;
+  inset: -4px;
+  border-radius: 14px;
+  border: 1px solid rgba(34,197,94,.55);
+  animation: dpo-ping 2.2s ease-out infinite;
+}
+.dpo-step-title {
+  font-family: var(--font-display), "Barlow Condensed", "Barlow", sans-serif;
+  font-size: 17px;
+  font-weight: 600;
+  letter-spacing: .02em;
+  text-transform: uppercase;
+}
+.dpo-step.is-todo .dpo-step-title { color: #979ba4; font-weight: 500; }
+.dpo-step-desc { margin-top: 2px; font-size: 13px; color: #979ba4; line-height: 1.5; }
+.dpo-step.is-todo .dpo-step-desc { color: #6f757c; }
+.dpo-step-time { margin-top: 6px; font-size: 11px; color: #6f757c; letter-spacing: .03em; }
+.dpo-chip {
+  border-radius: 999px;
+  padding: 2px 9px;
+  font-size: 10.5px;
+  font-weight: 600;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+}
+.dpo-chip-done {
+  background: rgba(34,197,94,.10);
+  color: rgba(34,197,94,.85);
+  border: 1px solid rgba(34,197,94,.22);
+}
+.dpo-chip-now { background: #22c55e; color: #04120a; }
+.dpo-chip-next {
+  background: rgba(255,255,255,.06);
+  color: #979ba4;
+  border: 1px solid rgba(255,255,255,.12);
+}
+
+/* size rekap */
+.dpo-szlab {
+  display: inline-block;
+  flex: none;
+  width: 42px;
+  text-align: center;
+  padding: 5px 0;
+  border-radius: 9px;
+  border: 1px solid rgba(255,255,255,.12);
+  background: rgba(255,255,255,.04);
+  font-family: var(--font-display), "Barlow Condensed", sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: .06em;
+  color: #e8ebe9;
+}
+.dpo-reveal { animation: dpo-up .55s cubic-bezier(.2,.75,.2,1) both; }
+@keyframes dpo-up {
+  from { opacity: 0; transform: translateY(14px) }
+  to { opacity: 1; transform: none }
+}
+@media (min-width: 640px) {
+  .dpo-step { gap: 14px; padding: 16px 18px; }
+  .dpo-step::after { left: 32px; }
+  .dpo-dot { width: 34px; height: 34px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .dpo-* { animation: none !important; }
+}
+.dpo-stickycta {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 40;
+  padding: 10px 16px calc(10px + env(safe-area-inset-bottom));
+  background: linear-gradient(180deg, rgba(11,11,11,0), rgba(11,11,11,.92) 38%);
+  backdrop-filter: blur(8px);
+}
+@media (min-width: 640px) { .dpo-stickycta { display: none } }
+
+
+/* ================================================================
    PESANAN ADMIN DASHBOARD — pas-* prefix (from TNT-Dashboard-Admin-v4)
    ================================================================ */
 :root {
