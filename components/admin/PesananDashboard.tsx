@@ -280,14 +280,17 @@ export default function PesananDashboard() {
                 </h1>
               </div>
             </div>
-            <div className="flex items-center gap-2.5">
+            <div className="flex items-center gap-2">
               <button
-                className="pas-btn-ghost px-3 py-2 text-[13px] lg:hidden"
+                className="lg:hidden p-2.5 rounded-lg border border-[var(--pas-line)] text-[var(--pas-muted)] hover:text-white hover:bg-[var(--pas-surface-2)] transition"
                 onClick={() => setShowMobileNav(true)}
+                aria-label="Buka menu"
               >
-                Menu
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round">
+                  <path d="M4 6h16M4 12h16M4 18h16" />
+                </svg>
               </button>
-              <span className="hidden sm:inline text-[12.5px] text-[var(--pas-muted)]">
+              <span className="hidden lg:inline text-[12.5px] text-[var(--pas-muted)]">
                 {new Date().toLocaleDateString("id-ID", {
                   day: "numeric",
                   month: "short",
@@ -297,9 +300,9 @@ export default function PesananDashboard() {
               {currentView === "pesanan" && (
                 <button
                   onClick={() => setShowAdd(true)}
-                  className="pas-btn-accent px-4 py-2.5 text-[14px]"
+                  className="pas-btn-accent px-3.5 py-2.5 text-[14px] sm:px-4"
                 >
-                  + Pesanan
+                  <span className="sm:inline">+ </span>Pesanan
                 </button>
               )}
               <button
@@ -348,20 +351,29 @@ export default function PesananDashboard() {
         </main>
       </div>
 
-      {/* ── MOBILE NAV ── */}
+      {/* ── MOBILE NAV DRAWER ── */}
       {showMobileNav && (
         <div className="pas-sheet open">
-          <div className="pas-veil" onClick={closeAll} />
-          <div
-            className="pas-panel p-5"
-            style={{
-              left: 0,
-              right: "auto",
-              width: "min(280px, 86%)",
-              borderLeft: "none",
-              borderRight: "1px solid var(--pas-line)",
-            }}
-          >
+          <div className="pas-veil" onClick={() => setShowMobileNav(false)} />
+          <div className="pas-panel slide-left p-5">
+            {/* Drawer header */}
+            <div className="flex items-center justify-between mb-1">
+              <a href="/" className="flex items-center gap-2.5">
+                <span className="pas-mark w-8 h-8 rounded-[9px] grid place-items-center pas-display text-[13px]">
+                  T
+                </span>
+                <span className="pas-display text-[15px]">TNT Sport</span>
+              </a>
+              <button
+                className="p-2 rounded-lg text-[var(--pas-muted)] hover:text-white hover:bg-[var(--pas-surface-2)] transition"
+                onClick={() => setShowMobileNav(false)}
+                aria-label="Tutup menu"
+              >
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round">
+                  <path d="M18 6L6 18M6 6l12 12" />
+                </svg>
+              </button>
+            </div>
             <p className="pas-navsec">Operasional</p>
             <nav className="flex flex-col gap-1">
               {(
@@ -1831,28 +1843,26 @@ function AddForm({
   const [form, setForm] = useState({
     customer_name: "",
     customer_phone: "",
-    quantity: "",
     deadline: "",
     created_at: new Date().toISOString().slice(0, 10),
   });
-  const [productOptions, setProductOptions] = useState<string[]>(["Atasan", "Setelan"]);
-  const [sizeRows, setSizeRows] = useState<{ size: string; qty: string }[]>([{ size: "", qty: "" }]);
+  const DEFAULT_PRODUCTS = ["Atasan Lengan Pendek", "Atasan Lengan Panjang", "Setelan Lengan Pendek", "Setelan Lengan Panjang"];
+  const [productOptions, setProductOptions] = useState<string[]>(DEFAULT_PRODUCTS);
   const [designPhotos, setDesignPhotos] = useState<string[]>([]);
   const [uploadingDesign, setUploadingDesign] = useState(false);
   const [error, setError] = useState("");
   const [saving, setSaving] = useState(false);
 
-  // Multi-product rows: each product has its own name, sizes, and qty
+  // Multi-product rows: each product has its own name and qty
   const [productRows, setProductRows] = useState<
-    { product: string; custom: boolean; sizes: { size: string; qty: string }[] }[]
+    { product: string; custom: boolean; qty: string }[]
   >([
-    { product: "", custom: false, sizes: [{ size: "", qty: "" }] },
+    { product: "", custom: false, qty: "" },
   ]);
 
-  // Total qty across all product size rows (auto-computed)
+  // Total qty across all products (auto-computed)
   const totalQty = productRows.reduce(
-    (acc, p) =>
-      acc + p.sizes.reduce((a, s) => a + (parseInt(s.qty, 10) || 0), 0),
+    (acc, p) => acc + (parseInt(p.qty, 10) || 0),
     0
   );
 
@@ -1861,7 +1871,7 @@ function AddForm({
     try {
       const saved = JSON.parse(localStorage.getItem("pas_product_options") || "[]");
       if (Array.isArray(saved) && saved.length > 0) {
-        setProductOptions(Array.from(new Set(["Atasan", "Setelan", ...saved])));
+        setProductOptions(Array.from(new Set([...DEFAULT_PRODUCTS, ...saved])));
       }
     } catch {
       // silent
@@ -1871,24 +1881,15 @@ function AddForm({
   const updateProductRow = (rowIdx: number, patch: Partial<typeof productRows[0]>) =>
     setProductRows((rows) => rows.map((r, i) => (i === rowIdx ? { ...r, ...patch } : r)));
 
-  const updateSizeRow = (rowIdx: number, sizeIdx: number, patch: Partial<{ size: string; qty: string }>) =>
-    setProductRows((rows) =>
-      rows.map((r, i) =>
-        i === rowIdx
-          ? { ...r, sizes: r.sizes.map((s, si) => (si === sizeIdx ? { ...s, ...patch } : s)) }
-          : r
-      )
-    );
-
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    // Validate: at least one product row with a name and at least one size+qty
+    // Validate: at least one product row with a name and qty
     const validRows = productRows.filter(
-      (p) => p.product.trim() && p.sizes.some((s) => s.size.trim())
+      (p) => p.product.trim() && p.qty.trim()
     );
     if (!form.customer_name || !form.customer_phone || validRows.length === 0) {
-      setError("Isi nama, HP, dan minimal 1 produk dengan ukurannya.");
+      setError("Isi nama, HP, dan minimal 1 produk dengan jumlahnya.");
       return;
     }
     setSaving(true);
@@ -1897,9 +1898,7 @@ function AddForm({
       // Build structured products + backward-compat fields
       const products = validRows.map((p) => ({
         name: p.product.trim(),
-        sizes: p.sizes
-          .filter((s) => s.size.trim())
-          .map((s) => ({ size: s.size.trim(), qty: parseInt(s.qty, 10) || 0 })),
+        sizes: [{ size: "ALL", qty: parseInt(p.qty, 10) || 0 }],
       }));
       const totalPcs = products.reduce((a, p) => a + p.sizes.reduce((x, s) => x + s.qty, 0), 0);
       const combinedNames = products.map((p) => p.name).join(", ");
@@ -1934,7 +1933,7 @@ function AddForm({
       if (newProducts.length > 0) {
         try {
           const saved = JSON.parse(localStorage.getItem("pas_product_options") || "[]");
-          const merged = Array.from(new Set([...saved, "Atasan", "Setelan", ...newProducts]));
+          const merged = Array.from(new Set([...saved, ...DEFAULT_PRODUCTS, ...newProducts]));
           localStorage.setItem("pas_product_options", JSON.stringify(merged));
           setProductOptions(merged);
         } catch {
@@ -1993,125 +1992,73 @@ function AddForm({
 
         <div className="flex flex-col gap-3 mt-1.5">
           {productRows.map((pRow, pi) => {
-            const rowQty = pRow.sizes.reduce((a, s) => a + (parseInt(s.qty, 10) || 0), 0);
             return (
               <div
                 key={pi}
-                className="rounded-xl border border-[var(--pas-line)] p-3.5 bg-[var(--pas-surface-2)]"
+                className="flex items-center gap-2 rounded-xl border border-[var(--pas-line)] p-3 bg-[var(--pas-surface-2)]"
               >
                 {/* Product selector */}
-                <div className="flex items-center gap-2">
-                  {pRow.custom ? (
-                    <input
-                      autoFocus
-                      className="pas-field flex-1 px-4 py-2.5 text-[15px]"
-                      placeholder="Nama produk custom"
-                      value={pRow.product}
-                      onChange={(e) => updateProductRow(pi, { product: e.target.value })}
-                    />
-                  ) : (
-                    <select
-                      className="pas-field flex-1 px-4 py-2.5 text-[15px] appearance-none"
-                      value={pRow.product}
-                      onChange={(e) => {
-                        if (e.target.value === "__custom__") {
-                          updateProductRow(pi, { custom: true, product: "" });
-                        } else {
-                          updateProductRow(pi, { product: e.target.value });
-                        }
-                      }}
-                    >
-                      <option value="" disabled>
-                        Pilih produk…
+                {pRow.custom ? (
+                  <input
+                    autoFocus
+                    className="pas-field flex-1 px-4 py-2.5 text-[15px]"
+                    placeholder="Nama produk custom"
+                    value={pRow.product}
+                    onChange={(e) => updateProductRow(pi, { product: e.target.value })}
+                  />
+                ) : (
+                  <select
+                    className="pas-field flex-1 px-4 py-2.5 text-[15px] appearance-none"
+                    value={pRow.product}
+                    onChange={(e) => {
+                      if (e.target.value === "__custom__") {
+                        updateProductRow(pi, { custom: true, product: "" });
+                      } else {
+                        updateProductRow(pi, { product: e.target.value });
+                      }
+                    }}
+                  >
+                    <option value="" disabled>
+                      Pilih produk…
+                    </option>
+                    {productOptions.map((p) => (
+                      <option key={p} value={p}>
+                        {p}
                       </option>
-                      {productOptions.map((p) => (
-                        <option key={p} value={p}>
-                          {p}
-                        </option>
-                      ))}
-                      <option value="__custom__">+ Tambah sendiri…</option>
-                    </select>
-                  )}
-                  {rowQty > 0 && (
-                    <span className="text-[12px] text-[var(--pas-muted)] pas-num shrink-0">
-                      {rowQty} pcs
-                    </span>
-                  )}
-                  {pRow.custom && (
-                    <button
-                      type="button"
-                      className="pas-btn-ghost px-2.5 py-2 text-[12px] shrink-0"
-                      title="Kembali ke daftar pilihan"
-                      onClick={() => updateProductRow(pi, { custom: false, product: "" })}
-                    >
-                      List
-                    </button>
-                  )}
-                  {productRows.length > 1 && (
-                    <button
-                      type="button"
-                      className="p-2 rounded-lg text-[var(--pas-muted)] hover:text-red-400 hover:bg-red-400/10 transition shrink-0"
-                      title="Hapus produk ini"
-                      onClick={() => setProductRows((rows) => rows.filter((_, idx) => idx !== pi))}
-                    >
-                      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                        <path d="M3 6h18M19 6v14a2 2 0 01-2 2H7a2 2 0 01-2-2V6M8 6V4a2 2 0 012-2h4a2 2 0 012 2v2"/>
-                      </svg>
-                    </button>
-                  )}
-                </div>
-
-                {/* Sizes for this product */}
-                <div className="flex flex-col gap-2 mt-3">
-                  {pRow.sizes.map((sRow, si) => (
-                    <div key={si} className="flex items-center gap-2">
-                      <input
-                        className="pas-field flex-1 px-4 py-2.5 text-[15px]"
-                        placeholder="Ukuran (mis. M)"
-                        value={sRow.size}
-                        onChange={(e) => updateSizeRow(pi, si, { size: e.target.value })}
-                      />
-                      <input
-                        className="pas-field w-[90px] px-4 py-2.5 text-[15px]"
-                        placeholder="Qty"
-                        inputMode="numeric"
-                        value={sRow.qty}
-                        onChange={(e) => updateSizeRow(pi, si, { qty: e.target.value })}
-                      />
-                      {pRow.sizes.length > 1 && (
-                        <button
-                          type="button"
-                          className="p-2 rounded-lg text-[var(--pas-muted)] hover:text-red-400 hover:bg-red-400/10 transition shrink-0"
-                          title="Hapus ukuran ini"
-                          onClick={() =>
-                            setProductRows((rows) =>
-                              rows.map((r, i) =>
-                                i === pi ? { ...r, sizes: r.sizes.filter((_, idx) => idx !== si) } : r
-                              )
-                            )
-                          }
-                        >
-                          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                            <path d="M3 6h18M19 6v14a2 2 0 01-2 2H7a2 2 0 01-2-2V6M8 6V4a2 2 0 012-2h4a2 2 0 012 2v2"/>
-                          </svg>
-                        </button>
-                      )}
-                    </div>
-                  ))}
-                </div>
-                <button
-                  type="button"
-                  className="pas-btn-ghost w-full py-2 text-[12px] mt-2"
-                  onClick={() =>
-                    setProductRows((rows) =>
-                      rows.map((r, i) =>
-                        i === pi ? { ...r, sizes: [...r.sizes, { size: "", qty: "" }] } : r
-                      )
-                    )
-                  }
-                >
-                  + Tambah Ukuran
-                </button>
+                    ))}
+                    <option value="__custom__">+ Tambah sendiri…</option>
+                  </select>
+                )}
+                {/* Qty */}
+                <input
+                  className="pas-field w-[84px] px-3 py-2.5 text-[15px]"
+                  placeholder="Qty"
+                  inputMode="numeric"
+                  value={pRow.qty}
+                  onChange={(e) => updateProductRow(pi, { qty: e.target.value })}
+                />
+                {pRow.custom && (
+                  <button
+                    type="button"
+                    className="pas-btn-ghost px-2.5 py-2 text-[12px] shrink-0"
+                    title="Kembali ke daftar pilihan"
+                    onClick={() => updateProductRow(pi, { custom: false, product: "" })}
+                  >
+                    List
+                  </button>
+                )}
+                {productRows.length > 1 && (
+                  <button
+                    type="button"
+                    className="p-2 rounded-lg text-[var(--pas-muted)] hover:text-red-400 hover:bg-red-400/10 transition shrink-0"
+                    title="Hapus produk ini"
+                    onClick={() => setProductRows((rows) => rows.filter((_, idx) => idx !== pi))}
+                  >
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                      <path d="M3 6h18M19 6v14a2 2 0 01-2 2H7a2 2 0 01-2-2V6M8 6V4a2 2 0 012-2h4a2 2 0 012 2v2"/>
+                    </svg>
+                  </button>
+                )}
               </div>
             );
           })}
@@ -2123,7 +2070,7 @@ function AddForm({
           onClick={() =>
             setProductRows((rows) => [
               ...rows,
-              { product: "", custom: false, sizes: [{ size: "", qty: "" }] },
+              { product: "", custom: false, qty: "" },
             ])
           }
         >

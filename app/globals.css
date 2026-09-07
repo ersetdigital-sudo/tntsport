@@ -2261,6 +2261,17 @@ table.pas-tbl tbody tr:hover { background: rgba(255,255,255,.028); }
   border-left: 1px solid var(--pas-line); overflow-y: auto;
   animation: pas-slidein .35s cubic-bezier(.22,1,.36,1);
 }
+.pas-sheet .pas-panel.slide-left {
+  left: 0; right: auto;
+  width: min(288px, 86%);
+  border-left: none; border-right: 1px solid var(--pas-line);
+  border-radius: 0;
+  animation: pas-slideleft .3s cubic-bezier(.22,1,.36,1);
+}
+@keyframes pas-slideleft {
+  from { transform: translateX(-40px); opacity: .3; }
+  to { transform: none; opacity: 1; }
+}
 @keyframes pas-slidein {
   from { transform: translateX(28px); opacity: .4; }
   to { transform: none; opacity: 1; }
