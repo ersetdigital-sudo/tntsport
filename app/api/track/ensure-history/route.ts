@@ -38,10 +38,12 @@ export async function POST(request: NextRequest) {
     process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
   );
 
-  // Get order
+  // Get order — select ALL columns so the returned order object is complete
+  // (design_photos, products, deadline, etc.) and doesn't wipe out fields
+  // the status page already has from /api/track/session
   const { data: order, error: oErr } = await supabase
     .from("orders")
-    .select("id, order_number, current_status, created_at")
+    .select("*")
     .eq("order_number", orderNumber.toUpperCase())
     .single();
 

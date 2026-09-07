@@ -526,15 +526,26 @@ function StatusContent() {
                           <p className="dpo-mono dpo-step-time">Mengikuti jadwal produksi</p>
                         ) : null}
 
-                        {/* Design preview on the current step */}
+                        {/* Design preview on the current step — like the reference: all photos, front & back */}
                         {st === "now" && (order.design_photos?.length ?? 0) > 0 && (
-                          <div className="mt-3 overflow-hidden rounded-xl border border-white/10 bg-black">
-                            {/* eslint-disable-next-line @next/next/no-img-element */}
-                            <img
-                              src={order.design_photos[0]}
-                              alt="Preview desain pesanan"
-                              className="block w-full max-w-[380px]"
-                            />
+                          <div className="mt-3 flex flex-wrap gap-2.5">
+                            {order.design_photos.map((url: string, di: number) => (
+                              <a
+                                key={di}
+                                href={url}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="block overflow-hidden rounded-xl border border-white/10 bg-black"
+                                title={`Preview desain ${di + 1}`}
+                              >
+                                {/* eslint-disable-next-line @next/next/no-img-element */}
+                                <img
+                                  src={url}
+                                  alt={`Preview desain pesanan ${di + 1}`}
+                                  className="block w-full max-w-[280px] max-h-[320px] object-contain"
+                                />
+                              </a>
+                            ))}
                           </div>
                         )}
                       </div>
