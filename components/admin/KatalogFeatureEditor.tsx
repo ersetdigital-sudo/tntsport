@@ -2,6 +2,7 @@
 
 import { useState, useTransition, useRef } from "react";
 import { useRouter } from "next/navigation";
+import imageCompression from "browser-image-compression";
 import { createClient } from "@/lib/supabase/client";
 import { getCloudinarySignature } from "@/app/admin/actions/cloudinary";
 import { uploadToCloudinary } from "@/lib/cloudinary";
@@ -98,7 +99,13 @@ export function KatalogFeatureEditor({ feature }: KatalogFeatureEditorProps) {
 
     try {
       const uploadParams = await getCloudinarySignature({ folder: "katalog-features" });
-      const result = await uploadToCloudinary(file, uploadParams);
+      // Compress locally first — big files make uploads slow
+      const compressed = await imageCompression(file, {
+        maxSizeMB: 1,
+        maxWidthOrHeight: 800,
+        useWebWorker: true,
+      }).catch(() => file);
+      const result = await uploadToCloudinary(compressed, uploadParams);
       setIconUrl(result.url);
       setIconType("upload");
     } catch (err) {

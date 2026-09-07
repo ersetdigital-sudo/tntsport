@@ -77,30 +77,52 @@ export function ProductEditor({ product, categories }: ProductEditorProps) {
     try {
       const uploadParams = await getCloudinarySignature({ folder: "products" });
 
-      for (const file of Array.from(files)) {
+      // Compress ALL images locally first (fast) — big files are what make
+      // the Cloudinary upload slow. Max 1MB / 1600px is plenty for web.
+      const compressed = await Promise.all(
+        Array.from(files).map(async (file) => ({
+          original: file,
+          file: await imageCompression(file, {
+            maxSizeMB: 1,
+            maxWidthOrHeight: 1600,
+            useWebWorker: true,
+          }).catch(() => file),
+        }))
+      );
+
+      // Placeholder for each image
+      compressed.forEach(({ original }) =>
         setImages((prev) => [
           ...prev,
-          { url: "", alt: file.name, sort_order: prev.length, _uploading: true, _progress: 0 },
-        ]);
+          { url: "", alt: original.name, sort_order: prev.length, _uploading: true, _progress: 0 },
+        ])
+      );
 
-        let uploadFile = file;
-        if (file.size > 10 * 1024 * 1024) {
-          uploadFile = await imageCompression(file, {
-            maxSizeMB: 9,
-            maxWidthOrHeight: 2048,
-            useWebWorker: true,
-          });
-        }
+      // Upload in PARALLEL — each result fills its placeholder
+      const results = await Promise.all(
+        compressed.map(({ original, file }) =>
+          uploadToCloudinary(file, uploadParams)
+            .then((result) => ({ original, result }))
+            .catch((err) => ({ original, error: err }))
+        )
+      );
 
-        const result = await uploadToCloudinary(uploadFile, uploadParams);
+      setImages((prev) => {
+        let idx = prev.length - results.length;
+        return prev.map((img) => {
+          if (img._uploading && img.url === "") {
+            const r = results[idx++];
+            if (r && "result" in r) {
+              return { ...img, url: r.result.url, alt: r.original.name, _uploading: false };
+            }
+          }
+          return img;
+        });
+      });
 
-        setImages((prev) =>
-          prev.map((img) =>
-            img._uploading && img.url === ""
-              ? { url: result.url, alt: file.name, sort_order: prev.indexOf(img), _uploading: false }
-              : img
-          )
-        );
+      const failed = results.filter((r) => "error" in r);
+      if (failed.length > 0) {
+        setError(`${failed.length} gambar gagal diupload`);
       }
     } catch (err) {
       setError(err instanceof Error ? err.message : "Upload gagal");
