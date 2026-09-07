@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from "next";
 import Script from "next/script";
 import { Barlow, Barlow_Condensed, IBM_Plex_Mono, Archivo } from "next/font/google";
 import { ThemeProvider } from "next-themes";
+import { Analytics } from "@vercel/analytics/next";
 import { getBrand } from "@/lib/queries";
 import "./globals.css";
 
@@ -170,6 +171,7 @@ export default async function RootLayout({
         >
           {children}
         </ThemeProvider>
+        <Analytics />
       </body>
     </html>
   );
