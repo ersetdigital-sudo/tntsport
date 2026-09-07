@@ -4,8 +4,11 @@
  * Public functions verify customer_phone before returning data.
  * Admin functions require authenticated Supabase client.
  */
+import { randomBytes as _randomBytes } from "crypto";
 import { createClient } from "@/lib/supabase/server";
 import type { Order, OrderStatus, OrderStatusHistory } from "@/lib/types";
+
+const crypto = { randomBytes: _randomBytes };
 
 // ---------------------------------------------------------------------------
 // Public — Customer tracking
@@ -87,30 +90,48 @@ export async function getOrderById(
     history: (history ?? []) as OrderStatusHistory[],
   };
 }
+ 
+// Ambiguous chars removed: B/I/O/L/0/1 (sering salah ketik pelanggan)
+const ORDER_CHARSET = "ACDEFGHJKMNPQRSTUVWXYZ23456789";
+export const ORDER_NUMBER_REGEX = /^(TNT\d{6}[ACDEFGHJKMNPQRSTUVWXYZ23456789]{4}|TNT-\d{6}-\d{3})$/;
 
-/** Generate next order number: TNT-YYMMDD-XXX */
+/** Random 4-char code from safe charset using CSPRNG. */
+function randomCode(): string {
+  const bytes = crypto.randomBytes(4);
+  let code = "";
+  for (let i = 0; i < 4; i++) code += ORDER_CHARSET[bytes[i] % ORDER_CHARSET.length];
+  return code;
+}
+
+/** Get YYMMDD in Asia/Jakarta timezone. */
+function jakartaDatePart(date = new Date()): string {
+  const jkt = new Date(date.toLocaleString("en-US", { timeZone: "Asia/Jakarta" }));
+  const yy = String(jkt.getFullYear()).slice(-2);
+  const mm = String(jkt.getMonth() + 1).padStart(2, "0");
+  const dd = String(jkt.getDate()).padStart(2, "0");
+  return `${yy}${mm}${dd}`;
+}
+
+/**
+ * Generate order number (new format): TNTYYMMDDXXXX
+ * e.g. TNT260907K4XQ — 13 chars, CSPRNG, charset aman.
+ * Unique check against DB; retry max 5x on collision.
+ */
 export async function generateOrderNumber(): Promise<string> {
   const supabase = await createClient();
-  const now = new Date();
-  const yy = String(now.getFullYear()).slice(-2);
-  const mm = String(now.getMonth() + 1).padStart(2, "0");
-  const dd = String(now.getDate()).padStart(2, "0");
-  const datePrefix = `TNT-${yy}${mm}${dd}`;
+  const datePart = jakartaDatePart();
 
-  const { data } = await supabase
-    .from("orders")
-    .select("order_number")
-    .like("order_number", `${datePrefix}-%`)
-    .order("order_number", { ascending: false })
-    .limit(1);
+  for (let attempt = 0; attempt < 5; attempt++) {
+    const candidate = `TNT${datePart}${randomCode()}`;
 
-  let seq = 1;
-  if (data && data.length > 0) {
-    const last = data[0].order_number;
-    const parts = last.split("-");
-    const lastNum = parseInt(parts[2], 10);
-    if (!isNaN(lastNum)) seq = lastNum + 1;
+    const { data } = await supabase
+      .from("orders")
+      .select("order_number")
+      .eq("order_number", candidate)
+      .maybeSingle();
+
+    if (!data) return candidate;
   }
 
-  return `${datePrefix}-${String(seq).padStart(3, "0")}`;
+  throw new Error("Gagal generate nomor order unik, coba lagi");
 }

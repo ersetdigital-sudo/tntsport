@@ -1801,7 +1801,6 @@ function AddForm({
   onCancel: () => void;
 }) {
   const [form, setForm] = useState({
-    id: "",
     customer_name: "",
     customer_phone: "",
     product_name: "",
@@ -1809,16 +1808,29 @@ function AddForm({
     deadline: "",
     created_at: new Date().toISOString().slice(0, 10),
   });
+  const [productOptions, setProductOptions] = useState<string[]>(["Atasan", "Setelan"]);
+  const [customProduct, setCustomProduct] = useState(false);
   const [sizeRows, setSizeRows] = useState<{ size: string; qty: string }[]>([{ size: "", qty: "" }]);
   const [designPhotos, setDesignPhotos] = useState<string[]>([]);
   const [uploadingDesign, setUploadingDesign] = useState(false);
   const [error, setError] = useState("");
   const [saving, setSaving] = useState(false);
 
+  // Load saved custom product options
+  useEffect(() => {
+    try {
+      const saved = JSON.parse(localStorage.getItem("pas_product_options") || "[]");
+      if (Array.isArray(saved) && saved.length > 0) {
+        setProductOptions(Array.from(new Set(["Atasan", "Setelan", ...saved])));
+      }
+    } catch {
+      // silent
+    }
+  }, []);
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (
-      !form.id ||
       !form.customer_name ||
       !form.customer_phone ||
       !form.product_name
@@ -1833,7 +1845,6 @@ function AddForm({
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          id: form.id.toUpperCase(),
           customer_name: form.customer_name,
           customer_phone: form.customer_phone,
           product_name: form.product_name,
@@ -1852,6 +1863,18 @@ function AddForm({
         setError(data.error || "Gagal menyimpan");
         return;
       }
+      // Persist custom product to saved options (localStorage)
+      const newProduct = form.product_name.trim();
+      if (newProduct && !productOptions.includes(newProduct)) {
+        try {
+          const saved = JSON.parse(localStorage.getItem("pas_product_options") || "[]");
+          const merged = Array.from(new Set([...saved, "Atasan", "Setelan", newProduct]));
+          localStorage.setItem("pas_product_options", JSON.stringify(merged));
+          setProductOptions(merged);
+        } catch {
+          setProductOptions((o) => [...o, newProduct]);
+        }
+      }
       onSaved("Pesanan ditambahkan");
     } catch {
       setError("Gagal menyimpan");
@@ -1865,16 +1888,13 @@ function AddForm({
 
   return (
     <form onSubmit={handleSubmit} className="mt-6 flex flex-col gap-4">
-      <label className="block">
-        <span className="text-[13px] text-[var(--pas-muted)]">Nomor Pesanan</span>
-        <input
-          required
-          className="pas-field w-full px-4 py-2.5 mt-1.5 text-[15px]"
-          placeholder="TNT-260907-003"
-          value={form.id}
-          onChange={set("id")}
-        />
-      </label>
+      <div className="pas-card p-3.5 bg-[var(--pas-surface-2)]">
+        <p className="pas-stencil text-[9px] text-[var(--pas-muted)]">Nomor Pesanan</p>
+        <p className="text-[14px] mt-1 text-[var(--pas-muted)] leading-relaxed">
+          Nomor order digenerate otomatis saat disimpan
+          <span className="text-[var(--pas-muted)]"> (format: TNTYYMMDDXXXX)</span>
+        </p>
+      </div>
       <label className="block">
         <span className="text-[13px] text-[var(--pas-muted)]">Nama Customer</span>
         <input
@@ -1895,16 +1915,83 @@ function AddForm({
           onChange={set("customer_phone")}
         />
       </label>
-      <label className="block">
+      <div>
         <span className="text-[13px] text-[var(--pas-muted)]">Produk</span>
-        <input
-          required
-          className="pas-field w-full px-4 py-2.5 mt-1.5 text-[15px]"
-          placeholder="Jersey Full Print"
-          value={form.product_name}
-          onChange={set("product_name")}
-        />
-      </label>
+        {customProduct ? (
+          <div className="flex items-center gap-2 mt-1.5">
+            <input
+              required
+              autoFocus
+              className="pas-field flex-1 px-4 py-2.5 text-[15px]"
+              placeholder="Nama produk custom"
+              value={form.product_name}
+              onChange={set("product_name")}
+            />
+            <button
+              type="button"
+              className="pas-btn-ghost px-3 py-2.5 text-[13px] shrink-0"
+              title="Kembali ke daftar pilihan"
+              onClick={() => {
+                setCustomProduct(false);
+                setForm((f) => ({ ...f, product_name: "" }));
+              }}
+            >
+              List
+            </button>
+          </div>
+        ) : (
+          <div className="flex items-center gap-2 mt-1.5">
+            <select
+              required
+              className="pas-field flex-1 px-4 py-2.5 text-[15px] appearance-none"
+              value={form.product_name}
+              onChange={(e) => {
+                if (e.target.value === "__custom__") {
+                  setCustomProduct(true);
+                  setForm((f) => ({ ...f, product_name: "" }));
+                } else {
+                  setForm((f) => ({ ...f, product_name: e.target.value }));
+                }
+              }}
+            >
+              <option value="" disabled>
+                Pilih produk…
+              </option>
+              {productOptions.map((p) => (
+                <option key={p} value={p}>
+                  {p}
+                </option>
+              ))}
+              <option value="__custom__">+ Tambah sendiri…</option>
+            </select>
+            <button
+              type="button"
+              className="p-2.5 rounded-lg text-[var(--pas-muted)] hover:text-[var(--pas-accent)] transition shrink-0"
+              title="Tambah produk baru ke daftar"
+              onClick={() => {
+                setCustomProduct(true);
+                setForm((f) => ({ ...f, product_name: "" }));
+              }}
+            >
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <circle cx="12" cy="12" r="10" />
+                <path d="M12 8v8M8 12h8" />
+              </svg>
+            </button>
+          </div>
+        )}
+        {customProduct && form.product_name.trim() && !productOptions.includes(form.product_name.trim()) && (
+          <label className="flex items-center gap-2 mt-2 text-[12.5px] text-[var(--pas-muted)] cursor-pointer">
+            <input
+              type="checkbox"
+              className="accent-[var(--pas-accent)]"
+              checked
+              readOnly
+            />
+            Produk "{form.product_name.trim()}" akan ditambahkan ke daftar
+          </label>
+        )}
+      </div>
       <label className="block">
         <span className="text-[13px] text-[var(--pas-muted)]">Jumlah</span>
         <input

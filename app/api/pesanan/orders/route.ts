@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { createClient } from "@supabase/supabase-js";
+import { generateOrderNumber } from "@/lib/queries-orders";
 
 const STEPS = [
   "desain",
@@ -90,9 +91,9 @@ export async function POST(request: Request) {
     design_photos,
   } = body;
 
-  if (!id || !customer_name || !customer_phone) {
+  if (!customer_name || !customer_phone) {
     return NextResponse.json(
-      { error: "Nomor pesanan, nama, dan HP wajib diisi" },
+      { error: "Nama customer dan HP wajib diisi" },
       { status: 400 }
     );
   }
@@ -102,10 +103,23 @@ export async function POST(request: Request) {
     process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
   );
 
+  // Auto-generate order number if not provided
+  let orderNumber = id ? String(id).trim().toUpperCase() : "";
+  if (!orderNumber) {
+    try {
+      orderNumber = await generateOrderNumber();
+    } catch {
+      return NextResponse.json(
+        { error: "Gagal generate nomor order, coba lagi" },
+        { status: 500 }
+      );
+    }
+  }
+
   const qtyNum = parseInt(quantity, 10);
 
   const insertData: Record<string, any> = {
-    order_number: id.toUpperCase(),
+    order_number: orderNumber,
     customer_name,
     customer_phone,
     product_type: product_name || "",

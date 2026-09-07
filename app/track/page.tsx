@@ -35,7 +35,7 @@ export default function TrackPage() {
 
       if (!res.ok) {
         showErr(
-          "Nomor pesanan tidak ditemukan. Cek lagi formatnya (contoh: TNT-260906-001) atau hubungi admin."
+          "Nomor pesanan tidak ditemukan. Cek lagi formatnya (contoh: TNT260907K4XQ) atau hubungi admin."
         );
         setLoading(false);
         return;
@@ -124,7 +124,7 @@ export default function TrackPage() {
                         setOrderNumber(e.target.value);
                         clearErr();
                       }}
-                      placeholder="TNT-260906-001"
+                      placeholder="TNT260907K4XQ"
                       autoComplete="off"
                       className="trk-field w-full mt-2 px-4 py-3.5 text-[16px] tracking-wide"
                     />
