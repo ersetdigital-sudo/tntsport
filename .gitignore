@@ -43,3 +43,4 @@ jersey-futsal-custom---landing-page/
 .commandcode/
 
 .vercel
+.env*
