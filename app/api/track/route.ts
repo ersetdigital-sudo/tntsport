@@ -1,11 +1,12 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getOrderByTracking } from "@/lib/queries-orders";
-import { buildSetCookie } from "@/lib/verify-token";
+import { signToken, buildSetCookie } from "@/lib/verify-token";
 
 /**
  * POST /api/track
  * Verify order number + phone and return order data + history.
- * Sets a signed HttpOnly cookie on success for session persistence.
+ * Returns a signed token in the response body for client-side session persistence.
+ * (Set-Cookie is also sent but may be lost due to middleware creating a new response.)
  */
 export async function POST(request: NextRequest) {
   try {
@@ -28,7 +29,9 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    const response = NextResponse.json(result);
+    // Return token in body so client can store in sessionStorage
+    const token = signToken(orderNumber);
+    const response = NextResponse.json({ ...result, token });
     response.headers.append("Set-Cookie", buildSetCookie(orderNumber));
     return response;
   } catch {

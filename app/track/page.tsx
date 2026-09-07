@@ -29,6 +29,7 @@ export default function TrackPage() {
       const res = await fetch("/api/track", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
+        credentials: "include",
         body: JSON.stringify({ orderNumber: id, phone }),
       });
 
@@ -47,6 +48,10 @@ export default function TrackPage() {
         return;
       }
 
+      // Store token separately for session header auth
+      if (data.token) {
+        sessionStorage.setItem(`tnt_token_${id}`, data.token);
+      }
       sessionStorage.setItem(`tnt_verified_${id}`, JSON.stringify(data));
       router.push(`/status?order=${encodeURIComponent(id)}`);
     } catch {

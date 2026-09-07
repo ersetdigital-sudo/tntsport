@@ -1,25 +1,40 @@
 import { NextRequest, NextResponse } from "next/server";
-import { getSessionFromCookie } from "@/lib/verify-token";
+import { verifyToken, getSessionFromCookie } from "@/lib/verify-token";
 
 /**
  * GET /api/track/session?order=TNT-XXXXXX-XXX
- * Validates the signed track_session cookie and returns order data.
- * The cookie must match the requested order.
+ * Validates a signed session token and returns fresh order data.
+ * Token can come from:
+ *   1. Authorization: Bearer <token> header (primary — client stores in sessionStorage)
+ *   2. track_session cookie (fallback)
  */
 export async function GET(request: NextRequest) {
-  const cookieHeader = request.headers.get("cookie");
-  const session = getSessionFromCookie(cookieHeader);
+  const urlOrder = request.nextUrl.searchParams.get("order")?.toUpperCase();
+  if (!urlOrder) {
+    return NextResponse.json({ error: "Missing ?order param" }, { status: 400 });
+  }
+
+  // Try token from Authorization header first
+  let session = null;
+  const authHeader = request.headers.get("authorization");
+  if (authHeader?.startsWith("Bearer ")) {
+    session = verifyToken(authHeader.slice(7));
+  }
+
+  // Fallback to cookie
+  if (!session) {
+    const cookieHeader = request.headers.get("cookie");
+    session = getSessionFromCookie(cookieHeader);
+  }
 
   if (!session) {
     return NextResponse.json({ error: "No valid session" }, { status: 401 });
   }
 
-  const urlOrder = request.nextUrl.searchParams.get("order")?.toUpperCase();
-  if (!urlOrder || session.orderId !== urlOrder) {
+  if (session.orderId !== urlOrder) {
     return NextResponse.json({ error: "Session does not match this order" }, { status: 403 });
   }
 
-  // Signed cookie proves verification — fetch order directly by ID
   try {
     const { createClient } = await import("@supabase/supabase-js");
     const supabase = createClient(

@@ -35,7 +35,6 @@ export async function PATCH(
   };
 
   if (current_step !== undefined) {
-    // Kirim validation: need tracking_number + courier to be "done"
     if (current_step === 9 && is_done) {
       if (!tracking_number || !courier) {
         return NextResponse.json(
@@ -53,32 +52,35 @@ export async function PATCH(
   if (tracking_number !== undefined) updateData.tracking_number = tracking_number;
   if (deadline !== undefined) updateData.deadline = deadline || null;
 
-  const { error: updateError } = await supabase
+  // Use .update().select().single() to get the updated row back (including UUID id)
+  const { data: updatedOrder, error: updateError } = await supabase
     .from("orders")
     .update(updateData)
-    .eq("order_number", id);
+    .eq("order_number", id)
+    .select("id")
+    .single();
 
   if (updateError) {
     return NextResponse.json({ error: updateError.message }, { status: 500 });
   }
 
-  if (current_step !== undefined) {
-    // Look up UUID from order_number for history insert
-    const { data: orderRow } = await supabase
-      .from("orders")
-      .select("id")
-      .eq("order_number", id)
-      .single();
-
-    if (orderRow) {
-      const { error: histErr } = await supabase.from("order_status_history").insert({
-        order_id: orderRow.id,
-        status: is_done && current_step === 9 ? "selesai" : statusFromStep(current_step),
-        note: note || "",
+  // Insert history entry using the UUID from the updated row
+  let historyError: string | null = null;
+  if (current_step !== undefined && updatedOrder) {
+    const statusValue = is_done && current_step === 9 ? "selesai" : statusFromStep(current_step);
+    const { error: histErr } = await supabase.from("order_status_history").insert({
+      order_id: updatedOrder.id,
+      status: statusValue,
+      note: note || "",
+    });
+    if (histErr) {
+      historyError = histErr.message;
+      console.error("History insert failed:", histErr.message, {
+        order_id: updatedOrder.id,
+        status: statusValue,
       });
-      if (histErr) console.error("History insert failed:", histErr.message);
     }
   }
 
-  return NextResponse.json({ ok: true });
+  return NextResponse.json({ ok: true, historyError });
 }

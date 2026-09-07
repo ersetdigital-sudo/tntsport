@@ -58,13 +58,23 @@ function StatusContent() {
   const barRef = useRef<HTMLDivElement>(null);
   const pctRef = useRef<HTMLDivElement>(null);
 
-  // Fetch order data on mount — always try fresh from DB, sessionStorage as fallback
+  // Fetch order data on mount — always try fresh from DB via session token
   useEffect(() => {
     if (!orderId) return;
     const key = `tnt_verified_${orderId}`;
+    const tokenKey = `tnt_token_${orderId}`;
+    const token = sessionStorage.getItem(tokenKey);
 
-    // Try fetching fresh data via server-side session cookie
-    fetch(`/api/track/session?order=${encodeURIComponent(orderId)}`)
+    if (!token) {
+      // No token — require fresh verification
+      setShowPhoneModal(true);
+      return;
+    }
+
+    // Fetch fresh data using token in Authorization header
+    fetch(`/api/track/session?order=${encodeURIComponent(orderId)}`, {
+      headers: { Authorization: `Bearer ${token}` },
+    })
       .then((r) => {
         if (!r.ok) throw new Error("no session");
         return r.json();
@@ -76,25 +86,16 @@ function StatusContent() {
           setHistory(data.history);
           setLoaded(true);
         } else {
+          sessionStorage.removeItem(tokenKey);
+          sessionStorage.removeItem(key);
           setShowPhoneModal(true);
         }
       })
       .catch(() => {
-        // No valid session cookie — try sessionStorage as fallback
-        const stored = sessionStorage.getItem(key);
-        if (stored) {
-          try {
-            const data = JSON.parse(stored);
-            setOrder(data.order);
-            setHistory(data.history);
-            setLoaded(true);
-          } catch {
-            sessionStorage.removeItem(key);
-            setShowPhoneModal(true);
-          }
-        } else {
-          setShowPhoneModal(true);
-        }
+        // Token expired/invalid — clear and require fresh verification
+        sessionStorage.removeItem(tokenKey);
+        sessionStorage.removeItem(key);
+        setShowPhoneModal(true);
       });
   }, [orderId]);
 
@@ -179,6 +180,9 @@ function StatusContent() {
       }
 
       // Store verification
+      if (data.token) {
+        sessionStorage.setItem(`tnt_token_${orderId}`, data.token);
+      }
       sessionStorage.setItem(`tnt_verified_${orderId}`, JSON.stringify(data));
       setOrder(data.order);
       setHistory(data.history);
