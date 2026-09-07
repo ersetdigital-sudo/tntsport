@@ -319,6 +319,7 @@ export default function PesananDashboard() {
               setQuery={setQuery}
               openDetail={setOpenId}
               steps={steps}
+              onDelete={fetchOrders}
             />
           )}
           {currentView === "jadwal" && <ViewJadwal orders={orders} openDetail={setOpenId} steps={steps} />}
@@ -451,6 +452,7 @@ function ViewPesanan({
   setQuery,
   openDetail,
   steps,
+  onDelete,
 }: {
   orders: OrderData[];
   filter: FilterKey;
@@ -459,7 +461,10 @@ function ViewPesanan({
   setQuery: (q: string) => void;
   openDetail: (id: string) => void;
   steps: StepRow[];
+  onDelete: (id: string) => void;
 }) {
+  const [confirmDelete, setConfirmDelete] = useState<OrderData | null>(null);
+  const [deleting, setDeleting] = useState(false);
   const filtered = orders
     .filter((o) => {
       if (filter !== "all" && statusOf(o, steps.length) !== filter) return false;
@@ -486,8 +491,63 @@ function ViewPesanan({
     selesai: orders.filter((o) => statusOf(o, steps.length) === "selesai").length,
   };
 
+  const handleDelete = async () => {
+    if (!confirmDelete) return;
+    setDeleting(true);
+    try {
+      const res = await fetch(`/api/pesanan/orders/${confirmDelete.id}`, {
+        method: "DELETE",
+      });
+      if (res.ok) {
+        setConfirmDelete(null);
+        onDelete(confirmDelete.id);
+      }
+    } catch {
+      // silent
+    } finally {
+      setDeleting(false);
+    }
+  };
+
+  const isDangerousStatus = (o: OrderData) => {
+    const st = statusOf(o, steps.length);
+    return st === "produksi" || st === "kirim" || st === "selesai";
+  };
+
   return (
     <>
+      {/* Delete confirmation dialog */}
+      {confirmDelete && (
+        <div className="fixed inset-0 z-[60] flex items-center justify-center bg-black/60 p-5" onClick={() => !deleting && setConfirmDelete(null)}>
+          <div className="pas-card p-6 max-w-md w-full" onClick={(e) => e.stopPropagation()}>
+            <p className="pas-display text-[18px]">Hapus Pesanan?</p>
+            <p className="text-[14px] text-[var(--pas-muted)] mt-2 leading-relaxed">
+              Pesanan <span className="text-white font-semibold pas-num">{confirmDelete.id}</span> ({confirmDelete.customer_name}) akan dihapus permanen dan tidak bisa dikembalikan.
+            </p>
+            {isDangerousStatus(confirmDelete) && (
+              <p className="text-[13px] text-yellow-400 mt-3 bg-yellow-400/10 border border-yellow-400/20 rounded-xl px-4 py-2.5">
+                ⚠ Pesanan ini sedang dalam produksi/pengiriman. Hapus hanya jika ini adalah data testing.
+              </p>
+            )}
+            <div className="flex gap-3 mt-5">
+              <button
+                className="pas-btn flex-1 py-3 text-[13px]"
+                onClick={() => setConfirmDelete(null)}
+                disabled={deleting}
+              >
+                Batal
+              </button>
+              <button
+                className="flex-1 py-3 text-[13px] rounded-xl font-semibold bg-red-500 text-white hover:bg-red-600 transition disabled:opacity-50"
+                onClick={handleDelete}
+                disabled={deleting}
+              >
+                {deleting ? "Menghapus…" : "Hapus"}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
       {/* KPI */}
       <section className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 w-full">
         <div className="pas-card pas-kpi p-4 sm:p-5">
@@ -562,12 +622,13 @@ function ViewPesanan({
               <th className="w-[10%]">Order</th>
               <th className="w-[10%]">Deadline</th>
               <th className="w-[10%]">Status</th>
+              <th className="w-[5%]"></th>
             </tr>
           </thead>
           <tbody>
             {filtered.length === 0 && (
               <tr>
-                <td colSpan={7}>
+                <td colSpan={8}>
                   <div className="flex flex-col items-center justify-center py-16 gap-3">
                     <span className="text-[40px] opacity-30">📋</span>
                     <p className="text-[var(--pas-muted)] text-[15px] font-medium">Tidak ada pesanan yang cocok</p>
@@ -635,6 +696,20 @@ function ViewPesanan({
                   <td>
                     <span className={`pas-pill ${st}`}>{FILTER_LABEL[st]}</span>
                   </td>
+                  <td className="text-right">
+                    <button
+                      className="text-[var(--pas-muted)] hover:text-red-400 transition p-1.5 rounded-lg hover:bg-red-400/10"
+                      title="Hapus pesanan"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        setConfirmDelete(o);
+                      }}
+                    >
+                      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                        <path d="M3 6h18M19 6v14a2 2 0 01-2 2H7a2 2 0 01-2-2V6M8 6V4a2 2 0 012-2h4a2 2 0 012 2v2"/>
+                      </svg>
+                    </button>
+                  </td>
                 </tr>
               );
             })}
@@ -680,7 +755,21 @@ function ViewPesanan({
                     {o.customer_name} · {o.customer_city}
                   </p>
                 </div>
-                <span className={`pas-pill ${st}`}>{FILTER_LABEL[st]}</span>
+                <div className="flex items-center gap-2 shrink-0">
+                  <span className={`pas-pill ${st}`}>{FILTER_LABEL[st]}</span>
+                  <button
+                    className="text-[var(--pas-muted)] hover:text-red-400 transition p-1 rounded-lg hover:bg-red-400/10"
+                    title="Hapus"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      setConfirmDelete(o);
+                    }}
+                  >
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                      <path d="M3 6h18M19 6v14a2 2 0 01-2 2H7a2 2 0 01-2-2V6M8 6V4a2 2 0 012-2h4a2 2 0 012 2v2"/>
+                    </svg>
+                  </button>
+                </div>
               </div>
               <p className="text-[13px] text-[var(--pas-muted)] mt-3">
                 {o.product_name} · {o.quantity}
