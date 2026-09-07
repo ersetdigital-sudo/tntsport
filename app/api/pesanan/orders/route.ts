@@ -41,7 +41,9 @@ function mapOrder(row: any) {
     quantity: row.quantity ? `${row.quantity} pcs` : "-",
     material: row.material || "",
     sizes: row.sizes || "",
-    design_photos: Array.isArray(row.design_photos) ? row.design_photos : [],
+    design_photos: Array.isArray(row.design_photos) ? row.design_photos.map((p: any) =>
+      typeof p === "string" ? p : p.url || ""
+    ).filter(Boolean) : [],
     current_step: step,
     note: row.design_notes || "",
     note_time: row.updated_at || "",
