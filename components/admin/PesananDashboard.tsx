@@ -1091,7 +1091,30 @@ function DetailSheet({
           </div>
           <div>
             <p className="pas-stencil text-[9px] text-[var(--pas-muted)]">Ukuran</p>
-            <p className="mt-1">{order.sizes || "-"}</p>
+            <div className="flex flex-wrap gap-2 mt-1.5">
+              {order.sizes
+                ? order.sizes.split(",").map((s, i) => {
+                    const trimmed = s.trim();
+                    const match = trimmed.match(/^([A-Za-z]+)\(?(\d*)\)?$/);
+                    const label = match ? match[1] : trimmed;
+                    const count = match && match[2] ? match[2] : null;
+                    return (
+                      <span
+                        key={i}
+                        className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-[13px] font-medium bg-[var(--pas-surface-2)] border border-[var(--pas-line)] text-[var(--pas-ink-1)]"
+                      >
+                        <span className="font-semibold">{label}</span>
+                        {count && (
+                          <>
+                            <span className="text-[var(--pas-muted)] text-[11px]">·</span>
+                            <span className="text-[var(--pas-muted)]">{count}</span>
+                          </>
+                        )}
+                      </span>
+                    );
+                  })
+                : <span className="text-[var(--pas-muted)]">-</span>}
+            </div>
           </div>
           <div>
             <p className="pas-stencil text-[9px] text-[var(--pas-muted)]">Bahan</p>
