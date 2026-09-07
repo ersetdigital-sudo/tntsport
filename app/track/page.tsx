@@ -184,48 +184,7 @@ export default function TrackPage() {
                     )}
                   </button>
 
-                  <div className="mt-5 pt-5 border-t border-[#26282e]">
-                    <p className="trk-stencil text-[9px] text-[#6b7280]">
-                      Data Dummy Untuk Demo — Klik Untuk Isi Otomatis
-                    </p>
-                    <div className="flex flex-wrap gap-2 mt-3">
-                      <button
-                        type="button"
-                        onClick={() => {
-                          setOrderNumber("TNT-260906-001");
-                          setPhone("081234567890");
-                          clearErr();
-                        }}
-                        className="trk-btn-ghost px-3 py-2 text-[12.5px] text-[#9aa0aa] hover:text-white"
-                      >
-                        TNT-260906-001 · Produksi
-                      </button>
-                      <button
-                        type="button"
-                        onClick={() => {
-                          setOrderNumber("TNT-260905-014");
-                          setPhone("081298765432");
-                          clearErr();
-                        }}
-                        className="trk-btn-ghost px-3 py-2 text-[12.5px] text-[#9aa0aa] hover:text-white"
-                      >
-                        TNT-260905-014 · Awal
-                      </button>
-                      <button
-                        type="button"
-                        onClick={() => {
-                          setOrderNumber("TNT-260828-007");
-                          setPhone("085711223344");
-                          clearErr();
-                        }}
-                        className="trk-btn-ghost px-3 py-2 text-[12.5px] text-[#9aa0aa] hover:text-white"
-                      >
-                        TNT-260828-007 · Siap Kirim
-                      </button>
-                    </div>
-                  </div>
-
-                  <p className="text-[13px] text-[#6b7280] text-center mt-4">
+                  <p className="text-[13px] text-[#6b7280] text-center mt-5">
                     Lupa nomor pesanan?{" "}
                     <a
                       href="https://wa.me/628115491117?text=Halo%20TNT%20SPORT%2C%20saya%20lupa%20nomor%20pesanan%20saya"
@@ -275,10 +234,32 @@ export default function TrackPage() {
             </div>
           </main>
 
-          <footer className="border-t border-[#26282e]">
-            <div className="max-w-6xl mx-auto px-5 sm:px-8 py-7 flex flex-col sm:flex-row gap-3 sm:items-center justify-between text-[13px] text-[#6b7280]">
-              <span>© 2026 TNT Sport Apparel — Custom Jersey &amp; Sportswear</span>
-              <span>Senin–Sabtu · 09.00–17.00 WIB</span>
+          <footer className="border-t border-[#26282e] mt-auto">
+            <div className="max-w-6xl mx-auto px-5 sm:px-8 py-7 flex flex-col sm:flex-row gap-4 sm:items-center justify-between">
+              <div className="flex items-center gap-3">
+                <span className="w-8 h-8 rounded-lg bg-[#3ee86b] text-black grid place-items-center trk-display text-[13px]">
+                  T
+                </span>
+                <div className="leading-tight">
+                  <p className="text-[13px] text-[#9aa0aa]">
+                    © 2026 TNT Sport Apparel — Custom Jersey &amp; Sportswear
+                  </p>
+                  <p className="trk-stencil text-[9px] text-[#6b7280] mt-0.5">
+                    tntsportapparel.id
+                  </p>
+                </div>
+              </div>
+              <div className="flex flex-col sm:items-end gap-1 text-[13px] text-[#6b7280]">
+                <span>Senin–Sabtu · 09.00–17.00 WIB</span>
+                <a
+                  href="https://wa.me/628115491117"
+                  className="text-[#3ee86b] hover:underline underline-offset-4"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  WhatsApp: 0811-5491-117
+                </a>
+              </div>
             </div>
           </footer>
         </div>
