@@ -41,6 +41,7 @@ function mapOrder(row: any) {
     quantity: row.quantity ? `${row.quantity} pcs` : "-",
     material: row.material || "",
     sizes: row.sizes || "",
+    design_photos: Array.isArray(row.design_photos) ? row.design_photos : [],
     current_step: step,
     note: row.design_notes || "",
     note_time: row.updated_at || "",
@@ -84,6 +85,7 @@ export async function POST(request: Request) {
     sizes,
     deadline,
     created_at,
+    design_photos,
   } = body;
 
   if (!id || !customer_name || !customer_phone) {
@@ -108,6 +110,7 @@ export async function POST(request: Request) {
     quantity: isNaN(qtyNum) ? 1 : qtyNum,
     sizes: sizes || "",
     current_status: "desain",
+    design_photos: design_photos || [],
   };
   if (customer_city) insertData.customer_city = customer_city;
   if (material) insertData.material = material;

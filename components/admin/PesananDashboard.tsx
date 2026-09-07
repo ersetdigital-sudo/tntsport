@@ -42,6 +42,7 @@ type OrderData = {
   quantity: string;
   material: string;
   sizes: string;
+  design_photos?: { size: string; url: string }[];
   current_step: number;
   note: string;
   note_time: string;
@@ -1671,6 +1672,29 @@ function DetailSheet({
                 : <span className="text-[var(--pas-muted)]">-</span>}
             </div>
           </div>
+          {(order.design_photos?.length ?? 0) > 0 && (
+            <div className="col-span-2">
+              <p className="pas-stencil text-[9px] text-[var(--pas-muted)]">Preview Desain</p>
+              <div className="flex flex-wrap gap-2.5 mt-1.5">
+                {order.design_photos!.map((p, i) => (
+                  <a
+                    key={i}
+                    href={p.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="relative w-[76px] h-[76px] rounded-xl overflow-hidden border border-[var(--pas-line)] hover:border-[var(--pas-accent)] transition"
+                    title={`Desain ${p.size}`}
+                  >
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img src={p.url} alt={`Desain ${p.size}`} className="w-full h-full object-cover" />
+                    <span className="absolute bottom-0 inset-x-0 bg-black/60 text-white text-[10px] text-center py-0.5 font-semibold">
+                      {p.size}
+                    </span>
+                  </a>
+                ))}
+              </div>
+            </div>
+          )}
         </div>
 
         <div className="flex items-center gap-3 mt-5">
@@ -1788,7 +1812,8 @@ function AddForm({
     deadline: "",
     created_at: new Date().toISOString().slice(0, 10),
   });
-  const [sizeRows, setSizeRows] = useState<{ size: string; qty: string }[]>([{ size: "", qty: "" }]);
+  const [sizeRows, setSizeRows] = useState<{ size: string; qty: string; photo?: string }[]>([{ size: "", qty: "" }]);
+  const [uploadingIdx, setUploadingIdx] = useState<number | null>(null);
   const [error, setError] = useState("");
   const [saving, setSaving] = useState(false);
 
@@ -1819,6 +1844,9 @@ function AddForm({
             .filter((r) => r.size.trim())
             .map((r) => r.size.trim() + (r.qty.trim() ? `(${r.qty.trim()})` : ""))
             .join(", "),
+          design_photos: sizeRows
+            .filter((r) => r.size.trim() && r.photo)
+            .map((r) => `${r.size.trim()}:${r.photo}`),
           deadline: form.deadline || undefined,
           created_at: form.created_at ? new Date(form.created_at).toISOString() : undefined,
         }),
@@ -1896,7 +1924,7 @@ function AddForm({
           {sizeRows.map((row, i) => (
             <div key={i} className="flex items-center gap-2">
               <input
-                className="pas-field flex-1 px-4 py-2.5 text-[15px]"
+                className="pas-field w-[70px] px-3 py-2.5 text-[15px]"
                 placeholder="M"
                 value={row.size}
                 onChange={(e) =>
@@ -1906,7 +1934,7 @@ function AddForm({
                 }
               />
               <input
-                className="pas-field w-[90px] px-4 py-2.5 text-[15px]"
+                className="pas-field w-[64px] px-3 py-2.5 text-[15px]"
                 placeholder="Qty"
                 inputMode="numeric"
                 value={row.qty}
@@ -1915,6 +1943,71 @@ function AddForm({
                     rows.map((r, idx) => (idx === i ? { ...r, qty: e.target.value } : r))
                   )
                 }
+              />
+              {/* Preview Desain upload */}
+              {row.photo ? (
+                <button
+                  type="button"
+                  className="relative w-[42px] h-[42px] rounded-lg overflow-hidden border border-[var(--pas-line)] shrink-0 group"
+                  title="Ganti foto desain"
+                  onClick={() => document.getElementById(`design-photo-${i}`)?.click()}
+                >
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img src={row.photo} alt={`Desain ${row.size}`} className="w-full h-full object-cover" />
+                  <span className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition grid place-items-center">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                      <path d="M23 19a2 2 0 01-2 2H3a2 2 0 01-2-2V8a2 2 0 012-2h4l2-3h6l2 3h4a2 2 0 012 2z" />
+                      <circle cx="12" cy="13" r="4" />
+                    </svg>
+                  </span>
+                </button>
+              ) : (
+                <button
+                  type="button"
+                  className="w-[42px] h-[42px] rounded-lg border border-dashed border-[var(--pas-line)] grid place-items-center text-[var(--pas-muted)] hover:text-[var(--pas-accent)] hover:border-[var(--pas-accent)] transition shrink-0"
+                  title="Upload foto desain"
+                  disabled={uploadingIdx === i}
+                  onClick={() => document.getElementById(`design-photo-${i}`)?.click()}
+                >
+                  {uploadingIdx === i ? (
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.6" strokeLinecap="round" className="animate-spin">
+                      <path d="M21 12a9 9 0 1 1-3.2-6.9" />
+                    </svg>
+                  ) : (
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                      <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M17 8l-5-5-5 5M12 3v12" />
+                    </svg>
+                  )}
+                </button>
+              )}
+              <input
+                id={`design-photo-${i}`}
+                type="file"
+                accept="image/*"
+                className="hidden"
+                onChange={async (e) => {
+                  const file = e.target.files?.[0];
+                  e.target.value = "";
+                  if (!file) return;
+                  setUploadingIdx(i);
+                  try {
+                    const fd = new FormData();
+                    fd.append("file", file);
+                    const res = await fetch("/api/upload/design", { method: "POST", body: fd });
+                    const data = await res.json();
+                    if (!res.ok) {
+                      setError(data.error || "Upload gagal");
+                      return;
+                    }
+                    setSizeRows((rows) =>
+                      rows.map((r, idx) => (idx === i ? { ...r, photo: data.url } : r))
+                    );
+                  } catch {
+                    setError("Upload gagal. Coba lagi.");
+                  } finally {
+                    setUploadingIdx(null);
+                  }
+                }}
               />
               {sizeRows.length > 1 && (
                 <button
