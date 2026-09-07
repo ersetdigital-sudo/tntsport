@@ -1,13 +1,16 @@
 import { NextResponse } from "next/server";
 import { createClient } from "@supabase/supabase-js";
 
-const supabase = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL!,
-  process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
-);
+function getSupabase() {
+  return createClient(
+    process.env.NEXT_PUBLIC_SUPABASE_URL!,
+    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
+  );
+}
 
 /** GET — fetch all steps ordered by position */
 export async function GET() {
+  const supabase = getSupabase();
   const { data, error } = await supabase
     .from("production_steps")
     .select("*")
@@ -18,6 +21,7 @@ export async function GET() {
 
 /** PUT — replace all steps (atomic: delete + re-insert) */
 export async function PUT(req: Request) {
+  const supabase = getSupabase();
   const { steps } = (await req.json()) as {
     steps: { name: string; position: number }[];
   };
@@ -29,7 +33,6 @@ export async function PUT(req: Request) {
     );
   }
 
-  // validate names
   const names = steps.map((s) => s.name.trim());
   if (names.some((n) => !n)) {
     return NextResponse.json(
@@ -44,38 +47,6 @@ export async function PUT(req: Request) {
     );
   }
 
-  // check if any orders reference positions being removed
-  const newPositions = steps.map((s) => s.position);
-  const maxPos = Math.max(...newPositions);
-
-  const { count } = await supabase
-    .from("orders")
-    .select("*", { count: "exact", head: true });
-
-  // fetch current max step from orders
-  const { data: orderRows } = await supabase
-    .from("orders")
-    .select("current_status");
-
-  // get current step mapping
-  const { data: currentSteps } = await supabase
-    .from("production_steps")
-    .select("position, name")
-    .order("position", { ascending: true });
-
-  if (currentSteps && orderRows) {
-    const stepMap = new Map(currentSteps.map((s) => [s.position, s.name]));
-    // find orders at positions that will be removed or renumbered
-    for (const row of orderRows) {
-      // find which position had this status name
-      const oldPos = currentSteps.find(
-        (s) => s.name === row.current_status
-      )?.position;
-      // if old position doesn't exist in new set, that's ok — we'll remap by name
-    }
-  }
-
-  // atomic: delete all, then insert new
   const { error: delErr } = await supabase
     .from("production_steps")
     .delete()
