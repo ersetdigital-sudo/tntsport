@@ -83,6 +83,7 @@ export async function POST(request: Request) {
     material,
     sizes,
     deadline,
+    created_at,
   } = body;
 
   if (!id || !customer_name || !customer_phone) {
@@ -111,6 +112,7 @@ export async function POST(request: Request) {
   if (customer_city) insertData.customer_city = customer_city;
   if (material) insertData.material = material;
   if (deadline) insertData.deadline = deadline;
+  if (created_at) insertData.created_at = created_at;
 
   const { data, error } = await supabase
     .from("orders")

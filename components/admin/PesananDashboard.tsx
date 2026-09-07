@@ -1785,7 +1785,9 @@ function AddForm({
     customer_phone: "",
     product_name: "",
     quantity: "",
+    sizes: "",
     deadline: "",
+    created_at: new Date().toISOString().slice(0, 10),
   });
   const [error, setError] = useState("");
   const [saving, setSaving] = useState(false);
@@ -1813,7 +1815,9 @@ function AddForm({
           customer_phone: form.customer_phone,
           product_name: form.product_name,
           quantity: form.quantity || "-",
+          sizes: form.sizes || "",
           deadline: form.deadline || undefined,
+          created_at: form.created_at ? new Date(form.created_at).toISOString() : undefined,
         }),
       });
       if (!res.ok) {
@@ -1884,14 +1888,34 @@ function AddForm({
         />
       </label>
       <label className="block">
-        <span className="text-[13px] text-[var(--pas-muted)]">Tanggal Deadline</span>
+        <span className="text-[13px] text-[var(--pas-muted)]">Ukuran</span>
         <input
-          type="date"
           className="pas-field w-full px-4 py-2.5 mt-1.5 text-[15px]"
-          value={form.deadline}
-          onChange={set("deadline")}
+          placeholder="S, M, L, XL"
+          value={form.sizes}
+          onChange={set("sizes")}
         />
       </label>
+      <div className="grid grid-cols-2 gap-3">
+        <label className="block">
+          <span className="text-[13px] text-[var(--pas-muted)]">Tanggal Order</span>
+          <input
+            type="date"
+            className="pas-field w-full px-4 py-2.5 mt-1.5 text-[15px]"
+            value={form.created_at}
+            onChange={set("created_at")}
+          />
+        </label>
+        <label className="block">
+          <span className="text-[13px] text-[var(--pas-muted)]">Tanggal Deadline</span>
+          <input
+            type="date"
+            className="pas-field w-full px-4 py-2.5 mt-1.5 text-[15px]"
+            value={form.deadline}
+            onChange={set("deadline")}
+          />
+        </label>
+      </div>
       {error && <p className="text-[13px] text-[#f87171]">{error}</p>}
       <button className="pas-btn-accent w-full py-3.5 text-[15px]" disabled={saving}>
         {saving ? "Menyimpan…" : "Simpan Pesanan"}
