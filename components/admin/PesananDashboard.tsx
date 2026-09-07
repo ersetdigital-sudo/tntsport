@@ -264,7 +264,7 @@ export default function PesananDashboard() {
           </div>
         </header>
 
-        <main className="px-5 sm:px-8 py-7 sm:py-9 max-w-[1180px]">
+        <main className="px-5 sm:px-8 py-7 sm:py-9 w-full">
           {currentView === "pesanan" && (
             <ViewPesanan
               orders={orders}
@@ -440,7 +440,7 @@ function ViewPesanan({
   return (
     <>
       {/* KPI */}
-      <section className="grid grid-cols-2 xl:grid-cols-4 gap-3 sm:gap-4">
+      <section className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 w-full">
         <div className="pas-card pas-kpi p-4 sm:p-5">
           <p className="text-[13px] text-[var(--pas-muted)]">Total Pesanan</p>
           <div className="flex items-end gap-2.5 mt-2.5">
@@ -477,7 +477,7 @@ function ViewPesanan({
 
       {/* toolbar */}
       <section className="mt-7 flex flex-col lg:flex-row lg:items-center gap-3 lg:justify-between">
-        <div className="pas-search w-full lg:max-w-[320px]">
+        <div className="pas-search w-full lg:max-w-[400px]">
           <span className="pas-mag">⌕</span>
           <input
             className="pas-field w-full py-2.5 pr-4 text-[14px]"
@@ -502,22 +502,26 @@ function ViewPesanan({
       </section>
 
       {/* table (desktop) */}
-      <section className="pas-card mt-4 p-2 sm:p-4 hidden md:block">
-        <table className="pas-tbl">
+      <section className="pas-card mt-4 p-2 sm:p-4 hidden md:block w-full overflow-x-auto">
+        <table className="pas-tbl w-full">
           <thead>
             <tr>
-              <th>Pesanan</th>
-              <th>Customer</th>
-              <th>Produk</th>
-              <th>Progres</th>
-              <th>Status</th>
+              <th className="w-[20%]">Pesanan</th>
+              <th className="w-[25%]">Customer</th>
+              <th className="w-[25%]">Produk</th>
+              <th className="w-[20%]">Progres</th>
+              <th className="w-[10%]">Status</th>
             </tr>
           </thead>
           <tbody>
             {filtered.length === 0 && (
               <tr>
-                <td colSpan={5} className="text-center text-[var(--pas-muted)] text-sm py-10">
-                  Tidak ada pesanan yang cocok.
+                <td colSpan={5}>
+                  <div className="flex flex-col items-center justify-center py-16 gap-3">
+                    <span className="text-[40px] opacity-30">📋</span>
+                    <p className="text-[var(--pas-muted)] text-[15px] font-medium">Tidak ada pesanan yang cocok</p>
+                    <p className="text-[var(--pas-muted)] text-[13px]">Coba ubah filter atau kata kunci pencarian</p>
+                  </div>
                 </td>
               </tr>
             )}
@@ -571,9 +575,11 @@ function ViewPesanan({
       {/* cards (mobile) */}
       <section className="mt-4 flex flex-col gap-3 md:hidden">
         {filtered.length === 0 && (
-          <p className="text-center text-[var(--pas-muted)] text-sm py-10">
-            Tidak ada pesanan yang cocok.
-          </p>
+          <div className="flex flex-col items-center justify-center py-16 gap-3">
+            <span className="text-[40px] opacity-30">📋</span>
+            <p className="text-[var(--pas-muted)] text-[15px] font-medium">Tidak ada pesanan yang cocok</p>
+            <p className="text-[var(--pas-muted)] text-[13px]">Coba ubah filter atau kata kunci pencarian</p>
+          </div>
         )}
         {filtered.map((o) => {
           const st = statusOf(o);

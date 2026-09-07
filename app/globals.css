@@ -1985,7 +1985,7 @@
 .pas-pill.kirim { background: rgba(122,162,247,.15); color: #8fb0f7; }
 .pas-pill.selesai { background: rgba(148,163,184,.14); color: #a4adba; }
 
-table.pas-tbl { width: 100%; border-collapse: separate; border-spacing: 0; }
+table.pas-tbl { width: 100%; border-collapse: separate; border-spacing: 0; table-layout: fixed; }
 table.pas-tbl th {
   color: #828b98; font-size: 11px; letter-spacing: .07em; text-transform: uppercase;
   font-weight: 600; padding: 0 16px 12px; text-align: left;
@@ -1993,9 +1993,14 @@ table.pas-tbl th {
 table.pas-tbl td {
   border-top: 1px solid var(--pas-line-2); color: var(--pas-ink-1);
   padding: 15px 16px; font-size: 14px; vertical-align: middle;
+  overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
 }
 table.pas-tbl tbody tr { transition: background .16s; cursor: pointer; }
 table.pas-tbl tbody tr:hover { background: rgba(255,255,255,.028); }
+@media (max-width: 1024px) {
+  table.pas-tbl { table-layout: auto; }
+  table.pas-tbl th, table.pas-tbl td { padding: 12px 10px; font-size: 13px; }
+}
 .pas-avatar {
   width: 32px; height: 32px; border-radius: 9px; flex: none;
   display: grid; place-items: center; font-size: 12px; font-weight: 700;
@@ -2003,8 +2008,8 @@ table.pas-tbl tbody tr:hover { background: rgba(255,255,255,.028); }
 }
 
 .pas-mini {
-  background: #333944; height: 5px; border-radius: 99px; width: 90px;
-  display: block; overflow: hidden;
+  background: #333944; height: 5px; border-radius: 99px;
+  display: block; overflow: hidden; min-width: 60px;
 }
 .pas-mini > i { display: block; height: 100%; background: var(--pas-accent); border-radius: 99px; transition: width .8s cubic-bezier(.22,1,.36,1); }
 .pas-bar {
