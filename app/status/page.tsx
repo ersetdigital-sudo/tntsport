@@ -662,28 +662,6 @@ function StatusContent() {
                     <p className="mt-3 px-1 text-[14px] text-[#979ba4] leading-relaxed">{order.design_notes}</p>
                   </details>
                 )}
-
-                {/* Design photos gallery */}
-                {(order.design_photos?.length ?? 0) > 0 && (
-                  <div className="mt-5">
-                    <p className="dpo-kicker">Preview Design</p>
-                    <div className="mt-2.5 flex flex-wrap gap-2.5">
-                      {order.design_photos.map((url: string, i: number) => (
-                        <a
-                          key={i}
-                          href={url}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="w-[86px] h-[86px] rounded-xl overflow-hidden border border-white/10 hover:border-[#22c55e] transition"
-                          title={`Design ${i + 1}`}
-                        >
-                          {/* eslint-disable-next-line @next/next/no-img-element */}
-                          <img src={url} alt={`Design ${i + 1}`} className="w-full h-full object-cover" />
-                        </a>
-                      ))}
-                    </div>
-                  </div>
-                )}
               </div>
             </section>
 

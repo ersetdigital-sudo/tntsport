@@ -2,7 +2,6 @@
 
 import { useState, useTransition, useRef } from "react";
 import { useRouter } from "next/navigation";
-import imageCompression from "browser-image-compression";
 import { createClient } from "@/lib/supabase/client";
 import { getCloudinarySignature } from "@/app/admin/actions/cloudinary";
 import { uploadToCloudinary } from "@/lib/cloudinary";
@@ -50,13 +49,7 @@ export function TestimonialEditor({ testimonial }: TestimonialEditorProps) {
 
     try {
       const uploadParams = await getCloudinarySignature({ folder: "testimonials" });
-      // Compress locally first — big camera files make uploads slow
-      const compressed = await imageCompression(file, {
-        maxSizeMB: 1,
-        maxWidthOrHeight: 1600,
-        useWebWorker: true,
-      }).catch(() => file);
-      const result = await uploadToCloudinary(compressed, uploadParams);
+      const result = await uploadToCloudinary(file, uploadParams);
       setImageUrl(result.url);
     } catch (err) {
       setError(err instanceof Error ? err.message : "Upload gagal");

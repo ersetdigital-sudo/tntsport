@@ -2,7 +2,6 @@
 
 import { useState, useTransition, useRef } from "react";
 import { useRouter } from "next/navigation";
-import imageCompression from "browser-image-compression";
 import { createClient } from "@/lib/supabase/client";
 import { getCloudinarySignature } from "@/app/admin/actions/cloudinary";
 import { uploadToCloudinary } from "@/lib/cloudinary";
@@ -77,33 +76,23 @@ export function ProductEditor({ product, categories }: ProductEditorProps) {
     try {
       const uploadParams = await getCloudinarySignature({ folder: "products" });
 
-      // Compress ALL images locally first (fast) — big files are what make
-      // the Cloudinary upload slow. Max 1MB / 1600px is plenty for web.
-      const compressed = await Promise.all(
-        Array.from(files).map(async (file) => ({
-          original: file,
-          file: await imageCompression(file, {
-            maxSizeMB: 1,
-            maxWidthOrHeight: 1600,
-            useWebWorker: true,
-          }).catch(() => file),
-        }))
-      );
+      const fileList = Array.from(files);
 
-      // Placeholder for each image
-      compressed.forEach(({ original }) =>
+      // Placeholder for each image immediately — user sees upload state
+      fileList.forEach((file) =>
         setImages((prev) => [
           ...prev,
-          { url: "", alt: original.name, sort_order: prev.length, _uploading: true, _progress: 0 },
+          { url: "", alt: file.name, sort_order: prev.length, _uploading: true, _progress: 0 },
         ])
       );
 
-      // Upload in PARALLEL — each result fills its placeholder
+      // Upload in PARALLEL — no local compression; Cloudinary handles
+      // optimization (f_auto,q_auto) on delivery
       const results = await Promise.all(
-        compressed.map(({ original, file }) =>
+        fileList.map((file) =>
           uploadToCloudinary(file, uploadParams)
-            .then((result) => ({ original, result }))
-            .catch((err) => ({ original, error: err }))
+            .then((result) => ({ file, result }))
+            .catch((err) => ({ file, error: err }))
         )
       );
 
@@ -113,7 +102,7 @@ export function ProductEditor({ product, categories }: ProductEditorProps) {
           if (img._uploading && img.url === "") {
             const r = results[idx++];
             if (r && "result" in r) {
-              return { ...img, url: r.result.url, alt: r.original.name, _uploading: false };
+              return { ...img, url: r.result.url, alt: r.file.name, _uploading: false };
             }
           }
           return img;
@@ -334,8 +323,16 @@ export function ProductEditor({ product, categories }: ProductEditorProps) {
           {images.map((img, i) => (
             <div key={i} className="group relative aspect-[4/5] overflow-hidden rounded-xl border border-hairline bg-surface">
               {img._uploading ? (
-                <div className="flex h-full items-center justify-center">
-                  <div className="h-8 w-8 animate-spin rounded-full border-2 border-primary border-t-transparent" />
+                <div className="flex h-full flex-col items-center justify-center gap-2 bg-[repeating-linear-gradient(45deg,transparent,transparent_8px,rgba(255,255,255,.04)_8px,rgba(255,255,255,.04)_16px)]">
+                  <div className="relative flex h-12 w-12 items-center justify-center">
+                    <div className="absolute inset-0 animate-ping rounded-full bg-primary/20" />
+                    <svg className="h-8 w-8 animate-spin text-primary" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                      <circle cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="3" className="opacity-20" />
+                      <path d="M22 12a10 10 0 0 0-10-10" stroke="currentColor" strokeWidth="3" strokeLinecap="round" />
+                    </svg>
+                  </div>
+                  <p className="text-[11px] font-semibold text-primary">Sedang mengunggah…</p>
+                  <p className="max-w-[85%] truncate text-[10px] text-ink-muted">{img.alt}</p>
                 </div>
               ) : (
                 <>
