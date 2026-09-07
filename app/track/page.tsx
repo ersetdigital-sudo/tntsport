@@ -47,6 +47,7 @@ export default function TrackPage() {
         return;
       }
 
+      sessionStorage.setItem(`tnt_verified_${id}`, JSON.stringify(data));
       router.push(`/status?order=${encodeURIComponent(id)}`);
     } catch {
       showErr("Terjadi kesalahan. Coba lagi.");
