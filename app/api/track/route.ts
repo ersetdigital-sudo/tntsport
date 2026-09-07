@@ -1,9 +1,11 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getOrderByTracking } from "@/lib/queries-orders";
+import { buildSetCookie } from "@/lib/verify-token";
 
 /**
  * POST /api/track
  * Verify order number + phone and return order data + history.
+ * Sets a signed HttpOnly cookie on success for session persistence.
  */
 export async function POST(request: NextRequest) {
   try {
@@ -26,7 +28,9 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    return NextResponse.json(result);
+    const response = NextResponse.json(result);
+    response.headers.append("Set-Cookie", buildSetCookie(orderNumber));
+    return response;
   } catch {
     return NextResponse.json(
       { error: "Terjadi kesalahan server" },

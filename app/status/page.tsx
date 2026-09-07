@@ -58,9 +58,11 @@ function StatusContent() {
   const barRef = useRef<HTMLDivElement>(null);
   const pctRef = useRef<HTMLDivElement>(null);
 
-  // Check if already verified (sessionStorage)
+  // Check if already verified — first sessionStorage, then server-side session cookie
   useEffect(() => {
     if (!orderId) return;
+
+    // 1) Fast path: check sessionStorage (set by handleVerify below)
     const key = `tnt_verified_${orderId}`;
     const stored = sessionStorage.getItem(key);
     if (stored) {
@@ -69,12 +71,31 @@ function StatusContent() {
         setOrder(data.order);
         setHistory(data.history);
         setLoaded(true);
+        return;
       } catch {
-        setShowPhoneModal(true);
+        sessionStorage.removeItem(key);
       }
-    } else {
-      setShowPhoneModal(true);
     }
+
+    // 2) Check server-side signed cookie via /api/track/session
+    fetch(`/api/track/session?order=${encodeURIComponent(orderId)}`)
+      .then((r) => {
+        if (!r.ok) throw new Error("no session");
+        return r.json();
+      })
+      .then((data) => {
+        if (data.order) {
+          sessionStorage.setItem(key, JSON.stringify(data));
+          setOrder(data.order);
+          setHistory(data.history);
+          setLoaded(true);
+        } else {
+          setShowPhoneModal(true);
+        }
+      })
+      .catch(() => {
+        setShowPhoneModal(true);
+      });
   }, [orderId]);
 
   // Animate progress bar
