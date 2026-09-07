@@ -102,7 +102,7 @@ function StatusContent() {
   useEffect(() => {
     if (!order || !loaded) return;
     const stepIdx = steps.length > 0
-      ? steps.findIndex((s) => s.name === order.current_status) + 1
+      ? steps.findIndex((s) => s.name.toLowerCase() === order.current_status) + 1
       : ORDER_STATUS_LIST.indexOf(order.current_status) + 1;
     const hasTracking = !!(order.tracking_number && order.courier);
     const pct = getProgress(stepIdx, hasTracking);
@@ -287,7 +287,7 @@ function StatusContent() {
 
   // Render order details
   const step = steps.length > 0
-    ? steps.findIndex((s) => s.name === order.current_status) + 1
+    ? steps.findIndex((s) => s.name.toLowerCase() === order.current_status) + 1
     : ORDER_STATUS_LIST.indexOf(order.current_status) + 1;
   const totalSteps = steps.length || 9;
   const hasTracking = !!(order.tracking_number && order.courier);
@@ -403,7 +403,7 @@ function StatusContent() {
             {(steps.length > 0 ? steps : ORDER_STATUS_LIST.map((s, i) => ({ name: ORDER_STATUS_LABELS[s as OrderStatus] || s, position: i + 1 }))).map((stepDef, idx) => {
               const n = idx + 1;
               const st = n < step ? "done" : n === step ? "current" : "todo";
-              const statusKey = steps.length > 0 ? stepDef.name : ORDER_STATUS_LIST[idx];
+              const statusKey = steps.length > 0 ? stepDef.name.toLowerCase() : ORDER_STATUS_LIST[idx];
               const historyEntry = history.find((h: any) => h.status === statusKey);
               const icon =
                 st === "done" ? (
