@@ -113,6 +113,7 @@ export default function PesananDashboard() {
   const [filter, setFilter] = useState<FilterKey>("all");
   const [query, setQuery] = useState("");
   const [openId, setOpenId] = useState<string | null>(null);
+  const [openCustomer, setOpenCustomer] = useState<string | null>(null);
   const [showAdd, setShowAdd] = useState(false);
   const [showMobileNav, setShowMobileNav] = useState(false);
   const [currentView, setCurrentView] = useState<ViewKey>("pesanan");
@@ -310,6 +311,19 @@ export default function PesananDashboard() {
         </header>
 
         <main className="px-5 sm:px-8 py-7 sm:py-9 w-full">
+          {openCustomer ? (
+            <CustomerDetail
+              customerName={openCustomer}
+              orders={orders}
+              steps={steps}
+              onBack={() => setOpenCustomer(null)}
+              onOpenOrder={(id) => {
+                setOpenCustomer(null);
+                setOpenId(id);
+              }}
+            />
+          ) : (
+          <>
           {currentView === "pesanan" && (
             <ViewPesanan
               orders={orders}
@@ -324,9 +338,11 @@ export default function PesananDashboard() {
           )}
           {currentView === "jadwal" && <ViewJadwal orders={orders} openDetail={setOpenId} steps={steps} />}
           {currentView === "kirim" && <ViewKirim orders={orders} openDetail={setOpenId} steps={steps} />}
-          {currentView === "customer" && <ViewCustomer orders={orders} openDetail={setOpenId} />}
+          {currentView === "customer" && <ViewCustomer orders={orders} onSelectCustomer={setOpenCustomer} steps={steps} />}
           {currentView === "laporan" && <ViewLaporan orders={orders} />}
           {currentView === "setting" && <ViewSetting showToast={showToast} steps={steps} onStepsSaved={fetchSteps} />}
+          </>
+          )}
         </main>
       </div>
 
@@ -941,14 +957,154 @@ function ViewKirim({
 }
 
 /* ═══════════════════════════════════════════════
+   VIEW: CUSTOMER DETAIL (per-customer page)
+   ═══════════════════════════════════════════════ */
+function CustomerDetail({
+  customerName,
+  orders,
+  steps,
+  onBack,
+  onOpenOrder,
+}: {
+  customerName: string;
+  orders: OrderData[];
+  steps: StepRow[];
+  onBack: () => void;
+  onOpenOrder: (id: string) => void;
+}) {
+  const customerOrders = orders.filter((o) => o.customer_name === customerName);
+  const first = customerOrders[0];
+  const totalPcs = customerOrders.reduce((a, o) => a + (parseInt(o.quantity, 10) || 0), 0);
+  const aktif = customerOrders.filter((o) => !o.is_done).length;
+
+  return (
+    <>
+      {/* Back button */}
+      <button
+        onClick={onBack}
+        className="flex items-center gap-2 text-[13px] text-[var(--pas-muted)] hover:text-white transition mb-5"
+      >
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+          <path d="M19 12H5M12 19l-7-7 7-7" />
+        </svg>
+        Kembali ke Daftar Customer
+      </button>
+
+      {/* Contact info card */}
+      <div className="pas-card p-5 sm:p-6">
+        <div className="flex items-start gap-4">
+          <span className="pas-avatar text-[18px] w-12 h-12 flex items-center justify-center">{initials(customerName)}</span>
+          <div className="flex-1 min-w-0">
+            <p className="pas-display text-[18px]">{customerName}</p>
+            <p className="text-[13px] text-[var(--pas-muted)] mt-1">{first?.customer_city || "-"}</p>
+            <p className="text-[13px] text-[var(--pas-muted)] pas-num mt-0.5">{first?.customer_phone || "-"}</p>
+          </div>
+          <span className={`pas-pill ${aktif > 0 ? "produksi" : "selesai"}`}>
+            {aktif > 0 ? `${aktif} aktif` : "selesai"}
+          </span>
+        </div>
+
+        {/* Summary */}
+        <div className="grid grid-cols-2 gap-3 mt-5 pt-5 border-t border-[var(--pas-line)]">
+          <div>
+            <p className="text-[12px] text-[var(--pas-muted)]">Total Pesanan</p>
+            <p className="pas-display text-[22px] mt-1">{customerOrders.length}</p>
+          </div>
+          <div>
+            <p className="text-[12px] text-[var(--pas-muted)]">Total PCS</p>
+            <p className="pas-display text-[22px] mt-1">{totalPcs}</p>
+          </div>
+        </div>
+      </div>
+
+      {/* Order history */}
+      <div className="pas-card mt-4 p-2 sm:p-4 overflow-x-auto">
+        <p className="text-[13px] text-[var(--pas-muted)] px-3 pt-2 pb-3">Riwayat Pesanan</p>
+        {customerOrders.length === 0 ? (
+          <p className="text-[13px] text-[var(--pas-muted)] px-3 pb-4">Belum ada pesanan.</p>
+        ) : (
+          <table className="pas-tbl w-full">
+            <thead>
+              <tr>
+                <th>Nomor Pesanan</th>
+                <th>Produk</th>
+                <th>Tanggal</th>
+                <th>Progres</th>
+                <th>Status</th>
+              </tr>
+            </thead>
+            <tbody>
+              {customerOrders.map((o) => {
+                const st = statusOf(o, steps.length);
+                return (
+                  <tr
+                    key={o.id}
+                    className="cursor-pointer hover:bg-white/[.03] transition"
+                    onClick={() => onOpenOrder(o.id)}
+                  >
+                    <td className="pas-num font-semibold">{o.id}</td>
+                    <td>{o.product_name || "-"}</td>
+                    <td className="text-[var(--pas-muted)]">{formatDate(o.created_at)}</td>
+                    <td>
+                      <div className="flex items-center gap-2">
+                        <span className="pas-mini" style={{ width: 60 }}>
+                          <i style={{ width: `${o.pct}%` }} />
+                        </span>
+                        <span className="text-[12px] text-[var(--pas-muted)]">{o.pct}%</span>
+                      </div>
+                    </td>
+                    <td>
+                      <span className={`pas-pill ${st}`}>{FILTER_LABEL[st]}</span>
+                    </td>
+                  </tr>
+                );
+              })}
+            </tbody>
+          </table>
+        )}
+        {/* Mobile card list */}
+        {customerOrders.length > 0 && (
+          <div className="flex flex-col gap-2 sm:hidden px-1 pb-2">
+            {customerOrders.map((o) => {
+              const st = statusOf(o, steps.length);
+              return (
+                <div
+                  key={o.id}
+                  className="pas-card p-3.5 cursor-pointer hover:bg-white/[.03] transition"
+                  onClick={() => onOpenOrder(o.id)}
+                >
+                  <div className="flex items-start justify-between gap-3">
+                    <div>
+                      <p className="font-semibold text-[14px] pas-num">{o.id}</p>
+                      <p className="text-[12px] text-[var(--pas-muted)] mt-0.5">{o.product_name || "-"}</p>
+                      <p className="text-[12px] text-[var(--pas-muted)]">{formatDate(o.created_at)}</p>
+                    </div>
+                    <div className="flex flex-col items-end gap-1.5">
+                      <span className={`pas-pill ${st}`}>{FILTER_LABEL[st]}</span>
+                      <span className="text-[11px] text-[var(--pas-muted)]">{o.pct}%</span>
+                    </div>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        )}
+      </div>
+    </>
+  );
+}
+
+/* ═══════════════════════════════════════════════
    VIEW: CUSTOMER
    ═══════════════════════════════════════════════ */
 function ViewCustomer({
   orders,
-  openDetail,
+  onSelectCustomer,
+  steps,
 }: {
   orders: OrderData[];
-  openDetail: (id: string) => void;
+  onSelectCustomer: (name: string) => void;
+  steps: StepRow[];
 }) {
   const map: Record<string, { city: string; phone: string; orders: string[]; aktif: number }> = {};
   orders.forEach((o) => {
@@ -977,7 +1133,7 @@ function ViewCustomer({
             {Object.keys(map).map((k) => {
               const c = map[k];
               return (
-                <tr key={k} onClick={() => openDetail(c.orders[0])}>
+                <tr key={k} onClick={() => onSelectCustomer(k)}>
                   <td>
                     <div className="flex items-center gap-2.5">
                       <span className="pas-avatar">{initials(k)}</span>
