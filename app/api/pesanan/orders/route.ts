@@ -45,6 +45,7 @@ function mapOrder(row: any) {
     design_photos: Array.isArray(row.design_photos) ? row.design_photos.map((p: any) =>
       typeof p === "string" ? p : p.url || ""
     ).filter(Boolean) : [],
+    products: Array.isArray(row.products) ? row.products : [],
     current_step: step,
     note: row.design_notes || "",
     note_time: row.updated_at || "",
@@ -89,6 +90,7 @@ export async function POST(request: Request) {
     deadline,
     created_at,
     design_photos,
+    products,
   } = body;
 
   if (!customer_name || !customer_phone) {
@@ -127,6 +129,7 @@ export async function POST(request: Request) {
     sizes: sizes || "",
     current_status: "desain",
     design_photos: design_photos || [],
+    products: Array.isArray(products) ? products : [],
   };
   if (customer_city) insertData.customer_city = customer_city;
   if (material) insertData.material = material;

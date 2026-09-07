@@ -42,6 +42,7 @@ type OrderData = {
   quantity: string;
   material: string;
   sizes: string;
+  products?: { name: string; sizes: { size: string; qty: number }[] }[];
   design_photos?: string[];
   current_step: number;
   note: string;
@@ -1609,14 +1610,68 @@ function DetailSheet({
         </div>
 
         <div className="pas-card p-4 mt-5 grid grid-cols-2 gap-y-3 text-[14px]">
-          <div>
-            <p className="pas-stencil text-[9px] text-[var(--pas-muted)]">Produk</p>
-            <p className="mt-1">{order.product_name}</p>
-          </div>
-          <div>
-            <p className="pas-stencil text-[9px] text-[var(--pas-muted)]">Jumlah</p>
-            <p className="mt-1">{order.quantity}</p>
-          </div>
+          {(order.products?.length ?? 0) > 0 ? (
+            order.products!.map((p, pi) => (
+              <div key={pi} className="col-span-2 rounded-xl border border-[var(--pas-line)] p-3.5">
+                <div className="flex items-center justify-between gap-3">
+                  <p className="font-semibold text-[14px]">{p.name}</p>
+                  <span className="text-[12px] text-[var(--pas-muted)] pas-num">
+                    {p.sizes.reduce((a, s) => a + (s.qty || 0), 0)} pcs
+                  </span>
+                </div>
+                <div className="flex flex-wrap gap-2 mt-2.5">
+                  {p.sizes.map((s, si) => (
+                    <span
+                      key={si}
+                      className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-[13px] font-medium bg-[var(--pas-surface-2)] border border-[var(--pas-line)] text-[var(--pas-ink-1)]"
+                    >
+                      <span className="font-semibold">{s.size}</span>
+                      <span className="text-[var(--pas-muted)] text-[11px]">·</span>
+                      <span className="text-[var(--pas-muted)]">{s.qty}</span>
+                    </span>
+                  ))}
+                </div>
+              </div>
+            ))
+          ) : (
+            <>
+              <div>
+                <p className="pas-stencil text-[9px] text-[var(--pas-muted)]">Produk</p>
+                <p className="mt-1">{order.product_name}</p>
+              </div>
+              <div>
+                <p className="pas-stencil text-[9px] text-[var(--pas-muted)]">Jumlah</p>
+                <p className="mt-1">{order.quantity}</p>
+              </div>
+              <div>
+                <p className="pas-stencil text-[9px] text-[var(--pas-muted)]">Ukuran</p>
+                <div className="flex flex-wrap gap-2 mt-1.5">
+                  {order.sizes
+                    ? order.sizes.split(",").map((s, i) => {
+                        const trimmed = s.trim();
+                        const match = trimmed.match(/^([A-Za-z]+)\(?(\d*)\)?$/);
+                        const label = match ? match[1] : trimmed;
+                        const count = match && match[2] ? match[2] : null;
+                        return (
+                          <span
+                            key={i}
+                            className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-[13px] font-medium bg-[var(--pas-surface-2)] border border-[var(--pas-line)] text-[var(--pas-ink-1)]"
+                          >
+                            <span className="font-semibold">{label}</span>
+                            {count && (
+                              <>
+                                <span className="text-[var(--pas-muted)] text-[11px]">·</span>
+                                <span className="text-[var(--pas-muted)]">{count}</span>
+                              </>
+                            )}
+                          </span>
+                        );
+                      })
+                    : <span className="text-[var(--pas-muted)]">-</span>}
+                </div>
+              </div>
+            </>
+          )}
           <div>
             <p className="pas-stencil text-[9px] text-[var(--pas-muted)]">Tanggal Order</p>
             <p className="mt-1">{formatDate(order.created_at)}</p>
@@ -1645,33 +1700,6 @@ function DetailSheet({
               </div>
             </>
           )}
-          <div>
-            <p className="pas-stencil text-[9px] text-[var(--pas-muted)]">Ukuran</p>
-            <div className="flex flex-wrap gap-2 mt-1.5">
-              {order.sizes
-                ? order.sizes.split(",").map((s, i) => {
-                    const trimmed = s.trim();
-                    const match = trimmed.match(/^([A-Za-z]+)\(?(\d*)\)?$/);
-                    const label = match ? match[1] : trimmed;
-                    const count = match && match[2] ? match[2] : null;
-                    return (
-                      <span
-                        key={i}
-                        className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-[13px] font-medium bg-[var(--pas-surface-2)] border border-[var(--pas-line)] text-[var(--pas-ink-1)]"
-                      >
-                        <span className="font-semibold">{label}</span>
-                        {count && (
-                          <>
-                            <span className="text-[var(--pas-muted)] text-[11px]">·</span>
-                            <span className="text-[var(--pas-muted)]">{count}</span>
-                          </>
-                        )}
-                      </span>
-                    );
-                  })
-                : <span className="text-[var(--pas-muted)]">-</span>}
-            </div>
-          </div>
           {(order.design_photos?.length ?? 0) > 0 && (
             <div className="col-span-2">
               <p className="pas-stencil text-[9px] text-[var(--pas-muted)]">Preview Design</p>
@@ -1803,18 +1831,30 @@ function AddForm({
   const [form, setForm] = useState({
     customer_name: "",
     customer_phone: "",
-    product_name: "",
     quantity: "",
     deadline: "",
     created_at: new Date().toISOString().slice(0, 10),
   });
   const [productOptions, setProductOptions] = useState<string[]>(["Atasan", "Setelan"]);
-  const [customProduct, setCustomProduct] = useState(false);
   const [sizeRows, setSizeRows] = useState<{ size: string; qty: string }[]>([{ size: "", qty: "" }]);
   const [designPhotos, setDesignPhotos] = useState<string[]>([]);
   const [uploadingDesign, setUploadingDesign] = useState(false);
   const [error, setError] = useState("");
   const [saving, setSaving] = useState(false);
+
+  // Multi-product rows: each product has its own name, sizes, and qty
+  const [productRows, setProductRows] = useState<
+    { product: string; custom: boolean; sizes: { size: string; qty: string }[] }[]
+  >([
+    { product: "", custom: false, sizes: [{ size: "", qty: "" }] },
+  ]);
+
+  // Total qty across all product size rows (auto-computed)
+  const totalQty = productRows.reduce(
+    (acc, p) =>
+      acc + p.sizes.reduce((a, s) => a + (parseInt(s.qty, 10) || 0), 0),
+    0
+  );
 
   // Load saved custom product options
   useEffect(() => {
@@ -1828,31 +1868,55 @@ function AddForm({
     }
   }, []);
 
+  const updateProductRow = (rowIdx: number, patch: Partial<typeof productRows[0]>) =>
+    setProductRows((rows) => rows.map((r, i) => (i === rowIdx ? { ...r, ...patch } : r)));
+
+  const updateSizeRow = (rowIdx: number, sizeIdx: number, patch: Partial<{ size: string; qty: string }>) =>
+    setProductRows((rows) =>
+      rows.map((r, i) =>
+        i === rowIdx
+          ? { ...r, sizes: r.sizes.map((s, si) => (si === sizeIdx ? { ...s, ...patch } : s)) }
+          : r
+      )
+    );
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (
-      !form.customer_name ||
-      !form.customer_phone ||
-      !form.product_name
-    ) {
-      setError("Semua field wajib diisi.");
+
+    // Validate: at least one product row with a name and at least one size+qty
+    const validRows = productRows.filter(
+      (p) => p.product.trim() && p.sizes.some((s) => s.size.trim())
+    );
+    if (!form.customer_name || !form.customer_phone || validRows.length === 0) {
+      setError("Isi nama, HP, dan minimal 1 produk dengan ukurannya.");
       return;
     }
     setSaving(true);
     setError("");
     try {
+      // Build structured products + backward-compat fields
+      const products = validRows.map((p) => ({
+        name: p.product.trim(),
+        sizes: p.sizes
+          .filter((s) => s.size.trim())
+          .map((s) => ({ size: s.size.trim(), qty: parseInt(s.qty, 10) || 0 })),
+      }));
+      const totalPcs = products.reduce((a, p) => a + p.sizes.reduce((x, s) => x + s.qty, 0), 0);
+      const combinedNames = products.map((p) => p.name).join(", ");
+      const combinedSizes = products
+        .flatMap((p) => p.sizes.map((s) => `${p.name}/${s.size}(${s.qty})`))
+        .join(", ");
+
       const res = await fetch("/api/pesanan/orders", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           customer_name: form.customer_name,
           customer_phone: form.customer_phone,
-          product_name: form.product_name,
-          quantity: form.quantity || "-",
-          sizes: sizeRows
-            .filter((r) => r.size.trim())
-            .map((r) => r.size.trim() + (r.qty.trim() ? `(${r.qty.trim()})` : ""))
-            .join(", "),
+          product_name: combinedNames,
+          quantity: totalPcs > 0 ? String(totalPcs) : "-",
+          sizes: combinedSizes,
+          products,
           design_photos: designPhotos,
           deadline: form.deadline || undefined,
           created_at: form.created_at ? new Date(form.created_at).toISOString() : undefined,
@@ -1863,16 +1927,18 @@ function AddForm({
         setError(data.error || "Gagal menyimpan");
         return;
       }
-      // Persist custom product to saved options (localStorage)
-      const newProduct = form.product_name.trim();
-      if (newProduct && !productOptions.includes(newProduct)) {
+      // Persist custom products to saved options (localStorage)
+      const newProducts = validRows
+        .map((p) => p.product.trim())
+        .filter((n) => n && !productOptions.includes(n));
+      if (newProducts.length > 0) {
         try {
           const saved = JSON.parse(localStorage.getItem("pas_product_options") || "[]");
-          const merged = Array.from(new Set([...saved, "Atasan", "Setelan", newProduct]));
+          const merged = Array.from(new Set([...saved, "Atasan", "Setelan", ...newProducts]));
           localStorage.setItem("pas_product_options", JSON.stringify(merged));
           setProductOptions(merged);
         } catch {
-          setProductOptions((o) => [...o, newProduct]);
+          setProductOptions((o) => [...o, ...newProducts]);
         }
       }
       onSaved("Pesanan ditambahkan");
@@ -1916,138 +1982,152 @@ function AddForm({
         />
       </label>
       <div>
-        <span className="text-[13px] text-[var(--pas-muted)]">Produk</span>
-        {customProduct ? (
-          <div className="flex items-center gap-2 mt-1.5">
-            <input
-              required
-              autoFocus
-              className="pas-field flex-1 px-4 py-2.5 text-[15px]"
-              placeholder="Nama produk custom"
-              value={form.product_name}
-              onChange={set("product_name")}
-            />
-            <button
-              type="button"
-              className="pas-btn-ghost px-3 py-2.5 text-[13px] shrink-0"
-              title="Kembali ke daftar pilihan"
-              onClick={() => {
-                setCustomProduct(false);
-                setForm((f) => ({ ...f, product_name: "" }));
-              }}
-            >
-              List
-            </button>
-          </div>
-        ) : (
-          <div className="flex items-center gap-2 mt-1.5">
-            <select
-              required
-              className="pas-field flex-1 px-4 py-2.5 text-[15px] appearance-none"
-              value={form.product_name}
-              onChange={(e) => {
-                if (e.target.value === "__custom__") {
-                  setCustomProduct(true);
-                  setForm((f) => ({ ...f, product_name: "" }));
-                } else {
-                  setForm((f) => ({ ...f, product_name: e.target.value }));
-                }
-              }}
-            >
-              <option value="" disabled>
-                Pilih produk…
-              </option>
-              {productOptions.map((p) => (
-                <option key={p} value={p}>
-                  {p}
-                </option>
-              ))}
-              <option value="__custom__">+ Tambah sendiri…</option>
-            </select>
-            <button
-              type="button"
-              className="p-2.5 rounded-lg text-[var(--pas-muted)] hover:text-[var(--pas-accent)] transition shrink-0"
-              title="Tambah produk baru ke daftar"
-              onClick={() => {
-                setCustomProduct(true);
-                setForm((f) => ({ ...f, product_name: "" }));
-              }}
-            >
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                <circle cx="12" cy="12" r="10" />
-                <path d="M12 8v8M8 12h8" />
-              </svg>
-            </button>
-          </div>
-        )}
-        {customProduct && form.product_name.trim() && !productOptions.includes(form.product_name.trim()) && (
-          <label className="flex items-center gap-2 mt-2 text-[12.5px] text-[var(--pas-muted)] cursor-pointer">
-            <input
-              type="checkbox"
-              className="accent-[var(--pas-accent)]"
-              checked
-              readOnly
-            />
-            Produk "{form.product_name.trim()}" akan ditambahkan ke daftar
-          </label>
-        )}
-      </div>
-      <label className="block">
-        <span className="text-[13px] text-[var(--pas-muted)]">Jumlah</span>
-        <input
-          className="pas-field w-full px-4 py-2.5 mt-1.5 text-[15px]"
-          placeholder="18 pcs"
-          value={form.quantity}
-          onChange={set("quantity")}
-        />
-      </label>
-      <div>
-        <span className="text-[13px] text-[var(--pas-muted)]">Ukuran</span>
-        <div className="flex flex-col gap-2 mt-1.5">
-          {sizeRows.map((row, i) => (
-            <div key={i} className="flex items-center gap-2">
-              <input
-                className="pas-field flex-1 px-4 py-2.5 text-[15px]"
-                placeholder="M"
-                value={row.size}
-                onChange={(e) =>
-                  setSizeRows((rows) =>
-                    rows.map((r, idx) => (idx === i ? { ...r, size: e.target.value } : r))
-                  )
-                }
-              />
-              <input
-                className="pas-field w-[90px] px-4 py-2.5 text-[15px]"
-                placeholder="Qty"
-                inputMode="numeric"
-                value={row.qty}
-                onChange={(e) =>
-                  setSizeRows((rows) =>
-                    rows.map((r, idx) => (idx === i ? { ...r, qty: e.target.value } : r))
-                  )
-                }
-              />
-              {sizeRows.length > 1 && (
+        <div className="flex items-center justify-between">
+          <span className="text-[13px] text-[var(--pas-muted)]">Produk</span>
+          {totalQty > 0 && (
+            <span className="text-[12px] text-[var(--pas-accent)] font-semibold pas-num">
+              Total: {totalQty} pcs
+            </span>
+          )}
+        </div>
+
+        <div className="flex flex-col gap-3 mt-1.5">
+          {productRows.map((pRow, pi) => {
+            const rowQty = pRow.sizes.reduce((a, s) => a + (parseInt(s.qty, 10) || 0), 0);
+            return (
+              <div
+                key={pi}
+                className="rounded-xl border border-[var(--pas-line)] p-3.5 bg-[var(--pas-surface-2)]"
+              >
+                {/* Product selector */}
+                <div className="flex items-center gap-2">
+                  {pRow.custom ? (
+                    <input
+                      autoFocus
+                      className="pas-field flex-1 px-4 py-2.5 text-[15px]"
+                      placeholder="Nama produk custom"
+                      value={pRow.product}
+                      onChange={(e) => updateProductRow(pi, { product: e.target.value })}
+                    />
+                  ) : (
+                    <select
+                      className="pas-field flex-1 px-4 py-2.5 text-[15px] appearance-none"
+                      value={pRow.product}
+                      onChange={(e) => {
+                        if (e.target.value === "__custom__") {
+                          updateProductRow(pi, { custom: true, product: "" });
+                        } else {
+                          updateProductRow(pi, { product: e.target.value });
+                        }
+                      }}
+                    >
+                      <option value="" disabled>
+                        Pilih produk…
+                      </option>
+                      {productOptions.map((p) => (
+                        <option key={p} value={p}>
+                          {p}
+                        </option>
+                      ))}
+                      <option value="__custom__">+ Tambah sendiri…</option>
+                    </select>
+                  )}
+                  {rowQty > 0 && (
+                    <span className="text-[12px] text-[var(--pas-muted)] pas-num shrink-0">
+                      {rowQty} pcs
+                    </span>
+                  )}
+                  {pRow.custom && (
+                    <button
+                      type="button"
+                      className="pas-btn-ghost px-2.5 py-2 text-[12px] shrink-0"
+                      title="Kembali ke daftar pilihan"
+                      onClick={() => updateProductRow(pi, { custom: false, product: "" })}
+                    >
+                      List
+                    </button>
+                  )}
+                  {productRows.length > 1 && (
+                    <button
+                      type="button"
+                      className="p-2 rounded-lg text-[var(--pas-muted)] hover:text-red-400 hover:bg-red-400/10 transition shrink-0"
+                      title="Hapus produk ini"
+                      onClick={() => setProductRows((rows) => rows.filter((_, idx) => idx !== pi))}
+                    >
+                      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                        <path d="M3 6h18M19 6v14a2 2 0 01-2 2H7a2 2 0 01-2-2V6M8 6V4a2 2 0 012-2h4a2 2 0 012 2v2"/>
+                      </svg>
+                    </button>
+                  )}
+                </div>
+
+                {/* Sizes for this product */}
+                <div className="flex flex-col gap-2 mt-3">
+                  {pRow.sizes.map((sRow, si) => (
+                    <div key={si} className="flex items-center gap-2">
+                      <input
+                        className="pas-field flex-1 px-4 py-2.5 text-[15px]"
+                        placeholder="Ukuran (mis. M)"
+                        value={sRow.size}
+                        onChange={(e) => updateSizeRow(pi, si, { size: e.target.value })}
+                      />
+                      <input
+                        className="pas-field w-[90px] px-4 py-2.5 text-[15px]"
+                        placeholder="Qty"
+                        inputMode="numeric"
+                        value={sRow.qty}
+                        onChange={(e) => updateSizeRow(pi, si, { qty: e.target.value })}
+                      />
+                      {pRow.sizes.length > 1 && (
+                        <button
+                          type="button"
+                          className="p-2 rounded-lg text-[var(--pas-muted)] hover:text-red-400 hover:bg-red-400/10 transition shrink-0"
+                          title="Hapus ukuran ini"
+                          onClick={() =>
+                            setProductRows((rows) =>
+                              rows.map((r, i) =>
+                                i === pi ? { ...r, sizes: r.sizes.filter((_, idx) => idx !== si) } : r
+                              )
+                            )
+                          }
+                        >
+                          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                            <path d="M3 6h18M19 6v14a2 2 0 01-2 2H7a2 2 0 01-2-2V6M8 6V4a2 2 0 012-2h4a2 2 0 012 2v2"/>
+                          </svg>
+                        </button>
+                      )}
+                    </div>
+                  ))}
+                </div>
                 <button
                   type="button"
-                  className="p-2 rounded-lg text-[var(--pas-muted)] hover:text-red-400 hover:bg-red-400/10 transition shrink-0"
-                  title="Hapus ukuran ini"
-                  onClick={() => setSizeRows((rows) => rows.filter((_, idx) => idx !== i))}
+                  className="pas-btn-ghost w-full py-2 text-[12px] mt-2"
+                  onClick={() =>
+                    setProductRows((rows) =>
+                      rows.map((r, i) =>
+                        i === pi ? { ...r, sizes: [...r.sizes, { size: "", qty: "" }] } : r
+                      )
+                    )
+                  }
                 >
-                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                    <path d="M3 6h18M19 6v14a2 2 0 01-2 2H7a2 2 0 01-2-2V6M8 6V4a2 2 0 012-2h4a2 2 0 012 2v2"/>
-                  </svg>
+                  + Tambah Ukuran
                 </button>
-              )}
-            </div>
-          ))}
+              </div>
+            );
+          })}
         </div>
+
         <button
           type="button"
           className="pas-btn-ghost w-full py-2.5 text-[13px] mt-2"
-          onClick={() => setSizeRows((rows) => [...rows, { size: "", qty: "" }])}
+          onClick={() =>
+            setProductRows((rows) => [
+              ...rows,
+              { product: "", custom: false, sizes: [{ size: "", qty: "" }] },
+            ])
+          }
         >
-          + Tambah Ukuran
+          + Tambah Produk
         </button>
       </div>
 
