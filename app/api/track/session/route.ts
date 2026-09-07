@@ -30,7 +30,7 @@ export async function GET(request: NextRequest) {
     const { data: order, error: orderErr } = await supabase
       .from("orders")
       .select("*")
-      .eq("id", session.orderId)
+      .eq("order_number", session.orderId)
       .single();
 
     if (orderErr || !order) {
@@ -40,7 +40,7 @@ export async function GET(request: NextRequest) {
     const { data: history } = await supabase
       .from("order_status_history")
       .select("*")
-      .eq("order_id", session.orderId)
+      .eq("order_id", order.id)
       .order("created_at", { ascending: true });
 
     return NextResponse.json({ order, history: history || [] });

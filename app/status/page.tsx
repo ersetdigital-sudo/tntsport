@@ -58,26 +58,12 @@ function StatusContent() {
   const barRef = useRef<HTMLDivElement>(null);
   const pctRef = useRef<HTMLDivElement>(null);
 
-  // Check if already verified — first sessionStorage, then server-side session cookie
+  // Fetch order data on mount — always try fresh from DB, sessionStorage as fallback
   useEffect(() => {
     if (!orderId) return;
-
-    // 1) Fast path: check sessionStorage (set by handleVerify below)
     const key = `tnt_verified_${orderId}`;
-    const stored = sessionStorage.getItem(key);
-    if (stored) {
-      try {
-        const data = JSON.parse(stored);
-        setOrder(data.order);
-        setHistory(data.history);
-        setLoaded(true);
-        return;
-      } catch {
-        sessionStorage.removeItem(key);
-      }
-    }
 
-    // 2) Check server-side signed cookie via /api/track/session
+    // Try fetching fresh data via server-side session cookie
     fetch(`/api/track/session?order=${encodeURIComponent(orderId)}`)
       .then((r) => {
         if (!r.ok) throw new Error("no session");
@@ -94,7 +80,21 @@ function StatusContent() {
         }
       })
       .catch(() => {
-        setShowPhoneModal(true);
+        // No valid session cookie — try sessionStorage as fallback
+        const stored = sessionStorage.getItem(key);
+        if (stored) {
+          try {
+            const data = JSON.parse(stored);
+            setOrder(data.order);
+            setHistory(data.history);
+            setLoaded(true);
+          } catch {
+            sessionStorage.removeItem(key);
+            setShowPhoneModal(true);
+          }
+        } else {
+          setShowPhoneModal(true);
+        }
       });
   }, [orderId]);
 
