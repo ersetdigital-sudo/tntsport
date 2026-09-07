@@ -1785,10 +1785,10 @@ function AddForm({
     customer_phone: "",
     product_name: "",
     quantity: "",
-    sizes: "",
     deadline: "",
     created_at: new Date().toISOString().slice(0, 10),
   });
+  const [sizeRows, setSizeRows] = useState<{ size: string; qty: string }[]>([{ size: "", qty: "" }]);
   const [error, setError] = useState("");
   const [saving, setSaving] = useState(false);
 
@@ -1815,7 +1815,10 @@ function AddForm({
           customer_phone: form.customer_phone,
           product_name: form.product_name,
           quantity: form.quantity || "-",
-          sizes: form.sizes || "",
+          sizes: sizeRows
+            .filter((r) => r.size.trim())
+            .map((r) => r.size.trim() + (r.qty.trim() ? `(${r.qty.trim()})` : ""))
+            .join(", "),
           deadline: form.deadline || undefined,
           created_at: form.created_at ? new Date(form.created_at).toISOString() : undefined,
         }),
@@ -1887,15 +1890,55 @@ function AddForm({
           onChange={set("quantity")}
         />
       </label>
-      <label className="block">
+      <div>
         <span className="text-[13px] text-[var(--pas-muted)]">Ukuran</span>
-        <input
-          className="pas-field w-full px-4 py-2.5 mt-1.5 text-[15px]"
-          placeholder="S, M, L, XL"
-          value={form.sizes}
-          onChange={set("sizes")}
-        />
-      </label>
+        <div className="flex flex-col gap-2 mt-1.5">
+          {sizeRows.map((row, i) => (
+            <div key={i} className="flex items-center gap-2">
+              <input
+                className="pas-field flex-1 px-4 py-2.5 text-[15px]"
+                placeholder="M"
+                value={row.size}
+                onChange={(e) =>
+                  setSizeRows((rows) =>
+                    rows.map((r, idx) => (idx === i ? { ...r, size: e.target.value } : r))
+                  )
+                }
+              />
+              <input
+                className="pas-field w-[90px] px-4 py-2.5 text-[15px]"
+                placeholder="Qty"
+                inputMode="numeric"
+                value={row.qty}
+                onChange={(e) =>
+                  setSizeRows((rows) =>
+                    rows.map((r, idx) => (idx === i ? { ...r, qty: e.target.value } : r))
+                  )
+                }
+              />
+              {sizeRows.length > 1 && (
+                <button
+                  type="button"
+                  className="p-2 rounded-lg text-[var(--pas-muted)] hover:text-red-400 hover:bg-red-400/10 transition shrink-0"
+                  title="Hapus ukuran ini"
+                  onClick={() => setSizeRows((rows) => rows.filter((_, idx) => idx !== i))}
+                >
+                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M3 6h18M19 6v14a2 2 0 01-2 2H7a2 2 0 01-2-2V6M8 6V4a2 2 0 012-2h4a2 2 0 012 2v2"/>
+                  </svg>
+                </button>
+              )}
+            </div>
+          ))}
+        </div>
+        <button
+          type="button"
+          className="pas-btn-ghost w-full py-2.5 text-[13px] mt-2"
+          onClick={() => setSizeRows((rows) => [...rows, { size: "", qty: "" }])}
+        >
+          + Tambah Ukuran
+        </button>
+      </div>
       <div className="grid grid-cols-2 gap-3">
         <label className="block">
           <span className="text-[13px] text-[var(--pas-muted)]">Tanggal Order</span>
