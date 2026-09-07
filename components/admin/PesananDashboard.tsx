@@ -1671,10 +1671,6 @@ function DetailSheet({
                 : <span className="text-[var(--pas-muted)]">-</span>}
             </div>
           </div>
-          <div>
-            <p className="pas-stencil text-[9px] text-[var(--pas-muted)]">Bahan</p>
-            <p className="mt-1">{order.material || "-"}</p>
-          </div>
         </div>
 
         <div className="flex items-center gap-3 mt-5">
@@ -1786,11 +1782,9 @@ function AddForm({
   const [form, setForm] = useState({
     id: "",
     customer_name: "",
-    customer_city: "",
     customer_phone: "",
     product_name: "",
     quantity: "",
-    material: "",
     deadline: "",
   });
   const [error, setError] = useState("");
@@ -1801,7 +1795,6 @@ function AddForm({
     if (
       !form.id ||
       !form.customer_name ||
-      !form.customer_city ||
       !form.customer_phone ||
       !form.product_name
     ) {
@@ -1817,11 +1810,9 @@ function AddForm({
         body: JSON.stringify({
           id: form.id.toUpperCase(),
           customer_name: form.customer_name,
-          customer_city: form.customer_city,
           customer_phone: form.customer_phone,
           product_name: form.product_name,
           quantity: form.quantity || "-",
-          material: form.material || "-",
           deadline: form.deadline || undefined,
         }),
       });
@@ -1853,28 +1844,16 @@ function AddForm({
           onChange={set("id")}
         />
       </label>
-      <div className="grid grid-cols-2 gap-3">
-        <label className="block">
-          <span className="text-[13px] text-[var(--pas-muted)]">Nama Customer</span>
-          <input
-            required
-            className="pas-field w-full px-4 py-2.5 mt-1.5 text-[15px]"
-            placeholder="Nama"
-            value={form.customer_name}
-            onChange={set("customer_name")}
-          />
-        </label>
-        <label className="block">
-          <span className="text-[13px] text-[var(--pas-muted)]">Kota</span>
-          <input
-            required
-            className="pas-field w-full px-4 py-2.5 mt-1.5 text-[15px]"
-            placeholder="Bandung"
-            value={form.customer_city}
-            onChange={set("customer_city")}
-          />
-        </label>
-      </div>
+      <label className="block">
+        <span className="text-[13px] text-[var(--pas-muted)]">Nama Customer</span>
+        <input
+          required
+          className="pas-field w-full px-4 py-2.5 mt-1.5 text-[15px]"
+          placeholder="Nama"
+          value={form.customer_name}
+          onChange={set("customer_name")}
+        />
+      </label>
       <label className="block">
         <span className="text-[13px] text-[var(--pas-muted)]">Nomor HP</span>
         <input
@@ -1895,26 +1874,15 @@ function AddForm({
           onChange={set("product_name")}
         />
       </label>
-      <div className="grid grid-cols-2 gap-3">
-        <label className="block">
-          <span className="text-[13px] text-[var(--pas-muted)]">Jumlah</span>
-          <input
-            className="pas-field w-full px-4 py-2.5 mt-1.5 text-[15px]"
-            placeholder="18 pcs"
-            value={form.quantity}
-            onChange={set("quantity")}
-          />
-        </label>
-        <label className="block">
-          <span className="text-[13px] text-[var(--pas-muted)]">Bahan</span>
-          <input
-            className="pas-field w-full px-4 py-2.5 mt-1.5 text-[15px]"
-            placeholder="Dryfit Milano"
-            value={form.material}
-            onChange={set("material")}
-          />
-        </label>
-      </div>
+      <label className="block">
+        <span className="text-[13px] text-[var(--pas-muted)]">Jumlah</span>
+        <input
+          className="pas-field w-full px-4 py-2.5 mt-1.5 text-[15px]"
+          placeholder="18 pcs"
+          value={form.quantity}
+          onChange={set("quantity")}
+        />
+      </label>
       <label className="block">
         <span className="text-[13px] text-[var(--pas-muted)]">Tanggal Deadline</span>
         <input
