@@ -209,3 +209,80 @@ export interface DbFabric {
   description: string | null;
   sort_order: number;
 }
+
+// ---------------------------------------------------------------------------
+// Orders Tracking
+// ---------------------------------------------------------------------------
+export type OrderStatus =
+  | "order_diterima"
+  | "desain_dikonfirmasi"
+  | "produksi_bahan"
+  | "printing_sublimasi"
+  | "cutting"
+  | "jahit"
+  | "quality_control"
+  | "finishing"
+  | "packing"
+  | "siap_dikirim";
+
+export const ORDER_STATUS_LABELS: Record<OrderStatus, string> = {
+  order_diterima: "Order Diterima",
+  desain_dikonfirmasi: "Desain Dikonfirmasi",
+  produksi_bahan: "Produksi Bahan",
+  printing_sublimasi: "Printing / Sublimasi",
+  cutting: "Cutting",
+  jahit: "Jahit",
+  quality_control: "Quality Control",
+  finishing: "Finishing",
+  packing: "Packing",
+  siap_dikirim: "Siap Dikirim",
+};
+
+export const ORDER_STATUS_LIST: OrderStatus[] = [
+  "order_diterima",
+  "desain_dikonfirmasi",
+  "produksi_bahan",
+  "printing_sublimasi",
+  "cutting",
+  "jahit",
+  "quality_control",
+  "finishing",
+  "packing",
+  "siap_dikirim",
+];
+
+export const ORDER_PHOTO_STAGES: OrderStatus[] = [
+  "desain_dikonfirmasi",
+  "cutting",
+  "quality_control",
+  "packing",
+];
+
+export interface Order {
+  id: string;
+  order_number: string;
+  customer_name: string;
+  customer_phone: string;
+  product_type: string;
+  quantity: number;
+  sizes: string;
+  custom_name: string;
+  custom_number: string;
+  design_notes: string;
+  current_status: OrderStatus;
+  tracking_number: string;
+  courier: string;
+  delay_reason: string;
+  delay_estimated_date: string;
+  created_at: string;
+  updated_at: string;
+}
+
+export interface OrderStatusHistory {
+  id: string;
+  order_id: string;
+  status: OrderStatus;
+  note: string;
+  photo_url: string;
+  created_at: string;
+}

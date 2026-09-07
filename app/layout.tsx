@@ -1,6 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import Script from "next/script";
-import { Barlow, Barlow_Condensed, IBM_Plex_Mono } from "next/font/google";
+import { Barlow, Barlow_Condensed, IBM_Plex_Mono, Archivo } from "next/font/google";
 import { ThemeProvider } from "next-themes";
 import { getBrand } from "@/lib/queries";
 import "./globals.css";
@@ -28,6 +28,13 @@ const ibmPlexMono = IBM_Plex_Mono({
   display: "swap",
   variable: "--font-mono",
   weight: ["400", "500", "600"],
+});
+
+const archivo = Archivo({
+  subsets: ["latin"],
+  display: "swap",
+  variable: "--font-archivo",
+  weight: ["600", "700", "800", "900"],
 });
 
 /**
@@ -122,7 +129,7 @@ export default async function RootLayout({
     <html
       lang="id"
       suppressHydrationWarning
-      className={`${barlow.variable} ${barlowCondensed.variable} ${ibmPlexMono.variable}`}
+      className={`${barlow.variable} ${barlowCondensed.variable} ${ibmPlexMono.variable} ${archivo.variable}`}
     >
       <head>
         {/* llms.txt discovery for AI assistants */}
