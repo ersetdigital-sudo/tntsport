@@ -53,6 +53,7 @@ function StatusContent() {
   const [order, setOrder] = useState<any>(null);
   const [history, setHistory] = useState<any[]>([]);
   const [loaded, setLoaded] = useState(false);
+  const [steps, setSteps] = useState<{ name: string; position: number }[]>([]);
   const barRef = useRef<HTMLDivElement>(null);
   const pctRef = useRef<HTMLDivElement>(null);
 
@@ -78,8 +79,10 @@ function StatusContent() {
   // Animate progress bar
   useEffect(() => {
     if (!order || !loaded) return;
-    const step = ORDER_STATUS_LIST.indexOf(order.current_status) + 1;
-    const pct = Math.round(((step - 0.5) / 10) * 100);
+    const stepIdx = steps.length > 0
+      ? steps.findIndex((s) => s.name === order.current_status) + 1
+      : ORDER_STATUS_LIST.indexOf(order.current_status) + 1;
+    const pct = Math.round(((stepIdx - 0.5) / (steps.length || 10)) * 100);
 
     // Animate bar
     setTimeout(() => {
@@ -98,7 +101,19 @@ function StatusContent() {
     }, 18);
 
     return () => clearInterval(iv);
-  }, [order, loaded]);
+  }, [order, loaded, steps]);
+
+  // Fetch production steps from DB
+  useEffect(() => {
+    fetch("/api/pesanan/steps")
+      .then((r) => r.json())
+      .then((d) => {
+        if (d.steps && d.steps.length > 0) {
+          setSteps(d.steps.sort((a: any, b: any) => a.position - b.position));
+        }
+      })
+      .catch(() => {});
+  }, []);
 
   // Reveal on scroll
   useEffect(() => {
@@ -248,7 +263,10 @@ function StatusContent() {
   }
 
   // Render order details
-  const step = ORDER_STATUS_LIST.indexOf(order.current_status) + 1;
+  const step = steps.length > 0
+    ? steps.findIndex((s) => s.name === order.current_status) + 1
+    : ORDER_STATUS_LIST.indexOf(order.current_status) + 1;
+  const totalSteps = steps.length || 10;
   const isShipped = order.current_status === "siap_dikirim" && order.tracking_number;
 
   return (
@@ -311,7 +329,7 @@ function StatusContent() {
               <div ref={barRef} />
             </div>
             <p className="text-[13px] text-[#9aa0aa] mt-2">
-              Tahap <span className="text-white font-semibold">{step}</span> dari 10
+              Tahap <span className="text-white font-semibold">{step}</span> dari {totalSteps}
             </p>
           </div>
 
@@ -353,14 +371,15 @@ function StatusContent() {
         <section className="trk-card p-5 sm:p-7 mt-6 trk-reveal">
           <div className="flex items-center justify-between">
             <h2 className="trk-display text-[18px]">Progress Tracker</h2>
-            <span className="trk-stencil text-[9px] text-[#9aa0aa]">10 Tahap</span>
+            <span className="trk-stencil text-[9px] text-[#9aa0aa]">{totalSteps} Tahap</span>
           </div>
 
           <div className="mt-6">
-            {ORDER_STATUS_LIST.map((status, idx) => {
+            {(steps.length > 0 ? steps : ORDER_STATUS_LIST.map((s, i) => ({ name: ORDER_STATUS_LABELS[s as OrderStatus] || s, position: i + 1 }))).map((stepDef, idx) => {
               const n = idx + 1;
               const st = n < step ? "done" : n === step ? "current" : "todo";
-              const historyEntry = history.find((h: any) => h.status === status);
+              const statusKey = steps.length > 0 ? stepDef.name : ORDER_STATUS_LIST[idx];
+              const historyEntry = history.find((h: any) => h.status === statusKey);
               const icon =
                 st === "done" ? (
                   <span dangerouslySetInnerHTML={{ __html: CHECK_SVG }} />
@@ -378,12 +397,12 @@ function StatusContent() {
 
               return (
                 <div
-                  key={status}
+                  key={stepDef.name}
                   className={`trk-step ${st === "done" ? "trk-done" : ""} ${st === "current" ? "trk-current" : ""} ${st === "todo" ? "trk-todo" : ""}`}
                 >
                   <span className="trk-dot">{icon}</span>
                   <p className="trk-label text-[15px]">
-                    {ORDER_STATUS_LABELS[status]}
+                    {stepDef.name}
                   </p>
                   <p
                     className={`text-[12.5px] mt-0.5 ${
@@ -413,7 +432,11 @@ function StatusContent() {
             <p className="trk-stencil text-[9px] text-[#3ee86b]">Update Terakhir</p>
             <p className="text-[15px] leading-relaxed mt-2">
               {history.length > 0
-                ? history[history.length - 1].note || ORDER_STATUS_LABELS[history[history.length - 1].status as OrderStatus]
+                ? history[history.length - 1].note ||
+                  (steps.length > 0
+                    ? steps.find((s) => s.name === history[history.length - 1].status)?.name ||
+                      ORDER_STATUS_LABELS[history[history.length - 1].status as OrderStatus]
+                    : ORDER_STATUS_LABELS[history[history.length - 1].status as OrderStatus])
                 : "Pesanan sedang diproses."}
             </p>
             <p className="text-[13px] text-[#9aa0aa] mt-2">
@@ -433,7 +456,10 @@ function StatusContent() {
                 <li key={i} className="flex items-start gap-3">
                   <span className="mt-[7px] w-1.5 h-1.5 rounded-full bg-[#3ee86b] shrink-0" />
                   <span className="flex-1">
-                    {ORDER_STATUS_LABELS[h.status as OrderStatus]}
+                    {steps.length > 0
+                      ? steps.find((s) => s.name === h.status)?.name ||
+                        ORDER_STATUS_LABELS[h.status as OrderStatus]
+                      : ORDER_STATUS_LABELS[h.status as OrderStatus]}
                     {h.note && (
                       <span className="text-[#9aa0aa]"> — {h.note}</span>
                     )}

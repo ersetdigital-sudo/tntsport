@@ -3,17 +3,19 @@
 import { useState, useEffect, useCallback, useRef } from "react";
 import { useRouter } from "next/navigation";
 
-const STEPS = [
-  "Order Diterima",
-  "Desain Dikonfirmasi",
-  "Produksi Bahan",
-  "Printing / Sublimasi",
-  "Cutting",
-  "Jahit",
-  "Quality Control",
-  "Finishing",
-  "Packing",
-  "Siap Dikirim",
+type StepRow = { id: string; name: string; position: number };
+
+const DEFAULT_STEPS: StepRow[] = [
+  { id: "", name: "Order Diterima", position: 1 },
+  { id: "", name: "Desain Dikonfirmasi", position: 2 },
+  { id: "", name: "Produksi Bahan", position: 3 },
+  { id: "", name: "Printing / Sublimasi", position: 4 },
+  { id: "", name: "Cutting", position: 5 },
+  { id: "", name: "Jahit", position: 6 },
+  { id: "", name: "Quality Control", position: 7 },
+  { id: "", name: "Finishing", position: 8 },
+  { id: "", name: "Packing", position: 9 },
+  { id: "", name: "Siap Dikirim", position: 10 },
 ];
 
 const LANES = [
@@ -61,9 +63,9 @@ const VIEW_META: Record<ViewKey, { crumb: string; title: string }> = {
   setting: { crumb: "Data", title: "Pengaturan" },
 };
 
-function statusOf(o: OrderData): FilterKey {
+function statusOf(o: OrderData, totalSteps: number): FilterKey {
   if (o.is_done) return "selesai";
-  if (o.current_step >= 10) return "kirim";
+  if (o.current_step >= totalSteps) return "kirim";
   if (o.current_step <= 1) return "baru";
   return "produksi";
 }
@@ -89,6 +91,7 @@ export default function PesananDashboard() {
   const [currentView, setCurrentView] = useState<ViewKey>("pesanan");
   const [toast, setToast] = useState("");
   const toastTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const [steps, setSteps] = useState<StepRow[]>(DEFAULT_STEPS);
 
   const fetchOrders = useCallback(async () => {
     try {
@@ -104,9 +107,24 @@ export default function PesananDashboard() {
     }
   }, []);
 
+  const fetchSteps = useCallback(async () => {
+    try {
+      const res = await fetch("/api/pesanan/steps");
+      if (res.ok) {
+        const data = await res.json();
+        if (data.steps && data.steps.length > 0) {
+          setSteps(data.steps.sort((a: StepRow, b: StepRow) => a.position - b.position));
+        }
+      }
+    } catch {
+      // silent
+    }
+  }, []);
+
   useEffect(() => {
     fetchOrders();
-  }, [fetchOrders]);
+    fetchSteps();
+  }, [fetchOrders, fetchSteps]);
 
   useEffect(() => {
     const h = window.location.hash.replace("#", "") as ViewKey;
@@ -273,13 +291,14 @@ export default function PesananDashboard() {
               query={query}
               setQuery={setQuery}
               openDetail={setOpenId}
+              steps={steps}
             />
           )}
-          {currentView === "jadwal" && <ViewJadwal orders={orders} openDetail={setOpenId} />}
-          {currentView === "kirim" && <ViewKirim orders={orders} openDetail={setOpenId} />}
+          {currentView === "jadwal" && <ViewJadwal orders={orders} openDetail={setOpenId} steps={steps} />}
+          {currentView === "kirim" && <ViewKirim orders={orders} openDetail={setOpenId} steps={steps} />}
           {currentView === "customer" && <ViewCustomer orders={orders} openDetail={setOpenId} />}
           {currentView === "laporan" && <ViewLaporan orders={orders} />}
-          {currentView === "setting" && <ViewSetting showToast={showToast} />}
+          {currentView === "setting" && <ViewSetting showToast={showToast} steps={steps} onStepsSaved={fetchSteps} />}
         </main>
       </div>
 
@@ -356,6 +375,7 @@ export default function PesananDashboard() {
             setOpenId(null);
             showToast(msg);
           }}
+          steps={steps}
         />
       )}
 
@@ -403,6 +423,7 @@ function ViewPesanan({
   query,
   setQuery,
   openDetail,
+  steps,
 }: {
   orders: OrderData[];
   filter: FilterKey;
@@ -410,10 +431,11 @@ function ViewPesanan({
   query: string;
   setQuery: (q: string) => void;
   openDetail: (id: string) => void;
+  steps: StepRow[];
 }) {
   const filtered = orders
     .filter((o) => {
-      if (filter !== "all" && statusOf(o) !== filter) return false;
+      if (filter !== "all" && statusOf(o, steps.length) !== filter) return false;
       if (!query) return true;
       const s = (
         o.id +
@@ -431,10 +453,10 @@ function ViewPesanan({
   const stats = {
     total: orders.length,
     produksi: orders.filter(
-      (o) => statusOf(o) === "produksi" || statusOf(o) === "baru"
+      (o) => statusOf(o, steps.length) === "produksi" || statusOf(o, steps.length) === "baru"
     ).length,
-    kirim: orders.filter((o) => statusOf(o) === "kirim").length,
-    selesai: orders.filter((o) => statusOf(o) === "selesai").length,
+    kirim: orders.filter((o) => statusOf(o, steps.length) === "kirim").length,
+    selesai: orders.filter((o) => statusOf(o, steps.length) === "selesai").length,
   };
 
   return (
@@ -526,8 +548,8 @@ function ViewPesanan({
               </tr>
             )}
             {filtered.map((o) => {
-              const st = statusOf(o);
-              const pct = Math.round((o.current_step / 10) * 100);
+              const st = statusOf(o, steps.length);
+              const pct = Math.round((o.current_step / steps.length) * 100);
               const ini = initials(o.customer_name);
               return (
                 <tr key={o.id} onClick={() => openDetail(o.id)}>
@@ -559,7 +581,7 @@ function ViewPesanan({
                       </span>
                     </div>
                     <span className="text-[12.5px] text-[var(--pas-muted)]">
-                      {STEPS[o.current_step - 1]}
+                      {steps[o.current_step - 1]?.name || `Tahap ${o.current_step}`}
                     </span>
                   </td>
                   <td>
@@ -582,8 +604,8 @@ function ViewPesanan({
           </div>
         )}
         {filtered.map((o) => {
-          const st = statusOf(o);
-          const pct = Math.round((o.current_step / 10) * 100);
+          const st = statusOf(o, steps.length);
+          const pct = Math.round((o.current_step / steps.length) * 100);
           return (
             <button
               key={o.id}
@@ -628,9 +650,11 @@ function ViewPesanan({
 function ViewJadwal({
   orders,
   openDetail,
+  steps,
 }: {
   orders: OrderData[];
   openDetail: (id: string) => void;
+  steps: StepRow[];
 }) {
   const active = orders.filter((o) => !o.is_done);
 
@@ -672,7 +696,7 @@ function ViewJadwal({
                       <p className="text-[12.5px] text-[var(--pas-muted)] mt-1">
                         {o.customer_name} · {o.quantity}
                       </p>
-                      <p className="text-[12.5px] mt-2">{STEPS[o.current_step - 1]}</p>
+                      <p className="text-[12.5px] mt-2">{steps[o.current_step - 1]?.name || `Tahap ${o.current_step}`}</p>
                       <span className="pas-mini mt-2" style={{ width: "100%", display: "block" }}>
                         <i style={{ width: `${pct}%` }} />
                       </span>
@@ -694,11 +718,13 @@ function ViewJadwal({
 function ViewKirim({
   orders,
   openDetail,
+  steps,
 }: {
   orders: OrderData[];
   openDetail: (id: string) => void;
+  steps: StepRow[];
 }) {
-  const siap = orders.filter((o) => o.current_step >= 10);
+  const siap = orders.filter((o) => o.current_step >= steps.length);
 
   return (
     <>
@@ -720,8 +746,8 @@ function ViewKirim({
                     {o.customer_name} · {o.customer_city} · {o.customer_phone}
                   </p>
                 </div>
-                <span className={`pas-pill ${statusOf(o)}`}>
-                  {FILTER_LABEL[statusOf(o)]}
+                <span className={`pas-pill ${statusOf(o, steps.length)}`}>
+                  {FILTER_LABEL[statusOf(o, steps.length)]}
                 </span>
               </div>
               <div className="grid sm:grid-cols-3 gap-3 mt-4 text-[13.5px]">
@@ -915,11 +941,98 @@ function ViewLaporan({ orders }: { orders: OrderData[] }) {
 /* ═══════════════════════════════════════════════
    VIEW: PENGATURAN
    ═══════════════════════════════════════════════ */
-function ViewSetting({ showToast }: { showToast: (msg: string) => void }) {
+function ViewSetting({
+  showToast,
+  steps,
+  onStepsSaved,
+}: {
+  showToast: (msg: string) => void;
+  steps: StepRow[];
+  onStepsSaved: () => void;
+}) {
+  const [editSteps, setEditSteps] = useState<{ name: string; position: number }[]>(
+    () => steps.map((s) => ({ name: s.name, position: s.position }))
+  );
+  const [savingSteps, setSavingSteps] = useState(false);
+  const [confirmDelete, setConfirmDelete] = useState<number | null>(null);
+
+  useEffect(() => {
+    setEditSteps(steps.map((s) => ({ name: s.name, position: s.position })));
+  }, [steps]);
+
+  const addStep = () => {
+    const nextPos = editSteps.length + 1;
+    setEditSteps([...editSteps, { name: "", position: nextPos }]);
+  };
+
+  const removeStep = (idx: number) => {
+    if (editSteps.length <= 2) {
+      showToast("Minimal harus ada 2 tahap");
+      return;
+    }
+    setConfirmDelete(idx);
+  };
+
+  const confirmRemoveStep = () => {
+    if (confirmDelete === null) return;
+    const updated = editSteps.filter((_, i) => i !== confirmDelete);
+    updated.forEach((s, i) => (s.position = i + 1));
+    setEditSteps(updated);
+    setConfirmDelete(null);
+  };
+
+  const updateName = (idx: number, name: string) => {
+    const updated = [...editSteps];
+    updated[idx] = { ...updated[idx], name };
+    setEditSteps(updated);
+  };
+
+  const moveStep = (idx: number, dir: -1 | 1) => {
+    const newIdx = idx + dir;
+    if (newIdx < 0 || newIdx >= editSteps.length) return;
+    const updated = [...editSteps];
+    [updated[idx], updated[newIdx]] = [updated[newIdx], updated[idx]];
+    updated.forEach((s, i) => (s.position = i + 1));
+    setEditSteps(updated);
+  };
+
+  const saveSteps = async () => {
+    const names = editSteps.map((s) => s.name.trim());
+    if (names.some((n) => !n)) {
+      showToast("Nama tahap tidak boleh kosong");
+      return;
+    }
+    if (new Set(names).size !== names.length) {
+      showToast("Nama tahap tidak boleh duplikat");
+      return;
+    }
+    setSavingSteps(true);
+    try {
+      const res = await fetch("/api/pesanan/steps", {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          steps: editSteps.map((s, i) => ({ name: s.name.trim(), position: i + 1 })),
+        }),
+      });
+      if (!res.ok) {
+        const data = await res.json();
+        showToast(data.error || "Gagal menyimpan");
+        return;
+      }
+      showToast("Tahap produksi tersimpan");
+      onStepsSaved();
+    } catch {
+      showToast("Gagal menyimpan");
+    } finally {
+      setSavingSteps(false);
+    }
+  };
+
   return (
     <>
       <p className="text-[14px] text-[var(--pas-muted)] mb-5">
-        Pengaturan toko dan alur produksi (mockup — belum tersimpan permanen).
+        Pengaturan toko dan alur produksi.
       </p>
       <div className="grid lg:grid-cols-2 gap-4">
         <div className="pas-card p-5">
@@ -953,21 +1066,102 @@ function ViewSetting({ showToast }: { showToast: (msg: string) => void }) {
           </button>
         </div>
         <div className="pas-card p-5">
-          <p className="font-semibold text-[15px]">Tahap Produksi</p>
-          <p className="text-[12.5px] text-[var(--pas-muted)] mt-1 mb-2">
-            Urutan 10 tahap yang dipakai di tracker customer.
-          </p>
-          {STEPS.map((s, i) => (
-            <div
-              key={i}
-              className="flex items-center gap-3 py-2.5 border-t border-[var(--pas-line-2)]"
-            >
-              <span className="pas-num w-6 text-[13px] text-[var(--pas-muted)]">{i + 1}</span>
-              <span className="text-[14px]">{s}</span>
+          <div className="flex items-center justify-between">
+            <div>
+              <p className="font-semibold text-[15px]">Tahap Produksi</p>
+              <p className="text-[12.5px] text-[var(--pas-muted)] mt-1">
+                {editSteps.length} tahap — drag atau gunakan tombol ↑↓ untuk ubah urutan.
+              </p>
             </div>
-          ))}
+          </div>
+
+          <div className="flex flex-col gap-1.5 mt-4">
+            {editSteps.map((s, i) => (
+              <div
+                key={i}
+                className="flex items-center gap-2 py-2 px-3 rounded-lg border border-[var(--pas-line-2)] bg-[var(--pas-surface)]"
+              >
+                <span className="pas-num w-5 text-[12px] text-[var(--pas-muted)] shrink-0">
+                  {i + 1}
+                </span>
+                <input
+                  className="flex-1 min-w-0 bg-transparent text-[14px] outline-none border-none"
+                  value={s.name}
+                  onChange={(e) => updateName(i, e.target.value)}
+                  placeholder="Nama tahap…"
+                />
+                <div className="flex items-center gap-0.5 shrink-0">
+                  <button
+                    className="pas-btn-ghost px-1.5 py-1 text-[13px] disabled:opacity-30"
+                    disabled={i === 0}
+                    onClick={() => moveStep(i, -1)}
+                    title="Geser ke atas"
+                  >
+                    ↑
+                  </button>
+                  <button
+                    className="pas-btn-ghost px-1.5 py-1 text-[13px] disabled:opacity-30"
+                    disabled={i === editSteps.length - 1}
+                    onClick={() => moveStep(i, 1)}
+                    title="Geser ke bawah"
+                  >
+                    ↓
+                  </button>
+                  <button
+                    className="pas-btn-ghost px-1.5 py-1 text-[13px] text-red-400 hover:text-red-300"
+                    onClick={() => removeStep(i)}
+                    title="Hapus tahap"
+                  >
+                    ✕
+                  </button>
+                </div>
+              </div>
+            ))}
+          </div>
+
+          <button
+            className="mt-3 text-[13px] text-[var(--pas-accent)] hover:underline"
+            onClick={addStep}
+          >
+            + Tambah Tahap
+          </button>
+
+          <button
+            className="pas-btn-accent w-full py-3 text-[14px] mt-4"
+            disabled={savingSteps}
+            onClick={saveSteps}
+          >
+            {savingSteps ? "Menyimpan…" : "Simpan Tahap Produksi"}
+          </button>
         </div>
       </div>
+
+      {/* Delete confirmation modal */}
+      {confirmDelete !== null && (
+        <div className="pas-sheet open">
+          <div className="pas-veil" onClick={() => setConfirmDelete(null)} />
+          <div className="pas-panel p-5" style={{ maxWidth: 380, margin: "auto" }}>
+            <p className="font-semibold text-[15px]">Hapus Tahap?</p>
+            <p className="text-[13px] text-[var(--pas-muted)] mt-2">
+              Tahap <strong>"{editSteps[confirmDelete]?.name}"</strong> akan dihapus. Pesanan yang sedang berada di tahap ini akan kehilangan referensi tahap.
+            </p>
+            <div className="flex gap-3 mt-5">
+              <button
+                className="pas-btn-ghost flex-1 py-2.5 text-[13px]"
+                onClick={() => setConfirmDelete(null)}
+              >
+                Batal
+              </button>
+              <button
+                className="flex-1 py-2.5 text-[13px] font-semibold rounded-xl bg-red-500/20 text-red-400 border border-red-500/30 hover:bg-red-500/30 transition-colors"
+                onClick={confirmRemoveStep}
+              >
+                Hapus
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </>
   );
 }
@@ -980,11 +1174,13 @@ function DetailSheet({
   orders,
   onClose,
   onSaved,
+  steps,
 }: {
   orderId: string;
   orders: OrderData[];
   onClose: () => void;
   onSaved: (msg: string) => void;
+  steps: StepRow[];
 }) {
   const order = orders.find((o) => o.id === orderId);
   const [step, setStep] = useState(order?.current_step ?? 1);
@@ -1013,7 +1209,7 @@ function DetailSheet({
           ? "baru"
           : "produksi";
 
-  const pct = Math.round((step / 10) * 100);
+  const pct = Math.round((step / steps.length) * 100);
 
   const save = async () => {
     setSaving(true);
@@ -1133,7 +1329,7 @@ function DetailSheet({
           Update Tahap Produksi
         </p>
         <div className="mt-2 flex flex-col gap-1">
-          {STEPS.map((s, i) => {
+          {steps.map((s, i) => {
             const cls = i + 1 < step ? "done" : i + 1 === step ? "cur" : "";
             return (
               <button
@@ -1142,7 +1338,7 @@ function DetailSheet({
                 onClick={() => setStep(i + 1)}
               >
                 <span className="pas-num">{i + 1}</span>
-                {s}
+                {s.name}
               </button>
             );
           })}
