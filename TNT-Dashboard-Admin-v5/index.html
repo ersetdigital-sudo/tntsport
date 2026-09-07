@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Dashboard Admin — TNT Sport Apparel</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@600;700;800&family=Barlow:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/theme.css">
+<link rel="stylesheet" href="assets/admin.css">
+</head>
+<body>
+
+<div class="shell">
+
+  <!-- sidebar -->
+  <aside class="side">
+    <a href="/" class="flex items-center gap-3 px-2 pb-5">
+      <span class="mark w-9 h-9 rounded-[10px] grid place-items-center display text-[15px]">T</span>
+      <span class="leading-none">
+        <span class="block display text-[15px]">TNT Sport</span>
+        <span class="block text-[11px] text-[var(--muted)] mt-[3px]">Admin Panel</span>
+      </span>
+    </a>
+    <p class="navsec">Operasional</p>
+    <nav class="flex flex-col gap-1">
+      <a class="navlink on" href="#" data-view="pesanan"><span class="ic">▤</span> Pesanan</a>
+      <a class="navlink" href="#" data-view="jadwal"><span class="ic">◷</span> Jadwal Produksi</a>
+      <a class="navlink" href="#" data-view="kirim"><span class="ic">➜</span> Pengiriman</a>
+    </nav>
+    <p class="navsec">Data</p>
+    <nav class="flex flex-col gap-1">
+      <a class="navlink" href="#" data-view="customer"><span class="ic">☺</span> Customer</a>
+      <a class="navlink" href="#" data-view="laporan"><span class="ic">◧</span> Laporan</a>
+      <a class="navlink" href="#" data-view="setting"><span class="ic">⚙</span> Pengaturan</a>
+    </nav>
+    <div class="mt-auto card p-3 flex items-center gap-3">
+      <span class="avatar">AD</span>
+      <span class="leading-tight">
+        <span class="block text-[13.5px] font-semibold">Admin TNT</span>
+        <span class="block text-[11.5px] text-[var(--muted)]">admin@tntsport.id</span>
+      </span>
+    </div>
+  </aside>
+
+  <!-- main -->
+  <div class="flex-1 min-w-0">
+
+    <header class="topbar">
+      <div class="px-5 sm:px-8 h-16 flex items-center justify-between gap-4">
+        <div class="flex items-center gap-3 min-w-0">
+          <span class="mark w-8 h-8 rounded-[9px] grid place-items-center display text-[14px] lg:hidden">T</span>
+          <div class="min-w-0">
+            <p class="text-[11px] text-[var(--muted)] leading-none" id="vCrumb">Operasional</p>
+            <h1 class="display text-[17px] leading-tight mt-1 truncate" id="vTitle">Pesanan</h1>
+          </div>
+        </div>
+        <div class="flex items-center gap-2.5">
+          <button id="mnav" class="btn-ghost px-3 py-2 text-[13px] lg:hidden">Menu</button>
+          <span class="hidden sm:inline text-[12.5px] text-[var(--muted)]">7 Sep 2026</span>
+          <button id="btnAdd" class="btn-accent px-4 py-2.5 text-[14px]">+ Pesanan</button>
+        </div>
+      </div>
+    </header>
+
+    <main class="px-5 sm:px-8 py-7 sm:py-9 max-w-[1180px]">
+
+    <div id="v-pesanan">
+      <!-- KPI -->
+      <section class="grid grid-cols-2 xl:grid-cols-4 gap-3 sm:gap-4">
+        <div class="card kpi p-4 sm:p-5">
+          <p class="text-[13px] text-[var(--muted)]">Total Pesanan</p>
+          <div class="flex items-end gap-2.5 mt-2.5">
+            <p class="display num text-[30px] leading-none" id="stTotal">0</p>
+            <span class="delta up mb-0.5">+2 minggu ini</span>
+          </div>
+        </div>
+        <div class="card kpi p-4 sm:p-5">
+          <p class="text-[13px] text-[var(--muted)]">Sedang Produksi</p>
+          <div class="flex items-end gap-2.5 mt-2.5">
+            <p class="display num text-[30px] leading-none text-[var(--accent)]" id="stProd">0</p>
+            <span class="delta flat mb-0.5">on track</span>
+          </div>
+        </div>
+        <div class="card kpi p-4 sm:p-5">
+          <p class="text-[13px] text-[var(--muted)]">Siap Dikirim</p>
+          <div class="flex items-end gap-2.5 mt-2.5">
+            <p class="display num text-[30px] leading-none text-[#8fb0f7]" id="stKirim">0</p>
+            <span class="delta flat mb-0.5">perlu resi</span>
+          </div>
+        </div>
+        <div class="card kpi p-4 sm:p-5">
+          <p class="text-[13px] text-[var(--muted)]">Selesai</p>
+          <div class="flex items-end gap-2.5 mt-2.5">
+            <p class="display num text-[30px] leading-none" id="stDone">0</p>
+            <span class="delta flat mb-0.5">bulan ini</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- toolbar -->
+      <section class="mt-7 flex flex-col lg:flex-row lg:items-center gap-3 lg:justify-between">
+        <div class="search w-full lg:max-w-[320px]">
+          <span class="mag">⌕</span>
+          <input id="q" class="field w-full py-2.5 pr-4 text-[14px]" placeholder="Cari pesanan, nama, kota…">
+        </div>
+        <div class="overflow-x-auto -mx-1 px-1">
+          <div class="seg">
+            <button class="chip on" data-f="all">Semua</button>
+            <button class="chip" data-f="baru">Baru</button>
+            <button class="chip" data-f="produksi">Produksi</button>
+            <button class="chip" data-f="kirim">Siap Dikirim</button>
+            <button class="chip" data-f="selesai">Selesai</button>
+          </div>
+        </div>
+      </section>
+
+      <!-- table -->
+      <section class="card mt-4 p-2 sm:p-4 hidden md:block">
+        <table class="tbl">
+          <thead><tr><th>Pesanan</th><th>Customer</th><th>Produk</th><th>Progres</th><th>Status</th></tr></thead>
+          <tbody id="rows"></tbody>
+        </table>
+        <p id="emptyD" class="hidden text-center text-[var(--muted)] text-sm py-10">Tidak ada pesanan yang cocok.</p>
+      </section>
+
+      <section id="cards" class="mt-4 flex flex-col gap-3 md:hidden"></section>
+
+      <p class="text-[12px] text-[var(--muted)] mt-6">Mockup tanpa backend — perubahan tersimpan sementara di browser saja.</p>
+    </div>
+
+      <div id="v-jadwal" class="hidden"></div>
+      <div id="v-kirim" class="hidden"></div>
+      <div id="v-customer" class="hidden"></div>
+      <div id="v-laporan" class="hidden"></div>
+      <div id="v-setting" class="hidden"></div>
+    </main>
+  </div>
+</div>
+
+<!-- mobile nav -->
+<div class="sheet" id="navSheet">
+  <div class="veil" data-close></div>
+  <div class="panel p-5" style="left:0;right:auto;width:min(280px,86%);border-left:none;border-right:1px solid var(--line)">
+    <p class="navsec">Operasional</p>
+    <nav class="flex flex-col gap-1">
+      <a class="navlink on" href="#" data-view="pesanan"><span class="ic">▤</span> Pesanan</a>
+      <a class="navlink" href="#" data-view="jadwal"><span class="ic">◷</span> Jadwal Produksi</a>
+      <a class="navlink" href="#" data-view="kirim"><span class="ic">➜</span> Pengiriman</a>
+    </nav>
+    <p class="navsec">Data</p>
+    <nav class="flex flex-col gap-1">
+      <a class="navlink" href="#" data-view="customer"><span class="ic">☺</span> Customer</a>
+      <a class="navlink" href="#" data-view="laporan"><span class="ic">◧</span> Laporan</a>
+      <a class="navlink" href="#" data-view="setting"><span class="ic">⚙</span> Pengaturan</a>
+    </nav>
+  </div>
+</div>
+
+<!-- detail sheet -->
+<div class="sheet" id="sheet">
+  <div class="veil" data-close></div>
+  <div class="panel p-5 sm:p-7" id="panel"></div>
+</div>
+
+<!-- add sheet -->
+<div class="sheet" id="addSheet">
+  <div class="veil" data-close></div>
+  <div class="panel p-5 sm:p-7">
+    <div class="flex items-start justify-between gap-4">
+      <div>
+        <p class="text-[12px] text-[var(--accent)] font-semibold">Pesanan Baru</p>
+        <h2 class="display text-[22px] mt-1.5">Tambah Pesanan</h2>
+      </div>
+      <button class="btn-ghost px-3 py-2 text-sm" data-close>Tutup</button>
+    </div>
+    <form id="addForm" class="mt-6 flex flex-col gap-4">
+      <label class="block"><span class="text-[13px] text-[var(--muted)]">Nomor Pesanan</span>
+        <input name="id" required class="field w-full px-4 py-2.5 mt-1.5 text-[15px]" placeholder="TNT-260907-003"></label>
+      <div class="grid grid-cols-2 gap-3">
+        <label class="block"><span class="text-[13px] text-[var(--muted)]">Nama Customer</span>
+          <input name="customer" required class="field w-full px-4 py-2.5 mt-1.5 text-[15px]" placeholder="Nama"></label>
+        <label class="block"><span class="text-[13px] text-[var(--muted)]">Kota</span>
+          <input name="city" required class="field w-full px-4 py-2.5 mt-1.5 text-[15px]" placeholder="Bandung"></label>
+      </div>
+      <label class="block"><span class="text-[13px] text-[var(--muted)]">Nomor HP</span>
+        <input name="phone" required class="field w-full px-4 py-2.5 mt-1.5 text-[15px]" placeholder="0812xxxxxxx"></label>
+      <label class="block"><span class="text-[13px] text-[var(--muted)]">Produk</span>
+        <input name="product" required class="field w-full px-4 py-2.5 mt-1.5 text-[15px]" placeholder="Jersey Full Print"></label>
+      <div class="grid grid-cols-2 gap-3">
+        <label class="block"><span class="text-[13px] text-[var(--muted)]">Jumlah</span>
+          <input name="qty" class="field w-full px-4 py-2.5 mt-1.5 text-[15px]" placeholder="18 pcs"></label>
+        <label class="block"><span class="text-[13px] text-[var(--muted)]">Bahan</span>
+          <input name="material" class="field w-full px-4 py-2.5 mt-1.5 text-[15px]" placeholder="Dryfit Milano"></label>
+      </div>
+      <p id="addErr" class="hidden text-[13px] text-[#f87171]"></p>
+      <button class="btn-accent w-full py-3.5 text-[15px]">Simpan Pesanan</button>
+    </form>
+  </div>
+</div>
+
+<div class="toast" id="toast">Tersimpan</div>
+
+<script src="assets/orders.js"></script>
+<script src="assets/admin.js"></script>
+</body>
+</html>

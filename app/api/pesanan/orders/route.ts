@@ -1,16 +1,49 @@
 import { NextResponse } from "next/server";
-import { cookies } from "next/headers";
 import { createClient } from "@supabase/supabase-js";
 
-function checkAuth() {
-  return true; // Cookie checked by layout
+const STEPS = [
+  "order_diterima",
+  "desain_dikonfirmasi",
+  "produksi_bahan",
+  "printing",
+  "cutting",
+  "jahit",
+  "quality_control",
+  "finishing",
+  "packing",
+  "siap_dikirim",
+];
+
+function stepFromStatus(status: string): number {
+  const idx = STEPS.indexOf(status);
+  return idx >= 0 ? idx + 1 : 1;
+}
+
+function statusFromStep(step: number): string {
+  return STEPS[Math.min(step, 10) - 1] || "order_diterima";
+}
+
+function mapOrder(row: any) {
+  return {
+    id: row.order_number,
+    customer_name: row.customer_name,
+    customer_phone: row.customer_phone,
+    customer_city: row.customer_city || "",
+    product_name: row.product_type || "",
+    quantity: row.quantity ? `${row.quantity} pcs` : "-",
+    material: row.material || "",
+    sizes: row.sizes || "",
+    current_step: stepFromStatus(row.current_status),
+    note: row.design_notes || "",
+    note_time: row.updated_at || "",
+    courier: row.courier || "",
+    tracking_number: row.tracking_number || "",
+    is_done: row.current_status === "selesai" || row.current_status === "siap_dikirim_done",
+    created_at: row.created_at,
+  };
 }
 
 export async function GET() {
-  if (!checkAuth()) {
-    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
-  }
-
   const supabase = createClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
     process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
@@ -25,29 +58,25 @@ export async function GET() {
     return NextResponse.json({ error: error.message }, { status: 500 });
   }
 
-  return NextResponse.json(data);
+  return NextResponse.json({ orders: (data || []).map(mapOrder) });
 }
 
 export async function POST(request: Request) {
-  if (!checkAuth()) {
-    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
-  }
-
   const body = await request.json();
   const {
-    customerName,
-    customerPhone,
-    productType,
+    id,
+    customer_name,
+    customer_phone,
+    customer_city,
+    product_name,
     quantity,
+    material,
     sizes,
-    customName,
-    customNumber,
-    designNotes,
   } = body;
 
-  if (!customerName || !customerPhone) {
+  if (!id || !customer_name || !customer_phone) {
     return NextResponse.json(
-      { error: "Nama dan HP wajib diisi" },
+      { error: "Nomor pesanan, nama, dan HP wajib diisi" },
       { status: 400 }
     );
   }
@@ -57,43 +86,24 @@ export async function POST(request: Request) {
     process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
   );
 
-  // Generate order number
-  const now = new Date();
-  const yy = String(now.getFullYear()).slice(-2);
-  const mm = String(now.getMonth() + 1).padStart(2, "0");
-  const dd = String(now.getDate()).padStart(2, "0");
-  const datePart = `${yy}${mm}${dd}`;
+  const qtyNum = parseInt(quantity, 10);
 
-  // Get latest order number for today
-  const { data: latest } = await supabase
-    .from("orders")
-    .select("order_number")
-    .like("order_number", `TNT-${datePart}-%`)
-    .order("order_number", { ascending: false })
-    .limit(1);
-
-  let seq = 1;
-  if (latest && latest.length > 0) {
-    const lastNum = latest[0].order_number.split("-")[2];
-    seq = parseInt(lastNum, 10) + 1;
-  }
-
-  const orderNumber = `TNT-${datePart}-${String(seq).padStart(3, "0")}`;
+  const insertData: Record<string, any> = {
+    order_number: id.toUpperCase(),
+    customer_name,
+    customer_phone,
+    product_type: product_name || "",
+    quantity: isNaN(qtyNum) ? 1 : qtyNum,
+    sizes: sizes || "",
+    current_status: "order_diterima",
+  };
+  // Add optional columns only if provided (DB might not have them yet)
+  if (customer_city) insertData.customer_city = customer_city;
+  if (material) insertData.material = material;
 
   const { data, error } = await supabase
     .from("orders")
-    .insert({
-      order_number: orderNumber,
-      customer_name: customerName,
-      customer_phone: customerPhone,
-      product_type: productType || "jersey",
-      quantity: quantity || 1,
-      sizes: sizes || "",
-      custom_name: customName || "",
-      custom_number: customNumber || "",
-      design_notes: designNotes || "",
-      current_status: "order_diterima",
-    })
+    .insert(insertData)
     .select()
     .single();
 
@@ -101,5 +111,5 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: error.message }, { status: 500 });
   }
 
-  return NextResponse.json(data, { status: 201 });
+  return NextResponse.json({ order: mapOrder(data) }, { status: 201 });
 }
