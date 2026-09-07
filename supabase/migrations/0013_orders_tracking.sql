@@ -70,6 +70,22 @@ CREATE POLICY "Public can view orders for tracking" ON orders
 CREATE POLICY "Public can view order status history" ON order_status_history
   FOR SELECT USING (true);
 
+-- Public can create orders (auth handled by API cookie in /pesanan)
+CREATE POLICY "Public can create orders" ON orders
+  FOR INSERT WITH CHECK (true);
+
+-- Public can create order status history
+CREATE POLICY "Public can create order status history" ON order_status_history
+  FOR INSERT WITH CHECK (true);
+
+-- Public can update orders (for status updates via /pesanan)
+CREATE POLICY "Public can update orders" ON orders
+  FOR UPDATE USING (true);
+
+-- Public can update order status history
+CREATE POLICY "Public can update order status history" ON order_status_history
+  FOR UPDATE USING (true);
+
 -- Authenticated users (admin) can do everything
 CREATE POLICY "Admin can manage orders" ON orders
   FOR ALL USING (auth.role() = 'authenticated');

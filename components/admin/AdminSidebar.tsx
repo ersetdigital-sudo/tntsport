@@ -19,7 +19,6 @@ import {
   Layers,
   Settings,
   LogOut,
-  Package,
 } from "lucide-react";
 
 /**
@@ -56,11 +55,6 @@ const NAV_GROUPS: NavGroup[] = [
         label: "Dashboard",
         icon: LayoutDashboard,
         activePrefix: "/admin",
-      },
-      {
-        href: "/admin/orders",
-        label: "Pesanan",
-        icon: Package,
       },
     ],
   },
