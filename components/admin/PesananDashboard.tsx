@@ -856,10 +856,6 @@ function ViewPesanan({
           );
         })}
       </section>
-
-      <p className="text-[12px] text-[var(--pas-muted)] mt-6">
-        Data tersimpan di database — perubahan langsung terlihat customer.
-      </p>
     </>
   );
 }
