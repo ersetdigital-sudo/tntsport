@@ -2158,6 +2158,8 @@
   position: sticky; top: 0; height: 100vh;
   display: flex; flex-direction: column; padding: 20px 14px;
 }
+.pas-side .pas-display { color: #FFFFFF !important; }
+.pas-side .pas-stencil { color: rgba(255,255,255,.7) !important; }
 .pas-navlink {
   display: flex; align-items: center; gap: 11px; padding: 10px 12px;
   border-radius: 10px; font-size: 14px; color: rgba(255,255,255,.6); transition: .16s;
@@ -2574,6 +2576,8 @@ table.pas-tbl tbody tr:hover { background: rgba(63,86,59,.03); }
   scrollbar-width: thin;
   scrollbar-color: var(--pas-line) transparent;
 }
+.pas-lane-over { outline: 2px dashed var(--pas-green); outline-offset: -2px; background: rgba(63,86,59,.06); }
+.pas-dragging { transform: rotate(1deg) scale(1.01); box-shadow: 0 10px 28px rgba(0,0,0,.18); }
 .pas-lane-body::-webkit-scrollbar { width: 4px; }
 .pas-lane-body::-webkit-scrollbar-thumb { background: var(--pas-line); border-radius: 99px; }
 

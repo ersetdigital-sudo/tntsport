@@ -248,8 +248,8 @@ export default function PesananDashboard() {
             T
           </span>
           <span className="leading-none">
-            <span className="block pas-display text-[15px]">TNT Sport</span>
-            <span className="block text-[11px] text-[var(--pas-muted)] mt-[3px]">
+            <span className="block pas-display text-[15px] !text-white">TNT Sport</span>
+            <span className="block text-[11px] !text-white/70 mt-[3px]">
               Admin Panel
             </span>
           </span>
@@ -286,11 +286,11 @@ export default function PesananDashboard() {
             </a>
           ))}
         </nav>
-        <div className="mt-auto pas-card p-3 flex items-center gap-3">
+        <div className="mt-auto rounded-xl p-3 flex items-center gap-3 bg-white/10 border border-white/10">
           <span className="pas-avatar">AD</span>
           <span className="leading-tight">
-            <span className="block text-[13.5px] font-semibold">Admin TNT</span>
-            <span className="block text-[11.5px] text-[var(--pas-muted)]">
+            <span className="block text-[13.5px] font-semibold text-white">Admin TNT</span>
+            <span className="block text-[11.5px] text-white/65">
               admin@tntsport.id
             </span>
           </span>
@@ -376,7 +376,7 @@ export default function PesananDashboard() {
               showToast={showToast}
             />
           )}
-          {currentView === "jadwal" && <ViewJadwal orders={orders} openDetail={setOpenId} steps={steps} />}
+          {currentView === "jadwal" && <ViewJadwal orders={orders} openDetail={setOpenId} steps={steps} onMoved={fetchOrders} showToast={showToast} />}
           {currentView === "kirim" && <ViewKirim orders={orders} openDetail={setOpenId} steps={steps} />}
           {currentView === "customer" && <ViewCustomer orders={orders} onSelectCustomer={setOpenCustomer} steps={steps} />}
           {currentView === "laporan" && <ViewLaporan orders={orders} />}
@@ -943,10 +943,14 @@ function ViewJadwal({
   orders,
   openDetail,
   steps,
+  onMoved,
+  showToast,
 }: {
   orders: OrderData[];
   openDetail: (id: string) => void;
   steps: StepRow[];
+  onMoved: () => void;
+  showToast: (msg: string) => void;
 }) {
   const active = orders.filter((o) => !o.is_done);
 
@@ -957,172 +961,155 @@ function ViewJadwal({
     return "low";
   }
 
+  const [draggingId, setDraggingId] = useState<string | null>(null);
+  const [overLane, setOverLane] = useState<string | null>(null);
+
+  async function handleDrop(orderId: string, laneKey: string) {
+    const laneIdx = LANE_KEYS.indexOf(laneKey as any);
+    if (laneIdx < 0) return;
+    const targetStep = LANES[laneIdx].from;
+    const order = orders.find((o) => o.id === orderId);
+    if (!order || order.current_step === targetStep) return;
+    const prevStep = order.current_step;
+    try {
+      const res = await fetch(`/api/pesanan/orders/${orderId}/status`, {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ current_step: targetStep }),
+      });
+      const data: any = await res.json().catch(() => ({}));
+      if (!res.ok) {
+        showToast(data.error || "Gagal memindahkan pesanan, coba lagi");
+        return;
+      }
+      onMoved();
+      const laneName = LANES[laneIdx].name;
+      showToast(`${orderId} dipindah ke ${laneName}`);
+    } catch {
+      showToast("Gagal memindahkan pesanan, coba lagi");
+    }
+  }
+
   return (
     <>
       <p className="text-[14px] text-[var(--pas-muted)] mb-5">
         Papan produksi — pesanan dikelompokkan per fase. Klik kartu untuk update tahap.
       </p>
 
-      {/* Desktop: horizontal kanban */}
-      <div className="pas-board hidden md:flex">
-        {LANES.map((lane, i) => {
-          const key = LANE_KEYS[i];
-          const items = active.filter(
-            (o) => o.current_step >= lane.from && o.current_step <= lane.to
-          );
-          return (
-            <div key={lane.name} className="pas-lane">
-              {/* Lane header */}
-              <div className="pas-lane-head">
-                <span className="pas-lane-title">
-                  <span className="pas-lane-dot" style={{ background: LANE_COLORS[key] }} />
-                  {lane.name}
-                </span>
-                <span className="pas-lane-count">{items.length}</span>
-              </div>
-
-              {/* Lane body */}
-              <div className="pas-lane-body">
-                {items.length === 0 ? (
-                  <div className="pas-lane-empty">
-                    <div className="pas-lane-empty-icon">
-                      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-                        <rect x="3" y="3" width="18" height="18" rx="2"/>
-                        <path d="M9 12h6M12 9v6"/>
-                      </svg>
+      {(["desktop", "mobile"] as const).map((variant) => (
+        <div key={variant} className={variant === "desktop" ? "pas-board hidden md:flex" : "flex flex-col md:hidden"}>
+          {LANES.map((lane, i) => {
+            const key = LANE_KEYS[i];
+            const items = active.filter((o) => o.current_step >= lane.from && o.current_step <= lane.to);
+            const isOver = overLane === `${variant}:${key}`;
+            return (
+              <div
+                key={`${variant}:${lane.name}`}
+                className={`pas-lane ${isOver ? "pas-lane-over" : ""}`}
+                onDragOver={(e) => {
+                  e.preventDefault();
+                  if (draggingId) setOverLane(`${variant}:${key}`);
+                }}
+                onDragLeave={() => setOverLane((v) => (v === `${variant}:${key}` ? null : v))}
+                onDrop={(e) => {
+                  e.preventDefault();
+                  const id = e.dataTransfer.getData("text/plain") || draggingId;
+                  setOverLane(null);
+                  setDraggingId(null);
+                  if (id) handleDrop(id, key);
+                }}
+                onTouchMove={(e) => {
+                  if (!draggingId) return;
+                  const touch = e.touches[0];
+                  const el = document.elementFromPoint(touch.clientX, touch.clientY);
+                  const laneEl = el?.closest("[data-lane-key]") as HTMLElement | null;
+                  const k = laneEl?.dataset.laneKey || null;
+                  setOverLane(k ? `${variant}:${k}` : null);
+                }}
+                onTouchEnd={(e) => {
+                  const touch = e.changedTouches[0];
+                  const el = document.elementFromPoint(touch.clientX, touch.clientY);
+                  const laneEl = el?.closest("[data-lane-key]") as HTMLElement | null;
+                  const k = laneEl?.dataset.laneKey || null;
+                  const id = draggingId;
+                  setOverLane(null);
+                  setDraggingId(null);
+                  if (id && k) handleDrop(id, k);
+                }}
+                data-lane-key={key}
+              >
+                <div className="pas-lane-head">
+                  <span className="pas-lane-title">
+                    <span className="pas-lane-dot" style={{ background: LANE_COLORS[key] }} />
+                    {lane.name}
+                  </span>
+                  <span className="pas-lane-count">{items.length}</span>
+                </div>
+                <div className="pas-lane-body" data-lane-key={key}>
+                  {items.length === 0 ? (
+                    <div className="pas-lane-empty">
+                      <div className="pas-lane-empty-icon">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+                          <rect x="3" y="3" width="18" height="18" rx="2" />
+                          <path d="M9 12h6M12 9v6" />
+                        </svg>
+                      </div>
+                      <p className="pas-lane-empty-text">Belum ada pesanan</p>
+                      <p className="pas-lane-empty-sub">Pesanan akan muncul di sini</p>
                     </div>
-                    <p className="pas-lane-empty-text">Belum ada pesanan</p>
-                    <p className="pes-lane-empty-sub">Pesanan akan muncul di sini</p>
-                  </div>
-                ) : (
-                  items.map((o) => {
-                    const pct = Math.round((o.current_step / 10) * 100);
-                    const ini = initials(o.customer_name);
-                    const stepName = steps[o.current_step - 1]?.name || `Tahap ${o.current_step}`;
-                    return (
-                      <button
-                        key={o.id}
-                        className="pas-order-card"
-                        data-lane={key}
-                        onClick={() => openDetail(o.id)}
-                      >
-                        {/* Top: avatar + id + pcs */}
-                        <div className="pas-card-top">
-                          <div className="flex items-center gap-2.5">
-                            <span className="pas-card-avatar">{ini}</span>
-                            <span className="pas-card-id">{o.id}</span>
+                  ) : (
+                    items.map((o) => {
+                      const pct = Math.round((o.current_step / 10) * 100);
+                      const ini = initials(o.customer_name);
+                      const stepName = steps[o.current_step - 1]?.name || `Tahap ${o.current_step}`;
+                      const isDragging = draggingId === o.id;
+                      return (
+                        <div
+                          key={o.id}
+                          draggable
+                          onDragStart={(e) => {
+                            e.dataTransfer.setData("text/plain", o.id);
+                            e.dataTransfer.effectAllowed = "move";
+                            setDraggingId(o.id);
+                          }}
+                          onDragEnd={() => { setDraggingId(null); setOverLane(null); }}
+                          onTouchStart={() => setDraggingId(o.id)}
+                          onClick={() => { if (!isDragging) openDetail(o.id); }}
+                          className={`pas-order-card ${isDragging ? "pas-dragging" : ""}`}
+                          data-lane={key}
+                          style={{ opacity: isDragging ? 0.55 : 1, touchAction: "none" }}
+                        >
+                          <div className="pas-card-top">
+                            <div className="flex items-center gap-2.5">
+                              <span className="pas-card-avatar">{ini}</span>
+                              <span className="pas-card-id">{o.id}</span>
+                            </div>
+                            <span className="pas-card-pcs">{o.quantity}</span>
                           </div>
-                          <span className="pas-card-pcs">{o.quantity}</span>
-                        </div>
-
-                        {/* Body: customer + product */}
-                        <div className="pas-card-body">
-                          <p className="pas-card-customer">{o.customer_name}</p>
-                          <p className="pas-card-product">{o.product_name}</p>
-                        </div>
-
-                        {/* Progress */}
-                        <div className="pas-card-progress">
-                          <div className="pas-card-bar">
-                            <div
-                              className={`pas-card-bar-fill ${barClass(pct)}`}
-                              style={{ width: `${pct}%` }}
-                            />
+                          <div className="pas-card-body">
+                            <p className="pas-card-customer">{o.customer_name}</p>
+                            <p className="pas-card-product">{o.product_name}</p>
                           </div>
-                          <span className="pas-card-pct">{pct}%</span>
+                          <div className="pas-card-progress">
+                            <div className="pas-card-bar">
+                              <div className={`pas-card-bar-fill ${barClass(pct)}`} style={{ width: `${pct}%` }} />
+                            </div>
+                            <span className="pas-card-pct">{pct}%</span>
+                          </div>
+                          <div className="pas-card-step">
+                            <span className="pas-card-step-dot" />
+                            {stepName}
+                          </div>
                         </div>
-
-                        {/* Step */}
-                        <div className="pas-card-step">
-                          <span className="pas-card-step-dot" />
-                          {stepName}
-                        </div>
-                      </button>
-                    );
-                  })
-                )}
+                      );
+                    })
+                  )}
+                </div>
               </div>
-            </div>
-          );
-        })}
-      </div>
-
-      {/* Mobile: vertical stack */}
-      <div className="flex flex-col md:hidden">
-        {LANES.map((lane, i) => {
-          const key = LANE_KEYS[i];
-          const items = active.filter(
-            (o) => o.current_step >= lane.from && o.current_step <= lane.to
-          );
-          return (
-            <div key={lane.name} className="pas-lane">
-              {/* Lane header — sticky */}
-              <div className="pas-lane-head">
-                <span className="pas-lane-title">
-                  <span className="pas-lane-dot" style={{ background: LANE_COLORS[key] }} />
-                  {lane.name}
-                </span>
-                <span className="pas-lane-count">{items.length}</span>
-              </div>
-
-              {/* Lane body */}
-              <div className="pas-lane-body">
-                {items.length === 0 ? (
-                  <div className="pas-lane-empty">
-                    <div className="pas-lane-empty-icon">
-                      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-                        <rect x="3" y="3" width="18" height="18" rx="2"/>
-                        <path d="M9 12h6M12 9v6"/>
-                      </svg>
-                    </div>
-                    <p className="pas-lane-empty-text">Belum ada pesanan</p>
-                    <p className="pas-lane-empty-sub">Pesanan akan muncul di sini</p>
-                  </div>
-                ) : (
-                  items.map((o) => {
-                    const pct = Math.round((o.current_step / 10) * 100);
-                    const ini = initials(o.customer_name);
-                    const stepName = steps[o.current_step - 1]?.name || `Tahap ${o.current_step}`;
-                    return (
-                      <button
-                        key={o.id}
-                        className="pas-order-card"
-                        data-lane={key}
-                        onClick={() => openDetail(o.id)}
-                      >
-                        <div className="pas-card-top">
-                          <div className="flex items-center gap-2.5">
-                            <span className="pas-card-avatar">{ini}</span>
-                            <span className="pas-card-id">{o.id}</span>
-                          </div>
-                          <span className="pas-card-pcs">{o.quantity}</span>
-                        </div>
-                        <div className="pas-card-body">
-                          <p className="pas-card-customer">{o.customer_name}</p>
-                          <p className="pas-card-product">{o.product_name}</p>
-                        </div>
-                        <div className="pas-card-progress">
-                          <div className="pas-card-bar">
-                            <div
-                              className={`pas-card-bar-fill ${barClass(pct)}`}
-                              style={{ width: `${pct}%` }}
-                            />
-                          </div>
-                          <span className="pas-card-pct">{pct}%</span>
-                        </div>
-                        <div className="pas-card-step">
-                          <span className="pas-card-step-dot" />
-                          {stepName}
-                        </div>
-                      </button>
-                    );
-                  })
-                )}
-              </div>
-            </div>
-          );
-        })}
-      </div>
+            );
+          })}
+        </div>
+      ))}
     </>
   );
 }
