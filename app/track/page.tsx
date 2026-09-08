@@ -69,9 +69,9 @@ export default function TrackPage() {
           <header className="max-w-6xl mx-auto px-5 sm:px-8 py-5 flex items-center justify-between">
             <a href="/" className="flex items-center gap-3">
 <img
-  src="/tnt-header-putih.png"
+  src="/logo-tnt-baru.png"
   alt="TNT Sport Apparel"
-  style={{ height: "32px", width: "auto" }}
+  style={{ height: "40px", width: "auto" }}
   className="rounded-lg"
 />
               <span className="leading-none">

@@ -417,15 +417,15 @@ function StatusContent() {
               <div className="flex items-center gap-3">
 <a
   href="/track"
-  className="w-9 h-9 rounded-lg shrink-0"
+  className="shrink-0"
   aria-label="Kembali ke tracking"
 >
-<img
-  src="/logo-tnt-baru.png"
-  alt="TNT Sport Apparel"
-  style={{ height: "32px", width: "auto" }}
-  className="rounded-lg"
-/>
+  <img
+    src="/logo-tnt-baru.png"
+    alt="TNT Sport Apparel"
+    style={{ height: "32px", width: "auto" }}
+    className="rounded-lg"
+  />
 </a>
                 <div className="leading-tight">
                   <p className="trk-display text-[14.5px] font-semibold uppercase tracking-wide sm:text-[15px]">TNT Sport Apparel</p>
