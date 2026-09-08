@@ -84,6 +84,8 @@ function StatusContent() {
   const searchParams = useSearchParams();
   const router = useRouter();
   const orderId = (searchParams.get("order") || "").toUpperCase();
+  // Token dari link notifikasi WA → customer langsung lihat tanpa verifikasi HP.
+  const urlToken = searchParams.get("token") || "";
 
   const [phone, setPhone] = useState("");
   const [verifyError, setVerifyError] = useState("");
@@ -101,6 +103,12 @@ function StatusContent() {
     if (!orderId) return;
     const key = `tnt_verified_${orderId}`;
     const tokenKey = `tnt_token_${orderId}`;
+
+    // Token dari link WhatsApp (HMAC, 30 hari) → simpan & langsung akses,
+    // tanpa modal verifikasi HP. Kalau token invalid/expired, fetch di bawah
+    // akan gagal dan fallback ke verifikasi HP seperti biasa.
+    if (urlToken) sessionStorage.setItem(tokenKey, urlToken);
+
     const token = sessionStorage.getItem(tokenKey);
 
     if (!token) {
@@ -154,7 +162,7 @@ function StatusContent() {
         sessionStorage.removeItem(key);
         setShowPhoneModal(true);
       });
-  }, [orderId]);
+  }, [orderId, urlToken]);
 
   // Animate progress counter
   useEffect(() => {

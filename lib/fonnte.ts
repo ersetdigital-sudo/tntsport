@@ -10,6 +10,7 @@
 import { normalizeWhatsAppNumber } from "@/lib/wa";
 import { decryptSecret } from "@/lib/fonnte-crypto";
 import { createClient } from "@/lib/supabase/server";
+import { signTrackingToken } from "@/lib/verify-token";
 import type { SupabaseClient } from "@supabase/supabase-js";
 
 export const FONNTE_TOKEN_KEY = "fonnte_token";
@@ -47,11 +48,16 @@ export const STAGE_TO_STATUS: Record<number, string> = Object.fromEntries(
   Object.entries(STATUS_TO_STAGE).map(([status, stage]) => [stage, status])
 );
 
-/** URL tracking publik (encode nomor pesanan bila ada karakter spesial). */
-export function buildTrackingUrl(orderNumber: string): string {
-  return `https://www.tntsportapparel.id/status?order=${encodeURIComponent(
+/**
+ * URL tracking publik (encode nomor pesanan bila ada karakter spesial).
+ * Token opsional (HMAC 30 hari) membuat customer bisa langsung lihat
+ * progres TANPA verifikasi HP — lihat app/status/page.tsx.
+ */
+export function buildTrackingUrl(orderNumber: string, token?: string): string {
+  const base = `https://www.tntsportapparel.id/status?order=${encodeURIComponent(
     orderNumber
   )}`;
+  return token ? `${base}&token=${encodeURIComponent(token)}` : base;
 }
 
 /**
@@ -62,11 +68,12 @@ export function buildTrackingUrl(orderNumber: string): string {
  */
 export function buildWhatsAppMessage(
   stage: number,
-  order: { customer_name: string; order_number: string }
+  order: { customer_name: string; order_number: string },
+  token?: string
 ): string {
   const customerName = order.customer_name;
   const orderNumber = order.order_number;
-  const trackingUrl = buildTrackingUrl(orderNumber);
+  const trackingUrl = buildTrackingUrl(orderNumber, token);
 
   if (stage === 9) {
     return [
@@ -247,7 +254,11 @@ export async function triggerStageNotification(
       return "failed";
     }
 
-    const message = buildWhatsAppMessage(stage, order);
+    const message = buildWhatsAppMessage(
+      stage,
+      order,
+      signTrackingToken(order.order_number)
+    );
     const result = await sendFonnteMessage(phone, message);
 
     // Update status log (response_payload TIDAK pernah berisi token).
