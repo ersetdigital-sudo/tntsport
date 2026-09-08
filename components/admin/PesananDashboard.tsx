@@ -543,6 +543,11 @@ function ViewPesanan({
     selesai: orders.filter((o) => statusOf(o, steps.length) === "selesai").length,
   };
 
+  const kirimOrders = orders.filter((o) => statusOf(o, steps.length) === "kirim");
+  const nextDeadline = kirimOrders
+    .filter((o) => o.deadline)
+    .sort((a, b) => (a.deadline! < b.deadline! ? -1 : 1))[0]?.deadline ?? null;
+
   const handleDelete = async () => {
     if (!confirmDelete) return;
     setDeleting(true);
@@ -621,10 +626,9 @@ function ViewPesanan({
         <div className="pas-card pas-kpi pas-bento-kpi p-4 sm:p-5">
           <p className="text-[13px] text-[var(--pas-muted)]">Siap Dikirim</p>
           <div className="flex items-end gap-2.5 mt-2.5">
-            <p className="pas-display pas-num text-[30px] leading-none text-[#8fb0f7]">
-              {stats.kirim}
+            <p className="pas-display text-[20px] leading-none text-[#8fb0f7]">
+              {nextDeadline ? formatDate(nextDeadline) : "-"}
             </p>
-            <span className="pas-delta flat mb-0.5">perlu resi</span>
           </div>
         </div>
         <div className="pas-card pas-kpi pas-bento-kpi p-4 sm:p-5">
