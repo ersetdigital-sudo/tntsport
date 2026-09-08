@@ -2158,6 +2158,7 @@
 .pas-panel .pas-navlink.on { background: rgba(255,255,255,.1) !important; color: #fff !important; font-weight: 600; }
 .pas-panel .pas-navlink.on .pas-ic { color: var(--pas-yellow) !important; }
 .pas-panel .pas-navsec { color: rgba(255,255,255,.35) !important; }
+.pas-panel .pas-display { color: #fff !important; }
 .pas-navsec {
   font-size: 10.5px; letter-spacing: .14em; text-transform: uppercase;
   color: rgba(255,255,255,.4); padding: 0 12px; margin: 18px 0 8px; font-weight: 600;
