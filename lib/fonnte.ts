@@ -21,26 +21,30 @@ export const FONNTE_TIMEOUT_MS = 10_000;
 export const STAGE_NAMES: Record<number, string> = {
   1: "Desain",
   2: "Layout",
-  3: "Print",
-  4: "Pres",
-  5: "Potong",
-  6: "Jahit",
-  7: "Finishing",
-  8: "Packing",
-  9: "Kirim",
+  3: "Profing Warna",
+  4: "Cetak / Print",
+  5: "Press / Transfer Sublime",
+  6: "Potong Pola / Cutting Panel",
+  7: "Jahit / Sewing",
+  8: "Finishing",
+  9: "Quality Control",
+  10: "Packing",
+  11: "Kirim",
 };
 
 /** Map status text (kolom current_status) → nomor tahap 1-9. */
 export const STATUS_TO_STAGE: Record<string, number> = {
   desain: 1,
   layout: 2,
-  print: 3,
-  pres: 4,
-  potong: 5,
-  jahit: 6,
-  finishing: 7,
-  packing: 8,
-  kirim: 9,
+  profing_warna: 3,
+  cetak_print: 4,
+  press_transfer: 5,
+  potong_pola: 6,
+  jahit: 7,
+  finishing: 8,
+  quality_control: 9,
+  packing: 10,
+  kirim: 11,
 };
 
 /** Map nomor tahap 1-9 → status text (kebalikan STATUS_TO_STAGE). */
@@ -75,7 +79,7 @@ export function buildWhatsAppMessage(
   const orderNumber = order.order_number;
   const trackingUrl = buildTrackingUrl(orderNumber, token);
 
-  if (stage === 9) {
+  if (stage === 11) {
     return [
       "PESANAN DIKIRIM",
       `Halo Kak ${customerName},`,

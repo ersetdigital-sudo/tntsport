@@ -216,11 +216,13 @@ export interface DbFabric {
 export type OrderStatus =
   | "desain"
   | "layout"
-  | "print"
-  | "pres"
-  | "potong"
+  | "profing_warna"
+  | "cetak_print"
+  | "press_transfer"
+  | "potong_pola"
   | "jahit"
   | "finishing"
+  | "quality_control"
   | "packing"
   | "kirim"
   | "selesai";
@@ -228,11 +230,13 @@ export type OrderStatus =
 export const ORDER_STATUS_LABELS: Record<OrderStatus, string> = {
   desain: "Desain",
   layout: "Layout",
-  print: "Print",
-  pres: "Pres",
-  potong: "Potong",
-  jahit: "Jahit",
+  profing_warna: "Profing Warna",
+  cetak_print: "Cetak / Print",
+  press_transfer: "Press / Transfer Sublime",
+  potong_pola: "Potong Pola / Cutting Panel",
+  jahit: "Jahit / Sewing",
   finishing: "Finishing",
+  quality_control: "Quality Control",
   packing: "Packing",
   kirim: "Kirim",
   selesai: "Selesai",
@@ -241,30 +245,34 @@ export const ORDER_STATUS_LABELS: Record<OrderStatus, string> = {
 export const ORDER_STATUS_LIST: OrderStatus[] = [
   "desain",
   "layout",
-  "print",
-  "pres",
-  "potong",
+  "profing_warna",
+  "cetak_print",
+  "press_transfer",
+  "potong_pola",
   "jahit",
   "finishing",
+  "quality_control",
   "packing",
   "kirim",
 ];
 
 /** Fixed progress percentage for each step (1-indexed) */
 export const STEP_PROGRESS: Record<number, number> = {
-  1: 11,
-  2: 22,
-  3: 33,
-  4: 44,
-  5: 56,
-  6: 67,
-  7: 78,
-  8: 89,
-  9: 95,
+  1: 9,
+  2: 18,
+  3: 27,
+  4: 36,
+  5: 45,
+  6: 55,
+  7: 64,
+  8: 73,
+  9: 82,
+  10: 91,
+  11: 100,
 };
 
 export function getProgress(step: number, hasTracking: boolean): number {
-  if (step === 9 && hasTracking) return 100;
+  if (step === 11 && hasTracking) return 100;
   return STEP_PROGRESS[step] ?? 0;
 }
 
