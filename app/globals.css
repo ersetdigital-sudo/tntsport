@@ -2112,6 +2112,24 @@
 /* ================================================================
    PESANAN ADMIN DASHBOARD — pas-* prefix (Light Theme — Wireframe Match)
    ================================================================ */
+/* ═══════════════════════════════════════════════
+   PESANAN ADMIN — FORCE LIGHT THEME
+   Situs global pakai defaultTheme="dark" (--color-ink jadi putih),
+   jadi semua teks tanpa warna eksplisit di admin mewarisi putih
+   → invisible di atas card putih/krem. Reset token warna global
+   di dalam .pas-shell supaya admin selalu light.
+   ═══════════════════════════════════════════════ */
+.pas-shell {
+  --color-ink: #304230;
+  --color-foreground: #304230;
+  --color-body: #304230;
+  --color-background: #F5EBE1;
+  --color-surface: #FFFFFF;
+  --color-surface-card: #FFFFFF;
+  color-scheme: light;
+  color: var(--pas-ink-1);
+}
+
 :root {
   color-scheme: light;
   --pas-bg: #F5EBE1;
