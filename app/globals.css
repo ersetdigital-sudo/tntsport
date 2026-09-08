@@ -2352,13 +2352,14 @@ table.pas-tbl tbody tr:hover { background: rgba(63,86,59,.03); }
 .pas-stepbtn.cur .pas-num { background: var(--pas-green); color: #fff; }
 
 .pas-toast {
-  position: fixed; left: 50%; bottom: 26px;
-  transform: translate(-50%, 20px); opacity: 0; pointer-events: none;
+  position: fixed; right: 16px; top: 16px;
+  transform: translateX(12px); opacity: 0; pointer-events: none;
   background: var(--pas-green); color: #fff; font-weight: 700;
   padding: 12px 20px; border-radius: 999px; z-index: 80;
   transition: all .3s ease;
 }
-.pas-toast.on { opacity: 1; transform: translate(-50%, 0); }
+.pas-toast.on { opacity: 1; transform: translateX(0); }
+@media (max-width: 640px) { .pas-toast { right: 12px; left: 12px; top: 12px; transform: translateY(-8px); text-align: center; } .pas-toast.on { transform: translateY(0); } }
 
 .pas-display {
   font-family: var(--font-archivo), "Archivo", system-ui, sans-serif;
