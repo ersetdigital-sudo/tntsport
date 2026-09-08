@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import Image from "next/image";
+
 
 export default function TrackPage() {
   const router = useRouter();
@@ -68,14 +68,12 @@ export default function TrackPage() {
           {/* nav */}
           <header className="max-w-6xl mx-auto px-5 sm:px-8 py-5 flex items-center justify-between">
             <a href="/" className="flex items-center gap-3">
-              <Image
-                src="/tnt-logo-512.png"
-                alt="TNT Sport Apparel"
-                width={36}
-                height={36}
-                className="w-9 h-9 object-contain rounded-lg"
-                priority
-              />
+<img
+  src="/tnt-header-putih.png"
+  alt="TNT Sport Apparel"
+  style={{ height: "32px", width: "auto" }}
+  className="rounded-lg"
+/>
               <span className="leading-none">
                 <span className="block trk-display text-[15px] tracking-tight">
                   TNT SPORT
@@ -243,13 +241,12 @@ export default function TrackPage() {
           <footer className="border-t border-[#26282e] mt-auto">
             <div className="max-w-6xl mx-auto px-5 sm:px-8 py-7 flex flex-col sm:flex-row gap-4 sm:items-center justify-between">
               <div className="flex items-center gap-3">
-              <Image
-                src="/tnt-logo-512.png"
-                alt="TNT Sport Apparel"
-                width={32}
-                height={32}
-                className="w-8 h-8 object-contain rounded-lg"
-              />
+<img
+  src="/tnt-header-putih.png"
+  alt="TNT Sport Apparel"
+  style={{ height: "32px", width: "auto" }}
+  className="rounded-lg"
+/>
                 <div className="leading-tight">
                   <p className="text-[13px] text-[#9aa0aa]">
                     © 2026 TNT Sport Apparel — Custom Jersey &amp; Sportswear

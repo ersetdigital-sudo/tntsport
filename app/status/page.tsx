@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useRef, Suspense } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
-import Image from "next/image";
+
 import {
   ORDER_STATUS_LABELS,
   ORDER_STATUS_LIST,
@@ -420,14 +420,12 @@ function StatusContent() {
   className="w-9 h-9 rounded-lg shrink-0"
   aria-label="Kembali ke tracking"
 >
-  <Image
-    src="/tnt-logo-512.png"
-    alt="TNT Sport Apparel"
-    width={36}
-    height={36}
-    className="w-9 h-9 object-contain rounded-lg"
-    priority
-  />
+<img
+  src="/logo-tnt-baru.png"
+  alt="TNT Sport Apparel"
+  style={{ height: "32px", width: "auto" }}
+  className="rounded-lg"
+/>
 </a>
                 <div className="leading-tight">
                   <p className="trk-display text-[14.5px] font-semibold uppercase tracking-wide sm:text-[15px]">TNT Sport Apparel</p>
