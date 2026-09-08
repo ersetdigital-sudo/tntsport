@@ -45,8 +45,9 @@ export async function POST(request: NextRequest) {
     const data = await res.json();
 
     if (!res.ok || !data.secure_url) {
+      console.error("Cloudinary upload failed:", res.status, data);
       return NextResponse.json(
-        { error: data?.error?.message || "Upload gagal" },
+        { error: data?.error?.message || `Upload gagal (Cloudinary ${res.status}: ${JSON.stringify(data).slice(0,300)})` },
         { status: 500 }
       );
     }
@@ -62,7 +63,8 @@ export async function POST(request: NextRequest) {
       publicId: data.public_id,
       bytes: data.bytes,
     });
-  } catch {
-    return NextResponse.json({ error: "Terjadi kesalahan server" }, { status: 500 });
+  } catch (e: any) {
+    console.error("Upload design exception:", e?.message || e);
+    return NextResponse.json({ error: `Terjadi kesalahan server: ${e?.message || "unknown"}` }, { status: 500 });
   }
 }
