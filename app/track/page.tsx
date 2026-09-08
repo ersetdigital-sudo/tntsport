@@ -240,21 +240,13 @@ export default function TrackPage() {
 
           <footer className="border-t border-[#26282e] mt-auto">
             <div className="max-w-6xl mx-auto px-5 sm:px-8 py-7 flex flex-col sm:flex-row gap-4 sm:items-center justify-between">
-              <div className="flex items-center gap-3">
-<img
-  src="/tnt-header-putih.png"
-  alt="TNT Sport Apparel"
-  style={{ height: "32px", width: "auto" }}
-  className="rounded-lg"
-/>
-                <div className="leading-tight">
-                  <p className="text-[13px] text-[#9aa0aa]">
-                    © 2026 TNT Sport Apparel — Custom Jersey &amp; Sportswear
-                  </p>
-                  <p className="trk-stencil text-[9px] text-[#6b7280] mt-0.5">
-                    tntsportapparel.id
-                  </p>
-                </div>
+              <div className="flex flex-col">
+                <p className="text-[13px] text-[#9aa0aa]">
+                  © 2026 TNT Sport Apparel — Custom Jersey &amp; Sportswear
+                </p>
+                <p className="trk-stencil text-[9px] text-[#6b7280] mt-0.5">
+                  tntsportapparel.id
+                </p>
               </div>
               <div className="flex flex-col sm:items-end gap-1 text-[13px] text-[#6b7280]">
                 <span>Senin–Sabtu · 09.00–17.00 WIB</span>
