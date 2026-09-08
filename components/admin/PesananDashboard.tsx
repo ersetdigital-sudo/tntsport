@@ -1866,7 +1866,7 @@ function DetailSheet({
           </button>
         </div>
 
-        <div className="pas-card p-4 mt-5 grid grid-cols-2 gap-y-3 text-[14px]">
+        <div className="pas-card p-4 mt-5 grid grid-cols-2 gap-y-3 text-[14px]" style={{ background: "var(--pas-surface-2)" }}>
           {(order.products?.length ?? 0) > 0 ? (
             order.products!.map((p, pi) => (
               <div key={pi} className="col-span-2 rounded-xl border border-[var(--pas-line)] p-3.5">

@@ -2148,17 +2148,18 @@
 .pas-navlink.on .pas-ic { color: #DDB339; }
 .pas-ic { width: 18px; text-align: center; font-size: 15px; opacity: .9; }
 
-/* Drawer menu (dark panel, premium feel) */
-.pas-panel {
+/* Drawer menu (dark panel, premium feel) — HANYA untuk nav drawer (slide-left) */
+.pas-panel.slide-left {
   background: var(--pas-green) !important;
   border-color: rgba(255,255,255,.08) !important;
 }
-.pas-panel .pas-navlink { color: rgba(255,255,255,.65) !important; background: transparent !important; }
-.pas-panel .pas-navlink:hover { background: rgba(255,255,255,.08) !important; color: #fff !important; }
-.pas-panel .pas-navlink.on { background: rgba(255,255,255,.1) !important; color: #fff !important; font-weight: 600; }
-.pas-panel .pas-navlink.on .pas-ic { color: var(--pas-yellow) !important; }
-.pas-panel .pas-navsec { color: rgba(255,255,255,.35) !important; }
-.pas-panel .pas-display { color: #fff !important; }
+.pas-panel.slide-left .pas-navlink { color: rgba(255,255,255,.65) !important; background: transparent !important; }
+.pas-panel.slide-left .pas-navlink:hover { background: rgba(255,255,255,.08) !important; color: #fff !important; }
+.pas-panel.slide-left .pas-navlink.on { background: rgba(255,255,255,.1) !important; color: #fff !important; font-weight: 600; }
+.pas-panel.slide-left .pas-navlink.on .pas-ic { color: var(--pas-yellow) !important; }
+.pas-panel.slide-left .pas-navsec { color: rgba(255,255,255,.35) !important; }
+.pas-panel.slide-left .pas-display { color: #fff !important; }
+.pas-panel.slide-left .pas-mark { background: #fff; color: var(--pas-green); }
 .pas-navsec {
   font-size: 10.5px; letter-spacing: .14em; text-transform: uppercase;
   color: rgba(255,255,255,.4); padding: 0 12px; margin: 18px 0 8px; font-weight: 600;
