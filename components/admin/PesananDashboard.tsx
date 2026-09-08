@@ -558,10 +558,11 @@ function ViewPesanan({
     selesai: orders.filter((o) => statusOf(o, steps.length) === "selesai").length,
   };
 
-  const kirimOrders = orders.filter((o) => statusOf(o, steps.length) === "kirim");
-  const nextDeadline = kirimOrders
-    .filter((o) => o.deadline)
+  // Deadline terdekat dari semua pesanan aktif (belum selesai)
+  const nextDeadline = orders
+    .filter((o) => o.deadline && !o.is_done)
     .sort((a, b) => (a.deadline! < b.deadline! ? -1 : 1))[0]?.deadline ?? null;
+  const deadlineInfo = deadlineStatus(nextDeadline, false);
 
   const handleDelete = async () => {
     if (!confirmDelete) return;
@@ -641,9 +642,30 @@ function ViewPesanan({
         <div className="pas-card pas-kpi pas-bento-kpi p-4 sm:p-5">
           <p className="text-[13px] text-[var(--pas-muted)]">Deadline</p>
           <div className="flex items-end gap-2.5 mt-2.5">
-            <p className="pas-display text-[20px] leading-none text-[#8fb0f7]">
+            <p
+              className={
+                deadlineInfo.level === "overdue"
+                  ? "pas-display text-[20px] leading-none text-red-500"
+                  : deadlineInfo.level === "warning"
+                    ? "pas-display text-[20px] leading-none text-[var(--pas-orange)]"
+                    : "pas-display text-[20px] leading-none text-[#8fb0f7]"
+              }
+            >
               {nextDeadline ? formatDate(nextDeadline) : "-"}
             </p>
+            {nextDeadline && deadlineInfo.level && (
+              <span
+                className={
+                  deadlineInfo.level === "overdue"
+                    ? "pas-delta mb-0.5 bg-red-100 text-red-600"
+                    : "pas-delta mb-0.5 bg-[#CB5639]/10 text-[#CB5639]"
+                }
+              >
+                {deadlineInfo.level === "overdue"
+                  ? `lewat ${Math.abs(deadlineInfo.diffDays)}h`
+                  : `H-${deadlineInfo.diffDays}`}
+              </span>
+            )}
           </div>
         </div>
         <div className="pas-card pas-kpi pas-bento-kpi p-4 sm:p-5">
