@@ -580,14 +580,14 @@ function ViewPesanan({
       )}
       {/* KPI */}
       <section className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 w-full">
-        <div className="pas-card pas-kpi p-4 sm:p-5">
+        <div className="pas-card pas-kpi pas-bento-kpi p-4 sm:p-5">
           <p className="text-[13px] text-[var(--pas-muted)]">Total Pesanan</p>
           <div className="flex items-end gap-2.5 mt-2.5">
             <p className="pas-display pas-num text-[30px] leading-none">{stats.total}</p>
             <span className="pas-delta up mb-0.5">+2 minggu ini</span>
           </div>
         </div>
-        <div className="pas-card pas-kpi p-4 sm:p-5">
+        <div className="pas-card pas-kpi pas-bento-kpi p-4 sm:p-5">
           <p className="text-[13px] text-[var(--pas-muted)]">Sedang Produksi</p>
           <div className="flex items-end gap-2.5 mt-2.5">
             <p className="pas-display pas-num text-[30px] leading-none text-[var(--pas-accent)]">
@@ -596,7 +596,7 @@ function ViewPesanan({
             <span className="pas-delta flat mb-0.5">on track</span>
           </div>
         </div>
-        <div className="pas-card pas-kpi p-4 sm:p-5">
+        <div className="pas-card pas-kpi pas-bento-kpi p-4 sm:p-5">
           <p className="text-[13px] text-[var(--pas-muted)]">Siap Dikirim</p>
           <div className="flex items-end gap-2.5 mt-2.5">
             <p className="pas-display pas-num text-[30px] leading-none text-[#8fb0f7]">
@@ -605,7 +605,7 @@ function ViewPesanan({
             <span className="pas-delta flat mb-0.5">perlu resi</span>
           </div>
         </div>
-        <div className="pas-card pas-kpi p-4 sm:p-5">
+        <div className="pas-card pas-kpi pas-bento-kpi p-4 sm:p-5">
           <p className="text-[13px] text-[var(--pas-muted)]">Selesai</p>
           <div className="flex items-end gap-2.5 mt-2.5">
             <p className="pas-display pas-num text-[30px] leading-none">{stats.selesai}</p>
@@ -625,18 +625,16 @@ function ViewPesanan({
             onChange={(e) => setQuery(e.target.value)}
           />
         </div>
-        <div className="overflow-x-auto -mx-1 px-1">
-          <div className="pas-seg">
-            {(["all", "baru", "produksi", "kirim", "selesai"] as FilterKey[]).map((f) => (
-              <button
-                key={f}
-                className={`pas-chip ${filter === f ? "on" : ""}`}
-                onClick={() => setFilter(f)}
-              >
-                {FILTER_LABEL[f]}
-              </button>
-            ))}
-          </div>
+        <div className="pas-seg pas-bento-chip-scroll">
+          {(["all", "baru", "produksi", "kirim", "selesai"] as FilterKey[]).map((f) => (
+            <button
+              key={f}
+              className={`pas-chip pas-bento-chip ${filter === f ? "on" : ""}`}
+              onClick={() => setFilter(f)}
+            >
+              {FILTER_LABEL[f]}
+            </button>
+          ))}
         </div>
       </section>
 
@@ -759,60 +757,80 @@ function ViewPesanan({
         {filtered.map((o) => {
           const st = statusOf(o, steps.length);
           const pct = o.pct;
+          const ini = initials(o.customer_name);
           const dlStatus = deadlineStatus(o.deadline, o.is_done);
+          const stageName = steps[o.current_step - 1]?.name || `Tahap ${o.current_step}`;
           return (
-            <button
+            <div
               key={o.id}
-              className="pas-card p-4 text-left"
+              className="pas-bento-card cursor-pointer"
               onClick={() => openDetail(o.id)}
             >
-              <div className="flex items-start justify-between gap-3">
-                <div>
-                  <p className="font-semibold text-[15px] pas-num">{o.id}</p>
-                  <p className="text-[12px] text-[var(--pas-muted)] mt-0.5">
-                    Order: {formatDate(o.created_at)}
-                    {o.deadline && (
-                      <span className={
-                        dlStatus === "overdue" ? " text-red-400" :
-                        dlStatus === "warning" ? " text-yellow-400" :
-                        ""
-                      }>
-                        {" · Deadline: "}{dlStatus === "overdue" || dlStatus === "warning" ? "⚠ " : ""}{formatDate(o.deadline)}
-                      </span>
-                    )}
-                  </p>
-                  <p className="text-[13px] text-[var(--pas-muted)] mt-0.5">
-                    {o.customer_name} · {o.customer_city}
-                  </p>
-                </div>
-                <div className="flex items-center gap-2 shrink-0">
-                  <span className={`pas-pill ${st}`}>{FILTER_LABEL[st]}</span>
-                  <button
-                    className="text-[var(--pas-muted)] hover:text-red-400 transition p-1 rounded-lg hover:bg-red-400/10"
-                    title="Hapus"
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      setConfirmDelete(o);
-                    }}
-                  >
-                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                      <path d="M3 6h18M19 6v14a2 2 0 01-2 2H7a2 2 0 01-2-2V6M8 6V4a2 2 0 012-2h4a2 2 0 012 2v2"/>
-                    </svg>
-                  </button>
-                </div>
+              {/* Delete button — pojok kanan atas */}
+              <button
+                className="absolute top-5 right-5 text-[var(--pas-muted)] hover:text-red-400 transition p-1.5 rounded-lg hover:bg-red-400/10"
+                title="Hapus"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  setConfirmDelete(o);
+                }}
+              >
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M3 6h18M19 6v14a2 2 0 01-2 2H7a2 2 0 01-2-2V6M8 6V4a2 2 0 012-2h4a2 2 0 012 2v2"/>
+                </svg>
+              </button>
+
+              {/* Baris 1: Nomor pesanan + badge status */}
+              <div className="flex items-center justify-between pr-10">
+                <p className="font-bold text-[16px] pas-num">{o.id}</p>
+                <span className={`pas-pill ${st}`}>{FILTER_LABEL[st]}</span>
               </div>
-              <p className="text-[13px] text-[var(--pas-muted)] mt-3">
-                {o.product_name} · {o.quantity}
-              </p>
-              <div className="flex items-center gap-3 mt-3">
-                <span className="pas-mini" style={{ flex: 1, width: "auto" }}>
+
+              {/* Baris 2: Avatar + Nama customer + Jumlah pcs */}
+              <div className="flex items-center justify-between mt-3">
+                <div className="flex items-center gap-3 min-w-0">
+                  <span className="pas-bento-avatar">{ini}</span>
+                  <div className="min-w-0">
+                    <p className="text-[14px] font-medium truncate">{o.customer_name}</p>
+                    <p className="text-[12px] text-[var(--pas-muted)] truncate">{o.customer_city}</p>
+                  </div>
+                </div>
+                <p className="text-[14px] font-semibold pas-num shrink-0 ml-3">{o.quantity} pcs</p>
+              </div>
+
+              {/* Baris 3: Nama produk */}
+              <p className="text-[13px] text-[var(--pas-muted)] mt-3">{o.product_name}</p>
+
+              {/* Baris 4: Progress bar + label tahap */}
+              <div className="mt-3">
+                <span className="pas-mini w-full block">
                   <i style={{ width: `${pct}%` }} />
                 </span>
-                <span className="text-[12px] text-[var(--pas-muted)]">
-                  {o.current_step}/9
-                </span>
+                <p className="text-[12px] text-[var(--pas-muted)] mt-1.5 pas-num">
+                  {o.current_step}/9 <span className="text-[var(--pas-ink-1)] font-medium">{stageName}</span>
+                </p>
               </div>
-            </button>
+
+              {/* Divider */}
+              <div className="pas-bento-divider"></div>
+
+              {/* Baris 5: Tanggal order + Deadline */}
+              <div className="flex items-center justify-between">
+                <p className="text-[12px] text-[var(--pas-muted)]">Order: {formatDate(o.created_at)}</p>
+                {o.deadline ? (
+                  <p className={
+                    dlStatus === "overdue" ? "text-[12px] text-red-400 font-medium" :
+                    dlStatus === "warning" ? "text-[12px] text-yellow-400 font-medium" :
+                    "text-[12px] text-[var(--pas-muted)]"
+                  }>
+                    {dlStatus === "overdue" || dlStatus === "warning" ? "⚠ " : ""}
+                    Deadline: {formatDate(o.deadline)}
+                  </p>
+                ) : (
+                  <p className="text-[12px] text-[var(--pas-muted)]">Deadline: -</p>
+                )}
+              </div>
+            </div>
           );
         })}
       </section>
