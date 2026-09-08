@@ -40,6 +40,11 @@ function formatDateTime(dateStr: string) {
   return `${date} • ${time} WIB`;
 }
 
+/** Format jumlah (qty) dengan pemisah ribuan ala Indonesia: 1000 → 1.000 */
+function fmtQty(n: number): string {
+  return n.toLocaleString("id-ID");
+}
+
 function stepDescription(status: string, hasTracking: boolean): string {
   const map: Record<string, string> = {
     desain: "Desain sedang dikerjakan",
@@ -570,7 +575,7 @@ function StatusContent() {
                   <h2 className="dpo-h2">Rincian Pesanan</h2>
                   {totalPcs > 0 && (
                     <span className="text-[12px] text-[#6f757c]">
-                      Total <span className="dpo-mono text-[#e8ebe9]">{totalPcs}</span> pcs
+                      Total <span className="dpo-mono text-[#e8ebe9]">{fmtQty(totalPcs)}</span> pcs
                     </span>
                   )}
                 </div>
@@ -582,7 +587,7 @@ function StatusContent() {
                         <div key={i} className="flex items-center justify-between gap-3 rounded-xl border border-white/10 bg-white/[.03] px-4 py-3.5">
                           <p className="text-[14.5px] font-medium">{p.name}</p>
                           <p className="dpo-mono text-[15px] flex-none text-[#22c55e]">
-                            {p.sizes.reduce((a, s) => a + (s.qty || 0), 0)}
+                            {fmtQty(p.sizes.reduce((a, s) => a + (s.qty || 0), 0))}
                           </p>
                         </div>
                       ))}
@@ -614,11 +619,11 @@ function StatusContent() {
                                       const qty = p.sizes.find((s) => s.size === sz)?.qty || 0;
                                       return (
                                         <td key={p.name} className={`dpo-mono px-2 py-2.5 text-center text-[14px] ${qty ? "" : "text-[#6f757c]"}`}>
-                                          {qty || "–"}
+                                          {qty ? fmtQty(qty) : "–"}
                                         </td>
                                       );
                                     })}
-                                    <td className="dpo-mono px-2 py-2.5 text-right text-[14px] font-semibold text-[#22c55e]">{rowTotal}</td>
+                                    <td className="dpo-mono px-2 py-2.5 text-right text-[14px] font-semibold text-[#22c55e]">{fmtQty(rowTotal)}</td>
                                   </tr>
                                 );
                               })}
@@ -628,10 +633,10 @@ function StatusContent() {
                                 <td className="px-2 py-3 text-left text-[12px] uppercase tracking-wider text-[#6f757c]">Total</td>
                                 {products.map((p) => (
                                   <td key={p.name} className="dpo-mono px-2 py-3 text-center text-[14px]">
-                                    {p.sizes.reduce((a, s) => a + (s.qty || 0), 0)}
+                                    {fmtQty(p.sizes.reduce((a, s) => a + (s.qty || 0), 0))}
                                   </td>
                                 ))}
-                                <td className="dpo-mono px-2 py-3 text-right text-[14px] text-[#22c55e]">{totalPcs}</td>
+                                <td className="dpo-mono px-2 py-3 text-right text-[14px] text-[#22c55e]">{fmtQty(totalPcs)}</td>
                               </tr>
                             </tfoot>
                           </table>
