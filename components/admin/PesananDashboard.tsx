@@ -874,6 +874,14 @@ function ViewPesanan({
 /* ═══════════════════════════════════════════════
    VIEW: JADWAL PRODUKSI (kanban lanes)
    ═══════════════════════════════════════════════ */
+const LANE_KEYS = ["desain", "produksi", "finishing", "kirim"] as const;
+const LANE_COLORS: Record<string, string> = {
+  desain: "var(--lane-desain)",
+  produksi: "var(--lane-produksi)",
+  finishing: "var(--lane-finishing)",
+  kirim: "var(--lane-kirim)",
+};
+
 function ViewJadwal({
   orders,
   openDetail,
@@ -885,52 +893,175 @@ function ViewJadwal({
 }) {
   const active = orders.filter((o) => !o.is_done);
 
+  function barClass(pct: number) {
+    if (pct >= 100) return "done";
+    if (pct >= 66) return "high";
+    if (pct >= 33) return "mid";
+    return "low";
+  }
+
   return (
     <>
       <p className="text-[14px] text-[var(--pas-muted)] mb-5">
         Papan produksi — pesanan dikelompokkan per fase. Klik kartu untuk update tahap.
       </p>
-      <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-4 overflow-x-auto">
-        {LANES.map((lane) => {
+
+      {/* Desktop: horizontal kanban */}
+      <div className="pas-board hidden md:flex">
+        {LANES.map((lane, i) => {
+          const key = LANE_KEYS[i];
           const items = active.filter(
             (o) => o.current_step >= lane.from && o.current_step <= lane.to
           );
           return (
-            <div key={lane.name} className="flex flex-col gap-2.5 min-w-[230px]">
-              <div className="flex items-center justify-between px-1">
-                <p className="text-[13px] font-semibold">{lane.name}</p>
-                <span className="pas-delta flat">{items.length}</span>
+            <div key={lane.name} className="pas-lane">
+              {/* Lane header */}
+              <div className="pas-lane-head">
+                <span className="pas-lane-title">
+                  <span className="pas-lane-dot" style={{ background: LANE_COLORS[key] }} />
+                  {lane.name}
+                </span>
+                <span className="pas-lane-count">{items.length}</span>
               </div>
-              {items.length === 0 ? (
-                <p className="text-[12.5px] text-[var(--pas-muted)] px-1 py-6 text-center">
-                  Kosong
-                </p>
-              ) : (
-                items.map((o) => {
-                  const pct = Math.round((o.current_step / 10) * 100);
-                  return (
-                    <button
-                      key={o.id}
-                      className="pas-card p-3.5 w-full text-left"
-                      onClick={() => openDetail(o.id)}
-                    >
-                      <div className="flex items-center justify-between gap-2">
-                        <span className="font-semibold text-[13.5px] pas-num">{o.id}</span>
-                        <span className="text-[11.5px] text-[var(--pas-muted)] pas-num">
-                          {o.current_step}/9
-                        </span>
-                      </div>
-                      <p className="text-[12.5px] text-[var(--pas-muted)] mt-1">
-                        {o.customer_name} · {o.quantity}
-                      </p>
-                      <p className="text-[12.5px] mt-2">{steps[o.current_step - 1]?.name || `Tahap ${o.current_step}`}</p>
-                      <span className="pas-mini mt-2" style={{ width: "100%", display: "block" }}>
-                        <i style={{ width: `${pct}%` }} />
-                      </span>
-                    </button>
-                  );
-                })
-              )}
+
+              {/* Lane body */}
+              <div className="pas-lane-body">
+                {items.length === 0 ? (
+                  <div className="pas-lane-empty">
+                    <div className="pas-lane-empty-icon">
+                      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+                        <rect x="3" y="3" width="18" height="18" rx="2"/>
+                        <path d="M9 12h6M12 9v6"/>
+                      </svg>
+                    </div>
+                    <p className="pas-lane-empty-text">Belum ada pesanan</p>
+                    <p className="pes-lane-empty-sub">Pesanan akan muncul di sini</p>
+                  </div>
+                ) : (
+                  items.map((o) => {
+                    const pct = Math.round((o.current_step / 10) * 100);
+                    const ini = initials(o.customer_name);
+                    const stepName = steps[o.current_step - 1]?.name || `Tahap ${o.current_step}`;
+                    return (
+                      <button
+                        key={o.id}
+                        className="pas-order-card"
+                        data-lane={key}
+                        onClick={() => openDetail(o.id)}
+                      >
+                        {/* Top: avatar + id + pcs */}
+                        <div className="pas-card-top">
+                          <div className="flex items-center gap-2.5">
+                            <span className="pas-card-avatar">{ini}</span>
+                            <span className="pas-card-id">{o.id}</span>
+                          </div>
+                          <span className="pas-card-pcs">{o.quantity}</span>
+                        </div>
+
+                        {/* Body: customer + product */}
+                        <div className="pas-card-body">
+                          <p className="pas-card-customer">{o.customer_name}</p>
+                          <p className="pas-card-product">{o.product_name}</p>
+                        </div>
+
+                        {/* Progress */}
+                        <div className="pas-card-progress">
+                          <div className="pas-card-bar">
+                            <div
+                              className={`pas-card-bar-fill ${barClass(pct)}`}
+                              style={{ width: `${pct}%` }}
+                            />
+                          </div>
+                          <span className="pas-card-pct">{pct}%</span>
+                        </div>
+
+                        {/* Step */}
+                        <div className="pas-card-step">
+                          <span className="pas-card-step-dot" />
+                          {stepName}
+                        </div>
+                      </button>
+                    );
+                  })
+                )}
+              </div>
+            </div>
+          );
+        })}
+      </div>
+
+      {/* Mobile: vertical stack */}
+      <div className="flex flex-col md:hidden">
+        {LANES.map((lane, i) => {
+          const key = LANE_KEYS[i];
+          const items = active.filter(
+            (o) => o.current_step >= lane.from && o.current_step <= lane.to
+          );
+          return (
+            <div key={lane.name} className="pas-lane">
+              {/* Lane header — sticky */}
+              <div className="pas-lane-head">
+                <span className="pas-lane-title">
+                  <span className="pas-lane-dot" style={{ background: LANE_COLORS[key] }} />
+                  {lane.name}
+                </span>
+                <span className="pas-lane-count">{items.length}</span>
+              </div>
+
+              {/* Lane body */}
+              <div className="pas-lane-body">
+                {items.length === 0 ? (
+                  <div className="pas-lane-empty">
+                    <div className="pas-lane-empty-icon">
+                      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+                        <rect x="3" y="3" width="18" height="18" rx="2"/>
+                        <path d="M9 12h6M12 9v6"/>
+                      </svg>
+                    </div>
+                    <p className="pas-lane-empty-text">Belum ada pesanan</p>
+                    <p className="pas-lane-empty-sub">Pesanan akan muncul di sini</p>
+                  </div>
+                ) : (
+                  items.map((o) => {
+                    const pct = Math.round((o.current_step / 10) * 100);
+                    const ini = initials(o.customer_name);
+                    const stepName = steps[o.current_step - 1]?.name || `Tahap ${o.current_step}`;
+                    return (
+                      <button
+                        key={o.id}
+                        className="pas-order-card"
+                        data-lane={key}
+                        onClick={() => openDetail(o.id)}
+                      >
+                        <div className="pas-card-top">
+                          <div className="flex items-center gap-2.5">
+                            <span className="pas-card-avatar">{ini}</span>
+                            <span className="pas-card-id">{o.id}</span>
+                          </div>
+                          <span className="pas-card-pcs">{o.quantity}</span>
+                        </div>
+                        <div className="pas-card-body">
+                          <p className="pas-card-customer">{o.customer_name}</p>
+                          <p className="pas-card-product">{o.product_name}</p>
+                        </div>
+                        <div className="pas-card-progress">
+                          <div className="pas-card-bar">
+                            <div
+                              className={`pas-card-bar-fill ${barClass(pct)}`}
+                              style={{ width: `${pct}%` }}
+                            />
+                          </div>
+                          <span className="pas-card-pct">{pct}%</span>
+                        </div>
+                        <div className="pas-card-step">
+                          <span className="pas-card-step-dot" />
+                          {stepName}
+                        </div>
+                      </button>
+                    );
+                  })
+                )}
+              </div>
             </div>
           );
         })}

@@ -2472,3 +2472,220 @@ table.pas-tbl tbody tr:hover { background: rgba(63,86,59,.03); }
 }
 .pas-dl-warning { animation: pas-pulse 2s ease-in-out infinite; }
 .pas-dl-overdue { animation: pas-pulse 1.4s ease-in-out infinite; }
+
+/* ═══════════════════════════════════════════════
+   JADWAL PRODUKSI — KANBAN BOARD REDESIGN
+   ═══════════════════════════════════════════════ */
+
+/* Lane accent colors */
+:root {
+  --lane-desain: #CB5639;
+  --lane-produksi: #3F563B;
+  --lane-finishing: #DDB339;
+  --lane-kirim: #5B8DEF;
+}
+
+/* Board container — horizontal scroll on desktop */
+.pas-board {
+  display: flex; gap: 16px;
+  overflow-x: auto; overflow-y: hidden;
+  scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: thin;
+  scrollbar-color: var(--pas-line) transparent;
+  padding-bottom: 8px;
+  min-height: 0;
+}
+.pas-board::-webkit-scrollbar { height: 6px; }
+.pas-board::-webkit-scrollbar-track { background: transparent; }
+.pas-board::-webkit-scrollbar-thumb { background: var(--pas-line); border-radius: 99px; }
+
+/* Lane column */
+.pas-lane {
+  flex: 0 0 300px;
+  min-width: 280px;
+  max-width: 340px;
+  scroll-snap-align: start;
+  display: flex; flex-direction: column;
+  background: var(--pas-surface);
+  border: 1px solid var(--pas-line);
+  border-radius: 20px;
+  overflow: hidden;
+}
+
+/* Lane header — sticky on mobile */
+.pas-lane-head {
+  position: sticky; top: 0; z-index: 2;
+  padding: 16px 18px 14px;
+  display: flex; align-items: center; justify-content: space-between;
+  background: var(--pas-surface);
+  border-bottom: 1px solid var(--pas-line);
+}
+.pas-lane-title {
+  font-size: 13px; font-weight: 700; letter-spacing: .02em;
+  color: var(--pas-ink-1);
+  display: flex; align-items: center; gap: 8px;
+}
+.pas-lane-dot {
+  width: 8px; height: 8px; border-radius: 99px; flex-shrink: 0;
+}
+.pas-lane-count {
+  font-size: 11px; font-weight: 700;
+  background: var(--pas-light); color: var(--pas-ink-2);
+  padding: 2px 8px; border-radius: 99px;
+  font-variant-numeric: tabular-nums;
+}
+
+/* Lane body */
+.pas-lane-body {
+  flex: 1; overflow-y: auto;
+  padding: 12px;
+  display: flex; flex-direction: column; gap: 10px;
+  scrollbar-width: thin;
+  scrollbar-color: var(--pas-line) transparent;
+}
+.pas-lane-body::-webkit-scrollbar { width: 4px; }
+.pas-lane-body::-webkit-scrollbar-thumb { background: var(--pas-line); border-radius: 99px; }
+
+/* Order card */
+.pas-order-card {
+  background: var(--pas-surface);
+  border: 1px solid var(--pas-line);
+  border-radius: 16px;
+  padding: 14px 16px;
+  cursor: pointer;
+  transition: all .2s cubic-bezier(.22,1,.36,1);
+  position: relative;
+}
+.pas-order-card:hover {
+  border-color: #c4b8a8;
+  box-shadow: 0 4px 16px rgba(0,0,0,.06);
+  transform: translateY(-1px);
+}
+.pas-order-card:active {
+  transform: translateY(0);
+  box-shadow: 0 2px 8px rgba(0,0,0,.04);
+}
+
+/* Card — top accent border per lane */
+.pas-order-card[data-lane="desain"]    { border-top: 3px solid var(--lane-desain); }
+.pas-order-card[data-lane="produksi"]  { border-top: 3px solid var(--lane-produksi); }
+.pas-order-card[data-lane="finishing"] { border-top: 3px solid var(--lane-finishing); }
+.pas-order-card[data-lane="kirim"]     { border-top: 3px solid var(--lane-kirim); }
+
+/* Card header: avatar + id + pcs badge */
+.pas-card-top {
+  display: flex; align-items: center; justify-content: space-between; gap: 8px;
+}
+.pas-card-avatar {
+  width: 32px; height: 32px; border-radius: 9999px; flex-shrink: 0;
+  display: grid; place-items: center;
+  font-size: 11px; font-weight: 700;
+  background: var(--pas-light); color: var(--pas-green);
+  border: 1px solid var(--pas-line);
+}
+.pas-card-id {
+  font-size: 14px; font-weight: 700; color: var(--pas-ink-1);
+  font-variant-numeric: tabular-nums;
+}
+.pas-card-pcs {
+  font-size: 11px; font-weight: 600;
+  background: var(--pas-light); color: var(--pas-ink-2);
+  padding: 2px 8px; border-radius: 99px;
+  white-space: nowrap;
+}
+
+/* Card body: customer + product */
+.pas-card-body {
+  margin-top: 10px;
+}
+.pas-card-customer {
+  font-size: 13px; font-weight: 500; color: var(--pas-ink-1);
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+.pas-card-product {
+  font-size: 12px; color: var(--pas-muted); margin-top: 2px;
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+
+/* Progress bar */
+.pas-card-progress {
+  margin-top: 12px;
+  display: flex; align-items: center; gap: 8px;
+}
+.pas-card-bar {
+  flex: 1; height: 6px;
+  background: var(--pas-line);
+  border-radius: 99px; overflow: hidden;
+}
+.pas-card-bar-fill {
+  height: 100%; border-radius: 99px;
+  transition: width .6s cubic-bezier(.22,1,.36,1);
+}
+.pas-card-bar-fill.low    { background: var(--lane-desain); }
+.pas-card-bar-fill.mid    { background: var(--lane-produksi); }
+.pas-card-bar-fill.high   { background: var(--lane-finishing); }
+.pas-card-bar-fill.done   { background: var(--lane-produksi); }
+.pas-card-pct {
+  font-size: 11px; font-weight: 700; color: var(--pas-ink-2);
+  font-variant-numeric: tabular-nums; min-width: 32px; text-align: right;
+}
+
+/* Card footer: step name */
+.pas-card-step {
+  margin-top: 8px;
+  font-size: 11px; color: var(--pas-muted);
+  display: flex; align-items: center; gap: 4px;
+}
+.pas-card-step-dot {
+  width: 5px; height: 5px; border-radius: 99px; background: var(--pas-muted); opacity: .5;
+}
+
+/* Empty state */
+.pas-lane-empty {
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  padding: 32px 16px; gap: 8px;
+  color: var(--pas-muted); text-align: center;
+}
+.pas-lane-empty-icon {
+  width: 40px; height: 40px; border-radius: 12px;
+  background: var(--pas-light); color: var(--pas-muted);
+  display: grid; place-items: center; font-size: 18px;
+  opacity: .6;
+}
+.pas-lane-empty-text {
+  font-size: 13px; font-weight: 500;
+}
+.pas-lane-empty-sub {
+  font-size: 11px; opacity: .7;
+}
+
+/* ── Mobile Jadwal ── */
+@media (max-width: 767px) {
+  .pas-board {
+    flex-direction: column; gap: 0;
+    overflow-x: hidden; overflow-y: visible;
+    scroll-snap-type: none;
+  }
+  .pas-lane {
+    flex: none; width: 100%; max-width: 100%;
+    min-width: 0;
+    border-radius: 0;
+    border-left: none; border-right: none;
+    border-top: none;
+    scroll-snap-align: none;
+  }
+  .pas-lane + .pas-lane {
+    border-top: 1px solid var(--pas-line);
+  }
+  .pas-lane-head {
+    position: sticky; top: 0; z-index: 5;
+    background: var(--pas-bg);
+  }
+  .pas-lane-body {
+    padding: 10px 16px 16px;
+  }
+  .pas-order-card {
+    border-radius: 16px;
+  }
+}
