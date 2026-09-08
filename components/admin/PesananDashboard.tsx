@@ -365,7 +365,7 @@ export default function PesananDashboard() {
                 <span className="pas-display text-[15px]">TNT Sport</span>
               </a>
               <button
-                className="p-2 rounded-lg text-[var(--pas-muted)] hover:text-white hover:bg-[var(--pas-surface-2)] transition"
+                className="p-2 rounded-lg text-[var(--pas-muted)] hover:text-[var(--pas-ink-1)] hover:bg-[var(--pas-light)] transition"
                 onClick={() => setShowMobileNav(false)}
                 aria-label="Tutup menu"
               >
@@ -1173,7 +1173,9 @@ function ViewCustomer({
       <p className="text-[14px] text-[var(--pas-muted)] mb-5">
         Daftar customer beserta jumlah pesanan yang pernah masuk.
       </p>
-      <div className="pas-card p-2 sm:p-4 overflow-x-auto">
+
+      {/* table (desktop) */}
+      <div className="pas-card p-2 sm:p-4 overflow-x-auto hidden md:block">
         <table className="pas-tbl">
           <thead>
             <tr>
@@ -1212,6 +1214,56 @@ function ViewCustomer({
             })}
           </tbody>
         </table>
+      </div>
+
+      {/* cards (mobile) */}
+      <div className="flex flex-col gap-3 md:hidden">
+        {Object.keys(map).length === 0 && (
+          <div className="flex flex-col items-center justify-center py-16 gap-3">
+            <span className="text-[40px] opacity-30">👤</span>
+            <p className="text-[var(--pas-muted)] text-[15px] font-medium">Belum ada customer</p>
+          </div>
+        )}
+        {Object.keys(map).map((k) => {
+          const c = map[k];
+          return (
+            <div
+              key={k}
+              className="pas-bento-card cursor-pointer"
+              onClick={() => onSelectCustomer(k)}
+            >
+              {/* Baris 1: Avatar + Nama + Badge status */}
+              <div className="flex items-center justify-between gap-3">
+                <div className="flex items-center gap-3 min-w-0">
+                  <span className="pas-bento-avatar">{initials(k)}</span>
+                  <div className="min-w-0">
+                    <p className="text-[15px] font-semibold truncate">{k}</p>
+                    <p className="text-[12px] text-[var(--pas-muted)] truncate">{c.city}</p>
+                  </div>
+                </div>
+                {c.aktif ? (
+                  <span className="pas-pill produksi shrink-0">{c.aktif} aktif</span>
+                ) : (
+                  <span className="pas-pill selesai shrink-0">selesai</span>
+                )}
+              </div>
+
+              {/* Baris 2: Nomor HP */}
+              <div className="flex items-center gap-2 mt-3">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-[var(--pas-muted)] shrink-0">
+                  <path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6 19.79 19.79 0 01-3.07-8.67A2 2 0 014.11 2h3a2 2 0 012 1.72 12.84 12.84 0 00.7 2.81 2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45 12.84 12.84 0 002.81.7A2 2 0 0122 16.92z"/>
+                </svg>
+                <p className="text-[13px] text-[var(--pas-muted)] pas-num">{c.phone || "-"}</p>
+              </div>
+
+              {/* Baris 3: Total Order */}
+              <div className="mt-3 pt-3 border-t border-[var(--pas-line)]">
+                <p className="text-[12px] text-[var(--pas-muted)] uppercase tracking-wider font-semibold">Total Order</p>
+                <p className="pas-display text-[22px] mt-0.5">{c.orders.length}</p>
+              </div>
+            </div>
+          );
+        })}
       </div>
     </>
   );

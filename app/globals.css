@@ -2146,6 +2146,12 @@
 .pas-navlink.on { background: rgba(255,255,255,.12); color: #fff; font-weight: 600; }
 .pas-navlink.on .pas-ic { color: #DDB339; }
 .pas-ic { width: 18px; text-align: center; font-size: 15px; opacity: .9; }
+
+/* Drawer menu (light panel) overrides for navlink */
+.pas-panel .pas-navlink { color: var(--pas-ink-2); }
+.pas-panel .pas-navlink:hover { background: var(--pas-light); color: var(--pas-ink-1); }
+.pas-panel .pas-navlink.on { background: rgba(63,86,59,.1); color: var(--pas-green); font-weight: 600; }
+.pas-panel .pas-navsec { color: var(--pas-muted); }
 .pas-navsec {
   font-size: 10.5px; letter-spacing: .14em; text-transform: uppercase;
   color: rgba(255,255,255,.4); padding: 0 12px; margin: 18px 0 8px; font-weight: 600;
