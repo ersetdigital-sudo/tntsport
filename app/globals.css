@@ -2333,13 +2333,13 @@ table.pas-tbl tbody tr:hover { background: rgba(255,255,255,.028); }
     padding: 20px;
     position: relative;
     overflow: hidden;
-    box-shadow: 0 4px 20px rgba(0,0,0,.15);
+    box-shadow: 0 4px 16px rgba(0,0,0,.12);
     transition: all .2s ease;
   }
   .pas-bento-kpi:hover {
     border-color: #414855;
     transform: translateY(-2px);
-    box-shadow: 0 6px 24px rgba(0,0,0,.2);
+    box-shadow: 0 6px 20px rgba(0,0,0,.16);
   }
 
   .pas-bento-card {
@@ -2348,13 +2348,13 @@ table.pas-tbl tbody tr:hover { background: rgba(255,255,255,.028); }
     border-radius: 20px;
     padding: 20px;
     position: relative;
-    box-shadow: 0 4px 20px rgba(0,0,0,.15);
+    box-shadow: 0 4px 16px rgba(0,0,0,.12);
     transition: all .2s ease;
   }
   .pas-bento-card:hover {
     border-color: #414855;
     transform: translateY(-2px);
-    box-shadow: 0 6px 24px rgba(0,0,0,.2);
+    box-shadow: 0 6px 20px rgba(0,0,0,.16);
   }
 
   .pas-bento-avatar {
@@ -2387,19 +2387,19 @@ table.pas-tbl tbody tr:hover { background: rgba(255,255,255,.028); }
     font-size: 13px !important;
     transition: all .18s ease;
     white-space: nowrap;
-    box-shadow: 0 2px 8px rgba(0,0,0,.1) !important;
+    box-shadow: 0 2px 6px rgba(0,0,0,.08) !important;
   }
   .pas-bento-chip:hover {
     background: var(--pas-surface-2) !important;
     color: var(--pas-ink-1) !important;
-    border-color: #4b7d63 !important;
+    border-color: #5cc98a !important;
     transform: translateY(-1px);
   }
   .pas-bento-chip.on {
-    background: var(--pas-accent) !important;
-    color: #0f2318 !important;
-    border-color: var(--pas-accent) !important;
-    box-shadow: 0 4px 14px rgba(92,201,138,.35) !important;
+    background: #3F563B !important;
+    color: #DFE9DE !important;
+    border-color: #3F563B !important;
+    box-shadow: 0 4px 14px rgba(63,86,59,.35) !important;
   }
 
   .pas-bento-divider {
@@ -2416,28 +2416,28 @@ table.pas-tbl tbody tr:hover { background: rgba(255,255,255,.028); }
     transform: translateX(-50%);
     width: 85%;
     max-width: 380px;
-    background: var(--pas-accent);
+    background: #3F563B;
     border-radius: 30px;
     padding: 10px 24px;
     display: flex;
     align-items: center;
     justify-content: space-between;
-    box-shadow: 0 8px 32px rgba(92,201,138,.35), 0 2px 8px rgba(0,0,0,.15);
+    box-shadow: 0 8px 32px rgba(63,86,59,.4), 0 2px 8px rgba(0,0,0,.2);
     z-index: 50;
   }
   .pas-bottom-nav-item {
     width: 48px; height: 48px;
     display: flex; align-items: center; justify-content: center;
     border-radius: 14px; border: none; background: transparent;
-    color: rgba(255,255,255,.6); position: relative;
+    color: rgba(255,255,255,.55); position: relative;
     transition: all .18s ease; cursor: pointer;
   }
-  .pas-bottom-nav-item:hover { color: #fff; background: rgba(255,255,255,.12); }
-  .pas-bottom-nav-item.on { color: #0f2318; background: rgba(255,255,255,.2); }
+  .pas-bottom-nav-item:hover { color: #fff; background: rgba(255,255,255,.1); }
+  .pas-bottom-nav-item.on { color: #DDB339; background: rgba(255,255,255,.12); }
   .pas-bottom-nav-dot {
     position: absolute; bottom: 2px; left: 50%; transform: translateX(-50%);
     width: 5px; height: 5px; border-radius: 99px;
-    background: #0f2318;
+    background: #DDB339;
   }
 
   /* Push content up so bottom nav doesn't overlap */
