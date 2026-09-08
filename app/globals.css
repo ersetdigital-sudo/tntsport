@@ -2113,6 +2113,7 @@
    PESANAN ADMIN DASHBOARD — pas-* prefix (Light Theme — Wireframe Match)
    ================================================================ */
 :root {
+  color-scheme: light;
   --pas-bg: #F5EBE1;
   --pas-surface: #FFFFFF;
   --pas-surface-2: #F5EBE1;
@@ -2191,6 +2192,15 @@
 .pas-field:focus {
   border-color: #3F563B; box-shadow: 0 0 0 3px rgba(63,86,59,.1);
   background: var(--pas-surface);
+}
+/* pastikan dropdown option selalu terang (bukan ikut dark-mode OS) */
+.pas-field option, .pas-field optgroup {
+  background: #FFFFFF; color: var(--pas-ink-1);
+}
+/* autofill browser jangan pakai bg biru/hitam */
+.pas-field:-webkit-autofill {
+  -webkit-box-shadow: 0 0 0 1000px #FFFFFF inset;
+  -webkit-text-fill-color: var(--pas-ink-1);
 }
 .pas-search { position: relative; }
 .pas-search input { padding-left: 38px; }

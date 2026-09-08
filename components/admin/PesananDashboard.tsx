@@ -316,7 +316,7 @@ export default function PesananDashboard() {
             </div>
             <div className="flex items-center gap-2">
               <button
-                className="lg:hidden p-2.5 rounded-lg border border-[var(--pas-line)] text-[var(--pas-muted)] hover:text-white hover:bg-[var(--pas-surface-2)] transition"
+                className="lg:hidden p-2.5 rounded-lg border border-[var(--pas-line)] text-[var(--pas-muted)] hover:text-[var(--pas-ink-1)] hover:bg-[var(--pas-surface-2)] transition"
                 onClick={() => setShowMobileNav(true)}
                 aria-label="Buka menu"
               >
@@ -594,10 +594,10 @@ function ViewPesanan({
           <div className="pas-card p-6 max-w-md w-full" onClick={(e) => e.stopPropagation()}>
             <p className="pas-display text-[18px]">Hapus Pesanan?</p>
             <p className="text-[14px] text-[var(--pas-muted)] mt-2 leading-relaxed">
-              Pesanan <span className="text-white font-semibold pas-num">{confirmDelete.id}</span> ({confirmDelete.customer_name}) akan dihapus permanen dan tidak bisa dikembalikan.
+              Pesanan <span className="text-[var(--pas-ink-1)] font-semibold pas-num">{confirmDelete.id}</span> ({confirmDelete.customer_name}) akan dihapus permanen dan tidak bisa dikembalikan.
             </p>
             {isDangerousStatus(confirmDelete) && (
-              <p className="text-[13px] text-yellow-400 mt-3 bg-yellow-400/10 border border-yellow-400/20 rounded-xl px-4 py-2.5">
+              <p className="text-[13px] text-[#9a5d00] mt-3 bg-[#DDB339]/15 border border-[#DDB339]/30 rounded-xl px-4 py-2.5">
                 ⚠ Pesanan ini sedang dalam produksi/pengiriman. Hapus hanya jika ini adalah data testing.
               </p>
             )}
@@ -1189,7 +1189,7 @@ function CustomerDetail({
       {/* Back button */}
       <button
         onClick={onBack}
-        className="flex items-center gap-2 text-[13px] text-[var(--pas-muted)] hover:text-white transition mb-5"
+        className="flex items-center gap-2 text-[13px] text-[var(--pas-muted)] hover:text-[var(--pas-ink-1)] transition mb-5"
       >
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
           <path d="M19 12H5M12 19l-7-7 7-7" />
@@ -1246,7 +1246,7 @@ function CustomerDetail({
                 return (
                   <tr
                     key={o.id}
-                    className="cursor-pointer hover:bg-white/[.03] transition"
+                    className="cursor-pointer hover:bg-[var(--pas-surface-2)] transition"
                     onClick={() => onOpenOrder(o.id)}
                   >
                     <td className="pas-num font-semibold">{o.id}</td>
@@ -1277,7 +1277,7 @@ function CustomerDetail({
               return (
                 <div
                   key={o.id}
-                  className="pas-card p-3.5 cursor-pointer hover:bg-white/[.03] transition"
+                  className="pas-card p-3.5 cursor-pointer hover:bg-[var(--pas-surface-2)] transition"
                   onClick={() => onOpenOrder(o.id)}
                 >
                   <div className="flex items-start justify-between gap-3">
@@ -1848,25 +1848,49 @@ function DetailSheet({
     <div className="pas-sheet open">
       <div className="pas-veil" onClick={onClose} />
       <div className="pas-panel p-5 sm:p-7">
+        {/* ── HEADER ── */}
         <div className="flex items-start justify-between gap-4">
-          <div>
-            <p className="pas-stencil text-[9px] text-[var(--pas-accent)]">
-              {FILTER_LABEL[st]}
-            </p>
-            <h2 className="pas-display text-[24px] mt-2">{order.id}</h2>
-            <p className="text-[14px] text-[var(--pas-muted)] mt-1">
-              {order.customer_name} · {order.customer_city} · {order.customer_phone}
-            </p>
+          <div className="flex items-center gap-3.5 min-w-0">
+            <span className="pas-avatar w-11 h-11 text-[15px] flex items-center justify-center shrink-0">
+              {initials(order.customer_name)}
+            </span>
+            <div className="min-w-0">
+              <div className="flex items-center gap-2 flex-wrap">
+                <h2 className="pas-display text-[22px] leading-none">{order.id}</h2>
+                <span className={`pas-pill ${st}`}>{FILTER_LABEL[st]}</span>
+              </div>
+              <p className="text-[13.5px] text-[var(--pas-muted)] mt-1.5 truncate">
+                {order.customer_name} · {order.customer_city}
+              </p>
+              <p className="text-[13px] text-[var(--pas-muted)] pas-num">{order.customer_phone}</p>
+            </div>
           </div>
           <button
-            className="pas-btn-ghost px-3 py-2 text-sm text-[var(--pas-muted)]"
+            className="pas-btn-ghost px-3 py-2 text-sm text-[var(--pas-muted)] hover:text-[var(--pas-ink-1)] shrink-0"
             onClick={onClose}
           >
-            Tutup
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round">
+              <path d="M18 6L6 18M6 6l12 12" />
+            </svg>
           </button>
         </div>
 
-        <div className="pas-card p-4 mt-5 grid grid-cols-2 gap-y-3 text-[14px]" style={{ background: "var(--pas-surface-2)" }}>
+        {/* ── PROGRESS ── */}
+        <div className="mt-5 p-4 rounded-2xl bg-[var(--pas-surface-2)] border border-[var(--pas-line)]">
+          <div className="flex items-center justify-between">
+            <p className="pas-stencil text-[9px] text-[var(--pas-muted)]">Progress Produksi</p>
+            <p className="pas-display text-[16px] pas-num">{pct}%</p>
+          </div>
+          <span className="pas-bar mt-2.5" style={{ display: "block" }}>
+            <i style={{ width: `${pct}%` }} />
+          </span>
+          <p className="text-[12.5px] text-[var(--pas-muted)] mt-2">
+            Tahap sekarang: <span className="text-[var(--pas-ink-1)] font-medium">{steps[step - 1]?.name || `Tahap ${step}`}</span>
+          </p>
+        </div>
+
+        {/* ── INFO GRID ── */}
+        <div className="pas-card p-4 mt-4 grid grid-cols-2 gap-y-4 text-[14px]">
           {(order.products?.length ?? 0) > 0 ? (
             order.products!.map((p, pi) => (
               <div key={pi} className="col-span-2 rounded-xl border border-[var(--pas-line)] p-3.5">
@@ -1979,13 +2003,6 @@ function DetailSheet({
           )}
         </div>
 
-        <div className="flex items-center gap-3 mt-5">
-          <span className="pas-bar" style={{ flex: 1 }}>
-            <i style={{ width: `${pct}%` }} />
-          </span>
-          <span className="pas-display text-[14px]">{pct}%</span>
-        </div>
-
         <p className="pas-stencil text-[9px] text-[var(--pas-muted)] mt-6">
           Update Tahap Produksi
         </p>
@@ -2015,7 +2032,7 @@ function DetailSheet({
           onChange={(e) => setNote(e.target.value)}
         />
 
-        <div className="pas-card p-4 mt-4">
+        <div className="p-4 mt-4 rounded-2xl bg-[var(--pas-surface-2)] border border-[var(--pas-line)]">
           <p className="pas-stencil text-[9px] text-[var(--pas-muted)]">Data Pengiriman</p>
           <div className="grid grid-cols-2 gap-3 mt-3">
             <input
@@ -2038,7 +2055,7 @@ function DetailSheet({
           )}
         </div>
 
-        <div className="pas-card p-4 mt-4">
+        <div className="p-4 mt-4 rounded-2xl bg-[var(--pas-surface-2)] border border-[var(--pas-line)]">
           <p className="pas-stencil text-[9px] text-[var(--pas-muted)]">Tanggal Deadline</p>
           <input
             type="date"
@@ -2049,7 +2066,7 @@ function DetailSheet({
         </div>
 
         {kirimError && (
-          <p className="text-[13px] text-red-400 mt-3 bg-red-500/10 border border-red-500/20 rounded-xl px-4 py-2.5">
+          <p className="text-[13px] text-red-600 mt-3 bg-red-50 border border-red-200 rounded-xl px-4 py-2.5">
             {kirimError}
           </p>
         )}
