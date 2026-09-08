@@ -624,7 +624,7 @@ function ViewPesanan({
           </div>
         </div>
         <div className="pas-card pas-kpi pas-bento-kpi p-4 sm:p-5">
-          <p className="text-[13px] text-[var(--pas-muted)]">Siap Dikirim</p>
+          <p className="text-[13px] text-[var(--pas-muted)]">Deadline</p>
           <div className="flex items-end gap-2.5 mt-2.5">
             <p className="pas-display text-[20px] leading-none text-[#8fb0f7]">
               {nextDeadline ? formatDate(nextDeadline) : "-"}
