@@ -1556,6 +1556,82 @@ function ViewSetting({
   const [savingSteps, setSavingSteps] = useState(false);
   const [confirmDelete, setConfirmDelete] = useState<number | null>(null);
 
+  // Token Fonnte (notifikasi WhatsApp) — token penuh tidak pernah dirender/dikirim ke client
+  const [fonnteToken, setFonnteToken] = useState("");
+  const [fonnteTarget, setFonnteTarget] = useState("");
+  const [fonnteHasToken, setFonnteHasToken] = useState(false);
+  const [fonnteLast4, setFonnteLast4] = useState<string | null>(null);
+  const [savingFonnte, setSavingFonnte] = useState(false);
+  const [testingFonnte, setTestingFonnte] = useState(false);
+
+  useEffect(() => {
+    fetch("/api/admin/settings/fonnte")
+      .then((r) => (r.ok ? r.json() : null))
+      .then((d) => {
+        if (d) {
+          setFonnteHasToken(!!d.hasToken);
+          setFonnteLast4(d.tokenLast4 ?? null);
+        }
+      })
+      .catch(() => {
+        // silent
+      });
+  }, []);
+
+  const saveFonnteToken = async () => {
+    const value = fonnteToken.trim();
+    if (!value) {
+      showToast("Token tidak boleh kosong");
+      return;
+    }
+    setSavingFonnte(true);
+    try {
+      const res = await fetch("/api/admin/settings/fonnte", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ token: value }),
+      });
+      const data = await res.json();
+      if (!res.ok) {
+        showToast(data.error || "Gagal menyimpan token");
+        return;
+      }
+      setFonnteToken("");
+      setFonnteHasToken(true);
+      setFonnteLast4(data.tokenLast4);
+      showToast("Token Fonnte tersimpan (terenkripsi)");
+    } catch {
+      showToast("Gagal menyimpan token");
+    } finally {
+      setSavingFonnte(false);
+    }
+  };
+
+  const testFonnte = async () => {
+    if (!fonnteTarget.trim()) {
+      showToast("Isi nomor HP tujuan untuk pesan uji");
+      return;
+    }
+    setTestingFonnte(true);
+    try {
+      const res = await fetch("/api/admin/settings/fonnte/test", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ target: fonnteTarget.trim() }),
+      });
+      const data = await res.json();
+      if (!res.ok) {
+        showToast(data.error || "Gagal kirim pesan uji");
+        return;
+      }
+      showToast("Pesan uji terkirim. Cek WhatsApp Anda");
+    } catch {
+      showToast("Gagal kirim pesan uji");
+    } finally {
+      setTestingFonnte(false);
+    }
+  };
+
   useEffect(() => {
     setEditSteps(steps.map((s) => ({ name: s.name, position: s.position })));
   }, [steps]);
@@ -1734,6 +1810,75 @@ function ViewSetting({
             {savingSteps ? "Menyimpan…" : "Simpan Tahap Produksi"}
           </button>
         </div>
+      </div>
+
+      {/* Notifikasi WhatsApp (Fonnte) */}
+      <div className="pas-card p-5">
+        <div className="flex items-center justify-between gap-3">
+          <div>
+            <p className="font-semibold text-[15px]">Notifikasi WhatsApp (Fonnte)</p>
+            <p className="text-[12.5px] text-[var(--pas-muted)] mt-1">
+              Terkirim otomatis ke customer saat tahap produksi diubah. Token disimpan terenkripsi (AES-256-GCM).
+            </p>
+          </div>
+          <span
+            className={`pas-pill shrink-0 ${fonnteHasToken ? "produksi" : "selesai"}`}
+          >
+            {fonnteHasToken
+              ? `Tersimpan ·•••${fonnteLast4 ?? ""}`
+              : "Belum di-set"}
+          </span>
+        </div>
+
+        <div className="grid lg:grid-cols-2 gap-4 mt-5">
+          <label className="block">
+            <span className="text-[13px] text-[var(--pas-muted)]">Token Fonnte</span>
+            <div className="flex gap-2 mt-1.5">
+              <input
+                type="password"
+                autoComplete="off"
+                className="pas-field flex-1 min-w-0 px-4 py-2.5 text-[14px]"
+                placeholder={
+                  fonnteHasToken && fonnteLast4
+                    ? `••••••••••••${fonnteLast4} (isi untuk mengganti)`
+                    : "Token dari dashboard Fonnte"
+                }
+                value={fonnteToken}
+                onChange={(e) => setFonnteToken(e.target.value)}
+              />
+              <button
+                className="pas-btn-accent px-4 py-2.5 text-[13px] shrink-0"
+                disabled={savingFonnte}
+                onClick={saveFonnteToken}
+              >
+                {savingFonnte ? "Menyimpan…" : "Simpan"}
+              </button>
+            </div>
+          </label>
+
+          <label className="block">
+            <span className="text-[13px] text-[var(--pas-muted)]">Uji Koneksi</span>
+            <div className="flex gap-2 mt-1.5">
+              <input
+                type="tel"
+                className="pas-field flex-1 min-w-0 px-4 py-2.5 text-[14px] pas-num"
+                placeholder="No. HP admin (0812... atau 62812...)"
+                value={fonnteTarget}
+                onChange={(e) => setFonnteTarget(e.target.value)}
+              />
+              <button
+                className="pas-btn-ghost px-4 py-2.5 text-[13px] shrink-0"
+                disabled={testingFonnte}
+                onClick={testFonnte}
+              >
+                {testingFonnte ? "Mengirim…" : "Test Kirim"}
+              </button>
+            </div>
+          </label>
+        </div>
+        <p className="text-[12px] text-[var(--pas-muted)] mt-3">
+          Dapatkan token di dashboard Fonnte (fonnte.com). Token tidak pernah ditampilkan penuh dan tidak pernah di-log.
+        </p>
       </div>
 
       {/* Delete confirmation modal */}

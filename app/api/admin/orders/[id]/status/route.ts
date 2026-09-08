@@ -3,22 +3,18 @@ import { createClient } from "@/lib/supabase/server";
 import { ORDER_STATUS_LIST, type OrderStatus } from "@/lib/types";
 import {
   STATUS_TO_STAGE,
-  buildWhatsAppMessage,
-  normalizeAndValidatePhone,
-  sendFonnteMessage,
+  triggerStageNotification,
+  type NotificationTriggerStatus,
 } from "@/lib/fonnte";
 import { checkRateLimit } from "@/lib/rate-limit";
-import type { SupabaseClient } from "@supabase/supabase-js";
 
-/** Nama tahap terakhir yang sukses dikirim (hanya untuk response API, bukan token). */
+/** Hasil notifikasi untuk response API (tidak pernah berisi token). */
 interface NotificationResult {
   stage: number | null;
   status:
     | "none" // tidak ada perubahan stage
     | "skipped_same_stage" // stage sama dengan sebelumnya → tanpa notifikasi
-    | "skipped_duplicate" // unique constraint (order_id, stage) → sudah pernah terkirim
-    | "sent"
-    | "failed";
+    | NotificationTriggerStatus;
 }
 
 /**
@@ -33,6 +29,7 @@ interface NotificationResult {
  *    - berhasil → build pesan → kirim Fonnte → update log (success/failed) →
  *      update last_notified_stage HANYA jika sukses.
  * 5. Kegagalan kirim WA TIDAK menggagalkan/rollback update status order.
+ *    (Logika pengiriman ada di lib/fonnte.ts triggerStageNotification.)
  */
 export async function PATCH(
   request: NextRequest,
@@ -136,7 +133,7 @@ export async function PATCH(
     const notification: NotificationResult = { stage: newStage, status: "none" };
 
     if (newStage !== null && newStage !== previousStage) {
-      notification.status = await triggerNotification(
+      notification.status = await triggerStageNotification(
         supabase,
         id,
         existing,
@@ -153,89 +150,4 @@ export async function PATCH(
       { status: 500 }
     );
   }
-}
-
-/**
- * Trigger satu pengiriman notifikasi WA.
- * 1. INSERT notification_logs (order_id, stage) — unique constraint = anti-duplikat.
- * 2. Kalau insert sukses → kirim WA → update log + last_notified_stage.
- * Semua dibungkus try-catch: kegagalan WA tidak pernah dilempar ke atas.
- */
-async function triggerNotification(
-  supabase: SupabaseClient,
-  orderId: string,
-  order: { customer_name: string; order_number: string; customer_phone: string },
-  stage: number
-): Promise<NotificationResult["status"]> {
-  // 4a. INSERT log dulu. Unique violation (23505) = sudah pernah terkirim → skip.
-  const { data: logRow, error: logError } = await supabase
-    .from("notification_logs")
-    .insert({ order_id: orderId, stage })
-    .select("id")
-    .single();
-
-  if (logError) {
-    if (logError.code === "23505") return "skipped_duplicate";
-    // Error DB lain (mis. RLS/network) — catat tanpa menggagalkan update status.
-    console.error("notification_logs insert failed:", logError.message);
-    return "failed";
-  }
-
-  try {
-    const phone = normalizeAndValidatePhone(order.customer_phone);
-    if (!phone) {
-      await updateLogStatus(supabase, logRow.id, "failed", {
-        error: "invalid_phone",
-      });
-      return "failed";
-    }
-
-    const message = buildWhatsAppMessage(stage, order);
-    const result = await sendFonnteMessage(phone, message);
-
-    // 4d. Update status log (response_payload TIDAK pernah berisi token).
-    await updateLogStatus(
-      supabase,
-      logRow.id,
-      result.success ? "success" : "failed",
-      result.response
-    );
-
-    if (!result.success) return "failed";
-
-    // 4e. last_notified_stage hanya di-update kalau kirim sukses.
-    await supabase
-      .from("orders")
-      .update({ last_notified_stage: stage })
-      .eq("id", orderId);
-
-    return "sent";
-  } catch (err) {
-    // 5. WA gagal → status order tetap tersimpan, cukup log error.
-    console.error(
-      "WA notification failed:",
-      err instanceof Error ? err.message : err
-    );
-    try {
-      await updateLogStatus(supabase, logRow.id, "failed", {
-        error: "unexpected",
-      });
-    } catch {
-      // abaikan — log adalah best effort
-    }
-    return "failed";
-  }
-}
-
-async function updateLogStatus(
-  supabase: SupabaseClient,
-  logId: string,
-  status: "success" | "failed",
-  responsePayload: Record<string, unknown> | null
-) {
-  const patch: Record<string, unknown> = { status };
-  if (responsePayload !== null && responsePayload !== undefined) {
-    patch.response_payload = responsePayload;
-  }
-  await supabase.from("notification_logs").update(patch).eq("id", logId);
 }

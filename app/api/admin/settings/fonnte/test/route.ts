@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { createClient } from "@/lib/supabase/server";
+import { hasAdminAccess } from "@/lib/admin-auth";
 import {
   getFonnteToken,
   normalizeAndValidatePhone,
@@ -16,15 +17,12 @@ const TEST_MESSAGE =
  */
 export async function POST(request: NextRequest) {
   const supabase = await createClient();
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
 
-  if (!user) {
+  if (!(await hasAdminAccess(supabase))) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 
-  if (!checkRateLimit(`fonnte-test:${user.id}`, 5, 60_000)) {
+  if (!checkRateLimit(`fonnte-test:${request.headers.get("x-forwarded-for") ?? "anon"}`, 5, 60_000)) {
     return NextResponse.json(
       { error: "Terlalu banyak permintaan, coba lagi nanti" },
       { status: 429 }

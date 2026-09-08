@@ -10,6 +10,7 @@
 import { normalizeWhatsAppNumber } from "@/lib/wa";
 import { decryptSecret } from "@/lib/fonnte-crypto";
 import { createClient } from "@/lib/supabase/server";
+import type { SupabaseClient } from "@supabase/supabase-js";
 
 export const FONNTE_TOKEN_KEY = "fonnte_token";
 export const FONNTE_API_URL = "https://api.fonnte.com/send";
@@ -188,4 +189,108 @@ export async function sendFonnteMessage(
 export function normalizeAndValidatePhone(raw: string): string | null {
   const phone = normalizeWhatsAppNumber(raw);
   return isValidFonntePhone(phone) ? phone : null;
+}
+
+/** Hasil trigger notifikasi untuk response API. */
+export type NotificationTriggerStatus =
+  | "sent"
+  | "failed"
+  | "skipped_duplicate"
+  | "log_error";
+
+/**
+ * Trigger satu pengiriman notifikasi WA — dipakai endpoint admin
+ * (`/api/admin/orders/[id]/status`) dan dashboard Pesanan
+ * (`/api/pesanan/orders/[id]/status`).
+ *
+ * 1. INSERT notification_logs (order_id, stage) — unique constraint di DB
+ *    = anti-duplikat, aman walau ada race condition/request kembar.
+ * 2. Insert sukses → build pesan → kirim Fonnte → update log
+ *    (success/failed + response_payload) → update last_notified_stage
+ *    HANYA jika sukses.
+ *
+ * Seluruh proses dibungkus try-catch: kegagalan kirim WA TIDAK pernah
+ * dilempar ke atas (status order tetap tersimpan).
+ */
+export async function triggerStageNotification(
+  supabase: SupabaseClient,
+  orderId: string,
+  order: {
+    customer_name: string;
+    order_number: string;
+    customer_phone: string;
+  },
+  stage: number
+): Promise<NotificationTriggerStatus> {
+  // 1. INSERT log dulu. Unique violation (23505) = sudah pernah terkirim → skip.
+  const { data: logRow, error: logError } = await supabase
+    .from("notification_logs")
+    .insert({ order_id: orderId, stage })
+    .select("id")
+    .single();
+
+  if (logError) {
+    if (logError.code === "23505") return "skipped_duplicate";
+    // Error DB lain — catat tanpa menggagalkan update status.
+    console.error("notification_logs insert failed:", logError.message);
+    return "log_error";
+  }
+
+  try {
+    const phone = normalizeAndValidatePhone(order.customer_phone);
+    if (!phone) {
+      await updateLogStatus(supabase, logRow.id, "failed", {
+        error: "invalid_phone",
+      });
+      return "failed";
+    }
+
+    const message = buildWhatsAppMessage(stage, order);
+    const result = await sendFonnteMessage(phone, message);
+
+    // Update status log (response_payload TIDAK pernah berisi token).
+    await updateLogStatus(
+      supabase,
+      logRow.id,
+      result.success ? "success" : "failed",
+      result.response
+    );
+
+    if (!result.success) return "failed";
+
+    // last_notified_stage hanya di-update kalau kirim sukses.
+    await supabase
+      .from("orders")
+      .update({ last_notified_stage: stage })
+      .eq("id", orderId);
+
+    return "sent";
+  } catch (err) {
+    // Kegagalan WA → status order tetap tersimpan, cukup log error.
+    console.error(
+      "WA notification failed:",
+      err instanceof Error ? err.message : err
+    );
+    try {
+      await updateLogStatus(supabase, logRow.id, "failed", {
+        error: "unexpected",
+      });
+    } catch {
+      // log adalah best effort
+    }
+    return "failed";
+  }
+}
+
+async function updateLogStatus(
+  supabase: SupabaseClient,
+  logId: string,
+  status: "success" | "failed",
+  responsePayload: Record<string, unknown> | null
+) {
+  const patch: Record<string, unknown> = { status };
+  if (responsePayload !== null && responsePayload !== undefined) {
+    patch.response_payload = responsePayload;
+  }
+  await supabase.from("notification_logs").update(patch).eq("id", logId);
 }

@@ -1,5 +1,11 @@
 import { NextResponse } from "next/server";
 import { createClient } from "@supabase/supabase-js";
+import {
+  STATUS_TO_STAGE,
+  triggerStageNotification,
+  type NotificationTriggerStatus,
+} from "@/lib/fonnte";
+import { checkRateLimit } from "@/lib/rate-limit";
 
 const STEPS = [
   "desain",
@@ -17,6 +23,14 @@ function statusFromStep(step: number): string {
   return STEPS[Math.min(Math.max(step, 1), 9) - 1] || "desain";
 }
 
+/**
+ * PATCH /api/pesanan/orders/[id]/status — update tahap produksi dari
+ * dashboard Pesanan (id = order_number).
+ *
+ * Sama seperti endpoint admin: notifikasi WA (Fonnte) dipicu HANYA bila
+ * tahap BENAR-BENAR berubah, anti-duplikat lewat unique (order_id, stage),
+ * dan kegagalan kirim WA tidak menggagalkan update status.
+ */
 export async function PATCH(
   request: Request,
   { params }: { params: Promise<{ id: string }> }
@@ -30,14 +44,44 @@ export async function PATCH(
     process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
   );
 
+  // Rate limit dasar per order — cegah spam trigger notifikasi.
+  if (!checkRateLimit(`stage-update:${id}`, 10, 60_000)) {
+    return NextResponse.json(
+      { error: "Terlalu banyak permintaan, coba lagi nanti" },
+      { status: 429 }
+    );
+  }
+
+  // Ambil order dulu — previous_stage dibaca sebelum update, sekalian data
+  // customer (nama, no. pesanan, no. HP) untuk pesan WhatsApp.
+  const { data: existing, error: fetchError } = await supabase
+    .from("orders")
+    .select("*")
+    .eq("order_number", id)
+    .maybeSingle();
+
+  if (fetchError || !existing) {
+    return NextResponse.json(
+      { error: "Pesanan tidak ditemukan" },
+      { status: 404 }
+    );
+  }
+
+  const newStage =
+    current_step !== undefined
+      ? Math.min(Math.max(Number(current_step), 1), 9)
+      : null;
+  const previousStage =
+    existing.current_stage ??
+    STATUS_TO_STAGE[existing.current_status as string] ??
+    null;
+
   const updateData: Record<string, any> = {
     updated_at: new Date().toISOString(),
   };
 
   if (current_step !== undefined) {
-    // Jaga konsistensi current_stage dengan current_status (tanpa trigger notifikasi
-    // — notifikasi hanya dipicu dari endpoint admin).
-    updateData.current_stage = Math.min(Math.max(Number(current_step), 1), 9);
+    updateData.current_stage = newStage;
     if (current_step === 9 && is_done) {
       if (!tracking_number || !courier) {
         return NextResponse.json(
@@ -85,5 +129,22 @@ export async function PATCH(
     }
   }
 
-  return NextResponse.json({ ok: true, historyError });
+  // Notifikasi WhatsApp — hanya bila tahap berubah.
+  const notification: {
+    stage: number | null;
+    status: "none" | "skipped_same_stage" | NotificationTriggerStatus;
+  } = { stage: newStage, status: "none" };
+
+  if (updatedOrder && newStage !== null && newStage !== previousStage) {
+    notification.status = await triggerStageNotification(
+      supabase,
+      updatedOrder.id,
+      existing,
+      newStage
+    );
+  } else if (newStage !== null && newStage === previousStage) {
+    notification.status = "skipped_same_stage";
+  }
+
+  return NextResponse.json({ ok: true, historyError, notification });
 }
