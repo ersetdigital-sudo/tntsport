@@ -91,6 +91,7 @@ export async function POST(request: Request) {
     deadline,
     created_at,
     design_photos,
+    wo_photos,
     products,
   } = body;
 
@@ -131,6 +132,7 @@ export async function POST(request: Request) {
     current_status: "desain",
     current_stage: 1,
     design_photos: design_photos || [],
+    wo_photos: Array.isArray(wo_photos) ? wo_photos : [],
     products: Array.isArray(products) ? products : [],
   };
   if (customer_city) insertData.customer_city = customer_city;

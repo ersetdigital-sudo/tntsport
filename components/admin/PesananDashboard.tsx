@@ -2382,7 +2382,9 @@ function AddForm({
   const DEFAULT_PRODUCTS = ["Atasan Lengan Pendek", "Atasan Lengan Panjang", "Setelan Lengan Pendek", "Setelan Lengan Panjang"];
   const [productOptions, setProductOptions] = useState<string[]>(DEFAULT_PRODUCTS);
   const [designPhotos, setDesignPhotos] = useState<string[]>([]);
+  const [woPhotos, setWoPhotos] = useState<string[]>([]);
   const [uploadingDesign, setUploadingDesign] = useState(false);
+  const [uploadingWo, setUploadingWo] = useState(false);
   const [error, setError] = useState("");
   const [saving, setSaving] = useState(false);
 
@@ -2450,6 +2452,7 @@ function AddForm({
           sizes: combinedSizes,
           products,
           design_photos: designPhotos,
+          wo_photos: woPhotos,
           deadline: form.deadline || undefined,
           created_at: form.created_at ? new Date(form.created_at).toISOString() : undefined,
         }),
@@ -2611,54 +2614,24 @@ function AddForm({
         </button>
       </div>
 
+      <div className="grid grid-cols-2 gap-4">
       <div>
         <span className="text-[13px] text-[var(--pas-muted)]">Preview Design</span>
         <div className="flex flex-wrap gap-2.5 mt-1.5">
           {designPhotos.map((url, i) => (
             <div key={i} className="relative w-[76px] h-[76px] group">
               {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img
-                src={url}
-                alt={`Design ${i + 1}`}
-                className="w-full h-full object-cover rounded-xl border border-[var(--pas-line)]"
-              />
-              <button
-                type="button"
-                className="absolute top-1 right-1 w-[22px] h-[22px] rounded-full bg-black/70 text-white grid place-items-center opacity-0 group-hover:opacity-100 transition"
-                title="Hapus foto"
-                onClick={() => setDesignPhotos((ps) => ps.filter((_, idx) => idx !== i))}
-              >
-                <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round">
-                  <path d="M18 6L6 18M6 6l12 12" />
-                </svg>
+              <img src={url} alt={`Design ${i + 1}`} className="w-full h-full object-cover rounded-xl border border-[var(--pas-line)]" />
+              <button type="button" className="absolute top-1 right-1 w-[22px] h-[22px] rounded-full bg-black/70 text-white grid place-items-center opacity-0 group-hover:opacity-100 transition" title="Hapus foto" onClick={() => setDesignPhotos((ps) => ps.filter((_, idx) => idx !== i))}>
+                <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round"><path d="M18 6L6 18M6 6l12 12" /></svg>
               </button>
             </div>
           ))}
-          <button
-            type="button"
-            className="w-[76px] h-[76px] rounded-xl border border-dashed border-[var(--pas-line)] grid place-items-center text-[var(--pas-muted)] hover:text-[var(--pas-accent)] hover:border-[var(--pas-accent)] transition"
-            title="Upload foto desain"
-            disabled={uploadingDesign}
-            onClick={() => document.getElementById("design-photo-input")?.click()}
-          >
-            {uploadingDesign ? (
-              <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.6" strokeLinecap="round" className="animate-spin">
-                <path d="M21 12a9 9 0 1 1-3.2-6.9" />
-              </svg>
-            ) : (
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M17 8l-5-5-5 5M12 3v12" />
-              </svg>
-            )}
+          <button type="button" className="w-[76px] h-[76px] rounded-xl border border-dashed border-[var(--pas-line)] grid place-items-center text-[var(--pas-muted)] hover:text-[var(--pas-accent)] hover:border-[var(--pas-accent)] transition" title="Upload foto desain" disabled={uploadingDesign} onClick={() => document.getElementById("design-photo-input")?.click()}>
+            {uploadingDesign ? <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.6" strokeLinecap="round" className="animate-spin"><path d="M21 12a9 9 0 1 1-3.2-6.9" /></svg> : <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M17 8l-5-5-5 5M12 3v12" /></svg>}
           </button>
         </div>
-        <input
-          id="design-photo-input"
-          type="file"
-          accept="image/*"
-          multiple
-          className="hidden"
-          onChange={async (e) => {
+        <input id="design-photo-input" type="file" accept="image/*" multiple className="hidden" onChange={async (e) => {
             const files = Array.from(e.target.files || []);
             e.target.value = "";
             if (files.length === 0) return;
@@ -2669,19 +2642,48 @@ function AddForm({
                 fd.append("file", file);
                 const res = await fetch("/api/upload/design", { method: "POST", body: fd });
                 const data = await res.json();
-                if (!res.ok) {
-                  setError(data.error || "Upload gagal");
-                  return;
-                }
+                if (!res.ok) { setError(data.error || "Upload gagal"); return; }
                 setDesignPhotos((ps) => [...ps, data.url]);
               }
-            } catch {
-              setError("Upload gagal. Coba lagi.");
-            } finally {
-              setUploadingDesign(false);
-            }
+            } catch { setError("Upload gagal. Coba lagi."); } finally { setUploadingDesign(false); }
           }}
         />
+      </div>
+      <div>
+        <span className="text-[13px] text-[var(--pas-muted)]">WO</span>
+        <p className="text-[11px] text-[var(--pas-muted)] -mt-0.5">Admin only</p>
+        <div className="flex flex-wrap gap-2.5 mt-1.5">
+          {woPhotos.map((url, i) => (
+            <div key={i} className="relative w-[76px] h-[76px] group">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img src={url} alt={`WO ${i + 1}`} className="w-full h-full object-cover rounded-xl border border-[var(--pas-line)]" />
+              <button type="button" className="absolute top-1 right-1 w-[22px] h-[22px] rounded-full bg-black/70 text-white grid place-items-center opacity-0 group-hover:opacity-100 transition" title="Hapus foto WO" onClick={() => setWoPhotos((ps) => ps.filter((_, idx) => idx !== i))}>
+                <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round"><path d="M18 6L6 18M6 6l12 12" /></svg>
+              </button>
+            </div>
+          ))}
+          <button type="button" className="w-[76px] h-[76px] rounded-xl border border-dashed border-[var(--pas-line)] grid place-items-center text-[var(--pas-muted)] hover:text-[var(--pas-accent)] hover:border-[var(--pas-accent)] transition" title="Upload foto WO" disabled={uploadingWo} onClick={() => document.getElementById("wo-photo-input")?.click()}>
+            {uploadingWo ? <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.6" strokeLinecap="round" className="animate-spin"><path d="M21 12a9 9 0 1 1-3.2-6.9" /></svg> : <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M17 8l-5-5-5 5M12 3v12" /></svg>}
+          </button>
+        </div>
+        <input id="wo-photo-input" type="file" accept="image/*" multiple className="hidden" onChange={async (e) => {
+            const files = Array.from(e.target.files || []);
+            e.target.value = "";
+            if (files.length === 0) return;
+            setUploadingWo(true);
+            try {
+              for (const file of files) {
+                const fd = new FormData();
+                fd.append("file", file);
+                const res = await fetch("/api/upload/design", { method: "POST", body: fd });
+                const data = await res.json();
+                if (!res.ok) { setError(data.error || "Upload gagal"); return; }
+                setWoPhotos((ps) => [...ps, data.url]);
+              }
+            } catch { setError("Upload gagal. Coba lagi."); } finally { setUploadingWo(false); }
+          }}
+        />
+      </div>
       </div>
       <div className="grid grid-cols-2 gap-3">
         <label className="block">
