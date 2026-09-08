@@ -373,6 +373,7 @@ export default function PesananDashboard() {
               openDetail={setOpenId}
               steps={steps}
               onDelete={fetchOrders}
+              showToast={showToast}
             />
           )}
           {currentView === "jadwal" && <ViewJadwal orders={orders} openDetail={setOpenId} steps={steps} />}
@@ -520,6 +521,7 @@ function ViewPesanan({
   openDetail,
   steps,
   onDelete,
+  showToast,
 }: {
   orders: OrderData[];
   filter: FilterKey;
@@ -529,6 +531,7 @@ function ViewPesanan({
   openDetail: (id: string) => void;
   steps: StepRow[];
   onDelete: (id: string) => void;
+  showToast: (msg: string) => void;
 }) {
   const [confirmDelete, setConfirmDelete] = useState<OrderData | null>(null);
   const [deleting, setDeleting] = useState(false);
@@ -580,16 +583,20 @@ function ViewPesanan({
   const handleDelete = async () => {
     if (!confirmDelete) return;
     setDeleting(true);
+    const targetId = confirmDelete.id;
+    const targetName = confirmDelete.customer_name;
     try {
-      const res = await fetch(`/api/pesanan/orders/${confirmDelete.id}`, {
-        method: "DELETE",
-      });
-      if (res.ok) {
-        setConfirmDelete(null);
-        onDelete(confirmDelete.id);
+      const res = await fetch(`/api/pesanan/orders/${targetId}`, { method: "DELETE" });
+      const data: any = await res.json().catch(() => ({}));
+      if (!res.ok) {
+        showToast(data.error || "Gagal menghapus pesanan, coba lagi");
+        return;
       }
+      setConfirmDelete(null);
+      onDelete(targetId);
+      showToast(`Pesanan ${targetId} (${targetName}) berhasil dihapus`);
     } catch {
-      // silent
+      showToast("Gagal menghapus pesanan, coba lagi");
     } finally {
       setDeleting(false);
     }
