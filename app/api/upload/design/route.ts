@@ -8,12 +8,12 @@ import { NextRequest, NextResponse } from "next/server";
  */
 export async function POST(request: NextRequest) {
   try {
-    const cloudName = process.env.CLOUDINARY_CLOUD_NAME;
-    const uploadPreset = process.env.CLOUDINARY_UPLOAD_PRESET;
+    const cloudName = process.env.CLOUDINARY_CLOUD_NAME || process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME;
+    const uploadPreset = process.env.CLOUDINARY_UPLOAD_PRESET || process.env.NEXT_PUBLIC_CLOUDINARY_UPLOAD_PRESET;
 
     if (!cloudName || !uploadPreset) {
       return NextResponse.json(
-        { error: "Cloudinary belum dikonfigurasi (butuh CLOUDINARY_CLOUD_NAME + CLOUDINARY_UPLOAD_PRESET)" },
+        { error: `Cloudinary belum dikonfigurasi (cloud=${!!cloudName} preset=${!!uploadPreset}) — set CLOUDINARY_CLOUD_NAME + CLOUDINARY_UPLOAD_PRESET di Vercel` },
         { status: 500 }
       );
     }
