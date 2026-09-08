@@ -255,7 +255,7 @@ export default function PesananDashboard() {
       {/* ── SIDEBAR ── */}
       <aside className="pas-side">
         <a href="/" className="flex items-center gap-3 px-2 pb-5">
-<img src="/logo-tnt-baru.png" alt="TNT Sport" className="pas-mark w-10 h-10 rounded-[10px] object-contain" />
+<img src="/logo-tnt-baru.png" alt="TNT Sport" className="pas-mark w-12 h-12 rounded-[10px] object-contain" />
           <span className="leading-none">
             <span className="block pas-display text-[15px] !text-white">TNT Sport</span>
             <span className="block text-[11px] !text-white/70 mt-[3px]">
@@ -311,7 +311,7 @@ export default function PesananDashboard() {
         <header className="pas-topbar">
           <div className="px-5 sm:px-8 h-16 flex items-center justify-between gap-4">
             <div className="flex items-center gap-3 min-w-0">
-<img src="/logo-tnt-baru.png" alt="TNT Sport" className="pas-mark w-9 h-9 rounded-[9px] object-contain lg:hidden" />
+<img src="/logo-tnt-baru.png" alt="TNT Sport" className="pas-mark w-10 h-10 rounded-[9px] object-contain lg:hidden" />
               <div className="min-w-0">
                 <p className="text-[11px] text-[var(--pas-muted)] leading-none">
                   {meta.crumb}
