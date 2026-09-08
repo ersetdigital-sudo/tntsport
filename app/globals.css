@@ -2110,116 +2110,121 @@
 
 
 /* ================================================================
-   PESANAN ADMIN DASHBOARD — pas-* prefix (from TNT-Dashboard-Admin-v4)
+   PESANAN ADMIN DASHBOARD — pas-* prefix (Light Theme — Wireframe Match)
    ================================================================ */
 :root {
-  --pas-bg: #1c1f26;
-  --pas-surface: #24282f;
-  --pas-surface-2: #2b3038;
-  --pas-line: #343943;
-  --pas-line-2: #2f343c;
-  --pas-muted: #9aa3b0;
-  --pas-ink-1: #e2e6ec;
-  --pas-accent: #5cc98a;
-  --pas-accent-soft: rgba(92,201,138,.13);
+  --pas-bg: #F5EBE1;
+  --pas-surface: #FFFFFF;
+  --pas-surface-2: #F5EBE1;
+  --pas-line: #E3D7CC;
+  --pas-line-2: #E3D7CC;
+  --pas-muted: #8C857E;
+  --pas-ink-1: #304230;
+  --pas-accent: #3F563B;
+  --pas-accent-soft: rgba(63,86,59,.1);
   --pas-radius: 14px;
+
+  --pas-green: #3F563B;
+  --pas-orange: #CB5639;
+  --pas-yellow: #DDB339;
+  --pas-light: #DFE9DE;
 }
 
-.pas-shell { display: flex; min-height: 100vh; }
+.pas-shell { display: flex; min-height: 100vh; background: var(--pas-bg); }
 
 .pas-side {
-  width: 236px; flex: none; background: var(--pas-surface);
-  border-right: 1px solid var(--pas-line);
+  width: 236px; flex: none; background: var(--pas-green);
+  border-right: none;
   position: sticky; top: 0; height: 100vh;
   display: flex; flex-direction: column; padding: 20px 14px;
 }
 .pas-navlink {
   display: flex; align-items: center; gap: 11px; padding: 10px 12px;
-  border-radius: 10px; font-size: 14px; color: var(--pas-muted); transition: .16s;
+  border-radius: 10px; font-size: 14px; color: rgba(255,255,255,.6); transition: .16s;
 }
-.pas-navlink:hover { background: var(--pas-surface-2); color: var(--pas-ink-1); }
-.pas-navlink.on { background: var(--pas-surface-2); color: #fff; font-weight: 600; }
-.pas-navlink.on .pas-ic { color: var(--pas-accent); }
+.pas-navlink:hover { background: rgba(255,255,255,.1); color: #fff; }
+.pas-navlink.on { background: rgba(255,255,255,.12); color: #fff; font-weight: 600; }
+.pas-navlink.on .pas-ic { color: #DDB339; }
 .pas-ic { width: 18px; text-align: center; font-size: 15px; opacity: .9; }
 .pas-navsec {
   font-size: 10.5px; letter-spacing: .14em; text-transform: uppercase;
-  color: #6f7885; padding: 0 12px; margin: 18px 0 8px; font-weight: 600;
+  color: rgba(255,255,255,.4); padding: 0 12px; margin: 18px 0 8px; font-weight: 600;
 }
 @media (max-width: 900px) { .pas-side { display: none; } }
 
 .pas-topbar {
   position: sticky; top: 0; z-index: 30;
-  background: rgba(28,31,38,.86); backdrop-filter: blur(12px);
+  background: rgba(245,235,225,.88); backdrop-filter: blur(12px);
   border-bottom: 1px solid var(--pas-line);
 }
 
 .pas-card {
   background: var(--pas-surface); border: 1px solid var(--pas-line);
-  border-radius: var(--pas-radius); box-shadow: none;
+  border-radius: var(--pas-radius); box-shadow: 0 2px 8px rgba(0,0,0,.04);
   transition: border-color .18s, transform .18s;
 }
 .pas-kpi { position: relative; overflow: hidden; }
-.pas-kpi:hover { border-color: #414855; }
+.pas-kpi:hover { border-color: #c4b8a8; }
 .pas-delta { font-size: 11.5px; font-weight: 600; padding: 2px 7px; border-radius: 6px; }
-.pas-delta.up { background: var(--pas-accent-soft); color: var(--pas-accent); }
-.pas-delta.flat { background: #31363f; color: #98a1ae; }
+.pas-delta.up { background: rgba(63,86,59,.12); color: #3F563B; }
+.pas-delta.flat { background: #E3D7CC; color: #8C857E; }
 
 .pas-field {
-  background: var(--pas-surface-2); border: 1px solid var(--pas-line);
+  background: var(--pas-surface); border: 1px solid var(--pas-line);
   border-radius: 10px; color: var(--pas-ink-1);
 }
-.pas-field::placeholder { color: #79818d; }
+.pas-field::placeholder { color: #8C857E; }
 .pas-field:focus {
-  border-color: #4b7d63; box-shadow: 0 0 0 3px rgba(92,201,138,.13);
-  background: var(--pas-surface-2);
+  border-color: #3F563B; box-shadow: 0 0 0 3px rgba(63,86,59,.1);
+  background: var(--pas-surface);
 }
 .pas-search { position: relative; }
 .pas-search input { padding-left: 38px; }
 .pas-search .pas-mag {
   position: absolute; left: 13px; top: 50%; transform: translateY(-50%);
-  color: #79818d; font-size: 14px; pointer-events: none;
+  color: #8C857E; font-size: 14px; pointer-events: none;
 }
 
 .pas-btn-accent {
-  background: var(--pas-accent); color: #0f2318; border-radius: 10px;
+  background: var(--pas-green); color: #fff; border-radius: 10px;
   letter-spacing: 0; text-transform: none;
   font-family: "Barlow", sans-serif; font-weight: 700; box-shadow: none;
 }
-.pas-btn-accent:hover { transform: none; filter: brightness(1.07); }
+.pas-btn-accent:hover { transform: none; filter: brightness(1.08); }
 .pas-btn-ghost {
   border: 1px solid var(--pas-line); border-radius: 10px;
-  background: var(--pas-surface-2); color: var(--pas-ink-1);
+  background: var(--pas-surface); color: var(--pas-ink-1);
 }
-.pas-btn-ghost:hover { background: #333944; border-color: #454d5a; }
+.pas-btn-ghost:hover { background: #F5EBE1; border-color: #c4b8a8; }
 
 .pas-seg {
-  display: inline-flex; background: var(--pas-surface-2);
+  display: inline-flex; background: var(--pas-surface);
   border: 1px solid var(--pas-line); border-radius: 11px; padding: 3px; gap: 2px;
 }
 .pas-chip {
   border: none; background: transparent; color: var(--pas-muted);
   font-weight: 500; border-radius: 8px; padding: 7px 13px; font-size: 13.5px;
 }
-.pas-chip:hover { background: rgba(255,255,255,.05); color: var(--pas-ink-1); }
+.pas-chip:hover { background: rgba(63,86,59,.06); color: var(--pas-ink-1); }
 .pas-chip.on {
-  background: var(--pas-surface); color: #fff;
-  box-shadow: 0 1px 2px rgba(0,0,0,.25);
+  background: var(--pas-green); color: #fff;
+  box-shadow: 0 1px 3px rgba(63,86,59,.2);
 }
 
 .pas-pill {
   display: inline-flex; align-items: center; gap: 6px; border-radius: 7px;
   font-size: 11.5px; font-weight: 600; letter-spacing: 0; text-transform: none;
-  padding: 4px 9px; background: #31363f; color: #aab3bf;
+  padding: 4px 9px; background: #E3D7CC; color: #8C857E;
 }
 .pas-pill::before { content: ""; width: 6px; height: 6px; border-radius: 99px; background: currentColor; }
-.pas-pill.baru { background: #31363f; color: #aab3bf; }
-.pas-pill.produksi { background: var(--pas-accent-soft); color: var(--pas-accent); }
-.pas-pill.kirim { background: rgba(122,162,247,.15); color: #8fb0f7; }
-.pas-pill.selesai { background: rgba(148,163,184,.14); color: #a4adba; }
+.pas-pill.baru { background: #E3D7CC; color: #8C857E; }
+.pas-pill.produksi { background: rgba(63,86,59,.12); color: #3F563B; }
+.pas-pill.kirim { background: rgba(59,130,246,.12); color: #3b82f6; }
+.pas-pill.selesai { background: rgba(148,163,184,.14); color: #64748b; }
 
 table.pas-tbl { width: 100%; border-collapse: separate; border-spacing: 0; table-layout: fixed; }
 table.pas-tbl th {
-  color: #828b98; font-size: 11px; letter-spacing: .07em; text-transform: uppercase;
+  color: #8C857E; font-size: 11px; letter-spacing: .07em; text-transform: uppercase;
   font-weight: 600; padding: 0 16px 12px; text-align: left;
 }
 table.pas-tbl td {
@@ -2228,7 +2233,7 @@ table.pas-tbl td {
   overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
 }
 table.pas-tbl tbody tr { transition: background .16s; cursor: pointer; }
-table.pas-tbl tbody tr:hover { background: rgba(255,255,255,.028); }
+table.pas-tbl tbody tr:hover { background: rgba(63,86,59,.03); }
 @media (max-width: 1024px) {
   table.pas-tbl { table-layout: auto; }
   table.pas-tbl th, table.pas-tbl td { padding: 12px 10px; font-size: 13px; }
@@ -2236,23 +2241,23 @@ table.pas-tbl tbody tr:hover { background: rgba(255,255,255,.028); }
 .pas-avatar {
   width: 32px; height: 32px; border-radius: 9px; flex: none;
   display: grid; place-items: center; font-size: 12px; font-weight: 700;
-  background: var(--pas-surface-2); color: #b9c1cc; border: 1px solid var(--pas-line);
+  background: var(--pas-light); color: var(--pas-green); border: 1px solid var(--pas-line);
 }
 
 .pas-mini {
-  background: #333944; height: 5px; border-radius: 99px;
+  background: #E3D7CC; height: 5px; border-radius: 99px;
   display: block; overflow: hidden; min-width: 60px;
 }
-.pas-mini > i { display: block; height: 100%; background: var(--pas-accent); border-radius: 99px; transition: width .8s cubic-bezier(.22,1,.36,1); }
+.pas-mini > i { display: block; height: 100%; background: var(--pas-green); border-radius: 99px; transition: width .8s cubic-bezier(.22,1,.36,1); }
 .pas-bar {
-  background: #333944; height: 6px; border-radius: 99px; display: block; overflow: hidden;
+  background: #E3D7CC; height: 6px; border-radius: 99px; display: block; overflow: hidden;
 }
-.pas-bar > i { display: block; height: 100%; background: var(--pas-accent); border-radius: 99px; transition: width .8s cubic-bezier(.22,1,.36,1); }
+.pas-bar > i { display: block; height: 100%; background: var(--pas-green); border-radius: 99px; transition: width .8s cubic-bezier(.22,1,.36,1); }
 
 .pas-sheet { position: fixed; inset: 0; z-index: 60; display: none; }
 .pas-sheet.open { display: block; }
 .pas-sheet .pas-veil {
-  position: absolute; inset: 0; background: rgba(12,14,18,.62);
+  position: absolute; inset: 0; background: rgba(48,66,48,.35);
   backdrop-filter: blur(3px);
 }
 .pas-sheet .pas-panel {
@@ -2290,24 +2295,24 @@ table.pas-tbl tbody tr:hover { background: rgba(255,255,255,.028); }
 .pas-stepbtn {
   display: flex; align-items: center; gap: 12px; width: 100%; text-align: left;
   padding: 10px 12px; border-radius: 12px; border: 1px solid transparent;
-  transition: all .18s; font-size: 14px; color: #8b95a2;
+  transition: all .18s; font-size: 14px; color: #8C857E;
 }
-.pas-stepbtn:hover { background: var(--pas-surface-2); color: var(--pas-ink-1); }
+.pas-stepbtn:hover { background: var(--pas-light); color: var(--pas-ink-1); }
 .pas-stepbtn .pas-num {
   width: 24px; height: 24px; border-radius: 99px; display: grid; place-items: center;
-  font-size: 11px; font-weight: 700; background: #333944; color: #98a1ae; flex: none;
+  font-size: 11px; font-weight: 700; background: #E3D7CC; color: #8C857E; flex: none;
 }
-.pas-stepbtn.done { color: #c6ccd5; }
-.pas-stepbtn.done .pas-num { background: var(--pas-accent-soft); color: var(--pas-accent); }
+.pas-stepbtn.done { color: var(--pas-ink-1); }
+.pas-stepbtn.done .pas-num { background: rgba(63,86,59,.12); color: var(--pas-green); }
 .pas-stepbtn.cur {
-  background: var(--pas-accent-soft); border-color: rgba(92,201,138,.36); color: #f0f3f7;
+  background: rgba(63,86,59,.08); border-color: rgba(63,86,59,.25); color: var(--pas-ink-1);
 }
-.pas-stepbtn.cur .pas-num { background: var(--pas-accent); color: #0f2318; }
+.pas-stepbtn.cur .pas-num { background: var(--pas-green); color: #fff; }
 
 .pas-toast {
   position: fixed; left: 50%; bottom: 26px;
   transform: translate(-50%, 20px); opacity: 0; pointer-events: none;
-  background: var(--pas-accent); color: #0f2318; font-weight: 700;
+  background: var(--pas-green); color: #fff; font-weight: 700;
   padding: 12px 20px; border-radius: 999px; z-index: 80;
   transition: all .3s ease;
 }
@@ -2315,14 +2320,14 @@ table.pas-tbl tbody tr:hover { background: rgba(255,255,255,.028); }
 
 .pas-display {
   font-family: var(--font-archivo), "Archivo", system-ui, sans-serif;
-  letter-spacing: -.022em; color: #f0f3f7;
+  letter-spacing: -.022em; color: var(--pas-ink-1);
 }
 .pas-stencil {
   font-family: var(--font-archivo), "Archivo", system-ui, sans-serif;
   font-weight: 800; letter-spacing: .18em; text-transform: uppercase;
 }
 .pas-num { font-variant-numeric: tabular-nums; }
-.pas-mark { background: var(--pas-accent); color: #0f2318; }
+.pas-mark { background: var(--pas-green); color: #fff; }
 
 /* ── BENTO MOBILE (ViewPesanan only) ── */
 @media (max-width: 767px) {
@@ -2333,11 +2338,11 @@ table.pas-tbl tbody tr:hover { background: rgba(255,255,255,.028); }
     padding: 20px;
     position: relative;
     overflow: hidden;
-    box-shadow: 0 4px 16px rgba(0,0,0,.12);
+    box-shadow: 0 4px 16px rgba(0,0,0,.06);
     transition: all .2s ease;
   }
   .pas-bento-kpi:hover {
-    border-color: #414855;
+    border-color: #c4b8a8;
     transform: translateY(-2px);
     box-shadow: 0 6px 20px rgba(0,0,0,.16);
   }
@@ -2348,11 +2353,11 @@ table.pas-tbl tbody tr:hover { background: rgba(255,255,255,.028); }
     border-radius: 20px;
     padding: 20px;
     position: relative;
-    box-shadow: 0 4px 16px rgba(0,0,0,.12);
+    box-shadow: 0 4px 16px rgba(0,0,0,.06);
     transition: all .2s ease;
   }
   .pas-bento-card:hover {
-    border-color: #414855;
+    border-color: #c4b8a8;
     transform: translateY(-2px);
     box-shadow: 0 6px 20px rgba(0,0,0,.16);
   }
@@ -2360,7 +2365,7 @@ table.pas-tbl tbody tr:hover { background: rgba(255,255,255,.028); }
   .pas-bento-avatar {
     width: 36px; height: 36px; border-radius: 9999px; flex: none;
     display: grid; place-items: center; font-size: 13px; font-weight: 700;
-    background: var(--pas-surface-2); color: #b9c1cc;
+    background: var(--pas-light); color: var(--pas-green);
     border: 1px solid var(--pas-line);
   }
 
@@ -2387,19 +2392,19 @@ table.pas-tbl tbody tr:hover { background: rgba(255,255,255,.028); }
     font-size: 13px !important;
     transition: all .18s ease;
     white-space: nowrap;
-    box-shadow: 0 2px 6px rgba(0,0,0,.08) !important;
+    box-shadow: 0 2px 6px rgba(0,0,0,.04) !important;
   }
   .pas-bento-chip:hover {
-    background: var(--pas-surface-2) !important;
+    background: #F5EBE1 !important;
     color: var(--pas-ink-1) !important;
-    border-color: #5cc98a !important;
+    border-color: var(--pas-green) !important;
     transform: translateY(-1px);
   }
   .pas-bento-chip.on {
-    background: #3F563B !important;
-    color: #DFE9DE !important;
-    border-color: #3F563B !important;
-    box-shadow: 0 4px 14px rgba(63,86,59,.35) !important;
+    background: var(--pas-green) !important;
+    color: #fff !important;
+    border-color: var(--pas-green) !important;
+    box-shadow: 0 4px 14px rgba(63,86,59,.25) !important;
   }
 
   .pas-bento-divider {
@@ -2416,13 +2421,13 @@ table.pas-tbl tbody tr:hover { background: rgba(255,255,255,.028); }
     transform: translateX(-50%);
     width: 85%;
     max-width: 380px;
-    background: #3F563B;
+    background: var(--pas-green);
     border-radius: 30px;
     padding: 10px 24px;
     display: flex;
     align-items: center;
     justify-content: space-between;
-    box-shadow: 0 8px 32px rgba(63,86,59,.4), 0 2px 8px rgba(0,0,0,.2);
+    box-shadow: 0 8px 32px rgba(63,86,59,.3), 0 2px 8px rgba(0,0,0,.12);
     z-index: 50;
   }
   .pas-bottom-nav-item {
