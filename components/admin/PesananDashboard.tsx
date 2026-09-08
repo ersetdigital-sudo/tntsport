@@ -564,6 +564,19 @@ function ViewPesanan({
     .sort((a, b) => (a.deadline! < b.deadline! ? -1 : 1))[0]?.deadline ?? null;
   const deadlineInfo = deadlineStatus(nextDeadline, false);
 
+  // Jumlah pesanan aktif yang deadline-nya lewat atau mendekat (H-2) — perlu perhatian
+  const deadlineAlertCount = orders.filter((o) => {
+    if (!o.deadline || o.is_done) return false;
+    const lvl = deadlineStatus(o.deadline, false).level;
+    return lvl === "overdue" || lvl === "warning";
+  }).length;
+  const hasOverdue = orders.some(
+    (o) => !o.is_done && o.deadline && deadlineStatus(o.deadline, false).level === "overdue"
+  );
+  const hasWarning = orders.some(
+    (o) => !o.is_done && o.deadline && deadlineStatus(o.deadline, false).level === "warning"
+  );
+
   const handleDelete = async () => {
     if (!confirmDelete) return;
     setDeleting(true);
@@ -644,14 +657,14 @@ function ViewPesanan({
           <div className="flex items-end gap-2.5 mt-2.5">
             <p
               className={
-                deadlineInfo.level === "overdue"
-                  ? "pas-display text-[20px] leading-none text-red-500"
-                  : deadlineInfo.level === "warning"
-                    ? "pas-display text-[20px] leading-none text-[var(--pas-orange)]"
-                    : "pas-display text-[20px] leading-none text-[#8fb0f7]"
+                hasOverdue
+                  ? "pas-display pas-num text-[30px] leading-none text-red-500"
+                  : hasWarning
+                    ? "pas-display pas-num text-[30px] leading-none text-[var(--pas-orange)]"
+                    : "pas-display pas-num text-[30px] leading-none text-[#8fb0f7]"
               }
             >
-              {nextDeadline ? formatDate(nextDeadline) : "-"}
+              {deadlineAlertCount}
             </p>
             {nextDeadline && deadlineInfo.level && (
               <span
