@@ -102,6 +102,12 @@ function StatusContent() {
   const [loaded, setLoaded] = useState(false);
   const [steps, setSteps] = useState<{ name: string; position: number }[]>([]);
   const pctRef = useRef<HTMLDivElement>(null);
+  const [lightboxUrl, setLightboxUrl] = useState<string | null>(null);
+  const [lbOpen, setLbOpen] = useState(false);
+  const [lbScale, setLbScale] = useState(1);
+  const [lbOffset, setLbOffset] = useState({ x: 0, y: 0 });
+  const lbPinchRef = useRef<{ d: number; s: number } | null>(null);
+  const lbDragRef = useRef<{ x: number; y: number } | null>(null);
 
   // Fetch order data on mount — always try fresh from DB via session token
   useEffect(() => {
@@ -203,6 +209,29 @@ function StatusContent() {
       })
       .catch(() => {});
   }, []);
+
+  useEffect(() => {
+    if (!lightboxUrl) return;
+    setLbOpen(true);
+    setLbScale(1);
+    setLbOffset({ x: 0, y: 0 });
+  }, [lightboxUrl]);
+
+  useEffect(() => {
+    if (!lightboxUrl) return;
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") setLightboxUrl(null);
+    };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [lightboxUrl]);
+
+  useEffect(() => {
+    if (!lightboxUrl) return;
+    const prev = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    return () => { document.body.style.overflow = prev; };
+  }, [lightboxUrl]);
 
   // Reveal on scroll
   useEffect(() => {
@@ -539,17 +568,16 @@ function StatusContent() {
                           <p className="dpo-mono dpo-step-time">Mengikuti jadwal produksi</p>
                         ) : null}
 
-                        {/* Design preview on the current step — like the reference: all photos, front & back */}
                         {st === "now" && (order.design_photos?.length ?? 0) > 0 && (
                           <div className="mt-3 flex flex-wrap gap-2.5">
                             {order.design_photos.map((url: string, di: number) => (
-                              <a
+                              <button
                                 key={di}
-                                href={url}
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                className="block overflow-hidden rounded-xl border border-white/10 bg-black"
-                                title={`Preview desain ${di + 1}`}
+                                type="button"
+                                onClick={() => setLightboxUrl(url)}
+                                className="group relative block overflow-hidden rounded-xl border border-white/10 bg-black"
+                                title="Klik untuk memperbesar"
+                                aria-label={`Perbesar preview desain ${di + 1}`}
                               >
                                 {/* eslint-disable-next-line @next/next/no-img-element */}
                                 <img
@@ -557,7 +585,13 @@ function StatusContent() {
                                   alt={`Preview desain pesanan ${di + 1}`}
                                   className="block w-full max-w-[280px] max-h-[320px] object-contain"
                                 />
-                              </a>
+                                <span className="pointer-events-none absolute right-2 top-2 grid h-7 w-7 place-items-center rounded-full bg-black/55 text-white backdrop-blur border border-white/15 opacity-90 group-hover:bg-black/70 transition">
+                                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                                    <circle cx="11" cy="11" r="7" />
+                                    <path d="M20 20l-3.5-3.5M11 8v6M8 11h6" />
+                                  </svg>
+                                </span>
+                              </button>
                             ))}
                           </div>
                         )}
@@ -760,6 +794,82 @@ function StatusContent() {
               Chat CS via WhatsApp
             </a>
           </div>
+
+          {lightboxUrl && (
+            <div
+              className={`fixed inset-0 z-[80] grid place-items-center p-4 sm:p-6 bg-black/90 backdrop-blur-[2px] transition duration-200 ${lbOpen ? "opacity-100" : "opacity-0"}`}
+              onClick={() => {
+                setLbOpen(false);
+                setTimeout(() => setLightboxUrl(null), 200);
+              }}
+              onTouchMove={(e) => {
+                if (lbPinchRef.current && e.touches.length === 2) {
+                  e.preventDefault();
+                  const d = Math.hypot(
+                    e.touches[0].clientX - e.touches[1].clientX,
+                    e.touches[0].clientY - e.touches[1].clientY
+                  );
+                  const ratio = d / lbPinchRef.current.d;
+                  setLbScale(Math.min(4, Math.max(1, lbPinchRef.current.s * ratio)));
+                }
+              }}
+              onTouchStart={(e) => {
+                if (e.touches.length === 2) {
+                  const d = Math.hypot(
+                    e.touches[0].clientX - e.touches[1].clientX,
+                    e.touches[0].clientY - e.touches[1].clientY
+                  );
+                  lbPinchRef.current = { d, s: lbScale };
+                } else if (e.touches.length === 1 && lbScale > 1) {
+                  lbDragRef.current = { x: e.touches[0].clientX - lbOffset.x, y: e.touches[0].clientY - lbOffset.y };
+                }
+              }}
+              onTouchEnd={() => {
+                lbPinchRef.current = null;
+                lbDragRef.current = null;
+                if (lbScale < 1) setLbScale(1);
+              }}
+              role="dialog"
+              aria-modal="true"
+              aria-label="Preview desain diperbesar"
+            >
+              <button
+                type="button"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  setLbOpen(false);
+                  setTimeout(() => setLightboxUrl(null), 200);
+                }}
+                className="absolute right-4 top-4 grid h-10 w-10 place-items-center rounded-full bg-white/10 text-white border border-white/15 hover:bg-white/20 transition z-10"
+                aria-label="Tutup"
+              >
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round">
+                  <path d="M18 6L6 18M6 6l12 12" />
+                </svg>
+              </button>
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src={lightboxUrl}
+                alt="Preview desain diperbesar"
+                onClick={(e) => e.stopPropagation()}
+                onWheel={(e) => {
+                  e.preventDefault();
+                  const delta = e.deltaY > 0 ? -0.12 : 0.12;
+                  setLbScale((s) => Math.min(4, Math.max(1, s + delta)));
+                  if (lbScale <= 1) setLbOffset({ x: 0, y: 0 });
+                }}
+                onTouchMove={(e) => {
+                  if (lbDragRef.current && e.touches.length === 1 && lbScale > 1) {
+                    setLbOffset({ x: e.touches[0].clientX - lbDragRef.current.x, y: e.touches[0].clientY - lbDragRef.current.y });
+                  }
+                }}
+                draggable={false}
+                className={`max-w-[90vw] max-h-[90vh] object-contain select-none transition duration-200 ${lbOpen ? "scale-100 opacity-100" : "scale-95 opacity-0"}`}
+                style={{ transform: `translate(${lbOffset.x}px, ${lbOffset.y}px) scale(${lbScale})`, touchAction: "none" }}
+              />
+              <p className="pointer-events-none absolute bottom-4 left-1/2 -translate-x-1/2 text-[12px] text-white/60">Tap luar gambar / Esc untuk tutup • Pinch/scroll untuk zoom • Drag untuk geser</p>
+            </div>
+          )}
         </div>
       </div>
     </div>
