@@ -1935,6 +1935,31 @@ function DetailSheet({
   const [deadline, setDeadline] = useState(order?.deadline ? order.deadline.slice(0, 10) : "");
   const [saving, setSaving] = useState(false);
   const [kirimError, setKirimError] = useState("");
+  const [zoomUrl, setZoomUrl] = useState<string | null>(null);
+  const [zoomOpen, setZoomOpen] = useState(false);
+  const [zoomScale, setZoomScale] = useState(1);
+  const [zoomOffset, setZoomOffset] = useState({ x: 0, y: 0 });
+  const zoomPinchRef = useRef<{ d: number; s: number } | null>(null);
+  const zoomDragRef = useRef<{ x: number; y: number } | null>(null);
+
+  useEffect(() => {
+    if (!zoomUrl) return;
+    setZoomOpen(true);
+    setZoomScale(1);
+    setZoomOffset({ x: 0, y: 0 });
+  }, [zoomUrl]);
+  useEffect(() => {
+    if (!zoomUrl) return;
+    const onKey = (e: KeyboardEvent) => { if (e.key === "Escape") setZoomUrl(null); };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [zoomUrl]);
+  useEffect(() => {
+    if (!zoomUrl) return;
+    const prev = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    return () => { document.body.style.overflow = prev; };
+  }, [zoomUrl]);
 
   useEffect(() => {
     if (order) {
@@ -2166,17 +2191,23 @@ function DetailSheet({
               <p className="pas-stencil text-[9px] text-[var(--pas-muted)]">Preview Design</p>
               <div className="flex flex-wrap gap-2.5 mt-1.5">
                 {order.design_photos!.map((url, i) => (
-                  <a
+                  <button
                     key={i}
-                    href={url}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="w-[76px] h-[76px] rounded-xl overflow-hidden border border-[var(--pas-line)] hover:border-[var(--pas-accent)] transition"
-                    title={`Design ${i + 1}`}
+                    type="button"
+                    onClick={() => setZoomUrl(url)}
+                    className="group relative w-[76px] h-[76px] rounded-xl overflow-hidden border border-[var(--pas-line)] hover:border-[var(--pas-accent)] transition"
+                    title="Klik untuk memperbesar"
+                    aria-label={`Perbesar design ${i + 1}`}
                   >
                     {/* eslint-disable-next-line @next/next/no-img-element */}
                     <img src={url} alt={`Design ${i + 1}`} className="w-full h-full object-cover" />
-                  </a>
+                    <span className="pointer-events-none absolute right-1.5 top-1.5 grid h-6 w-6 place-items-center rounded-full bg-black/55 text-white border border-white/15 opacity-90">
+                      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                        <circle cx="11" cy="11" r="7" />
+                        <path d="M20 20l-3.5-3.5M11 8v6M8 11h6" />
+                      </svg>
+                    </span>
+                  </button>
                 ))}
               </div>
             </div>
@@ -2268,6 +2299,39 @@ function DetailSheet({
           </button>
         </div>
       </div>
+      {zoomUrl && (
+        <div
+          className={`fixed inset-0 z-[80] grid place-items-center p-4 sm:p-6 bg-black/90 backdrop-blur-[2px] transition duration-200 ${zoomOpen ? "opacity-100" : "opacity-0"}`}
+          onClick={() => { setZoomOpen(false); setTimeout(() => setZoomUrl(null), 200); }}
+          onTouchMove={(e) => {
+            if (zoomPinchRef.current && e.touches.length === 2) {
+              e.preventDefault();
+              const d = Math.hypot(e.touches[0].clientX - e.touches[1].clientX, e.touches[0].clientY - e.touches[1].clientY);
+              const ratio = d / zoomPinchRef.current.d;
+              setZoomScale(Math.min(4, Math.max(1, zoomPinchRef.current.s * ratio)));
+            }
+          }}
+          onTouchStart={(e) => {
+            if (e.touches.length === 2) {
+              const d = Math.hypot(e.touches[0].clientX - e.touches[1].clientX, e.touches[0].clientY - e.touches[1].clientY);
+              zoomPinchRef.current = { d, s: zoomScale };
+            } else if (e.touches.length === 1 && zoomScale > 1) {
+              zoomDragRef.current = { x: e.touches[0].clientX - zoomOffset.x, y: e.touches[0].clientY - zoomOffset.y };
+            }
+          }}
+          onTouchEnd={() => { zoomPinchRef.current = null; zoomDragRef.current = null; if (zoomScale < 1) setZoomScale(1); }}
+          role="dialog"
+          aria-modal="true"
+          aria-label="Preview desain diperbesar"
+        >
+          <button type="button" onClick={(e) => { e.stopPropagation(); setZoomOpen(false); setTimeout(() => setZoomUrl(null), 200); }} className="absolute right-4 top-4 grid h-10 w-10 place-items-center rounded-full bg-white/10 text-white border border-white/15 hover:bg-white/20 transition z-10" aria-label="Tutup">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round"><path d="M18 6L6 18M6 6l12 12" /></svg>
+          </button>
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img src={zoomUrl} alt="Preview desain diperbesar" onClick={(e) => e.stopPropagation()} onWheel={(e) => { e.preventDefault(); const delta = e.deltaY > 0 ? -0.12 : 0.12; setZoomScale((s) => Math.min(4, Math.max(1, s + delta))); }} onTouchMove={(e) => { if (zoomDragRef.current && e.touches.length === 1 && zoomScale > 1) setZoomOffset({ x: e.touches[0].clientX - zoomDragRef.current.x, y: e.touches[0].clientY - zoomDragRef.current.y }); }} draggable={false} className={`max-w-[90vw] max-h-[90vh] object-contain select-none transition duration-200 ${zoomOpen ? "scale-100 opacity-100" : "scale-95 opacity-0"}`} style={{ transform: `translate(${zoomOffset.x}px, ${zoomOffset.y}px) scale(${zoomScale})`, touchAction: "none" }} />
+          <p className="pointer-events-none absolute bottom-4 left-1/2 -translate-x-1/2 text-[12px] text-white/60 text-center px-4">Tap luar gambar / Esc untuk tutup • Pinch/scroll untuk zoom</p>
+        </div>
+      )}
     </div>
   );
 }
