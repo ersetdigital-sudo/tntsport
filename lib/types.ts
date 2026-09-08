@@ -278,7 +278,7 @@ export function getProgress(step: number, hasTracking: boolean): number {
 
 export const ORDER_PHOTO_STAGES: OrderStatus[] = [
   "desain",
-  "potong",
+  "potong_pola",
   "finishing",
   "packing",
 ];

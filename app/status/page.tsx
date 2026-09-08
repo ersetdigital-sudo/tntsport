@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useRef, Suspense } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
+import Image from "next/image";
 import {
   ORDER_STATUS_LABELS,
   ORDER_STATUS_LIST,
@@ -387,7 +388,7 @@ function StatusContent() {
   const step = steps.length > 0
     ? steps.findIndex((s) => s.name.toLowerCase() === order.current_status) + 1
     : ORDER_STATUS_LIST.indexOf(order.current_status) + 1;
-  const totalSteps = steps.length || 9;
+  const totalSteps = steps.length || 11;
   const hasTracking = !!(order.tracking_number && order.courier);
   const isShipped = order.current_status === "kirim" && hasTracking;
   const pct = getProgress(step, hasTracking);
@@ -414,13 +415,20 @@ function StatusContent() {
           <header className="sticky top-0 z-30 border-b border-white/[.07] bg-[rgba(10,10,11,.72)] backdrop-blur-xl">
             <div className="mx-auto flex w-full max-w-3xl items-center justify-between gap-3 px-4 py-3 sm:px-6 sm:py-3.5">
               <div className="flex items-center gap-3">
-                <a
-                  href="/track"
-                  className="w-9 h-9 rounded-lg bg-[#3ee86b] text-black grid place-items-center trk-display text-[15px] shrink-0"
-                  aria-label="Kembali ke tracking"
-                >
-                  T
-                </a>
+<a
+  href="/track"
+  className="w-9 h-9 rounded-lg shrink-0"
+  aria-label="Kembali ke tracking"
+>
+  <Image
+    src="/tnt-logo-512.png"
+    alt="TNT Sport Apparel"
+    width={36}
+    height={36}
+    className="w-9 h-9 object-contain rounded-lg"
+    priority
+  />
+</a>
                 <div className="leading-tight">
                   <p className="trk-display text-[14.5px] font-semibold uppercase tracking-wide sm:text-[15px]">TNT Sport Apparel</p>
                   <p className="text-[10.5px] text-[#6f757c] sm:text-[11px]">Pabrik Jersey Custom Full Printing</p>

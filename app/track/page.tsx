@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import Image from "next/image";
 
 export default function TrackPage() {
   const router = useRouter();
@@ -67,9 +68,14 @@ export default function TrackPage() {
           {/* nav */}
           <header className="max-w-6xl mx-auto px-5 sm:px-8 py-5 flex items-center justify-between">
             <a href="/" className="flex items-center gap-3">
-              <span className="w-9 h-9 rounded-lg bg-[#3ee86b] text-black grid place-items-center trk-display text-[15px]">
-                T
-              </span>
+              <Image
+                src="/tnt-logo-512.png"
+                alt="TNT Sport Apparel"
+                width={36}
+                height={36}
+                className="w-9 h-9 object-contain rounded-lg"
+                priority
+              />
               <span className="leading-none">
                 <span className="block trk-display text-[15px] tracking-tight">
                   TNT SPORT
@@ -196,7 +202,7 @@ export default function TrackPage() {
                 </form>
 
                 <div className="flex flex-wrap gap-x-7 gap-y-2 mt-7 text-[13px] text-[#9aa0aa]">
-                  <span>10 tahap produksi transparan</span>
+                  <span>11 tahap produksi transparan</span>
                   <span>Estimasi kirim jelas</span>
                   <span>Update tiap hari kerja</span>
                 </div>
@@ -237,9 +243,13 @@ export default function TrackPage() {
           <footer className="border-t border-[#26282e] mt-auto">
             <div className="max-w-6xl mx-auto px-5 sm:px-8 py-7 flex flex-col sm:flex-row gap-4 sm:items-center justify-between">
               <div className="flex items-center gap-3">
-                <span className="w-8 h-8 rounded-lg bg-[#3ee86b] text-black grid place-items-center trk-display text-[13px]">
-                  T
-                </span>
+              <Image
+                src="/tnt-logo-512.png"
+                alt="TNT Sport Apparel"
+                width={32}
+                height={32}
+                className="w-8 h-8 object-contain rounded-lg"
+              />
                 <div className="leading-tight">
                   <p className="text-[13px] text-[#9aa0aa]">
                     © 2026 TNT Sport Apparel — Custom Jersey &amp; Sportswear

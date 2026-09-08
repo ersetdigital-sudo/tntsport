@@ -14,29 +14,33 @@ type StepRow = { id: string; name: string; position: number };
 const DEFAULT_STEPS: StepRow[] = [
   { id: "", name: "Desain", position: 1 },
   { id: "", name: "Layout", position: 2 },
-  { id: "", name: "Print", position: 3 },
-  { id: "", name: "Pres", position: 4 },
-  { id: "", name: "Potong", position: 5 },
-  { id: "", name: "Jahit", position: 6 },
-  { id: "", name: "Finishing", position: 7 },
-  { id: "", name: "Packing", position: 8 },
-  { id: "", name: "Kirim", position: 9 },
+  { id: "", name: "Profing Warna", position: 3 },
+  { id: "", name: "Cetak / Print", position: 4 },
+  { id: "", name: "Press / Transfer Sublime", position: 5 },
+  { id: "", name: "Potong Pola / Cutting Panel", position: 6 },
+  { id: "", name: "Jahit / Sewing", position: 7 },
+  { id: "", name: "Finishing", position: 8 },
+  { id: "", name: "Quality Control", position: 9 },
+  { id: "", name: "Packing", position: 10 },
+  { id: "", name: "Kirim", position: 11 },
 ];
 
 const STEP_PROGRESS: Record<number, number> = {
-  1: 11, 2: 22, 3: 33, 4: 44, 5: 56, 6: 67, 7: 78, 8: 89, 9: 95,
+  1: 9, 2: 18, 3: 27, 4: 36, 5: 45, 6: 55, 7: 64, 8: 73, 9: 82, 10: 91, 11: 100,
 };
 
 function getStepPct(step: number, hasTracking: boolean): number {
-  if (step === 9 && hasTracking) return 100;
+  if (step === 11 && hasTracking) return 100;
   return STEP_PROGRESS[step] ?? 0;
 }
 
 const LANES = [
   { name: "Desain & Layout", from: 1, to: 2 },
-  { name: "Produksi", from: 3, to: 6 },
-  { name: "Finishing & Packing", from: 7, to: 8 },
-  { name: "Kirim", from: 9, to: 9 },
+  { name: "Profing & Cetak", from: 3, to: 4 },
+  { name: "Press & Potong", from: 5, to: 6 },
+  { name: "Jahit & Finishing", from: 7, to: 8 },
+  { name: "QC & Packing", from: 9, to: 10 },
+  { name: "Kirim", from: 11, to: 11 },
 ];
 
 type OrderData = {
