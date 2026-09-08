@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useCallback, useRef } from "react";
+import { useState, useEffect, useCallback, useRef, type ReactNode } from "react";
 import { useRouter } from "next/navigation";
 
 type StepRow = { id: string; name: string; position: number };
@@ -108,6 +108,52 @@ function initials(name: string) {
     .toUpperCase();
 }
 
+/* SVG nav icons (Feather-style, 24x24 stroke) */
+function NavIcon({ name, size = 18 }: { name: string; size?: number }) {
+  const paths: Record<string, ReactNode> = {
+    pesanan: (
+      <>
+        <path d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-4 0a1 1 0 01-1-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 01-1 1" />
+      </>
+    ),
+    jadwal: (
+      <>
+        <path d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+      </>
+    ),
+    kirim: (
+      <>
+        <path d="M1 3h15v13H1z" />
+        <path d="M16 8h4l3 3v5h-7V8z" />
+        <circle cx="5.5" cy="18.5" r="2.5" />
+        <circle cx="18.5" cy="18.5" r="2.5" />
+      </>
+    ),
+    customer: (
+      <>
+        <path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2" />
+        <circle cx="12" cy="7" r="4" />
+      </>
+    ),
+    laporan: (
+      <>
+        <path d="M18 20V10M12 20V4M6 20v-6" />
+      </>
+    ),
+    setting: (
+      <>
+        <circle cx="12" cy="12" r="3" />
+        <path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 11-2.83 2.83l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 11-4 0v-.09A1.65 1.65 0 008.6 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 11-2.83-2.83l.06-.06a1.65 1.65 0 00.33-1.82 1.65 1.65 0 00-1.51-1H3a2 2 0 110-4h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 112.83-2.83l.06.06a1.65 1.65 0 001.82.33H9a1.65 1.65 0 001-1.51V3a2 2 0 114 0v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 112.83 2.83l-.06.06a1.65 1.65 0 00-.33 1.82V9a1.65 1.65 0 001.51 1H21a2 2 0 110 4h-.09a1.65 1.65 0 00-1.51 1z" />
+      </>
+    ),
+  };
+  return (
+    <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+      {paths[name] || null}
+    </svg>
+  );
+}
+
 export default function PesananDashboard() {
   const router = useRouter();
   const [orders, setOrders] = useState<OrderData[]>([]);
@@ -210,13 +256,7 @@ export default function PesananDashboard() {
         </a>
         <p className="pas-navsec">Operasional</p>
         <nav className="flex flex-col gap-1">
-          {(
-            [
-              ["pesanan", "▤", "Pesanan"],
-              ["jadwal", "◷", "Jadwal Produksi"],
-              ["kirim", "🚚", "Pengiriman"],
-            ] as [ViewKey, string, string][]
-          ).map(([key, icon, label]) => (
+          {(["pesanan", "jadwal", "kirim"] as ViewKey[]).map((key) => (
             <a
               key={key}
               className={`pas-navlink ${currentView === key ? "on" : ""}`}
@@ -226,19 +266,13 @@ export default function PesananDashboard() {
                 switchView(key);
               }}
             >
-              <span className="pas-ic">{icon}</span> {label}
+              <span className="pas-ic"><NavIcon name={key} /></span> {VIEW_META[key].title}
             </a>
           ))}
         </nav>
         <p className="pas-navsec">Data</p>
         <nav className="flex flex-col gap-1">
-          {(
-            [
-              ["customer", "☺", "Customer"],
-              ["laporan", "◧", "Laporan"],
-              ["setting", "⚙", "Pengaturan"],
-            ] as [ViewKey, string, string][]
-          ).map(([key, icon, label]) => (
+          {(["customer", "laporan", "setting"] as ViewKey[]).map((key) => (
             <a
               key={key}
               className={`pas-navlink ${currentView === key ? "on" : ""}`}
@@ -248,7 +282,7 @@ export default function PesananDashboard() {
                 switchView(key);
               }}
             >
-              <span className="pas-ic">{icon}</span> {label}
+              <span className="pas-ic"><NavIcon name={key} /></span> {VIEW_META[key].title}
             </a>
           ))}
         </nav>
@@ -376,13 +410,7 @@ export default function PesananDashboard() {
             </div>
             <p className="pas-navsec">Operasional</p>
             <nav className="flex flex-col gap-1">
-              {(
-                [
-                  ["pesanan", "▤", "Pesanan"],
-                  ["jadwal", "◷", "Jadwal Produksi"],
-                  ["kirim", "🚚", "Pengiriman"],
-                ] as [ViewKey, string, string][]
-              ).map(([key, icon, label]) => (
+              {(["pesanan", "jadwal", "kirim"] as ViewKey[]).map((key) => (
                 <a
                   key={key}
                   className={`pas-navlink ${currentView === key ? "on" : ""}`}
@@ -392,19 +420,13 @@ export default function PesananDashboard() {
                     switchView(key);
                   }}
                 >
-                  <span className="pas-ic">{icon}</span> {label}
+                  <span className="pas-ic"><NavIcon name={key} /></span> {VIEW_META[key].title}
                 </a>
               ))}
             </nav>
             <p className="pas-navsec">Data</p>
             <nav className="flex flex-col gap-1">
-              {(
-                [
-                  ["customer", "☺", "Customer"],
-                  ["laporan", "◧", "Laporan"],
-                  ["setting", "⚙", "Pengaturan"],
-                ] as [ViewKey, string, string][]
-              ).map(([key, icon, label]) => (
+              {(["customer", "laporan", "setting"] as ViewKey[]).map((key) => (
                 <a
                   key={key}
                   className={`pas-navlink ${currentView === key ? "on" : ""}`}
@@ -414,7 +436,7 @@ export default function PesananDashboard() {
                     switchView(key);
                   }}
                 >
-                  <span className="pas-ic">{icon}</span> {label}
+                  <span className="pas-ic"><NavIcon name={key} /></span> {VIEW_META[key].title}
                 </a>
               ))}
             </nav>
@@ -467,21 +489,14 @@ export default function PesananDashboard() {
 
       {/* ── BOTTOM FLOATING NAV (mobile) ── */}
       <nav className="pas-bottom-nav lg:hidden">
-        {([
-          ["pesanan", "M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-4 0a1 1 0 01-1-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 01-1 1"],
-          ["jadwal", "M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"],
-          ["kirim", "M13 16V6a1 1 0 00-1-1H4a1 1 0 00-1 1v10m10 0H3m10 0a2 2 0 012 2v4a2 2 0 01-2 2H9a2 2 0 01-2-2v-4a2 2 0 012-2m7 0H9m7 0h3M9 16v-4a2 2 0 012-2h2a2 2 0 012 2v4"],
-          ["customer", "M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"],
-        ] as [ViewKey, string][]).map(([key, path]) => (
+        {(["pesanan", "jadwal", "kirim", "customer"] as ViewKey[]).map((key) => (
           <button
             key={key}
             className={`pas-bottom-nav-item ${currentView === key ? "on" : ""}`}
             onClick={() => switchView(key)}
             title={VIEW_META[key].title}
           >
-            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
-              <path d={path} />
-            </svg>
+            <NavIcon name={key} size={22} />
             {currentView === key && <span className="pas-bottom-nav-dot" />}
           </button>
         ))}
