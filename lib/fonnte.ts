@@ -113,16 +113,16 @@ export function isValidFonntePhone(phone: string): boolean {
  */
 export async function getFonnteToken(): Promise<string | null> {
   const supabase = await createClient();
-  const { data } = await supabase
-    .from("app_settings")
-    .select("value")
-    .eq("key", FONNTE_TOKEN_KEY)
-    .maybeSingle();
+  // Lewat RPC SECURITY DEFINER supaya jalan juga dari endpoint anon
+  // (dashboard Pesanan). Nilai tetap ciphertext — didekripsi di sini.
+  const { data } = await supabase.rpc("get_app_setting_value", {
+    p_key: FONNTE_TOKEN_KEY,
+  });
 
-  if (!data?.value) return null;
+  if (!data) return null;
 
   try {
-    return decryptSecret(data.value);
+    return decryptSecret(String(data));
   } catch {
     // Key berubah / data korup — tidak di-log isinya, cukup return null.
     return null;
@@ -222,25 +222,27 @@ export async function triggerStageNotification(
   },
   stage: number
 ): Promise<NotificationTriggerStatus> {
-  // 1. INSERT log dulu. Unique violation (23505) = sudah pernah terkirim → skip.
-  const { data: logRow, error: logError } = await supabase
-    .from("notification_logs")
-    .insert({ order_id: orderId, stage })
-    .select("id")
-    .single();
+  // 1. Klaim slot lewat RPC SECURITY DEFINER (anti-duplikat di level DB,
+  //    aman dari race condition). Return NULL = sudah pernah terkirim.
+  const { data: logId, error: claimError } = await supabase.rpc(
+    "claim_stage_notification",
+    { p_order_id: orderId, p_stage: stage }
+  );
 
-  if (logError) {
-    if (logError.code === "23505") return "skipped_duplicate";
+  if (claimError) {
     // Error DB lain — catat tanpa menggagalkan update status.
-    console.error("notification_logs insert failed:", logError.message);
+    console.error("claim_stage_notification failed:", claimError.message);
     return "log_error";
   }
+  if (!logId) return "skipped_duplicate";
 
   try {
     const phone = normalizeAndValidatePhone(order.customer_phone);
     if (!phone) {
-      await updateLogStatus(supabase, logRow.id, "failed", {
-        error: "invalid_phone",
+      await supabase.rpc("finish_stage_notification", {
+        p_id: logId,
+        p_status: "failed",
+        p_response: { error: "invalid_phone" },
       });
       return "failed";
     }
@@ -249,20 +251,19 @@ export async function triggerStageNotification(
     const result = await sendFonnteMessage(phone, message);
 
     // Update status log (response_payload TIDAK pernah berisi token).
-    await updateLogStatus(
-      supabase,
-      logRow.id,
-      result.success ? "success" : "failed",
-      result.response
-    );
+    await supabase.rpc("finish_stage_notification", {
+      p_id: logId,
+      p_status: result.success ? "success" : "failed",
+      p_response: result.response,
+    });
 
     if (!result.success) return "failed";
 
     // last_notified_stage hanya di-update kalau kirim sukses.
-    await supabase
-      .from("orders")
-      .update({ last_notified_stage: stage })
-      .eq("id", orderId);
+    await supabase.rpc("mark_last_notified_stage", {
+      p_order_id: orderId,
+      p_stage: stage,
+    });
 
     return "sent";
   } catch (err) {
@@ -272,25 +273,14 @@ export async function triggerStageNotification(
       err instanceof Error ? err.message : err
     );
     try {
-      await updateLogStatus(supabase, logRow.id, "failed", {
-        error: "unexpected",
+      await supabase.rpc("finish_stage_notification", {
+        p_id: logId,
+        p_status: "failed",
+        p_response: { error: "unexpected" },
       });
     } catch {
       // log adalah best effort
     }
     return "failed";
   }
-}
-
-async function updateLogStatus(
-  supabase: SupabaseClient,
-  logId: string,
-  status: "success" | "failed",
-  responsePayload: Record<string, unknown> | null
-) {
-  const patch: Record<string, unknown> = { status };
-  if (responsePayload !== null && responsePayload !== undefined) {
-    patch.response_payload = responsePayload;
-  }
-  await supabase.from("notification_logs").update(patch).eq("id", logId);
 }

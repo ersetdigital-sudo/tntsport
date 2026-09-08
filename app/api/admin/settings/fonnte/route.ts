@@ -20,13 +20,12 @@ export async function GET() {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 
-  const { data } = await supabase
-    .from("app_settings")
-    .select("value")
-    .eq("key", FONNTE_TOKEN_KEY)
-    .maybeSingle();
+  // Lewat RPC SECURITY DEFINER supaya jalan juga dari dashboard Pesanan (anon key).
+  const { data } = await supabase.rpc("get_app_setting_value", {
+    p_key: FONNTE_TOKEN_KEY,
+  });
 
-  if (!data?.value) {
+  if (!data) {
     return NextResponse.json({
       hasToken: false,
       tokenLast4: null,
@@ -36,7 +35,7 @@ export async function GET() {
 
   let tokenLast4: string | null = null;
   try {
-    tokenLast4 = decryptSecret(data.value).slice(-4);
+    tokenLast4 = decryptSecret(String(data)).slice(-4);
   } catch {
     // Key belum di-set atau data korup — jangan bocorkan isi payload.
     tokenLast4 = null;
@@ -83,18 +82,15 @@ export async function POST(request: NextRequest) {
   // Enkripsi di server — plaintext token tidak pernah meninggalkan server.
   const encrypted = encryptSecret(token);
 
-  const { error } = await supabase.from("app_settings").upsert(
-    {
-      key: FONNTE_TOKEN_KEY,
-      value: encrypted,
-      updated_at: new Date().toISOString(),
-    },
-    { onConflict: "key" }
-  );
+  // Lewat RPC SECURITY DEFINER (hanya key fonnte_token yang diizinkan).
+  const { error } = await supabase.rpc("set_app_setting", {
+    p_key: FONNTE_TOKEN_KEY,
+    p_value: encrypted,
+  });
 
   if (error) {
     // Jangan log isi token; cukup message error DB.
-    console.error("app_settings upsert failed:", error.message);
+    console.error("set_app_setting failed:", error.message);
     return NextResponse.json(
       { error: "Gagal menyimpan pengaturan" },
       { status: 500 }
