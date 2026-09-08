@@ -2120,6 +2120,7 @@
   --pas-line-2: #E3D7CC;
   --pas-muted: #8C857E;
   --pas-ink-1: #304230;
+  --pas-ink-2: #5A6B5A;
   --pas-accent: #3F563B;
   --pas-accent-soft: rgba(63,86,59,.1);
   --pas-radius: 14px;
@@ -2147,11 +2148,16 @@
 .pas-navlink.on .pas-ic { color: #DDB339; }
 .pas-ic { width: 18px; text-align: center; font-size: 15px; opacity: .9; }
 
-/* Drawer menu (light panel) overrides for navlink */
-.pas-panel .pas-navlink { color: var(--pas-ink-2); }
-.pas-panel .pas-navlink:hover { background: var(--pas-light); color: var(--pas-ink-1); }
-.pas-panel .pas-navlink.on { background: rgba(63,86,59,.1); color: var(--pas-green); font-weight: 600; }
-.pas-panel .pas-navsec { color: var(--pas-muted); }
+/* Drawer menu (dark panel, premium feel) */
+.pas-panel {
+  background: var(--pas-green) !important;
+  border-color: rgba(255,255,255,.08) !important;
+}
+.pas-panel .pas-navlink { color: rgba(255,255,255,.65) !important; background: transparent !important; }
+.pas-panel .pas-navlink:hover { background: rgba(255,255,255,.08) !important; color: #fff !important; }
+.pas-panel .pas-navlink.on { background: rgba(255,255,255,.1) !important; color: #fff !important; font-weight: 600; }
+.pas-panel .pas-navlink.on .pas-ic { color: var(--pas-yellow) !important; }
+.pas-panel .pas-navsec { color: rgba(255,255,255,.35) !important; }
 .pas-navsec {
   font-size: 10.5px; letter-spacing: .14em; text-transform: uppercase;
   color: rgba(255,255,255,.4); padding: 0 12px; margin: 18px 0 8px; font-weight: 600;

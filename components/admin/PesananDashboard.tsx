@@ -357,15 +357,15 @@ export default function PesananDashboard() {
           <div className="pas-veil" onClick={() => setShowMobileNav(false)} />
           <div className="pas-panel slide-left p-5">
             {/* Drawer header */}
-            <div className="flex items-center justify-between mb-1">
+            <div className="flex items-center justify-between mb-2">
               <a href="/" className="flex items-center gap-2.5">
                 <span className="pas-mark w-8 h-8 rounded-[9px] grid place-items-center pas-display text-[13px]">
                   T
                 </span>
-                <span className="pas-display text-[15px]">TNT Sport</span>
+                <span className="pas-display text-[15px] text-white">TNT Sport</span>
               </a>
               <button
-                className="p-2 rounded-lg text-[var(--pas-muted)] hover:text-[var(--pas-ink-1)] hover:bg-[var(--pas-light)] transition"
+                className="p-2 rounded-lg text-white/50 hover:text-white hover:bg-white/10 transition"
                 onClick={() => setShowMobileNav(false)}
                 aria-label="Tutup menu"
               >
