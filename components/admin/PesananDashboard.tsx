@@ -736,7 +736,7 @@ function ViewPesanan({
                     {o.deadline ? (
                       <span className={
                         dlStatus.level === "overdue" ? "text-red-400" :
-                        dlStatus.level === "warning" ? "text-yellow-400" :
+                        dlStatus.level === "warning" ? "text-[var(--pas-orange)]" :
                         "text-[var(--pas-muted)]"
                       }>
                         {(dlStatus.level === "overdue" || dlStatus.level === "warning") && (
@@ -849,7 +849,7 @@ function ViewPesanan({
                 {o.deadline ? (
                   <p className={
                     dlStatus.level === "overdue" ? "text-[12px] text-red-400 font-medium" :
-                    dlStatus.level === "warning" ? "text-[12px] text-yellow-400 font-medium" :
+                    dlStatus.level === "warning" ? "text-[12px] text-[var(--pas-orange)] font-medium" :
                     "text-[12px] text-[var(--pas-muted)]"
                   }>
                     {(dlStatus.level === "overdue" || dlStatus.level === "warning") && (
