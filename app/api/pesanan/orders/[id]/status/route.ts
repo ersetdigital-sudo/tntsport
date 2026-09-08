@@ -35,6 +35,9 @@ export async function PATCH(
   };
 
   if (current_step !== undefined) {
+    // Jaga konsistensi current_stage dengan current_status (tanpa trigger notifikasi
+    // — notifikasi hanya dipicu dari endpoint admin).
+    updateData.current_stage = Math.min(Math.max(Number(current_step), 1), 9);
     if (current_step === 9 && is_done) {
       if (!tracking_number || !courier) {
         return NextResponse.json(

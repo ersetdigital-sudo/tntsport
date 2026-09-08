@@ -18,6 +18,7 @@ import {
   MessageSquareQuote,
   Layers,
   Settings,
+  Send,
   LogOut,
 } from "lucide-react";
 
@@ -55,6 +56,12 @@ const NAV_GROUPS: NavGroup[] = [
         label: "Dashboard",
         icon: LayoutDashboard,
         activePrefix: "/admin",
+      },
+      {
+        href: "/admin/settings",
+        label: "Notifikasi WA",
+        icon: Send,
+        activePrefix: "/admin/settings",
       },
     ],
   },

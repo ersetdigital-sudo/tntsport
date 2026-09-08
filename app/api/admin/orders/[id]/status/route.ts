@@ -1,9 +1,38 @@
 import { NextRequest, NextResponse } from "next/server";
 import { createClient } from "@/lib/supabase/server";
 import { ORDER_STATUS_LIST, type OrderStatus } from "@/lib/types";
+import {
+  STATUS_TO_STAGE,
+  buildWhatsAppMessage,
+  normalizeAndValidatePhone,
+  sendFonnteMessage,
+} from "@/lib/fonnte";
+import { checkRateLimit } from "@/lib/rate-limit";
+import type { SupabaseClient } from "@supabase/supabase-js";
+
+/** Nama tahap terakhir yang sukses dikirim (hanya untuk response API, bukan token). */
+interface NotificationResult {
+  stage: number | null;
+  status:
+    | "none" // tidak ada perubahan stage
+    | "skipped_same_stage" // stage sama dengan sebelumnya → tanpa notifikasi
+    | "skipped_duplicate" // unique constraint (order_id, stage) → sudah pernah terkirim
+    | "sent"
+    | "failed";
+}
 
 /**
- * PATCH /api/admin/orders/[id]/status — update order status (admin only)
+ * PATCH /api/admin/orders/[id]/status — update status/tahap produksi (admin only).
+ *
+ * Alur notifikasi WA (Fonnte):
+ * 1. Ambil order → previous_stage = current_stage (dari DB) SEBELUM update.
+ * 2. Update order.current_stage = new_stage (stage baru dari request).
+ * 3. Jika new_stage == previous_stage → tanpa notifikasi, langsung sukses.
+ * 4. Jika berbeda → INSERT notification_logs dulu (unique (order_id, stage)):
+ *    - gagal karena unique constraint → skip kirim (anti-duplikat, aman dari race condition)
+ *    - berhasil → build pesan → kirim Fonnte → update log (success/failed) →
+ *      update last_notified_stage HANYA jika sukses.
+ * 5. Kegagalan kirim WA TIDAK menggagalkan/rollback update status order.
  */
 export async function PATCH(
   request: NextRequest,
@@ -21,7 +50,15 @@ export async function PATCH(
   try {
     const { id } = await params;
     const body = await request.json();
-    const { status, note, photoUrl, trackingNumber, courier, delayReason, delayEstimatedDate } = body;
+    const {
+      status,
+      note,
+      photoUrl,
+      trackingNumber,
+      courier,
+      delayReason,
+      delayEstimatedDate,
+    } = body;
 
     if (!status || !ORDER_STATUS_LIST.includes(status as OrderStatus)) {
       return NextResponse.json(
@@ -30,8 +67,38 @@ export async function PATCH(
       );
     }
 
-    const updateData: Record<string, any> = {
+    // Rate limit dasar — cegah spam trigger notifikasi (10 request/menit per admin per order).
+    if (!checkRateLimit(`stage-update:${user.id}:${id}`, 10, 60_000)) {
+      return NextResponse.json(
+        { error: "Terlalu banyak permintaan, coba lagi nanti" },
+        { status: 429 }
+      );
+    }
+
+    // 1. Ambil order dulu — previous_stage dibaca dari DB sebelum update.
+    const { data: existing, error: fetchError } = await supabase
+      .from("orders")
+      .select("*")
+      .eq("id", id)
+      .maybeSingle();
+
+    if (fetchError || !existing) {
+      return NextResponse.json(
+        { error: "Pesanan tidak ditemukan" },
+        { status: 404 }
+      );
+    }
+
+    const newStage = STATUS_TO_STAGE[status as OrderStatus] ?? null;
+    const previousStage =
+      existing.current_stage ??
+      STATUS_TO_STAGE[existing.current_status as OrderStatus] ??
+      null;
+
+    // 2. Update order — tersimpan apa pun hasil kirim WA (tanpa rollback).
+    const updateData: Record<string, unknown> = {
       current_status: status,
+      current_stage: newStage,
       updated_at: new Date().toISOString(),
     };
 
@@ -49,8 +116,8 @@ export async function PATCH(
       return NextResponse.json({ error: updateError.message }, { status: 500 });
     }
 
-    // Insert status history
-    const historyData: Record<string, any> = {
+    // Insert status history (perilaku lama tetap dipertahankan)
+    const historyData: Record<string, unknown> = {
       order_id: id,
       status,
       note: note || "",
@@ -65,11 +132,110 @@ export async function PATCH(
       return NextResponse.json({ error: historyError.message }, { status: 500 });
     }
 
-    return NextResponse.json({ success: true });
+    // 3-4. Notifikasi WhatsApp — hanya bila tahap BENAR-BENAR berubah.
+    const notification: NotificationResult = { stage: newStage, status: "none" };
+
+    if (newStage !== null && newStage !== previousStage) {
+      notification.status = await triggerNotification(
+        supabase,
+        id,
+        existing,
+        newStage
+      );
+    } else if (newStage !== null) {
+      notification.status = "skipped_same_stage";
+    }
+
+    return NextResponse.json({ success: true, notification });
   } catch {
     return NextResponse.json(
       { error: "Terjadi kesalahan server" },
       { status: 500 }
     );
   }
+}
+
+/**
+ * Trigger satu pengiriman notifikasi WA.
+ * 1. INSERT notification_logs (order_id, stage) — unique constraint = anti-duplikat.
+ * 2. Kalau insert sukses → kirim WA → update log + last_notified_stage.
+ * Semua dibungkus try-catch: kegagalan WA tidak pernah dilempar ke atas.
+ */
+async function triggerNotification(
+  supabase: SupabaseClient,
+  orderId: string,
+  order: { customer_name: string; order_number: string; customer_phone: string },
+  stage: number
+): Promise<NotificationResult["status"]> {
+  // 4a. INSERT log dulu. Unique violation (23505) = sudah pernah terkirim → skip.
+  const { data: logRow, error: logError } = await supabase
+    .from("notification_logs")
+    .insert({ order_id: orderId, stage })
+    .select("id")
+    .single();
+
+  if (logError) {
+    if (logError.code === "23505") return "skipped_duplicate";
+    // Error DB lain (mis. RLS/network) — catat tanpa menggagalkan update status.
+    console.error("notification_logs insert failed:", logError.message);
+    return "failed";
+  }
+
+  try {
+    const phone = normalizeAndValidatePhone(order.customer_phone);
+    if (!phone) {
+      await updateLogStatus(supabase, logRow.id, "failed", {
+        error: "invalid_phone",
+      });
+      return "failed";
+    }
+
+    const message = buildWhatsAppMessage(stage, order);
+    const result = await sendFonnteMessage(phone, message);
+
+    // 4d. Update status log (response_payload TIDAK pernah berisi token).
+    await updateLogStatus(
+      supabase,
+      logRow.id,
+      result.success ? "success" : "failed",
+      result.response
+    );
+
+    if (!result.success) return "failed";
+
+    // 4e. last_notified_stage hanya di-update kalau kirim sukses.
+    await supabase
+      .from("orders")
+      .update({ last_notified_stage: stage })
+      .eq("id", orderId);
+
+    return "sent";
+  } catch (err) {
+    // 5. WA gagal → status order tetap tersimpan, cukup log error.
+    console.error(
+      "WA notification failed:",
+      err instanceof Error ? err.message : err
+    );
+    try {
+      await updateLogStatus(supabase, logRow.id, "failed", {
+        error: "unexpected",
+      });
+    } catch {
+      // abaikan — log adalah best effort
+    }
+    return "failed";
+  }
+}
+
+async function updateLogStatus(
+  supabase: SupabaseClient,
+  logId: string,
+  status: "success" | "failed",
+  responsePayload: Record<string, unknown> | null
+) {
+  const patch: Record<string, unknown> = { status };
+  if (responsePayload !== null && responsePayload !== undefined) {
+    patch.response_payload = responsePayload;
+  }
+  await supabase.from("notification_logs").update(patch).eq("id", logId);
 }

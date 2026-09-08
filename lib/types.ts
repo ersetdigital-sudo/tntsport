@@ -287,6 +287,10 @@ export interface Order {
   custom_number: string;
   design_notes: string;
   current_status: OrderStatus;
+  /** Nomor tahap produksi aktif (1-9), lihat lib/fonnte.ts STAGE_NAMES. */
+  current_stage?: number | null;
+  /** Tahap terakhir yang notifikasi WA-nya berhasil terkirim. */
+  last_notified_stage?: number | null;
   tracking_number: string;
   courier: string;
   deadline: string | null;

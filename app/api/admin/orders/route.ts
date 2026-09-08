@@ -49,6 +49,7 @@ export async function POST(request: NextRequest) {
         custom_number: body.customNumber || "",
         design_notes: body.designNotes || "",
         current_status: "order_diterima",
+        current_stage: 1,
       })
       .select()
       .single();

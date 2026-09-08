@@ -128,6 +128,7 @@ export async function POST(request: Request) {
     quantity: isNaN(qtyNum) ? 1 : qtyNum,
     sizes: sizes || "",
     current_status: "desain",
+    current_stage: 1,
     design_photos: design_photos || [],
     products: Array.isArray(products) ? products : [],
   };
