@@ -44,6 +44,7 @@ type OrderData = {
   sizes: string;
   products?: { name: string; sizes: { size: string; qty: number }[] }[];
   design_photos?: string[];
+  wo_photos?: string[];
   current_step: number;
   note: string;
   note_time: string;
@@ -1927,6 +1928,8 @@ function DetailSheet({
   const [courier, setCourier] = useState(order?.courier || "");
   const [resi, setResi] = useState(order?.tracking_number || "");
   const [deadline, setDeadline] = useState(order?.deadline ? order.deadline.slice(0, 10) : "");
+  const [woPhotos, setWoPhotos] = useState<string[]>(order?.wo_photos || []);
+  const [uploadingWo, setUploadingWo] = useState(false);
   const [saving, setSaving] = useState(false);
   const [kirimError, setKirimError] = useState("");
   const [zoomUrl, setZoomUrl] = useState<string | null>(null);
@@ -1962,8 +1965,24 @@ function DetailSheet({
       setCourier(order.courier || "");
       setResi(order.tracking_number || "");
       setDeadline(order.deadline ? order.deadline.slice(0, 10) : "");
+      setWoPhotos(order.wo_photos || []);
     }
   }, [order]);
+
+  const handleWoUpload = async (file: File) => {
+    if (!file.type.startsWith("image/")) { setKirimError("File harus gambar"); return; }
+    if (file.size > 10 * 1024 * 1024) { setKirimError("Maksimal 10MB"); return; }
+    setUploadingWo(true);
+    setKirimError("");
+    try {
+      const fd = new FormData();
+      fd.append("file", file);
+      const res = await fetch("/api/upload/design", { method: "POST", body: fd });
+      const data = await res.json();
+      if (!res.ok) { setKirimError(data.error || "Upload gagal"); return; }
+      setWoPhotos((prev) => [...prev, data.url]);
+    } catch { setKirimError("Upload gagal"); } finally { setUploadingWo(false); }
+  };
 
   if (!order) return null;
 
@@ -1996,6 +2015,7 @@ function DetailSheet({
           courier,
           tracking_number: resi,
           deadline: deadline || undefined,
+          wo_photos: woPhotos,
         }),
       });
       const data = await res.json();
@@ -2028,6 +2048,7 @@ function DetailSheet({
           note,
           courier,
           tracking_number: resi,
+          wo_photos: woPhotos,
         }),
       });
       const data = await res.json();
@@ -2180,32 +2201,44 @@ function DetailSheet({
               </div>
             </>
           )}
-          {(order.design_photos?.length ?? 0) > 0 && (
-            <div className="col-span-2">
+          <div className="col-span-2 grid grid-cols-2 gap-4">
+            <div>
               <p className="pas-stencil text-[9px] text-[var(--pas-muted)]">Preview Design</p>
               <div className="flex flex-wrap gap-2.5 mt-1.5">
-                {order.design_photos!.map((url, i) => (
-                  <button
-                    key={i}
-                    type="button"
-                    onClick={() => setZoomUrl(url)}
-                    className="group relative w-[76px] h-[76px] rounded-xl overflow-hidden border border-[var(--pas-line)] hover:border-[var(--pas-accent)] transition"
-                    title="Klik untuk memperbesar"
-                    aria-label={`Perbesar design ${i + 1}`}
-                  >
+                {(order.design_photos?.length ?? 0) > 0 ? order.design_photos!.map((url, i) => (
+                  <button key={i} type="button" onClick={() => setZoomUrl(url)} className="group relative w-[76px] h-[76px] rounded-xl overflow-hidden border border-[var(--pas-line)] hover:border-[var(--pas-accent)] transition" title="Klik untuk memperbesar" aria-label={`Perbesar design ${i + 1}`}>
                     {/* eslint-disable-next-line @next/next/no-img-element */}
                     <img src={url} alt={`Design ${i + 1}`} className="w-full h-full object-cover" />
                     <span className="pointer-events-none absolute right-1.5 top-1.5 grid h-6 w-6 place-items-center rounded-full bg-black/55 text-white border border-white/15 opacity-90">
-                      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-                        <circle cx="11" cy="11" r="7" />
-                        <path d="M20 20l-3.5-3.5M11 8v6M8 11h6" />
-                      </svg>
+                      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="7" /><path d="M20 20l-3.5-3.5M11 8v6M8 11h6" /></svg>
                     </span>
                   </button>
-                ))}
+                )) : <span className="text-[13px] text-[var(--pas-muted)]">Belum ada preview</span>}
               </div>
             </div>
-          )}
+            <div>
+              <p className="pas-stencil text-[9px] text-[var(--pas-muted)]">WO</p>
+              <div className="flex flex-wrap gap-2.5 mt-1.5">
+                {woPhotos.map((url, i) => (
+                  <div key={i} className="relative w-[76px] h-[76px] rounded-xl overflow-hidden border border-[var(--pas-line)] group">
+                    <button type="button" onClick={() => setZoomUrl(url)} className="w-full h-full" title="Klik untuk memperbesar" aria-label={`Perbesar WO ${i + 1}`}>
+                      {/* eslint-disable-next-line @next/next/no-img-element */}
+                      <img src={url} alt={`WO ${i + 1}`} className="w-full h-full object-cover" />
+                      <span className="pointer-events-none absolute right-1.5 top-1.5 grid h-6 w-6 place-items-center rounded-full bg-black/55 text-white border border-white/15 opacity-90">
+                        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="7" /><path d="M20 20l-3.5-3.5M11 8v6M8 11h6" /></svg>
+                      </span>
+                    </button>
+                    <button type="button" onClick={() => setWoPhotos((p) => p.filter((_, j) => j !== i))} className="absolute -right-1 -top-1 grid h-6 w-6 place-items-center rounded-full bg-red-500 text-white text-[11px] leading-none border border-white shadow opacity-0 group-hover:opacity-100 transition" title="Hapus foto WO" aria-label="Hapus foto WO">×</button>
+                  </div>
+                ))}
+                <label className="w-[76px] h-[76px] grid place-items-center rounded-xl border-2 border-dashed border-[var(--pas-line)] hover:border-[var(--pas-accent)] cursor-pointer transition text-[var(--pas-muted)] hover:text-[var(--pas-ink-1)]">
+                  <input type="file" accept="image/*" className="hidden" disabled={uploadingWo} onChange={(e) => { const f = e.target.files?.[0]; if (f) handleWoUpload(f); e.currentTarget.value = ""; }} />
+                  <span className="text-[22px] leading-none">{uploadingWo ? "…" : "+"}</span>
+                </label>
+              </div>
+              <p className="text-[11px] text-[var(--pas-muted)] mt-1.5">Admin only • tidak terlihat customer</p>
+            </div>
+          </div>
         </div>
 
         <p className="pas-stencil text-[9px] text-[var(--pas-muted)] mt-6">

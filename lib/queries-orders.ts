@@ -43,10 +43,21 @@ export async function getOrderByTracking(
     .eq("order_id", order.id)
     .order("created_at", { ascending: true });
 
+  const { wo_photos: _wo, ...safeOrder } = order as any;
   return {
-    order: order as Order,
+    order: safeOrder as Order,
     history: (history ?? []) as OrderStatusHistory[],
   };
+}
+
+// ---------------------------------------------------------------------------
+// Helpers: strip admin-only fields before exposing to customer
+// ---------------------------------------------------------------------------
+
+export function stripWoPhoto(order: any): any {
+  if (!order || typeof order !== "object") return order;
+  const { wo_photos, ...rest } = order;
+  return rest;
 }
 
 // ---------------------------------------------------------------------------

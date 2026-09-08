@@ -58,7 +58,8 @@ export async function GET(request: NextRequest) {
       .eq("order_id", order.id)
       .order("created_at", { ascending: true });
 
-    return NextResponse.json({ order, history: history || [] });
+    const { wo_photos: _wo, ...safeOrder } = order as any;
+    return NextResponse.json({ order: safeOrder, history: history || [] });
   } catch {
     return NextResponse.json({ error: "Server error" }, { status: 500 });
   }

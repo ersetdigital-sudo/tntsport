@@ -45,6 +45,7 @@ function mapOrder(row: any) {
     design_photos: Array.isArray(row.design_photos) ? row.design_photos.map((p: any) =>
       typeof p === "string" ? p : p.url || ""
     ).filter(Boolean) : [],
+    wo_photos: Array.isArray(row.wo_photos) ? row.wo_photos.map((p: any) => typeof p === "string" ? p : p.url || "").filter(Boolean) : [],
     products: Array.isArray(row.products) ? row.products : [],
     current_step: step,
     note: row.design_notes || "",

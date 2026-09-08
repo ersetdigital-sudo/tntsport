@@ -294,6 +294,8 @@ export interface Order {
   tracking_number: string;
   courier: string;
   deadline: string | null;
+  /** Admin-only: Work Order photo URLs (never exposed to customer) */
+  wo_photos?: string[];
   created_at: string;
   updated_at: string;
 }

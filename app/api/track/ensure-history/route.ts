@@ -41,15 +41,17 @@ export async function POST(request: NextRequest) {
   // Get order — select ALL columns so the returned order object is complete
   // (design_photos, products, deadline, etc.) and doesn't wipe out fields
   // the status page already has from /api/track/session
-  const { data: order, error: oErr } = await supabase
+  const { data: orderRaw, error: oErr } = await supabase
     .from("orders")
     .select("*")
     .eq("order_number", orderNumber.toUpperCase())
     .single();
-
-  if (oErr || !order) {
+  if (oErr || !orderRaw) {
     return NextResponse.json({ error: "Order not found" }, { status: 404 });
   }
+  const { wo_photos: _wo, ...order } = orderRaw as any;
+
+  void oErr;
 
   const currentStep = stepFromStatus(order.current_status);
   if (currentStep <= 1) {
