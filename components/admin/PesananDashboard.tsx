@@ -1977,11 +1977,15 @@ function DetailSheet({
     try {
       const fd = new FormData();
       fd.append("file", file);
+      console.log("[Detail WO] file", file.name, file.type, file.size);
       const res = await fetch("/api/upload/design", { method: "POST", body: fd });
-      const data = await res.json();
-      if (!res.ok) { setKirimError(data.error || "Upload gagal"); return; }
+      const text = await res.text();
+      console.log("[Detail WO] resp", res.status, text.slice(0, 600));
+      let data: any = {};
+      try { data = JSON.parse(text); } catch { data = { error: text.slice(0, 300) }; }
+      if (!res.ok) { setKirimError(data.error || "Upload gagal"); console.error("[Detail WO] failed", data); return; }
       setWoPhotos((prev) => [...prev, data.url]);
-    } catch { setKirimError("Upload gagal"); } finally { setUploadingWo(false); }
+    } catch (e) { console.error("[Detail WO] exception", e); setKirimError("Upload gagal"); } finally { setUploadingWo(false); }
   };
 
   if (!order) return null;
@@ -2638,14 +2642,18 @@ function AddForm({
             setUploadingDesign(true);
             try {
               for (const file of files) {
+                console.log("[upload Design] file", file.name, file.type, file.size);
                 const fd = new FormData();
                 fd.append("file", file);
                 const res = await fetch("/api/upload/design", { method: "POST", body: fd });
-                const data = await res.json();
-                if (!res.ok) { setError(data.error || "Upload gagal"); return; }
+                const text = await res.text();
+                console.log("[upload Design] resp", res.status, text.slice(0, 600));
+                let data: any = {};
+                try { data = JSON.parse(text); } catch { data = { error: text.slice(0, 300) }; }
+                if (!res.ok) { setError(data.error || "Upload gagal"); console.error("[upload Design] failed", data); return; }
                 setDesignPhotos((ps) => [...ps, data.url]);
               }
-            } catch { setError("Upload gagal. Coba lagi."); } finally { setUploadingDesign(false); }
+            } catch (e) { console.error("[upload Design] exception", e); setError("Upload gagal. Coba lagi."); } finally { setUploadingDesign(false); }
           }}
         />
       </div>
@@ -2673,14 +2681,18 @@ function AddForm({
             setUploadingWo(true);
             try {
               for (const file of files) {
+                console.log("[upload Wo] file", file.name, file.type, file.size);
                 const fd = new FormData();
                 fd.append("file", file);
                 const res = await fetch("/api/upload/design", { method: "POST", body: fd });
-                const data = await res.json();
-                if (!res.ok) { setError(data.error || "Upload gagal"); return; }
+                const text = await res.text();
+                console.log("[upload Wo] resp", res.status, text.slice(0, 600));
+                let data: any = {};
+                try { data = JSON.parse(text); } catch { data = { error: text.slice(0, 300) }; }
+                if (!res.ok) { setError(data.error || "Upload gagal"); console.error("[upload Wo] failed", data); return; }
                 setWoPhotos((ps) => [...ps, data.url]);
               }
-            } catch { setError("Upload gagal. Coba lagi."); } finally { setUploadingWo(false); }
+            } catch (e) { console.error("[upload Wo] exception", e); setError("Upload gagal. Coba lagi."); } finally { setUploadingWo(false); }
           }}
         />
       </div>
