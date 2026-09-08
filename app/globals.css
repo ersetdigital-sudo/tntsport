@@ -2407,4 +2407,39 @@ table.pas-tbl tbody tr:hover { background: rgba(255,255,255,.028); }
     background: var(--pas-line);
     margin: 14px 0 12px;
   }
+
+  /* ── Bottom Floating Nav ── */
+  .pas-bottom-nav {
+    position: fixed;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 85%;
+    max-width: 380px;
+    background: var(--pas-accent);
+    border-radius: 30px;
+    padding: 10px 24px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    box-shadow: 0 8px 32px rgba(92,201,138,.35), 0 2px 8px rgba(0,0,0,.15);
+    z-index: 50;
+  }
+  .pas-bottom-nav-item {
+    width: 48px; height: 48px;
+    display: flex; align-items: center; justify-content: center;
+    border-radius: 14px; border: none; background: transparent;
+    color: rgba(255,255,255,.6); position: relative;
+    transition: all .18s ease; cursor: pointer;
+  }
+  .pas-bottom-nav-item:hover { color: #fff; background: rgba(255,255,255,.12); }
+  .pas-bottom-nav-item.on { color: #0f2318; background: rgba(255,255,255,.2); }
+  .pas-bottom-nav-dot {
+    position: absolute; bottom: 2px; left: 50%; transform: translateX(-50%);
+    width: 5px; height: 5px; border-radius: 99px;
+    background: #0f2318;
+  }
+
+  /* Push content up so bottom nav doesn't overlap */
+  main { padding-bottom: 90px !important; }
 }

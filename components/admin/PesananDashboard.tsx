@@ -465,6 +465,28 @@ export default function PesananDashboard() {
         </div>
       )}
 
+      {/* ── BOTTOM FLOATING NAV (mobile) ── */}
+      <nav className="pas-bottom-nav lg:hidden">
+        {([
+          ["pesanan", "M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-4 0a1 1 0 01-1-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 01-1 1"],
+          ["jadwal", "M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"],
+          ["kirim", "M13 16V6a1 1 0 00-1-1H4a1 1 0 00-1 1v10m10 0H3m10 0a2 2 0 012 2v4a2 2 0 01-2 2H9a2 2 0 01-2-2v-4a2 2 0 012-2m7 0H9m7 0h3M9 16v-4a2 2 0 012-2h2a2 2 0 012 2v4"],
+          ["customer", "M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"],
+        ] as [ViewKey, string][]).map(([key, path]) => (
+          <button
+            key={key}
+            className={`pas-bottom-nav-item ${currentView === key ? "on" : ""}`}
+            onClick={() => switchView(key)}
+            title={VIEW_META[key].title}
+          >
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+              <path d={path} />
+            </svg>
+            {currentView === key && <span className="pas-bottom-nav-dot" />}
+          </button>
+        ))}
+      </nav>
+
       {/* ── TOAST ── */}
       <div className={`pas-toast ${toast ? "on" : ""}`}>{toast}</div>
     </div>
