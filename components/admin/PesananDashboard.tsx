@@ -214,7 +214,7 @@ export default function PesananDashboard() {
             [
               ["pesanan", "▤", "Pesanan"],
               ["jadwal", "◷", "Jadwal Produksi"],
-              ["kirim", "➜", "Pengiriman"],
+              ["kirim", "🚚", "Pengiriman"],
             ] as [ViewKey, string, string][]
           ).map(([key, icon, label]) => (
             <a
@@ -380,7 +380,7 @@ export default function PesananDashboard() {
                 [
                   ["pesanan", "▤", "Pesanan"],
                   ["jadwal", "◷", "Jadwal Produksi"],
-                  ["kirim", "➜", "Pengiriman"],
+                  ["kirim", "🚚", "Pengiriman"],
                 ] as [ViewKey, string, string][]
               ).map(([key, icon, label]) => (
                 <a
