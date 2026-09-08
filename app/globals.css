@@ -2391,6 +2391,9 @@ table.pas-tbl tbody tr:hover { background: rgba(63,86,59,.03); }
     background: none !important;
     border: none !important;
     border-radius: 0 !important;
+    position: relative;
+    mask-image: linear-gradient(to right, #000 calc(100% - 32px), transparent 100%);
+    -webkit-mask-image: linear-gradient(to right, #000 calc(100% - 32px), transparent 100%);
   }
   .pas-bento-chip-scroll::-webkit-scrollbar { display: none; }
   .pas-bento-chip-scroll > * { scroll-snap-align: start; flex-shrink: 0; }
@@ -2461,3 +2464,11 @@ table.pas-tbl tbody tr:hover { background: rgba(63,86,59,.03); }
   /* Push content up so bottom nav doesn't overlap */
   main { padding-bottom: 90px !important; }
 }
+
+/* ── DEADLINE PULSE ANIMATION ── */
+@keyframes pas-pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: .4; }
+}
+.pas-dl-warning { animation: pas-pulse 2s ease-in-out infinite; }
+.pas-dl-overdue { animation: pas-pulse 1.4s ease-in-out infinite; }

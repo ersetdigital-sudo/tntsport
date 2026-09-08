@@ -88,15 +88,15 @@ function formatDate(dateStr: string) {
   return d.toLocaleDateString("id-ID", { day: "2-digit", month: "2-digit", year: "numeric" });
 }
 
-function deadlineStatus(deadline: string | null, isDone: boolean): "normal" | "warning" | "overdue" | null {
-  if (!deadline || isDone) return null;
+function deadlineStatus(deadline: string | null, isDone: boolean): { level: "normal" | "warning" | "overdue" | null; diffDays: number } {
+  if (!deadline || isDone) return { level: null, diffDays: 0 };
   const now = new Date();
   const dl = new Date(deadline);
   const diffMs = dl.getTime() - now.getTime();
   const diffDays = Math.ceil(diffMs / (1000 * 60 * 60 * 24));
-  if (diffDays <= 0) return "overdue";
-  if (diffDays <= 2) return "warning";
-  return "normal";
+  if (diffDays <= 0) return { level: "overdue", diffDays };
+  if (diffDays <= 2) return { level: "warning", diffDays };
+  return { level: "normal", diffDays };
 }
 
 function initials(name: string) {
@@ -735,13 +735,16 @@ function ViewPesanan({
                   <td className="text-[12.5px] whitespace-nowrap">
                     {o.deadline ? (
                       <span className={
-                        dlStatus === "overdue" ? "text-red-400" :
-                        dlStatus === "warning" ? "text-yellow-400" :
+                        dlStatus.level === "overdue" ? "text-red-400" :
+                        dlStatus.level === "warning" ? "text-yellow-400" :
                         "text-[var(--pas-muted)]"
                       }>
-                        {dlStatus === "overdue" && "⚠ "}
-                        {dlStatus === "warning" && "⚠ "}
+                        {(dlStatus.level === "overdue" || dlStatus.level === "warning") && (
+                          <span className={dlStatus.level === "overdue" ? "pas-dl-overdue inline-block" : "pas-dl-warning inline-block"}>⚠ </span>
+                        )}
                         {formatDate(o.deadline)}
+                        {dlStatus.level === "warning" && <span className="text-[11px] ml-1 opacity-80">(H-{dlStatus.diffDays})</span>}
+                        {dlStatus.level === "overdue" && <span className="text-[11px] ml-1 opacity-80">(lewat {Math.abs(dlStatus.diffDays)}h)</span>}
                       </span>
                     ) : (
                       <span className="text-[var(--pas-muted)]">-</span>
@@ -845,12 +848,16 @@ function ViewPesanan({
                 <p className="text-[12px] text-[var(--pas-muted)]">Order: {formatDate(o.created_at)}</p>
                 {o.deadline ? (
                   <p className={
-                    dlStatus === "overdue" ? "text-[12px] text-red-400 font-medium" :
-                    dlStatus === "warning" ? "text-[12px] text-yellow-400 font-medium" :
+                    dlStatus.level === "overdue" ? "text-[12px] text-red-400 font-medium" :
+                    dlStatus.level === "warning" ? "text-[12px] text-yellow-400 font-medium" :
                     "text-[12px] text-[var(--pas-muted)]"
                   }>
-                    {dlStatus === "overdue" || dlStatus === "warning" ? "⚠ " : ""}
+                    {(dlStatus.level === "overdue" || dlStatus.level === "warning") && (
+                      <span className={dlStatus.level === "overdue" ? "pas-dl-overdue inline-block" : "pas-dl-warning inline-block"}>⚠ </span>
+                    )}
                     Deadline: {formatDate(o.deadline)}
+                    {dlStatus.level === "warning" && <span className="text-[11px] ml-1 opacity-80">(H-{dlStatus.diffDays})</span>}
+                    {dlStatus.level === "overdue" && <span className="text-[11px] ml-1 opacity-80">(lewat {Math.abs(dlStatus.diffDays)}h)</span>}
                   </p>
                 ) : (
                   <p className="text-[12px] text-[var(--pas-muted)]">Deadline: -</p>
