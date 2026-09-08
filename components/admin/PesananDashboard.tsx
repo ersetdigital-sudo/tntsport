@@ -2,6 +2,12 @@
 
 import { useState, useEffect, useCallback, useRef, type ReactNode } from "react";
 import { useRouter } from "next/navigation";
+import { uploadToCloudinary } from "@/lib/cloudinary";
+
+// Same delivery optimization the old /api/upload/design route applied (f_auto,q_auto)
+function optimizeDesignUrl(url: string): string {
+  return url.includes("/upload/") ? url.replace("/upload/", "/upload/f_auto,q_auto/") : url;
+}
 
 type StepRow = { id: string; name: string; position: number };
 
@@ -1975,17 +1981,11 @@ function DetailSheet({
     setUploadingWo(true);
     setKirimError("");
     try {
-      const fd = new FormData();
-      fd.append("file", file);
       console.log("[Detail WO] file", file.name, file.type, file.size);
-      const res = await fetch("/api/upload/design", { method: "POST", body: fd });
-      const text = await res.text();
-      console.log("[Detail WO] resp", res.status, text.slice(0, 600));
-      let data: any = {};
-      try { data = JSON.parse(text); } catch { data = { error: text.slice(0, 300) }; }
-      if (!res.ok) { setKirimError(data.error || "Upload gagal"); console.error("[Detail WO] failed", data); return; }
-      setWoPhotos((prev) => [...prev, data.url]);
-    } catch (e) { console.error("[Detail WO] exception", e); setKirimError("Upload gagal"); } finally { setUploadingWo(false); }
+      const result = await uploadToCloudinary(file, { folder: "tnt-design-preview" });
+      console.log("[Detail WO] upload ok", result.url);
+      setWoPhotos((prev) => [...prev, optimizeDesignUrl(result.url)]);
+    } catch (e) { console.error("[Detail WO] exception", e); setKirimError(e instanceof Error ? e.message : "Upload gagal"); } finally { setUploadingWo(false); }
   };
 
   if (!order) return null;
@@ -2643,17 +2643,11 @@ function AddForm({
             try {
               for (const file of files) {
                 console.log("[upload Design] file", file.name, file.type, file.size);
-                const fd = new FormData();
-                fd.append("file", file);
-                const res = await fetch("/api/upload/design", { method: "POST", body: fd });
-                const text = await res.text();
-                console.log("[upload Design] resp", res.status, text.slice(0, 600));
-                let data: any = {};
-                try { data = JSON.parse(text); } catch { data = { error: text.slice(0, 300) }; }
-                if (!res.ok) { setError(data.error || "Upload gagal"); console.error("[upload Design] failed", data); return; }
-                setDesignPhotos((ps) => [...ps, data.url]);
+                const result = await uploadToCloudinary(file, { folder: "tnt-design-preview" });
+                console.log("[upload Design] upload ok", result.url);
+                setDesignPhotos((ps) => [...ps, optimizeDesignUrl(result.url)]);
               }
-            } catch (e) { console.error("[upload Design] exception", e); setError("Upload gagal. Coba lagi."); } finally { setUploadingDesign(false); }
+            } catch (e) { console.error("[upload Design] exception", e); setError(e instanceof Error ? e.message : "Upload gagal. Coba lagi."); } finally { setUploadingDesign(false); }
           }}
         />
       </div>
@@ -2682,17 +2676,11 @@ function AddForm({
             try {
               for (const file of files) {
                 console.log("[upload Wo] file", file.name, file.type, file.size);
-                const fd = new FormData();
-                fd.append("file", file);
-                const res = await fetch("/api/upload/design", { method: "POST", body: fd });
-                const text = await res.text();
-                console.log("[upload Wo] resp", res.status, text.slice(0, 600));
-                let data: any = {};
-                try { data = JSON.parse(text); } catch { data = { error: text.slice(0, 300) }; }
-                if (!res.ok) { setError(data.error || "Upload gagal"); console.error("[upload Wo] failed", data); return; }
-                setWoPhotos((ps) => [...ps, data.url]);
+                const result = await uploadToCloudinary(file, { folder: "tnt-design-preview" });
+                console.log("[upload Wo] upload ok", result.url);
+                setWoPhotos((ps) => [...ps, optimizeDesignUrl(result.url)]);
               }
-            } catch (e) { console.error("[upload Wo] exception", e); setError("Upload gagal. Coba lagi."); } finally { setUploadingWo(false); }
+            } catch (e) { console.error("[upload Wo] exception", e); setError(e instanceof Error ? e.message : "Upload gagal. Coba lagi."); } finally { setUploadingWo(false); }
           }}
         />
       </div>
