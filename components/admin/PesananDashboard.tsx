@@ -4,6 +4,7 @@ import { useState, useEffect, useCallback, useRef, type ReactNode } from "react"
 import { useRouter } from "next/navigation";
 import { uploadToCloudinary } from "@/lib/cloudinary";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
+import { Search, AlertTriangle } from "lucide-react";
 
 // Same delivery optimization the old /api/upload/design route applied (f_auto,q_auto)
 function optimizeDesignUrl(url: string): string {
@@ -622,8 +623,8 @@ function ViewPesanan({
               Pesanan <span className="text-[var(--pas-ink-1)] font-semibold pas-num">{confirmDelete.id}</span> ({confirmDelete.customer_name}) akan dihapus permanen dan tidak bisa dikembalikan.
             </p>
             {isDangerousStatus(confirmDelete) && (
-              <p className="text-[13px] text-[#9a5d00] mt-3 bg-[#DDB339]/15 border border-[#DDB339]/30 rounded-xl px-4 py-2.5">
-                âš  Pesanan ini sedang dalam produksi/pengiriman. Hapus hanya jika ini adalah data testing.
+              <p className="text-[13px] text-[#9a5d00] mt-3 bg-[#DDB339]/15 border border-[#DDB339]/30 rounded-xl px-4 py-2.5 flex items-start gap-1.5">
+                <AlertTriangle size={14} className="shrink-0 mt-0.5" /> Pesanan ini sedang dalam produksi/pengiriman. Hapus hanya jika ini adalah data testing.
               </p>
             )}
             <div className="flex gap-3 mt-5">
@@ -703,15 +704,15 @@ function ViewPesanan({
 
       {/* toolbar */}
       <section className="mt-7 flex flex-col lg:flex-row lg:items-center gap-3 lg:justify-between">
-        <div className="pas-search w-full lg:max-w-[400px]">
-          <span className="pas-mag">âŒ•</span>
-          <input
-            className="pas-field w-full py-2.5 pr-4 text-[14px]"
-            placeholder="Cari pesanan, nama, kota..."
-            value={query}
-            onChange={(e) => setQuery(e.target.value)}
-          />
-        </div>
+<div className="pas-search w-full lg:max-w-[400px]">
+  <Search className="pas-mag" size={16} />
+  <input
+    className="pas-field w-full py-2.5 pr-4 text-[14px]"
+    placeholder="Cari pesanan, nama, kota..."
+    value={query}
+    onChange={(e) => setQuery(e.target.value)}
+  />
+</div>
         <div className="pas-seg pas-bento-chip-scroll">
           {(["all", "baru", "produksi", "kirim", "selesai"] as FilterKey[]).map((f) => (
             <button
@@ -801,7 +802,7 @@ function ViewPesanan({
                         "text-[var(--pas-muted)]"
                       }>
                         {(dlStatus.level === "overdue" || dlStatus.level === "warning") && (
-                          <span className={dlStatus.level === "overdue" ? "pas-dl-overdue inline-block" : "pas-dl-warning inline-block"}>âš  </span>
+                          <AlertTriangle size={11} className={`inline-block mr-1 -mt-px ${dlStatus.level === "overdue" ? "text-red-400" : "text-[var(--pas-orange)]"}`} />
                         )}
                         {formatDate(o.deadline)}
                         {dlStatus.level === "warning" && <span className="text-[11px] ml-1 opacity-80">(H-{dlStatus.diffDays})</span>}
@@ -914,7 +915,7 @@ function ViewPesanan({
                     "text-[12px] text-[var(--pas-muted)]"
                   }>
                     {(dlStatus.level === "overdue" || dlStatus.level === "warning") && (
-                      <span className={dlStatus.level === "overdue" ? "pas-dl-overdue inline-block" : "pas-dl-warning inline-block"}>âš  </span>
+                      <AlertTriangle size={10} className={`inline-block mr-1 -mt-px ${dlStatus.level === "overdue" ? "text-red-400" : "text-[var(--pas-orange)]"}`} />
                     )}
                     Deadline: {formatDate(o.deadline)}
                     {dlStatus.level === "warning" && <span className="text-[11px] ml-1 opacity-80">(H-{dlStatus.diffDays})</span>}
@@ -1959,7 +1960,7 @@ function ViewSetting({
                     onClick={() => removeStep(i)}
                     title="Hapus tahap"
                   >
-                    âœ•
+                    ×
                   </button>
                 </div>
               </div>
@@ -2283,12 +2284,14 @@ function ViewNotif({ showToast, orders }: { showToast: (msg: string) => void; or
     try {
       const res = await fetch("/api/admin/deadline-notif", {
         method: "POST",
-        headers: { "Content-Type": "application/json", "x-from-dashboard": "true" },
-        body: JSON.stringify({ phones: activePhones.join(",") }),
+        headers: { "Content-Type": "application/json", "x-from-dashboard": "true", "x-override-phones": activePhones.join(",") },
+        body: JSON.stringify({}),
       });
       const data = await res.json();
-      if (!res.ok) { showToast(data.error || "Gagal mengirim"); return; }
-      showToast(`Terkirim ke ${data.results?.filter((r: any) => r.status === "sent").length || 0} nomor`);
+      if (!res.ok) { showToast(data.error || data.message || "Gagal mengirim"); return; }
+      const sent = data.results?.filter((r: any) => r.status === "sent").length ?? data.total_orders ?? 0;
+      if (sent === 0) showToast(data.message || "Tidak ada order yang mendekati deadline untuk dikirim");
+      else showToast(`Terkirim ke ${sent} nomor`);
       fetchLogs();
     } catch { showToast("Gagal mengirim"); }
     finally { setTesting(false); }

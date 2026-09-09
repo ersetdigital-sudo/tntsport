@@ -29,6 +29,10 @@ function getWibNow(): { hours: number; minutes: number; iso: string } {
   return { hours, minutes, iso };
 }
 
+export async function POST(req: Request) {
+  return GET(req);
+}
+
 export async function GET(req: Request) {
   const auth = req.headers.get("x-cron-secret");
   const url = new URL(req.url);
@@ -92,8 +96,10 @@ export async function GET(req: Request) {
     }
   }
 
+  const overridePhones = req.headers.get("x-override-phones");
+  const effectivePhonesStr = overridePhones ?? phonesStr;
   const days = daysStr.split(",").map(Number).filter((d: number) => d >= 0);
-  const phones = phonesStr.split(",").map((p: string) => p.trim()).filter(Boolean);
+  const phones = effectivePhonesStr.split(",").map((p: string) => p.trim()).filter(Boolean);
 
   if (phones.length === 0) {
     return NextResponse.json({ error: "Nomor HP admin belum diatur" }, { status: 400 });
