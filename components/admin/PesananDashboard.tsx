@@ -590,17 +590,17 @@ function ViewPesanan({
     .sort((a, b) => (a.deadline! < b.deadline! ? -1 : 1))[0]?.deadline ?? null;
   const deadlineInfo = deadlineStatus(nextDeadline, false);
 
-  // Jumlah pesanan aktif yang deadline-nya lewat atau mendekat (H-2) - perlu perhatian
+  // Jumlah pesanan aktif yang deadline-nya lewat atau mendekat (H-3, H-2, H-1) - perlu perhatian
   const deadlineAlertCount = orders.filter((o) => {
     if (!o.deadline || o.is_done) return false;
     const lvl = deadlineStatus(o.deadline, false).level;
-    return lvl === "overdue" || lvl === "warning";
+    return lvl !== null && lvl !== "normal";
   }).length;
   const hasOverdue = orders.some(
     (o) => !o.is_done && o.deadline && deadlineStatus(o.deadline, false).level === "overdue"
   );
   const hasWarning = orders.some(
-    (o) => !o.is_done && o.deadline && deadlineStatus(o.deadline, false).level === "warning"
+    (o) => !o.is_done && o.deadline && (deadlineStatus(o.deadline, false).level === "approaching" || deadlineStatus(o.deadline, false).level === "warning" || deadlineStatus(o.deadline, false).level === "critical")
   );
 
   const handleDelete = async () => {
