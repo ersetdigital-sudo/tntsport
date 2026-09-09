@@ -127,6 +127,7 @@ function StatusContent() {
   const [order, setOrder] = useState<any>(null);
   const [history, setHistory] = useState<any[]>([]);
   const [loaded, setLoaded] = useState(false);
+  const [brand, setBrand] = useState<{ name: string; whatsapp_number: string; tagline: string }>({ name: "TNT Sport Apparel", whatsapp_number: "628115491117", tagline: "" });
   const [steps, setSteps] = useState<{ name: string; position: number }[]>([]);
   const pctRef = useRef<HTMLDivElement>(null);
   const [lightboxUrl, setLightboxUrl] = useState<string | null>(null);
@@ -233,6 +234,16 @@ function StatusContent() {
         if (d.steps && d.steps.length > 0) {
           setSteps(d.steps.sort((a: any, b: any) => a.position - b.position));
         }
+      })
+      .catch(() => {});
+  }, []);
+
+  // Fetch brand settings (WA number, nama toko)
+  useEffect(() => {
+    fetch("/api/brand")
+      .then((r) => r.json())
+      .then((d) => {
+        if (d?.whatsapp_number) setBrand(d);
       })
       .catch(() => {});
   }, []);
@@ -420,7 +431,7 @@ function StatusContent() {
   const isShipped = normalizedStatus === "kirim" && hasTracking;
   const pct = getProgress(step, hasTracking);
   const lastUpdate = history.length > 0 ? history[history.length - 1] : null;
-  const waLink = `https://wa.me/628115491117?text=${encodeURIComponent(`Halo TNT Sport, saya mau tanya order ${orderId}`)}`;
+  const waLink = `https://wa.me/${brand.whatsapp_number.replace(/[^0-9]/g, "")}?text=${encodeURIComponent(`Halo ${brand.name}, saya mau tanya order ${orderId}`)}`;
 
   // Product data (new structured format) with fallback to legacy fields
   const products: { name: string; sizes: { size: string; qty: number }[] }[] =
