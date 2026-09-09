@@ -67,7 +67,7 @@ type OrderData = {
 };
 
 type FilterKey = "all" | "baru" | "produksi" | "kirim" | "selesai";
-type ViewKey = "pesanan" | "jadwal" | "kirim" | "customer" | "laporan" | "setting";
+type ViewKey = "pesanan" | "jadwal" | "kirim" | "customer" | "laporan" | "notif" | "setting";
 
 const FILTER_LABEL: Record<FilterKey, string> = {
   all: "Semua",
@@ -83,6 +83,7 @@ const VIEW_META: Record<ViewKey, { crumb: string; title: string }> = {
   kirim: { crumb: "Operasional", title: "Pengiriman" },
   customer: { crumb: "Data", title: "Customer" },
   laporan: { crumb: "Data", title: "Laporan" },
+  notif: { crumb: "Data", title: "Notifikasi" },
   setting: { crumb: "Data", title: "Pengaturan" },
 };
 
@@ -155,6 +156,12 @@ function NavIcon({ name, size = 18 }: { name: string; size?: number }) {
       <>
         <circle cx="12" cy="12" r="3" />
         <path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 11-2.83 2.83l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 11-4 0v-.09A1.65 1.65 0 008.6 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 11-2.83-2.83l.06-.06a1.65 1.65 0 00.33-1.82 1.65 1.65 0 00-1.51-1H3a2 2 0 110-4h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 112.83-2.83l.06.06a1.65 1.65 0 001.82.33H9a1.65 1.65 0 001-1.51V3a2 2 0 114 0v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 112.83 2.83l-.06.06a1.65 1.65 0 00-.33 1.82V9a1.65 1.65 0 001.51 1H21a2 2 0 110 4h-.09a1.65 1.65 0 00-1.51 1z" />
+      </>
+    ),
+    notif: (
+      <>
+        <path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9" />
+        <path d="M13.73 21a2 2 0 01-3.46 0" />
       </>
     ),
   };
@@ -281,7 +288,7 @@ export default function PesananDashboard() {
         </nav>
         <p className="pas-navsec">Data</p>
         <nav className="flex flex-col gap-1">
-          {(["customer", "laporan", "setting"] as ViewKey[]).map((key) => (
+          {(["customer", "laporan", "notif", "setting"] as ViewKey[]).map((key) => (
             <a
               key={key}
               className={`pas-navlink ${currentView === key ? "on" : ""}`}
@@ -388,6 +395,7 @@ export default function PesananDashboard() {
           {currentView === "customer" && <ViewCustomer orders={orders} onSelectCustomer={setOpenCustomer} steps={steps} />}
           {currentView === "laporan" && <ViewLaporan orders={orders} />}
           {currentView === "setting" && <ViewSetting showToast={showToast} steps={steps} onStepsSaved={fetchSteps} />}
+          {currentView === "notif" && <ViewNotif showToast={showToast} />}
           </>
           )}
         </main>
@@ -434,7 +442,7 @@ export default function PesananDashboard() {
             </nav>
             <p className="pas-navsec">Data</p>
             <nav className="flex flex-col gap-1">
-              {(["customer", "laporan", "setting"] as ViewKey[]).map((key) => (
+              {(["customer", "laporan", "notif", "setting"] as ViewKey[]).map((key) => (
                 <a
                   key={key}
                   className={`pas-navlink ${currentView === key ? "on" : ""}`}
@@ -2172,6 +2180,294 @@ function ViewSetting({
           </div>
         </div>
       )}
+    </>
+  );
+}
+
+/* ═══════════════════════════════════════════════
+   VIEW: NOTIFIKASI
+   ═══════════════════════════════════════════════ */
+function ViewNotif({ showToast }: { showToast: (msg: string) => void }) {
+  const [enabled, setEnabled] = useState(false);
+  const [time, setTime] = useState("08:00");
+  const [days, setDays] = useState("3,2,1");
+  const [phone1, setPhone1] = useState("");
+  const [phone2, setPhone2] = useState("");
+  const [phone3, setPhone3] = useState("");
+  const [saving, setSaving] = useState(false);
+  const [testing, setTesting] = useState(false);
+  const [logs, setLogs] = useState<any[]>([]);
+  const [countdown, setCountdown] = useState("");
+  const [nextOrderCount, setNextOrderCount] = useState(0);
+
+  // Load settings
+  useEffect(() => {
+    fetch("/api/admin/settings/deadline-notif")
+      .then((r) => (r.ok ? r.json() : null))
+      .then((d) => {
+        if (d) {
+          setEnabled(d.enabled ?? false);
+          setTime(d.time ?? "08:00");
+          setDays(d.days ?? "3,2,1");
+          const ph = (d.phones ?? "").split(",").map((p: string) => p.trim());
+          setPhone1(ph[0] || "");
+          setPhone2(ph[1] || "");
+          setPhone3(ph[2] || "");
+        }
+      })
+      .catch(() => {});
+  }, []);
+
+  // Load logs
+  const fetchLogs = useCallback(() => {
+    fetch("/api/admin/notif-logs?limit=20")
+      .then((r) => (r.ok ? r.json() : null))
+      .then((d) => { if (d?.logs) setLogs(d.logs); })
+      .catch(() => {});
+  }, []);
+
+  useEffect(() => { fetchLogs(); }, [fetchLogs]);
+
+  // Countdown timer
+  useEffect(() => {
+    function tick() {
+      const now = new Date();
+      const parts = new Intl.DateTimeFormat("en-US", {
+        timeZone: "Asia/Jakarta", hour: "numeric", minute: "numeric", hour12: false,
+      }).formatToParts(now);
+      const h = Number(parts.find((p) => p.type === "hour")?.value ?? 0);
+      const m = Number(parts.find((p) => p.type === "minute")?.value ?? 0);
+      const [cfgH, cfgM] = time.split(":").map(Number);
+      const nowMin = h * 60 + m;
+      const targetMin = cfgH * 60 + cfgM;
+      let diff = targetMin - nowMin;
+      if (diff < 0) diff += 24 * 60;
+      const rh = Math.floor(diff / 60);
+      const rm = diff % 60;
+      setCountdown(rh > 0 ? `${rh} jam ${rm} menit` : `${rm} menit`);
+    }
+    tick();
+    const iv = setInterval(tick, 30000);
+    return () => clearInterval(iv);
+  }, [time]);
+
+  const saveSettings = async () => {
+    setSaving(true);
+    try {
+      const res = await fetch("/api/admin/settings/deadline-notif", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          enabled, time, days,
+          phones: [phone1, phone2, phone3].filter(Boolean).join(","),
+        }),
+      });
+      const data = await res.json();
+      if (!res.ok) { showToast(data.error || "Gagal menyimpan"); return; }
+      showToast("Pengaturan notifikasi tersimpan");
+    } catch { showToast("Gagal menyimpan"); }
+    finally { setSaving(false); }
+  };
+
+  const testNotif = async () => {
+    const allPhones = [phone1, phone2, phone3].filter(Boolean).join(",");
+    if (!allPhones) { showToast("Isi nomor HP admin terlebih dahulu"); return; }
+    setTesting(true);
+    try {
+      const res = await fetch("/api/admin/deadline-notif", {
+        method: "POST",
+        headers: { "Content-Type": "application/json", "x-from-dashboard": "true" },
+        body: JSON.stringify({ phones: allPhones }),
+      });
+      const data = await res.json();
+      if (!res.ok) { showToast(data.error || "Gagal mengirim"); return; }
+      showToast(`Terkirim ke ${data.results?.filter((r: any) => r.status === "sent").length || 0} nomor`);
+      fetchLogs();
+    } catch { showToast("Gagal mengirim"); }
+    finally { setTesting(false); }
+  };
+
+  const dayChips = [
+    { val: "3", label: "H-3" },
+    { val: "2", label: "H-2" },
+    { val: "1", label: "H-1" },
+    { val: "0", label: "H-0" },
+  ];
+  const activeDays = days.split(",").map((d) => d.trim());
+
+  const toggleDay = (v: string) => {
+    const next = activeDays.includes(v)
+      ? activeDays.filter((d) => d !== v)
+      : [...activeDays, v].sort((a, b) => Number(b) - Number(a));
+    setDays(next.join(","));
+  };
+
+  return (
+    <>
+      <p className="text-[14px] text-[var(--pas-muted)] mb-5">
+        Atur pengiriman notifikasi deadline otomatis ke admin via WhatsApp.
+      </p>
+
+      {/* ── HERO: Status + Countdown ── */}
+      <div className="rounded-2xl p-5 mb-4" style={{ background: "linear-gradient(135deg, #1a3a1a 0%, #0f2a0f 100%)", border: "1px solid rgba(34,197,94,0.15)" }}>
+        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+          <div className="flex items-center gap-4">
+            <button
+              onClick={() => setEnabled(!enabled)}
+              className="relative w-14 h-7 rounded-full transition-colors duration-200 shrink-0"
+              style={{ background: enabled ? "#22c55e" : "#374151" }}
+              aria-label={enabled ? "Nonaktifkan notifikasi" : "Aktifkan notifikasi"}
+            >
+              <span
+                className="absolute top-0.5 left-0.5 w-6 h-6 rounded-full bg-white shadow transition-transform duration-200"
+                style={{ transform: enabled ? "translateX(28px)" : "translateX(0)" }}
+              />
+            </button>
+            <div>
+              <p className="text-white font-semibold text-[15px]">Notifikasi Deadline</p>
+              <p className="text-white/50 text-[12px] mt-0.5">
+                {enabled ? "Aktif — mengirim otomatis" : "Nonaktif"}
+              </p>
+            </div>
+          </div>
+          <div className="text-right">
+            <p className="text-white/50 text-[11px] uppercase tracking-wider">Jadwal Berikutnya</p>
+            <p className="text-white font-bold text-[22px] mt-0.5 font-mono">{time} WIB</p>
+            <p className="text-emerald-400/70 text-[12px] mt-0.5">
+              {enabled ? `⏳ ${countdown} lagi` : "Dinonaktifkan"}
+            </p>
+          </div>
+        </div>
+      </div>
+
+      {/* ── SETTINGS ── */}
+      <div className="pas-card p-5 mb-4">
+        <p className="font-semibold text-[15px] mb-4">Pengaturan</p>
+        <div className="grid sm:grid-cols-2 gap-4">
+          <label className="block">
+            <span className="text-[13px] text-[var(--pas-muted)]">Jam Kirim (WIB)</span>
+            <input
+              type="time"
+              className="pas-field w-full px-4 py-2.5 mt-1.5 text-[15px] font-mono"
+              value={time}
+              onChange={(e) => setTime(e.target.value)}
+            />
+          </label>
+          <label className="block">
+            <span className="text-[13px] text-[var(--pas-muted)]">Hari Reminder</span>
+            <div className="flex gap-2 mt-1.5">
+              {dayChips.map((c) => (
+                <button
+                  key={c.val}
+                  onClick={() => toggleDay(c.val)}
+                  className={`px-4 py-2 rounded-lg text-[13px] font-semibold transition-all duration-150 ${
+                    activeDays.includes(c.val)
+                      ? "bg-emerald-500/20 text-emerald-400 border border-emerald-500/30"
+                      : "bg-white/5 text-white/40 border border-white/10 hover:bg-white/10"
+                  }`}
+                >
+                  {c.label}
+                </button>
+              ))}
+            </div>
+          </label>
+          <label className="block sm:col-span-2">
+            <span className="text-[13px] text-[var(--pas-muted)]">Nomor HP Admin</span>
+            <div className="grid grid-cols-3 gap-3 mt-1.5">
+              {[
+                { val: phone1, set: setPhone1, ph: "6281234567890" },
+                { val: phone2, set: setPhone2, ph: "6280987654321" },
+                { val: phone3, set: setPhone3, ph: "628111222333" },
+              ].map((f, i) => (
+                <input
+                  key={i}
+                  type="text"
+                  className="pas-field w-full px-4 py-2.5 text-[15px] pas-num"
+                  placeholder={f.ph}
+                  value={f.val}
+                  onChange={(e) => f.set(e.target.value)}
+                />
+              ))}
+            </div>
+            <p className="text-[11px] text-[var(--pas-muted)] mt-1">Format: 62... Kosongkan jika tidak dipakai.</p>
+          </label>
+        </div>
+        <div className="flex gap-3 mt-4">
+          <button
+            className="pas-btn-accent px-6 py-2.5 text-[13px]"
+            disabled={saving}
+            onClick={saveSettings}
+          >
+            {saving ? "Menyimpan…" : "Simpan Pengaturan"}
+          </button>
+          <button
+            className="pas-btn-ghost px-6 py-2.5 text-[13px]"
+            disabled={!enabled || testing}
+            onClick={testNotif}
+          >
+            {testing ? "Mengirim…" : "Test Kirim Sekarang"}
+          </button>
+        </div>
+      </div>
+
+      {/* ── HISTORY ── */}
+      <div className="pas-card p-5">
+        <div className="flex items-center justify-between mb-4">
+          <p className="font-semibold text-[15px]">Riwayat Kirim</p>
+          <span className="text-[12px] text-[var(--pas-muted)] bg-white/5 px-2.5 py-1 rounded-full">{logs.length}</span>
+        </div>
+        {logs.length === 0 ? (
+          <div className="text-center py-10">
+            <svg className="mx-auto mb-3 text-white/20" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+              <path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9" />
+              <path d="M13.73 21a2 2 0 01-3.46 0" />
+            </svg>
+            <p className="text-white/30 text-[13px]">Belum ada riwayat pengiriman</p>
+          </div>
+        ) : (
+          <div className="overflow-x-auto">
+            <table className="w-full text-left">
+              <thead>
+                <tr className="border-b border-white/10">
+                  <th className="pb-2 text-[11px] text-white/40 font-medium uppercase tracking-wider">Status</th>
+                  <th className="pb-2 text-[11px] text-white/40 font-medium uppercase tracking-wider">Waktu</th>
+                  <th className="pb-2 text-[11px] text-white/40 font-medium uppercase tracking-wider">Order</th>
+                  <th className="pb-2 text-[11px] text-white/40 font-medium uppercase tracking-wider">Tipe</th>
+                  <th className="pb-2 text-[11px] text-white/40 font-medium uppercase tracking-wider">HP</th>
+                </tr>
+              </thead>
+              <tbody>
+                {logs.map((log) => (
+                  <tr key={log.id} className="border-b border-white/5 hover:bg-white/[0.02] transition-colors">
+                    <td className="py-2.5">
+                      {log.status === "sent" ? (
+                        <span className="inline-flex items-center gap-1 text-emerald-400 text-[12px]">
+                          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M20 6L9 17l-5-5" /></svg>
+                          Sukses
+                        </span>
+                      ) : (
+                        <span className="inline-flex items-center gap-1 text-red-400 text-[12px]">
+                          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10" /><line x1="15" y1="9" x2="9" y2="15" /><line x1="9" y1="9" x2="15" y2="15" /></svg>
+                          Gagal
+                        </span>
+                      )}
+                    </td>
+                    <td className="py-2.5 text-[13px] text-white/70">
+                      {new Date(log.created_at).toLocaleDateString("id-ID", { day: "numeric", month: "short" })}{" "}
+                      {new Date(log.created_at).toLocaleTimeString("id-ID", { hour: "2-digit", minute: "2-digit" })}
+                    </td>
+                    <td className="py-2.5 text-[13px] text-white/90 font-mono">{log.order_number || "-"}</td>
+                    <td className="py-2.5 text-[12px] text-white/50">
+                      {log.diff_days === 0 ? "H-0" : `H-${log.diff_days}`}
+                    </td>
+                    <td className="py-2.5 text-[12px] text-white/40 font-mono">{log.phone}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        )}
+      </div>
     </>
   );
 }

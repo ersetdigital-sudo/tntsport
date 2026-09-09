@@ -203,6 +203,16 @@ Pesan ini dikirim otomatis oleh sistem.`;
         response: result.response,
       });
 
+      // Log to notification_logs
+      await supabase.from("notification_logs").insert({
+        order_id: order.id,
+        order_number: order.order_number,
+        phone: normalized,
+        status: result.success ? "sent" : "failed",
+        error: result.success ? null : result.response || "Unknown error",
+        diff_days: order.diffDays,
+      });
+
       if (result.success) anySent = true;
     }
 
