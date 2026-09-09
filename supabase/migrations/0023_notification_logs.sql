@@ -15,6 +15,7 @@ CREATE TABLE IF NOT EXISTS notification_logs (
 ALTER TABLE notification_logs ENABLE ROW LEVEL SECURITY;
 
 -- Admin (authenticated) full access
+DROP POLICY IF EXISTS "Admin manage notification_logs" ON notification_logs;
 CREATE POLICY "Admin manage notification_logs" ON notification_logs
   FOR ALL USING (auth.role() = 'authenticated');
 
