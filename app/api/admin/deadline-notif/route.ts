@@ -52,7 +52,7 @@ export async function GET(req: Request) {
   }
 
   const days = daysStr.split(",").map(Number).filter((d: number) => d >= 0);
-  const phones = phonesStr.split(",").map((p) => p.trim()).filter(Boolean);
+  const phones = phonesStr.split(",").map((p: string) => p.trim()).filter(Boolean);
 
   if (phones.length === 0) {
     return NextResponse.json({ error: "Nomor HP admin belum diatur" }, { status: 400 });
