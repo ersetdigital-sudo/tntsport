@@ -1619,6 +1619,13 @@ function ViewSetting({
   const [savingFonnte, setSavingFonnte] = useState(false);
   const [testingFonnte, setTestingFonnte] = useState(false);
 
+  // Notifikasi Deadline
+  const [deadlineEnabled, setDeadlineEnabled] = useState(false);
+  const [deadlineTime, setDeadlineTime] = useState("08:00");
+  const [deadlineDays, setDeadlineDays] = useState("3,2,1");
+  const [deadlinePhones, setDeadlinePhones] = useState("");
+  const [savingDeadline, setSavingDeadline] = useState(false);
+
   useEffect(() => {
     fetch("/api/admin/settings/fonnte")
       .then((r) => (r.ok ? r.json() : null))
@@ -1631,6 +1638,20 @@ function ViewSetting({
       .catch(() => {
         // silent
       });
+  }, []);
+
+  useEffect(() => {
+    fetch("/api/admin/settings/deadline-notif")
+      .then((r) => (r.ok ? r.json() : null))
+      .then((d) => {
+        if (d) {
+          setDeadlineEnabled(d.enabled ?? false);
+          setDeadlineTime(d.time ?? "08:00");
+          setDeadlineDays(d.days ?? "3,2,1");
+          setDeadlinePhones(d.phones ?? "");
+        }
+      })
+      .catch(() => {});
   }, []);
 
   const saveFonnteToken = async () => {
@@ -1933,6 +1954,81 @@ function ViewSetting({
         </div>
         <p className="text-[12px] text-[var(--pas-muted)] mt-3">
           Dapatkan token di dashboard Fonnte (fonnte.com). Token tidak pernah ditampilkan penuh dan tidak pernah di-log.
+        </p>
+      </div>
+
+      {/* Notifikasi Deadline */}
+      <div className="pas-card p-5">
+        <div className="flex items-center justify-between gap-3">
+          <div>
+            <p className="font-semibold text-[15px]">Notifikasi Deadline</p>
+            <p className="text-[12.5px] text-[var(--pas-muted)] mt-1">
+              Kirim peringatan ke admin via WhatsApp setiap hari jika order mendekati deadline.
+            </p>
+          </div>
+          <label className="relative inline-flex items-center cursor-pointer shrink-0">
+            <input
+              type="checkbox"
+              className="sr-only peer"
+              checked={deadlineEnabled}
+              onChange={(e) => setDeadlineEnabled(e.target.checked)}
+            />
+            <div className="w-11 h-6 bg-[var(--pas-line)] rounded-full peer peer-checked:bg-[var(--pas-accent)] transition-colors after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:after:translate-x-full"></div>
+          </label>
+        </div>
+
+        <div className="grid lg:grid-cols-2 gap-4 mt-5">
+          <label className="block">
+            <span className="text-[13px] text-[var(--pas-muted)]">Jam Kirim (WIB)</span>
+            <input
+              type="time"
+              className="pas-field w-full px-4 py-2.5 mt-1.5 text-[15px]"
+              value={deadlineTime}
+              onChange={(e) => setDeadlineTime(e.target.value)}
+            />
+          </label>
+          <label className="block">
+            <span className="text-[13px] text-[var(--pas-muted)]">Hari Peringatan</span>
+            <input
+              type="text"
+              className="pas-field w-full px-4 py-2.5 mt-1.5 text-[15px]"
+              placeholder="3,2,1"
+              value={deadlineDays}
+              onChange={(e) => setDeadlineDays(e.target.value)}
+            />
+            <p className="text-[11px] text-[var(--pas-muted)] mt-1">Pisahkan dengan koma (contoh: 3,2,1 untuk H-3, H-2, H-1)</p>
+          </label>
+          <label className="block lg:col-span-2">
+            <span className="text-[13px] text-[var(--pas-muted)]">Nomor HP Admin</span>
+            <input
+              type="text"
+              className="pas-field w-full px-4 py-2.5 mt-1.5 text-[15px] pas-num"
+              placeholder="6281234567890,6280987654321"
+              value={deadlinePhones}
+              onChange={(e) => setDeadlinePhones(e.target.value)}
+            />
+            <p className="text-[11px] text-[var(--pas-muted)] mt-1">Pisahkan dengan koma untuk multiple nomor. Format internasional (62...).</p>
+          </label>
+        </div>
+
+        <div className="flex gap-3 mt-4">
+          <button
+            className="pas-btn-accent px-6 py-2.5 text-[13px]"
+            disabled={savingDeadline}
+            onClick={saveDeadlineSettings}
+          >
+            {savingDeadline ? "Menyimpan…" : "Simpan Pengaturan"}
+          </button>
+          <button
+            className="pas-btn-ghost px-6 py-2.5 text-[13px]"
+            disabled={!deadlineEnabled || savingDeadline}
+            onClick={testDeadlineNotif}
+          >
+            Test Kirim Sekarang
+          </button>
+        </div>
+        <p className="text-[12px] text-[var(--pas-muted)] mt-3">
+          Notifikasi akan dikirim otomatis setiap hari pada jam yang ditentukan (hanya jika ada order yang mendekati deadline). Gunakan GitHub Actions atau cron job eksternal untuk menjalankan endpoint.
         </p>
       </div>
 
