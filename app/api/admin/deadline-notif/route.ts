@@ -7,7 +7,9 @@ const CRON_SECRET = process.env.CRON_SECRET || "";
 
 export async function GET(req: Request) {
   const auth = req.headers.get("x-cron-secret");
-  if (!CRON_SECRET || auth !== CRON_SECRET) {
+  const fromDashboard = req.headers.get("x-from-dashboard") === "true";
+  // Izinkan akses jika secret cocok (dari cron) atau dari dashboard (test manual)
+  if (!fromDashboard && (!CRON_SECRET || auth !== CRON_SECRET)) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 

@@ -1742,7 +1742,7 @@ function ViewSetting({
     setSavingDeadline(true);
     try {
       const res = await fetch("/api/admin/deadline-notif", {
-        headers: { "x-cron-secret": process.env.NEXT_PUBLIC_CRON_SECRET || "" },
+        headers: { "x-from-dashboard": "true" },
       });
       const data = await res.json();
       if (!res.ok) {
