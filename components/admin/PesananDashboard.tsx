@@ -395,7 +395,7 @@ export default function PesananDashboard() {
           {currentView === "customer" && <ViewCustomer orders={orders} onSelectCustomer={setOpenCustomer} steps={steps} />}
           {currentView === "laporan" && <ViewLaporan orders={orders} />}
           {currentView === "setting" && <ViewSetting showToast={showToast} steps={steps} onStepsSaved={fetchSteps} />}
-          {currentView === "notif" && <ViewNotif showToast={showToast} />}
+          {currentView === "notif" && <ViewNotif showToast={showToast} orders={orders} />}
           </>
           )}
         </main>
@@ -2187,7 +2187,7 @@ function ViewSetting({
 /* ═══════════════════════════════════════════════
    VIEW: NOTIFIKASI
    ═══════════════════════════════════════════════ */
-function ViewNotif({ showToast }: { showToast: (msg: string) => void }) {
+function ViewNotif({ showToast, orders }: { showToast: (msg: string) => void; orders: OrderData[] }) {
   const [enabled, setEnabled] = useState(false);
   const [time, setTime] = useState("08:00");
   const [days, setDays] = useState("3,2,1");
@@ -2197,10 +2197,21 @@ function ViewNotif({ showToast }: { showToast: (msg: string) => void }) {
   const [saving, setSaving] = useState(false);
   const [testing, setTesting] = useState(false);
   const [logs, setLogs] = useState<any[]>([]);
-  const [countdown, setCountdown] = useState("");
-  const [nextOrderCount, setNextOrderCount] = useState(0);
+  const [cdH, setCdH] = useState("00");
+  const [cdM, setCdM] = useState("00");
+  const [cdS, setCdS] = useState("00");
+  const [cdLabel, setCdLabel] = useState("menghitung…");
 
-  // Load settings
+  const activePhones = [phone1, phone2, phone3].filter(Boolean);
+  const activeDays = days.split(",").map((d) => d.trim()).filter(Boolean);
+  const dayLabels: Record<string, string> = { "3": "H-3", "2": "H-2", "1": "H-1", "0": "Hari-H" };
+
+  const deadlinesMonitored = orders.filter((o) => {
+    if (!o.deadline) return false;
+    const diff = Math.ceil((new Date(o.deadline).getTime() - Date.now()) / 86400000);
+    return diff >= 0 && diff <= Math.max(...activeDays.map(Number), 0);
+  }).length;
+
   useEffect(() => {
     fetch("/api/admin/settings/deadline-notif")
       .then((r) => (r.ok ? r.json() : null))
@@ -2218,9 +2229,8 @@ function ViewNotif({ showToast }: { showToast: (msg: string) => void }) {
       .catch(() => {});
   }, []);
 
-  // Load logs
   const fetchLogs = useCallback(() => {
-    fetch("/api/admin/notif-logs?limit=20")
+    fetch("/api/admin/notif-logs?limit=50")
       .then((r) => (r.ok ? r.json() : null))
       .then((d) => { if (d?.logs) setLogs(d.logs); })
       .catch(() => {});
@@ -2228,28 +2238,37 @@ function ViewNotif({ showToast }: { showToast: (msg: string) => void }) {
 
   useEffect(() => { fetchLogs(); }, [fetchLogs]);
 
-  // Countdown timer
   useEffect(() => {
+    let prev = "";
     function tick() {
       const now = new Date();
-      const parts = new Intl.DateTimeFormat("en-US", {
-        timeZone: "Asia/Jakarta", hour: "numeric", minute: "numeric", hour12: false,
-      }).formatToParts(now);
-      const h = Number(parts.find((p) => p.type === "hour")?.value ?? 0);
-      const m = Number(parts.find((p) => p.type === "minute")?.value ?? 0);
+      const wibMs = now.getTime() + (now.getTimezoneOffset() + 420) * 60000;
+      const wib = new Date(wibMs);
       const [cfgH, cfgM] = time.split(":").map(Number);
-      const nowMin = h * 60 + m;
-      const targetMin = cfgH * 60 + cfgM;
-      let diff = targetMin - nowMin;
-      if (diff < 0) diff += 24 * 60;
-      const rh = Math.floor(diff / 60);
-      const rm = diff % 60;
-      setCountdown(rh > 0 ? `${rh} jam ${rm} menit` : `${rm} menit`);
+      const target = new Date(wib);
+      target.setHours(cfgH, cfgM, 0, 0);
+      if (target <= wib) target.setDate(target.getDate() + 1);
+      const diffSec = Math.max(0, Math.floor((target.getTime() - wib.getTime()) / 1000));
+      const hh = String(Math.floor(diffSec / 3600)).padStart(2, "0");
+      const mm = String(Math.floor((diffSec % 3600) / 60)).padStart(2, "0");
+      const ss = String(diffSec % 60).padStart(2, "0");
+      const key = `${hh}:${mm}:${ss}`;
+      if (key !== prev) { setCdH(hh); setCdM(mm); setCdS(ss); prev = key; }
+      const sameDay = target.toDateString() === wib.toDateString();
+      const jam = `${String(cfgH).padStart(2, "0")}:${String(cfgM).padStart(2, "0")}`;
+      setCdLabel(`kirim ${sameDay ? "hari ini" : "besok"} pukul ${jam} WIB`);
     }
     tick();
-    const iv = setInterval(tick, 30000);
+    const iv = setInterval(tick, 1000);
     return () => clearInterval(iv);
   }, [time]);
+
+  const toggleDay = (v: string) => {
+    const next = activeDays.includes(v)
+      ? activeDays.filter((d) => d !== v)
+      : [...activeDays, v].sort((a, b) => Number(b) - Number(a));
+    setDays(next.join(","));
+  };
 
   const saveSettings = async () => {
     setSaving(true);
@@ -2257,27 +2276,23 @@ function ViewNotif({ showToast }: { showToast: (msg: string) => void }) {
       const res = await fetch("/api/admin/settings/deadline-notif", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          enabled, time, days,
-          phones: [phone1, phone2, phone3].filter(Boolean).join(","),
-        }),
+        body: JSON.stringify({ enabled, time, days, phones: activePhones.join(",") }),
       });
       const data = await res.json();
       if (!res.ok) { showToast(data.error || "Gagal menyimpan"); return; }
-      showToast("Pengaturan notifikasi tersimpan");
+      showToast("Pengaturan tersimpan");
     } catch { showToast("Gagal menyimpan"); }
     finally { setSaving(false); }
   };
 
   const testNotif = async () => {
-    const allPhones = [phone1, phone2, phone3].filter(Boolean).join(",");
-    if (!allPhones) { showToast("Isi nomor HP admin terlebih dahulu"); return; }
+    if (activePhones.length === 0) { showToast("Isi nomor HP admin terlebih dahulu"); return; }
     setTesting(true);
     try {
       const res = await fetch("/api/admin/deadline-notif", {
         method: "POST",
         headers: { "Content-Type": "application/json", "x-from-dashboard": "true" },
-        body: JSON.stringify({ phones: allPhones }),
+        body: JSON.stringify({ phones: activePhones.join(",") }),
       });
       const data = await res.json();
       if (!res.ok) { showToast(data.error || "Gagal mengirim"); return; }
@@ -2287,186 +2302,275 @@ function ViewNotif({ showToast }: { showToast: (msg: string) => void }) {
     finally { setTesting(false); }
   };
 
-  const dayChips = [
-    { val: "3", label: "H-3" },
-    { val: "2", label: "H-2" },
-    { val: "1", label: "H-1" },
-    { val: "0", label: "H-0" },
-  ];
-  const activeDays = days.split(",").map((d) => d.trim());
-
-  const toggleDay = (v: string) => {
-    const next = activeDays.includes(v)
-      ? activeDays.filter((d) => d !== v)
-      : [...activeDays, v].sort((a, b) => Number(b) - Number(a));
-    setDays(next.join(","));
-  };
-
   return (
     <>
-      <p className="text-[14px] text-[var(--pas-muted)] mb-5">
-        Atur pengiriman notifikasi deadline otomatis ke admin via WhatsApp.
-      </p>
+      {/* ── CSS VARS (cream design system) ── */}
+      <style>{`
+        .notif-wrap{--cream:#f7f4ee;--cream-2:#f0ebe1;--paper:#ffffff;--ink:#141d17;--ink-2:#3c4a41;--ink-soft:#77857b;--line:#e6e0d4;--line-2:#efe9dd;--green:#0f3a21;--green-2:#19582f;--accent:#2c7a4b;--mint:#e7f2ea;--mint-line:#cbe2d1}
+        .notif-wrap .n-card{background:var(--paper);border:1px solid var(--line);border-radius:22px;box-shadow:0 1px 1px rgba(20,29,23,.03),0 22px 44px -32px rgba(20,29,23,.28)}
+        .notif-wrap .n-eyebrow{font-size:10.5px;text-transform:uppercase;letter-spacing:.2em;color:var(--ink-soft);font-family:"Geist Mono",ui-monospace,monospace}
+        .notif-wrap .n-hero{position:relative;overflow:hidden;border-radius:26px;background:linear-gradient(145deg,#0c3119 0%,#16512c 52%,#1d6836 100%);box-shadow:0 30px 70px -40px rgba(15,58,33,.75),inset 0 1px 0 rgba(255,255,255,.1)}
+        .notif-wrap .n-hero-glow{position:absolute;inset:auto -8% 40% auto;width:520px;height:520px;background:radial-gradient(circle,rgba(160,235,187,.20),transparent 62%);pointer-events:none}
+        .notif-wrap .n-hero-grid{position:absolute;inset:0;pointer-events:none;background-image:linear-gradient(rgba(255,255,255,.045) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.045) 1px,transparent 1px);background-size:100% 36px,36px 100%;mask-image:radial-gradient(120% 90% at 70% 0%,#000 25%,transparent 75%)}
+        .notif-wrap .n-stat{border:1px solid var(--line);border-radius:18px;background:linear-gradient(180deg,#fff,#fcfbf7);padding:18px 18px 16px;transition:transform .22s ease,box-shadow .22s ease}
+        .notif-wrap .n-stat:hover{transform:translateY(-2px);box-shadow:0 18px 34px -26px rgba(20,29,23,.32)}
+        .notif-wrap .n-field{width:100%;background:#fbfaf6;border:1px solid var(--line);border-radius:14px;padding:22px 14px 9px;font-size:15px;color:var(--ink);transition:border-color .18s ease,box-shadow .18s ease,background .18s ease;font-family:"Geist",system-ui,sans-serif}
+        .notif-wrap .n-field:focus{outline:none;background:#fff;border-color:var(--accent);box-shadow:0 0 0 4px rgba(44,122,75,.11)}
+        .notif-wrap .n-fw{position:relative}
+        .notif-wrap .n-fw label{position:absolute;left:14px;top:8px;font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-soft);pointer-events:none;transition:color .18s ease;font-family:"Geist Mono",ui-monospace,monospace}
+        .notif-wrap .n-fw .n-field:focus + label{color:var(--accent)}
+        .notif-wrap .n-chip{position:relative;border:1px solid var(--line);background:#fbfaf6;color:var(--ink-2);border-radius:12px;padding:10px 16px;font-size:13px;font-weight:600;cursor:pointer;transition:all .18s cubic-bezier(.2,.85,.25,1);font-family:"Geist Mono",ui-monospace,monospace}
+        .notif-wrap .n-chip:hover{transform:translateY(-1px);border-color:#d6cebd}
+        .notif-wrap .n-chip.on{background:var(--green);border-color:var(--green);color:#eef5f0;box-shadow:0 8px 18px -12px rgba(15,58,33,.7)}
+        .notif-wrap .n-btn{border-radius:13px;font-size:14px;font-weight:600;transition:transform .16s ease,background .2s ease,box-shadow .2s ease;font-family:"Geist",system-ui,sans-serif}
+        .notif-wrap .n-btn-primary{background:var(--green);color:#f2f7f3;box-shadow:0 12px 26px -16px rgba(15,58,33,.85)}
+        .notif-wrap .n-btn-primary:hover{background:var(--green-2);transform:translateY(-1px)}
+        .notif-wrap .n-btn-ghost{background:#fff;color:var(--ink);border:1px solid var(--line);font-weight:500}
+        .notif-wrap .n-btn-ghost:hover{background:var(--cream-2);border-color:#d6cebd}
+        .notif-wrap .n-divider{height:1px;background:linear-gradient(90deg,transparent,var(--line),transparent)}
+        .notif-wrap .n-dt{position:relative;min-width:72px;padding:12px 4px 10px;border-radius:14px;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.14);backdrop-filter:blur(6px);text-align:center;overflow:hidden}
+        .notif-wrap .n-dt::before{content:"";position:absolute;inset:0 0 auto 0;height:1px;background:linear-gradient(90deg,transparent,rgba(255,255,255,.45),transparent)}
+        .notif-wrap .n-dt b{display:block;font-family:"Geist Mono",monospace;font-size:38px;line-height:1;font-weight:700;color:#fff;font-variant-numeric:tabular-nums}
+        .notif-wrap .n-dt i{display:block;margin-top:7px;font-style:normal;font-size:9.5px;letter-spacing:.18em;text-transform:uppercase;color:rgba(255,255,255,.5)}
+        .notif-wrap .n-colon{align-self:center;font-family:"Geist Mono",monospace;font-size:26px;color:rgba(255,255,255,.3);padding-bottom:14px}
+        .notif-wrap .n-pulse{width:7px;height:7px;border-radius:999px;background:#8ce8ae;box-shadow:0 0 0 0 rgba(140,232,174,.7);animation:npulse 2.2s infinite}
+        @keyframes npulse{0%{box-shadow:0 0 0 0 rgba(140,232,174,.55)}70%{box-shadow:0 0 0 11px rgba(140,232,174,0)}100%{box-shadow:0 0 0 0 rgba(140,232,174,0)}}
+        .notif-wrap .n-switch{width:50px;height:28px;border-radius:999px;background:rgba(255,255,255,.22);position:relative;cursor:pointer;flex:none;transition:background .24s ease;border:1px solid rgba(255,255,255,.2)}
+        .notif-wrap .n-switch.on{background:#3ea364;border-color:rgba(255,255,255,.35)}
+        .notif-wrap .n-switch span{position:absolute;top:3px;left:3px;width:20px;height:20px;border-radius:999px;background:#fff;box-shadow:0 2px 6px rgba(0,0,0,.28);transition:transform .26s cubic-bezier(.2,.85,.25,1)}
+        .notif-wrap .n-switch.on span{transform:translateX(22px)}
+      `}</style>
 
-      {/* ── HERO: Status + Countdown ── */}
-      <div className="rounded-2xl p-5 mb-4" style={{ background: "linear-gradient(135deg, #1a3a1a 0%, #0f2a0f 100%)", border: "1px solid rgba(34,197,94,0.15)" }}>
-        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
-          <div className="flex items-center gap-4">
-            <button
-              onClick={() => setEnabled(!enabled)}
-              className="relative w-14 h-7 rounded-full transition-colors duration-200 shrink-0"
-              style={{ background: enabled ? "#22c55e" : "#374151" }}
-              aria-label={enabled ? "Nonaktifkan notifikasi" : "Aktifkan notifikasi"}
-            >
-              <span
-                className="absolute top-0.5 left-0.5 w-6 h-6 rounded-full bg-white shadow transition-transform duration-200"
-                style={{ transform: enabled ? "translateX(28px)" : "translateX(0)" }}
-              />
-            </button>
+      <div className="notif-wrap">
+        {/* ── INTRO ── */}
+        <div className="max-w-2xl">
+          <span className="n-eyebrow inline-flex items-center gap-2 rounded-full px-3 py-1" style={{ background: "var(--mint)", border: "1px solid var(--mint-line)", color: "var(--green)" }}>
+            <i className="n-pulse" /> Sistem berjalan
+          </span>
+          <h2 className="mt-5 text-[36px] leading-[1.04] sm:text-[50px]" style={{ fontFamily: '"Geist",system-ui,sans-serif', fontWeight: 600, letterSpacing: "-.038em", color: "var(--ink)" }}>
+            Tidak ada deadline<br /><span style={{ color: "var(--accent)" }}>yang terlewat.</span>
+          </h2>
+          <p className="mt-4 max-w-lg text-[15px] leading-relaxed" style={{ color: "var(--ink-2)" }}>
+            Sistem otomatis mengingatkan admin lewat WhatsApp sesuai jadwal produksi, mulai dari H-3, H-2, hingga H-1 sebelum deadline.
+          </p>
+        </div>
+
+        {/* ── HERO / COUNTDOWN ── */}
+        <section className="n-hero mt-10 px-7 py-8 sm:px-10 sm:py-10">
+          <div className="n-hero-glow" />
+          <div className="n-hero-grid" />
+          <div className="relative grid gap-9 lg:grid-cols-[1fr_auto] lg:items-center">
             <div>
-              <p className="text-white font-semibold text-[15px]">Notifikasi Deadline</p>
-              <p className="text-white/50 text-[12px] mt-0.5">
-                {enabled ? "Aktif — mengirim otomatis" : "Nonaktif"}
-              </p>
+              <div className="flex items-start gap-4">
+                <button className={`n-switch mt-0.5 ${enabled ? "on" : ""}`} onClick={() => setEnabled(!enabled)} aria-label="Aktifkan notifikasi deadline"><span /></button>
+                <div>
+                  <p className="text-[20px] font-semibold text-white" style={{ fontFamily: '"Geist",system-ui,sans-serif' }}>Notifikasi Deadline</p>
+                  <p className="mt-1.5 flex items-center gap-2 text-[13px]" style={{ color: "rgba(255,255,255,.7)" }}>
+                    {enabled ? <><i className="n-pulse" /> Aktif — pengingat deadline berjalan otomatis</> : <><i style={{ display: "inline-block", width: 7, height: 7, borderRadius: 999, background: "rgba(255,255,255,.4)" }} /> Nonaktif — tidak ada pengiriman</>}
+                  </p>
+                </div>
+              </div>
+              <div className="mt-7 flex flex-wrap items-start gap-x-9 gap-y-4">
+                <div>
+                  <p className="n-eyebrow" style={{ color: "rgba(255,255,255,.5)" }}>Jadwal kirim</p>
+                  <p className="mt-1 text-[13px] text-white" style={{ fontFamily: '"Geist Mono",monospace' }}>{time} WIB</p>
+                </div>
+                <div>
+                  <p className="n-eyebrow" style={{ color: "rgba(255,255,255,.5)" }}>Penerima</p>
+                  <p className="mt-1 text-[13px] text-white" style={{ fontFamily: '"Geist Mono",monospace' }}>{activePhones.length} admin</p>
+                </div>
+                <div>
+                  <p className="n-eyebrow" style={{ color: "rgba(255,255,255,.5)" }}>Hari reminder</p>
+                  <p className="mt-1 text-[13px] text-white" style={{ fontFamily: '"Geist Mono",monospace' }}>{activeDays.length ? activeDays.map((d) => dayLabels[d] || d).join(", ") : "belum dipilih"}</p>
+                </div>
+              </div>
+            </div>
+            <div className="lg:text-right">
+              <p className="n-eyebrow mb-3" style={{ color: "rgba(255,255,255,.5)" }}>Notifikasi berikutnya</p>
+              <div className="flex items-stretch gap-2">
+                <div className="n-dt"><b>{cdH}</b><i>Jam</i></div>
+                <div className="n-colon">:</div>
+                <div className="n-dt"><b>{cdM}</b><i>Menit</i></div>
+                <div className="n-colon">:</div>
+                <div className="n-dt"><b>{cdS}</b><i>Detik</i></div>
+              </div>
+              <p className="mt-3.5 text-[12.5px]" style={{ fontFamily: '"Geist Mono",monospace', color: "#96e8b3" }}>{cdLabel}</p>
             </div>
           </div>
-          <div className="text-right">
-            <p className="text-white/50 text-[11px] uppercase tracking-wider">Jadwal Berikutnya</p>
-            <p className="text-white font-bold text-[22px] mt-0.5 font-mono">{time} WIB</p>
-            <p className="text-emerald-400/70 text-[12px] mt-0.5">
-              {enabled ? `⏳ ${countdown} lagi` : "Dinonaktifkan"}
+        </section>
+
+        {/* ── STATS ── */}
+        <section className="mt-6 grid gap-4 sm:grid-cols-3">
+          <div className="n-stat">
+            <div className="flex items-start justify-between gap-3">
+              <div>
+                <p className="n-eyebrow">Notifikasi terkirim</p>
+                <p className="mt-1 text-[12px]" style={{ color: "var(--ink-soft)" }}>30 hari terakhir</p>
+              </div>
+              <span className="grid h-8 w-8 place-items-center rounded-[10px]" style={{ background: "var(--mint)", border: "1px solid var(--mint-line)" }}>
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#1c5c33" strokeWidth="1.9" strokeLinecap="round" strokeLinejoin="round"><path d="m22 2-7 20-4-9-9-4Z" /><path d="M22 2 11 13" /></svg>
+              </span>
+            </div>
+            <p className="mt-4" style={{ fontFamily: '"Geist Mono",monospace', fontSize: 27, fontWeight: 700, letterSpacing: "-.02em" }}>
+              {logs.length} <span className="text-[13px] font-medium" style={{ color: "var(--ink-soft)" }}>pesan</span>
+            </p>
+            <p className="mt-2 text-[12.5px]" style={{ color: "var(--ink-soft)" }}>
+              {logs.length === 0 ? "Belum ada pengingat yang dikirim ke admin." : `${logs.filter((l) => l.status === "sent").length} berhasil, ${logs.filter((l) => l.status === "failed").length} gagal.`}
             </p>
           </div>
-        </div>
-      </div>
-
-      {/* ── SETTINGS ── */}
-      <div className="pas-card p-5 mb-4">
-        <p className="font-semibold text-[15px] mb-4">Pengaturan</p>
-        <div className="grid sm:grid-cols-2 gap-4">
-          <label className="block">
-            <span className="text-[13px] text-[var(--pas-muted)]">Jam Kirim (WIB)</span>
-            <input
-              type="time"
-              className="pas-field w-full px-4 py-2.5 mt-1.5 text-[15px] font-mono"
-              value={time}
-              onChange={(e) => setTime(e.target.value)}
-            />
-          </label>
-          <label className="block">
-            <span className="text-[13px] text-[var(--pas-muted)]">Hari Reminder</span>
-            <div className="flex gap-2 mt-1.5">
-              {dayChips.map((c) => (
-                <button
-                  key={c.val}
-                  onClick={() => toggleDay(c.val)}
-                  className={`px-4 py-2 rounded-lg text-[13px] font-semibold transition-all duration-150 ${
-                    activeDays.includes(c.val)
-                      ? "bg-emerald-500/20 text-emerald-400 border border-emerald-500/30"
-                      : "bg-white/5 text-white/40 border border-white/10 hover:bg-white/10"
-                  }`}
-                >
-                  {c.label}
-                </button>
-              ))}
+          <div className="n-stat">
+            <div className="flex items-start justify-between gap-3">
+              <div>
+                <p className="n-eyebrow">Deadline dipantau</p>
+                <p className="mt-1 text-[12px]" style={{ color: "var(--ink-soft)" }}>masih berjalan</p>
+              </div>
+              <span className="grid h-8 w-8 place-items-center rounded-[10px]" style={{ background: "var(--mint)", border: "1px solid var(--mint-line)" }}>
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#1c5c33" strokeWidth="1.9" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="4" width="18" height="17" rx="2.5" /><path d="M8 2v4M16 2v4M3 10h18" /></svg>
+              </span>
             </div>
-          </label>
-          <label className="block sm:col-span-2">
-            <span className="text-[13px] text-[var(--pas-muted)]">Nomor HP Admin</span>
-            <div className="grid grid-cols-3 gap-3 mt-1.5">
-              {[
-                { val: phone1, set: setPhone1, ph: "6281234567890" },
-                { val: phone2, set: setPhone2, ph: "6280987654321" },
-                { val: phone3, set: setPhone3, ph: "628111222333" },
-              ].map((f, i) => (
-                <input
-                  key={i}
-                  type="text"
-                  className="pas-field w-full px-4 py-2.5 text-[15px] pas-num"
-                  placeholder={f.ph}
-                  value={f.val}
-                  onChange={(e) => f.set(e.target.value)}
-                />
-              ))}
-            </div>
-            <p className="text-[11px] text-[var(--pas-muted)] mt-1">Format: 62... Kosongkan jika tidak dipakai.</p>
-          </label>
-        </div>
-        <div className="flex gap-3 mt-4">
-          <button
-            className="pas-btn-accent px-6 py-2.5 text-[13px]"
-            disabled={saving}
-            onClick={saveSettings}
-          >
-            {saving ? "Menyimpan…" : "Simpan Pengaturan"}
-          </button>
-          <button
-            className="pas-btn-ghost px-6 py-2.5 text-[13px]"
-            disabled={!enabled || testing}
-            onClick={testNotif}
-          >
-            {testing ? "Mengirim…" : "Test Kirim Sekarang"}
-          </button>
-        </div>
-      </div>
-
-      {/* ── HISTORY ── */}
-      <div className="pas-card p-5">
-        <div className="flex items-center justify-between mb-4">
-          <p className="font-semibold text-[15px]">Riwayat Kirim</p>
-          <span className="text-[12px] text-[var(--pas-muted)] bg-white/5 px-2.5 py-1 rounded-full">{logs.length}</span>
-        </div>
-        {logs.length === 0 ? (
-          <div className="text-center py-10">
-            <svg className="mx-auto mb-3 text-white/20" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-              <path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9" />
-              <path d="M13.73 21a2 2 0 01-3.46 0" />
-            </svg>
-            <p className="text-white/30 text-[13px]">Belum ada riwayat pengiriman</p>
+            <p className="mt-4" style={{ fontFamily: '"Geist Mono",monospace', fontSize: 27, fontWeight: 700, letterSpacing: "-.02em" }}>
+              {deadlinesMonitored} <span className="text-[13px] font-medium" style={{ color: "var(--ink-soft)" }}>item</span>
+            </p>
+            <p className="mt-2 text-[12.5px]" style={{ color: "var(--ink-soft)" }}>
+              {deadlinesMonitored === 0 ? "Belum ada deadline yang masuk sistem." : `${deadlinesMonitored} pesanan mendekati deadline.`}
+            </p>
           </div>
-        ) : (
-          <div className="overflow-x-auto">
-            <table className="w-full text-left">
-              <thead>
-                <tr className="border-b border-white/10">
-                  <th className="pb-2 text-[11px] text-white/40 font-medium uppercase tracking-wider">Status</th>
-                  <th className="pb-2 text-[11px] text-white/40 font-medium uppercase tracking-wider">Waktu</th>
-                  <th className="pb-2 text-[11px] text-white/40 font-medium uppercase tracking-wider">Order</th>
-                  <th className="pb-2 text-[11px] text-white/40 font-medium uppercase tracking-wider">Tipe</th>
-                  <th className="pb-2 text-[11px] text-white/40 font-medium uppercase tracking-wider">HP</th>
-                </tr>
-              </thead>
-              <tbody>
-                {logs.map((log) => (
-                  <tr key={log.id} className="border-b border-white/5 hover:bg-white/[0.02] transition-colors">
-                    <td className="py-2.5">
-                      {log.status === "sent" ? (
-                        <span className="inline-flex items-center gap-1 text-emerald-400 text-[12px]">
-                          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M20 6L9 17l-5-5" /></svg>
-                          Sukses
-                        </span>
-                      ) : (
-                        <span className="inline-flex items-center gap-1 text-red-400 text-[12px]">
-                          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10" /><line x1="15" y1="9" x2="9" y2="15" /><line x1="9" y1="9" x2="15" y2="15" /></svg>
-                          Gagal
-                        </span>
-                      )}
-                    </td>
-                    <td className="py-2.5 text-[13px] text-white/70">
-                      {new Date(log.created_at).toLocaleDateString("id-ID", { day: "numeric", month: "short" })}{" "}
-                      {new Date(log.created_at).toLocaleTimeString("id-ID", { hour: "2-digit", minute: "2-digit" })}
-                    </td>
-                    <td className="py-2.5 text-[13px] text-white/90 font-mono">{log.order_number || "-"}</td>
-                    <td className="py-2.5 text-[12px] text-white/50">
-                      {log.diff_days === 0 ? "H-0" : `H-${log.diff_days}`}
-                    </td>
-                    <td className="py-2.5 text-[12px] text-white/40 font-mono">{log.phone}</td>
-                  </tr>
+          <div className="n-stat">
+            <div className="flex items-start justify-between gap-3">
+              <div>
+                <p className="n-eyebrow">Penerima pengingat</p>
+                <p className="mt-1 text-[12px]" style={{ color: "var(--ink-soft)" }}>admin internal</p>
+              </div>
+              <span className="grid h-8 w-8 place-items-center rounded-[10px]" style={{ background: "var(--mint)", border: "1px solid var(--mint-line)" }}>
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#1c5c33" strokeWidth="1.9" strokeLinecap="round" strokeLinejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" /><circle cx="9" cy="7" r="4" /><path d="M22 21v-2a4 4 0 0 0-3-3.87" /></svg>
+              </span>
+            </div>
+            <p className="mt-4" style={{ fontFamily: '"Geist Mono",monospace', fontSize: 27, fontWeight: 700, letterSpacing: "-.02em" }}>
+              {activePhones.length} <span className="text-[13px] font-medium" style={{ color: "var(--ink-soft)" }}>nomor</span>
+            </p>
+            <p className="mt-2 text-[12.5px]" style={{ color: "var(--ink-soft)" }}>
+              {activeDays.length ? `Aktif di ${activeDays.length} tahap: ${activeDays.map((d) => dayLabels[d] || d).join(", ")}.` : "Belum ada nomor aktif."}
+            </p>
+          </div>
+        </section>
+
+        {/* ── SETTINGS ── */}
+        <section className="n-card mt-6 p-7 sm:p-9" style={{ background: "linear-gradient(180deg,#fff,#fdfcf9)" }}>
+          <div className="flex flex-wrap items-end justify-between gap-3">
+            <div>
+              <p className="n-eyebrow">Konfigurasi</p>
+              <h3 className="mt-1.5 text-[19px] font-semibold" style={{ color: "var(--ink)" }}>Pengaturan pengiriman</h3>
+            </div>
+            <span className="rounded-full px-3 py-1 text-[11.5px]" style={{ fontFamily: '"Geist Mono",monospace', background: "var(--cream-2)", border: "1px solid var(--line-2)", color: "var(--ink-soft)" }}>Asia/Jakarta · WIB</span>
+          </div>
+          <div className="n-divider my-7" />
+          <div className="grid gap-8 md:grid-cols-2">
+            <div>
+              <div className="n-fw">
+                <input type="time" value={time} onChange={(e) => setTime(e.target.value)} className="n-field" style={{ fontFamily: '"Geist Mono",monospace', fontSize: 17 }} />
+                <label>Jam kirim</label>
+              </div>
+              <p className="mt-2.5 text-[12.5px]" style={{ color: "var(--ink-soft)" }}>Pengingat dikirim setiap hari pada jam ini.</p>
+            </div>
+            <div>
+              <p className="n-eyebrow">Hari reminder</p>
+              <div className="mt-3 flex flex-wrap gap-2.5">
+                {(["3", "2", "1", "0"] as const).map((v) => (
+                  <button key={v} className={`n-chip ${activeDays.includes(v) ? "on" : ""}`} onClick={() => toggleDay(v)}>
+                    {dayLabels[v]}
+                  </button>
                 ))}
-              </tbody>
-            </table>
+              </div>
+              <p className="mt-3 text-[12.5px]" style={{ color: "var(--ink-soft)" }}>Pilih berapa hari sebelum deadline pengingat dikirim.</p>
+            </div>
           </div>
-        )}
+          <div className="n-divider my-8" />
+          <div>
+            <div className="flex items-center justify-between">
+              <p className="n-eyebrow">Nomor HP admin</p>
+              <span className="text-[12px]" style={{ color: "var(--ink-soft)" }}>Format 62…</span>
+            </div>
+            <div className="mt-3 grid gap-3 md:grid-cols-3">
+              <div className="n-fw"><input className="n-field" style={{ fontFamily: '"Geist Mono",monospace' }} value={phone1} onChange={(e) => setPhone1(e.target.value)} placeholder="6281234567890" /><label>Admin 1</label></div>
+              <div className="n-fw"><input className="n-field" style={{ fontFamily: '"Geist Mono",monospace' }} value={phone2} onChange={(e) => setPhone2(e.target.value)} placeholder="6280987654321" /><label>Admin 2</label></div>
+              <div className="n-fw"><input className="n-field" style={{ fontFamily: '"Geist Mono",monospace' }} value={phone3} onChange={(e) => setPhone3(e.target.value)} placeholder="628111222333" /><label>Admin 3</label></div>
+            </div>
+          </div>
+          <div className="mt-9 flex flex-wrap items-center gap-3">
+            <button className="n-btn n-btn-primary px-6 py-3.5" disabled={saving} onClick={saveSettings}>
+              {saving ? "Menyimpan…" : "Simpan pengaturan"}
+            </button>
+            <button className="n-btn n-btn-ghost px-6 py-3.5" disabled={!enabled || testing} onClick={testNotif}>
+              {testing ? "Mengirim…" : "Test kirim sekarang"}
+            </button>
+            <span className="ml-auto text-[12px]" style={{ fontFamily: '"Geist Mono",monospace', color: "var(--ink-soft)" }}>tersimpan otomatis saat disimpan</span>
+          </div>
+        </section>
+
+        {/* ── HISTORY ── */}
+        <section className="n-card mt-6 p-7 sm:p-9">
+          <div className="flex items-center justify-between">
+            <div>
+              <p className="n-eyebrow">Log</p>
+              <h3 className="mt-1.5 text-[19px] font-semibold" style={{ color: "var(--ink)" }}>Riwayat kirim</h3>
+            </div>
+            <span className="rounded-full px-3 py-1 text-[12px]" style={{ fontFamily: '"Geist Mono",monospace', background: "var(--mint)", border: "1px solid var(--mint-line)", color: "var(--green)" }}>{logs.length} entri</span>
+          </div>
+          <div className="n-divider my-7" />
+          {logs.length === 0 ? (
+            <div className="grid place-items-center py-16 text-center">
+              <div className="grid h-14 w-14 place-items-center rounded-2xl" style={{ background: "var(--cream-2)", border: "1px solid var(--line-2)" }}>
+                <svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="#8b978f" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round"><path d="M12 8v4l3 2" /><circle cx="12" cy="12" r="9" /></svg>
+              </div>
+              <p className="mt-4 text-[15px] font-semibold" style={{ color: "var(--ink)" }}>Belum ada pengiriman</p>
+              <p className="mt-1.5 max-w-sm text-[13px] leading-relaxed" style={{ color: "var(--ink-soft)" }}>Setelah notifikasi pertama terkirim, waktu, penerima, dan statusnya akan tercatat di sini.</p>
+            </div>
+          ) : (
+            <div className="overflow-x-auto">
+              <table className="w-full text-left">
+                <thead>
+                  <tr className="border-b" style={{ borderColor: "var(--line)" }}>
+                    <th className="pb-2 n-eyebrow">Status</th>
+                    <th className="pb-2 n-eyebrow">Waktu</th>
+                    <th className="pb-2 n-eyebrow">Order</th>
+                    <th className="pb-2 n-eyebrow">Tipe</th>
+                    <th className="pb-2 n-eyebrow">HP</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {logs.map((log) => (
+                    <tr key={log.id} className="border-b transition-colors" style={{ borderColor: "var(--line-2)" }}>
+                      <td className="py-2.5">
+                        {log.status === "sent" ? (
+                          <span className="inline-flex items-center gap-1 text-[12px]" style={{ color: "var(--accent)" }}>
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M20 6L9 17l-5-5" /></svg>
+                            Sukses
+                          </span>
+                        ) : (
+                          <span className="inline-flex items-center gap-1 text-[12px]" style={{ color: "#c0392b" }}>
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10" /><line x1="15" y1="9" x2="9" y2="15" /><line x1="9" y1="9" x2="15" y2="15" /></svg>
+                            Gagal
+                          </span>
+                        )}
+                      </td>
+                      <td className="py-2.5 text-[13px]" style={{ color: "var(--ink-2)" }}>
+                        {new Date(log.created_at).toLocaleDateString("id-ID", { day: "numeric", month: "short" })}{" "}
+                        {new Date(log.created_at).toLocaleTimeString("id-ID", { hour: "2-digit", minute: "2-digit" })}
+                      </td>
+                      <td className="py-2.5 text-[13px] font-semibold" style={{ color: "var(--ink)", fontFamily: '"Geist Mono",monospace' }}>{log.order_number || "-"}</td>
+                      <td className="py-2.5 text-[12px]" style={{ color: "var(--ink-soft)" }}>
+                        {log.diff_days === 0 ? "H-0" : `H-${log.diff_days}`}
+                      </td>
+                      <td className="py-2.5 text-[12px]" style={{ color: "var(--ink-soft)", fontFamily: '"Geist Mono",monospace' }}>{log.phone}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          )}
+        </section>
+
+        <p className="mt-10 text-center text-[12px]" style={{ color: "var(--ink-soft)" }}>Notifikasi diteruskan via WhatsApp · zona waktu Asia/Jakarta</p>
       </div>
     </>
   );

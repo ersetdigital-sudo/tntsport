@@ -1,0 +1,443 @@
+<!DOCTYPE html>
+<html lang="id"><head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Notifikasi Deadline</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700&amp;family=Geist+Mono:wght@400;500;700&amp;display=swap" rel="stylesheet">
+<style>
+  :root{
+    --cream:#f7f4ee;
+    --cream-2:#f0ebe1;
+    --paper:#ffffff;
+    --ink:#141d17;
+    --ink-2:#3c4a41;
+    --ink-soft:#77857b;
+    --line:#e6e0d4;
+    --line-2:#efe9dd;
+    --green:#0f3a21;
+    --green-2:#19582f;
+    --accent:#2c7a4b;
+    --mint:#e7f2ea;
+    --mint-line:#cbe2d1;
+  }
+  html{scroll-behavior:smooth}
+  body{
+    background:var(--cream);
+    color:var(--ink);
+    font-family:"Geist", system-ui, sans-serif;
+    letter-spacing:-.011em;
+    -webkit-font-smoothing:antialiased;
+  }
+  /* ambient light + fine grain */
+  body:before{
+    content:"";position:fixed;inset:0;pointer-events:none;z-index:0;
+    background:
+      radial-gradient(900px 420px at 82% -8%, rgba(44,122,75,.13), transparent 62%),
+      radial-gradient(700px 380px at 2% 4%, rgba(15,58,33,.07), transparent 60%);
+  }
+  body:after{
+    content:"";position:fixed;inset:0;pointer-events:none;z-index:0;opacity:.32;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2'/%3E%3C/filter%3E%3Crect width='120' height='120' filter='url(%23n)' opacity='.5'/%3E%3C/svg%3E");
+  }
+  .wrap{position:relative;z-index:1}
+  .display{font-weight:600;letter-spacing:-.038em}
+  .mono{font-family:"Geist Mono", ui-monospace, monospace;font-variant-numeric:tabular-nums}
+  .eyebrow{font-size:10.5px;text-transform:uppercase;letter-spacing:.2em;color:var(--ink-soft)}
+
+  .card{
+    background:var(--paper);
+    border:1px solid var(--line);
+    border-radius:22px;
+    box-shadow:0 1px 1px rgba(20,29,23,.03), 0 22px 44px -32px rgba(20,29,23,.28);
+  }
+  .card-quiet{background:linear-gradient(180deg,#fff,#fdfcf9)}
+
+  /* header */
+  .nav{
+    position:sticky;top:0;z-index:30;
+    background:rgba(247,244,238,.72);
+    backdrop-filter:blur(14px) saturate(140%);
+    border-bottom:1px solid rgba(230,224,212,.9);
+  }
+
+  /* hero */
+  .hero{
+    position:relative;overflow:hidden;border-radius:26px;
+    background:linear-gradient(145deg,#0c3119 0%, #16512c 52%, #1d6836 100%);
+    box-shadow:0 30px 70px -40px rgba(15,58,33,.75), inset 0 1px 0 rgba(255,255,255,.1);
+  }
+  .hero-glow{position:absolute;inset:auto -8% 40% auto;width:520px;height:520px;background:radial-gradient(circle,rgba(160,235,187,.20),transparent 62%);pointer-events:none}
+  .hero-grid{position:absolute;inset:0;pointer-events:none;
+    background-image:linear-gradient(rgba(255,255,255,.045) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.045) 1px,transparent 1px);
+    background-size:100% 36px, 36px 100%;
+    mask-image:radial-gradient(120% 90% at 70% 0%, #000 25%, transparent 75%);
+  }
+
+  /* digit tiles */
+  .digits{display:flex;align-items:stretch;gap:8px}
+  .dt{
+    position:relative;min-width:72px;padding:12px 4px 10px;border-radius:14px;
+    background:rgba(255,255,255,.07);
+    border:1px solid rgba(255,255,255,.14);
+    backdrop-filter:blur(6px);
+    text-align:center;overflow:hidden;
+  }
+  .dt:before{content:"";position:absolute;inset:0 0 auto 0;height:1px;background:linear-gradient(90deg,transparent,rgba(255,255,255,.45),transparent)}
+  .dt b{display:block;font-family:"Geist Mono",monospace;font-size:38px;line-height:1;font-weight:700;color:#fff;font-variant-numeric:tabular-nums}
+  .dt i{display:block;margin-top:7px;font-style:normal;font-size:9.5px;letter-spacing:.18em;text-transform:uppercase;color:rgba(255,255,255,.5)}
+  .colon{align-self:center;font-family:"Geist Mono",monospace;font-size:26px;color:rgba(255,255,255,.3);padding-bottom:14px}
+  .roll{display:block;transition:transform .32s cubic-bezier(.2,.85,.25,1), opacity .32s ease}
+  .roll.go{transform:translateY(-30%);opacity:0}
+
+  .pulse{width:7px;height:7px;border-radius:999px;background:#8ce8ae;box-shadow:0 0 0 0 rgba(140,232,174,.7);animation:pulse 2.2s infinite}
+  @keyframes pulse{0%{box-shadow:0 0 0 0 rgba(140,232,174,.55)}70%{box-shadow:0 0 0 11px rgba(140,232,174,0)}100%{box-shadow:0 0 0 0 rgba(140,232,174,0)}}
+
+  /* toggle */
+  .switch{width:50px;height:28px;border-radius:999px;background:rgba(255,255,255,.22);position:relative;cursor:pointer;flex:none;transition:background .24s ease;border:1px solid rgba(255,255,255,.2)}
+  .switch.on{background:#3ea364;border-color:rgba(255,255,255,.35)}
+  .switch span{position:absolute;top:3px;left:3px;width:20px;height:20px;border-radius:999px;background:#fff;box-shadow:0 2px 6px rgba(0,0,0,.28);transition:transform .26s cubic-bezier(.2,.85,.25,1)}
+  .switch.on span{transform:translateX(22px)}
+
+  /* stats */
+  .stat{border:1px solid var(--line);border-radius:18px;background:linear-gradient(180deg,#fff,#fcfbf7);padding:18px 18px 16px;transition:transform .22s ease, box-shadow .22s ease}
+  .stat:hover{transform:translateY(-2px);box-shadow:0 18px 34px -26px rgba(20,29,23,.32)}
+  .stat .v{font-family:"Geist Mono",monospace;font-size:27px;font-weight:700;letter-spacing:-.02em}
+
+  /* fields */
+  .fw{position:relative}
+  .field{
+    width:100%;background:#fbfaf6;border:1px solid var(--line);border-radius:14px;
+    padding:22px 14px 9px;font-size:15px;color:var(--ink);
+    transition:border-color .18s ease,box-shadow .18s ease,background .18s ease;
+  }
+  .field:focus{outline:none;background:#fff;border-color:var(--accent);box-shadow:0 0 0 4px rgba(44,122,75,.11)}
+  .fw label{
+    position:absolute;left:14px;top:8px;font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;
+    color:var(--ink-soft);pointer-events:none;transition:color .18s ease;
+  }
+  .field:focus + label{color:var(--accent)}
+
+  .chip{
+    position:relative;border:1px solid var(--line);background:#fbfaf6;color:var(--ink-2);
+    border-radius:12px;padding:10px 16px;font-size:13px;font-weight:600;cursor:pointer;
+    transition:all .18s cubic-bezier(.2,.85,.25,1);
+  }
+  .chip:hover{transform:translateY(-1px);border-color:#d6cebd}
+  .chip[aria-pressed="true"]{background:var(--green);border-color:var(--green);color:#eef5f0;box-shadow:0 8px 18px -12px rgba(15,58,33,.7)}
+
+  .btn{border-radius:13px;font-size:14px;font-weight:600;transition:transform .16s ease,background .2s ease,box-shadow .2s ease}
+  .btn-primary{background:var(--green);color:#f2f7f3;box-shadow:0 12px 26px -16px rgba(15,58,33,.85)}
+  .btn-primary:hover{background:var(--green-2);transform:translateY(-1px)}
+  .btn-ghost{background:#fff;color:var(--ink);border:1px solid var(--line);font-weight:500}
+  .btn-ghost:hover{background:var(--cream-2);border-color:#d6cebd}
+
+  .divider{height:1px;background:linear-gradient(90deg,transparent,var(--line),transparent)}
+
+
+  /* entrance */
+  .rise{opacity:0;transform:translateY(14px);animation:rise .7s cubic-bezier(.2,.85,.25,1) forwards}
+  @keyframes rise{to{opacity:1;transform:none}}
+  .d1{animation-delay:.05s}.d2{animation-delay:.13s}.d3{animation-delay:.21s}.d4{animation-delay:.29s}.d5{animation-delay:.37s}
+
+  @media (max-width:520px){
+    .dt{min-width:0;flex:1}
+    .dt b{font-size:30px}
+  }
+</style>
+<script src="https://cdn.moda.app/runtime-libs/tailwind-browser-4.1.13-index.global.min.js"></script><style data-moda-export-fonts="true">@font-face { font-family: 'Geist'; src: url("../fonts/geist-wght--thin.ttf") format("truetype"); font-style: normal; font-weight: 100; font-display: swap; }
+@font-face { font-family: 'Geist'; src: url("../fonts/geist-wght--extralight.ttf") format("truetype"); font-style: normal; font-weight: 200; font-display: swap; }
+@font-face { font-family: 'Geist'; src: url("../fonts/geist-wght--light.ttf") format("truetype"); font-style: normal; font-weight: 300; font-display: swap; }
+@font-face { font-family: 'Geist'; src: url("../fonts/geist-wght--regular.ttf") format("truetype"); font-style: normal; font-weight: 400; font-display: swap; }
+@font-face { font-family: 'Geist'; src: url("../fonts/geist-wght--medium.ttf") format("truetype"); font-style: normal; font-weight: 500; font-display: swap; }
+@font-face { font-family: 'Geist'; src: url("../fonts/geist-wght--semibold.ttf") format("truetype"); font-style: normal; font-weight: 600; font-display: swap; }
+@font-face { font-family: 'Geist'; src: url("../fonts/geist-wght--bold.ttf") format("truetype"); font-style: normal; font-weight: 700; font-display: swap; }
+@font-face { font-family: 'Geist'; src: url("../fonts/geist-wght--extrabold.ttf") format("truetype"); font-style: normal; font-weight: 800; font-display: swap; }
+@font-face { font-family: 'Geist'; src: url("../fonts/geist-wght--black.ttf") format("truetype"); font-style: normal; font-weight: 900; font-display: swap; }
+@font-face { font-family: 'Geist Mono'; src: url("../fonts/geistmono-wght--thin.ttf") format("truetype"); font-style: normal; font-weight: 100; font-display: swap; }
+@font-face { font-family: 'Geist Mono'; src: url("../fonts/geistmono-wght--extralight.ttf") format("truetype"); font-style: normal; font-weight: 200; font-display: swap; }
+@font-face { font-family: 'Geist Mono'; src: url("../fonts/geistmono-wght--light.ttf") format("truetype"); font-style: normal; font-weight: 300; font-display: swap; }
+@font-face { font-family: 'Geist Mono'; src: url("../fonts/geistmono-wght--regular.ttf") format("truetype"); font-style: normal; font-weight: 400; font-display: swap; }
+@font-face { font-family: 'Geist Mono'; src: url("../fonts/geistmono-wght--medium.ttf") format("truetype"); font-style: normal; font-weight: 500; font-display: swap; }
+@font-face { font-family: 'Geist Mono'; src: url("../fonts/geistmono-wght--semibold.ttf") format("truetype"); font-style: normal; font-weight: 600; font-display: swap; }
+@font-face { font-family: 'Geist Mono'; src: url("../fonts/geistmono-wght--bold.ttf") format("truetype"); font-style: normal; font-weight: 700; font-display: swap; }
+@font-face { font-family: 'Geist Mono'; src: url("../fonts/geistmono-wght--extrabold.ttf") format("truetype"); font-style: normal; font-weight: 800; font-display: swap; }
+@font-face { font-family: 'Geist Mono'; src: url("../fonts/geistmono-wght--black.ttf") format("truetype"); font-style: normal; font-weight: 900; font-display: swap; }</style></head>
+<body class="min-h-screen">
+<div class="wrap">
+
+  <!-- NAV -->
+  <header class="nav">
+    <div class="mx-auto flex max-w-6xl items-center justify-between gap-4 px-6 py-3.5">
+      <div class="flex items-center gap-3">
+        <div class="grid h-9 w-9 place-items-center rounded-[11px]" style="background:var(--green)">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#e9f3ec" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8A6 6 0 1 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path><path d="M13.7 21a2 2 0 0 1-3.4 0"></path></svg>
+        </div>
+        <div class="leading-none">
+          <p class="eyebrow">Data</p>
+          <h1 class="mt-1 text-[15px] font-semibold">Notifikasi</h1>
+        </div>
+      </div>
+
+      <div class="flex items-center gap-3">
+        <span class="mono hidden text-[12.5px] sm:inline" style="color:var(--ink-soft)">9 Sep 2026</span>
+        <button class="btn btn-ghost px-4 py-2">Keluar</button>
+      </div>
+    </div>
+  </header>
+
+  <main class="mx-auto max-w-6xl px-6 pb-16 pt-11">
+
+    <!-- INTRO -->
+    <div class="rise d1 max-w-2xl">
+      <span class="mono inline-flex items-center gap-2 rounded-full px-3 py-1 text-[11.5px]" style="background:var(--mint);border:1px solid var(--mint-line);color:var(--green)">
+        <i class="pulse"></i> Sistem berjalan
+      </span>
+      <h2 class="display mt-5 text-[36px] leading-[1.04] sm:text-[50px]">Tidak ada deadline<br><span style="color:var(--accent)">yang terlewat.</span></h2>
+      <p class="mt-4 max-w-lg text-[15px] leading-relaxed" style="color:var(--ink-2)">Sistem otomatis mengingatkan admin lewat WhatsApp sesuai jadwal produksi, mulai dari H-3, H-2, hingga H-1 sebelum deadline.</p>
+    </div>
+
+    <!-- HERO / COUNTDOWN -->
+    <section class="rise d2 hero mt-10 px-7 py-8 sm:px-10 sm:py-10">
+      <div class="hero-glow"></div>
+      <div class="hero-grid"></div>
+
+      <div class="relative grid gap-9 lg:grid-cols-[1fr_auto] lg:items-center">
+        <div>
+          <div class="flex items-start gap-4">
+            <div id="toggle" class="switch on mt-0.5" role="switch" aria-checked="true" tabindex="0" aria-label="Aktifkan notifikasi deadline"><span></span></div>
+            <div>
+              <p class="text-[20px] font-semibold text-white">Notifikasi Deadline</p>
+              <p id="statusText" class="mt-1.5 flex items-center gap-2 text-[13px]" style="color:rgba(255,255,255,.7)">
+                <i class="pulse"></i> Aktif — pengingat deadline berjalan otomatis
+              </p>
+            </div>
+          </div>
+
+          <div class="mt-7 flex flex-wrap items-start gap-x-9 gap-y-4">
+            <div>
+              <p class="eyebrow" style="color:rgba(255,255,255,.5)">Jadwal kirim</p>
+              <p id="targetLabel" class="mono mt-1 text-[13px] text-white">13:40 WIB</p>
+            </div>
+            <div>
+              <p class="eyebrow" style="color:rgba(255,255,255,.5)">Penerima</p>
+              <p class="mono mt-1 text-[13px] text-white">3 admin</p>
+            </div>
+            <div>
+              <p class="eyebrow" style="color:rgba(255,255,255,.5)">Hari reminder</p>
+              <p id="heroChips" class="mono mt-1 text-[13px] text-white">H-3, H-2, H-1</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="lg:text-right">
+          <p class="eyebrow mb-3" style="color:rgba(255,255,255,.5)">Notifikasi berikutnya</p>
+          <div class="digits">
+            <div class="dt"><b><span id="hh" class="roll">00</span></b><i>Jam</i></div>
+            <div class="colon">:</div>
+            <div class="dt"><b><span id="mm" class="roll">00</span></b><i>Menit</i></div>
+            <div class="colon">:</div>
+            <div class="dt"><b><span id="ss" class="roll">00</span></b><i>Detik</i></div>
+          </div>
+          <p id="remaining" class="mono mt-3.5 text-[12.5px]" style="color:#96e8b3">menghitung…</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- STATS -->
+    <section class="rise d3 mt-6 grid gap-4 sm:grid-cols-3">
+      <div class="stat">
+        <div class="flex items-start justify-between gap-3">
+          <div>
+            <p class="eyebrow">Notifikasi terkirim</p>
+            <p class="mt-1 text-[12px]" style="color:var(--ink-soft)">30 hari terakhir</p>
+          </div>
+          <span class="grid h-8 w-8 place-items-center rounded-[10px]" style="background:var(--mint);border:1px solid var(--mint-line)">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#1c5c33" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="m22 2-7 20-4-9-9-4Z"></path><path d="M22 2 11 13"></path></svg>
+          </span>
+        </div>
+        <p class="v mt-4">0 <span class="text-[13px] font-medium" style="color:var(--ink-soft)">pesan</span></p>
+        <p class="mt-2 text-[12.5px]" style="color:var(--ink-soft)">Belum ada pengingat yang dikirim ke admin.</p>
+      </div>
+
+      <div class="stat">
+        <div class="flex items-start justify-between gap-3">
+          <div>
+            <p class="eyebrow">Deadline dipantau</p>
+            <p class="mt-1 text-[12px]" style="color:var(--ink-soft)">masih berjalan</p>
+          </div>
+          <span class="grid h-8 w-8 place-items-center rounded-[10px]" style="background:var(--mint);border:1px solid var(--mint-line)">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#1c5c33" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="17" rx="2.5"></rect><path d="M8 2v4M16 2v4M3 10h18"></path></svg>
+          </span>
+        </div>
+        <p class="v mt-4">0 <span class="text-[13px] font-medium" style="color:var(--ink-soft)">item</span></p>
+        <p class="mt-2 text-[12.5px]" style="color:var(--ink-soft)">Belum ada deadline yang masuk sistem.</p>
+      </div>
+
+      <div class="stat">
+        <div class="flex items-start justify-between gap-3">
+          <div>
+            <p class="eyebrow">Penerima pengingat</p>
+            <p class="mt-1 text-[12px]" style="color:var(--ink-soft)">admin internal</p>
+          </div>
+          <span class="grid h-8 w-8 place-items-center rounded-[10px]" style="background:var(--mint);border:1px solid var(--mint-line)">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#1c5c33" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M22 21v-2a4 4 0 0 0-3-3.87"></path></svg>
+          </span>
+        </div>
+        <p class="v mt-4">3 <span class="text-[13px] font-medium" style="color:var(--ink-soft)">nomor</span></p>
+        <p class="mt-2 text-[12.5px]" style="color:var(--ink-soft)">Aktif di <span id="statChips">3</span> tahap: <span id="statChipList">H-3, H-2, H-1</span>.</p>
+      </div>
+    </section>
+
+    <!-- SETTINGS -->
+    <section id="pengaturan" class="rise d4 card card-quiet mt-6 p-7 sm:p-9">
+      <div class="flex flex-wrap items-end justify-between gap-3">
+        <div>
+          <p class="eyebrow">Konfigurasi</p>
+          <h3 class="mt-1.5 text-[19px] font-semibold">Pengaturan pengiriman</h3>
+        </div>
+        <span class="mono rounded-full px-3 py-1 text-[11.5px]" style="background:var(--cream-2);border:1px solid var(--line-2);color:var(--ink-soft)">Asia/Jakarta · WIB</span>
+      </div>
+
+      <div class="divider my-7"></div>
+
+      <div class="grid gap-8 md:grid-cols-2">
+        <div>
+          <div class="fw">
+            <input id="jam" type="time" value="13:40" class="field mono text-[17px]">
+            <label for="jam">Jam kirim</label>
+          </div>
+          <p class="mt-2.5 text-[12.5px]" style="color:var(--ink-soft)">Pengingat dikirim setiap hari pada jam ini.</p>
+        </div>
+
+        <div>
+          <p class="eyebrow">Hari reminder</p>
+          <div class="mt-3 flex flex-wrap gap-2.5">
+            <button class="chip mono" aria-pressed="true">H-3</button>
+            <button class="chip mono" aria-pressed="true">H-2</button>
+            <button class="chip mono" aria-pressed="true">H-1</button>
+            <button class="chip mono" aria-pressed="false">Hari-H</button>
+          </div>
+          <p class="mt-3 text-[12.5px]" style="color:var(--ink-soft)">Pilih berapa hari sebelum deadline pengingat dikirim.</p>
+        </div>
+      </div>
+
+      <div class="divider my-8"></div>
+
+      <div>
+        <div class="flex items-center justify-between">
+          <p class="eyebrow">Nomor HP admin</p>
+          <span class="text-[12px]" style="color:var(--ink-soft)">Format 62…</span>
+        </div>
+        <div class="mt-3 grid gap-3 md:grid-cols-3">
+          <div class="fw"><input class="field mono" value="628115491117"><label>Admin 1</label></div>
+          <div class="fw"><input class="field mono" value="628774229633"><label>Admin 2</label></div>
+          <div class="fw"><input class="field mono" value="628778088111"><label>Admin 3</label></div>
+        </div>
+      </div>
+
+      <div class="mt-9 flex flex-wrap items-center gap-3">
+        <button class="btn btn-primary px-6 py-3.5">Simpan pengaturan</button>
+        <button class="btn btn-ghost px-6 py-3.5">Test kirim sekarang</button>
+        <span class="mono ml-auto text-[12px]" style="color:var(--ink-soft)">tersimpan otomatis saat disimpan</span>
+      </div>
+    </section>
+
+    <!-- HISTORY -->
+    <section id="riwayat" class="rise d5 card mt-6 p-7 sm:p-9">
+      <div class="flex items-center justify-between">
+        <div>
+          <p class="eyebrow">Log</p>
+          <h3 class="mt-1.5 text-[19px] font-semibold">Riwayat kirim</h3>
+        </div>
+        <span class="mono rounded-full px-3 py-1 text-[12px]" style="background:var(--mint);border:1px solid var(--mint-line);color:var(--green)">0 entri</span>
+      </div>
+
+      <div class="divider my-7"></div>
+
+      <div class="grid place-items-center py-16 text-center">
+        <div class="grid h-14 w-14 place-items-center rounded-2xl" style="background:var(--cream-2);border:1px solid var(--line-2)">
+          <svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="#8b978f" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 8v4l3 2"></path><circle cx="12" cy="12" r="9"></circle></svg>
+        </div>
+        <p class="mt-4 text-[15px] font-semibold">Belum ada pengiriman</p>
+        <p class="mt-1.5 max-w-sm text-[13px] leading-relaxed" style="color:var(--ink-soft)">Setelah notifikasi pertama terkirim, waktu, penerima, dan statusnya akan tercatat di sini.</p>
+      </div>
+    </section>
+
+    <p class="mt-10 text-center text-[12px]" style="color:var(--ink-soft)">Notifikasi diteruskan via WhatsApp · zona waktu Asia/Jakarta</p>
+  </main>
+</div>
+
+<script>
+  /* chips */
+  var chips = document.querySelectorAll('.chip');
+  var statChips = document.getElementById('statChips');
+  var heroChips = document.getElementById('heroChips');
+  function syncChips(){
+    var on = [];
+    chips.forEach(function(c){ if(c.getAttribute('aria-pressed') === 'true') on.push(c.textContent.trim()); });
+    statChips.textContent = on.length;
+    document.getElementById('statChipList').textContent = on.length ? on.join(', ') : 'belum dipilih';
+    heroChips.textContent = on.length ? on.join(', ') : 'belum dipilih';
+  }
+  chips.forEach(function(c){
+    c.addEventListener('click', function(){
+      c.setAttribute('aria-pressed', c.getAttribute('aria-pressed') === 'true' ? 'false' : 'true');
+      syncChips();
+    });
+  });
+  syncChips();
+
+  /* toggle */
+  var toggle = document.getElementById('toggle');
+  var statusText = document.getElementById('statusText');
+  function setActive(on){
+    toggle.classList.toggle('on', on);
+    toggle.setAttribute('aria-checked', String(on));
+    statusText.innerHTML = on
+      ? '<i class="pulse"></i> Aktif — pengingat deadline berjalan otomatis'
+      : '<i style="display:inline-block;width:7px;height:7px;border-radius:999px;background:rgba(255,255,255,.4)"></i> Nonaktif — tidak ada pengiriman';
+  }
+  toggle.addEventListener('click', function(){ setActive(!toggle.classList.contains('on')); });
+  toggle.addEventListener('keydown', function(e){
+    if(e.key === ' ' || e.key === 'Enter'){ e.preventDefault(); toggle.click(); }
+  });
+
+  /* live countdown (WIB) */
+  var hh = document.getElementById('hh'), mm = document.getElementById('mm'), ss = document.getElementById('ss');
+  var remEl = document.getElementById('remaining'), jamEl = document.getElementById('jam');
+  var targetLabel = document.getElementById('targetLabel');
+
+  function pad(v){ return String(v).padStart(2, '0'); }
+  function nowWIB(){
+    var d = new Date();
+    return new Date(d.getTime() + (d.getTimezoneOffset() + 420) * 60000);
+  }
+  function roll(el, val){
+    if(el.textContent === val) return;
+    el.classList.add('go');
+    setTimeout(function(){ el.textContent = val; el.classList.remove('go'); }, 150);
+  }
+  function tick(){
+    var parts = (jamEl.value || '13:40').split(':');
+    var n = nowWIB();
+    var t = new Date(n.getFullYear(), n.getMonth(), n.getDate(), +parts[0] || 0, +parts[1] || 0, 0, 0);
+    var sameDay = t > n;
+    if(!sameDay) t.setDate(t.getDate() + 1);
+
+    var diff = Math.max(0, Math.floor((t - n) / 1000));
+    roll(hh, pad(Math.floor(diff / 3600)));
+    roll(mm, pad(Math.floor((diff % 3600) / 60)));
+    roll(ss, pad(diff % 60));
+
+    var jam = pad(t.getHours()) + ':' + pad(t.getMinutes());
+    targetLabel.textContent = jam + ' WIB';
+    remEl.textContent = 'kirim ' + (sameDay ? 'hari ini' : 'besok') + ' pukul ' + jam + ' WIB';
+  }
+  jamEl.addEventListener('input', tick);
+  tick();
+  setInterval(tick, 1000);
+</script>
+
+</body></html>
