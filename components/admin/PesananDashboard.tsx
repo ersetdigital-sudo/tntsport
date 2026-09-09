@@ -2605,10 +2605,21 @@ function DetailSheet({
   const [courier, setCourier] = useState(order?.courier || "");
   const [resi, setResi] = useState(order?.tracking_number || "");
   const [deadline, setDeadline] = useState(order?.deadline ? order.deadline.slice(0, 10) : "");
+  const [editCreatedAt, setEditCreatedAt] = useState(order?.created_at ? order.created_at.slice(0, 10) : "");
   const [woPhotos, setWoPhotos] = useState<string[]>(order?.wo_photos || []);
   const [uploadingWo, setUploadingWo] = useState(false);
   const [saving, setSaving] = useState(false);
   const [kirimError, setKirimError] = useState("");
+  const DEFAULT_EDIT_PRODUCTS = ["Atasan Lengan Pendek", "Atasan Lengan Panjang", "Setelan Lengan Pendek", "Setelan Lengan Panjang"];
+  const [editProductOptions, setEditProductOptions] = useState<string[]>(DEFAULT_EDIT_PRODUCTS);
+  const [editProductRows, setEditProductRows] = useState<{ product: string; custom: boolean; qty: string }[]>(() => {
+    const initProducts = order?.products;
+    if (initProducts && initProducts.length > 0) {
+      return initProducts.map((p: any) => ({ product: p.name || "", custom: false, qty: String(p.sizes?.reduce((a: number, s: any) => a + (s.qty || 0), 0) || "") }));
+    }
+    const qtyNum = order?.quantity ? String(order.quantity).replace(/\D/g, "") : "";
+    return [{ product: order?.product_name || "", custom: false, qty: qtyNum }];
+  });
   const [zoomUrl, setZoomUrl] = useState<string | null>(null);
   const [zoomOpen, setZoomOpen] = useState(false);
   const [zoomScale, setZoomScale] = useState(1);
@@ -2636,15 +2647,26 @@ function DetailSheet({
   }, [zoomUrl]);
 
   useEffect(() => {
+    try {
+      const saved = JSON.parse(localStorage.getItem("pas_product_options") || "[]");
+      if (Array.isArray(saved) && saved.length > 0) setEditProductOptions(Array.from(new Set([...DEFAULT_EDIT_PRODUCTS, ...saved])));
+    } catch {}
+  }, []);
+  useEffect(() => {
     if (order) {
       setStep(order.current_step);
       setNote(order.note || "");
       setCourier(order.courier || "");
       setResi(order.tracking_number || "");
       setDeadline(order.deadline ? order.deadline.slice(0, 10) : "");
+      setEditCreatedAt(order.created_at ? order.created_at.slice(0, 10) : "");
       setWoPhotos(order.wo_photos || []);
+      const prods = order.products;
+      if (prods && prods.length > 0) setEditProductRows(prods.map((p: any) => ({ product: p.name || "", custom: false, qty: String(p.sizes?.reduce((a: number, s: any) => a + (s.qty || 0), 0) || "") })));
+      else setEditProductRows([{ product: order.product_name || "", custom: false, qty: String(order.quantity || "").replace(/\D/g, "") }]);
     }
   }, [order]);
+  const updateEditRow = (idx: number, patch: Partial<typeof editProductRows[0]>) => setEditProductRows((rows) => rows.map((r, i) => (i === idx ? { ...r, ...patch } : r)));
 
   const handleWoUpload = async (file: File) => {
     if (!file.type.startsWith("image/")) { setKirimError("File harus gambar"); return; }
@@ -2679,8 +2701,17 @@ function DetailSheet({
       setKirimError("Untuk tahap Kirim, nomor resi dan ekspedisi harus diisi.");
       return;
     }
+    const validEditRows = editProductRows.filter((p) => p.product.trim() && p.qty.trim());
+    if (validEditRows.length === 0) {
+      setKirimError("Isi minimal 1 produk & qty.");
+      return;
+    }
     setSaving(true);
     try {
+      const editProducts = validEditRows.map((p) => ({ name: p.product.trim(), sizes: [{ size: "ALL", qty: parseInt(p.qty, 10) || 0 }] }));
+      const editTotalPcs = editProducts.reduce((a, p) => a + p.sizes.reduce((x, s) => x + s.qty, 0), 0);
+      const editCombinedNames = editProducts.map((p) => p.name).join(", ");
+      const editCombinedSizes = editProducts.flatMap((p) => p.sizes.map((s) => `${p.name}/${s.size}(${s.qty})`)).join(", ");
       const res = await fetch(`/api/pesanan/orders/${order.id}/status`, {
         method: "PATCH",
         headers: { "Content-Type": "application/json" },
@@ -2691,6 +2722,11 @@ function DetailSheet({
           tracking_number: resi,
           deadline: deadline || undefined,
           wo_photos: woPhotos,
+          products: editProducts,
+          product_name: editCombinedNames,
+          quantity: String(editTotalPcs),
+          sizes: editCombinedSizes,
+          created_at: editCreatedAt ? new Date(editCreatedAt).toISOString() : undefined,
         }),
       });
       const data = await res.json();
@@ -2848,12 +2884,12 @@ function DetailSheet({
               </div>
             </>
           )}
+          <label className="block">
+            <span className="pas-stencil text-[9px] text-[var(--pas-muted)]">Tanggal Order</span>
+            <input type="date" className="pas-field w-full px-4 py-2.5 mt-1.5 text-[14px]" value={editCreatedAt} onChange={(e) => setEditCreatedAt(e.target.value)} />
+          </label>
           <div>
-            <p className="pas-stencil text-[9px] text-[var(--pas-muted)]">Tanggal Order</p>
-            <p className="mt-1">{formatDate(order.created_at)}</p>
-          </div>
-          <div>
-            <p className="pas-stencil text-[9px] text-[var(--pas-muted)]">Deadline</p>
+            <p className="pas-stencil text-[9px] text-[var(--pas-muted)]">Deadline (di bawah)</p>
             <p className="mt-1">{deadline ? formatDate(deadline) : "-"}</p>
           </div>
           <div>

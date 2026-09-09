@@ -88,6 +88,11 @@ export async function PATCH(
   if (tracking_number !== undefined) updateData.tracking_number = tracking_number;
   if (deadline !== undefined) updateData.deadline = deadline || null;
   if (wo_photos !== undefined) updateData.wo_photos = Array.isArray(wo_photos) ? wo_photos : [];
+  if (Array.isArray(body.products)) updateData.products = body.products;
+  if (body.product_name !== undefined) updateData.product_type = body.product_name;
+  if (body.quantity !== undefined) updateData.quantity = parseInt(body.quantity, 10) || 0;
+  if (body.sizes !== undefined) updateData.sizes = body.sizes;
+  if (body.created_at !== undefined) updateData.created_at = body.created_at;
 
   // Use .update().select().single() to get the updated row back (including UUID id)
   const { data: updatedOrder, error: updateError } = await supabase
