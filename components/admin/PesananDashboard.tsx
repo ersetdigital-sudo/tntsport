@@ -1708,6 +1708,55 @@ function ViewSetting({
     }
   };
 
+  const saveDeadlineSettings = async () => {
+    setSavingDeadline(true);
+    try {
+      const res = await fetch("/api/admin/settings/deadline-notif", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          enabled: deadlineEnabled,
+          time: deadlineTime,
+          days: deadlineDays,
+          phones: deadlinePhones,
+        }),
+      });
+      const data = await res.json();
+      if (!res.ok) {
+        showToast(data.error || "Gagal menyimpan pengaturan deadline");
+        return;
+      }
+      showToast("Pengaturan deadline tersimpan");
+    } catch {
+      showToast("Gagal menyimpan pengaturan deadline");
+    } finally {
+      setSavingDeadline(false);
+    }
+  };
+
+  const testDeadlineNotif = async () => {
+    if (!deadlinePhones.trim()) {
+      showToast("Isi nomor HP admin terlebih dahulu");
+      return;
+    }
+    setSavingDeadline(true);
+    try {
+      const res = await fetch("/api/admin/deadline-notif", {
+        headers: { "x-cron-secret": process.env.NEXT_PUBLIC_CRON_SECRET || "" },
+      });
+      const data = await res.json();
+      if (!res.ok) {
+        showToast(data.error || "Gagal kirim notifikasi uji");
+        return;
+      }
+      showToast(`Notifikasi uji terkirim ke ${data.total_orders || 0} order`);
+    } catch {
+      showToast("Gagal kirim notifikasi uji");
+    } finally {
+      setSavingDeadline(false);
+    }
+  };
+
   useEffect(() => {
     setEditSteps(steps.map((s) => ({ name: s.name, position: s.position })));
   }, [steps]);
