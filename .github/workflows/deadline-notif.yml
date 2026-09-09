@@ -1,0 +1,16 @@
+name: Deadline Notification
+
+on:
+  schedule:
+    - cron: '0 8 * * *'
+  workflow_dispatch:
+
+jobs:
+  notify:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Call deadline notification API
+        run: |
+          curl -X GET \
+            -H "x-cron-secret: ${{ secrets.CRON_SECRET }}" \
+            https://www.tntsportapparel.id/api/admin/deadline-notif
