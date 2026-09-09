@@ -11,6 +11,4 @@ jobs:
     steps:
       - name: Call deadline notification API
         run: |
-          curl -X GET \
-            -H "x-cron-secret: ${{ secrets.CRON_SECRET }}" \
-            https://www.tntsportapparel.id/api/admin/deadline-notif
+          curl -X GET "https://www.tntsportapparel.id/api/admin/deadline-notif?secret=${{ secrets.CRON_SECRET }}"

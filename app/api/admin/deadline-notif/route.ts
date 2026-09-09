@@ -7,18 +7,15 @@ const CRON_SECRET = process.env.CRON_SECRET || "";
 
 export async function GET(req: Request) {
   const auth = req.headers.get("x-cron-secret");
+  const url = new URL(req.url);
+  const secretParam = url.searchParams.get("secret");
   const fromDashboard = req.headers.get("x-from-dashboard") === "true";
+
+  const secretValue = auth || secretParam;
+
   // Izinkan akses jika secret cocok (dari cron) atau dari dashboard (test manual)
-  if (!fromDashboard && (!CRON_SECRET || auth !== CRON_SECRET)) {
-    return NextResponse.json({
-      error: "Unauthorized",
-      debug: {
-        headerReceived: auth !== null,
-        headerLength: auth?.length ?? 0,
-        envLength: CRON_SECRET.length,
-        matchAfterTrim: (auth?.trim() ?? "") === CRON_SECRET.trim(),
-      },
-    }, { status: 401 });
+  if (!fromDashboard && (!CRON_SECRET || secretValue !== CRON_SECRET)) {
+    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 
   const supabase = await createClient();
