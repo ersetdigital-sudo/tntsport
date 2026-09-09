@@ -1623,7 +1623,9 @@ function ViewSetting({
   const [deadlineEnabled, setDeadlineEnabled] = useState(false);
   const [deadlineTime, setDeadlineTime] = useState("08:00");
   const [deadlineDays, setDeadlineDays] = useState("3,2,1");
-  const [deadlinePhones, setDeadlinePhones] = useState("");
+  const [deadlinePhone1, setDeadlinePhone1] = useState("");
+  const [deadlinePhone2, setDeadlinePhone2] = useState("");
+  const [deadlinePhone3, setDeadlinePhone3] = useState("");
   const [savingDeadline, setSavingDeadline] = useState(false);
 
   useEffect(() => {
@@ -1648,7 +1650,10 @@ function ViewSetting({
           setDeadlineEnabled(d.enabled ?? false);
           setDeadlineTime(d.time ?? "08:00");
           setDeadlineDays(d.days ?? "3,2,1");
-          setDeadlinePhones(d.phones ?? "");
+          const ph = (d.phones ?? "").split(",").map((p: string) => p.trim());
+          setDeadlinePhone1(ph[0] || "");
+          setDeadlinePhone2(ph[1] || "");
+          setDeadlinePhone3(ph[2] || "");
         }
       })
       .catch(() => {});
@@ -1718,7 +1723,7 @@ function ViewSetting({
           enabled: deadlineEnabled,
           time: deadlineTime,
           days: deadlineDays,
-          phones: deadlinePhones,
+          phones: [deadlinePhone1, deadlinePhone2, deadlinePhone3].filter(Boolean).join(","),
         }),
       });
       const data = await res.json();
@@ -1735,7 +1740,8 @@ function ViewSetting({
   };
 
   const testDeadlineNotif = async () => {
-    if (!deadlinePhones.trim()) {
+    const allPhones = [deadlinePhone1, deadlinePhone2, deadlinePhone3].filter(Boolean).join(",");
+    if (!allPhones.trim()) {
       showToast("Isi nomor HP admin terlebih dahulu");
       return;
     }
@@ -2049,14 +2055,30 @@ function ViewSetting({
           </label>
           <label className="block lg:col-span-2">
             <span className="text-[13px] text-[var(--pas-muted)]">Nomor HP Admin</span>
-            <input
-              type="text"
-              className="pas-field w-full px-4 py-2.5 mt-1.5 text-[15px] pas-num"
-              placeholder="6281234567890,6280987654321"
-              value={deadlinePhones}
-              onChange={(e) => setDeadlinePhones(e.target.value)}
-            />
-            <p className="text-[11px] text-[var(--pas-muted)] mt-1">Pisahkan dengan koma untuk multiple nomor. Format internasional (62...).</p>
+            <div className="grid grid-cols-3 gap-3 mt-1.5">
+              <input
+                type="text"
+                className="pas-field w-full px-4 py-2.5 text-[15px] pas-num"
+                placeholder="6281234567890"
+                value={deadlinePhone1}
+                onChange={(e) => setDeadlinePhone1(e.target.value)}
+              />
+              <input
+                type="text"
+                className="pas-field w-full px-4 py-2.5 text-[15px] pas-num"
+                placeholder="6280987654321"
+                value={deadlinePhone2}
+                onChange={(e) => setDeadlinePhone2(e.target.value)}
+              />
+              <input
+                type="text"
+                className="pas-field w-full px-4 py-2.5 text-[15px] pas-num"
+                placeholder="628111222333"
+                value={deadlinePhone3}
+                onChange={(e) => setDeadlinePhone3(e.target.value)}
+              />
+            </div>
+            <p className="text-[11px] text-[var(--pas-muted)] mt-1">Format internasional (62...). Kosongkan jika tidak dipakai.</p>
           </label>
         </div>
 
