@@ -21,8 +21,8 @@ SET search_path = public
 AS $$
 DECLARE v_id uuid;
 BEGIN
-  IF p_stage NOT BETWEEN 1 AND 9 THEN
-    RAISE EXCEPTION 'stage must be between 1 and 9';
+  IF p_stage NOT BETWEEN 1 AND 11 THEN
+    RAISE EXCEPTION 'stage must be between 1 and 11';
   END IF;
 
   INSERT INTO notification_logs (order_id, stage, status)
