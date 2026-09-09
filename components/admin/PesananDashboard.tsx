@@ -3147,6 +3147,327 @@ function DetailSheet({
 /* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
    ADD FORM
    â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
+function EditSheet({
+  orderId,
+  orders,
+  onClose,
+  onSaved,
+}: {
+  orderId: string;
+  orders: OrderData[];
+  onClose: () => void;
+  onSaved: (msg: string) => void;
+}) {
+  const order = orders.find((o) => o.id === orderId);
+  const [form, setForm] = useState({
+    customer_name: order?.customer_name || "",
+    customer_phone: order?.customer_phone || "",
+    deadline: order?.deadline ? order.deadline.slice(0, 10) : "",
+    created_at: order?.created_at ? order.created_at.slice(0, 10) : "",
+  });
+  const DEFAULT_PRODUCTS = ["Atasan Lengan Pendek", "Atasan Lengan Panjang", "Setelan Lengan Pendek", "Setelan Lengan Panjang"];
+  const [productOptions, setProductOptions] = useState<string[]>(DEFAULT_PRODUCTS);
+  const [designPhotos, setDesignPhotos] = useState<string[]>(order?.design_photos || []);
+  const [woPhotos, setWoPhotos] = useState<string[]>(order?.wo_photos || []);
+  const [uploadingDesign, setUploadingDesign] = useState(false);
+  const [uploadingWo, setUploadingWo] = useState(false);
+  const [error, setError] = useState("");
+  const [saving, setSaving] = useState(false);
+  const [productRows, setProductRows] = useState<{ product: string; custom: boolean; qty: string }[]>(() => {
+    const prods = order?.products;
+    if (prods && prods.length > 0) {
+      return prods.map((p: any) => ({
+        product: p.name || "",
+        custom: false,
+        qty: String(p.sizes?.reduce((a: number, s: any) => a + (s.qty || 0), 0) || ""),
+      }));
+    }
+    const qtyNum = order?.quantity ? String(order.quantity).replace(/\D/g, "") : "";
+    return [{ product: order?.product_name || "", custom: false, qty: qtyNum }];
+  });
+
+  useEffect(() => {
+    try {
+      const saved = JSON.parse(localStorage.getItem("pas_product_options") || "[]");
+      if (Array.isArray(saved) && saved.length > 0) {
+        setProductOptions(Array.from(new Set([...DEFAULT_PRODUCTS, ...saved])));
+      }
+    } catch {}
+  }, []);
+
+  const totalQty = productRows.reduce((acc, p) => acc + (parseInt(p.qty, 10) || 0), 0);
+
+  const updateProductRow = (rowIdx: number, patch: Partial<typeof productRows[0]>) =>
+    setProductRows((rows) => rows.map((r, i) => (i === rowIdx ? { ...r, ...patch } : r)));
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    const validRows = productRows.filter((p) => p.product.trim() && p.qty.trim());
+    if (!form.customer_name || !form.customer_phone || validRows.length === 0) {
+      setError("Isi nama, HP, dan minimal 1 produk dengan jumlahnya.");
+      return;
+    }
+    setSaving(true);
+    setError("");
+    try {
+      const products = validRows.map((p) => ({
+        name: p.product.trim(),
+        sizes: [{ size: "ALL", qty: parseInt(p.qty, 10) || 0 }],
+      }));
+      const totalPcs = products.reduce((a, p) => a + p.sizes.reduce((x, s) => x + s.qty, 0), 0);
+      const combinedNames = products.map((p) => p.name).join(", ");
+      const combinedSizes = products.flatMap((p) => p.sizes.map((s) => `${p.name}/${s.size}(${s.qty})`)).join(", ");
+
+      const newProducts = validRows.map((p) => p.product.trim()).filter((n) => n && !productOptions.includes(n));
+      if (newProducts.length > 0) {
+        try {
+          const saved = JSON.parse(localStorage.getItem("pas_product_options") || "[]");
+          const merged = Array.from(new Set([...saved, ...DEFAULT_PRODUCTS, ...newProducts]));
+          localStorage.setItem("pas_product_options", JSON.stringify(merged));
+          setProductOptions(merged);
+        } catch {
+          setProductOptions((o) => [...o, ...newProducts]);
+        }
+      }
+
+      const res = await fetch(`/api/pesanan/orders/${orderId}/status`, {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          customer_name: form.customer_name,
+          customer_phone: form.customer_phone,
+          product_name: combinedNames,
+          quantity: totalPcs > 0 ? String(totalPcs) : "-",
+          sizes: combinedSizes,
+          products,
+          design_photos: designPhotos,
+          wo_photos: woPhotos,
+          deadline: form.deadline || undefined,
+          created_at: form.created_at ? new Date(form.created_at).toISOString() : undefined,
+          current_step: order?.current_step || 1,
+        }),
+      });
+      if (!res.ok) {
+        const data = await res.json();
+        setError(data.error || "Gagal menyimpan");
+        return;
+      }
+      onSaved("Pesanan diperbarui");
+    } catch {
+      setError("Gagal menyimpan");
+    } finally {
+      setSaving(false);
+    }
+  };
+
+  const set = (key: string) => (e: React.ChangeEvent<HTMLInputElement>) =>
+    setForm((f) => ({ ...f, [key]: e.target.value }));
+
+  if (!order) return null;
+
+  return (
+    <div className="pas-sheet open">
+      <div className="pas-veil" onClick={onClose} />
+      <div className="pas-panel p-5 sm:p-7">
+        <div className="flex items-start justify-between gap-4">
+          <div>
+            <p className="text-[12px] text-[var(--pas-accent)] font-semibold">
+              Edit Pesanan
+            </p>
+            <h2 className="pas-display text-[22px] mt-1.5">{orderId}</h2>
+          </div>
+          <button className="pas-btn-ghost px-3 py-2 text-sm" onClick={onClose}>
+            Tutup
+          </button>
+        </div>
+        <form onSubmit={handleSubmit} className="mt-6 flex flex-col gap-4">
+          <label className="block">
+            <span className="text-[13px] text-[var(--pas-muted)]">Nama Customer</span>
+            <input
+              required
+              className="pas-field w-full px-4 py-2.5 mt-1.5 text-[15px]"
+              placeholder="Nama"
+              value={form.customer_name}
+              onChange={set("customer_name")}
+            />
+          </label>
+          <label className="block">
+            <span className="text-[13px] text-[var(--pas-muted)]">Nomor HP</span>
+            <input
+              required
+              className="pas-field w-full px-4 py-2.5 mt-1.5 text-[15px]"
+              placeholder="0812xxxxxxx"
+              value={form.customer_phone}
+              onChange={set("customer_phone")}
+            />
+          </label>
+          <div>
+            <div className="flex items-center justify-between">
+              <span className="text-[13px] text-[var(--pas-muted)]">Produk</span>
+              {totalQty > 0 && (
+                <span className="text-[12px] text-[var(--pas-accent)] font-semibold pas-num">
+                  Total: {totalQty} pcs
+                </span>
+              )}
+            </div>
+            <div className="flex flex-col gap-3 mt-1.5">
+              {productRows.map((pRow, pi) => (
+                <div key={pi} className="flex items-center gap-2 rounded-xl border border-[var(--pas-line)] p-3 bg-[var(--pas-surface-2)]">
+                  {pRow.custom ? (
+                    <input
+                      autoFocus
+                      className="pas-field flex-1 px-4 py-2.5 text-[15px]"
+                      placeholder="Nama produk custom"
+                      value={pRow.product}
+                      onChange={(e) => updateProductRow(pi, { product: e.target.value })}
+                    />
+                  ) : (
+                    <select
+                      className="pas-field flex-1 px-4 py-2.5 text-[15px] appearance-none"
+                      value={pRow.product}
+                      onChange={(e) => {
+                        if (e.target.value === "__custom__") {
+                          updateProductRow(pi, { custom: true, product: "" });
+                        } else {
+                          updateProductRow(pi, { product: e.target.value });
+                        }
+                      }}
+                    >
+                      <option value="" disabled>Pilih produk...</option>
+                      {productOptions.map((p) => (
+                        <option key={p} value={p}>{p}</option>
+                      ))}
+                      <option value="__custom__">+ Tambah sendiri...</option>
+                    </select>
+                  )}
+                  <input
+                    className="pas-field w-[84px] px-3 py-2.5 text-[15px]"
+                    placeholder="Qty"
+                    inputMode="numeric"
+                    value={pRow.qty}
+                    onChange={(e) => updateProductRow(pi, { qty: e.target.value })}
+                  />
+                  {pRow.custom && (
+                    <button
+                      type="button"
+                      className="pas-btn-ghost px-2.5 py-2 text-[12px] shrink-0"
+                      onClick={() => updateProductRow(pi, { custom: false, product: "" })}
+                    >
+                      List
+                    </button>
+                  )}
+                  {productRows.length > 1 && (
+                    <button
+                      type="button"
+                      className="p-2 rounded-lg text-[var(--pas-muted)] hover:text-red-400 hover:bg-red-400/10 transition shrink-0"
+                      onClick={() => setProductRows((rows) => rows.filter((_, idx) => idx !== pi))}
+                    >
+                      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                        <path d="M3 6h18M19 6v14a2 2 0 01-2 2H7a2 2 0 01-2-2V6M8 6V4a2 2 0 012-2h4a2 2 0 012 2v2"/>
+                      </svg>
+                    </button>
+                  )}
+                </div>
+              ))}
+            </div>
+            <button
+              type="button"
+              className="pas-btn-ghost w-full py-2.5 text-[13px] mt-2"
+              onClick={() => setProductRows((rows) => [...rows, { product: "", custom: false, qty: "" }])}
+            >
+              + Tambah Produk
+            </button>
+          </div>
+
+          <div className="grid grid-cols-2 gap-4">
+            <div>
+              <span className="text-[13px] text-[var(--pas-muted)]">Preview Design</span>
+              <div className="flex flex-wrap gap-2.5 mt-1.5">
+                {designPhotos.map((url, i) => (
+                  <div key={i} className="relative w-[76px] h-[76px] group">
+                    <img src={url} alt={`Design ${i + 1}`} className="w-full h-full object-cover rounded-xl border border-[var(--pas-line)]" />
+                    <button type="button" className="absolute top-1 right-1 w-[22px] h-[22px] rounded-full bg-black/70 text-white grid place-items-center opacity-0 group-hover:opacity-100 transition" onClick={() => setDesignPhotos((ps) => ps.filter((_, idx) => idx !== i))}>
+                      <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round"><path d="M18 6L6 18M6 6l12 12" /></svg>
+                    </button>
+                  </div>
+                ))}
+                <button type="button" className="w-[76px] h-[76px] rounded-xl border border-dashed border-[var(--pas-line)] grid place-items-center text-[var(--pas-muted)] hover:text-[var(--pas-accent)] hover:border-[var(--pas-accent)] transition" disabled={uploadingDesign} onClick={() => document.getElementById("edit-design-photo-input")?.click()}>
+                  {uploadingDesign ? <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.6" strokeLinecap="round" className="animate-spin"><path d="M21 12a9 9 0 1 1-3.2-6.9" /></svg> : <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M17 8l-5-5-5 5M12 3v12" /></svg>}
+                </button>
+              </div>
+              <input id="edit-design-photo-input" type="file" accept="image/*" multiple className="hidden" onChange={async (e) => {
+                const files = Array.from(e.target.files || []);
+                e.target.value = "";
+                if (files.length === 0) return;
+                setUploadingDesign(true);
+                try {
+                  for (const file of files) {
+                    const result = await uploadToCloudinary(file, { folder: "tnt-design-preview" });
+                    setDesignPhotos((ps) => [...ps, optimizeDesignUrl(result.url)]);
+                  }
+                } catch (e) { setError(e instanceof Error ? e.message : "Upload gagal."); } finally { setUploadingDesign(false); }
+              }} />
+            </div>
+            <div>
+              <span className="text-[13px] text-[var(--pas-muted)]">WO</span>
+              <p className="text-[11px] text-[var(--pas-muted)] -mt-0.5">Admin only</p>
+              <div className="flex flex-wrap gap-2.5 mt-1.5">
+                {woPhotos.map((url, i) => (
+                  <div key={i} className="relative w-[76px] h-[76px] group">
+                    <img src={url} alt={`WO ${i + 1}`} className="w-full h-full object-cover rounded-xl border border-[var(--pas-line)]" />
+                    <button type="button" className="absolute top-1 right-1 w-[22px] h-[22px] rounded-full bg-black/70 text-white grid place-items-center opacity-0 group-hover:opacity-100 transition" onClick={() => setWoPhotos((ps) => ps.filter((_, idx) => idx !== i))}>
+                      <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round"><path d="M18 6L6 18M6 6l12 12" /></svg>
+                    </button>
+                  </div>
+                ))}
+                <button type="button" className="w-[76px] h-[76px] rounded-xl border border-dashed border-[var(--pas-line)] grid place-items-center text-[var(--pas-muted)] hover:text-[var(--pas-accent)] hover:border-[var(--pas-accent)] transition" disabled={uploadingWo} onClick={() => document.getElementById("edit-wo-photo-input")?.click()}>
+                  {uploadingWo ? <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.6" strokeLinecap="round" className="animate-spin"><path d="M21 12a9 9 0 1 1-3.2-6.9" /></svg> : <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M17 8l-5-5-5 5M12 3v12" /></svg>}
+                </button>
+              </div>
+              <input id="edit-wo-photo-input" type="file" accept="image/*" multiple className="hidden" onChange={async (e) => {
+                const files = Array.from(e.target.files || []);
+                e.target.value = "";
+                if (files.length === 0) return;
+                setUploadingWo(true);
+                try {
+                  for (const file of files) {
+                    const result = await uploadToCloudinary(file, { folder: "tnt-design-preview" });
+                    setWoPhotos((ps) => [...ps, optimizeDesignUrl(result.url)]);
+                  }
+                } catch (e) { setError(e instanceof Error ? e.message : "Upload gagal."); } finally { setUploadingWo(false); }
+              }} />
+            </div>
+          </div>
+          <div className="grid grid-cols-2 gap-3">
+            <label className="block">
+              <span className="text-[13px] text-[var(--pas-muted)]">Tanggal Order</span>
+              <input
+                type="date"
+                className="pas-field w-full px-4 py-2.5 mt-1.5 text-[15px]"
+                value={form.created_at}
+                onChange={set("created_at")}
+              />
+            </label>
+            <label className="block">
+              <span className="text-[13px] text-[var(--pas-muted)]">Tanggal Deadline</span>
+              <input
+                type="date"
+                className="pas-field w-full px-4 py-2.5 mt-1.5 text-[15px]"
+                value={form.deadline}
+                onChange={set("deadline")}
+              />
+            </label>
+          </div>
+          {error && <p className="text-[13px] text-[#f87171]">{error}</p>}
+          <button className="pas-btn-accent w-full py-3.5 text-[15px]" disabled={saving}>
+            {saving ? "Menyimpan..." : "Simpan Perubahan"}
+          </button>
+        </form>
+      </div>
+    </div>
+  );
+}
+
 function AddForm({
   onSaved,
   onCancel,
