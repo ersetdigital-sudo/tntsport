@@ -46,36 +46,54 @@ function fmtQty(n: number): string {
   return n.toLocaleString("id-ID");
 }
 
+const SLUG_TO_LABEL: Record<string, string> = Object.fromEntries(
+  Object.entries(ORDER_STATUS_LABELS).map(([slug, label]) => [slug, label])
+);
+const LABEL_TO_SLUG: Record<string, string> = Object.fromEntries(
+  Object.entries(ORDER_STATUS_LABELS).map(([slug, label]) => [label.toLowerCase(), slug])
+);
+
+function normalizeStepName(name: string): string {
+  const lower = name.toLowerCase();
+  return LABEL_TO_SLUG[lower] || lower;
+}
+
 function stepDescription(status: string, hasTracking: boolean): string {
+  const slug = normalizeStepName(status);
   const map: Record<string, string> = {
     desain: "Desain sedang dikerjakan",
     layout: "Layout sedang disusun",
-    print: "Proses printing/sublimasi",
-    pres: "Proses pres transfer",
-    potong: "Bahan sedang dipotong",
+    profing_warna: "Proses profing warna",
+    cetak_print: "Proses printing/sublimasi",
+    press_transfer: "Proses pres transfer",
+    potong_pola: "Bahan sedang dipotong",
     jahit: "Proses penjahitan",
     finishing: "Quality control & finishing",
+    quality_control: "Quality control & finishing",
     packing: "Pesanan sedang dikemas",
     kirim: hasTracking ? "Pesanan telah dikirim" : "Sedang diproses untuk pengiriman",
     selesai: "Pesanan telah selesai",
   };
-  return map[status.toLowerCase()] || "Sedang diproses";
+  return map[slug] || "Sedang diproses";
 }
 
 function stepHighlight(status: string, hasTracking: boolean): string {
+  const slug = normalizeStepName(status);
   const map: Record<string, string> = {
     desain: "Desain",
     layout: "Layout",
-    print: "Printing",
-    pres: "Pres",
-    potong: "Potong",
-    jahit: "Jahit",
+    profing_warna: "Profing Warna",
+    cetak_print: "Cetak / Print",
+    press_transfer: "Press / Transfer Sublime",
+    potong_pola: "Potong Pola / Cutting Panel",
+    jahit: "Jahit / Sewing",
     finishing: "Finishing",
+    quality_control: "Quality Control",
     packing: "Packing",
     kirim: hasTracking ? "Pesanan Telah Dikirim" : "Sedang Diproses untuk Pengiriman",
     selesai: "Pesanan Selesai",
   };
-  return map[status.toLowerCase()] || "Sedang Diproses";
+  return map[slug] || "Sedang Diproses";
 }
 
 export default function StatusPage() {
@@ -180,7 +198,7 @@ function StatusContent() {
   useEffect(() => {
     if (!order || !loaded) return;
     const stepIdx = steps.length > 0
-      ? steps.findIndex((s) => s.name.toLowerCase() === order.current_status) + 1
+      ? steps.findIndex((s) => normalizeStepName(s.name) === order.current_status) + 1
       : ORDER_STATUS_LIST.indexOf(order.current_status) + 1;
     const hasTracking = !!(order.tracking_number && order.courier);
     const pct = getProgress(stepIdx, hasTracking);
@@ -386,7 +404,7 @@ function StatusContent() {
 
   // Render order details
   const step = steps.length > 0
-    ? steps.findIndex((s) => s.name.toLowerCase() === order.current_status) + 1
+    ? steps.findIndex((s) => normalizeStepName(s.name) === order.current_status) + 1
     : ORDER_STATUS_LIST.indexOf(order.current_status) + 1;
   const totalSteps = steps.length || 11;
   const hasTracking = !!(order.tracking_number && order.courier);
@@ -536,7 +554,7 @@ function StatusContent() {
                 ).map((stepDef, idx) => {
                   const n = idx + 1;
                   const st = n < step ? "done" : n === step ? "now" : "todo";
-                  const statusKey = steps.length > 0 ? stepDef.name.toLowerCase() : ORDER_STATUS_LIST[idx];
+                  const statusKey = steps.length > 0 ? normalizeStepName(stepDef.name) : ORDER_STATUS_LIST[idx];
                   const histEntry = history.find((h: any) => h.status.toLowerCase() === statusKey.toLowerCase());
 
                   return (

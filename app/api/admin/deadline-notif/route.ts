@@ -45,10 +45,24 @@ export async function GET(req: Request) {
   const daysStr = get("deadline_notif_days") || "3,2,1";
   const phonesStr = get("deadline_notif_phones") || "";
 
-  // Skip cek enabled & waktu jika test dari dashboard atau cron
+  // Skip cek enabled & waktu jika test dari dashboard
   if (!fromDashboard) {
     if (!enabled) {
       return NextResponse.json({ message: "Notifikasi deadline dinonaktifkan" });
+    }
+
+    // Cek waktu: hanya kirim jika waktu sekarang (WIB) dalam window ±30 menit dari setting
+    const nowUtc = new Date();
+    const nowWib = new Date(nowUtc.getTime() + 7 * 60 * 60 * 1000);
+    const [cfgH, cfgM] = time.split(":").map(Number);
+    const currentMinutes = nowWib.getUTCHours() * 60 + nowWib.getUTCMinutes();
+    const targetMinutes = cfgH * 60 + cfgM;
+    const diffMin = Math.abs(currentMinutes - targetMinutes);
+
+    if (diffMin > 30) {
+      return NextResponse.json({
+        message: `Belum waktunya. Setting: ${time} WIB, sekarang: ${String(nowWib.getUTCHours()).padStart(2, "0")}:${String(nowWib.getUTCMinutes()).padStart(2, "0")} WIB`,
+      });
     }
   }
 
