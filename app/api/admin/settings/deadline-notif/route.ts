@@ -46,9 +46,21 @@ export async function POST(req: Request) {
       .from("app_settings")
       .upsert({ key: s.key, value: s.value }, { onConflict: "key" });
     if (error) {
-      return NextResponse.json({ error: error.message }, { status: 500 });
+      return NextResponse.json({ error: error.message, debug: { key: s.key, value: s.value } }, { status: 500 });
     }
   }
 
-  return NextResponse.json({ success: true });
+  // Verify: read back what was saved
+  const { data: verify } = await supabase
+    .from("app_settings")
+    .select("key, value")
+    .in("key", settings.map((s) => s.key));
+
+  return NextResponse.json({
+    success: true,
+    debug: {
+      saved: settings.map((s) => `${s.key}=${s.value}`),
+      verified: verify?.map((v) => `${v.key}=${v.value}`),
+    },
+  });
 }

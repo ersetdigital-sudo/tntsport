@@ -1726,7 +1726,8 @@ function ViewSetting({
         showToast(data.error || "Gagal menyimpan pengaturan deadline");
         return;
       }
-      showToast("Pengaturan deadline tersimpan");
+      const debugInfo = data.debug ? ` | Saved: ${data.debug.saved?.join(", ")}` : "";
+      showToast(`Pengaturan deadline tersimpan${debugInfo}`);
     } catch {
       showToast("Gagal menyimpan pengaturan deadline");
     } finally {
