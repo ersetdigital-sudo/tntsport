@@ -102,14 +102,16 @@ function formatDate(dateStr: string) {
   return d.toLocaleDateString("id-ID", { day: "2-digit", month: "2-digit", year: "numeric" });
 }
 
-function deadlineStatus(deadline: string | null, isDone: boolean): { level: "normal" | "warning" | "overdue" | null; diffDays: number } {
+function deadlineStatus(deadline: string | null, isDone: boolean): { level: "normal" | "approaching" | "warning" | "critical" | "overdue" | null; diffDays: number } {
   if (!deadline || isDone) return { level: null, diffDays: 0 };
   const now = new Date();
   const dl = new Date(deadline);
   const diffMs = dl.getTime() - now.getTime();
   const diffDays = Math.ceil(diffMs / (1000 * 60 * 60 * 24));
   if (diffDays <= 0) return { level: "overdue", diffDays };
-  if (diffDays <= 2) return { level: "warning", diffDays };
+  if (diffDays === 1) return { level: "critical", diffDays };
+  if (diffDays === 2) return { level: "warning", diffDays };
+  if (diffDays === 3) return { level: "approaching", diffDays };
   return { level: "normal", diffDays };
 }
 
@@ -797,15 +799,24 @@ function ViewPesanan({
                   <td className="text-[12.5px] whitespace-nowrap">
                     {o.deadline ? (
                       <span className={
-                        dlStatus.level === "overdue" ? "text-red-400" :
-                        dlStatus.level === "warning" ? "text-[var(--pas-orange)]" :
+                        dlStatus.level === "overdue" ? "text-red-700 font-semibold" :
+                        dlStatus.level === "critical" ? "text-red-500 font-semibold" :
+                        dlStatus.level === "warning" ? "text-[var(--pas-orange)] font-semibold" :
+                        dlStatus.level === "approaching" ? "text-amber-500 font-medium" :
                         "text-[var(--pas-muted)]"
                       }>
-                        {(dlStatus.level === "overdue" || dlStatus.level === "warning") && (
-                          <AlertTriangle size={11} className={`inline-block mr-1 -mt-px ${dlStatus.level === "overdue" ? "text-red-400" : "text-[var(--pas-orange)]"}`} />
+                        {(dlStatus.level === "overdue" || dlStatus.level === "critical" || dlStatus.level === "warning" || dlStatus.level === "approaching") && (
+                          <AlertTriangle size={11} className={`inline-block mr-1 -mt-px ${
+                            dlStatus.level === "overdue" ? "text-red-700" :
+                            dlStatus.level === "critical" ? "text-red-500" :
+                            dlStatus.level === "warning" ? "text-[var(--pas-orange)]" :
+                            "text-amber-500"
+                          }`} />
                         )}
                         {formatDate(o.deadline)}
-                        {dlStatus.level === "warning" && <span className="text-[11px] ml-1 opacity-80">(H-{dlStatus.diffDays})</span>}
+                        {dlStatus.level === "approaching" && <span className="text-[11px] ml-1 opacity-80">(H-3)</span>}
+                        {dlStatus.level === "warning" && <span className="text-[11px] ml-1 opacity-80">(H-2)</span>}
+                        {dlStatus.level === "critical" && <span className="text-[11px] ml-1 opacity-80">(H-1)</span>}
                         {dlStatus.level === "overdue" && <span className="text-[11px] ml-1 opacity-80">(lewat {Math.abs(dlStatus.diffDays)}h)</span>}
                       </span>
                     ) : (
@@ -938,15 +949,24 @@ function ViewPesanan({
                 <p className="text-[12px] text-[var(--pas-muted)]">Order: {formatDate(o.created_at)}</p>
                 {o.deadline ? (
                   <p className={
-                    dlStatus.level === "overdue" ? "text-[12px] text-red-400 font-medium" :
-                    dlStatus.level === "warning" ? "text-[12px] text-[var(--pas-orange)] font-medium" :
+                    dlStatus.level === "overdue" ? "text-[12px] text-red-700 font-semibold" :
+                    dlStatus.level === "critical" ? "text-[12px] text-red-500 font-semibold" :
+                    dlStatus.level === "warning" ? "text-[12px] text-[var(--pas-orange)] font-semibold" :
+                    dlStatus.level === "approaching" ? "text-[12px] text-amber-500 font-medium" :
                     "text-[12px] text-[var(--pas-muted)]"
                   }>
-                    {(dlStatus.level === "overdue" || dlStatus.level === "warning") && (
-                      <AlertTriangle size={10} className={`inline-block mr-1 -mt-px ${dlStatus.level === "overdue" ? "text-red-400" : "text-[var(--pas-orange)]"}`} />
+                    {(dlStatus.level === "overdue" || dlStatus.level === "critical" || dlStatus.level === "warning" || dlStatus.level === "approaching") && (
+                      <AlertTriangle size={10} className={`inline-block mr-1 -mt-px ${
+                        dlStatus.level === "overdue" ? "text-red-700" :
+                        dlStatus.level === "critical" ? "text-red-500" :
+                        dlStatus.level === "warning" ? "text-[var(--pas-orange)]" :
+                        "text-amber-500"
+                      }`} />
                     )}
                     Deadline: {formatDate(o.deadline)}
-                    {dlStatus.level === "warning" && <span className="text-[11px] ml-1 opacity-80">(H-{dlStatus.diffDays})</span>}
+                    {dlStatus.level === "approaching" && <span className="text-[11px] ml-1 opacity-80">(H-3)</span>}
+                    {dlStatus.level === "warning" && <span className="text-[11px] ml-1 opacity-80">(H-2)</span>}
+                    {dlStatus.level === "critical" && <span className="text-[11px] ml-1 opacity-80">(H-1)</span>}
                     {dlStatus.level === "overdue" && <span className="text-[11px] ml-1 opacity-80">(lewat {Math.abs(dlStatus.diffDays)}h)</span>}
                   </p>
                 ) : (
