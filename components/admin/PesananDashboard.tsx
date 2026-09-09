@@ -815,7 +815,20 @@ function ViewPesanan({
                   <td>
                     <span className={`pas-pill ${st}`}>{FILTER_LABEL[st]}</span>
                   </td>
-                  <td className="text-right">
+                  <td className="text-right flex items-center gap-1 justify-end">
+                    <button
+                      className="text-[var(--pas-muted)] hover:text-blue-400 transition p-1.5 rounded-lg hover:bg-blue-400/10"
+                      title="Edit pesanan"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        openDetail(o.id);
+                      }}
+                    >
+                      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                        <path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7"/>
+                        <path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z"/>
+                      </svg>
+                    </button>
                     <button
                       className="text-[var(--pas-muted)] hover:text-red-400 transition p-1.5 rounded-lg hover:bg-red-400/10"
                       title="Hapus pesanan"
@@ -857,19 +870,34 @@ function ViewPesanan({
               className="pas-bento-card cursor-pointer"
               onClick={() => openDetail(o.id)}
             >
-              {/* Delete button - pojok kanan atas */}
-              <button
-                className="absolute top-5 right-5 text-[var(--pas-muted)] hover:text-red-400 transition p-1.5 rounded-lg hover:bg-red-400/10"
-                title="Hapus"
-                onClick={(e) => {
-                  e.stopPropagation();
-                  setConfirmDelete(o);
-                }}
-              >
-                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                  <path d="M3 6h18M19 6v14a2 2 0 01-2 2H7a2 2 0 01-2-2V6M8 6V4a2 2 0 012-2h4a2 2 0 012 2v2"/>
-                </svg>
-              </button>
+              {/* Action buttons - pojok kanan atas */}
+              <div className="absolute top-5 right-5 flex items-center gap-1">
+                <button
+                  className="text-[var(--pas-muted)] hover:text-blue-400 transition p-1.5 rounded-lg hover:bg-blue-400/10"
+                  title="Edit"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    openDetail(o.id);
+                  }}
+                >
+                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7"/>
+                    <path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z"/>
+                  </svg>
+                </button>
+                <button
+                  className="text-[var(--pas-muted)] hover:text-red-400 transition p-1.5 rounded-lg hover:bg-red-400/10"
+                  title="Hapus"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    setConfirmDelete(o);
+                  }}
+                >
+                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M3 6h18M19 6v14a2 2 0 01-2 2H7a2 2 0 01-2-2V6M8 6V4a2 2 0 012-2h4a2 2 0 012 2v2"/>
+                  </svg>
+                </button>
+              </div>
 
               {/* Baris 1: Nomor pesanan + badge status */}
               <div className="flex items-center justify-between pr-10">
