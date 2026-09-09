@@ -1619,6 +1619,12 @@ function ViewSetting({
   const [savingFonnte, setSavingFonnte] = useState(false);
   const [testingFonnte, setTestingFonnte] = useState(false);
 
+  // Profil Toko
+  const [tokoName, setTokoName] = useState("TNT Sport Apparel");
+  const [tokoWhatsapp, setTokoWhatsapp] = useState("");
+  const [tokoJamOps, setTokoJamOps] = useState("Senin–Sabtu · 09.00–17.00 WIB");
+  const [savingToko, setSavingToko] = useState(false);
+
   // Notifikasi Deadline
   const [deadlineEnabled, setDeadlineEnabled] = useState(false);
   const [deadlineTime, setDeadlineTime] = useState("08:00");
@@ -1627,6 +1633,19 @@ function ViewSetting({
   const [deadlinePhone2, setDeadlinePhone2] = useState("");
   const [deadlinePhone3, setDeadlinePhone3] = useState("");
   const [savingDeadline, setSavingDeadline] = useState(false);
+
+  useEffect(() => {
+    fetch("/api/admin/profil-toko")
+      .then((r) => (r.ok ? r.json() : null))
+      .then((d) => {
+        if (d) {
+          setTokoName(d.name || "TNT Sport Apparel");
+          setTokoWhatsapp(d.whatsapp_number || "");
+          setTokoJamOps(d.jam_operasional || "Senin–Sabtu · 09.00–17.00 WIB");
+        }
+      })
+      .catch(() => {});
+  }, []);
 
   useEffect(() => {
     fetch("/api/admin/settings/fonnte")
@@ -1654,10 +1673,9 @@ function ViewSetting({
           setDeadlinePhone1(ph[0] || "");
           setDeadlinePhone2(ph[1] || "");
           setDeadlinePhone3(ph[2] || "");
-          console.log("[deadline-notif] loaded:", d);
         }
       })
-      .catch((e) => console.error("[deadline-notif] fetch error:", e));
+      .catch(() => {});
   }, []);
 
   const saveFonnteToken = async () => {
@@ -1728,7 +1746,6 @@ function ViewSetting({
         }),
       });
       const data = await res.json();
-      console.log("[deadline-notif] save response:", data);
       if (!res.ok) {
         showToast(data.error || "Gagal menyimpan pengaturan deadline");
         return;
@@ -1850,28 +1867,52 @@ function ViewSetting({
             <span className="text-[13px] text-[var(--pas-muted)]">Nama Toko</span>
             <input
               className="pas-field w-full px-4 py-2.5 mt-1.5 text-[15px]"
-              defaultValue="TNT Sport Apparel"
+              value={tokoName}
+              onChange={(e) => setTokoName(e.target.value)}
             />
           </label>
           <label className="block mt-3">
             <span className="text-[13px] text-[var(--pas-muted)]">WhatsApp Admin</span>
             <input
               className="pas-field w-full px-4 py-2.5 mt-1.5 text-[15px] pas-num"
-              defaultValue="6281234567890"
+              placeholder="6281234567890"
+              value={tokoWhatsapp}
+              onChange={(e) => setTokoWhatsapp(e.target.value)}
             />
           </label>
           <label className="block mt-3">
             <span className="text-[13px] text-[var(--pas-muted)]">Jam Operasional</span>
             <input
               className="pas-field w-full px-4 py-2.5 mt-1.5 text-[15px]"
-              defaultValue="Senin–Sabtu · 09.00–17.00 WIB"
+              value={tokoJamOps}
+              onChange={(e) => setTokoJamOps(e.target.value)}
             />
           </label>
           <button
             className="pas-btn-accent w-full py-3 text-[14px] mt-4"
-            onClick={() => showToast("Pengaturan disimpan")}
+            disabled={savingToko}
+            onClick={async () => {
+              setSavingToko(true);
+              try {
+                const res = await fetch("/api/admin/profil-toko", {
+                  method: "POST",
+                  headers: { "Content-Type": "application/json" },
+                  body: JSON.stringify({ name: tokoName, whatsapp_number: tokoWhatsapp, jam_operasional: tokoJamOps }),
+                });
+                const data = await res.json();
+                if (!res.ok) {
+                  showToast(data.error || "Gagal menyimpan");
+                  return;
+                }
+                showToast("Profil toko tersimpan");
+              } catch {
+                showToast("Gagal menyimpan");
+              } finally {
+                setSavingToko(false);
+              }
+            }}
           >
-            Simpan
+            {savingToko ? "Menyimpan…" : "Simpan"}
           </button>
         </div>
         <div className="pas-card p-5">
