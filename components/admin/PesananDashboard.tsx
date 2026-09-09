@@ -1654,9 +1654,10 @@ function ViewSetting({
           setDeadlinePhone1(ph[0] || "");
           setDeadlinePhone2(ph[1] || "");
           setDeadlinePhone3(ph[2] || "");
+          console.log("[deadline-notif] loaded:", d);
         }
       })
-      .catch(() => {});
+      .catch((e) => console.error("[deadline-notif] fetch error:", e));
   }, []);
 
   const saveFonnteToken = async () => {
@@ -1727,6 +1728,7 @@ function ViewSetting({
         }),
       });
       const data = await res.json();
+      console.log("[deadline-notif] save response:", data);
       if (!res.ok) {
         showToast(data.error || "Gagal menyimpan pengaturan deadline");
         return;
