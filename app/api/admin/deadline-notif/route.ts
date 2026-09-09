@@ -51,7 +51,7 @@ export async function GET(req: Request) {
     return NextResponse.json({ message: "Lewat jam notifikasi hari ini" });
   }
 
-  const days = daysStr.split(",").map(Number).filter((d) => d >= 0);
+  const days = daysStr.split(",").map(Number).filter((d: number) => d >= 0);
   const phones = phonesStr.split(",").map((p) => p.trim()).filter(Boolean);
 
   if (phones.length === 0) {
