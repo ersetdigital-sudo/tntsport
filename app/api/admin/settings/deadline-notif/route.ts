@@ -56,11 +56,5 @@ export async function POST(req: Request) {
     .select("key, value")
     .in("key", settings.map((s) => s.key));
 
-  return NextResponse.json({
-    success: true,
-    debug: {
-      saved: settings.map((s) => `${s.key}=${s.value}`),
-      verified: verify?.map((v) => `${v.key}=${v.value}`),
-    },
-  });
+  return NextResponse.json({ success: true });
 }

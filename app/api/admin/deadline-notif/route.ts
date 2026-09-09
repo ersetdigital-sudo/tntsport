@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { createClient } from "@/lib/supabase/server";
+import { createClient } from "@supabase/supabase-js";
 import { sendFonnteMessage, normalizeAndValidatePhone } from "@/lib/fonnte";
 import { ORDER_STATUS_LABELS } from "@/lib/types";
 
@@ -18,7 +18,10 @@ export async function GET(req: Request) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 
-  const supabase = await createClient();
+  const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!;
+  const serviceKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
+  const anonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!;
+  const supabase = createClient(supabaseUrl, serviceKey || anonKey, serviceKey ? { auth: { persistSession: false } } : undefined);
 
   // 1. Ambil setting notif
   const { data: settings, error: settingsErr } = await supabase
