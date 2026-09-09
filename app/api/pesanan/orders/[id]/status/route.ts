@@ -6,21 +6,10 @@ import {
   type NotificationTriggerStatus,
 } from "@/lib/fonnte";
 import { checkRateLimit } from "@/lib/rate-limit";
-
-const STEPS = [
-  "desain",
-  "layout",
-  "print",
-  "pres",
-  "potong",
-  "jahit",
-  "finishing",
-  "packing",
-  "kirim",
-];
+import { ORDER_STATUS_LIST } from "@/lib/types";
 
 function statusFromStep(step: number): string {
-  return STEPS[Math.min(Math.max(step, 1), 9) - 1] || "desain";
+  return ORDER_STATUS_LIST[Math.min(Math.max(step, 1), 11) - 1] || "desain";
 }
 
 /**
@@ -69,7 +58,7 @@ export async function PATCH(
 
   const newStage =
     current_step !== undefined
-      ? Math.min(Math.max(Number(current_step), 1), 9)
+      ? Math.min(Math.max(Number(current_step), 1), 11)
       : null;
   const previousStage =
     existing.current_stage ??
@@ -82,7 +71,7 @@ export async function PATCH(
 
   if (current_step !== undefined) {
     updateData.current_stage = newStage;
-    if (current_step === 9 && is_done) {
+    if (current_step === 11 && is_done) {
       if (!tracking_number || !courier) {
         return NextResponse.json(
           { error: "Untuk menandai selesai, nomor resi dan ekspedisi harus diisi." },
@@ -115,7 +104,7 @@ export async function PATCH(
   // Insert history entry using the UUID from the updated row
   let historyError: string | null = null;
   if (current_step !== undefined && updatedOrder) {
-    const statusValue = is_done && current_step === 9 ? "selesai" : statusFromStep(current_step);
+    const statusValue = is_done && current_step === 11 ? "selesai" : statusFromStep(current_step);
     const { error: histErr } = await supabase.from("order_status_history").insert({
       order_id: updatedOrder.id,
       status: statusValue,

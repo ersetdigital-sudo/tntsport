@@ -786,7 +786,7 @@ function ViewPesanan({
                         <i style={{ width: `${pct}%` }} />
                       </span>
                       <span className="text-[12.5px] text-[var(--pas-muted)] pas-num whitespace-nowrap">
-                        {o.current_step}/9
+                        {o.current_step}/11
                       </span>
                     </div>
                     <span className="text-[12.5px] text-[var(--pas-muted)]">
@@ -900,7 +900,7 @@ function ViewPesanan({
                   <i style={{ width: `${pct}%` }} />
                 </span>
                 <p className="text-[12px] text-[var(--pas-muted)] mt-1.5 pas-num">
-                  {o.current_step}/9 <span className="text-[var(--pas-ink-1)] font-medium">{stageName}</span>
+                  {o.current_step}/11 <span className="text-[var(--pas-ink-1)] font-medium">{stageName}</span>
                 </p>
               </div>
 
@@ -2193,7 +2193,7 @@ function DetailSheet({
   const st =
     order.is_done
       ? "selesai"
-      : step >= 9
+      : step >= 11
         ? "kirim"
         : step <= 1
           ? "baru"
@@ -2203,7 +2203,7 @@ function DetailSheet({
 
   const save = async () => {
     setKirimError("");
-    if (step === 9 && (!courier || !resi)) {
+    if (step === 11 && (!courier || !resi)) {
       setKirimError("Untuk tahap Kirim, nomor resi dan ekspedisi harus diisi.");
       return;
     }
@@ -2246,7 +2246,7 @@ function DetailSheet({
         method: "PATCH",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          current_step: 9,
+          current_step: 11,
           is_done: true,
           note,
           courier,
@@ -2392,7 +2392,7 @@ function DetailSheet({
             <p className="pas-stencil text-[9px] text-[var(--pas-muted)]">Progress</p>
             <p className="mt-1">{pct}%</p>
           </div>
-          {step === 9 && (courier || resi) && (
+          {step === 11 && (courier || resi) && (
             <>
               <div>
                 <p className="pas-stencil text-[9px] text-[var(--pas-muted)]">Ekspedisi</p>
