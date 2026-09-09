@@ -2713,7 +2713,7 @@ table.pas-tbl tbody tr:hover { background: rgba(63,86,59,.03); }
     border-top: 1px solid var(--pas-line);
   }
   .pas-lane-head {
-    position: sticky; top: 0; z-index: 5;
+    position: static;
     background: var(--pas-bg);
   }
   .pas-lane-body {
