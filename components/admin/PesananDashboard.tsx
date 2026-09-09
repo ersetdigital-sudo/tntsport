@@ -3,6 +3,7 @@
 import { useState, useEffect, useCallback, useRef, type ReactNode } from "react";
 import { useRouter } from "next/navigation";
 import { uploadToCloudinary } from "@/lib/cloudinary";
+import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 
 // Same delivery optimization the old /api/upload/design route applied (f_auto,q_auto)
 function optimizeDesignUrl(url: string): string {
@@ -402,63 +403,60 @@ export default function PesananDashboard() {
       </div>
 
       {/* â”€â”€ MOBILE NAV DRAWER â”€â”€ */}
-      {showMobileNav && (
-        <div className="pas-sheet open">
-          <div className="pas-veil" onClick={() => setShowMobileNav(false)} />
-          <div className="pas-panel slide-left p-5">
-            {/* Drawer header */}
-            <div className="flex items-center justify-between mb-2">
-              <a href="/" className="flex items-center gap-2.5">
-                <span className="pas-mark w-8 h-8 rounded-[9px] grid place-items-center pas-display text-[13px]">
-                  T
-                </span>
-                <span className="pas-display text-[15px] text-white">TNT Sport</span>
-              </a>
-              <button
-                className="p-2 rounded-lg text-white/50 hover:text-white hover:bg-white/10 transition"
-                onClick={() => setShowMobileNav(false)}
-                aria-label="Tutup menu"
-              >
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round">
-                  <path d="M18 6L6 18M6 6l12 12" />
-                </svg>
-              </button>
-            </div>
-            <p className="pas-navsec">Operasional</p>
-            <nav className="flex flex-col gap-1">
-              {(["pesanan", "jadwal", "kirim"] as ViewKey[]).map((key) => (
-                <a
-                  key={key}
-                  className={`pas-navlink ${currentView === key ? "on" : ""}`}
-                  href={`#${key}`}
-                  onClick={(e) => {
-                    e.preventDefault();
-                    switchView(key);
-                  }}
-                >
-                  <span className="pas-ic"><NavIcon name={key} /></span> {VIEW_META[key].title}
-                </a>
-              ))}
-            </nav>
-            <p className="pas-navsec">Data</p>
-            <nav className="flex flex-col gap-1">
-              {(["customer", "laporan", "notif", "setting"] as ViewKey[]).map((key) => (
-                <a
-                  key={key}
-                  className={`pas-navlink ${currentView === key ? "on" : ""}`}
-                  href={`#${key}`}
-                  onClick={(e) => {
-                    e.preventDefault();
-                    switchView(key);
-                  }}
-                >
-                  <span className="pas-ic"><NavIcon name={key} /></span> {VIEW_META[key].title}
-                </a>
-              ))}
-            </nav>
+      <Sheet open={showMobileNav} onOpenChange={setShowMobileNav}>
+        <SheetContent side="left" className="p-5 bg-[#0a1f14] text-white border-r border-white/10 w-[280px]">
+          {/* Drawer header */}
+          <div className="flex items-center justify-between mb-2">
+            <a href="/" className="flex items-center gap-2.5">
+              <span className="pas-mark w-8 h-8 rounded-[9px] grid place-items-center pas-display text-[13px] bg-white/10">
+                T
+              </span>
+              <span className="pas-display text-[15px] text-white">TNT Sport</span>
+            </a>
+            <button
+              className="p-2 rounded-lg text-white/50 hover:text-white hover:bg-white/10 transition"
+              onClick={() => setShowMobileNav(false)}
+              aria-label="Tutup menu"
+            >
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round">
+                <path d="M18 6L6 18M6 6l12 12" />
+              </svg>
+            </button>
           </div>
-        </div>
-      )}
+          <p className="pas-navsec">Operasional</p>
+          <nav className="flex flex-col gap-1">
+            {(["pesanan", "jadwal", "kirim"] as ViewKey[]).map((key) => (
+              <a
+                key={key}
+                className={`pas-navlink ${currentView === key ? "on" : ""}`}
+                href={`#${key}`}
+                onClick={(e) => {
+                  e.preventDefault();
+                  switchView(key);
+                }}
+              >
+                <span className="pas-ic"><NavIcon name={key} /></span> {VIEW_META[key].title}
+              </a>
+            ))}
+          </nav>
+          <p className="pas-navsec">Data</p>
+          <nav className="flex flex-col gap-1">
+            {(["customer", "laporan", "notif", "setting"] as ViewKey[]).map((key) => (
+              <a
+                key={key}
+                className={`pas-navlink ${currentView === key ? "on" : ""}`}
+                href={`#${key}`}
+                onClick={(e) => {
+                  e.preventDefault();
+                  switchView(key);
+                }}
+              >
+                <span className="pas-ic"><NavIcon name={key} /></span> {VIEW_META[key].title}
+              </a>
+            ))}
+          </nav>
+        </SheetContent>
+      </Sheet>
 
       {/* â”€â”€ DETAIL SHEET â”€â”€ */}
       {openId && (
@@ -582,7 +580,7 @@ function ViewPesanan({
     .sort((a, b) => (a.deadline! < b.deadline! ? -1 : 1))[0]?.deadline ?? null;
   const deadlineInfo = deadlineStatus(nextDeadline, false);
 
-  // Jumlah pesanan aktif yang deadline-nya lewat atau mendekat (H-2) â€” perlu perhatian
+  // Jumlah pesanan aktif yang deadline-nya lewat atau mendekat (H-2) - perlu perhatian
   const deadlineAlertCount = orders.filter((o) => {
     if (!o.deadline || o.is_done) return false;
     const lvl = deadlineStatus(o.deadline, false).level;
@@ -650,7 +648,7 @@ function ViewPesanan({
                 onClick={handleDelete}
                 disabled={deleting}
               >
-                {deleting ? "Menghapusâ€¦" : "Hapus"}
+                {deleting ? "Menghapus..." : "Hapus"}
               </button>
             </div>
           </div>
@@ -718,7 +716,7 @@ function ViewPesanan({
           <span className="pas-mag">âŒ•</span>
           <input
             className="pas-field w-full py-2.5 pr-4 text-[14px]"
-            placeholder="Cari pesanan, nama, kotaâ€¦"
+            placeholder="Cari pesanan, nama, kota..."
             value={query}
             onChange={(e) => setQuery(e.target.value)}
           />
@@ -867,7 +865,7 @@ function ViewPesanan({
               className="pas-bento-card cursor-pointer"
               onClick={() => openDetail(o.id)}
             >
-              {/* Delete button â€” pojok kanan atas */}
+              {/* Delete button - pojok kanan atas */}
               <button
                 className="absolute top-5 right-5 text-[var(--pas-muted)] hover:text-red-400 transition p-1.5 rounded-lg hover:bg-red-400/10"
                 title="Hapus"
@@ -1008,7 +1006,7 @@ function ViewJadwal({
   return (
     <>
       <p className="text-[14px] text-[var(--pas-muted)] mb-5">
-        Papan produksi â€” pesanan dikelompokkan per fase. Klik kartu untuk update tahap.
+        Papan produksi - pesanan dikelompokkan per fase. Klik kartu untuk update tahap.
       </p>
 
       {(["desktop", "mobile"] as const).map((variant) => (
@@ -1146,7 +1144,7 @@ function ViewKirim({
   return (
     <>
       <p className="text-[14px] text-[var(--pas-muted)] mb-5">
-        Pesanan tahap 10 â€” lengkapi ekspedisi dan nomor resi supaya tampil ke customer.
+        Pesanan tahap 10 - lengkapi ekspedisi dan nomor resi supaya tampil ke customer.
       </p>
       {siap.length === 0 ? (
         <p className="text-[14px] text-[var(--pas-muted)]">
@@ -1160,7 +1158,7 @@ function ViewKirim({
                 <div>
                   <p className="font-semibold pas-num">{o.id}</p>
                   <p className="text-[13px] text-[var(--pas-muted)] mt-0.5">
-                    {o.customer_name} Â· {o.customer_city} Â· {o.customer_phone}
+                    {o.customer_name} - {o.customer_city} - {o.customer_phone}
                   </p>
                 </div>
                 <span className={`pas-pill ${statusOf(o, steps.length)}`}>
@@ -1171,7 +1169,7 @@ function ViewKirim({
                 <div>
                   <p className="text-[12px] text-[var(--pas-muted)]">Isi Paket</p>
                   <p className="mt-1">
-                    {o.product_name} Â· {o.quantity}
+                    {o.product_name} - {o.quantity}
                   </p>
                 </div>
                 <div>
@@ -1535,7 +1533,7 @@ function ViewLaporan({ orders }: { orders: OrderData[] }) {
             Rata-rata Waktu
           </div>
           <p className="pas-display pas-num text-[32px] mt-1">{avgTime} hari</p>
-          <p className="text-[12px] text-[var(--pas-muted)] mt-0.5">SLA 7â€“10 hari</p>
+          <p className="text-[12px] text-[var(--pas-muted)] mt-0.5">SLA 7-10 hari</p>
         </div>
 
         <div className="pas-card p-5 flex flex-col">
@@ -1619,7 +1617,7 @@ function ViewSetting({
   const [savingSteps, setSavingSteps] = useState(false);
   const [confirmDelete, setConfirmDelete] = useState<number | null>(null);
 
-  // Token Fonnte (notifikasi WhatsApp) â€” token penuh tidak pernah dirender/dikirim ke client
+  // Token Fonnte (notifikasi WhatsApp) - token penuh tidak pernah dirender/dikirim ke client
   const [fonnteToken, setFonnteToken] = useState("");
   const [fonnteTarget, setFonnteTarget] = useState("");
   const [fonnteHasToken, setFonnteHasToken] = useState(false);
@@ -1630,7 +1628,7 @@ function ViewSetting({
   // Profil Toko
   const [tokoName, setTokoName] = useState("TNT Sport Apparel");
   const [tokoWhatsapp, setTokoWhatsapp] = useState("");
-  const [tokoJamOps, setTokoJamOps] = useState("Seninâ€“Sabtu Â· 09.00â€“17.00 WIB");
+  const [tokoJamOps, setTokoJamOps] = useState("Senin-Sabtu - 09.00-17.00 WIB");
   const [savingToko, setSavingToko] = useState(false);
 
   // Notifikasi Deadline
@@ -1649,7 +1647,7 @@ function ViewSetting({
         if (d) {
           setTokoName(d.name || "TNT Sport Apparel");
           setTokoWhatsapp(d.whatsapp_number || "");
-          setTokoJamOps(d.jam_operasional || "Seninâ€“Sabtu Â· 09.00â€“17.00 WIB");
+          setTokoJamOps(d.jam_operasional || "Senin-Sabtu - 09.00-17.00 WIB");
         }
       })
       .catch(() => {});
@@ -1920,7 +1918,7 @@ function ViewSetting({
               }
             }}
           >
-            {savingToko ? "Menyimpanâ€¦" : "Simpan"}
+            {savingToko ? "Menyimpan..." : "Simpan"}
           </button>
         </div>
         <div className="pas-card p-5">
@@ -1928,7 +1926,7 @@ function ViewSetting({
             <div>
               <p className="font-semibold text-[15px]">Tahap Produksi</p>
               <p className="text-[12.5px] text-[var(--pas-muted)] mt-1">
-                {editSteps.length} tahap â€” drag atau gunakan tombol â†‘â†“ untuk ubah urutan.
+                {editSteps.length} tahap - drag atau gunakan tombol ^v untuk ubah urutan.
               </p>
             </div>
           </div>
@@ -1946,7 +1944,7 @@ function ViewSetting({
                   className="flex-1 min-w-0 bg-transparent text-[14px] outline-none border-none"
                   value={s.name}
                   onChange={(e) => updateName(i, e.target.value)}
-                  placeholder="Nama tahapâ€¦"
+                  placeholder="Nama tahap..."
                 />
                 <div className="flex items-center gap-0.5 shrink-0">
                   <button
@@ -1955,7 +1953,7 @@ function ViewSetting({
                     onClick={() => moveStep(i, -1)}
                     title="Geser ke atas"
                   >
-                    â†‘
+                    ^
                   </button>
                   <button
                     className="pas-btn-ghost px-1.5 py-1 text-[13px] disabled:opacity-30"
@@ -1963,7 +1961,7 @@ function ViewSetting({
                     onClick={() => moveStep(i, 1)}
                     title="Geser ke bawah"
                   >
-                    â†“
+                    v
                   </button>
                   <button
                     className="pas-btn-ghost px-1.5 py-1 text-[13px] text-red-400 hover:text-red-300"
@@ -1989,7 +1987,7 @@ function ViewSetting({
             disabled={savingSteps}
             onClick={saveSteps}
           >
-            {savingSteps ? "Menyimpanâ€¦" : "Simpan Tahap Produksi"}
+            {savingSteps ? "Menyimpan..." : "Simpan Tahap Produksi"}
           </button>
         </div>
       </div>
@@ -2007,7 +2005,7 @@ function ViewSetting({
             className={`pas-pill shrink-0 ${fonnteHasToken ? "produksi" : "selesai"}`}
           >
             {fonnteHasToken
-              ? `Tersimpan Â·â€¢â€¢â€¢${fonnteLast4 ?? ""}`
+              ? `Tersimpan ----${fonnteLast4 ?? ""}`
               : "Belum di-set"}
           </span>
         </div>
@@ -2022,7 +2020,7 @@ function ViewSetting({
                 className="pas-field flex-1 min-w-0 px-4 py-2.5 text-[14px]"
                 placeholder={
                   fonnteHasToken && fonnteLast4
-                    ? `â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢${fonnteLast4} (isi untuk mengganti)`
+                    ? `------------${fonnteLast4} (isi untuk mengganti)`
                     : "Token dari dashboard Fonnte"
                 }
                 value={fonnteToken}
@@ -2033,7 +2031,7 @@ function ViewSetting({
                 disabled={savingFonnte}
                 onClick={saveFonnteToken}
               >
-                {savingFonnte ? "Menyimpanâ€¦" : "Simpan"}
+                {savingFonnte ? "Menyimpan..." : "Simpan"}
               </button>
             </div>
           </label>
@@ -2053,7 +2051,7 @@ function ViewSetting({
                 disabled={testingFonnte}
                 onClick={testFonnte}
               >
-                {testingFonnte ? "Mengirimâ€¦" : "Test Kirim"}
+                {testingFonnte ? "Mengirim..." : "Test Kirim"}
               </button>
             </div>
           </label>
@@ -2139,7 +2137,7 @@ function ViewSetting({
             disabled={savingDeadline}
             onClick={saveDeadlineSettings}
           >
-            {savingDeadline ? "Menyimpanâ€¦" : "Simpan Pengaturan"}
+            {savingDeadline ? "Menyimpan..." : "Simpan Pengaturan"}
           </button>
           <button
             className="pas-btn-ghost px-6 py-2.5 text-[13px]"
@@ -2200,7 +2198,7 @@ function ViewNotif({ showToast, orders }: { showToast: (msg: string) => void; or
   const [cdH, setCdH] = useState("00");
   const [cdM, setCdM] = useState("00");
   const [cdS, setCdS] = useState("00");
-  const [cdLabel, setCdLabel] = useState("menghitungâ€¦");
+  const [cdLabel, setCdLabel] = useState("menghitung...");
 
   const activePhones = [phone1, phone2, phone3].filter(Boolean);
   const activeDays = days.split(",").map((d) => d.trim()).filter(Boolean);
@@ -2366,7 +2364,7 @@ function ViewNotif({ showToast, orders }: { showToast: (msg: string) => void; or
                 <div>
                   <p className="text-[20px] font-semibold text-white" style={{ fontFamily: 'var(--font-geist),system-ui,sans-serif' }}>Notifikasi Deadline</p>
                   <p className="mt-1.5 flex items-center gap-2 text-[13px]" style={{ color: "rgba(255,255,255,.7)" }}>
-                    {enabled ? <><i className="n-pulse" /> Aktif â€” pengingat deadline berjalan otomatis</> : <><i style={{ display: "inline-block", width: 7, height: 7, borderRadius: 999, background: "rgba(255,255,255,.4)" }} /> Nonaktif â€” tidak ada pengiriman</>}
+                    {enabled ? <><i className="n-pulse" /> Aktif - pengingat deadline berjalan otomatis</> : <><i style={{ display: "inline-block", width: 7, height: 7, borderRadius: 999, background: "rgba(255,255,255,.4)" }} /> Nonaktif - tidak ada pengiriman</>}
                   </p>
                 </div>
               </div>
@@ -2461,7 +2459,7 @@ function ViewNotif({ showToast, orders }: { showToast: (msg: string) => void; or
               <p className="n-eyebrow">Konfigurasi</p>
               <h3 className="mt-1.5 text-[19px] font-semibold" style={{ color: "var(--ink)" }}>Pengaturan pengiriman</h3>
             </div>
-            <span className="rounded-full px-3 py-1 text-[11.5px]" style={{ fontFamily: 'var(--font-geist-mono),monospace', background: "var(--cream-2)", border: "1px solid var(--line-2)", color: "var(--ink-soft)" }}>Asia/Jakarta Â· WIB</span>
+            <span className="rounded-full px-3 py-1 text-[11.5px]" style={{ fontFamily: 'var(--font-geist-mono),monospace', background: "var(--cream-2)", border: "1px solid var(--line-2)", color: "var(--ink-soft)" }}>Asia/Jakarta - WIB</span>
           </div>
           <div className="n-divider my-7" />
           <div className="grid gap-8 md:grid-cols-2">
@@ -2488,7 +2486,7 @@ function ViewNotif({ showToast, orders }: { showToast: (msg: string) => void; or
           <div>
             <div className="flex items-center justify-between">
               <p className="n-eyebrow">Nomor HP admin</p>
-              <span className="text-[12px]" style={{ color: "var(--ink-soft)" }}>Format 62â€¦</span>
+              <span className="text-[12px]" style={{ color: "var(--ink-soft)" }}>Format 62...</span>
             </div>
             <div className="mt-3 grid gap-3 md:grid-cols-3">
               <div className="n-fw"><input className="n-field" style={{ fontFamily: 'var(--font-geist-mono),monospace' }} value={phone1} onChange={(e) => setPhone1(e.target.value)} placeholder="6281234567890" /><label>Admin 1</label></div>
@@ -2498,10 +2496,10 @@ function ViewNotif({ showToast, orders }: { showToast: (msg: string) => void; or
           </div>
           <div className="mt-9 flex flex-wrap items-center gap-3">
             <button className="n-btn n-btn-primary px-6 py-3.5" disabled={saving} onClick={saveSettings}>
-              {saving ? "Menyimpanâ€¦" : "Simpan pengaturan"}
+              {saving ? "Menyimpan..." : "Simpan pengaturan"}
             </button>
             <button className="n-btn n-btn-ghost px-6 py-3.5" disabled={!enabled || testing} onClick={testNotif}>
-              {testing ? "Mengirimâ€¦" : "Test kirim sekarang"}
+              {testing ? "Mengirim..." : "Test kirim sekarang"}
             </button>
             <span className="ml-auto text-[12px]" style={{ fontFamily: 'var(--font-geist-mono),monospace', color: "var(--ink-soft)" }}>tersimpan otomatis saat disimpan</span>
           </div>
@@ -2570,7 +2568,7 @@ function ViewNotif({ showToast, orders }: { showToast: (msg: string) => void; or
           )}
         </section>
 
-        <p className="mt-10 text-center text-[12px]" style={{ color: "var(--ink-soft)" }}>Notifikasi diteruskan via WhatsApp Â· zona waktu Asia/Jakarta</p>
+        <p className="mt-10 text-center text-[12px]" style={{ color: "var(--ink-soft)" }}>Notifikasi diteruskan via WhatsApp - zona waktu Asia/Jakarta</p>
       </div>
     </>
   );
@@ -2748,7 +2746,7 @@ function DetailSheet({
                 <span className={`pas-pill ${st}`}>{FILTER_LABEL[st]}</span>
               </div>
               <p className="text-[13.5px] text-[var(--pas-muted)] mt-1.5 truncate">
-                {order.customer_name} Â· {order.customer_city}
+                {order.customer_name} - {order.customer_city}
               </p>
               <p className="text-[13px] text-[var(--pas-muted)] pas-num">{order.customer_phone}</p>
             </div>
@@ -2795,7 +2793,7 @@ function DetailSheet({
                       className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-[13px] font-medium bg-[var(--pas-surface-2)] border border-[var(--pas-line)] text-[var(--pas-ink-1)]"
                     >
                       <span className="font-semibold">{s.size}</span>
-                      <span className="text-[var(--pas-muted)] text-[11px]">Â·</span>
+                      <span className="text-[var(--pas-muted)] text-[11px]">-</span>
                       <span className="text-[var(--pas-muted)]">{s.qty}</span>
                     </span>
                   ))}
@@ -2829,7 +2827,7 @@ function DetailSheet({
                             <span className="font-semibold">{label}</span>
                             {count && (
                               <>
-                                <span className="text-[var(--pas-muted)] text-[11px]">Â·</span>
+                                <span className="text-[var(--pas-muted)] text-[11px]">-</span>
                                 <span className="text-[var(--pas-muted)]">{count}</span>
                               </>
                             )}
@@ -2901,10 +2899,10 @@ function DetailSheet({
                 ))}
                 <label className="w-[76px] h-[76px] grid place-items-center rounded-xl border-2 border-dashed border-[var(--pas-line)] hover:border-[var(--pas-accent)] cursor-pointer transition text-[var(--pas-muted)] hover:text-[var(--pas-ink-1)]">
                   <input type="file" accept="image/*" className="hidden" disabled={uploadingWo} onChange={(e) => { const f = e.target.files?.[0]; if (f) handleWoUpload(f); e.currentTarget.value = ""; }} />
-                  <span className="text-[22px] leading-none">{uploadingWo ? "â€¦" : "+"}</span>
+                  <span className="text-[22px] leading-none">{uploadingWo ? "..." : "+"}</span>
                 </label>
               </div>
-              <p className="text-[11px] text-[var(--pas-muted)] mt-1.5">Admin only â€¢ tidak terlihat customer</p>
+              <p className="text-[11px] text-[var(--pas-muted)] mt-1.5">Admin only - tidak terlihat customer</p>
             </div>
           </div>
         </div>
@@ -2943,7 +2941,7 @@ function DetailSheet({
           <div className="grid grid-cols-2 gap-3 mt-3">
             <input
               className="pas-field px-3 py-2.5 text-[14px]"
-              placeholder="Ekspedisi (JNE â€” REG)"
+              placeholder="Ekspedisi (JNE - REG)"
               value={courier}
               onChange={(e) => setCourier(e.target.value)}
             />
@@ -2983,7 +2981,7 @@ function DetailSheet({
             onClick={save}
             disabled={saving}
           >
-            {saving ? "Menyimpanâ€¦" : "Simpan Perubahan"}
+            {saving ? "Menyimpan..." : "Simpan Perubahan"}
           </button>
           <button
             className="pas-btn-ghost px-4 text-sm text-[var(--pas-muted)]"
@@ -3024,7 +3022,7 @@ function DetailSheet({
           </button>
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img src={zoomUrl} alt="Preview desain diperbesar" onClick={(e) => e.stopPropagation()} onWheel={(e) => { e.preventDefault(); const delta = e.deltaY > 0 ? -0.12 : 0.12; setZoomScale((s) => Math.min(4, Math.max(1, s + delta))); }} onTouchMove={(e) => { if (zoomDragRef.current && e.touches.length === 1 && zoomScale > 1) setZoomOffset({ x: e.touches[0].clientX - zoomDragRef.current.x, y: e.touches[0].clientY - zoomDragRef.current.y }); }} draggable={false} className={`max-w-[90vw] max-h-[90vh] object-contain select-none transition duration-200 ${zoomOpen ? "scale-100 opacity-100" : "scale-95 opacity-0"}`} style={{ transform: `translate(${zoomOffset.x}px, ${zoomOffset.y}px) scale(${zoomScale})`, touchAction: "none" }} />
-          <p className="pointer-events-none absolute bottom-4 left-1/2 -translate-x-1/2 text-[12px] text-white/60 text-center px-4">Tap luar gambar / Esc untuk tutup â€¢ Pinch/scroll untuk zoom</p>
+          <p className="pointer-events-none absolute bottom-4 left-1/2 -translate-x-1/2 text-[12px] text-white/60 text-center px-4">Tap luar gambar / Esc untuk tutup - Pinch/scroll untuk zoom</p>
         </div>
       )}
     </div>
@@ -3277,14 +3275,14 @@ function AddForm({
                     }}
                   >
                     <option value="" disabled>
-                      Pilih produkâ€¦
+                      Pilih produk...
                     </option>
                     {productOptions.map((p) => (
                       <option key={p} value={p}>
                         {p}
                       </option>
                     ))}
-                    <option value="__custom__">+ Tambah sendiriâ€¦</option>
+                    <option value="__custom__">+ Tambah sendiri...</option>
                   </select>
                 )}
                 {/* Qty */}
@@ -3425,7 +3423,7 @@ function AddForm({
       </div>
       {error && <p className="text-[13px] text-[#f87171]">{error}</p>}
       <button className="pas-btn-accent w-full py-3.5 text-[15px]" disabled={saving}>
-        {saving ? "Menyimpanâ€¦" : "Simpan Pesanan"}
+        {saving ? "Menyimpan..." : "Simpan Pesanan"}
       </button>
     </form>
   );
