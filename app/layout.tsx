@@ -1,6 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import Script from "next/script";
-import { Barlow, Barlow_Condensed, IBM_Plex_Mono, Archivo } from "next/font/google";
+import { Barlow, Barlow_Condensed, IBM_Plex_Mono, Archivo, Geist, Geist_Mono } from "next/font/google";
 import { ThemeProvider } from "next-themes";
 import { getBrand } from "@/lib/queries";
 import "./globals.css";
@@ -35,6 +35,20 @@ const archivo = Archivo({
   display: "swap",
   variable: "--font-archivo",
   weight: ["600", "700", "800", "900"],
+});
+
+const geist = Geist({
+  subsets: ["latin"],
+  display: "swap",
+  variable: "--font-geist",
+  weight: ["300", "400", "500", "600", "700"],
+});
+
+const geistMono = Geist_Mono({
+  subsets: ["latin"],
+  display: "swap",
+  variable: "--font-geist-mono",
+  weight: ["400", "500", "700"],
 });
 
 /**
@@ -129,7 +143,7 @@ export default async function RootLayout({
     <html
       lang="id"
       suppressHydrationWarning
-      className={`${barlow.variable} ${barlowCondensed.variable} ${ibmPlexMono.variable} ${archivo.variable}`}
+      className={`${barlow.variable} ${barlowCondensed.variable} ${ibmPlexMono.variable} ${archivo.variable} ${geist.variable} ${geistMono.variable}`}
     >
       <head>
         {/* llms.txt discovery for AI assistants */}

@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { useState, useEffect, useCallback, useRef, type ReactNode } from "react";
 import { useRouter } from "next/navigation";
@@ -259,7 +259,7 @@ export default function PesananDashboard() {
 
   return (
     <div className="pas-shell">
-      {/* ── SIDEBAR ── */}
+      {/* â”€â”€ SIDEBAR â”€â”€ */}
       <aside className="pas-side">
         <a href="/" className="flex items-center gap-3 px-2 pb-5">
 <img src="/logo-tnt-baru.png" alt="TNT Sport" className="pas-mark w-14 h-14 rounded-[10px] object-contain" />
@@ -313,7 +313,7 @@ export default function PesananDashboard() {
         </div>
       </aside>
 
-      {/* ── MAIN ── */}
+      {/* â”€â”€ MAIN â”€â”€ */}
       <div className="flex-1 min-w-0">
         <header className="pas-topbar">
           <div className="px-5 sm:px-8 h-16 flex items-center justify-between gap-4">
@@ -401,7 +401,7 @@ export default function PesananDashboard() {
         </main>
       </div>
 
-      {/* ── MOBILE NAV DRAWER ── */}
+      {/* â”€â”€ MOBILE NAV DRAWER â”€â”€ */}
       {showMobileNav && (
         <div className="pas-sheet open">
           <div className="pas-veil" onClick={() => setShowMobileNav(false)} />
@@ -460,7 +460,7 @@ export default function PesananDashboard() {
         </div>
       )}
 
-      {/* ── DETAIL SHEET ── */}
+      {/* â”€â”€ DETAIL SHEET â”€â”€ */}
       {openId && (
         <DetailSheet
           orderId={openId}
@@ -475,7 +475,7 @@ export default function PesananDashboard() {
         />
       )}
 
-      {/* ── ADD SHEET ── */}
+      {/* â”€â”€ ADD SHEET â”€â”€ */}
       {showAdd && (
         <div className="pas-sheet open">
           <div className="pas-veil" onClick={closeAll} />
@@ -503,7 +503,7 @@ export default function PesananDashboard() {
         </div>
       )}
 
-      {/* ── BOTTOM FLOATING NAV (mobile) ── */}
+      {/* â”€â”€ BOTTOM FLOATING NAV (mobile) â”€â”€ */}
       <nav className="pas-bottom-nav lg:hidden">
         {(["pesanan", "jadwal", "kirim", "customer"] as ViewKey[]).map((key) => (
           <button
@@ -518,15 +518,15 @@ export default function PesananDashboard() {
         ))}
       </nav>
 
-      {/* ── TOAST ── */}
+      {/* â”€â”€ TOAST â”€â”€ */}
       <div className={`pas-toast ${toast ? "on" : ""}`}>{toast}</div>
     </div>
   );
 }
 
-/* ═══════════════════════════════════════════════
+/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
    VIEW: PESANAN (orders table + KPI + filter)
-   ═══════════════════════════════════════════════ */
+   â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
 function ViewPesanan({
   orders,
   filter,
@@ -582,7 +582,7 @@ function ViewPesanan({
     .sort((a, b) => (a.deadline! < b.deadline! ? -1 : 1))[0]?.deadline ?? null;
   const deadlineInfo = deadlineStatus(nextDeadline, false);
 
-  // Jumlah pesanan aktif yang deadline-nya lewat atau mendekat (H-2) — perlu perhatian
+  // Jumlah pesanan aktif yang deadline-nya lewat atau mendekat (H-2) â€” perlu perhatian
   const deadlineAlertCount = orders.filter((o) => {
     if (!o.deadline || o.is_done) return false;
     const lvl = deadlineStatus(o.deadline, false).level;
@@ -634,7 +634,7 @@ function ViewPesanan({
             </p>
             {isDangerousStatus(confirmDelete) && (
               <p className="text-[13px] text-[#9a5d00] mt-3 bg-[#DDB339]/15 border border-[#DDB339]/30 rounded-xl px-4 py-2.5">
-                ⚠ Pesanan ini sedang dalam produksi/pengiriman. Hapus hanya jika ini adalah data testing.
+                âš  Pesanan ini sedang dalam produksi/pengiriman. Hapus hanya jika ini adalah data testing.
               </p>
             )}
             <div className="flex gap-3 mt-5">
@@ -650,7 +650,7 @@ function ViewPesanan({
                 onClick={handleDelete}
                 disabled={deleting}
               >
-                {deleting ? "Menghapus…" : "Hapus"}
+                {deleting ? "Menghapusâ€¦" : "Hapus"}
               </button>
             </div>
           </div>
@@ -715,10 +715,10 @@ function ViewPesanan({
       {/* toolbar */}
       <section className="mt-7 flex flex-col lg:flex-row lg:items-center gap-3 lg:justify-between">
         <div className="pas-search w-full lg:max-w-[400px]">
-          <span className="pas-mag">⌕</span>
+          <span className="pas-mag">âŒ•</span>
           <input
             className="pas-field w-full py-2.5 pr-4 text-[14px]"
-            placeholder="Cari pesanan, nama, kota…"
+            placeholder="Cari pesanan, nama, kotaâ€¦"
             value={query}
             onChange={(e) => setQuery(e.target.value)}
           />
@@ -756,7 +756,7 @@ function ViewPesanan({
               <tr>
                 <td colSpan={8}>
                   <div className="flex flex-col items-center justify-center py-16 gap-3">
-                    <span className="text-[40px] opacity-30">📋</span>
+                    <span className="text-[40px] opacity-30">ðŸ“‹</span>
                     <p className="text-[var(--pas-muted)] text-[15px] font-medium">Tidak ada pesanan yang cocok</p>
                     <p className="text-[var(--pas-muted)] text-[13px]">Coba ubah filter atau kata kunci pencarian</p>
                   </div>
@@ -812,7 +812,7 @@ function ViewPesanan({
                         "text-[var(--pas-muted)]"
                       }>
                         {(dlStatus.level === "overdue" || dlStatus.level === "warning") && (
-                          <span className={dlStatus.level === "overdue" ? "pas-dl-overdue inline-block" : "pas-dl-warning inline-block"}>⚠ </span>
+                          <span className={dlStatus.level === "overdue" ? "pas-dl-overdue inline-block" : "pas-dl-warning inline-block"}>âš  </span>
                         )}
                         {formatDate(o.deadline)}
                         {dlStatus.level === "warning" && <span className="text-[11px] ml-1 opacity-80">(H-{dlStatus.diffDays})</span>}
@@ -850,7 +850,7 @@ function ViewPesanan({
       <section className="mt-4 flex flex-col gap-3 md:hidden">
         {filtered.length === 0 && (
           <div className="flex flex-col items-center justify-center py-16 gap-3">
-            <span className="text-[40px] opacity-30">📋</span>
+            <span className="text-[40px] opacity-30">ðŸ“‹</span>
             <p className="text-[var(--pas-muted)] text-[15px] font-medium">Tidak ada pesanan yang cocok</p>
             <p className="text-[var(--pas-muted)] text-[13px]">Coba ubah filter atau kata kunci pencarian</p>
           </div>
@@ -867,7 +867,7 @@ function ViewPesanan({
               className="pas-bento-card cursor-pointer"
               onClick={() => openDetail(o.id)}
             >
-              {/* Delete button — pojok kanan atas */}
+              {/* Delete button â€” pojok kanan atas */}
               <button
                 className="absolute top-5 right-5 text-[var(--pas-muted)] hover:text-red-400 transition p-1.5 rounded-lg hover:bg-red-400/10"
                 title="Hapus"
@@ -925,7 +925,7 @@ function ViewPesanan({
                     "text-[12px] text-[var(--pas-muted)]"
                   }>
                     {(dlStatus.level === "overdue" || dlStatus.level === "warning") && (
-                      <span className={dlStatus.level === "overdue" ? "pas-dl-overdue inline-block" : "pas-dl-warning inline-block"}>⚠ </span>
+                      <span className={dlStatus.level === "overdue" ? "pas-dl-overdue inline-block" : "pas-dl-warning inline-block"}>âš  </span>
                     )}
                     Deadline: {formatDate(o.deadline)}
                     {dlStatus.level === "warning" && <span className="text-[11px] ml-1 opacity-80">(H-{dlStatus.diffDays})</span>}
@@ -943,9 +943,9 @@ function ViewPesanan({
   );
 }
 
-/* ═══════════════════════════════════════════════
+/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
    VIEW: JADWAL PRODUKSI (kanban lanes)
-   ═══════════════════════════════════════════════ */
+   â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
 const LANE_KEYS = ["desain", "produksi", "finishing", "kirim"] as const;
 const LANE_COLORS: Record<string, string> = {
   desain: "var(--lane-desain)",
@@ -1008,7 +1008,7 @@ function ViewJadwal({
   return (
     <>
       <p className="text-[14px] text-[var(--pas-muted)] mb-5">
-        Papan produksi — pesanan dikelompokkan per fase. Klik kartu untuk update tahap.
+        Papan produksi â€” pesanan dikelompokkan per fase. Klik kartu untuk update tahap.
       </p>
 
       {(["desktop", "mobile"] as const).map((variant) => (
@@ -1129,9 +1129,9 @@ function ViewJadwal({
   );
 }
 
-/* ═══════════════════════════════════════════════
+/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
    VIEW: PENGIRIMAN
-   ═══════════════════════════════════════════════ */
+   â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
 function ViewKirim({
   orders,
   openDetail,
@@ -1146,7 +1146,7 @@ function ViewKirim({
   return (
     <>
       <p className="text-[14px] text-[var(--pas-muted)] mb-5">
-        Pesanan tahap 10 — lengkapi ekspedisi dan nomor resi supaya tampil ke customer.
+        Pesanan tahap 10 â€” lengkapi ekspedisi dan nomor resi supaya tampil ke customer.
       </p>
       {siap.length === 0 ? (
         <p className="text-[14px] text-[var(--pas-muted)]">
@@ -1160,7 +1160,7 @@ function ViewKirim({
                 <div>
                   <p className="font-semibold pas-num">{o.id}</p>
                   <p className="text-[13px] text-[var(--pas-muted)] mt-0.5">
-                    {o.customer_name} · {o.customer_city} · {o.customer_phone}
+                    {o.customer_name} Â· {o.customer_city} Â· {o.customer_phone}
                   </p>
                 </div>
                 <span className={`pas-pill ${statusOf(o, steps.length)}`}>
@@ -1171,7 +1171,7 @@ function ViewKirim({
                 <div>
                   <p className="text-[12px] text-[var(--pas-muted)]">Isi Paket</p>
                   <p className="mt-1">
-                    {o.product_name} · {o.quantity}
+                    {o.product_name} Â· {o.quantity}
                   </p>
                 </div>
                 <div>
@@ -1207,9 +1207,9 @@ function ViewKirim({
   );
 }
 
-/* ═══════════════════════════════════════════════
+/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
    VIEW: CUSTOMER DETAIL (per-customer page)
-   ═══════════════════════════════════════════════ */
+   â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
 function CustomerDetail({
   customerName,
   orders,
@@ -1345,9 +1345,9 @@ function CustomerDetail({
   );
 }
 
-/* ═══════════════════════════════════════════════
+/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
    VIEW: CUSTOMER
-   ═══════════════════════════════════════════════ */
+   â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
 function ViewCustomer({
   orders,
   onSelectCustomer,
@@ -1417,7 +1417,7 @@ function ViewCustomer({
       <div className="flex flex-col gap-3 md:hidden">
         {Object.keys(map).length === 0 && (
           <div className="flex flex-col items-center justify-center py-16 gap-3">
-            <span className="text-[40px] opacity-30">👤</span>
+            <span className="text-[40px] opacity-30">ðŸ‘¤</span>
             <p className="text-[var(--pas-muted)] text-[15px] font-medium">Belum ada customer</p>
           </div>
         )}
@@ -1466,9 +1466,9 @@ function ViewCustomer({
   );
 }
 
-/* ═══════════════════════════════════════════════
+/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
    VIEW: LAPORAN
-   ═══════════════════════════════════════════════ */
+   â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
 function ViewLaporan({ orders }: { orders: OrderData[] }) {
   const byStage = LANES.map((l) => ({
     name: l.name,
@@ -1535,7 +1535,7 @@ function ViewLaporan({ orders }: { orders: OrderData[] }) {
             Rata-rata Waktu
           </div>
           <p className="pas-display pas-num text-[32px] mt-1">{avgTime} hari</p>
-          <p className="text-[12px] text-[var(--pas-muted)] mt-0.5">SLA 7–10 hari</p>
+          <p className="text-[12px] text-[var(--pas-muted)] mt-0.5">SLA 7â€“10 hari</p>
         </div>
 
         <div className="pas-card p-5 flex flex-col">
@@ -1601,9 +1601,9 @@ function ViewLaporan({ orders }: { orders: OrderData[] }) {
   );
 }
 
-/* ═══════════════════════════════════════════════
+/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
    VIEW: PENGATURAN
-   ═══════════════════════════════════════════════ */
+   â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
 function ViewSetting({
   showToast,
   steps,
@@ -1619,7 +1619,7 @@ function ViewSetting({
   const [savingSteps, setSavingSteps] = useState(false);
   const [confirmDelete, setConfirmDelete] = useState<number | null>(null);
 
-  // Token Fonnte (notifikasi WhatsApp) — token penuh tidak pernah dirender/dikirim ke client
+  // Token Fonnte (notifikasi WhatsApp) â€” token penuh tidak pernah dirender/dikirim ke client
   const [fonnteToken, setFonnteToken] = useState("");
   const [fonnteTarget, setFonnteTarget] = useState("");
   const [fonnteHasToken, setFonnteHasToken] = useState(false);
@@ -1630,7 +1630,7 @@ function ViewSetting({
   // Profil Toko
   const [tokoName, setTokoName] = useState("TNT Sport Apparel");
   const [tokoWhatsapp, setTokoWhatsapp] = useState("");
-  const [tokoJamOps, setTokoJamOps] = useState("Senin–Sabtu · 09.00–17.00 WIB");
+  const [tokoJamOps, setTokoJamOps] = useState("Seninâ€“Sabtu Â· 09.00â€“17.00 WIB");
   const [savingToko, setSavingToko] = useState(false);
 
   // Notifikasi Deadline
@@ -1649,7 +1649,7 @@ function ViewSetting({
         if (d) {
           setTokoName(d.name || "TNT Sport Apparel");
           setTokoWhatsapp(d.whatsapp_number || "");
-          setTokoJamOps(d.jam_operasional || "Senin–Sabtu · 09.00–17.00 WIB");
+          setTokoJamOps(d.jam_operasional || "Seninâ€“Sabtu Â· 09.00â€“17.00 WIB");
         }
       })
       .catch(() => {});
@@ -1920,7 +1920,7 @@ function ViewSetting({
               }
             }}
           >
-            {savingToko ? "Menyimpan…" : "Simpan"}
+            {savingToko ? "Menyimpanâ€¦" : "Simpan"}
           </button>
         </div>
         <div className="pas-card p-5">
@@ -1928,7 +1928,7 @@ function ViewSetting({
             <div>
               <p className="font-semibold text-[15px]">Tahap Produksi</p>
               <p className="text-[12.5px] text-[var(--pas-muted)] mt-1">
-                {editSteps.length} tahap — drag atau gunakan tombol ↑↓ untuk ubah urutan.
+                {editSteps.length} tahap â€” drag atau gunakan tombol â†‘â†“ untuk ubah urutan.
               </p>
             </div>
           </div>
@@ -1946,7 +1946,7 @@ function ViewSetting({
                   className="flex-1 min-w-0 bg-transparent text-[14px] outline-none border-none"
                   value={s.name}
                   onChange={(e) => updateName(i, e.target.value)}
-                  placeholder="Nama tahap…"
+                  placeholder="Nama tahapâ€¦"
                 />
                 <div className="flex items-center gap-0.5 shrink-0">
                   <button
@@ -1955,7 +1955,7 @@ function ViewSetting({
                     onClick={() => moveStep(i, -1)}
                     title="Geser ke atas"
                   >
-                    ↑
+                    â†‘
                   </button>
                   <button
                     className="pas-btn-ghost px-1.5 py-1 text-[13px] disabled:opacity-30"
@@ -1963,14 +1963,14 @@ function ViewSetting({
                     onClick={() => moveStep(i, 1)}
                     title="Geser ke bawah"
                   >
-                    ↓
+                    â†“
                   </button>
                   <button
                     className="pas-btn-ghost px-1.5 py-1 text-[13px] text-red-400 hover:text-red-300"
                     onClick={() => removeStep(i)}
                     title="Hapus tahap"
                   >
-                    ✕
+                    âœ•
                   </button>
                 </div>
               </div>
@@ -1989,7 +1989,7 @@ function ViewSetting({
             disabled={savingSteps}
             onClick={saveSteps}
           >
-            {savingSteps ? "Menyimpan…" : "Simpan Tahap Produksi"}
+            {savingSteps ? "Menyimpanâ€¦" : "Simpan Tahap Produksi"}
           </button>
         </div>
       </div>
@@ -2007,7 +2007,7 @@ function ViewSetting({
             className={`pas-pill shrink-0 ${fonnteHasToken ? "produksi" : "selesai"}`}
           >
             {fonnteHasToken
-              ? `Tersimpan ·•••${fonnteLast4 ?? ""}`
+              ? `Tersimpan Â·â€¢â€¢â€¢${fonnteLast4 ?? ""}`
               : "Belum di-set"}
           </span>
         </div>
@@ -2022,7 +2022,7 @@ function ViewSetting({
                 className="pas-field flex-1 min-w-0 px-4 py-2.5 text-[14px]"
                 placeholder={
                   fonnteHasToken && fonnteLast4
-                    ? `••••••••••••${fonnteLast4} (isi untuk mengganti)`
+                    ? `â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢${fonnteLast4} (isi untuk mengganti)`
                     : "Token dari dashboard Fonnte"
                 }
                 value={fonnteToken}
@@ -2033,7 +2033,7 @@ function ViewSetting({
                 disabled={savingFonnte}
                 onClick={saveFonnteToken}
               >
-                {savingFonnte ? "Menyimpan…" : "Simpan"}
+                {savingFonnte ? "Menyimpanâ€¦" : "Simpan"}
               </button>
             </div>
           </label>
@@ -2053,7 +2053,7 @@ function ViewSetting({
                 disabled={testingFonnte}
                 onClick={testFonnte}
               >
-                {testingFonnte ? "Mengirim…" : "Test Kirim"}
+                {testingFonnte ? "Mengirimâ€¦" : "Test Kirim"}
               </button>
             </div>
           </label>
@@ -2139,7 +2139,7 @@ function ViewSetting({
             disabled={savingDeadline}
             onClick={saveDeadlineSettings}
           >
-            {savingDeadline ? "Menyimpan…" : "Simpan Pengaturan"}
+            {savingDeadline ? "Menyimpanâ€¦" : "Simpan Pengaturan"}
           </button>
           <button
             className="pas-btn-ghost px-6 py-2.5 text-[13px]"
@@ -2184,9 +2184,9 @@ function ViewSetting({
   );
 }
 
-/* ═══════════════════════════════════════════════
+/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
    VIEW: NOTIFIKASI
-   ═══════════════════════════════════════════════ */
+   â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
 function ViewNotif({ showToast, orders }: { showToast: (msg: string) => void; orders: OrderData[] }) {
   const [enabled, setEnabled] = useState(false);
   const [time, setTime] = useState("08:00");
@@ -2200,7 +2200,7 @@ function ViewNotif({ showToast, orders }: { showToast: (msg: string) => void; or
   const [cdH, setCdH] = useState("00");
   const [cdM, setCdM] = useState("00");
   const [cdS, setCdS] = useState("00");
-  const [cdLabel, setCdLabel] = useState("menghitung…");
+  const [cdLabel, setCdLabel] = useState("menghitungâ€¦");
 
   const activePhones = [phone1, phone2, phone3].filter(Boolean);
   const activeDays = days.split(",").map((d) => d.trim()).filter(Boolean);
@@ -2304,25 +2304,25 @@ function ViewNotif({ showToast, orders }: { showToast: (msg: string) => void; or
 
   return (
     <>
-      {/* ── CSS VARS (cream design system) ── */}
+      {/* â”€â”€ CSS VARS (cream design system) â”€â”€ */}
       <style>{`
         .notif-wrap{--cream:#f7f4ee;--cream-2:#f0ebe1;--paper:#ffffff;--ink:#141d17;--ink-2:#3c4a41;--ink-soft:#77857b;--line:#e6e0d4;--line-2:#efe9dd;--green:#0f3a21;--green-2:#19582f;--accent:#2c7a4b;--mint:#e7f2ea;--mint-line:#cbe2d1}
         .notif-wrap .n-card{background:var(--paper);border:1px solid var(--line);border-radius:22px;box-shadow:0 1px 1px rgba(20,29,23,.03),0 22px 44px -32px rgba(20,29,23,.28)}
-        .notif-wrap .n-eyebrow{font-size:10.5px;text-transform:uppercase;letter-spacing:.2em;color:var(--ink-soft);font-family:"Geist Mono",ui-monospace,monospace}
+        .notif-wrap .n-eyebrow{font-size:10.5px;text-transform:uppercase;letter-spacing:.2em;color:var(--ink-soft);font-family:var(--font-geist-mono),ui-monospace,monospace}
         .notif-wrap .n-hero{position:relative;overflow:hidden;border-radius:26px;background:linear-gradient(145deg,#0c3119 0%,#16512c 52%,#1d6836 100%);box-shadow:0 30px 70px -40px rgba(15,58,33,.75),inset 0 1px 0 rgba(255,255,255,.1)}
         .notif-wrap .n-hero-glow{position:absolute;inset:auto -8% 40% auto;width:520px;height:520px;background:radial-gradient(circle,rgba(160,235,187,.20),transparent 62%);pointer-events:none}
         .notif-wrap .n-hero-grid{position:absolute;inset:0;pointer-events:none;background-image:linear-gradient(rgba(255,255,255,.045) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.045) 1px,transparent 1px);background-size:100% 36px,36px 100%;mask-image:radial-gradient(120% 90% at 70% 0%,#000 25%,transparent 75%)}
         .notif-wrap .n-stat{border:1px solid var(--line);border-radius:18px;background:linear-gradient(180deg,#fff,#fcfbf7);padding:18px 18px 16px;transition:transform .22s ease,box-shadow .22s ease}
         .notif-wrap .n-stat:hover{transform:translateY(-2px);box-shadow:0 18px 34px -26px rgba(20,29,23,.32)}
-        .notif-wrap .n-field{width:100%;background:#fbfaf6;border:1px solid var(--line);border-radius:14px;padding:22px 14px 9px;font-size:15px;color:var(--ink);transition:border-color .18s ease,box-shadow .18s ease,background .18s ease;font-family:"Geist",system-ui,sans-serif}
+        .notif-wrap .n-field{width:100%;background:#fbfaf6;border:1px solid var(--line);border-radius:14px;padding:22px 14px 9px;font-size:15px;color:var(--ink);transition:border-color .18s ease,box-shadow .18s ease,background .18s ease;font-family:var(--font-geist),system-ui,sans-serif}
         .notif-wrap .n-field:focus{outline:none;background:#fff;border-color:var(--accent);box-shadow:0 0 0 4px rgba(44,122,75,.11)}
         .notif-wrap .n-fw{position:relative}
-        .notif-wrap .n-fw label{position:absolute;left:14px;top:8px;font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-soft);pointer-events:none;transition:color .18s ease;font-family:"Geist Mono",ui-monospace,monospace}
+        .notif-wrap .n-fw label{position:absolute;left:14px;top:8px;font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-soft);pointer-events:none;transition:color .18s ease;font-family:var(--font-geist-mono),ui-monospace,monospace}
         .notif-wrap .n-fw .n-field:focus + label{color:var(--accent)}
-        .notif-wrap .n-chip{position:relative;border:1px solid var(--line);background:#fbfaf6;color:var(--ink-2);border-radius:12px;padding:10px 16px;font-size:13px;font-weight:600;cursor:pointer;transition:all .18s cubic-bezier(.2,.85,.25,1);font-family:"Geist Mono",ui-monospace,monospace}
+        .notif-wrap .n-chip{position:relative;border:1px solid var(--line);background:#fbfaf6;color:var(--ink-2);border-radius:12px;padding:10px 16px;font-size:13px;font-weight:600;cursor:pointer;transition:all .18s cubic-bezier(.2,.85,.25,1);font-family:var(--font-geist-mono),ui-monospace,monospace}
         .notif-wrap .n-chip:hover{transform:translateY(-1px);border-color:#d6cebd}
         .notif-wrap .n-chip.on{background:var(--green);border-color:var(--green);color:#eef5f0;box-shadow:0 8px 18px -12px rgba(15,58,33,.7)}
-        .notif-wrap .n-btn{border-radius:13px;font-size:14px;font-weight:600;transition:transform .16s ease,background .2s ease,box-shadow .2s ease;font-family:"Geist",system-ui,sans-serif}
+        .notif-wrap .n-btn{border-radius:13px;font-size:14px;font-weight:600;transition:transform .16s ease,background .2s ease,box-shadow .2s ease;font-family:var(--font-geist),system-ui,sans-serif}
         .notif-wrap .n-btn-primary{background:var(--green);color:#f2f7f3;box-shadow:0 12px 26px -16px rgba(15,58,33,.85)}
         .notif-wrap .n-btn-primary:hover{background:var(--green-2);transform:translateY(-1px)}
         .notif-wrap .n-btn-ghost{background:#fff;color:var(--ink);border:1px solid var(--line);font-weight:500}
@@ -2330,9 +2330,9 @@ function ViewNotif({ showToast, orders }: { showToast: (msg: string) => void; or
         .notif-wrap .n-divider{height:1px;background:linear-gradient(90deg,transparent,var(--line),transparent)}
         .notif-wrap .n-dt{position:relative;min-width:72px;padding:12px 4px 10px;border-radius:14px;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.14);backdrop-filter:blur(6px);text-align:center;overflow:hidden}
         .notif-wrap .n-dt::before{content:"";position:absolute;inset:0 0 auto 0;height:1px;background:linear-gradient(90deg,transparent,rgba(255,255,255,.45),transparent)}
-        .notif-wrap .n-dt b{display:block;font-family:"Geist Mono",monospace;font-size:38px;line-height:1;font-weight:700;color:#fff;font-variant-numeric:tabular-nums}
+        .notif-wrap .n-dt b{display:block;font-family:var(--font-geist-mono),monospace;font-size:38px;line-height:1;font-weight:700;color:#fff;font-variant-numeric:tabular-nums}
         .notif-wrap .n-dt i{display:block;margin-top:7px;font-style:normal;font-size:9.5px;letter-spacing:.18em;text-transform:uppercase;color:rgba(255,255,255,.5)}
-        .notif-wrap .n-colon{align-self:center;font-family:"Geist Mono",monospace;font-size:26px;color:rgba(255,255,255,.3);padding-bottom:14px}
+        .notif-wrap .n-colon{align-self:center;font-family:var(--font-geist-mono),monospace;font-size:26px;color:rgba(255,255,255,.3);padding-bottom:14px}
         .notif-wrap .n-pulse{width:7px;height:7px;border-radius:999px;background:#8ce8ae;box-shadow:0 0 0 0 rgba(140,232,174,.7);animation:npulse 2.2s infinite}
         @keyframes npulse{0%{box-shadow:0 0 0 0 rgba(140,232,174,.55)}70%{box-shadow:0 0 0 11px rgba(140,232,174,0)}100%{box-shadow:0 0 0 0 rgba(140,232,174,0)}}
         .notif-wrap .n-switch{width:50px;height:28px;border-radius:999px;background:rgba(255,255,255,.22);position:relative;cursor:pointer;flex:none;transition:background .24s ease;border:1px solid rgba(255,255,255,.2)}
@@ -2342,12 +2342,12 @@ function ViewNotif({ showToast, orders }: { showToast: (msg: string) => void; or
       `}</style>
 
       <div className="notif-wrap">
-        {/* ── INTRO ── */}
+        {/* â”€â”€ INTRO â”€â”€ */}
         <div className="max-w-2xl">
           <span className="n-eyebrow inline-flex items-center gap-2 rounded-full px-3 py-1" style={{ background: "var(--mint)", border: "1px solid var(--mint-line)", color: "var(--green)" }}>
             <i className="n-pulse" /> Sistem berjalan
           </span>
-          <h2 className="mt-5 text-[36px] leading-[1.04] sm:text-[50px]" style={{ fontFamily: '"Geist",system-ui,sans-serif', fontWeight: 600, letterSpacing: "-.038em", color: "var(--ink)" }}>
+          <h2 className="mt-5 text-[36px] leading-[1.04] sm:text-[50px]" style={{ fontFamily: 'var(--font-geist),system-ui,sans-serif', fontWeight: 600, letterSpacing: "-.038em", color: "var(--ink)" }}>
             Tidak ada deadline<br /><span style={{ color: "var(--accent)" }}>yang terlewat.</span>
           </h2>
           <p className="mt-4 max-w-lg text-[15px] leading-relaxed" style={{ color: "var(--ink-2)" }}>
@@ -2355,7 +2355,7 @@ function ViewNotif({ showToast, orders }: { showToast: (msg: string) => void; or
           </p>
         </div>
 
-        {/* ── HERO / COUNTDOWN ── */}
+        {/* â”€â”€ HERO / COUNTDOWN â”€â”€ */}
         <section className="n-hero mt-10 px-7 py-8 sm:px-10 sm:py-10">
           <div className="n-hero-glow" />
           <div className="n-hero-grid" />
@@ -2364,24 +2364,24 @@ function ViewNotif({ showToast, orders }: { showToast: (msg: string) => void; or
               <div className="flex items-start gap-4">
                 <button className={`n-switch mt-0.5 ${enabled ? "on" : ""}`} onClick={() => setEnabled(!enabled)} aria-label="Aktifkan notifikasi deadline"><span /></button>
                 <div>
-                  <p className="text-[20px] font-semibold text-white" style={{ fontFamily: '"Geist",system-ui,sans-serif' }}>Notifikasi Deadline</p>
+                  <p className="text-[20px] font-semibold text-white" style={{ fontFamily: 'var(--font-geist),system-ui,sans-serif' }}>Notifikasi Deadline</p>
                   <p className="mt-1.5 flex items-center gap-2 text-[13px]" style={{ color: "rgba(255,255,255,.7)" }}>
-                    {enabled ? <><i className="n-pulse" /> Aktif — pengingat deadline berjalan otomatis</> : <><i style={{ display: "inline-block", width: 7, height: 7, borderRadius: 999, background: "rgba(255,255,255,.4)" }} /> Nonaktif — tidak ada pengiriman</>}
+                    {enabled ? <><i className="n-pulse" /> Aktif â€” pengingat deadline berjalan otomatis</> : <><i style={{ display: "inline-block", width: 7, height: 7, borderRadius: 999, background: "rgba(255,255,255,.4)" }} /> Nonaktif â€” tidak ada pengiriman</>}
                   </p>
                 </div>
               </div>
               <div className="mt-7 flex flex-wrap items-start gap-x-9 gap-y-4">
                 <div>
                   <p className="n-eyebrow" style={{ color: "rgba(255,255,255,.5)" }}>Jadwal kirim</p>
-                  <p className="mt-1 text-[13px] text-white" style={{ fontFamily: '"Geist Mono",monospace' }}>{time} WIB</p>
+                  <p className="mt-1 text-[13px] text-white" style={{ fontFamily: 'var(--font-geist-mono),monospace' }}>{time} WIB</p>
                 </div>
                 <div>
                   <p className="n-eyebrow" style={{ color: "rgba(255,255,255,.5)" }}>Penerima</p>
-                  <p className="mt-1 text-[13px] text-white" style={{ fontFamily: '"Geist Mono",monospace' }}>{activePhones.length} admin</p>
+                  <p className="mt-1 text-[13px] text-white" style={{ fontFamily: 'var(--font-geist-mono),monospace' }}>{activePhones.length} admin</p>
                 </div>
                 <div>
                   <p className="n-eyebrow" style={{ color: "rgba(255,255,255,.5)" }}>Hari reminder</p>
-                  <p className="mt-1 text-[13px] text-white" style={{ fontFamily: '"Geist Mono",monospace' }}>{activeDays.length ? activeDays.map((d) => dayLabels[d] || d).join(", ") : "belum dipilih"}</p>
+                  <p className="mt-1 text-[13px] text-white" style={{ fontFamily: 'var(--font-geist-mono),monospace' }}>{activeDays.length ? activeDays.map((d) => dayLabels[d] || d).join(", ") : "belum dipilih"}</p>
                 </div>
               </div>
             </div>
@@ -2394,12 +2394,12 @@ function ViewNotif({ showToast, orders }: { showToast: (msg: string) => void; or
                 <div className="n-colon">:</div>
                 <div className="n-dt"><b>{cdS}</b><i>Detik</i></div>
               </div>
-              <p className="mt-3.5 text-[12.5px]" style={{ fontFamily: '"Geist Mono",monospace', color: "#96e8b3" }}>{cdLabel}</p>
+              <p className="mt-3.5 text-[12.5px]" style={{ fontFamily: 'var(--font-geist-mono),monospace', color: "#96e8b3" }}>{cdLabel}</p>
             </div>
           </div>
         </section>
 
-        {/* ── STATS ── */}
+        {/* â”€â”€ STATS â”€â”€ */}
         <section className="mt-6 grid gap-4 sm:grid-cols-3">
           <div className="n-stat">
             <div className="flex items-start justify-between gap-3">
@@ -2411,7 +2411,7 @@ function ViewNotif({ showToast, orders }: { showToast: (msg: string) => void; or
                 <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#1c5c33" strokeWidth="1.9" strokeLinecap="round" strokeLinejoin="round"><path d="m22 2-7 20-4-9-9-4Z" /><path d="M22 2 11 13" /></svg>
               </span>
             </div>
-            <p className="mt-4" style={{ fontFamily: '"Geist Mono",monospace', fontSize: 27, fontWeight: 700, letterSpacing: "-.02em" }}>
+            <p className="mt-4" style={{ fontFamily: 'var(--font-geist-mono),monospace', fontSize: 27, fontWeight: 700, letterSpacing: "-.02em" }}>
               {logs.length} <span className="text-[13px] font-medium" style={{ color: "var(--ink-soft)" }}>pesan</span>
             </p>
             <p className="mt-2 text-[12.5px]" style={{ color: "var(--ink-soft)" }}>
@@ -2428,7 +2428,7 @@ function ViewNotif({ showToast, orders }: { showToast: (msg: string) => void; or
                 <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#1c5c33" strokeWidth="1.9" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="4" width="18" height="17" rx="2.5" /><path d="M8 2v4M16 2v4M3 10h18" /></svg>
               </span>
             </div>
-            <p className="mt-4" style={{ fontFamily: '"Geist Mono",monospace', fontSize: 27, fontWeight: 700, letterSpacing: "-.02em" }}>
+            <p className="mt-4" style={{ fontFamily: 'var(--font-geist-mono),monospace', fontSize: 27, fontWeight: 700, letterSpacing: "-.02em" }}>
               {deadlinesMonitored} <span className="text-[13px] font-medium" style={{ color: "var(--ink-soft)" }}>item</span>
             </p>
             <p className="mt-2 text-[12.5px]" style={{ color: "var(--ink-soft)" }}>
@@ -2445,7 +2445,7 @@ function ViewNotif({ showToast, orders }: { showToast: (msg: string) => void; or
                 <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#1c5c33" strokeWidth="1.9" strokeLinecap="round" strokeLinejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" /><circle cx="9" cy="7" r="4" /><path d="M22 21v-2a4 4 0 0 0-3-3.87" /></svg>
               </span>
             </div>
-            <p className="mt-4" style={{ fontFamily: '"Geist Mono",monospace', fontSize: 27, fontWeight: 700, letterSpacing: "-.02em" }}>
+            <p className="mt-4" style={{ fontFamily: 'var(--font-geist-mono),monospace', fontSize: 27, fontWeight: 700, letterSpacing: "-.02em" }}>
               {activePhones.length} <span className="text-[13px] font-medium" style={{ color: "var(--ink-soft)" }}>nomor</span>
             </p>
             <p className="mt-2 text-[12.5px]" style={{ color: "var(--ink-soft)" }}>
@@ -2454,20 +2454,20 @@ function ViewNotif({ showToast, orders }: { showToast: (msg: string) => void; or
           </div>
         </section>
 
-        {/* ── SETTINGS ── */}
+        {/* â”€â”€ SETTINGS â”€â”€ */}
         <section className="n-card mt-6 p-7 sm:p-9" style={{ background: "linear-gradient(180deg,#fff,#fdfcf9)" }}>
           <div className="flex flex-wrap items-end justify-between gap-3">
             <div>
               <p className="n-eyebrow">Konfigurasi</p>
               <h3 className="mt-1.5 text-[19px] font-semibold" style={{ color: "var(--ink)" }}>Pengaturan pengiriman</h3>
             </div>
-            <span className="rounded-full px-3 py-1 text-[11.5px]" style={{ fontFamily: '"Geist Mono",monospace', background: "var(--cream-2)", border: "1px solid var(--line-2)", color: "var(--ink-soft)" }}>Asia/Jakarta · WIB</span>
+            <span className="rounded-full px-3 py-1 text-[11.5px]" style={{ fontFamily: 'var(--font-geist-mono),monospace', background: "var(--cream-2)", border: "1px solid var(--line-2)", color: "var(--ink-soft)" }}>Asia/Jakarta Â· WIB</span>
           </div>
           <div className="n-divider my-7" />
           <div className="grid gap-8 md:grid-cols-2">
             <div>
               <div className="n-fw">
-                <input type="time" value={time} onChange={(e) => setTime(e.target.value)} className="n-field" style={{ fontFamily: '"Geist Mono",monospace', fontSize: 17 }} />
+                <input type="time" value={time} onChange={(e) => setTime(e.target.value)} className="n-field" style={{ fontFamily: 'var(--font-geist-mono),monospace', fontSize: 17 }} />
                 <label>Jam kirim</label>
               </div>
               <p className="mt-2.5 text-[12.5px]" style={{ color: "var(--ink-soft)" }}>Pengingat dikirim setiap hari pada jam ini.</p>
@@ -2488,33 +2488,33 @@ function ViewNotif({ showToast, orders }: { showToast: (msg: string) => void; or
           <div>
             <div className="flex items-center justify-between">
               <p className="n-eyebrow">Nomor HP admin</p>
-              <span className="text-[12px]" style={{ color: "var(--ink-soft)" }}>Format 62…</span>
+              <span className="text-[12px]" style={{ color: "var(--ink-soft)" }}>Format 62â€¦</span>
             </div>
             <div className="mt-3 grid gap-3 md:grid-cols-3">
-              <div className="n-fw"><input className="n-field" style={{ fontFamily: '"Geist Mono",monospace' }} value={phone1} onChange={(e) => setPhone1(e.target.value)} placeholder="6281234567890" /><label>Admin 1</label></div>
-              <div className="n-fw"><input className="n-field" style={{ fontFamily: '"Geist Mono",monospace' }} value={phone2} onChange={(e) => setPhone2(e.target.value)} placeholder="6280987654321" /><label>Admin 2</label></div>
-              <div className="n-fw"><input className="n-field" style={{ fontFamily: '"Geist Mono",monospace' }} value={phone3} onChange={(e) => setPhone3(e.target.value)} placeholder="628111222333" /><label>Admin 3</label></div>
+              <div className="n-fw"><input className="n-field" style={{ fontFamily: 'var(--font-geist-mono),monospace' }} value={phone1} onChange={(e) => setPhone1(e.target.value)} placeholder="6281234567890" /><label>Admin 1</label></div>
+              <div className="n-fw"><input className="n-field" style={{ fontFamily: 'var(--font-geist-mono),monospace' }} value={phone2} onChange={(e) => setPhone2(e.target.value)} placeholder="6280987654321" /><label>Admin 2</label></div>
+              <div className="n-fw"><input className="n-field" style={{ fontFamily: 'var(--font-geist-mono),monospace' }} value={phone3} onChange={(e) => setPhone3(e.target.value)} placeholder="628111222333" /><label>Admin 3</label></div>
             </div>
           </div>
           <div className="mt-9 flex flex-wrap items-center gap-3">
             <button className="n-btn n-btn-primary px-6 py-3.5" disabled={saving} onClick={saveSettings}>
-              {saving ? "Menyimpan…" : "Simpan pengaturan"}
+              {saving ? "Menyimpanâ€¦" : "Simpan pengaturan"}
             </button>
             <button className="n-btn n-btn-ghost px-6 py-3.5" disabled={!enabled || testing} onClick={testNotif}>
-              {testing ? "Mengirim…" : "Test kirim sekarang"}
+              {testing ? "Mengirimâ€¦" : "Test kirim sekarang"}
             </button>
-            <span className="ml-auto text-[12px]" style={{ fontFamily: '"Geist Mono",monospace', color: "var(--ink-soft)" }}>tersimpan otomatis saat disimpan</span>
+            <span className="ml-auto text-[12px]" style={{ fontFamily: 'var(--font-geist-mono),monospace', color: "var(--ink-soft)" }}>tersimpan otomatis saat disimpan</span>
           </div>
         </section>
 
-        {/* ── HISTORY ── */}
+        {/* â”€â”€ HISTORY â”€â”€ */}
         <section className="n-card mt-6 p-7 sm:p-9">
           <div className="flex items-center justify-between">
             <div>
               <p className="n-eyebrow">Log</p>
               <h3 className="mt-1.5 text-[19px] font-semibold" style={{ color: "var(--ink)" }}>Riwayat kirim</h3>
             </div>
-            <span className="rounded-full px-3 py-1 text-[12px]" style={{ fontFamily: '"Geist Mono",monospace', background: "var(--mint)", border: "1px solid var(--mint-line)", color: "var(--green)" }}>{logs.length} entri</span>
+            <span className="rounded-full px-3 py-1 text-[12px]" style={{ fontFamily: 'var(--font-geist-mono),monospace', background: "var(--mint)", border: "1px solid var(--mint-line)", color: "var(--green)" }}>{logs.length} entri</span>
           </div>
           <div className="n-divider my-7" />
           {logs.length === 0 ? (
@@ -2557,11 +2557,11 @@ function ViewNotif({ showToast, orders }: { showToast: (msg: string) => void; or
                         {new Date(log.created_at).toLocaleDateString("id-ID", { day: "numeric", month: "short" })}{" "}
                         {new Date(log.created_at).toLocaleTimeString("id-ID", { hour: "2-digit", minute: "2-digit" })}
                       </td>
-                      <td className="py-2.5 text-[13px] font-semibold" style={{ color: "var(--ink)", fontFamily: '"Geist Mono",monospace' }}>{log.order_number || "-"}</td>
+                      <td className="py-2.5 text-[13px] font-semibold" style={{ color: "var(--ink)", fontFamily: 'var(--font-geist-mono),monospace' }}>{log.order_number || "-"}</td>
                       <td className="py-2.5 text-[12px]" style={{ color: "var(--ink-soft)" }}>
                         {log.diff_days === 0 ? "H-0" : `H-${log.diff_days}`}
                       </td>
-                      <td className="py-2.5 text-[12px]" style={{ color: "var(--ink-soft)", fontFamily: '"Geist Mono",monospace' }}>{log.phone}</td>
+                      <td className="py-2.5 text-[12px]" style={{ color: "var(--ink-soft)", fontFamily: 'var(--font-geist-mono),monospace' }}>{log.phone}</td>
                     </tr>
                   ))}
                 </tbody>
@@ -2570,15 +2570,15 @@ function ViewNotif({ showToast, orders }: { showToast: (msg: string) => void; or
           )}
         </section>
 
-        <p className="mt-10 text-center text-[12px]" style={{ color: "var(--ink-soft)" }}>Notifikasi diteruskan via WhatsApp · zona waktu Asia/Jakarta</p>
+        <p className="mt-10 text-center text-[12px]" style={{ color: "var(--ink-soft)" }}>Notifikasi diteruskan via WhatsApp Â· zona waktu Asia/Jakarta</p>
       </div>
     </>
   );
 }
 
-/* ═══════════════════════════════════════════════
+/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
    DETAIL SHEET
-   ═══════════════════════════════════════════════ */
+   â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
 function DetailSheet({
   orderId,
   orders,
@@ -2736,7 +2736,7 @@ function DetailSheet({
     <div className="pas-sheet open">
       <div className="pas-veil" onClick={onClose} />
       <div className="pas-panel p-5 sm:p-7">
-        {/* ── HEADER ── */}
+        {/* â”€â”€ HEADER â”€â”€ */}
         <div className="flex items-start justify-between gap-4">
           <div className="flex items-center gap-3.5 min-w-0">
             <span className="pas-avatar w-11 h-11 text-[15px] flex items-center justify-center shrink-0">
@@ -2748,7 +2748,7 @@ function DetailSheet({
                 <span className={`pas-pill ${st}`}>{FILTER_LABEL[st]}</span>
               </div>
               <p className="text-[13.5px] text-[var(--pas-muted)] mt-1.5 truncate">
-                {order.customer_name} · {order.customer_city}
+                {order.customer_name} Â· {order.customer_city}
               </p>
               <p className="text-[13px] text-[var(--pas-muted)] pas-num">{order.customer_phone}</p>
             </div>
@@ -2763,7 +2763,7 @@ function DetailSheet({
           </button>
         </div>
 
-        {/* ── PROGRESS ── */}
+        {/* â”€â”€ PROGRESS â”€â”€ */}
         <div className="mt-5 p-4 rounded-2xl bg-[var(--pas-surface-2)] border border-[var(--pas-line)]">
           <div className="flex items-center justify-between">
             <p className="pas-stencil text-[9px] text-[var(--pas-muted)]">Progress Produksi</p>
@@ -2777,7 +2777,7 @@ function DetailSheet({
           </p>
         </div>
 
-        {/* ── INFO GRID ── */}
+        {/* â”€â”€ INFO GRID â”€â”€ */}
         <div className="pas-card p-4 mt-4 grid grid-cols-2 gap-y-4 text-[14px]">
           {(order.products?.length ?? 0) > 0 ? (
             order.products!.map((p, pi) => (
@@ -2795,7 +2795,7 @@ function DetailSheet({
                       className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-[13px] font-medium bg-[var(--pas-surface-2)] border border-[var(--pas-line)] text-[var(--pas-ink-1)]"
                     >
                       <span className="font-semibold">{s.size}</span>
-                      <span className="text-[var(--pas-muted)] text-[11px]">·</span>
+                      <span className="text-[var(--pas-muted)] text-[11px]">Â·</span>
                       <span className="text-[var(--pas-muted)]">{s.qty}</span>
                     </span>
                   ))}
@@ -2829,7 +2829,7 @@ function DetailSheet({
                             <span className="font-semibold">{label}</span>
                             {count && (
                               <>
-                                <span className="text-[var(--pas-muted)] text-[11px]">·</span>
+                                <span className="text-[var(--pas-muted)] text-[11px]">Â·</span>
                                 <span className="text-[var(--pas-muted)]">{count}</span>
                               </>
                             )}
@@ -2896,15 +2896,15 @@ function DetailSheet({
                         <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="7" /><path d="M20 20l-3.5-3.5M11 8v6M8 11h6" /></svg>
                       </span>
                     </button>
-                    <button type="button" onClick={() => setWoPhotos((p) => p.filter((_, j) => j !== i))} className="absolute -right-1 -top-1 grid h-6 w-6 place-items-center rounded-full bg-red-500 text-white text-[11px] leading-none border border-white shadow opacity-0 group-hover:opacity-100 transition" title="Hapus foto WO" aria-label="Hapus foto WO">×</button>
+                    <button type="button" onClick={() => setWoPhotos((p) => p.filter((_, j) => j !== i))} className="absolute -right-1 -top-1 grid h-6 w-6 place-items-center rounded-full bg-red-500 text-white text-[11px] leading-none border border-white shadow opacity-0 group-hover:opacity-100 transition" title="Hapus foto WO" aria-label="Hapus foto WO">Ã—</button>
                   </div>
                 ))}
                 <label className="w-[76px] h-[76px] grid place-items-center rounded-xl border-2 border-dashed border-[var(--pas-line)] hover:border-[var(--pas-accent)] cursor-pointer transition text-[var(--pas-muted)] hover:text-[var(--pas-ink-1)]">
                   <input type="file" accept="image/*" className="hidden" disabled={uploadingWo} onChange={(e) => { const f = e.target.files?.[0]; if (f) handleWoUpload(f); e.currentTarget.value = ""; }} />
-                  <span className="text-[22px] leading-none">{uploadingWo ? "…" : "+"}</span>
+                  <span className="text-[22px] leading-none">{uploadingWo ? "â€¦" : "+"}</span>
                 </label>
               </div>
-              <p className="text-[11px] text-[var(--pas-muted)] mt-1.5">Admin only • tidak terlihat customer</p>
+              <p className="text-[11px] text-[var(--pas-muted)] mt-1.5">Admin only â€¢ tidak terlihat customer</p>
             </div>
           </div>
         </div>
@@ -2943,7 +2943,7 @@ function DetailSheet({
           <div className="grid grid-cols-2 gap-3 mt-3">
             <input
               className="pas-field px-3 py-2.5 text-[14px]"
-              placeholder="Ekspedisi (JNE — REG)"
+              placeholder="Ekspedisi (JNE â€” REG)"
               value={courier}
               onChange={(e) => setCourier(e.target.value)}
             />
@@ -2983,7 +2983,7 @@ function DetailSheet({
             onClick={save}
             disabled={saving}
           >
-            {saving ? "Menyimpan…" : "Simpan Perubahan"}
+            {saving ? "Menyimpanâ€¦" : "Simpan Perubahan"}
           </button>
           <button
             className="pas-btn-ghost px-4 text-sm text-[var(--pas-muted)]"
@@ -3024,16 +3024,16 @@ function DetailSheet({
           </button>
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img src={zoomUrl} alt="Preview desain diperbesar" onClick={(e) => e.stopPropagation()} onWheel={(e) => { e.preventDefault(); const delta = e.deltaY > 0 ? -0.12 : 0.12; setZoomScale((s) => Math.min(4, Math.max(1, s + delta))); }} onTouchMove={(e) => { if (zoomDragRef.current && e.touches.length === 1 && zoomScale > 1) setZoomOffset({ x: e.touches[0].clientX - zoomDragRef.current.x, y: e.touches[0].clientY - zoomDragRef.current.y }); }} draggable={false} className={`max-w-[90vw] max-h-[90vh] object-contain select-none transition duration-200 ${zoomOpen ? "scale-100 opacity-100" : "scale-95 opacity-0"}`} style={{ transform: `translate(${zoomOffset.x}px, ${zoomOffset.y}px) scale(${zoomScale})`, touchAction: "none" }} />
-          <p className="pointer-events-none absolute bottom-4 left-1/2 -translate-x-1/2 text-[12px] text-white/60 text-center px-4">Tap luar gambar / Esc untuk tutup • Pinch/scroll untuk zoom</p>
+          <p className="pointer-events-none absolute bottom-4 left-1/2 -translate-x-1/2 text-[12px] text-white/60 text-center px-4">Tap luar gambar / Esc untuk tutup â€¢ Pinch/scroll untuk zoom</p>
         </div>
       )}
     </div>
   );
 }
 
-/* ═══════════════════════════════════════════════
+/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
    ADD FORM
-   ═══════════════════════════════════════════════ */
+   â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
 function AddForm({
   onSaved,
   onCancel,
@@ -3277,14 +3277,14 @@ function AddForm({
                     }}
                   >
                     <option value="" disabled>
-                      Pilih produk…
+                      Pilih produkâ€¦
                     </option>
                     {productOptions.map((p) => (
                       <option key={p} value={p}>
                         {p}
                       </option>
                     ))}
-                    <option value="__custom__">+ Tambah sendiri…</option>
+                    <option value="__custom__">+ Tambah sendiriâ€¦</option>
                   </select>
                 )}
                 {/* Qty */}
@@ -3425,7 +3425,7 @@ function AddForm({
       </div>
       {error && <p className="text-[13px] text-[#f87171]">{error}</p>}
       <button className="pas-btn-accent w-full py-3.5 text-[15px]" disabled={saving}>
-        {saving ? "Menyimpan…" : "Simpan Pesanan"}
+        {saving ? "Menyimpanâ€¦" : "Simpan Pesanan"}
       </button>
     </form>
   );
