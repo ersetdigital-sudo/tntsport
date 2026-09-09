@@ -53,8 +53,16 @@ const LABEL_TO_SLUG: Record<string, string> = Object.fromEntries(
   Object.entries(ORDER_STATUS_LABELS).map(([slug, label]) => [label.toLowerCase(), slug])
 );
 
+// Map old 9-step slugs to new 11-step slugs
+const LEGACY_SLUG_MAP: Record<string, string> = {
+  print: "cetak_print",
+  pres: "press_transfer",
+  potong: "potong_pola",
+};
+
 function normalizeStepName(name: string): string {
   const lower = name.toLowerCase();
+  if (LEGACY_SLUG_MAP[lower]) return LEGACY_SLUG_MAP[lower];
   return LABEL_TO_SLUG[lower] || lower;
 }
 
@@ -198,8 +206,8 @@ function StatusContent() {
   useEffect(() => {
     if (!order || !loaded) return;
     const stepIdx = steps.length > 0
-      ? steps.findIndex((s) => normalizeStepName(s.name) === order.current_status) + 1
-      : ORDER_STATUS_LIST.indexOf(order.current_status) + 1;
+      ? steps.findIndex((s) => normalizeStepName(s.name) === normalizeStepName(order.current_status)) + 1
+      : ORDER_STATUS_LIST.indexOf(normalizeStepName(order.current_status) as OrderStatus) + 1;
     const hasTracking = !!(order.tracking_number && order.courier);
     const pct = getProgress(stepIdx, hasTracking);
 
@@ -404,11 +412,12 @@ function StatusContent() {
 
   // Render order details
   const step = steps.length > 0
-    ? steps.findIndex((s) => normalizeStepName(s.name) === order.current_status) + 1
-    : ORDER_STATUS_LIST.indexOf(order.current_status) + 1;
+    ? steps.findIndex((s) => normalizeStepName(s.name) === normalizeStepName(order.current_status)) + 1
+    : ORDER_STATUS_LIST.indexOf(normalizeStepName(order.current_status) as OrderStatus) + 1;
   const totalSteps = steps.length || 11;
   const hasTracking = !!(order.tracking_number && order.courier);
-  const isShipped = order.current_status === "kirim" && hasTracking;
+  const normalizedStatus = normalizeStepName(order.current_status);
+  const isShipped = normalizedStatus === "kirim" && hasTracking;
   const pct = getProgress(step, hasTracking);
   const lastUpdate = history.length > 0 ? history[history.length - 1] : null;
   const waLink = `https://wa.me/628115491117?text=${encodeURIComponent(`Halo TNT Sport, saya mau tanya order ${orderId}`)}`;
@@ -467,7 +476,7 @@ function StatusContent() {
             <section className="dpo-reveal pt-7 sm:pt-12">
               <p className="dpo-kicker">Detail Progres Pesanan</p>
               <h1 className="dpo-h1 mt-2.5">
-                {order.current_status === "selesai" || isShipped ? (
+                {normalizedStatus === "selesai" || isShipped ? (
                   <>Pesanan kamu sudah kami kirim</>
                 ) : step <= 1 ? (
                   <>Pesanan kamu sedang kami kerjakan</>
@@ -555,7 +564,7 @@ function StatusContent() {
                   const n = idx + 1;
                   const st = n < step ? "done" : n === step ? "now" : "todo";
                   const statusKey = steps.length > 0 ? normalizeStepName(stepDef.name) : ORDER_STATUS_LIST[idx];
-                  const histEntry = history.find((h: any) => h.status.toLowerCase() === statusKey.toLowerCase());
+                  const histEntry = history.find((h: any) => normalizeStepName(h.status) === statusKey.toLowerCase());
 
                   return (
                     <li
