@@ -2431,6 +2431,7 @@ function AddForm({
   onSaved: (msg: string) => void;
   onCancel: () => void;
 }) {
+  const DRAFT_KEY = "pas_add_order_draft";
   const [form, setForm] = useState({
     customer_name: "",
     customer_phone: "",
@@ -2469,6 +2470,59 @@ function AddForm({
     } catch {
       // silent
     }
+  }, []);
+
+  // Load draft from localStorage on mount
+  useEffect(() => {
+    try {
+      const saved = localStorage.getItem(DRAFT_KEY);
+      if (saved) {
+        const data = JSON.parse(saved);
+        if (data.form) setForm(data.form);
+        if (data.productRows && data.productRows.length > 0) setProductRows(data.productRows);
+        if (data.designPhotos) setDesignPhotos(data.designPhotos);
+        if (data.woPhotos) setWoPhotos(data.woPhotos);
+      }
+    } catch {}
+  }, []);
+
+  // Refs for latest state to save on unmount
+  const latestForm = useRef(form);
+  const latestProductRows = useRef(productRows);
+  const latestDesignPhotos = useRef(designPhotos);
+  const latestWoPhotos = useRef(woPhotos);
+  useEffect(() => {
+    latestForm.current = form;
+    latestProductRows.current = productRows;
+    latestDesignPhotos.current = designPhotos;
+    latestWoPhotos.current = woPhotos;
+  });
+
+  // Save draft on changes with debounce
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      const draft = {
+        form: latestForm.current,
+        productRows: latestProductRows.current,
+        designPhotos: latestDesignPhotos.current,
+        woPhotos: latestWoPhotos.current,
+      };
+      localStorage.setItem(DRAFT_KEY, JSON.stringify(draft));
+    }, 500);
+    return () => clearTimeout(timer);
+  }, [form, productRows, designPhotos, woPhotos]);
+
+  // Save draft on unmount
+  useEffect(() => {
+    return () => {
+      const draft = {
+        form: latestForm.current,
+        productRows: latestProductRows.current,
+        designPhotos: latestDesignPhotos.current,
+        woPhotos: latestWoPhotos.current,
+      };
+      localStorage.setItem(DRAFT_KEY, JSON.stringify(draft));
+    };
   }, []);
 
   const updateProductRow = (rowIdx: number, patch: Partial<typeof productRows[0]>) =>
