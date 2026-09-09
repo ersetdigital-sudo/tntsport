@@ -183,6 +183,7 @@ export default function PesananDashboard() {
   const [filter, setFilter] = useState<FilterKey>("all");
   const [query, setQuery] = useState("");
   const [openId, setOpenId] = useState<string | null>(null);
+  const [editId, setEditId] = useState<string | null>(null);
   const [openCustomer, setOpenCustomer] = useState<string | null>(null);
   const [showAdd, setShowAdd] = useState(false);
   const [showMobileNav, setShowMobileNav] = useState(false);
@@ -388,10 +389,11 @@ export default function PesananDashboard() {
               setFilter={setFilter}
               query={query}
               setQuery={setQuery}
-              openDetail={setOpenId}
-              steps={steps}
-              onDelete={fetchOrders}
-              showToast={showToast}
+  openDetail={setOpenId}
+  openEdit={setEditId}
+  steps={steps}
+  onDelete={fetchOrders}
+  showToast={showToast}
             />
           )}
           {currentView === "jadwal" && <ViewJadwal orders={orders} openDetail={setOpenId} steps={steps} onMoved={fetchOrders} showToast={showToast} />}
@@ -466,6 +468,18 @@ export default function PesananDashboard() {
           steps={steps}
         />
       )}
+      {editId && (
+        <EditSheet
+          orderId={editId}
+          orders={orders}
+          onClose={() => setEditId(null)}
+          onSaved={(msg) => {
+            fetchOrders();
+            setEditId(null);
+            showToast(msg);
+          }}
+        />
+      )}
 
       {/* â”€â”€ ADD SHEET â”€â”€ */}
       {showAdd && (
@@ -526,6 +540,7 @@ function ViewPesanan({
   query,
   setQuery,
   openDetail,
+  openEdit,
   steps,
   onDelete,
   showToast,
@@ -536,6 +551,7 @@ function ViewPesanan({
   query: string;
   setQuery: (q: string) => void;
   openDetail: (id: string) => void;
+  openEdit: (id: string) => void;
   steps: StepRow[];
   onDelete: (id: string) => void;
   showToast: (msg: string) => void;
@@ -832,7 +848,7 @@ function ViewPesanan({
                       title="Edit pesanan"
                       onClick={(e) => {
                         e.stopPropagation();
-                        openDetail(o.id);
+                        openEdit(o.id);
                       }}
                     >
                       <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -883,14 +899,14 @@ function ViewPesanan({
             >
               {/* Action buttons - pojok kanan atas */}
               <div className="absolute top-5 right-5 flex items-center gap-1">
-                <button
-                  className="text-[var(--pas-muted)] hover:text-blue-400 transition p-1.5 rounded-lg hover:bg-blue-400/10"
-                  title="Edit"
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    openDetail(o.id);
-                  }}
-                >
+                  <button
+                    className="text-[var(--pas-muted)] hover:text-blue-400 transition p-1.5 rounded-lg hover:bg-blue-400/10"
+                    title="Edit"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      openEdit(o.id);
+                    }}
+                  >
                   <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                     <path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7"/>
                     <path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z"/>
@@ -2937,8 +2953,14 @@ function DetailSheet({
             <input type="date" className="pas-field w-full px-4 py-2.5 mt-1.5 text-[14px]" value={editCreatedAt} onChange={(e) => setEditCreatedAt(e.target.value)} />
           </label>
           <div>
-            <p className="pas-stencil text-[9px] text-[var(--pas-muted)]">Deadline (di bawah)</p>
-            <p className="mt-1">{deadline ? formatDate(deadline) : "-"}</p>
+            <p className="pas-stencil text-[9px] text-[var(--pas-muted)]">Deadline</p>
+            <input
+              type="date"
+              className="pas-field w-full px-4 py-2.5 mt-1.5 text-[14px] disabled:opacity-60 disabled:cursor-not-allowed"
+              value={deadline}
+              onChange={(e) => setDeadline(e.target.value)}
+              disabled={false}
+            />
           </div>
           <div>
             <p className="pas-stencil text-[9px] text-[var(--pas-muted)]">Status Produksi</p>
