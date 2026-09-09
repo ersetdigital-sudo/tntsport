@@ -3063,6 +3063,7 @@ function AddForm({
   const [uploadingWo, setUploadingWo] = useState(false);
   const [error, setError] = useState("");
   const [saving, setSaving] = useState(false);
+  const shouldSkipDraftSaveRef = useRef(false);
 
   // Multi-product rows: each product has its own name and qty
   const [productRows, setProductRows] = useState<
@@ -3118,6 +3119,7 @@ function AddForm({
   // Save draft on changes with debounce
   useEffect(() => {
     const timer = setTimeout(() => {
+      if (shouldSkipDraftSaveRef.current) return;
       const draft = {
         form: latestForm.current,
         productRows: latestProductRows.current,
@@ -3132,6 +3134,7 @@ function AddForm({
   // Save draft on unmount
   useEffect(() => {
     return () => {
+      if (shouldSkipDraftSaveRef.current) return;
       const draft = {
         form: latestForm.current,
         productRows: latestProductRows.current,
@@ -3205,6 +3208,8 @@ function AddForm({
           setProductOptions((o) => [...o, ...newProducts]);
         }
       }
+      shouldSkipDraftSaveRef.current = true;
+      localStorage.removeItem(DRAFT_KEY);
       onSaved("Pesanan ditambahkan");
     } catch {
       setError("Gagal menyimpan");
