@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 
 
@@ -10,6 +10,19 @@ export default function TrackPage() {
   const [phone, setPhone] = useState("");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
+  const [brand, setBrand] = useState<{ name: string; whatsapp_number: string }>({ name: "TNT SPORT", whatsapp_number: "628115491117" });
+
+  useEffect(() => {
+    fetch("/api/brand")
+      .then((r) => (r.ok ? r.json() : null))
+      .then((d) => {
+        if (d?.whatsapp_number) setBrand({ name: d.name || "TNT SPORT", whatsapp_number: d.whatsapp_number });
+      })
+      .catch(() => {});
+  }, []);
+
+  const rawPhone = brand.whatsapp_number.replace(/[^0-9]/g, "");
+  const waPhone = rawPhone.startsWith("0") ? "62" + rawPhone.slice(1) : rawPhone;
 
   function showErr(msg: string) {
     setError(msg);
@@ -84,7 +97,7 @@ export default function TrackPage() {
               </span>
             </a>
             <a
-              href="https://wa.me/628115491117"
+              href={`https://wa.me/${waPhone}`}
               className="hidden sm:inline-flex trk-btn-ghost px-4 py-2 text-sm text-[#9aa0aa] hover:text-white"
             >
               Hubungi Admin
@@ -191,7 +204,7 @@ export default function TrackPage() {
                   <p className="text-[13px] text-[#6b7280] text-center mt-5">
                     Lupa nomor pesanan?{" "}
                     <a
-                      href="https://wa.me/628115491117?text=Halo%20TNT%20SPORT%2C%20saya%20lupa%20nomor%20pesanan%20saya"
+                      href={`https://wa.me/${waPhone}?text=Halo%20${encodeURIComponent(brand.name)}%2C%20saya%20lupa%20nomor%20pesanan%20saya`}
                       className="text-[#3ee86b] underline underline-offset-4"
                     >
                       Tanya admin
@@ -251,7 +264,7 @@ export default function TrackPage() {
               <div className="flex flex-col sm:items-end gap-1 text-[13px] text-[#6b7280]">
                 <span>Senin–Sabtu · 09.00–17.00 WIB</span>
                 <a
-                  href="https://wa.me/628115491117"
+                  href={`https://wa.me/${waPhone}`}
                   className="text-[#3ee86b] hover:underline underline-offset-4"
                   target="_blank"
                   rel="noopener noreferrer"

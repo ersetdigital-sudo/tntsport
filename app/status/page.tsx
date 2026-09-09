@@ -431,7 +431,9 @@ function StatusContent() {
   const isShipped = normalizedStatus === "kirim" && hasTracking;
   const pct = getProgress(step, hasTracking);
   const lastUpdate = history.length > 0 ? history[history.length - 1] : null;
-  const waLink = `https://wa.me/${brand.whatsapp_number.replace(/[^0-9]/g, "")}?text=${encodeURIComponent(`Halo ${brand.name}, saya mau tanya order ${orderId}`)}`;
+  const rawPhone = brand.whatsapp_number.replace(/[^0-9]/g, "");
+  const waPhone = rawPhone.startsWith("0") ? "62" + rawPhone.slice(1) : rawPhone;
+  const waLink = `https://wa.me/${waPhone}?text=${encodeURIComponent(`Halo ${brand.name}, saya mau tanya order ${orderId}`)}`;
 
   // Product data (new structured format) with fallback to legacy fields
   const products: { name: string; sizes: { size: string; qty: number }[] }[] =
