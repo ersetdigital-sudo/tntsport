@@ -1,26 +1,24 @@
 -- 0023_notification_logs.sql
 -- Tabel riwayat pengiriman notifikasi deadline
 
-CREATE TABLE IF NOT EXISTS notification_logs (
+DROP TABLE IF EXISTS notification_logs;
+
+CREATE TABLE notification_logs (
   id          uuid PRIMARY KEY DEFAULT gen_random_uuid(),
   order_id    uuid REFERENCES orders(id) ON DELETE SET NULL,
   order_number text,
   phone       text NOT NULL,
-  status      text NOT NULL DEFAULT 'sent',  -- sent | failed
+  status      text NOT NULL DEFAULT 'sent',
   error       text,
-  diff_days   int,                            -- H-3, H-2, H-1
+  diff_days   int,
   created_at  timestamptz NOT NULL DEFAULT now()
 );
 
 ALTER TABLE notification_logs ENABLE ROW LEVEL SECURITY;
 
--- Admin (authenticated) full access
 DROP POLICY IF EXISTS "Admin manage notification_logs" ON notification_logs;
 CREATE POLICY "Admin manage notification_logs" ON notification_logs
   FOR ALL USING (auth.role() = 'authenticated');
 
--- Service role bypass (for cron + settings API)
--- No extra policy needed — service role ignores RLS
-
-CREATE INDEX idx_notification_logs_created ON notification_logs (created_at DESC);
-CREATE INDEX idx_notification_logs_order ON notification_logs (order_id);
+CREATE INDEX IF NOT EXISTS idx_notification_logs_created ON notification_logs (created_at DESC);
+CREATE INDEX IF NOT EXISTS idx_notification_logs_order ON notification_logs (order_id);
