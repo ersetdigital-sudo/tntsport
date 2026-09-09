@@ -37,27 +37,33 @@ export async function GET(req: Request) {
   const daysStr = get("deadline_notif_days") || "3,2,1";
   const phonesStr = get("deadline_notif_phones") || "";
 
-  if (!enabled) {
-    return NextResponse.json({ message: "Notifikasi deadline dinonaktifkan" });
-  }
+  // Skip cek enabled & waktu jika test dari dashboard
+  if (!fromDashboard) {
+    if (!enabled) {
+      return NextResponse.json({ message: "Notifikasi deadline dinonaktifkan" });
+    }
 
-  // Cek apakah sudah lewat jam yang ditentukan (menggunakan WIB)
-  const now = new Date();
-  const wibOffset = 7 * 60; // WIB = UTC+7
-  const nowWIB = new Date(now.getTime() + wibOffset * 60000);
-  const [h, m] = time.split(":").map(Number);
-  const targetWIB = new Date(nowWIB);
-  targetWIB.setHours(h, m, 0, 0);
-  // Jika target sudah lewat di hari ini, skip
-  if (nowWIB > targetWIB) {
-    return NextResponse.json({ message: "Lewat jam notifikasi hari ini" });
+    const now = new Date();
+    const wibOffset = 7 * 60;
+    const nowWIB = new Date(now.getTime() + wibOffset * 60000);
+    const [h, m] = time.split(":").map(Number);
+    const targetWIB = new Date(nowWIB);
+    targetWIB.setHours(h, m, 0, 0);
+    if (nowWIB > targetWIB) {
+      return NextResponse.json({ message: "Lewat jam notifikasi hari ini" });
+    }
   }
 
   const days = daysStr.split(",").map(Number).filter((d: number) => d >= 0);
   const phones = phonesStr.split(",").map((p: string) => p.trim()).filter(Boolean);
 
-  if (phones.length === 0) {
+  if (phones.length === 0 && !fromDashboard) {
     return NextResponse.json({ error: "Nomor HP admin belum diatur" }, { status: 400 });
+  }
+
+  // Untuk test dari dashboard, jika phones kosong, gunakan phone dari param atau return error
+  if (phones.length === 0 && fromDashboard) {
+    return NextResponse.json({ error: "Nomor HP admin belum diatur. Simpan di Pengaturan dulu." }, { status: 400 });
   }
 
   // 2. Cari order dengan deadline mendekati
