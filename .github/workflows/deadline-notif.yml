@@ -10,5 +10,19 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Call deadline notification API
+        id: call
         run: |
-          curl -X GET "https://www.tntsportapparel.id/api/admin/deadline-notif?secret=${{ secrets.CRON_SECRET }}"
+          for i in 1 2 3; do
+            RESPONSE=$(curl -s -w "\n%{http_code}" -X GET "https://www.tntsportapparel.id/api/admin/deadline-notif?secret=${{ secrets.CRON_SECRET }}")
+            HTTP_CODE=$(echo "$RESPONSE" | tail -1)
+            BODY=$(echo "$RESPONSE" | head -n -1)
+            echo "Attempt $i: HTTP $HTTP_CODE"
+            if [ "$HTTP_CODE" = "200" ]; then
+              echo "Response: $BODY"
+              exit 0
+            fi
+            echo "Retry in 5s..."
+            sleep 5
+          done
+          echo "All attempts failed"
+          exit 1
