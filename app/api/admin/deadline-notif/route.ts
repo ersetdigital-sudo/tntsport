@@ -10,7 +10,15 @@ export async function GET(req: Request) {
   const fromDashboard = req.headers.get("x-from-dashboard") === "true";
   // Izinkan akses jika secret cocok (dari cron) atau dari dashboard (test manual)
   if (!fromDashboard && (!CRON_SECRET || auth !== CRON_SECRET)) {
-    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    return NextResponse.json({
+      error: "Unauthorized",
+      debug: {
+        headerReceived: auth !== null,
+        headerLength: auth?.length ?? 0,
+        envLength: CRON_SECRET.length,
+        matchAfterTrim: (auth?.trim() ?? "") === CRON_SECRET.trim(),
+      },
+    }, { status: 401 });
   }
 
   const supabase = await createClient();
