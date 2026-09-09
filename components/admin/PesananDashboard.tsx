@@ -2194,6 +2194,7 @@ function ViewNotif({ showToast, orders }: { showToast: (msg: string) => void; or
   const [phone3, setPhone3] = useState("");
   const [saving, setSaving] = useState(false);
   const [testing, setTesting] = useState(false);
+  const [isSaved, setIsSaved] = useState(false);
   const [logs, setLogs] = useState<any[]>([]);
   const [cdH, setCdH] = useState("00");
   const [cdM, setCdM] = useState("00");
@@ -2222,6 +2223,7 @@ function ViewNotif({ showToast, orders }: { showToast: (msg: string) => void; or
           setPhone1(ph[0] || "");
           setPhone2(ph[1] || "");
           setPhone3(ph[2] || "");
+          setIsSaved(true);
         }
       })
       .catch(() => {});
@@ -2277,8 +2279,9 @@ function ViewNotif({ showToast, orders }: { showToast: (msg: string) => void; or
         body: JSON.stringify({ enabled, time, days, phones: activePhones.join(",") }),
       });
       const data = await res.json();
-      if (!res.ok) { showToast(data.error || "Gagal menyimpan"); return; }
+      if (!res.ok) { showToast(data.error || "Gagal menyimpan"); setSaving(false); return; }
       showToast("Pengaturan tersimpan");
+      setIsSaved(true);
     } catch { showToast("Gagal menyimpan"); }
     finally { setSaving(false); }
   };
@@ -2465,7 +2468,7 @@ function ViewNotif({ showToast, orders }: { showToast: (msg: string) => void; or
           <div className="grid gap-8 md:grid-cols-2">
             <div>
               <div className="n-fw">
-                <input type="time" value={time} onChange={(e) => setTime(e.target.value)} className="n-field" style={{ fontFamily: 'var(--font-geist-mono),monospace', fontSize: 17 }} />
+                <input type="time" value={time} onChange={(e) => setTime(e.target.value)} disabled={isSaved} className="n-field" style={{ fontFamily: 'var(--font-geist-mono),monospace', fontSize: 17 }} />
                 <label>Jam kirim</label>
               </div>
               <p className="mt-2.5 text-[12.5px]" style={{ color: "var(--ink-soft)" }}>Pengingat dikirim setiap hari pada jam ini.</p>
@@ -2474,7 +2477,7 @@ function ViewNotif({ showToast, orders }: { showToast: (msg: string) => void; or
               <p className="n-eyebrow">Hari reminder</p>
               <div className="mt-3 flex flex-wrap gap-2.5">
                 {(["3", "2", "1", "0"] as const).map((v) => (
-                  <button key={v} className={`n-chip ${activeDays.includes(v) ? "on" : ""}`} onClick={() => toggleDay(v)}>
+                  <button key={v} className={`n-chip ${activeDays.includes(v) ? "on" : ""}`} onClick={() => toggleDay(v)} disabled={isSaved}>
                     {dayLabels[v]}
                   </button>
                 ))}
@@ -2489,19 +2492,31 @@ function ViewNotif({ showToast, orders }: { showToast: (msg: string) => void; or
               <span className="text-[12px]" style={{ color: "var(--ink-soft)" }}>Format 62...</span>
             </div>
             <div className="mt-3 grid gap-3 md:grid-cols-3">
-              <div className="n-fw"><input className="n-field" style={{ fontFamily: 'var(--font-geist-mono),monospace' }} value={phone1} onChange={(e) => setPhone1(e.target.value)} placeholder="6281234567890" /><label>Admin 1</label></div>
-              <div className="n-fw"><input className="n-field" style={{ fontFamily: 'var(--font-geist-mono),monospace' }} value={phone2} onChange={(e) => setPhone2(e.target.value)} placeholder="6280987654321" /><label>Admin 2</label></div>
-              <div className="n-fw"><input className="n-field" style={{ fontFamily: 'var(--font-geist-mono),monospace' }} value={phone3} onChange={(e) => setPhone3(e.target.value)} placeholder="628111222333" /><label>Admin 3</label></div>
+              <div className="n-fw"><input className="n-field" style={{ fontFamily: 'var(--font-geist-mono),monospace' }} value={phone1} onChange={(e) => setPhone1(e.target.value)} disabled={isSaved} placeholder="6281234567890" /><label>Admin 1</label></div>
+              <div className="n-fw"><input className="n-field" style={{ fontFamily: 'var(--font-geist-mono),monospace' }} value={phone2} onChange={(e) => setPhone2(e.target.value)} disabled={isSaved} placeholder="6280987654321" /><label>Admin 2</label></div>
+              <div className="n-fw"><input className="n-field" style={{ fontFamily: 'var(--font-geist-mono),monospace' }} value={phone3} onChange={(e) => setPhone3(e.target.value)} disabled={isSaved} placeholder="628111222333" /><label>Admin 3</label></div>
             </div>
           </div>
           <div className="mt-9 flex flex-wrap items-center gap-3">
-            <button className="n-btn n-btn-primary px-6 py-3.5" disabled={saving} onClick={saveSettings}>
-              {saving ? "Menyimpan..." : "Simpan pengaturan"}
+            <button
+              className="n-btn n-btn-primary px-6 py-3.5 transition-all duration-200"
+              disabled={saving}
+              onClick={() => {
+                if (isSaved) {
+                  setIsSaved(false);
+                } else {
+                  saveSettings();
+                }
+              }}
+            >
+              {saving ? "Menyimpan..." : isSaved ? "Edit" : "Simpan pengaturan"}
             </button>
             <button className="n-btn n-btn-ghost px-6 py-3.5" disabled={!enabled || testing} onClick={testNotif}>
               {testing ? "Mengirim..." : "Test kirim sekarang"}
             </button>
-            <span className="ml-auto text-[12px]" style={{ fontFamily: 'var(--font-geist-mono),monospace', color: "var(--ink-soft)" }}>tersimpan otomatis saat disimpan</span>
+            <span className="ml-auto text-[12px]" style={{ fontFamily: 'var(--font-geist-mono),monospace', color: "var(--ink-soft)" }}>
+              {isSaved ? "✔ Pengaturan tersimpan" : "Belum disimpan"}
+            </span>
           </div>
         </section>
 
