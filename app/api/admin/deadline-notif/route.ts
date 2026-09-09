@@ -64,11 +64,9 @@ export async function GET(req: Request) {
     .from("orders")
     .select(`
       id, order_number, customer_name, customer_phone,
-      current_status, current_step,
-      deadline, is_done,
-      products, quantity, product_name
+      current_status, current_stage,
+      deadline, products, quantity, product_type
     `)
-    .eq("is_done", false)
     .not("deadline", "is", null);
 
   const { data: orders, error: ordersErr } = await ordersQuery;
@@ -79,6 +77,9 @@ export async function GET(req: Request) {
 
   const toNotify: any[] = [];
   for (const order of orders) {
+    // is_done di-compute: current_status === 'selesai'
+    if (order.current_status === "selesai") continue;
+
     const deadlineDate = new Date(order.deadline);
     deadlineDate.setHours(0, 0, 0, 0);
     const diffDays = Math.ceil((deadlineDate.getTime() - today.getTime()) / (1000 * 60 * 60 * 24));
@@ -94,8 +95,8 @@ export async function GET(req: Request) {
   // 3. Kirim WA ke semua admin
   const results = [];
   for (const order of toNotify) {
-    const stageName = ORDER_STATUS_LABELS[order.current_status as keyof typeof ORDER_STATUS_LABELS] || `Tahap ${order.current_step}`;
-    const product = order.products?.length ? order.products[0].name : order.product_name || "-";
+    const stageName = ORDER_STATUS_LABELS[order.current_status as keyof typeof ORDER_STATUS_LABELS] || `Tahap ${order.current_stage}`;
+    const product = order.products?.length ? order.products[0].name : order.product_type || "-";
     const qty = order.products?.length
       ? order.products.reduce((a: number, p: any) => a + p.sizes.reduce((x: number, s: any) => x + (s.qty || 0), 0), 0)
       : order.quantity || "-";
@@ -109,7 +110,7 @@ Pesanan berikut mendekati deadline:
 Nomor: ${order.order_number}
 Customer: ${order.customer_name}
 Produk: ${product} (${qty} pcs)
-Tahap: ${stageName} (${order.current_step}/11)
+Tahap: ${stageName} (${order.current_stage}/11)
 Deadline: ${new Date(order.deadline).toLocaleDateString("id-ID", { day: "numeric", month: "long", year: "numeric" })}
 Sisa: ${order.diffDays === 0 ? "Hari ini" : order.diffDays + " hari lagi"}
 
