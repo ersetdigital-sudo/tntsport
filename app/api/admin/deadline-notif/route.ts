@@ -116,7 +116,7 @@ Sisa: ${order.diffDays === 0 ? "Hari ini" : order.diffDays + " hari lagi"}
 
 Segera tindak lanjuti.
 
-Link: https://www.tntsportapparel.id/pesanan/${order.id}
+Link: https://www.tntsportapparel.id/pesanan/orders
 ---
 Pesan ini dikirim setiap hari sampai deadline terlewati.`;
 
