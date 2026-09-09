@@ -1473,8 +1473,24 @@ function ViewLaporan({ orders }: { orders: OrderData[] }) {
     const n = parseInt(o.quantity, 10);
     return a + (isNaN(n) ? 0 : n);
   }, 0);
-  const weeks = [3, 5, 4, 6, 4, 7, 6];
-  const wmax = Math.max(...weeks);
+  // Hitung data real order per minggu (7 minggu terakhir)
+  const now = new Date();
+  const weeks: number[] = [];
+  const weekLabels: string[] = [];
+  for (let i = 6; i >= 0; i--) {
+    const start = new Date(now);
+    start.setDate(now.getDate() - (i * 7) - now.getDay());
+    const end = new Date(start);
+    end.setDate(start.getDate() + 6);
+    const count = orders.filter(o => {
+      const d = new Date(o.created_at);
+      return d >= start && d <= end;
+    }).length;
+    weeks.push(count);
+    const label = `M${i + 1}`;
+    weekLabels.push(label);
+  }
+  const wmax = Math.max(...weeks, 1);
   const totalOrders = orders.length;
   const avgTime = 8;
 
@@ -1527,7 +1543,10 @@ function ViewLaporan({ orders }: { orders: OrderData[] }) {
       {/* Charts */}
       <div className="grid lg:grid-cols-2 gap-4">
         <div className="pas-card p-5">
-          <p className="text-[13px] font-semibold text-ink">Order per Minggu</p>
+          <div className="flex items-center justify-between">
+            <p className="text-[13px] font-semibold text-ink">Order per Minggu</p>
+            <span className="text-[10px] text-[var(--pas-muted)]">Berdasarkan data real</span>
+          </div>
           <div className="flex items-end gap-2 mt-4" style={{ height: 120 }}>
             {weeks.map((v, i) => (
               <div key={i} className="flex flex-col items-center gap-2" style={{ flex: 1 }}>
@@ -1541,11 +1560,10 @@ function ViewLaporan({ orders }: { orders: OrderData[] }) {
                     transition: "height 0.3s ease",
                   }}
                 />
-                <span className="text-[11px] text-[var(--pas-muted)]">M{i + 1}</span>
+                <span className="text-[11px] text-[var(--pas-muted)]">{weekLabels[i]}</span>
               </div>
             ))}
           </div>
-          <p className="text-[11px] text-[var(--pas-muted)] mt-4 text-center">Data contoh – 7 minggu terakhir</p>
         </div>
 
         <div className="pas-card p-5">
