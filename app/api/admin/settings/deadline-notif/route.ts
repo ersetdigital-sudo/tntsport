@@ -1,8 +1,15 @@
 import { NextResponse } from "next/server";
-import { createClient } from "@/lib/supabase/server";
+import { createClient } from "@supabase/supabase-js";
+
+function getSupabase() {
+  return createClient(
+    process.env.NEXT_PUBLIC_SUPABASE_URL!,
+    process.env.SUPABASE_SERVICE_ROLE_KEY!
+  );
+}
 
 export async function GET() {
-  const supabase = await createClient();
+  const supabase = getSupabase();
   const { data, error } = await supabase
     .from("app_settings")
     .select("key, value")
@@ -28,7 +35,7 @@ export async function GET() {
 }
 
 export async function POST(req: Request) {
-  const supabase = await createClient();
+  const supabase = getSupabase();
   const body = await req.json();
 
   const { enabled, time, days, phones } = body;
@@ -40,7 +47,6 @@ export async function POST(req: Request) {
     { key: "deadline_notif_phones", value: phones || "" },
   ];
 
-  // Upsert each setting
   for (const s of settings) {
     const { error } = await supabase
       .from("app_settings")
@@ -49,12 +55,6 @@ export async function POST(req: Request) {
       return NextResponse.json({ error: error.message, debug: { key: s.key, value: s.value } }, { status: 500 });
     }
   }
-
-  // Verify: read back what was saved
-  const { data: verify } = await supabase
-    .from("app_settings")
-    .select("key, value")
-    .in("key", settings.map((s) => s.key));
 
   return NextResponse.json({ success: true });
 }
