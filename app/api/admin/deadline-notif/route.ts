@@ -37,20 +37,10 @@ export async function GET(req: Request) {
   const daysStr = get("deadline_notif_days") || "3,2,1";
   const phonesStr = get("deadline_notif_phones") || "";
 
-  // Skip cek enabled & waktu jika test dari dashboard
+  // Skip cek enabled & waktu jika test dari dashboard atau cron
   if (!fromDashboard) {
     if (!enabled) {
       return NextResponse.json({ message: "Notifikasi deadline dinonaktifkan" });
-    }
-
-    const now = new Date();
-    const wibOffset = 7 * 60;
-    const nowWIB = new Date(now.getTime() + wibOffset * 60000);
-    const [h, m] = time.split(":").map(Number);
-    const targetWIB = new Date(nowWIB);
-    targetWIB.setHours(h, m, 0, 0);
-    if (nowWIB > targetWIB) {
-      return NextResponse.json({ message: "Lewat jam notifikasi hari ini" });
     }
   }
 
