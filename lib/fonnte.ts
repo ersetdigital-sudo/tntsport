@@ -95,22 +95,22 @@ export function buildWhatsAppMessage(
 
   const stageName = STAGE_NAMES[stage] ?? `Tahap ${stage}`;
 
-  return [
-    "UPDATE PESANAN",
-    `Halo Kak ${customerName},`,
-    "",
-    `Pesanan #${orderNumber} saat ini sudah masuk tahap:`,
-    stageName,
-    "",
-    `Progress: ${stage}/9 tahap`,
-    "",
-    "Cek progres lengkap pesanan Kakak di:",
-    trackingUrl,
-    "",
-    "Kami akan mengirimkan update kembali saat pesanan masuk ke tahap berikutnya.",
-    "",
-    "Terima kasih sudah mempercayakan pesanan Kakak kepada TNT Sport Apparel.",
-  ].join("\n");
+    return [
+      "UPDATE PESANAN",
+      `Halo Kak ${customerName},`,
+      "",
+      `Pesanan #${orderNumber} saat ini sudah masuk tahap:`,
+      `*${stageName}*`,
+      "",
+      `Progress: ${stage}/11 tahap`,
+      "",
+      "Cek progres lengkap pesanan Kakak di:",
+      trackingUrl,
+      "",
+      "Kami akan mengirimkan update kembali saat pesanan masuk ke tahap berikutnya.",
+      "",
+      "Terima kasih sudah mempercayakan pesanan Kakak kepada TNT Sport Apparel.",
+    ].join("\n");
 }
 
 /** Validasi nomor HP format internasional Fonnte (628xxxxxxxxxx). */
