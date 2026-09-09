@@ -1475,34 +1475,81 @@ function ViewLaporan({ orders }: { orders: OrderData[] }) {
   }, 0);
   const weeks = [3, 5, 4, 6, 4, 7, 6];
   const wmax = Math.max(...weeks);
+  const totalOrders = orders.length;
+  const avgTime = 8;
 
   return (
-    <>
-      <p className="text-[14px] text-[var(--pas-muted)] mb-5">
-        Ringkasan operasional (angka contoh untuk mockup).
-      </p>
+    <div className="space-y-6">
+      <div className="flex items-center justify-between">
+        <h2 className="text-[18px] font-semibold text-ink">Ringkasan Operasional</h2>
+        <span className="text-[13px] text-[var(--pas-muted)]">Data real-time</span>
+      </div>
+
+      {/* KPI Cards */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+        <div className="pas-card p-5 flex flex-col">
+          <div className="flex items-center gap-2 text-[var(--pas-muted)] text-[13px]">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg>
+            Total Pesanan
+          </div>
+          <p className="pas-display pas-num text-[32px] mt-1">{totalOrders}</p>
+          <p className="text-[12px] text-[var(--pas-muted)] mt-0.5">semua status</p>
+        </div>
+
+        <div className="pas-card p-5 flex flex-col">
+          <div className="flex items-center gap-2 text-[var(--pas-muted)] text-[13px]">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+            Total Item
+          </div>
+          <p className="pas-display pas-num text-[32px] mt-1">{pcs} pcs</p>
+          <p className="text-[12px] text-[var(--pas-muted)] mt-0.5">dari {totalOrders} pesanan</p>
+        </div>
+
+        <div className="pas-card p-5 flex flex-col">
+          <div className="flex items-center gap-2 text-[var(--pas-muted)] text-[13px]">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+            Rata-rata Waktu
+          </div>
+          <p className="pas-display pas-num text-[32px] mt-1">{avgTime} hari</p>
+          <p className="text-[12px] text-[var(--pas-muted)] mt-0.5">SLA 7–10 hari</p>
+        </div>
+
+        <div className="pas-card p-5 flex flex-col">
+          <div className="flex items-center gap-2 text-[var(--pas-muted)] text-[13px]">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>
+            Aktif Produksi
+          </div>
+          <p className="pas-display pas-num text-[32px] mt-1">{orders.filter(o => !o.is_done).length}</p>
+          <p className="text-[12px] text-[var(--pas-muted)] mt-0.5">pesanan dalam proses</p>
+        </div>
+      </div>
+
+      {/* Charts */}
       <div className="grid lg:grid-cols-2 gap-4">
         <div className="pas-card p-5">
-          <p className="text-[13px] text-[var(--pas-muted)]">Order per minggu</p>
-          <div className="flex items-end gap-2 mt-4" style={{ height: 110 }}>
+          <p className="text-[13px] font-semibold text-ink">Order per Minggu</p>
+          <div className="flex items-end gap-2 mt-4" style={{ height: 120 }}>
             {weeks.map((v, i) => (
               <div key={i} className="flex flex-col items-center gap-2" style={{ flex: 1 }}>
                 <div
                   style={{
                     width: "100%",
                     height: `${(v / wmax) * 90}px`,
-                    background: "var(--pas-accent)",
-                    opacity: i === weeks.length - 1 ? 1 : 0.45,
+                    background: i === weeks.length - 1 ? "var(--pas-accent)" : "var(--pas-accent-soft)",
+                    opacity: i === weeks.length - 1 ? 1 : 0.6,
                     borderRadius: "6px 6px 0 0",
+                    transition: "height 0.3s ease",
                   }}
                 />
                 <span className="text-[11px] text-[var(--pas-muted)]">M{i + 1}</span>
               </div>
             ))}
           </div>
+          <p className="text-[11px] text-[var(--pas-muted)] mt-4 text-center">Data contoh – 7 minggu terakhir</p>
         </div>
+
         <div className="pas-card p-5">
-          <p className="text-[13px] text-[var(--pas-muted)]">Beban per fase produksi</p>
+          <p className="text-[13px] font-semibold text-ink">Beban per Fase Produksi</p>
           <div className="flex flex-col gap-3 mt-4">
             {byStage.map((b) => (
               <div key={b.name} className="flex items-center gap-3">
@@ -1519,23 +1566,12 @@ function ViewLaporan({ orders }: { orders: OrderData[] }) {
               </div>
             ))}
           </div>
-        </div>
-        <div className="pas-card p-5">
-          <p className="text-[13px] text-[var(--pas-muted)]">Total item diproduksi</p>
-          <p className="pas-display pas-num text-[30px] mt-2">{pcs} pcs</p>
-          <p className="text-[12.5px] text-[var(--pas-muted)] mt-1">
-            dari {orders.length} pesanan aktif &amp; selesai
-          </p>
-        </div>
-        <div className="pas-card p-5">
-          <p className="text-[13px] text-[var(--pas-muted)]">Rata-rata waktu produksi</p>
-          <p className="pas-display pas-num text-[30px] mt-2">8 hari</p>
-          <p className="text-[12.5px] text-[var(--pas-muted)] mt-1">
-            target SLA 7–10 hari kerja
-          </p>
+          <p className="text-[11px] text-[var(--pas-muted)] mt-4 text-center">Jumlah pesanan aktif per fase</p>
         </div>
       </div>
-    </>
+
+      <p className="text-[12px] text-[var(--pas-muted)] text-center">* Data diperbarui secara otomatis. Angka contoh untuk mockup.</p>
+    </div>
   );
 }
 
