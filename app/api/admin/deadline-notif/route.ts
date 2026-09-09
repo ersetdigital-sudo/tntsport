@@ -59,7 +59,7 @@ export async function GET(req: Request) {
     const targetMinutes = cfgH * 60 + cfgM;
     const diffMin = Math.abs(currentMinutes - targetMinutes);
 
-    if (diffMin > 30) {
+    if (diffMin > 3) {
       return NextResponse.json({
         message: `Belum waktunya. Setting: ${time} WIB, sekarang: ${String(nowWib.getUTCHours()).padStart(2, "0")}:${String(nowWib.getUTCMinutes()).padStart(2, "0")} WIB`,
       });
