@@ -83,18 +83,20 @@ export async function GET(req: Request) {
   const todayWib = wib.iso.slice(0, 10);
   const nowStr = `${String(wib.hours).padStart(2, "0")}:${String(wib.minutes).padStart(2, "0")}`;
 
+  let lastSentDate: string | null = null;
+
   // Cek enabled, window waktu (>= jam setting), & flag sudah kirim hari ini
   if (!fromDashboard) {
     if (!enabled) {
       return NextResponse.json({ message: "Notifikasi deadline dinonaktifkan" });
     }
 
-    const { data: lastSentRow } = await supabase
+    const { data: lastSentRows } = await supabase
       .from("app_settings")
       .select("value")
       .eq("key", "deadline_notif_last_sent_date")
-      .maybeSingle();
-    const lastSentDate = lastSentRow?.value || null;
+      .limit(1);
+    lastSentDate = lastSentRows?.[0]?.value || null;
 
     if (lastSentDate === todayWib) {
       return NextResponse.json({
@@ -148,14 +150,22 @@ export async function GET(req: Request) {
   }
 
   const toNotify: any[] = [];
+  const skippedOrders: any[] = [];
   for (const order of orders) {
     if (order.current_status === "selesai") continue;
 
-    // Dedup: skip jika sudah notif dalam 12 jam terakhir (kecuali test dashboard)
+    // Dedup per order: skip kalau sudah dinotif di tanggal WIB yang sama
     if (!fromDashboard && order.deadline_notified_at) {
-      const lastNotified = new Date(order.deadline_notified_at).getTime();
-      const twelveHoursAgo = Date.now() - 12 * 60 * 60 * 1000;
-      if (lastNotified > twelveHoursAgo) continue;
+      const notifiedWibDate = new Intl.DateTimeFormat("en-CA", {
+        timeZone: "Asia/Jakarta",
+        year: "numeric",
+        month: "2-digit",
+        day: "2-digit",
+      }).format(new Date(order.deadline_notified_at));
+      if (notifiedWibDate === todayWib) {
+        skippedOrders.push({ order: order.order_number, reason: "sudah_dinotif_hari_ini" });
+        continue;
+      }
     }
 
     const deadlineDate = new Date(order.deadline);
@@ -170,7 +180,19 @@ export async function GET(req: Request) {
   }
 
   if (toNotify.length === 0) {
-    return NextResponse.json({ message: "Tidak ada order yang mendekati deadline" });
+    return NextResponse.json({
+      message: skippedOrders.length > 0
+        ? "Semua order yang mendekati deadline sudah dinotif hari ini, dilewati"
+        : "Tidak ada order yang mendekati deadline",
+      total_orders: 0,
+      sent_orders: [],
+      skipped_orders: skippedOrders,
+      debug: {
+        sekarang: `${nowStr} WIB`,
+        setting: `${time} WIB`,
+        last_sent_date: lastSentDate,
+      },
+    });
   }
 
   // 3. Kirim WA ke semua admin + dedup + tracking
@@ -274,10 +296,12 @@ Pesan ini dikirim otomatis oleh sistem.`;
   return NextResponse.json({
     message: "Notifikasi deadline terkirim",
     total_orders: toNotify.length,
+    sent_orders: notifiedOrderIds,
+    skipped_orders: skippedOrders,
     debug: {
       sekarang: `${nowStr} WIB`,
       setting: `${time} WIB`,
-      last_sent_date: todayWib,
+      last_sent_date: notifiedOrderIds.length > 0 ? todayWib : lastSentDate,
     },
     results,
   });
