@@ -2849,252 +2849,259 @@ function DetailSheet({
   return (
     <div className="pas-sheet open">
       <div className="pas-veil" onClick={onClose} />
-      <div className="pas-panel p-5 sm:p-7">
-        {/* â”€â”€ HEADER â”€â”€ */}
-        <div className="flex items-start justify-between gap-4">
-          <div className="flex items-center gap-3.5 min-w-0">
-            <span className="pas-avatar w-11 h-11 text-[15px] flex items-center justify-center shrink-0">
-              {initials(order.customer_name)}
-            </span>
-            <div className="min-w-0">
-              <div className="flex items-center gap-2 flex-wrap">
-                <h2 className="pas-display text-[22px] leading-none">{order.id}</h2>
-                <span className={`pas-pill ${st}`}>{FILTER_LABEL[st]}</span>
-              </div>
-              <p className="text-[13.5px] text-[var(--pas-muted)] mt-1.5 truncate">
-                {order.customer_name} - {order.customer_city}
-              </p>
-              <p className="text-[13px] text-[var(--pas-muted)] pas-num">{order.customer_phone}</p>
-            </div>
-          </div>
-          <button
-            className="pas-btn-ghost px-3 py-2 text-sm text-[var(--pas-muted)] hover:text-[var(--pas-ink-1)] shrink-0"
-            onClick={onClose}
-          >
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round">
-              <path d="M18 6L6 18M6 6l12 12" />
-            </svg>
+      <div className="pas-panel p-0" style={{ display: "flex", flexDirection: "column", height: "100%" }}>
+        {/* ── TOPBAR ── */}
+        <div className="sticky top-0 z-10 flex items-center gap-3 px-5 py-3.5 border-b border-[var(--pas-line)]" style={{ background: "rgba(245,235,225,.85)", backdropFilter: "blur(14px)", WebkitBackdropFilter: "blur(14px)" }}>
+          <button className="w-9 h-9 rounded-[10px] border border-[var(--pas-line)] bg-[var(--pas-surface)] grid place-items-center text-[var(--pas-muted)] hover:text-[var(--pas-ink-1)] hover:border-[rgba(63,86,59,.22)] transition shrink-0" onClick={onClose} aria-label="Kembali">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round"><path d="M19 12H5M12 19l-7-7 7-7" /></svg>
           </button>
+          <div className="min-w-0 flex-1">
+            <div className="pas-display text-[16px] leading-tight">Detail Pesanan</div>
+            <div className="text-[12px] text-[var(--pas-muted)] pas-num mt-0.5">{order.id}</div>
+          </div>
+          <span className={`pas-pill ${st} text-[11px]`}>{FILTER_LABEL[st]}</span>
         </div>
 
-        {/* â”€â”€ PROGRESS â”€â”€ */}
-        <div className="mt-5 p-4 rounded-2xl bg-[var(--pas-surface-2)] border border-[var(--pas-line)]">
-          <div className="flex items-center justify-between">
-            <p className="pas-stencil text-[9px] text-[var(--pas-muted)]">Progress Produksi</p>
-            <p className="pas-display text-[16px] pas-num">{pct}%</p>
-          </div>
-          <span className="pas-bar mt-2.5" style={{ display: "block" }}>
-            <i style={{ width: `${pct}%` }} />
-          </span>
-          <p className="text-[12.5px] text-[var(--pas-muted)] mt-2">
-            Tahap sekarang: <span className="text-[var(--pas-ink-1)] font-medium">{steps[step - 1]?.name || `Tahap ${step}`}</span>
-          </p>
-        </div>
-
-        {/* â”€â”€ INFO GRID â”€â”€ */}
-        <div className="pas-card p-4 mt-4 grid grid-cols-2 gap-y-4 text-[14px]">
-          {(order.products?.length ?? 0) > 0 ? (
-            order.products!.map((p, pi) => (
-              <div key={pi} className="col-span-2 rounded-xl border border-[var(--pas-line)] p-3.5">
-                <div className="flex items-center justify-between gap-3">
-                  <p className="font-semibold text-[14px]">{p.name}</p>
-                  <span className="text-[12px] text-[var(--pas-muted)] pas-num">
-                    {p.sizes.reduce((a, s) => a + (s.qty || 0), 0)} pcs
-                  </span>
-                </div>
-                <div className="flex flex-wrap gap-2 mt-2.5">
-                  {p.sizes.map((s, si) => (
-                    <span
-                      key={si}
-                      className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-[13px] font-medium bg-[var(--pas-surface-2)] border border-[var(--pas-line)] text-[var(--pas-ink-1)]"
-                    >
-                      <span className="font-semibold">{s.size}</span>
-                      <span className="text-[var(--pas-muted)] text-[11px]">-</span>
-                      <span className="text-[var(--pas-muted)]">{s.qty}</span>
-                    </span>
-                  ))}
-                </div>
-              </div>
-            ))
-          ) : (
-            <>
-              <div>
-                <p className="pas-stencil text-[9px] text-[var(--pas-muted)]">Produk</p>
-                <p className="mt-1">{order.product_name}</p>
-              </div>
-              <div>
-                <p className="pas-stencil text-[9px] text-[var(--pas-muted)]">Jumlah</p>
-                <p className="mt-1">{order.quantity}</p>
-              </div>
-              <div>
-                <p className="pas-stencil text-[9px] text-[var(--pas-muted)]">Ukuran</p>
-                <div className="flex flex-wrap gap-2 mt-1.5">
-                  {order.sizes
-                    ? order.sizes.split(",").map((s, i) => {
-                        const trimmed = s.trim();
-                        const match = trimmed.match(/^([A-Za-z]+)\(?(\d*)\)?$/);
-                        const label = match ? match[1] : trimmed;
-                        const count = match && match[2] ? match[2] : null;
-                        return (
-                          <span
-                            key={i}
-                            className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-[13px] font-medium bg-[var(--pas-surface-2)] border border-[var(--pas-line)] text-[var(--pas-ink-1)]"
-                          >
-                            <span className="font-semibold">{label}</span>
-                            {count && (
-                              <>
-                                <span className="text-[var(--pas-muted)] text-[11px]">-</span>
-                                <span className="text-[var(--pas-muted)]">{count}</span>
-                              </>
-                            )}
-                          </span>
-                        );
-                      })
-                    : <span className="text-[var(--pas-muted)]">-</span>}
-                </div>
-              </div>
-            </>
-          )}
-          <div>
-            <p className="pas-stencil text-[9px] text-[var(--pas-muted)]">Tanggal Order</p>
-            <p className="mt-1">{formatDatePretty(order.created_at)}</p>
-          </div>
-          <div>
-            <p className="pas-stencil text-[9px] text-[var(--pas-muted)]">Deadline</p>
-            <p className="mt-1">{formatDatePretty(order.deadline || "")}</p>
-          </div>
-          <div>
-            <p className="pas-stencil text-[9px] text-[var(--pas-muted)]">Status Produksi</p>
-            <p className="mt-1">{steps[step - 1]?.name || `Tahap ${step}`}</p>
-          </div>
-          <div>
-            <p className="pas-stencil text-[9px] text-[var(--pas-muted)]">Progress</p>
-            <p className="mt-1">{pct}%</p>
-          </div>
-          {step === 11 && (courier || resi) && (
-            <>
-              <div>
-                <p className="pas-stencil text-[9px] text-[var(--pas-muted)]">Ekspedisi</p>
-                <p className="mt-1">{courier || "-"}</p>
-              </div>
-              <div>
-                <p className="pas-stencil text-[9px] text-[var(--pas-muted)]">Nomor Resi</p>
-                <p className="mt-1">{resi || "-"}</p>
-              </div>
-            </>
-          )}
-          <div className="col-span-2 grid grid-cols-2 gap-4">
-            <div>
-              <p className="pas-stencil text-[9px] text-[var(--pas-muted)]">Preview Design</p>
-              <div className="flex flex-wrap gap-2.5 mt-1.5">
-                {(order.design_photos?.length ?? 0) > 0 ? order.design_photos!.map((url, i) => (
-                  <button key={i} type="button" onClick={() => setZoomUrl(url)} className="group relative w-[76px] h-[76px] rounded-xl overflow-hidden border border-[var(--pas-line)] hover:border-[var(--pas-accent)] transition" title="Klik untuk memperbesar" aria-label={`Perbesar design ${i + 1}`}>
-                    {/* eslint-disable-next-line @next/next/no-img-element */}
-                    <img src={url} alt={`Design ${i + 1}`} className="w-full h-full object-cover" />
-                    <span className="pointer-events-none absolute right-1.5 top-1.5 grid h-6 w-6 place-items-center rounded-full bg-black/55 text-white border border-white/15 opacity-90">
-                      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="7" /><path d="M20 20l-3.5-3.5M11 8v6M8 11h6" /></svg>
-                    </span>
-                  </button>
-                )) : <span className="text-[13px] text-[var(--pas-muted)]">Belum ada preview</span>}
-              </div>
+        <div className="flex-1 overflow-y-auto px-5 pt-5 pb-28" style={{ scrollbarColor: "var(--pas-line) transparent" }}>
+          {/* ── STATUS HERO ── */}
+          <div className="rounded-2xl border border-[var(--pas-line)] bg-[var(--pas-surface)] shadow-[0_1px_3px_rgba(0,0,0,.04),0_4px_12px_rgba(0,0,0,.04)] p-6 flex flex-col items-center text-center gap-3">
+            <div className="w-14 h-14 rounded-full bg-[rgba(63,86,59,.10)] grid place-items-center text-[var(--pas-accent)] text-[22px]">
+              {order.is_done ? (
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M20 6L9 17l-5-5" /></svg>
+              ) : (
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M6 9l6 6 6-6" /></svg>
+              )}
             </div>
-            <div>
-              <p className="pas-stencil text-[9px] text-[var(--pas-muted)]">WO</p>
-              <div className="flex flex-wrap gap-2.5 mt-1.5">
-                {woPhotos.map((url, i) => (
-                  <div key={i} className="relative w-[76px] h-[76px] rounded-xl overflow-hidden border border-[var(--pas-line)] group">
-                    <button type="button" onClick={() => setZoomUrl(url)} className="w-full h-full" title="Klik untuk memperbesar" aria-label={`Perbesar WO ${i + 1}`}>
-                      {/* eslint-disable-next-line @next/next/no-img-element */}
-                      <img src={url} alt={`WO ${i + 1}`} className="w-full h-full object-cover" />
-                      <span className="pointer-events-none absolute right-1.5 top-1.5 grid h-6 w-6 place-items-center rounded-full bg-black/55 text-white border border-white/15 opacity-90">
-                        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="7" /><path d="M20 20l-3.5-3.5M11 8v6M8 11h6" /></svg>
+            <div className="pas-display text-[18px] leading-tight">{steps[step - 1]?.name || `Tahap ${step}`}</div>
+            <p className="text-[13px] text-[var(--pas-muted)] max-w-[300px] leading-relaxed">
+              {order.is_done ? "Pesanan sudah selesai dan diterima oleh customer." : `Pesanan sedang dalam tahap ${steps[step - 1]?.name || `tahap ${step}`}. Estimasi selesai ${formatDatePretty(order.deadline || "")}.`}
+            </p>
+          </div>
+
+          {/* ── PROGRESS ── */}
+          <p className="pas-stencil text-[9px] text-[var(--pas-muted)] mt-6 mb-2">Progress Produksi</p>
+          <div className="rounded-2xl border border-[var(--pas-line)] bg-[var(--pas-surface)] shadow-[0_1px_3px_rgba(0,0,0,.04)] p-4">
+            <div className="flex items-end justify-between mb-3">
+              <div className="pas-display text-[28px] leading-none pas-num text-[var(--pas-accent)]">{pct}%</div>
+              <div className="text-[13px] font-semibold text-[var(--pas-ink-2)]">Tahap {step} dari {steps.length}</div>
+            </div>
+            <div className="h-[6px] rounded-full bg-[rgba(63,86,59,.08)] overflow-hidden">
+              <div className="h-full rounded-full bg-[var(--pas-accent)]" style={{ width: `${pct}%`, transition: "width .6s cubic-bezier(.22,1,.36,1)" }} />
+            </div>
+          </div>
+
+          {/* ── TIMELINE STEPPER ── */}
+          <p className="pas-stencil text-[9px] text-[var(--pas-muted)] mt-6 mb-2">Timeline Produksi</p>
+          <div className="rounded-2xl border border-[var(--pas-line)] bg-[var(--pas-surface)] shadow-[0_1px_3px_rgba(0,0,0,.04)] overflow-hidden">
+            <div className="px-4 py-3 border-b border-[var(--pas-line)] flex items-center justify-between">
+              <span className="pas-stencil text-[9px] text-[var(--pas-muted)]">Urutan Tahapan</span>
+              <span className="pas-stencil text-[9px] text-[var(--pas-muted)] opacity-50">klik untuk ubah</span>
+            </div>
+            <div className="px-4 py-2">
+              {steps.map((s, i) => {
+                const isDone = i + 1 < step;
+                const isCur = i + 1 === step;
+                return (
+                  <div key={i} className="flex items-start gap-3.5 relative" style={{ padding: "5px 0" }}>
+                    {i < steps.length - 1 && (
+                      <div className="absolute left-[10px] top-[25px] bottom-[-5px] w-[2px] rounded-full" style={{ background: isDone ? "var(--pas-accent)" : "var(--pas-line)" }} />
+                    )}
+                    <button
+                      className="flex items-start gap-3.5 w-full text-left bg-transparent border-0 p-0 cursor-pointer"
+                      onClick={() => setStep(i + 1)}
+                    >
+                      <span
+                        className="w-[22px] h-[22px] rounded-full grid place-items-center text-[9px] font-bold shrink-0 mt-[1px] transition-all duration-200"
+                        style={{
+                          background: isDone ? "var(--pas-accent)" : isCur ? "var(--pas-surface)" : "var(--pas-surface)",
+                          border: isDone ? "2px solid var(--pas-accent)" : isCur ? "2px solid var(--pas-accent)" : "2px solid var(--pas-line)",
+                          color: isDone ? "#fff" : isCur ? "var(--pas-accent)" : "var(--pas-muted)",
+                          boxShadow: isDone ? "none" : isCur ? "0 0 0 4px rgba(63,86,59,.10)" : "none",
+                        }}
+                      >
+                        {isDone ? "" : i + 1}
                       </span>
+                      <div className="flex-1 min-w-0">
+                        <div className={`text-[13.5px] leading-snug ${isCur ? "font-bold text-[var(--pas-ink-1)]" : isDone ? "font-medium text-[var(--pas-ink-2)]" : "text-[var(--pas-muted)]"}`}>
+                          {i + 1}. {s.name}
+                        </div>
+                        {isDone && <div className="text-[11px] text-[var(--pas-muted)] opacity-70 mt-0.5">Selesai</div>}
+                        {isCur && <div className="text-[11px] text-[var(--pas-muted)] opacity-70 mt-0.5">Sedang dikerjakan</div>}
+                      </div>
                     </button>
                   </div>
-                ))}
-                <label className="w-[76px] h-[76px] grid place-items-center rounded-xl border-2 border-dashed border-[var(--pas-line)] hover:border-[var(--pas-accent)] cursor-pointer transition text-[var(--pas-muted)] hover:text-[var(--pas-ink-1)]">
-                  <input type="file" accept="image/*" className="hidden" disabled={uploadingWo} onChange={(e) => { const f = e.target.files?.[0]; if (f) handleWoUpload(f); e.currentTarget.value = ""; }} />
-                  <span className="text-[22px] leading-none">{uploadingWo ? "..." : "+"}</span>
-                </label>
-              </div>
-              <p className="text-[11px] text-[var(--pas-muted)] mt-1.5">Admin only - tidak terlihat customer</p>
+                );
+              })}
             </div>
           </div>
-        </div>
 
-        <p className="pas-stencil text-[9px] text-[var(--pas-muted)] mt-6">
-          Update Tahap Produksi
-        </p>
-        <div className="mt-2 flex flex-col gap-1">
-          {steps.map((s, i) => {
-            const cls = i + 1 < step ? "done" : i + 1 === step ? "cur" : "";
-            return (
-              <button
-                key={i}
-                className={`pas-stepbtn ${cls}`}
-                onClick={() => setStep(i + 1)}
-              >
-                <span className="pas-num">{i + 1}</span>
-                {s.name}
-              </button>
-            );
-          })}
-        </div>
+          {/* ── INFO PESANAN ── */}
+          <p className="pas-stencil text-[9px] text-[var(--pas-muted)] mt-6 mb-2">Informasi Pesanan</p>
+          <div className="rounded-2xl border border-[var(--pas-line)] bg-[var(--pas-surface)] shadow-[0_1px_3px_rgba(0,0,0,.04)] overflow-hidden">
+            <div className="px-4 py-2.5 border-b border-[var(--pas-line)]" style={{ background: "rgba(63,86,59,.03)" }}>
+              <span className="pas-stencil text-[9px] text-[var(--pas-muted)]">Data Order</span>
+            </div>
+            <div className="grid grid-cols-2">
+              <div className="px-4 py-3 border-b border-r border-[var(--pas-line)]">
+                <span className="pas-stencil text-[9px] text-[var(--pas-muted)]">Tanggal Order</span>
+                <p className="mt-1 text-[14px] font-semibold">{formatDatePretty(order.created_at)}</p>
+              </div>
+              <div className="px-4 py-3 border-b border-[var(--pas-line)]">
+                <span className="pas-stencil text-[9px] text-[var(--pas-muted)]">Deadline</span>
+                <p className="mt-1 text-[14px] font-semibold text-[var(--pas-orange)]">{formatDatePretty(order.deadline || "")}</p>
+              </div>
+              <div className="px-4 py-3 border-b border-r border-[var(--pas-line)]">
+                <span className="pas-stencil text-[9px] text-[var(--pas-muted)]">Status Produksi</span>
+                <p className="mt-1 text-[14px] font-semibold">{steps[step - 1]?.name || `Tahap ${step}`}</p>
+              </div>
+              <div className="px-4 py-3 border-b border-[var(--pas-line)]">
+                <span className="pas-stencil text-[9px] text-[var(--pas-muted)]">Progress</span>
+                <p className="mt-1 text-[14px] font-semibold">{pct}%</p>
+              </div>
+              {(order.products?.length ?? 0) > 0 ? (
+                <div className="col-span-2 px-4 py-3 border-b border-[var(--pas-line)]">
+                  <span className="pas-stencil text-[9px] text-[var(--pas-muted)]">Produk</span>
+                  <div className="flex flex-wrap gap-1.5 mt-2">
+                    {order.products!.map((p, pi) => (
+                      <span key={pi} className="inline-flex items-center gap-1 px-2.5 py-1.5 rounded-lg text-[12.5px] font-semibold bg-[rgba(63,86,59,.06)] border border-[rgba(63,86,59,.12)] text-[var(--pas-ink-1)]">
+                        {p.name} <span className="text-[var(--pas-muted)] font-normal">- {p.sizes.reduce((a, s) => a + (s.qty || 0), 0)} pcs</span>
+                      </span>
+                    ))}
+                  </div>
+                </div>
+              ) : (
+                <div className="col-span-2 px-4 py-3 border-b border-[var(--pas-line)]">
+                  <span className="pas-stencil text-[9px] text-[var(--pas-muted)]">Produk</span>
+                  <p className="mt-1 text-[14px] font-semibold">{order.product_name}</p>
+                </div>
+              )}
+              <div className="px-4 py-3 border-b border-r border-[var(--pas-line)]">
+                <span className="pas-stencil text-[9px] text-[var(--pas-muted)]">Jumlah</span>
+                <p className="mt-1 text-[14px] font-semibold">{order.quantity} pcs</p>
+              </div>
+              {step === 11 && (courier || resi) ? (
+                <div className="px-4 py-3 border-b border-[var(--pas-line)]">
+                  <span className="pas-stencil text-[9px] text-[var(--pas-muted)]">Ekspedisi / Resi</span>
+                  <p className="mt-1 text-[13px] font-semibold pas-num">{courier || "-"} / {resi || "-"}</p>
+                </div>
+              ) : (
+                <div className="px-4 py-3 border-b border-[var(--pas-line)]">
+                  <span className="pas-stencil text-[9px] text-[var(--pas-muted)]">Ekspedisi / Resi</span>
+                  <p className="mt-1 text-[13px] text-[var(--pas-muted)]">-</p>
+                </div>
+              )}
+            </div>
+          </div>
 
-        <p className="pas-stencil text-[9px] text-[var(--pas-muted)] mt-6">
-          Catatan untuk Customer
-        </p>
-        <textarea
-          rows={3}
-          className="pas-field w-full px-4 py-3 mt-2 text-[14px]"
-          value={note}
-          onChange={(e) => setNote(e.target.value)}
-        />
+          {/* ── MEDIA ── */}
+          <p className="pas-stencil text-[9px] text-[var(--pas-muted)] mt-6 mb-2">Media</p>
+          <div className="rounded-2xl border border-[var(--pas-line)] bg-[var(--pas-surface)] shadow-[0_1px_3px_rgba(0,0,0,.04)] overflow-hidden">
+            <div className="px-4 py-2.5 border-b border-[var(--pas-line)]" style={{ background: "rgba(63,86,59,.03)" }}>
+              <span className="pas-stencil text-[9px] text-[var(--pas-muted)]">File & Foto</span>
+            </div>
+            <div className="grid grid-cols-2 gap-4 p-4">
+              <div>
+                <span className="pas-stencil text-[9px] text-[var(--pas-muted)] block mb-2">Preview Design</span>
+                <div className="flex flex-wrap gap-2">
+                  {(order.design_photos?.length ?? 0) > 0 ? order.design_photos!.map((url, i) => (
+                    <button key={i} type="button" onClick={() => setZoomUrl(url)} className="group relative w-[72px] h-[72px] rounded-xl overflow-hidden border border-[var(--pas-line)] hover:border-[var(--pas-accent)] transition" title="Klik untuk memperbesar" aria-label={`Perbesar design ${i + 1}`}>
+                      {/* eslint-disable-next-line @next/next/no-img-element */}
+                      <img src={url} alt={`Design ${i + 1}`} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" />
+                      <span className="pointer-events-none absolute right-1 top-1 grid h-5 w-5 place-items-center rounded-full bg-black/55 text-white border border-white/15 opacity-90">
+                        <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="7" /><path d="M20 20l-3.5-3.5M11 8v6M8 11h6" /></svg>
+                      </span>
+                    </button>
+                  )) : <span className="text-[12px] text-[var(--pas-muted)]">Belum ada preview</span>}
+                </div>
+                <p className="text-[10px] text-[var(--pas-muted)] mt-1.5 opacity-60">Read-only - klik untuk zoom</p>
+              </div>
+              <div>
+                <span className="pas-stencil text-[9px] text-[var(--pas-muted)] block mb-2">WO</span>
+                <div className="flex flex-wrap gap-2">
+                  {woPhotos.map((url, i) => (
+                    <div key={i} className="relative w-[72px] h-[72px] rounded-xl overflow-hidden border border-[var(--pas-line)]">
+                      <button type="button" onClick={() => setZoomUrl(url)} className="w-full h-full" title="Klik untuk memperbesar" aria-label={`Perbesar WO ${i + 1}`}>
+                        {/* eslint-disable-next-line @next/next/no-img-element */}
+                        <img src={url} alt={`WO ${i + 1}`} className="w-full h-full object-cover hover:scale-105 transition-transform duration-300" />
+                        <span className="pointer-events-none absolute right-1 top-1 grid h-5 w-5 place-items-center rounded-full bg-black/55 text-white border border-white/15 opacity-90">
+                          <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="7" /><path d="M20 20l-3.5-3.5M11 8v6M8 11h6" /></svg>
+                        </span>
+                      </button>
+                    </div>
+                  ))}
+                  <label className="w-[72px] h-[72px] grid place-items-center rounded-xl border-[1.5px] border-dashed border-[var(--pas-line)] hover:border-[var(--pas-accent)] cursor-pointer transition text-[var(--pas-muted)] hover:text-[var(--pas-accent)] hover:bg-[rgba(63,86,59,.04)]">
+                    <input type="file" accept="image/*" className="hidden" disabled={uploadingWo} onChange={(e) => { const f = e.target.files?.[0]; if (f) handleWoUpload(f); e.currentTarget.value = ""; }} />
+                    <span className="text-[20px] leading-none">{uploadingWo ? "..." : "+"}</span>
+                  </label>
+                </div>
+                <p className="text-[10px] text-[var(--pas-muted)] mt-1.5 opacity-60">Bisa tambah - tidak bisa hapus</p>
+              </div>
+            </div>
+          </div>
 
-        <div className="p-4 mt-4 rounded-2xl bg-[var(--pas-surface-2)] border border-[var(--pas-line)]">
-          <p className="pas-stencil text-[9px] text-[var(--pas-muted)]">Data Pengiriman</p>
-          <div className="grid grid-cols-2 gap-3 mt-3">
-            <input
-              className="pas-field px-3 py-2.5 text-[14px]"
-              placeholder="Ekspedisi (JNE - REG)"
-              value={courier}
-              onChange={(e) => setCourier(e.target.value)}
-            />
-            <input
-              className="pas-field px-3 py-2.5 text-[14px]"
-              placeholder="No. Resi"
-              value={resi}
-              onChange={(e) => setResi(e.target.value)}
+          {/* ── CATATAN ── */}
+          <p className="pas-stencil text-[9px] text-[var(--pas-muted)] mt-6 mb-2">Catatan untuk Customer</p>
+          <div className="rounded-2xl border border-[var(--pas-line)] bg-[var(--pas-surface)] shadow-[0_1px_3px_rgba(0,0,0,.04)] overflow-hidden">
+            <textarea
+              rows={3}
+              className="w-full border-0 px-4 py-3 text-[14px] text-[var(--pas-ink-1)] bg-transparent resize-none focus:outline-none"
+              style={{ fontFamily: "inherit" }}
+              placeholder="Tulis catatan untuk customer..."
+              value={note}
+              onChange={(e) => setNote(e.target.value)}
             />
           </div>
-          {step < 9 && (
-            <p className="text-[12px] text-[var(--pas-muted)] mt-2">
-              Tampil ke customer setelah tahap 9 (Kirim).
+
+          {/* ── DATA PENGIRIMAN ── */}
+          <div className="rounded-2xl border border-[var(--pas-line)] bg-[var(--pas-surface)] shadow-[0_1px_3px_rgba(0,0,0,.04)] p-4 mt-6">
+            <p className="pas-stencil text-[9px] text-[var(--pas-muted)]">Data Pengiriman</p>
+            <div className="grid grid-cols-2 gap-3 mt-3">
+              <input
+                className="pas-field px-3 py-2.5 text-[14px]"
+                placeholder="Ekspedisi (JNE - REG)"
+                value={courier}
+                onChange={(e) => setCourier(e.target.value)}
+              />
+              <input
+                className="pas-field px-3 py-2.5 text-[14px]"
+                placeholder="No. Resi"
+                value={resi}
+                onChange={(e) => setResi(e.target.value)}
+              />
+            </div>
+            {step < 9 && (
+              <p className="text-[11px] text-[var(--pas-muted)] mt-2 opacity-70">
+                Tampil ke customer setelah tahap 9 (Kirim).
+              </p>
+            )}
+          </div>
+
+          {/* ── TANGGAL DEADLINE ── */}
+          <div className="rounded-2xl border border-[var(--pas-line)] bg-[var(--pas-surface)] shadow-[0_1px_3px_rgba(0,0,0,.04)] p-4 mt-4">
+            <p className="pas-stencil text-[9px] text-[var(--pas-muted)]">Tanggal Deadline</p>
+            <p className="mt-1.5 text-[14px] font-semibold">{formatDatePretty(order.deadline || "")}</p>
+          </div>
+
+          {kirimError && (
+            <p className="text-[13px] text-red-600 mt-4 bg-red-50 border border-red-200 rounded-xl px-4 py-2.5">
+              {kirimError}
             </p>
           )}
         </div>
 
-        <div className="p-4 mt-4 rounded-2xl bg-[var(--pas-surface-2)] border border-[var(--pas-line)]">
-          <p className="pas-stencil text-[9px] text-[var(--pas-muted)]">Tanggal Deadline</p>
-          <p className="mt-2 text-[14px]">{formatDatePretty(order.deadline || "")}</p>
-        </div>
-
-        {kirimError && (
-          <p className="text-[13px] text-red-600 mt-3 bg-red-50 border border-red-200 rounded-xl px-4 py-2.5">
-            {kirimError}
-          </p>
-        )}
-
-        <div className="flex gap-3 mt-5 pb-2">
+        {/* ── FOOTER ── */}
+        <div className="sticky bottom-0 flex gap-2.5 px-5 py-4 border-t border-[var(--pas-line)]" style={{ background: "linear-gradient(180deg,rgba(245,235,225,0),var(--pas-bg) 30%)" }}>
           <button
-            className="pas-btn-accent flex-1 py-3.5 text-[12px]"
+            className="flex-1 py-3.5 rounded-[10px] text-[12px] font-bold text-white border-0 cursor-pointer transition-all"
+            style={{ fontFamily: "var(--font-display), system-ui, sans-serif", letterSpacing: ".04em", textTransform: "uppercase", background: "var(--pas-accent)", boxShadow: "0 2px 8px rgba(63,86,59,.18)" }}
             onClick={save}
             disabled={saving}
           >
             {saving ? "Menyimpan..." : "Simpan Perubahan"}
           </button>
           <button
-            className="pas-btn-ghost px-4 text-sm text-[var(--pas-muted)]"
+            className="px-5 py-3.5 rounded-[10px] text-[12px] font-bold border border-[var(--pas-line)] bg-[var(--pas-surface)] text-[var(--pas-ink-1)] cursor-pointer transition-all"
+            style={{ fontFamily: "var(--font-display), system-ui, sans-serif", letterSpacing: ".04em", textTransform: "uppercase" }}
             onClick={markDone}
             disabled={saving}
           >
@@ -3102,39 +3109,6 @@ function DetailSheet({
           </button>
         </div>
       </div>
-      {zoomUrl && (
-        <div
-          className={`fixed inset-0 z-[80] grid place-items-center p-4 sm:p-6 bg-black/90 backdrop-blur-[2px] transition duration-200 ${zoomOpen ? "opacity-100" : "opacity-0"}`}
-          onClick={() => { setZoomOpen(false); setTimeout(() => setZoomUrl(null), 200); }}
-          onTouchMove={(e) => {
-            if (zoomPinchRef.current && e.touches.length === 2) {
-              e.preventDefault();
-              const d = Math.hypot(e.touches[0].clientX - e.touches[1].clientX, e.touches[0].clientY - e.touches[1].clientY);
-              const ratio = d / zoomPinchRef.current.d;
-              setZoomScale(Math.min(4, Math.max(1, zoomPinchRef.current.s * ratio)));
-            }
-          }}
-          onTouchStart={(e) => {
-            if (e.touches.length === 2) {
-              const d = Math.hypot(e.touches[0].clientX - e.touches[1].clientX, e.touches[0].clientY - e.touches[1].clientY);
-              zoomPinchRef.current = { d, s: zoomScale };
-            } else if (e.touches.length === 1 && zoomScale > 1) {
-              zoomDragRef.current = { x: e.touches[0].clientX - zoomOffset.x, y: e.touches[0].clientY - zoomOffset.y };
-            }
-          }}
-          onTouchEnd={() => { zoomPinchRef.current = null; zoomDragRef.current = null; if (zoomScale < 1) setZoomScale(1); }}
-          role="dialog"
-          aria-modal="true"
-          aria-label="Preview desain diperbesar"
-        >
-          <button type="button" onClick={(e) => { e.stopPropagation(); setZoomOpen(false); setTimeout(() => setZoomUrl(null), 200); }} className="absolute right-4 top-4 grid h-10 w-10 place-items-center rounded-full bg-white/10 text-white border border-white/15 hover:bg-white/20 transition z-10" aria-label="Tutup">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round"><path d="M18 6L6 18M6 6l12 12" /></svg>
-          </button>
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src={zoomUrl} alt="Preview desain diperbesar" onClick={(e) => e.stopPropagation()} onWheel={(e) => { e.preventDefault(); const delta = e.deltaY > 0 ? -0.12 : 0.12; setZoomScale((s) => Math.min(4, Math.max(1, s + delta))); }} onTouchMove={(e) => { if (zoomDragRef.current && e.touches.length === 1 && zoomScale > 1) setZoomOffset({ x: e.touches[0].clientX - zoomDragRef.current.x, y: e.touches[0].clientY - zoomDragRef.current.y }); }} draggable={false} className={`max-w-[90vw] max-h-[90vh] object-contain select-none transition duration-200 ${zoomOpen ? "scale-100 opacity-100" : "scale-95 opacity-0"}`} style={{ transform: `translate(${zoomOffset.x}px, ${zoomOffset.y}px) scale(${zoomScale})`, touchAction: "none" }} />
-          <p className="pointer-events-none absolute bottom-4 left-1/2 -translate-x-1/2 text-[12px] text-white/60 text-center px-4">Tap luar gambar / Esc untuk tutup - Pinch/scroll untuk zoom</p>
-        </div>
-      )}
     </div>
   );
 }
