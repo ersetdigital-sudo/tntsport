@@ -26,7 +26,7 @@ export async function PATCH(
 ) {
   const { id } = await params;
   const body = await request.json();
-  const { current_step, note, courier, tracking_number, is_done, deadline, wo_photos, customer_name, customer_phone, material, design_photos } = body;
+  const { current_step, note, courier, tracking_number, is_done, deadline, wo_photos, customer_name, customer_phone, design_photos } = body;
 
   const supabase = createClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
@@ -95,7 +95,6 @@ export async function PATCH(
   if (body.created_at !== undefined) updateData.created_at = body.created_at;
   if (customer_name !== undefined) updateData.customer_name = customer_name;
   if (customer_phone !== undefined) updateData.customer_phone = customer_phone;
-  if (material !== undefined) updateData.material = material;
   if (design_photos !== undefined) updateData.design_photos = Array.isArray(design_photos) ? design_photos : [];
 
   // Use .update().select().single() to get the updated row back (including UUID id)
