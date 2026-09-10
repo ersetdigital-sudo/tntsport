@@ -3010,7 +3010,6 @@ function DetailSheet({
                         <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="7" /><path d="M20 20l-3.5-3.5M11 8v6M8 11h6" /></svg>
                       </span>
                     </button>
-                    <button type="button" onClick={() => setWoPhotos((p) => p.filter((_, j) => j !== i))} className="absolute -right-1 -top-1 grid h-6 w-6 place-items-center rounded-full bg-red-500 text-white text-[11px] leading-none border border-white shadow opacity-0 group-hover:opacity-100 transition" title="Hapus foto WO" aria-label="Hapus foto WO">Ã—</button>
                   </div>
                 ))}
                 <label className="w-[76px] h-[76px] grid place-items-center rounded-xl border-2 border-dashed border-[var(--pas-line)] hover:border-[var(--pas-accent)] cursor-pointer transition text-[var(--pas-muted)] hover:text-[var(--pas-ink-1)]">
