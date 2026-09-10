@@ -102,6 +102,13 @@ function formatDate(dateStr: string) {
   return d.toLocaleDateString("id-ID", { day: "2-digit", month: "2-digit", year: "numeric" });
 }
 
+function formatDatePretty(dateStr: string) {
+  if (!dateStr) return "-";
+  const d = new Date(dateStr);
+  if (isNaN(d.getTime())) return "-";
+  return d.toLocaleDateString("id-ID", { day: "2-digit", month: "short", year: "numeric" });
+}
+
 function deadlineStatus(deadline: string | null, isDone: boolean): { level: "normal" | "approaching" | "warning" | "critical" | "overdue" | null; diffDays: number } {
   if (!deadline || isDone) return { level: null, diffDays: 0 };
   const now = new Date();
@@ -2948,19 +2955,13 @@ function DetailSheet({
               </div>
             </>
           )}
-          <label className="block">
-            <span className="pas-stencil text-[9px] text-[var(--pas-muted)]">Tanggal Order</span>
-            <input type="date" className="pas-field w-full px-4 py-2.5 mt-1.5 text-[14px]" value={editCreatedAt} onChange={(e) => setEditCreatedAt(e.target.value)} />
-          </label>
+          <div>
+            <p className="pas-stencil text-[9px] text-[var(--pas-muted)]">Tanggal Order</p>
+            <p className="mt-1">{formatDatePretty(order.created_at)}</p>
+          </div>
           <div>
             <p className="pas-stencil text-[9px] text-[var(--pas-muted)]">Deadline</p>
-            <input
-              type="date"
-              className="pas-field w-full px-4 py-2.5 mt-1.5 text-[14px] disabled:opacity-60 disabled:cursor-not-allowed"
-              value={deadline}
-              onChange={(e) => setDeadline(e.target.value)}
-              disabled={false}
-            />
+            <p className="mt-1">{formatDatePretty(order.deadline || "")}</p>
           </div>
           <div>
             <p className="pas-stencil text-[9px] text-[var(--pas-muted)]">Status Produksi</p>
@@ -3076,12 +3077,7 @@ function DetailSheet({
 
         <div className="p-4 mt-4 rounded-2xl bg-[var(--pas-surface-2)] border border-[var(--pas-line)]">
           <p className="pas-stencil text-[9px] text-[var(--pas-muted)]">Tanggal Deadline</p>
-          <input
-            type="date"
-            className="pas-field w-full px-3 py-2.5 mt-2 text-[14px]"
-            value={deadline}
-            onChange={(e) => setDeadline(e.target.value)}
-          />
+          <p className="mt-2 text-[14px]">{formatDatePretty(order.deadline || "")}</p>
         </div>
 
         {kirimError && (
