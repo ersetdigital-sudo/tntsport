@@ -76,22 +76,46 @@ export async function GET(req: Request) {
   const daysStr = get("deadline_notif_days") || "3,2,1";
   const phonesStr = get("deadline_notif_phones") || "";
 
-  // Cek enabled & waktu (skip jika test dari dashboard)
+  const wib = getWibNow();
+  const [cfgH, cfgM] = time.split(":").map(Number);
+  const currentMinutes = wib.hours * 60 + wib.minutes;
+  const targetMinutes = cfgH * 60 + cfgM;
+  const todayWib = wib.iso.slice(0, 10);
+  const nowStr = `${String(wib.hours).padStart(2, "0")}:${String(wib.minutes).padStart(2, "0")}`;
+
+  // Cek enabled, window waktu (>= jam setting), & flag sudah kirim hari ini
   if (!fromDashboard) {
     if (!enabled) {
       return NextResponse.json({ message: "Notifikasi deadline dinonaktifkan" });
     }
 
-    const wib = getWibNow();
-    const [cfgH, cfgM] = time.split(":").map(Number);
-    const currentMinutes = wib.hours * 60 + wib.minutes;
-    const targetMinutes = cfgH * 60 + cfgM;
-    const diffMin = Math.abs(currentMinutes - targetMinutes);
+    const { data: lastSentRow } = await supabase
+      .from("app_settings")
+      .select("value")
+      .eq("key", "deadline_notif_last_sent_date")
+      .maybeSingle();
+    const lastSentDate = lastSentRow?.value || null;
 
-    // ±5 menit tolerance (cron tiap 5 menit, buffer untuk delay GitHub Actions)
-    if (diffMin > 5) {
+    if (lastSentDate === todayWib) {
       return NextResponse.json({
-        message: `Belum waktunya. Setting: ${time} WIB, sekarang: ${String(wib.hours).padStart(2, "0")}:${String(wib.minutes).padStart(2, "0")} WIB`,
+        message: "Sudah terkirim hari ini",
+        debug: {
+          sekarang: `${nowStr} WIB`,
+          setting: `${time} WIB`,
+          last_sent_date: lastSentDate,
+        },
+      });
+    }
+
+    // Window, bukan exact match: kirim kalau sudah lewat/pas jam setting
+    if (currentMinutes < targetMinutes) {
+      return NextResponse.json({
+        message: `Belum waktunya. Setting: ${time} WIB, sekarang: ${nowStr} WIB`,
+        debug: {
+          sekarang: `${nowStr} WIB`,
+          setting: `${time} WIB`,
+          last_sent_date: lastSentDate,
+        },
       });
     }
   }
@@ -235,11 +259,26 @@ Pesan ini dikirim otomatis oleh sistem.`;
       .from("orders")
       .update({ deadline_notified_at: nowIso })
       .in("id", notifiedOrderIds);
+
+    // Tandai tanggal terakhir kirim (cegah dobel kirim di hari yang sama)
+    if (!fromDashboard) {
+      await supabase
+        .from("app_settings")
+        .upsert(
+          { key: "deadline_notif_last_sent_date", value: todayWib },
+          { onConflict: "key" }
+        );
+    }
   }
 
   return NextResponse.json({
     message: "Notifikasi deadline terkirim",
     total_orders: toNotify.length,
+    debug: {
+      sekarang: `${nowStr} WIB`,
+      setting: `${time} WIB`,
+      last_sent_date: todayWib,
+    },
     results,
   });
 }
