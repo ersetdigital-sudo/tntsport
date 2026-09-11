@@ -66,6 +66,30 @@ function normalizeStepName(name: string): string {
   return LABEL_TO_SLUG[lower] || lower;
 }
 
+/**
+ * Tahap ke berapa untuk sebuah current_status.
+ * "selesai" dihitung sebagai tahap akhir supaya order yang sudah selesai tetap
+ * kebaca 100%, bukan jatuh ke 0 karena nggak ada di daftar 11 tahap produksi.
+ */
+function stepIndexFromStatus(status: string, steps: { name: string }[]): number {
+  const slug = normalizeStepName(status);
+  if (slug === "selesai") return steps.length || ORDER_STATUS_LIST.length;
+  const idx =
+    steps.length > 0
+      ? steps.findIndex((s) => normalizeStepName(s.name) === slug) + 1
+      : ORDER_STATUS_LIST.indexOf(slug as OrderStatus) + 1;
+  return idx > 0 ? idx : 1;
+}
+
+/**
+ * true kalau order sudah tuntas ("selesai").
+ * Dipakai untuk menandai SEMUA tahap sebagai selesai — tanpa ini tahap terakhir
+ * ("Kirim") tetap ke-anggap "sedang berjalan" walau ordernya sudah selesai.
+ */
+function isOrderCompleted(status: string): boolean {
+  return normalizeStepName(status) === "selesai";
+}
+
 function stepDescription(status: string, hasTracking: boolean): string {
   const slug = normalizeStepName(status);
   const map: Record<string, string> = {
@@ -206,9 +230,7 @@ function StatusContent() {
   // Animate progress counter
   useEffect(() => {
     if (!order || !loaded) return;
-    const stepIdx = steps.length > 0
-      ? steps.findIndex((s) => normalizeStepName(s.name) === normalizeStepName(order.current_status)) + 1
-      : ORDER_STATUS_LIST.indexOf(normalizeStepName(order.current_status) as OrderStatus) + 1;
+    const stepIdx = stepIndexFromStatus(order.current_status, steps);
     const hasTracking = !!(order.tracking_number && order.courier);
     const pct = getProgress(stepIdx, hasTracking);
 
@@ -422,9 +444,8 @@ function StatusContent() {
   }
 
   // Render order details
-  const step = steps.length > 0
-    ? steps.findIndex((s) => normalizeStepName(s.name) === normalizeStepName(order.current_status)) + 1
-    : ORDER_STATUS_LIST.indexOf(normalizeStepName(order.current_status) as OrderStatus) + 1;
+  const step = stepIndexFromStatus(order.current_status, steps);
+  const isOrderDone = isOrderCompleted(order.current_status);
   const totalSteps = steps.length || 11;
   const hasTracking = !!(order.tracking_number && order.courier);
   const normalizedStatus = normalizeStepName(order.current_status);
@@ -575,6 +596,9 @@ function StatusContent() {
                   : ORDER_STATUS_LIST.map((s, i) => ({ name: ORDER_STATUS_LABELS[s as OrderStatus] || s, position: i + 1 }))
                 ).map((stepDef, idx) => {
                   const n = idx + 1;
+                  // Gaya visual tahap TIDAK diubah (dot menyala & kartu hijau tetap
+                  // seperti semula) — hanya teks chip di tahap terakhir yang beda
+                  // kalau ordernya sudah tuntas.
                   const st = n < step ? "done" : n === step ? "now" : "todo";
                   const statusKey = steps.length > 0 ? normalizeStepName(stepDef.name) : ORDER_STATUS_LIST[idx];
                   const histEntry = history.find((h: any) => normalizeStepName(h.status) === statusKey.toLowerCase());
@@ -604,7 +628,11 @@ function StatusContent() {
                           <span className="dpo-mono text-[11px] text-[#6f757c]">{String(n).padStart(2, "0")}</span>
                           <h3 className="dpo-step-title">{stepDef.name}</h3>
                           {st === "done" && <span className="dpo-chip dpo-chip-done">Selesai</span>}
-                          {st === "now" && <span className="dpo-chip dpo-chip-now">Sedang berjalan</span>}
+                          {st === "now" && (
+                            <span className="dpo-chip dpo-chip-now">
+                              {isOrderDone && n === totalSteps ? "Selesai" : "Sedang berjalan"}
+                            </span>
+                          )}
                           {st === "todo" && n === step + 1 && <span className="dpo-chip dpo-chip-next">Berikutnya</span>}
                         </div>
                         <p className="dpo-step-desc">{stepDescription(statusKey, hasTracking)}</p>

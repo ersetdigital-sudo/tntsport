@@ -4,6 +4,9 @@ import { generateOrderNumber } from "@/lib/queries-orders";
 import { ORDER_STATUS_LIST, getProgress } from "@/lib/types";
 
 function stepFromStatus(status: string): number {
+  // "selesai" bukan bagian dari 11 tahap produksi, tapi posisinya = tahap akhir.
+  // Tanpa ini, order selesai kebaca sebagai tahap 1 ("Desain").
+  if (status === "selesai") return ORDER_STATUS_LIST.length;
   const idx = ORDER_STATUS_LIST.indexOf(status as any);
   return idx >= 0 ? idx + 1 : 1;
 }

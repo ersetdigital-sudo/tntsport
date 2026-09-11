@@ -65,23 +65,53 @@ export async function PATCH(
     STATUS_TO_STAGE[existing.current_status as string] ??
     null;
 
+  // ── Pengaman anti-turun-tahap ────────────────────────────────────────────
+  // Order yang sudah "selesai" nggak boleh keturunin tahapnya (atau balik jadi
+  // "kirim") gara-gara client ngirim current_step yang basi/salah. Untuk membuka
+  // ulang tahap produksinya secara sengaja, kirim `reopen: true`.
+  const reopen = body.reopen === true;
+  const isAlreadyDone = existing.current_status === "selesai";
+
+  if (
+    current_step !== undefined &&
+    isAlreadyDone &&
+    !reopen &&
+    newStage !== null &&
+    newStage < 11
+  ) {
+    return NextResponse.json(
+      {
+        error:
+          "Pesanan ini sudah berstatus Selesai. Untuk membuka ulang tahap produksinya, kirim ulang permintaan dengan reopen: true.",
+      },
+      { status: 409 }
+    );
+  }
+
   const updateData: Record<string, any> = {
     updated_at: new Date().toISOString(),
   };
 
+  // Status yang benar-benar tersimpan — dipakai juga untuk entri history.
+  let effectiveStatus: string | null = null;
+
   if (current_step !== undefined) {
     updateData.current_stage = newStage;
-    if (current_step === 11 && is_done) {
+    // Order yang sudah selesai lalu di-save ulang di tahap akhir tetap "selesai"
+    // (mis. admin cuma mengubah catatan/foto), kecuali reopen diminta.
+    const keepDone = isAlreadyDone && !reopen && newStage === 11;
+    if ((current_step === 11 && is_done) || keepDone) {
       if (!tracking_number || !courier) {
         return NextResponse.json(
           { error: "Untuk menandai selesai, nomor resi dan ekspedisi harus diisi." },
           { status: 400 }
         );
       }
-      updateData.current_status = "selesai";
+      effectiveStatus = "selesai";
     } else {
-      updateData.current_status = statusFromStep(current_step);
+      effectiveStatus = statusFromStep(current_step);
     }
+    updateData.current_status = effectiveStatus;
   }
   if (note !== undefined) updateData.design_notes = note;
   if (courier !== undefined) updateData.courier = courier;
@@ -112,7 +142,7 @@ export async function PATCH(
   // Insert history entry using the UUID from the updated row
   let historyError: string | null = null;
   if (current_step !== undefined && updatedOrder) {
-    const statusValue = is_done && current_step === 11 ? "selesai" : statusFromStep(current_step);
+    const statusValue = effectiveStatus ?? statusFromStep(current_step);
     const { error: histErr } = await supabase.from("order_status_history").insert({
       order_id: updatedOrder.id,
       status: statusValue,
