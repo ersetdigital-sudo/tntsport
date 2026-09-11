@@ -65,6 +65,18 @@ export function buildTrackingUrl(orderNumber: string, token?: string): string {
 }
 
 /**
+ * URL tracking publik khusus pesanan MAKLON.
+ * Halaman /status sendiri cuma mengenal tabel `orders` (jersey), jadi maklon
+ * punya halaman + token sendiri di /status/maklon.
+ */
+export function buildMaklonTrackingUrl(orderNumber: string, token?: string): string {
+  const base = `https://www.tntsportapparel.id/status/maklon?order=${encodeURIComponent(
+    orderNumber
+  )}`;
+  return token ? `${base}&token=${encodeURIComponent(token)}` : base;
+}
+
+/**
  * Satu fungsi template untuk semua tahap.
  * - Tahap 1-8: template umum "UPDATE PESANAN".
  * - Tahap 9: template khusus "PESANAN DIKIRIM".
@@ -134,7 +146,7 @@ export function buildMaklonWhatsAppMessage(
 ): string {
   const customerName = order.customer_name;
   const orderNumber = order.order_number;
-  const trackingUrl = buildTrackingUrl(orderNumber, token);
+  const trackingUrl = buildMaklonTrackingUrl(orderNumber, token);
 
   if (stage === 6) {
     return [
