@@ -545,8 +545,6 @@ function AddForm({
   const [form, setForm] = useState({
     customer_name: "",
     customer_phone: "",
-    customer_city: "",
-    material: "",
     sizes: "",
     deadline: "",
     created_at: new Date().toISOString().slice(0, 10),
@@ -677,8 +675,6 @@ function AddForm({
         body: JSON.stringify({
           customer_name: form.customer_name.trim(),
           customer_phone: form.customer_phone.trim(),
-          customer_city: form.customer_city.trim(),
-          material: form.material.trim(),
           // Ukuran manual (khas maklon) diutamakan, kalau kosong pakai rekap dari produk
           sizes: form.sizes.trim() || combinedSizes,
           product_name: combinedNames,
@@ -748,17 +744,6 @@ function AddForm({
           onChange={set("customer_phone")}
         />
       </label>
-      <div className="grid grid-cols-2 gap-4">
-        <label className="block">
-          <span className="text-[13px] text-[var(--pas-muted)]">Kota</span>
-          <input className="pas-field w-full px-4 py-2.5 mt-1.5 text-[15px]" placeholder="Kota" value={form.customer_city} onChange={set("customer_city")} />
-        </label>
-        <label className="block">
-          <span className="text-[13px] text-[var(--pas-muted)]">Bahan</span>
-          <input className="pas-field w-full px-4 py-2.5 mt-1.5 text-[15px]" placeholder="Bahan" value={form.material} onChange={set("material")} />
-        </label>
-      </div>
-
       <div>
         <div className="flex items-center justify-between">
           <span className="text-[13px] text-[var(--pas-muted)]">Produk</span>
