@@ -113,6 +113,63 @@ export function buildWhatsAppMessage(
     ].join("\n");
 }
 
+/** Nama tahap produksi Maklon (1-6). */
+export const MAKLON_STAGE_NAMES: Record<number, string> = {
+  1: "Layout",
+  2: "Profing Warna",
+  3: "Cutting Bahan",
+  4: "Press Sublime",
+  5: "QC",
+  6: "Kirim",
+};
+
+/**
+ * Template WhatsApp untuk update tahap Maklon (1-6).
+ * Tahap 6 (Kirim) memakai template khusus; lainnya template umum.
+ */
+export function buildMaklonWhatsAppMessage(
+  stage: number,
+  order: { customer_name: string; order_number: string },
+  token?: string
+): string {
+  const customerName = order.customer_name;
+  const orderNumber = order.order_number;
+  const trackingUrl = buildTrackingUrl(orderNumber, token);
+
+  if (stage === 6) {
+    return [
+      "MAKLON DIKIRIM",
+      `Halo Kak ${customerName},`,
+      "",
+      `Pesanan maklon #${orderNumber} sudah selesai diproduksi dan masuk tahap pengiriman.`,
+      "",
+      "Cek detail pesanan di:",
+      trackingUrl,
+      "",
+      "Terima kasih sudah mempercayakan pesanan Kakak kepada TNT Sport Apparel.",
+    ].join("\n");
+  }
+
+  const stageName = MAKLON_STAGE_NAMES[stage] ?? `Tahap ${stage}`;
+
+  return [
+    "UPDATE MAKLON",
+    `Halo Kak ${customerName},`,
+    "",
+    `Pesanan maklon #${orderNumber} saat ini sudah masuk tahap:`,
+    `*${stageName}*`,
+    "",
+    `Progress: ${stage}/6 tahap`,
+    "",
+    "Cek progres lengkap di:",
+    trackingUrl,
+    "",
+    "Kami akan mengirimkan update kembali saat pesanan masuk ke tahap berikutnya.",
+    "",
+    "Terima kasih sudah mempercayakan pesanan Kakak kepada TNT Sport Apparel.",
+  ].join("\n");
+}
+
 /** Validasi nomor HP format internasional Fonnte (628xxxxxxxxxx). */
 export function isValidFonntePhone(phone: string): boolean {
   return /^62\d{8,14}$/.test(phone);
@@ -223,6 +280,77 @@ export type NotificationTriggerStatus =
  * Seluruh proses dibungkus try-catch: kegagalan kirim WA TIDAK pernah
  * dilempar ke atas (status order tetap tersimpan).
  */
+export async function triggerMaklonStageNotification(
+  supabase: SupabaseClient,
+  orderId: string,
+  order: {
+    customer_name: string;
+    order_number: string;
+    customer_phone: string;
+  },
+  stage: number
+): Promise<NotificationTriggerStatus> {
+  const { data: logId, error: claimError } = await supabase.rpc(
+    "claim_maklon_stage_notification",
+    { p_order_id: orderId, p_stage: stage }
+  );
+
+  if (claimError) {
+    console.error("claim_maklon_stage_notification failed:", claimError.message);
+    return "log_error";
+  }
+  if (!logId) return "skipped_duplicate";
+
+  try {
+    const phone = normalizeAndValidatePhone(order.customer_phone);
+    if (!phone) {
+      await supabase.rpc("finish_maklon_stage_notification", {
+        p_id: logId,
+        p_status: "failed",
+        p_response: { error: "invalid_phone" },
+      });
+      return "failed";
+    }
+
+    const message = buildMaklonWhatsAppMessage(
+      stage,
+      order,
+      signTrackingToken(order.order_number)
+    );
+    const result = await sendFonnteMessage(phone, message);
+
+    await supabase.rpc("finish_maklon_stage_notification", {
+      p_id: logId,
+      p_status: result.success ? "success" : "failed",
+      p_response: result.response,
+    });
+
+    if (!result.success) return "failed";
+
+    await supabase.rpc("mark_maklon_last_notified_stage", {
+      p_order_id: orderId,
+      p_stage: stage,
+    });
+
+    return "sent";
+  } catch (err) {
+    console.error(
+      "Maklon WA notification failed:",
+      err instanceof Error ? err.message : err
+    );
+    try {
+      await supabase.rpc("finish_maklon_stage_notification", {
+        p_id: logId,
+        p_status: "failed",
+        p_response: { error: "unexpected" },
+      });
+    } catch {
+      // log adalah best effort
+    }
+    return "failed";
+  }
+}
+
 export async function triggerStageNotification(
   supabase: SupabaseClient,
   orderId: string,

@@ -139,6 +139,12 @@ function NavIcon({ name, size = 18 }: { name: string; size?: number }) {
         <path d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-4 0a1 1 0 01-1-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 01-1 1" />
       </>
     ),
+    maklon: (
+      <>
+        <path d="M20 7l-8-4-8 4v10l8 4 8-4V7z" />
+        <path d="M4 7l8 4 8-4M12 11v10" />
+      </>
+    ),
     jadwal: (
       <>
         <path d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
@@ -284,7 +290,20 @@ export default function PesananDashboard() {
         </a>
         <p className="pas-navsec">Operasional</p>
         <nav className="flex flex-col gap-1">
-          {(["pesanan", "jadwal", "kirim"] as ViewKey[]).map((key) => (
+          <a
+            className={`pas-navlink ${currentView === "pesanan" ? "on" : ""}`}
+            href="#pesanan"
+            onClick={(e) => {
+              e.preventDefault();
+              switchView("pesanan");
+            }}
+          >
+            <span className="pas-ic"><NavIcon name="pesanan" /></span> {VIEW_META.pesanan.title}
+          </a>
+          <a className="pas-navlink" href="/pesanan/maklon">
+            <span className="pas-ic"><NavIcon name="maklon" /></span> Maklon
+          </a>
+          {(["jadwal", "kirim"] as ViewKey[]).map((key) => (
             <a
               key={key}
               className={`pas-navlink ${currentView === key ? "on" : ""}`}
@@ -428,7 +447,20 @@ export default function PesananDashboard() {
           </div>
           <p className="pas-navsec">Operasional</p>
           <nav className="flex flex-col gap-1">
-            {(["pesanan", "jadwal", "kirim"] as ViewKey[]).map((key) => (
+            <a
+              className={`pas-navlink ${currentView === "pesanan" ? "on" : ""}`}
+              href="#pesanan"
+              onClick={(e) => {
+                e.preventDefault();
+                switchView("pesanan");
+              }}
+            >
+              <span className="pas-ic"><NavIcon name="pesanan" /></span> {VIEW_META.pesanan.title}
+            </a>
+            <a className="pas-navlink" href="/pesanan/maklon">
+              <span className="pas-ic"><NavIcon name="maklon" /></span> Maklon
+            </a>
+            {(["jadwal", "kirim"] as ViewKey[]).map((key) => (
               <a
                 key={key}
                 className={`pas-navlink ${currentView === key ? "on" : ""}`}
