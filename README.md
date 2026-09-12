@@ -234,10 +234,12 @@ notifikasi-deadline-dashboard/  Dashboard statis "Notifikasi Deadline" versi awa
 
 ## Screenshots
 
-![Landing page Corporate Collection](_archive/screenshots/corporate-hero.png)
-![Halaman Karier](_archive/screenshots/karier-nextjs.png)
-
-Tangkapan layar nyata dari halaman project ini (`_archive/screenshots/`). Untuk pengalaman penuh — katalog, tracking, dashboard admin — langsung buka **[tntsportapparel.id](https://www.tntsportapparel.id)**.
+> 🚧 **Placeholder** — tangkapan layar berikutnya akan ditambahkan ke `docs/screenshots/`:
+> homepage, katalog, halaman kategori, halaman tracking, dan dashboard admin (dengan data customer di-redact).
+>
+> Sementara ini, langsung lihat live di **[tntsportapparel.id](https://www.tntsportapparel.id)**.
+>
+> Referensi visual versi awal ada di `_archive/screenshots/` (internal, tidak ditampilkan di README).
 
 ## Local Setup
 
