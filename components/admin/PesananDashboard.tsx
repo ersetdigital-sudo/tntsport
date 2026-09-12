@@ -109,6 +109,25 @@ function formatDatePretty(dateStr: string) {
   return d.toLocaleDateString("id-ID", { day: "2-digit", month: "short", year: "numeric" });
 }
 
+/** Tanggal + jam (WIB) buat nunjukin kapan terakhir pesanan diupdate. */
+function formatDateTime(dateStr: string) {
+  if (!dateStr) return "-";
+  const d = new Date(dateStr);
+  if (isNaN(d.getTime())) return "-";
+  const date = d.toLocaleDateString("id-ID", {
+    day: "2-digit",
+    month: "short",
+    year: "numeric",
+    timeZone: "Asia/Jakarta",
+  });
+  const time = d.toLocaleTimeString("id-ID", {
+    hour: "2-digit",
+    minute: "2-digit",
+    timeZone: "Asia/Jakarta",
+  });
+  return `${date}, ${time} WIB`;
+}
+
 function deadlineStatus(deadline: string | null, isDone: boolean): { level: "normal" | "approaching" | "warning" | "critical" | "overdue" | null; diffDays: number } {
   if (!deadline || isDone) return { level: null, diffDays: 0 };
   const now = new Date();
@@ -2894,7 +2913,7 @@ function DetailSheet({
             </div>
             <div className="pas-display text-[18px] leading-tight">{steps[step - 1]?.name || `Tahap ${step}`}</div>
             <p className="text-[13px] text-[var(--pas-muted)] max-w-[300px] leading-relaxed">
-              {order.is_done ? "Pesanan sudah selesai dan diterima oleh customer." : `Pesanan sedang dalam tahap ${steps[step - 1]?.name || `tahap ${step}`}. Estimasi selesai ${formatDatePretty(order.deadline || "")}.`}
+              {order.is_done ? "Pesanan sudah selesai dan diterima oleh customer." : (<><span className="pas-stencil text-[9px] text-[var(--pas-muted)] block">Terakhir Diupdate</span><span className="mt-1 block text-[14px] font-semibold">{formatDateTime(order.note_time)}</span></>)}
             </p>
           </div>
 
