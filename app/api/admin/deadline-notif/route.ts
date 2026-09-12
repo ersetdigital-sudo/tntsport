@@ -1,9 +1,48 @@
 import { NextResponse } from "next/server";
-import { createClient } from "@supabase/supabase-js";
+import { createClient, type SupabaseClient } from "@supabase/supabase-js";
 import { sendFonnteMessage, normalizeAndValidatePhone } from "@/lib/fonnte";
 import { ORDER_STATUS_LABELS } from "@/lib/types";
 
+// Route ini mengirim WA berurutan ke beberapa admin; tanpa durasi eksplisit,
+// Vercel bisa mematikan function di tengah jalan (respons 500 "Gateway Timeout").
+export const maxDuration = 60;
+
 const CRON_SECRET = process.env.CRON_SECRET || "";
+
+/** Semua setting yang dibutuhkan, dibaca lewat SATU query. */
+const SETTING_KEYS = [
+  "deadline_notif_enabled",
+  "deadline_notif_time",
+  "deadline_notif_days",
+  "deadline_notif_phones",
+  "deadline_notif_last_sent_date",
+];
+
+/**
+ * Baca app_settings dengan 1x percobaan ulang.
+ * Supabase sesekali membalas 504 sesaat ("Gateway Timeout") — dulu itu langsung
+ * bikin seluruh run cron gagal di query pertama, padahal tinggal diulang.
+ */
+async function readSettings(
+  supabase: SupabaseClient
+): Promise<{ settings: { key: string; value: string | null }[]; error: string | null }> {
+  let lastError: string | null = null;
+
+  for (let attempt = 1; attempt <= 2; attempt++) {
+    const { data, error } = await supabase
+      .from("app_settings")
+      .select("key, value")
+      .in("key", SETTING_KEYS);
+
+    if (!error) return { settings: (data ?? []) as any, error: null };
+
+    lastError = error.message || "unknown_error";
+    console.error(`deadline-notif: app_settings gagal (percobaan ${attempt}):`, lastError);
+    if (attempt < 2) await new Promise((r) => setTimeout(r, 800));
+  }
+
+  return { settings: [], error: lastError };
+}
 
 /** Get current time in WIB (Asia/Jakarta, UTC+7) using Intl */
 function getWibNow(): { hours: number; minutes: number; iso: string } {
@@ -54,27 +93,29 @@ export async function GET(req: Request) {
     serviceKey ? { auth: { persistSession: false } } : undefined
   );
 
-  // 1. Ambil setting notif
-  const { data: settings, error: settingsErr } = await supabase
-    .from("app_settings")
-    .select("key, value")
-    .in("key", [
-      "deadline_notif_enabled",
-      "deadline_notif_time",
-      "deadline_notif_days",
-      "deadline_notif_phones",
-    ]);
+  // 1. Ambil semua setting notif sekaligus (termasuk flag last_sent_date)
+  const { settings, error: settingsErr } = await readSettings(supabase);
 
   if (settingsErr) {
-    return NextResponse.json({ error: settingsErr.message }, { status: 500 });
+    // Gangguan sesaat di upstream, bukan kesalahan konfigurasi — 503 supaya
+    // cron berikutnya retry, dengan pesan yang jelas (bukan 500 tanpa konteks).
+    return NextResponse.json(
+      {
+        error: settingsErr,
+        message:
+          "Gagal membaca pengaturan notifikasi dari database (gangguan sesaat). Coba jalankan ulang.",
+      },
+      { status: 503 }
+    );
   }
 
-  const get = (key: string) => settings?.find((s) => s.key === key)?.value || null;
+  const get = (key: string) => settings.find((s) => s.key === key)?.value || null;
 
   const enabled = get("deadline_notif_enabled") === "true";
   const time = get("deadline_notif_time") || "08:00";
   const daysStr = get("deadline_notif_days") || "3,2,1";
   const phonesStr = get("deadline_notif_phones") || "";
+  let lastSentDate: string | null = get("deadline_notif_last_sent_date");
 
   const wib = getWibNow();
   const [cfgH, cfgM] = time.split(":").map(Number);
@@ -83,20 +124,11 @@ export async function GET(req: Request) {
   const todayWib = wib.iso.slice(0, 10);
   const nowStr = `${String(wib.hours).padStart(2, "0")}:${String(wib.minutes).padStart(2, "0")}`;
 
-  let lastSentDate: string | null = null;
-
   // Cek enabled, window waktu (>= jam setting), & flag sudah kirim hari ini
   if (!fromDashboard) {
     if (!enabled) {
       return NextResponse.json({ message: "Notifikasi deadline dinonaktifkan" });
     }
-
-    const { data: lastSentRows } = await supabase
-      .from("app_settings")
-      .select("value")
-      .eq("key", "deadline_notif_last_sent_date")
-      .limit(1);
-    lastSentDate = lastSentRows?.[0]?.value || null;
 
     if (lastSentDate === todayWib) {
       return NextResponse.json({
@@ -146,7 +178,14 @@ export async function GET(req: Request) {
     .not("deadline", "is", null);
 
   if (ordersErr) {
-    return NextResponse.json({ error: ordersErr.message }, { status: 500 });
+    return NextResponse.json(
+      {
+        error: ordersErr.message || "unknown_error",
+        message:
+          "Gagal membaca daftar pesanan dari database (gangguan sesaat). Coba jalankan ulang.",
+      },
+      { status: 503 }
+    );
   }
 
   const toNotify: any[] = [];
@@ -195,9 +234,14 @@ export async function GET(req: Request) {
     });
   }
 
-  // 3. Kirim WA ke semua admin + dedup + tracking
+  // 3. Kirim WA ke semua admin + dedup + tracking.
+  //    Pengiriman per nomor dijalankan PARALEL: 3 admin × (kirim + retry 2 detik)
+  //    secara berurutan gampang lewat batas durasi function. Ada juga budget
+  //    waktu supaya retry tidak menembus maxDuration.
   const results: any[] = [];
   const notifiedOrderIds: string[] = [];
+  const startedAt = Date.now();
+  const SEND_BUDGET_MS = 45_000;
 
   for (const order of toNotify) {
     const stageName =
@@ -233,43 +277,51 @@ Link: https://www.tntsportapparel.id/pesanan/orders
 ---
 Pesan ini dikirim otomatis oleh sistem.`;
 
-    let anySent = false;
-    for (const phone of phones) {
-      const normalized = normalizeAndValidatePhone(phone);
-      if (!normalized) {
-        results.push({ order: order.order_number, phone, status: "invalid_phone" });
-        continue;
-      }
+    const perPhone = await Promise.all(
+      phones.map(async (phone: string) => {
+        const normalized = normalizeAndValidatePhone(phone);
+        if (!normalized) {
+          return { order: order.order_number, phone, status: "invalid_phone" };
+        }
 
-      // Retry: max 2 attempts
-      let result = await sendFonnteMessage(normalized, message);
-      if (!result.success) {
-        await new Promise((r) => setTimeout(r, 2000));
-        result = await sendFonnteMessage(normalized, message);
-      }
+        // Retry: max 2 attempts, hanya kalau budget waktu masih ada
+        let result = await sendFonnteMessage(normalized, message);
+        if (!result.success && Date.now() - startedAt < SEND_BUDGET_MS) {
+          await new Promise((r) => setTimeout(r, 2000));
+          result = await sendFonnteMessage(normalized, message);
+        }
 
-      results.push({
-        order: order.order_number,
-        phone: normalized,
-        status: result.success ? "sent" : "failed",
-        response: result.response,
-      });
+        // Log to notification_logs (best effort: gagal nulis log TIDAK boleh
+        // membatalkan hasil kirim yang sebenarnya sudah sukses)
+        try {
+          await supabase.from("notification_logs").insert({
+            order_id: order.id,
+            order_number: order.order_number,
+            phone: normalized,
+            status: result.success ? "sent" : "failed",
+            error: result.success ? null : result.response || "Unknown error",
+            diff_days: order.diffDays,
+          });
+        } catch (err) {
+          console.error(
+            "deadline-notif: gagal menulis notification_logs:",
+            err instanceof Error ? err.message : err
+          );
+        }
 
-      // Log to notification_logs
-      await supabase.from("notification_logs").insert({
-        order_id: order.id,
-        order_number: order.order_number,
-        phone: normalized,
-        status: result.success ? "sent" : "failed",
-        error: result.success ? null : result.response || "Unknown error",
-        diff_days: order.diffDays,
-      });
+        return {
+          order: order.order_number,
+          phone: normalized,
+          status: result.success ? "sent" : "failed",
+          response: result.response,
+        };
+      })
+    );
 
-      if (result.success) anySent = true;
-    }
+    results.push(...perPhone);
 
     // Dedup: record setelah berhasil kirim (skip untuk test dashboard)
-    if (anySent && !fromDashboard) {
+    if (perPhone.some((r) => r.status === "sent") && !fromDashboard) {
       notifiedOrderIds.push(order.id);
     }
   }
@@ -277,19 +329,28 @@ Pesan ini dikirim otomatis oleh sistem.`;
   // Batch update deadline_notified_at (dedup tracking)
   if (notifiedOrderIds.length > 0) {
     const nowIso = new Date().toISOString();
-    await supabase
-      .from("orders")
-      .update({ deadline_notified_at: nowIso })
-      .in("id", notifiedOrderIds);
-
-    // Tandai tanggal terakhir kirim (cegah dobel kirim di hari yang sama)
-    if (!fromDashboard) {
+    try {
       await supabase
-        .from("app_settings")
-        .upsert(
-          { key: "deadline_notif_last_sent_date", value: todayWib },
-          { onConflict: "key" }
-        );
+        .from("orders")
+        .update({ deadline_notified_at: nowIso })
+        .in("id", notifiedOrderIds);
+
+      // Tandai tanggal terakhir kirim (cegah dobel kirim di hari yang sama)
+      if (!fromDashboard) {
+        await supabase
+          .from("app_settings")
+          .upsert(
+            { key: "deadline_notif_last_sent_date", value: todayWib },
+            { onConflict: "key" }
+          );
+      }
+    } catch (err) {
+      // WA sudah terkirim; kegagalan mencatat flag dedup cukup dilaporkan supaya
+      // admin tahu ada kemungkinan notif yang sama terulang.
+      console.error(
+        "deadline-notif: gagal mencatat dedup deadline_notified_at:",
+        err instanceof Error ? err.message : err
+      );
     }
   }
 

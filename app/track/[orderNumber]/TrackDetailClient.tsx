@@ -15,6 +15,11 @@ import {
   ORDER_PHOTO_STAGES,
   type OrderStatus,
 } from "@/lib/types";
+import {
+  isOrderCompleted,
+  nextStageLabel,
+  progressPercentFromStatus,
+} from "@/lib/order-status";
 import { buildWhatsAppLink } from "@/lib/wa";
 
 const STATUS_ICONS: Record<string, string> = {
@@ -47,22 +52,6 @@ function formatDate(dateStr: string) {
     hour: "2-digit",
     minute: "2-digit",
   });
-}
-
-function getProgressPercent(currentStatus: OrderStatus): number {
-  // "selesai" nggak ada di daftar 11 tahap → tanpa guard ini hasilnya 0%.
-  if (currentStatus === "selesai") return 100;
-  const idx = ORDER_STATUS_LIST.indexOf(currentStatus);
-  return Math.round(((idx + 1) / ORDER_STATUS_LIST.length) * 100);
-}
-
-function getNextEstimate(currentStatus: OrderStatus): string | null {
-  // "selesai" nggak ada di daftar tahap → indexOf balikin -1 dan tanpa guard ini
-  // tahap berikutnya salah kebaca jadi "Desain" untuk order yang udah tuntas.
-  if (currentStatus === "selesai") return null;
-  const idx = ORDER_STATUS_LIST.indexOf(currentStatus);
-  if (idx < 0 || idx >= ORDER_STATUS_LIST.length - 1) return null;
-  return ORDER_STATUS_LABELS[ORDER_STATUS_LIST[idx + 1]];
 }
 
 export function TrackDetailClient({ orderNumber }: { orderNumber: string }) {
@@ -176,8 +165,8 @@ function OrderDetailView({
   history: any[];
   orderNumber: string;
 }) {
-  const progress = getProgressPercent(order.current_status);
-  const nextEstimate = getNextEstimate(order.current_status);
+  const progress = progressPercentFromStatus(order.current_status);
+  const nextEstimate = nextStageLabel(order.current_status);
   const waLink = buildWhatsAppLink(
     "628115491117",
     `Halo TNT SPORT, saya mau tanya soal pesanan ${orderNumber}`
@@ -316,7 +305,7 @@ function OrderDetailView({
               );
               // Order "selesai" = semua tahap tuntas: pakai tahap terakhir sebagai
               // penanda, dan nggak ada tahap yang masih "sedang berjalan".
-              const isOrderDone = order.current_status === "selesai";
+              const isOrderDone = isOrderCompleted(order.current_status);
               const currentIdx = isOrderDone
                 ? ORDER_STATUS_LIST.length - 1
                 : ORDER_STATUS_LIST.indexOf(order.current_status);

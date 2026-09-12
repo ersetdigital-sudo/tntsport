@@ -1,15 +1,12 @@
 import { NextRequest, NextResponse } from "next/server";
 import { createClient } from "@supabase/supabase-js";
-
-const STEPS = [
-  "desain", "layout", "print", "pres", "potong",
-  "jahit", "finishing", "packing", "kirim",
-];
-
-function stepFromStatus(status: string): number {
-  const idx = STEPS.indexOf(status);
-  return idx >= 0 ? idx + 1 : 1;
-}
+import { ORDER_STATUS_LIST } from "@/lib/types";
+import {
+  isOrderCompleted,
+  normalizeOrderStatus,
+  STAGE_BACKFILL_NOTES,
+  stepFromStatus,
+} from "@/lib/order-status";
 
 /**
  * POST /api/track/ensure-history
@@ -53,8 +50,10 @@ export async function POST(request: NextRequest) {
 
   void oErr;
 
+  // Order yang sudah tuntas TIDAK di-backfill: timeline-nya toh penuh, dan
+  // menambah baris history bertimestamp sintetis ke order nyata cuma bikin bising.
   const currentStep = stepFromStatus(order.current_status);
-  if (currentStep <= 1) {
+  if (isOrderCompleted(order.current_status) || currentStep <= 1) {
     // At step 1 or unknown — just return existing history
     const { data: history } = await supabase
       .from("order_status_history")
@@ -70,7 +69,11 @@ export async function POST(request: NextRequest) {
     .select("status")
     .eq("order_id", order.id);
 
-  const existingStatuses = new Set((existing ?? []).map((h) => h.status));
+  // Normalisasi dulu: baris lama bisa masih pakai slug 9 tahap (print/pres/potong),
+  // tanpa ini tahap yang sama bisa ke-insert dua kali dengan slug berbeda.
+  const existingStatuses = new Set(
+    (existing ?? []).map((h) => normalizeOrderStatus(h.status))
+  );
 
   // Insert missing steps
   const toInsert: {
@@ -81,31 +84,25 @@ export async function POST(request: NextRequest) {
   }[] = [];
 
   for (let i = 0; i < currentStep; i++) {
-    const stepStatus = STEPS[i];
-    if (!existingStatuses.has(stepStatus)) {
-      // Generate timestamp: spread from created_at, 5 minutes apart
-      const ts = new Date(order.created_at);
-      ts.setMinutes(ts.getMinutes() + i * 5);
+    const stepStatus = ORDER_STATUS_LIST[i];
+    if (!stepStatus || existingStatuses.has(stepStatus)) continue;
 
-      const noteMap: Record<string, string> = {
-        desain: "Desain sedang dikerjakan",
-        layout: "Layout sedang disusun",
-        print: "Proses printing/sublimasi",
-        pres: "Proses pres transfer",
-        potong: "Bahan sedang dipotong",
-        jahit: "Proses penjahitan",
-        finishing: "Quality control & finishing",
-        packing: "Pesanan sedang dikemas",
-        kirim: i === currentStep - 1 ? "Sedang diproses untuk pengiriman" : "Proses pengiriman",
-      };
+    // Generate timestamp: spread from created_at, 5 minutes apart
+    const ts = new Date(order.created_at);
+    ts.setMinutes(ts.getMinutes() + i * 5);
 
-      toInsert.push({
-        order_id: order.id,
-        status: stepStatus,
-        note: noteMap[stepStatus] || "Tahap selesai",
-        created_at: ts.toISOString(),
-      });
-    }
+    const isLastReached = i === currentStep - 1;
+    const note =
+      isLastReached && stepStatus === "kirim"
+        ? "Sedang diproses untuk pengiriman"
+        : STAGE_BACKFILL_NOTES[stepStatus] || "Tahap selesai";
+
+    toInsert.push({
+      order_id: order.id,
+      status: stepStatus,
+      note,
+      created_at: ts.toISOString(),
+    });
   }
 
   let insertedCount = 0;

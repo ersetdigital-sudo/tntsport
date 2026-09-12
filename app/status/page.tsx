@@ -10,6 +10,11 @@ import {
   getProgress,
   type OrderStatus,
 } from "@/lib/types";
+import {
+  isOrderCompleted,
+  stepFromStatus,
+  TOTAL_STAGES,
+} from "@/lib/order-status";
 
 const CHECK_SVG = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>';
 const SPIN_SVG = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><path d="M21 12a9 9 0 1 1-3.2-6.9"/></svg>';
@@ -68,26 +73,17 @@ function normalizeStepName(name: string): string {
 
 /**
  * Tahap ke berapa untuk sebuah current_status.
- * "selesai" dihitung sebagai tahap akhir supaya order yang sudah selesai tetap
- * kebaca 100%, bukan jatuh ke 0 karena nggak ada di daftar 11 tahap produksi.
+ * Aturan "selesai" = tahap akhir & status tak dikenal = tahap 1 ada di
+ * lib/order-status.ts (`isOrderCompleted` / `stepFromStatus`).
  */
 function stepIndexFromStatus(status: string, steps: { name: string }[]): number {
+  if (isOrderCompleted(status)) return steps.length || TOTAL_STAGES;
   const slug = normalizeStepName(status);
-  if (slug === "selesai") return steps.length || ORDER_STATUS_LIST.length;
   const idx =
     steps.length > 0
       ? steps.findIndex((s) => normalizeStepName(s.name) === slug) + 1
-      : ORDER_STATUS_LIST.indexOf(slug as OrderStatus) + 1;
+      : stepFromStatus(slug);
   return idx > 0 ? idx : 1;
-}
-
-/**
- * true kalau order sudah tuntas ("selesai").
- * Dipakai untuk menandai SEMUA tahap sebagai selesai — tanpa ini tahap terakhir
- * ("Kirim") tetap ke-anggap "sedang berjalan" walau ordernya sudah selesai.
- */
-function isOrderCompleted(status: string): boolean {
-  return normalizeStepName(status) === "selesai";
 }
 
 function stepDescription(status: string, hasTracking: boolean): string {

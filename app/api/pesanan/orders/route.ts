@@ -1,20 +1,12 @@
 import { NextResponse } from "next/server";
 import { createClient } from "@supabase/supabase-js";
 import { generateOrderNumber } from "@/lib/queries-orders";
-import { ORDER_STATUS_LIST, getProgress } from "@/lib/types";
-
-function stepFromStatus(status: string): number {
-  // "selesai" bukan bagian dari 11 tahap produksi, tapi posisinya = tahap akhir.
-  // Tanpa ini, order selesai kebaca sebagai tahap 1 ("Desain").
-  if (status === "selesai") return ORDER_STATUS_LIST.length;
-  const idx = ORDER_STATUS_LIST.indexOf(status as any);
-  return idx >= 0 ? idx + 1 : 1;
-}
+import { isOrderCompleted, progressPercentFromStatus, stepFromStatus } from "@/lib/order-status";
 
 function mapOrder(row: any) {
   const hasTracking = !!(row.tracking_number && row.courier);
   const step = stepFromStatus(row.current_status);
-  const pct = getProgress(step, hasTracking);
+  const pct = progressPercentFromStatus(row.current_status, hasTracking);
   return {
     id: row.order_number,
     customer_name: row.customer_name,
@@ -34,7 +26,7 @@ function mapOrder(row: any) {
     note_time: row.updated_at || "",
     courier: row.courier || "",
     tracking_number: row.tracking_number || "",
-    is_done: row.current_status === "selesai" || (step === 11 && hasTracking),
+    is_done: isOrderCompleted(row.current_status) || (step === 11 && hasTracking),
     deadline: row.deadline || null,
     created_at: row.created_at,
     pct,
