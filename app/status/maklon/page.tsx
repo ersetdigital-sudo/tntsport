@@ -435,19 +435,6 @@ export default async function MaklonStatusPage({
             </div>
           </div>
 
-          {(order.material || order.sizes || order.customer_city) && (
-            <div className="grid grid-cols-2 border-b border-white/[.07]">
-              <div className="trk-cell border-r border-white/[.07]">
-                <p className="trk-cell-label">Bahan</p>
-                <p className="trk-cell-value">{order.material || "-"}</p>
-              </div>
-              <div className="trk-cell">
-                <p className="trk-cell-label">Ukuran</p>
-                <p className="trk-cell-value">{order.sizes || "-"}</p>
-              </div>
-            </div>
-          )}
-
           {/* Baris pengiriman hanya muncul kalau resinya memang ada. */}
           {hasTracking && (
             <div className="grid grid-cols-2 border-b border-white/[.07]">
@@ -461,11 +448,6 @@ export default async function MaklonStatusPage({
               </div>
             </div>
           )}
-
-          <div className="trk-cell">
-            <p className="trk-cell-label">Kota Tujuan</p>
-            <p className="trk-cell-value">{order.customer_city || "-"}</p>
-          </div>
         </div>
       </section>
 
@@ -512,14 +494,16 @@ export default async function MaklonStatusPage({
           <p className="text-[14px] leading-relaxed text-[#979ba4]">
             Ada yang mau ditanyakan soal pesanan ini? CS kami siap bantu.
           </p>
-          <a
-            href={csHref}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="trk-btn-accent mt-5 inline-flex items-center gap-2 px-6 py-3.5 text-[14px]"
-          >
-            Chat CS
-          </a>
+          <div className="mt-5 flex justify-center">
+            <a
+              href={csHref}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex w-full items-center justify-center gap-2 rounded-full bg-[#22c55e] px-8 py-3.5 text-[15px] font-semibold text-black transition hover:-translate-y-px hover:bg-[#2ee06b] sm:w-auto"
+            >
+              Chat CS
+            </a>
+          </div>
         </div>
       </section>
     </Shell>
