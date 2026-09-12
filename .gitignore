@@ -44,6 +44,7 @@ jersey-futsal-custom---landing-page/
 
 # agent / tooling scratch (harness lokal, log preview)
 .freebuff/
+.hallmark/
 
 .vercel
 .env*
