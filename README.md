@@ -1,8 +1,10 @@
 # TNT Sport Apparel
 
-**Website e-commerce & katalog untuk pabrik custom jersey full sublimation — dengan order tracking dan notifikasi WhatsApp otomatis di setiap tahap produksi.**
+**Production e-commerce & catalog platform untuk pabrik custom jersey full sublimation, dilengkapi customer order tracking dan automated WhatsApp notification di setiap tahap produksi.**
 
-Admin cukup sekali klik update tahap produksi. Sistem yang mencatat riwayatnya, menghitung progress, dan mengirim WhatsApp ke customer. Tidak ada pesan update yang diketik manual.
+Admin cukup melakukan **satu kali update status produksi**. Sistem otomatis mencatat riwayat, menghitung progress, dan mengirimkan informasi terbaru ke customer melalui WhatsApp.
+
+> **One status update → history recorded → progress calculated → customer notified.**
 
 <p>
   <img alt="Next.js" src="https://img.shields.io/badge/Next.js-15-000?logo=nextdotjs&logoColor=white">
@@ -13,32 +15,45 @@ Admin cukup sekali klik update tahap produksi. Sistem yang mencatat riwayatnya, 
   <img alt="Vercel" src="https://img.shields.io/badge/Deploy-Vercel-000?logo=vercel&logoColor=white">
 </p>
 
+---
+
 ## Live Website
 
-**🌐 https://www.tntsportapparel.id**
+🌐 **https://www.tntsportapparel.id**
 
-Domain ini dipakai konsisten di seluruh sistem: canonical SEO, link tracking di pesan WhatsApp, sampai workflow cron. Project Vercel-nya bernama `tntsport`, jadi alias teknis `tntsport.vercel.app` juga ada — tapi bukan domain yang dikirim ke customer.
+Production domain digunakan secara konsisten di seluruh sistem, termasuk canonical SEO, customer tracking link, dan workflow automation.
+
+Project Vercel menggunakan nama `tntsport`, sehingga `tntsport.vercel.app` tersedia sebagai technical alias. Namun, domain yang dikirim ke customer adalah **tntsportapparel.id**.
+
+---
 
 ## Overview
 
-TNT Sport Apparel adalah pabrik jersey custom full printing. Sebelum sistem ini, seluruh operasional hidup di chat WhatsApp: order dicatat manual, progress disimpan di kepala admin, dan setiap customer harus bertanya dulu untuk tahu pesanannya sampai mana.
+TNT Sport Apparel adalah platform digital untuk mendukung operasional pabrik **custom jersey full printing**.
 
-Sekarang seluruh alur itu jalan dari satu tempat:
+Sebelum sistem ini dibangun, sebagian besar proses operasional bergantung pada WhatsApp. Order dicatat secara manual, progress produksi harus dipantau admin, dan customer perlu menghubungi admin untuk mengetahui status pesanannya.
 
-- **Landing page per cabang olahraga** — hero, katalog, harga, testimoni, dan CTA WhatsApp. Satu template untuk sembilan kategori.
-- **Katalog desain dari database** — customer filter kategori, lihat detail, dan order lewat WhatsApp dengan pesan yang otomatis menyebut kode desain.
-- **Order flow dua jalur** — tim (min. 6 pcs, desain dari nol) dan satuan (1 pcs dari katalog).
-- **Order tracking self-service** — customer cek progres sendiri, kapan pun, tanpa nanya admin.
-- **Dashboard operasional** — order, tahap produksi, katalog, dan konten situs dikelola dari satu layar.
-- **Automation dua arah** — customer menerima notifikasi tahap produksi otomatis; admin menerima pengingat deadline otomatis.
+Platform ini mengubah proses tersebut menjadi workflow terintegrasi:
 
-Hasil akhirnya: admin mengerjakan **satu aksi** (pindah tahap), sistem menyelesaikan sisanya — pencatatan riwayat, perhitungan progress, dan komunikasi ke customer.
+- **Category-based landing pages** untuk berbagai cabang olahraga.
+- **Dynamic product catalog** yang terhubung dengan database.
+- **Two-way order flow** untuk order tim dan pembelian satuan.
+- **Self-service order tracking** agar customer dapat memantau pesanan sendiri.
+- **Operational dashboard** untuk mengelola order dan proses produksi.
+- **Automated WhatsApp notification** untuk update produksi.
+- **Automated deadline reminder** untuk membantu admin memantau order yang mendekati deadline.
+
+Dengan sistem ini, perubahan status produksi tidak lagi berhenti sebagai catatan internal.
+
+**Satu update dari admin menjadi rangkaian proses otomatis yang mencakup pencatatan, perhitungan progress, dan komunikasi kepada customer.**
+
+---
 
 ## Product Categories
 
-Setiap kategori punya landing page sendiri di `app/`, dipetakan ke katalog di Supabase lewat `lib/category-landing.ts` (`CATEGORY_LANDINGS`):
+TNT Sport menggunakan pendekatan **category-driven architecture**: setiap kategori memiliki landing page sendiri, tetapi seluruhnya dibangun dari satu template dan configuration layer yang sama.
 
-| Kategori | Landing page | ID katalog |
+| Kategori | Landing Page | Catalog ID |
 | --- | --- | --- |
 | Sepak Bola / Futsal | `/jersey-futsal` | `sepak-bola-futsal` |
 | Voli | `/jersey-voli` | `Volly Ball` |
@@ -51,57 +66,194 @@ Setiap kategori punya landing page sendiri di `app/`, dipetakan ke katalog di Su
 | Instansi / Corporate | `/corporate-collection` | `instansi-corporate` |
 | Fantasy Club | `/fantasy-club` | — (halaman khusus) |
 
-Halaman pendukung: `/katalog` (katalog desain), `/promo-bulan-ini` (promo berjalan), `/karier` (rekrutmen), `/status` & `/track` (tracking customer).
+Konfigurasi seluruh landing page dikelola melalui satu file: `lib/category-landing.ts` (`CATEGORY_LANDINGS`).
 
-> Catatan: daftar kategori yang tampil di katalog dibaca dari tabel `product_categories` di Supabase. `lib/products.ts` menyediakan data statis sebagai fallback — kategori `racing` punya landing page, tapi belum ada entri desain di fallback statis.
+Dengan pendekatan ini, penambahan kategori tidak membutuhkan pembuatan halaman dari awal — cukup satu entry config, dan copywriting, harga, FAQ, testimoni, template WhatsApp, serta SEO mengikuti otomatis.
+
+### Supporting Pages
+
+- `/katalog` — katalog desain
+- `/promo-bulan-ini` — promo berjalan
+- `/karier` — halaman rekrutmen
+- `/track` — customer tracking
+- `/status` — status order melalui tracking link
+- `/status/maklon` — tracking order maklon
+
+> Kategori yang tersedia di katalog dibaca dari tabel `product_categories` di Supabase. `lib/products.ts` digunakan sebagai fallback data statis.
+
+---
 
 ## Tech Stack
 
-Bukan wishlist — semua di bawah ini dipakai di production:
+Semua teknologi berikut digunakan dalam production system.
 
-| Bagian | Teknologi | Dipakai untuk |
+| Layer | Technology | Usage |
 | --- | --- | --- |
-| Framework | **Next.js 15** (App Router), **React 19** | Rendering halaman, API routes, metadata/SEO |
-| Bahasa | **TypeScript 5** | Seluruh `app/`, `components/`, `lib/` |
-| Styling | **Tailwind CSS 3** + CSS kustom per landing page | Design system + style khas kategori |
-| UI | Radix UI, `vaul` (drawer), `lucide-react`, `motion`, `next-themes | Komponen admin, animasi, dark mode |
-| Database & Auth | **Supabase** (Postgres, RLS, Supabase Auth) | Order, katalog, konten, pengaturan, log notifikasi |
-| Media | **Cloudinary** (unsigned upload preset) | Upload foto design, WO, dan preview produk |
-| Messaging | **Fonnte WhatsApp API** | Notifikasi tahap produksi + pengingat deadline |
-| Analytics | **Meta Pixel + Conversions API** | Event tracking dari browser & server (dedup `eventID`) |
-| Utility | `browser-image-compression`, `clsx`, `tailwind-merge`, `class-variance-authority` | Kompresi gambar sebelum upload, helper styling |
-| Automation | **GitHub Actions** | Menjalankan endpoint pengingat deadline |
-| Deployment | **Vercel** | Hosting production + environment variables |
-| Package manager | **pnpm** | `pnpm-lock.yaml` + `pnpm-workspace.yaml` |
+| Framework | **Next.js 15** + App Router | Application, API routes, metadata & SEO |
+| Frontend | **React 19** | UI & interactive components |
+| Language | **TypeScript 5** | Application & shared logic |
+| Styling | **Tailwind CSS 3** | Design system & responsive styling |
+| UI | **Radix UI**, `vaul`, `lucide-react`, `motion`, `next-themes` | UI primitives, drawer, icons, animation, dark mode |
+| Database & Auth | **Supabase / PostgreSQL** | Orders, catalog, content, settings & authentication |
+| Security | **Row Level Security (RLS)** | Database access control |
+| Media | **Cloudinary** | Product, design & WO image uploads |
+| Messaging | **Fonnte WhatsApp API** | Production updates & deadline reminders |
+| Analytics | **Meta Pixel + Conversions API** | Browser & server-side event tracking |
+| Automation | **GitHub Actions** | Scheduled automation workflow |
+| Deployment | **Vercel** | Production hosting |
+| Utility | `browser-image-compression`, `clsx`, `tailwind-merge`, `cva` | Image compression before upload, styling helpers |
+| Package Manager | **pnpm** | Dependency management |
 
-## Key Features
+---
 
-### Customer side
+## Customer Experience
 
-- **Landing page per kategori** — copywriting, harga, testimoni, FAQ, dan template WhatsApp semuanya dari satu config (`lib/category-landing.ts`). Menambah kategori = menambah satu entry, bukan menyalin halaman.
-- **Katalog desain dinamis** — dibaca dari Supabase, bisa difilter per kategori, dan setiap desain punya link order WhatsApp yang sudah menyertakan kode desain. Admin tidak perlu bertanya "mau yang mana?".
-- **Harga transparan** — mode ecer & lusin dengan penyesuaian harga, plus jalur khusus order 50 pcs+ ke admin.
-- **Order tracking dua lapis**:
-  - `/track` — masukkan nomor order, diverifikasi dengan nomor HP.
-  - `/status?order=...&token=...` — link dari pesan WhatsApp pakai token bertanda tangan (berlaku 30 hari), jadi customer langsung lihat progres tanpa verifikasi ulang.
-- **Timeline produksi lengkap** — customer melihat seluruh tahap beserta catatannya, bukan cuma persentase.
-- **Info pengiriman otomatis** — ekspedisi, nomor resi, dan tombol lacak muncul di halaman tracking begitu resi diisi admin.
-- **Satu klik ke WhatsApp** di semua CTA — order, promo, konsultasi desain, tanya progress.
+### Category Landing Pages
 
-### Admin side
+Setiap kategori memiliki landing page yang berisi:
 
-- **Dashboard Pesanan** (`/pesanan/orders`) — daftar order dengan filter status, pencarian, edit data, foto design & WO, catatan, dan deadline. Semua dalam satu layar.
-- **Update tahap produksi sekali klik** — satu aksi menyimpan status, menulis riwayat, menghitung progress ulang, dan mengirim notifikasi WhatsApp ke customer.
-- **Dashboard Maklon** (`/pesanan/maklon`) — pesanan maklon punya tabel, 6 tahap produksi, dan halaman tracking sendiri, terpisah dari order jersey.
-- **CMS admin** (`/admin/*`) — kelola produk, kategori, kain, fitur katalog, testimoni, review, brand, CTA, social links, badge kepercayaan, dan statistik tanpa menyentuh kode.
-- **Pengaturan notifikasi langsung dari dashboard** — jam kirim, hari pengingat (H-3/H-2/H-1), nomor admin penerima, status aktif, plus tombol kirim notifikasi uji.
-- **Log notifikasi** — jejak setiap pengiriman WhatsApp: order, nomor tujuan, sukses/gagal, dan respons API-nya.
+- Hero section
+- Product catalog
+- Pricing
+- Testimonials
+- FAQ
+- WhatsApp CTA
+
+Seluruh landing page menggunakan satu template yang dikontrol melalui configuration layer.
+
+### Dynamic Product Catalog
+
+Catalog mengambil data dari Supabase dan mendukung:
+
+- Category filtering
+- Product detail
+- Design code
+- WhatsApp ordering
+- Dynamic product availability
+
+Customer dapat langsung memilih desain dan mengirim order melalui WhatsApp dengan kode desain yang sudah disiapkan oleh sistem.
+
+### Flexible Pricing
+
+Sistem mendukung:
+
+- Harga ecer
+- Harga lusin
+- Penyesuaian harga berdasarkan quantity
+- Jalur khusus untuk order 50+ pcs
+
+### Self-Service Order Tracking
+
+Customer memiliki dua metode untuk melihat progress:
+
+**Manual tracking** — `/track`
+
+Customer memasukkan nomor order dan melakukan verifikasi menggunakan nomor HP.
+
+**Secure tracking link** — `/status?order=...&token=...`
+
+Link tracking dikirim melalui WhatsApp menggunakan signed token yang berlaku selama 30 hari. Customer dapat langsung melihat progress tanpa verifikasi ulang.
+
+Dengan pendekatan ini, customer dapat melihat progress tanpa harus menghubungi admin.
+
+### Production Timeline
+
+Customer dapat melihat tahapan produksi secara lengkap, termasuk catatan pada setiap tahap — bukan hanya persentase.
+
+### Shipping Information
+
+Setelah admin memasukkan informasi pengiriman, halaman tracking dapat menampilkan:
+
+- Nama ekspedisi
+- Nomor resi
+- Tombol tracking
+
+### WhatsApp Integration
+
+WhatsApp digunakan sebagai communication channel utama untuk:
+
+- Order
+- Konsultasi desain
+- Promo
+- Update produksi
+- Tracking order
+
+---
+
+## Admin System
+
+### Order Management
+
+Dashboard Pesanan (`/pesanan/orders`) menyediakan:
+
+- Order listing
+- Status filtering
+- Search
+- Customer information
+- Design & WO upload
+- Notes
+- Production deadline
+- Shipping information
+
+Seluruh informasi order dapat dikelola dari satu dashboard.
+
+### One-Click Production Update
+
+Admin cukup mengubah tahap produksi.
+
+Sistem kemudian otomatis:
+
+1. Menyimpan status terbaru.
+2. Mencatat riwayat perubahan.
+3. Menghitung ulang progress.
+4. Menentukan template notifikasi.
+5. Mengirim WhatsApp kepada customer.
+6. Mencatat hasil pengiriman.
+
+Tidak diperlukan proses update manual melalui WhatsApp.
+
+### CMS
+
+Admin dapat mengelola konten website melalui CMS (`/admin/*`):
+
+- Products
+- Categories
+- Fabrics
+- Catalog
+- Testimonials
+- Reviews
+- Brand information
+- CTA
+- Social links
+- Trust badges
+- Statistics
+
+### Notification Management
+
+Pengaturan notification dapat dikontrol langsung dari dashboard:
+
+- Notification schedule
+- Deadline reminder days
+- Admin recipient numbers
+- Active/inactive status
+- Test notification
+
+### Notification Logs
+
+Setiap pengiriman WhatsApp dicatat ke database (`notification_logs`), termasuk:
+
+- Order
+- Destination number
+- Delivery status
+- API response
+
+---
 
 ## Order & Production Tracking
 
-Tahap produksi tersimpan di `orders.current_status` / `orders.current_stage` dan dipakai konsisten oleh dashboard, halaman tracking, dan pesan WhatsApp (`lib/types.ts` → `ORDER_STATUS_LIST`):
+Production workflow menggunakan 11 tahap utama:
 
-| # | Tahap | Status |
+| # | Production Stage | Status |
 | --- | --- | --- |
 | 1 | Desain | `desain` |
 | 2 | Layout | `layout` |
@@ -115,163 +267,250 @@ Tahap produksi tersimpan di `orders.current_status` / `orders.current_stage` dan
 | 10 | Packing | `packing` |
 | 11 | Kirim | `kirim` |
 
-Tahap `Kirim` menuntaskan order: status menjadi `selesai` dan progress 100% — tanpa menunggu nomor resi. Nomor resi opsional: kalau diisi, tombol lacak muncul di halaman customer; kalau kosong, customer melihat status "Selesai".
+Tahap `Kirim` menandai order sebagai selesai dan progress menjadi **100%**.
 
-Pesanan **maklon** memakai rangkaian terpisah (6 tahap): Layout → Profing Warna → Cutting Bahan → Press Sublime → QC → Kirim.
+Nomor resi bersifat opsional. Jika tersedia, customer mendapatkan tombol tracking pada halaman order.
+
+Order maklon menggunakan production workflow terpisah (6 tahap): Layout → Profing Warna → Cutting Bahan → Press Sublime → QC → Kirim.
+
+---
 
 ## Business Process Automation
 
-### 1. Notifikasi WhatsApp saat tahap produksi berubah
+### 1. Automated WhatsApp Production Updates
 
-**Problem.** Sebelum automation, admin harus meng-update status produksi di satu tempat, lalu mengabari customer satu per satu lewat WhatsApp. Saat order ramai, update gampang tertunda, terlewat, atau dobel — dan customer tetap bertanya *"pesananku sudah sampai mana?"*.
+**Problem**
 
-**Solution.** Dashboard admin jadi satu-satunya titik update status. Setiap perubahan status otomatis memicu notifikasi WhatsApp — admin tidak mengetik satu pesan pun.
+Sebelum automation, admin harus melakukan dua pekerjaan terpisah:
 
-```
-Admin update status
-  → System mendeteksi perubahan status
-  → Automation trigger
-  → Fonnte WhatsApp API
-  → Customer menerima notifikasi WhatsApp
-```
+1. Update status produksi.
+2. Mengirim pesan WhatsApp kepada customer.
+
+Ketika jumlah order meningkat, proses manual tersebut berpotensi menyebabkan update terlambat, terlewat, atau terkirim lebih dari sekali.
+
+**Solution**
+
+Dashboard admin menjadi **single source of action** untuk perubahan status.
 
 ```mermaid
 flowchart LR
-    A[Admin Update Status] --> B[System Detects Status Change]
-    B --> C[Automation Trigger]
-    C --> D[Fonnte WhatsApp API]
-    D --> E[Customer Receives WhatsApp]
+    A[Admin Update Status] --> B[System Detects Change]
+    B --> C[Record Production History]
+    C --> D[Calculate Progress]
+    D --> E[Automation Trigger]
+    E --> F[Fonnte WhatsApp API]
+    F --> G[Customer Receives Update]
 ```
 
-**Isi notifikasi** (template di `lib/fonnte.ts`):
+**Notification Content**
 
-- Nama customer dan nomor pesanan.
-- Nama tahap yang sedang dikerjakan + progress `n/11`.
-- **Link tracking khusus order itu** — bertoken, berlaku 30 hari, jadi customer langsung lihat progres lengkap tanpa verifikasi HP.
-- Tahap terakhir memakai template berbeda: **"PESANAN DIKIRIM"** — pesanan selesai, masuk pengiriman, plus link tracking.
-- Pesanan maklon punya template sendiri (`UPDATE MAKLON` / `MAKLON DIKIRIM`, progress `n/6`).
+Pesan WhatsApp berisi:
 
-**Kenapa ini aman dipakai di produksi asli:**
+- Nama customer
+- Nomor order
+- Tahap produksi terbaru
+- Progress `n/11`
+- Secure tracking link
+- Link ke informasi pengiriman ketika order selesai (template `PESANAN DIKIRIM`)
 
-- **Anti-duplikat di level database.** Setiap pengiriman "mengklaim" slot dulu lewat RPC `claim_stage_notification` (unique `order_id` + `stage` di `notification_logs`). Klik dobel atau request kembar tidak akan mengirim pesan kedua.
-- **Status order tidak pernah gagal gara-gara WhatsApp.** Kegagalan kirim tidak di-rollback — order tetap tersimpan, hanya status notifikasinya yang ditandai gagal.
-- **Token Fonnte tidak pernah menyentuh browser.** Disimpan terenkripsi di `app_settings` (AES-256-GCM), didekripsi server-side, dan endpoint dashboard memakai RPC `SECURITY DEFINER` supaya tabel tidak dibuka ke publik (`0020_fonnte_rpc.sql`).
+Order maklon menggunakan template dan production workflow terpisah (`UPDATE MAKLON` / `MAKLON DIKIRIM`, progress `n/6`).
 
-### 2. Pengingat deadline otomatis untuk admin
+**Reliability & Security**
 
-**Problem.** Deadline produksi gampang terlewat kalau harus diingat manual setiap hari — order yang harusnya dikejar hari ini baru tersadar saat customer menanyakan.
+Automation dirancang untuk berjalan dengan aman pada production data:
 
-**Solution.** Endpoint `GET /api/admin/deadline-notif` mencari order yang mendekati deadline, lalu mengirim ringkasan ke nomor WhatsApp admin. Jalan tiap hari lewat scheduler.
+- **Database-Level Deduplication** — setiap notification terlebih dahulu melakukan claim melalui RPC `claim_stage_notification`. Unique constraint `order_id + stage` mencegah request ganda mengirim notification yang sama lebih dari sekali.
+- **WhatsApp Failure Isolation** — kegagalan pengiriman WhatsApp tidak menyebabkan perubahan status order di-rollback. Order tetap tersimpan dan notification ditandai sebagai gagal.
+- **Server-Side Credential Protection** — token Fonnte tidak pernah dikirim ke browser. Credential disimpan secara encrypted (AES-256-GCM) di database dan hanya digunakan server-side melalui protected RPC.
 
-```
-Scheduler (GitHub Actions / cron eksternal)
-  → Deadline Checking API
-  → Identifikasi order mendekati deadline
-  → Fonnte API
-  → Admin menerima WhatsApp reminder
-```
+### 2. Automated Deadline Reminder
+
+Selain customer notification, sistem juga membantu admin memantau order yang mendekati deadline.
 
 ```mermaid
 flowchart LR
     A[Scheduler / GitHub Actions] --> B[Deadline Checking API]
-    B --> C[Identifikasi Order Mendekati Deadline]
+    B --> C[Find Orders Near Deadline]
     C --> D[Fonnte WhatsApp API]
-    D --> E[Admin Menerima WhatsApp]
+    D --> E[Admin Receives Reminder]
 ```
 
-**Detail implementasi:**
+Default reminder:
 
-- **Ambang hari diatur dari dashboard** (`deadline_notif_days`, default `3,2,1` → **H-3, H-2, H-1**) bersama jam kirim, daftar nomor admin, dan saklar aktif/nonaktif. Order yang sama dapat pengingat bertahap saat makin dekat deadline.
-- **Window, bukan exact match** — kirim kalau jam sekarang sudah lewat/pas jam setting, bukan cuma di menit itu.
-- **Dedup dua lapis** supaya tidak spam: flag harian (`deadline_notif_last_sent_date`, tanggal WIB) dan penanda per order (`orders.deadline_notified_at`).
-- **Order selesai tidak pernah diingatkan lagi.**
-- Setiap pengiriman dicatat ke `notification_logs`, dan endpoint membalas `503` saat database gangguan sesaat — jadi eksekusi berikutnya otomatis mencoba lagi.
-- Aksi manual tersedia dari dashboard, plus `.github/workflows/deadline-notif.yml` untuk memicu endpoint dari GitHub Actions.
+- H-3
+- H-2
+- H-1
 
-> **Status trigger saat ini:** jadwal `schedule:` di workflow GitHub sengaja dinonaktifkan (commit `d60884b`), jadi yang aktif adalah `workflow_dispatch` + cron eksternal yang memanggil endpoint.
+**Anti-Spam Protection**
+
+Sistem menggunakan beberapa mekanisme untuk mencegah duplicate reminder:
+
+- Daily notification flag (`deadline_notif_last_sent_date`, tanggal WIB)
+- Per-order notification timestamp (`deadline_notified_at`)
+- Time window instead of exact-minute matching
+- Notification logs
+- Completed orders excluded automatically
+
+Automation dapat dijalankan melalui GitHub Actions maupun cron eksternal.
+
+> **Current trigger:** scheduled GitHub Actions workflow sengaja dinonaktifkan (commit `d60884b`). Workflow yang tersedia menggunakan `workflow_dispatch`, sementara production scheduler menggunakan cron eksternal.
+
+---
+
+## Engineering Highlights
+
+Enam bagian yang paling representatif dari project ini (640+ commit, Juli–September 2026):
+
+### 1. Production-Grade WhatsApp Automation
+
+Notification pipeline menggunakan database-level claim, deduplication, protected server-side credentials, dan failure isolation — aman untuk data produksi asli.
+
+### 2. Secure Customer Tracking
+
+Customer tracking menggunakan signed HMAC token dengan masa berlaku 30 hari sehingga customer dapat membuka tracking link tanpa mengekspos data order secara publik.
+
+### 3. Reliable Deadline Reminder
+
+Deadline reminder menggunakan time window, daily deduplication, per-order tracking, dan notification logging untuk menghindari spam.
+
+### 4. Single Source of Truth for Production Status
+
+Aturan production status dipusatkan di `lib/order-status.ts` sehingga dashboard, customer tracking, dan WhatsApp notification menggunakan status definition yang sama — termasuk normalisasi data tahap lama.
+
+### 5. Reusable Category Architecture
+
+Sembilan landing page kategori menggunakan satu template dan configuration layer. Penambahan kategori baru tidak membutuhkan duplikasi halaman.
+
+### 6. Separate Maklon Workflow
+
+Order maklon memiliki:
+
+- Production stages sendiri (6 tahap)
+- Dashboard sendiri
+- Tracking page sendiri
+- Notification template sendiri
+
+Workflow tersebut berjalan berdampingan dengan order jersey utama tanpa mencampurkan business logic.
+
+---
 
 ## Project Structure
 
+```text
+app/
+├─ jersey-*/               Landing page kategori olahraga
+├─ corporate-collection/   Landing page instansi/corporate
+├─ fantasy-club/           Landing page Fantasy Club
+├─ katalog/                Dynamic product catalog
+├─ promo-bulan-ini/        Promo & flash sale
+├─ karier/                 Recruitment page
+├─ track/                  Customer tracking
+├─ status/                 Tracking via WhatsApp link
+├─ pesanan/                Order & Maklon dashboard
+├─ admin/                  CMS & administration
+└─ api/                    API routes
+
+components/
+├─ category-landing/       Reusable category landing components
+├─ admin/                  Admin dashboard & CMS components
+├─ jersey-*/               Category-specific components
+└─ ui/                     Shared UI primitives
+
+lib/
+├─ Supabase
+├─ Fonnte
+├─ order status
+├─ tracking token
+├─ SEO
+├─ rate limiting
+└─ shared utilities
+
+supabase/
+└─ migrations/             Database schema, RLS & RPC
+
+public/
+└─ assets                  Images, fonts & static assets
+
+.github/
+└─ workflows/              Automation workflow
+
+_archive/
+└─ Legacy static pages & previous versions
 ```
-app/                       Halaman (App Router) + API routes
-├─ jersey-*/               Landing page per kategori olahraga
-├─ corporate-collection/   Landing page kategori instansi/corporate
-├─ fantasy-club/          Landing page Fantasy Club
-├─ katalog/               Katalog desain (data dari Supabase)
-├─ promo-bulan-ini/        Promo berjalan + flash sale
-├─ karier/                Halaman rekrutmen
-├─ track/                 Tracking customer (verifikasi nomor HP + token)
-├─ status/                Halaman status via link WA (+ /status/maklon)
-├─ pesanan/               Dashboard Pesanan & Maklon (login shared password)
-├─ admin/                 CMS admin (produk, katalog, konten, pengaturan)
-└─ api/                   Endpoint: orders, tracking, notifikasi, upload, CAPI
 
-components/                Komponen UI
-├─ category-landing/       Template landing page yang dipakai semua kategori
-├─ admin/                  Dashboard Pesanan/Maklon + editor CMS
-├─ jersey-*/               Komponen khas tiap kategori
-└─ ui/                     Primitif UI (button, drawer, sheet, marquee)
-
-lib/                       Logika bersama: Supabase, Fonnte, tracking token,
-                           status order, SEO, rate limit, helpers
-supabase/migrations/       Skema + RLS + RPC (0001 → 0025)
-public/                    Aset statis (landing, produk, promo, font, llms.txt)
-.github/workflows/         Automation (notifikasi deadline)
-_archive/                  Landing page & dashboard versi lama (HTML statis)
-notifikasi-deadline-dashboard/  Dashboard statis "Notifikasi Deadline" versi awal
-```
-
-## Notable Engineering Work
-
-640+ commit dan 500+ deployment via Vercel sepanjang Juli–September 2026. Enam pekerjaan yang paling representatif:
-
-1. **Notifikasi WhatsApp yang aman untuk data produksi asli** — pengiriman diklaim lewat RPC `SECURITY DEFINER` (`claim_stage_notification`), anti-duplikat di level database, dan kegagalan kirim tidak pernah menggagalkan penyimpanan status order.
-2. **Token tracking bertanda tangan (HMAC, 30 hari)** — customer membuka halaman tracking dari link WhatsApp tanpa verifikasi ulang, tanpa membuka data order ke publik.
-3. **Sistem pengingat deadline yang tidak pernah spam** — window waktu + dedup harian per order (tanggal WIB) + log pengiriman, walau endpoint dipanggil berkali-kali.
-4. **Satu sumber kebenaran untuk status produksi** (`lib/order-status.ts`) — aturan "tahap terakhir = selesai = 100%" yang tadinya disalin di empat tempat disatukan, plus normalisasi slug tahap lama supaya data historis tetap terbaca.
-5. **Satu template untuk sembilan landing page** — seluruh copywriting, harga, testimoni, FAQ, dan template WA hidup di `lib/category-landing.ts`; sitemap dan SEO mengikuti otomatis saat kategori baru ditambahkan.
-6. **Alur maklon terpisah** — tabel, 6 tahapan, dashboard, halaman tracking, dan pipeline notifikasi sendiri, berjalan berdampingan dengan order jersey tanpa saling mengganggu.
+---
 
 ## Screenshots
 
-> 🚧 **Placeholder** — tangkapan layar berikutnya akan ditambahkan ke `docs/screenshots/`:
-> homepage, katalog, halaman kategori, halaman tracking, dan dashboard admin (dengan data customer di-redact).
->
-> Sementara ini, langsung lihat live di **[tntsportapparel.id](https://www.tntsportapparel.id)**.
->
-> Referensi visual versi awal ada di `_archive/screenshots/` (internal, tidak ditampilkan di README).
+> Screenshots production akan ditambahkan ke `docs/screenshots/`.
 
-## Local Setup
+Planned screenshots:
+
+- Homepage
+- Category landing page
+- Product catalog
+- Product detail
+- Customer tracking
+- Admin dashboard
+- Production order management
+
+Data customer pada screenshot harus di-redact sebelum dipublikasikan.
+
+Untuk melihat implementasi production saat ini:
+
+🌐 **[https://www.tntsportapparel.id](https://www.tntsportapparel.id)**
+
+---
+
+## Local Development
 
 ```bash
 pnpm install
-cp .env.local.example .env.local   # lalu isi nilainya
+cp .env.local.example .env.local
 pnpm dev
 ```
 
-Environment variable yang dipakai (nama saja — nilai tidak pernah di-commit):
+Environment variables yang digunakan:
 
-| Variable | Dipakai untuk |
+| Variable | Purpose |
 | --- | --- |
-| `NEXT_PUBLIC_SUPABASE_URL` | Koneksi Supabase (client & server) |
-| `NEXT_PUBLIC_SUPABASE_ANON_KEY` | Kunci publik anon (read-only lewat RLS) |
-| `SUPABASE_SERVICE_ROLE_KEY` | Operasi server untuk endpoint notifikasi |
-| `SETTINGS_ENCRYPTION_KEY` | Enkripsi token Fonnte di tabel `app_settings` |
-| `TRACK_SESSION_SECRET` | Tanda tangan token tracking customer |
-| `PESANAN_PASSWORD` | Password dashboard Pesanan (`/pesanan/*`) |
-| `CRON_SECRET` | Proteksi endpoint pengingat deadline |
-| `CLOUDINARY_CLOUD_NAME`, `CLOUDINARY_UPLOAD_PRESET` | Upload foto design & WO |
-| `NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME`, `NEXT_PUBLIC_CLOUDINARY_UPLOAD_PRESET` | Fallback upload dari client |
-| `META_CAPI_ACCESS_TOKEN` | Conversions API Meta (server-side events) |
+| `NEXT_PUBLIC_SUPABASE_URL` | Supabase connection |
+| `NEXT_PUBLIC_SUPABASE_ANON_KEY` | Public Supabase client key |
+| `SUPABASE_SERVICE_ROLE_KEY` | Server-side operations |
+| `SETTINGS_ENCRYPTION_KEY` | Encrypt application credentials |
+| `TRACK_SESSION_SECRET` | Tracking token signing |
+| `PESANAN_PASSWORD` | Order dashboard authentication |
+| `CRON_SECRET` | Protect deadline notification endpoint |
+| `CLOUDINARY_CLOUD_NAME` | Cloudinary configuration |
+| `CLOUDINARY_UPLOAD_PRESET` | Image upload configuration |
+| `NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME` | Fallback untuk upload dari client |
+| `NEXT_PUBLIC_CLOUDINARY_UPLOAD_PRESET` | Fallback untuk upload dari client |
+| `META_CAPI_ACCESS_TOKEN` | Meta server-side events |
+
+> **Never commit actual credentials or secrets to the repository.**
+
+---
 
 ## Documentation
 
-| Dokumen | Isi |
+| Document | Description |
 | --- | --- |
-| [`CASE-STUDY.md`](CASE-STUDY.md) | Studi kasus lengkap: problem, solution, workflow, impact |
-| [`app/README.md`](app/README.md) | Peta halaman & API routes |
-| [`components/README.md`](components/README.md) | Struktur komponen UI |
-| [`lib/README.md`](lib/README.md) | Modul logika bersama |
-| [`supabase/README.md`](supabase/README.md) | Skema database, RLS, RPC, urutan migrasi |
-| [`_archive/README.md`](_archive/README.md) | Isi folder arsip & kenapa disimpan |
-| [`notifikasi-deadline-dashboard/README.md`](notifikasi-deadline-dashboard/README.md) | Dashboard statis versi awal |
+| [`CASE-STUDY.md`](CASE-STUDY.md) | Full project case study |
+| [`app/README.md`](app/README.md) | Application pages & API routes |
+| [`components/README.md`](components/README.md) | Component architecture |
+| [`lib/README.md`](lib/README.md) | Shared business logic |
+| [`supabase/README.md`](supabase/README.md) | Database schema, RLS & RPC |
+| [`_archive/README.md`](_archive/README.md) | Archived legacy implementation |
+| [`notifikasi-deadline-dashboard/README.md`](notifikasi-deadline-dashboard/README.md) | Early deadline notification dashboard |
+
+---
+
+## Project Summary
+
+TNT Sport Apparel bukan hanya katalog jersey.
+
+Project ini menggabungkan **e-commerce, customer tracking, production management, database-driven CMS, WhatsApp automation, deadline monitoring, dan operational tooling** dalam satu production platform.
+
+Fokus utamanya adalah mengubah proses operasional yang sebelumnya bergantung pada komunikasi manual menjadi workflow yang lebih terstruktur dan otomatis.
+
+> **Update sekali. Sistem mengurus sisanya.**
