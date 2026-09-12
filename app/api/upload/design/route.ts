@@ -11,7 +11,6 @@ export async function POST(request: NextRequest) {
     const cloudName = process.env.CLOUDINARY_CLOUD_NAME || process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME;
     const uploadPreset = process.env.CLOUDINARY_UPLOAD_PRESET || process.env.NEXT_PUBLIC_CLOUDINARY_UPLOAD_PRESET;
 
-    console.log("[upload/design] env", { hasCloudName: !!cloudName, hasPreset: !!uploadPreset, cloudNameLen: cloudName?.length || 0 });
     if (!cloudName || !uploadPreset) {
       console.error("[upload/design] missing env");
       return NextResponse.json(
@@ -39,14 +38,12 @@ export async function POST(request: NextRequest) {
     cf.append("upload_preset", uploadPreset);
     cf.append("folder", "tnt-design-preview");
 
-    console.log("[upload/design] uploading", { name: file.name, type: file.type, bytes: file.size, cloudName, preset: uploadPreset });
     const res = await fetch(
       `https://api.cloudinary.com/v1_1/${cloudName}/image/upload`,
       { method: "POST", body: cf }
     );
 
     const data = await res.json();
-    console.log("[upload/design] cloudinary resp", res.status, JSON.stringify(data).slice(0, 600));
 
     if (!res.ok || !data.secure_url) {
       console.error("Cloudinary upload failed:", res.status, data);

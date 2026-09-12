@@ -17,7 +17,7 @@ export const FONNTE_TOKEN_KEY = "fonnte_token";
 export const FONNTE_API_URL = "https://api.fonnte.com/send";
 export const FONNTE_TIMEOUT_MS = 10_000;
 
-/** Nama tahap produksi (1-9). */
+/** Nama tahap produksi (1-11). */
 export const STAGE_NAMES: Record<number, string> = {
   1: "Desain",
   2: "Layout",
@@ -32,7 +32,7 @@ export const STAGE_NAMES: Record<number, string> = {
   11: "Kirim",
 };
 
-/** Map status text (kolom current_status) → nomor tahap 1-9. */
+/** Map status text (kolom current_status) → nomor tahap 1-11. */
 export const STATUS_TO_STAGE: Record<string, number> = {
   desain: 1,
   layout: 2,
@@ -47,7 +47,7 @@ export const STATUS_TO_STAGE: Record<string, number> = {
   kirim: 11,
 };
 
-/** Map nomor tahap 1-9 → status text (kebalikan STATUS_TO_STAGE). */
+/** Map nomor tahap 1-11 → status text (kebalikan STATUS_TO_STAGE). */
 export const STAGE_TO_STATUS: Record<number, string> = Object.fromEntries(
   Object.entries(STATUS_TO_STAGE).map(([status, stage]) => [stage, status])
 );
@@ -78,9 +78,9 @@ export function buildMaklonTrackingUrl(orderNumber: string, token?: string): str
 
 /**
  * Satu fungsi template untuk semua tahap.
- * - Tahap 1-8: template umum "UPDATE PESANAN".
- * - Tahap 9: template khusus "PESANAN DIKIRIM".
- * Tanpa emoji, bahasa Indonesia natural, hanya tahap aktif (tanpa daftar 9 tahap).
+ * - Tahap 1-10: template umum "UPDATE PESANAN".
+ * - Tahap 11: template khusus "PESANAN DIKIRIM".
+ * Tanpa emoji, bahasa Indonesia natural, hanya tahap aktif (tanpa daftar 11 tahap).
  */
 export function buildWhatsAppMessage(
   stage: number,

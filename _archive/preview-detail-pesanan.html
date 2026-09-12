@@ -1,0 +1,414 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Preview - Detail Pesanan (v3)</title>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@600;700;800;900&family=Barlow:wght@400;500;600;700;800&family=Barlow+Condensed:wght@500;600;700;800;900&display=swap" rel="stylesheet" />
+<style>
+  :root{
+    --pas-bg:#F5EBE1;
+    --pas-surface:#FFFFFF;
+    --pas-surface-2:#F5EBE1;
+    --pas-line:#E3D7CC;
+    --pas-muted:#8C857E;
+    --pas-ink-1:#304230;
+    --pas-ink-2:#5A6B5A;
+    --pas-accent:#3F563B;
+    --pas-accent-soft:rgba(63,86,59,.08);
+    --pas-accent-border:rgba(63,86,59,.22);
+    --pas-light:#DFE9DE;
+    --pas-orange:#CB5639;
+    --pas-yellow:#DDB339;
+    --font-display:"Archivo",system-ui,sans-serif;
+    --font-body:"Barlow",system-ui,sans-serif;
+    --font-condensed:"Archivo",system-ui,sans-serif;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{background:var(--pas-bg);color:var(--pas-ink-1);font-family:var(--font-body);-webkit-font-smoothing:antialiased}
+
+  .sheet{min-height:100vh;display:flex;justify-content:flex-end}
+  .panel{
+    width:100%;max-width:520px;min-height:100vh;
+    padding:0 0 80px;display:flex;flex-direction:column;
+    background:var(--pas-bg);
+  }
+
+  .stencil{font-family:var(--font-condensed);font-weight:700;font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--pas-muted);line-height:1}
+  .display{font-family:var(--font-display);letter-spacing:-.025em;color:var(--pas-ink-1);line-height:1}
+  .muted{color:var(--pas-muted)}
+
+  /* ── HEADER ── */
+  .topbar{
+    position:sticky;top:0;z-index:10;
+    background:rgba(245,235,225,.85);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);
+    border-bottom:1px solid var(--pas-line);
+    padding:14px 20px;display:flex;align-items:center;gap:12px;
+  }
+  .topbar .back{
+    width:36px;height:36px;border-radius:10px;border:1px solid var(--pas-line);
+    background:var(--pas-surface);display:grid;place-items:center;cursor:pointer;
+    color:var(--pas-muted);font-size:16px;transition:all .15s;flex:none;
+  }
+  .topbar .back:hover{border-color:var(--pas-accent-border);color:var(--pas-ink-1)}
+  .topbar-title{font-family:var(--font-display);font-size:16px;letter-spacing:-.02em}
+  .topbar-id{font-size:12px;color:var(--pas-muted);font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace}
+
+  /* ── STATUS HERO ── */
+  .hero-status{
+    margin:20px 20px 0;padding:24px 20px;border-radius:16px;
+    background:var(--pas-surface);border:1px solid var(--pas-line);
+    box-shadow:0 1px 3px rgba(0,0,0,.04),0 4px 12px rgba(0,0,0,.04);
+    display:flex;flex-direction:column;align-items:center;text-align:center;gap:12px;
+  }
+  .hero-icon{
+    width:56px;height:56px;border-radius:999px;display:grid;place-items:center;
+    font-size:24px;
+  }
+  .hero-icon.produksi{background:rgba(63,86,59,.10);color:var(--pas-accent)}
+  .hero-icon.selesai{background:rgba(148,163,184,.12);color:#64748b}
+  .hero-title{font-family:var(--font-display);font-size:20px;letter-spacing:-.02em}
+  .hero-sub{font-size:13.5px;color:var(--pas-muted);max-width:320px;line-height:1.45}
+  .hero-badge{
+    display:inline-flex;align-items:center;gap:5px;
+    padding:5px 12px;border-radius:999px;font-size:11.5px;font-weight:600;
+    font-family:var(--font-condensed);letter-spacing:.02em;
+  }
+  .hero-badge.produksi{background:rgba(63,86,59,.10);color:var(--pas-accent)}
+  .hero-badge::before{content:"";width:6px;height:6px;border-radius:99px;background:currentColor}
+
+  /* ── SECTION ── */
+  .section{padding:20px 20px 0}
+  .section-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px}
+  .section-header .stencil{margin:0}
+
+  /* ── PROGRESS ── */
+  .progress-card{
+    background:var(--pas-surface);border:1px solid var(--pas-line);border-radius:14px;
+    box-shadow:0 1px 3px rgba(0,0,0,.04);padding:16px 18px;
+  }
+  .progress-top{display:flex;align-items:flex-end;justify-content:space-between;margin-bottom:14px}
+  .progress-pct{font-family:var(--font-display);font-size:32px;line-height:1;letter-spacing:-.03em;color:var(--pas-accent)}
+  .progress-label{font-size:13px;font-weight:600;color:var(--pas-ink-2)}
+  .bar-track{height:6px;border-radius:999px;background:rgba(63,86,59,.08);overflow:hidden}
+  .bar-fill{height:100%;border-radius:999px;background:var(--pas-accent);transition:width .6s cubic-bezier(.22,1,.36,1)}
+
+  /* ── STEPPER ── */
+  .stepper-card{
+    background:var(--pas-surface);border:1px solid var(--pas-line);border-radius:14px;
+    box-shadow:0 1px 3px rgba(0,0,0,.04);overflow:hidden;
+  }
+  .stepper-head{
+    padding:14px 18px;border-bottom:1px solid var(--pas-line);
+    display:flex;align-items:center;justify-content:space-between;
+  }
+  .timeline{padding:8px 18px 12px}
+  .tl-row{
+    display:flex;align-items:flex-start;gap:14px;position:relative;
+    padding:6px 0;
+  }
+  .tl-row:not(:last-child)::after{
+    content:"";position:absolute;left:10px;top:28px;bottom:-6px;width:2px;
+    background:var(--pas-line);border-radius:2px;
+  }
+  .tl-dot{
+    width:22px;height:22px;border-radius:999px;display:grid;place-items:center;
+    font-size:9px;font-weight:700;flex:none;position:relative;z-index:1;
+    background:var(--pas-surface);border:2px solid var(--pas-line);
+    color:var(--pas-muted);transition:all .25s;flex-shrink:0;margin-top:1px;
+  }
+  .tl-dot.done{background:var(--pas-accent);border-color:var(--pas-accent);color:#fff}
+  .tl-dot.done::after{
+    content:"";width:6px;height:3px;border-left:1.5px solid #fff;border-bottom:1.5px solid #fff;
+    transform:rotate(-45deg) translateY(-1px);
+  }
+  .tl-dot.done span{display:none}
+  .tl-dot.cur{
+    border-color:var(--pas-accent);background:var(--pas-surface);
+    box-shadow:0 0 0 4px rgba(63,86,59,.10);
+  }
+  @keyframes pulse-ring{0%,100%{box-shadow:0 0 0 4px rgba(63,86,59,.10)}50%{box-shadow:0 0 0 8px rgba(63,86,59,.03)}}
+  .tl-dot.cur{animation:pulse-ring 2.5s ease-in-out infinite}
+  .tl-content{flex:1;min-width:0;padding:2px 0}
+  .tl-name{font-size:13.5px;font-weight:500;color:var(--pas-muted);line-height:1.3}
+  .tl-row.done-row .tl-name{color:var(--pas-ink-2);font-weight:500}
+  .tl-row.cur-row .tl-name{color:var(--pas-ink-1);font-weight:700}
+  .tl-time{font-size:11px;color:var(--pas-muted);margin-top:2px;opacity:.7}
+
+  /* ── INFO GRID ── */
+  .info-card{
+    background:var(--pas-surface);border:1px solid var(--pas-line);border-radius:14px;
+    box-shadow:0 1px 3px rgba(0,0,0,.04);overflow:hidden;
+  }
+  .info-head{
+    padding:12px 18px;border-bottom:1px solid var(--pas-line);
+    background:rgba(63,86,59,.03);
+  }
+  .info-grid{display:grid;grid-template-columns:1fr 1fr}
+  .info-cell{padding:14px 18px;border-bottom:1px solid var(--pas-line)}
+  .info-cell:nth-child(odd){border-right:1px solid var(--pas-line)}
+  .info-cell:nth-last-child(-n+2){border-bottom:0}
+  .info-cell.full{grid-column:1/-1;border-right:0}
+  .info-cell .v{margin-top:5px;font-size:14.5px;font-weight:600;line-height:1.3}
+  .chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
+  .chip{
+    display:inline-flex;align-items:center;gap:4px;
+    padding:5px 10px;border-radius:8px;font-size:12.5px;font-weight:600;
+    background:rgba(63,86,59,.06);border:1px solid rgba(63,86,59,.12);
+    color:var(--pas-ink-1);
+  }
+
+  /* ── MEDIA ── */
+  .media-card{
+    background:var(--pas-surface);border:1px solid var(--pas-line);border-radius:14px;
+    box-shadow:0 1px 3px rgba(0,0,0,.04);overflow:hidden;
+  }
+  .media-head{
+    padding:12px 18px;border-bottom:1px solid var(--pas-line);
+    background:rgba(63,86,59,.03);
+  }
+  .media-body{display:grid;grid-template-columns:1fr 1fr;gap:16px;padding:16px 18px}
+  .thumb-wrap{border-radius:10px;overflow:hidden;aspect-ratio:1;border:1px solid var(--pas-line)}
+  .thumb-wrap img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .3s}
+  .thumb-wrap:hover img{transform:scale(1.04)}
+  .add-btn{
+    width:100%;aspect-ratio:1;border-radius:10px;
+    border:1.5px dashed var(--pas-line);display:grid;place-items:center;
+    color:var(--pas-muted);cursor:pointer;background:none;font-size:22px;transition:all .18s;
+  }
+  .add-btn:hover{border-color:var(--pas-accent);color:var(--pas-accent);background:var(--pas-accent-soft)}
+
+  /* ── NOTE ── */
+  .note-card{
+    background:var(--pas-surface);border:1px solid var(--pas-line);border-radius:14px;
+    box-shadow:0 1px 3px rgba(0,0,0,.04);overflow:hidden;
+  }
+  .note-head{
+    padding:12px 18px;border-bottom:1px solid var(--pas-line);
+    background:rgba(63,86,59,.03);
+  }
+  textarea{
+    width:100%;border:none;padding:14px 18px;font:inherit;font-size:14px;
+    color:var(--pas-ink-1);background:transparent;resize:vertical;min-height:64px;line-height:1.5;
+  }
+  textarea:focus{outline:none}
+  textarea::placeholder{color:var(--pas-muted)}
+
+  /* ── FOOTER ── */
+  .foot{
+    position:sticky;bottom:0;
+    padding:14px 20px 20px;
+    background:linear-gradient(180deg,rgba(245,235,225,0) 0%,var(--pas-bg) 30%);
+    display:flex;gap:10px;
+  }
+  .btn{
+    border:0;border-radius:10px;padding:14px 20px;
+    font-size:13px;font-weight:700;cursor:pointer;
+    font-family:var(--font-condensed);letter-spacing:.04em;
+    text-transform:uppercase;transition:all .18s;
+  }
+  .btn.primary{flex:1;background:var(--pas-accent);color:#fff;box-shadow:0 2px 8px rgba(63,86,59,.18)}
+  .btn.primary:hover{filter:brightness(1.1);box-shadow:0 4px 16px rgba(63,86,59,.25);transform:translateY(-1px)}
+  .btn.primary:active{transform:translateY(0);filter:brightness(.95)}
+  .btn.ghost{background:var(--pas-surface);border:1px solid var(--pas-line);color:var(--pas-ink-1)}
+  .btn.ghost:hover{border-color:var(--pas-accent-border);background:var(--pas-accent-soft)}
+
+  /* ── ANIMATION ── */
+  @keyframes fadeUp{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+  .anim{animation:fadeUp .35s cubic-bezier(.22,1,.36,1) both}
+  .d1{animation-delay:.04s}.d2{animation-delay:.08s}.d3{animation-delay:.12s}
+  .d4{animation-delay:.16s}.d5{animation-delay:.20s}.d6{animation-delay:.24s}
+  .d7{animation-delay:.28s}.d8{animation-delay:.32s}
+  @media(prefers-reduced-motion:reduce){.anim{animation:none;opacity:1;transform:none}}
+</style>
+</head>
+<body>
+<div class="sheet">
+  <div class="panel">
+
+    <!-- TOPBAR -->
+    <div class="topbar anim d1">
+      <button class="back" aria-label="Kembali">←</button>
+      <div style="min-width:0;flex:1">
+        <div class="topbar-title">Detail Pesanan</div>
+        <div class="topbar-id">TNT260909WHCU</div>
+      </div>
+      <span class="hero-badge produksi">Produksi</span>
+    </div>
+
+    <!-- STATUS HERO -->
+    <div class="hero-status anim d2">
+      <div class="hero-icon produksi">✂</div>
+      <div class="hero-title">Profing Warna</div>
+      <div class="hero-sub">Pesanan sedang dalam tahap profing warna. Estimasi selesai 17 Sep 2026.</div>
+    </div>
+
+    <!-- PROGRESS -->
+    <div class="section anim d3">
+      <div class="section-header"><span class="stencil">Progress Produksi</span></div>
+      <div class="progress-card">
+        <div class="progress-top">
+          <div class="progress-pct">45%</div>
+          <div class="progress-label">Tahap 5 dari 11</div>
+        </div>
+        <div class="bar-track"><div class="bar-fill" style="width:45%"></div></div>
+      </div>
+    </div>
+
+    <!-- STEPPER -->
+    <div class="section anim d4">
+      <div class="section-header"><span class="stencil">Timeline Produksi</span></div>
+      <div class="stepper-card">
+        <div class="stepper-head">
+          <span class="stencil">Urutan Tahapan</span>
+          <span class="stencil" style="opacity:.5">klik untuk ubah</span>
+        </div>
+        <div class="timeline">
+          <div class="tl-row done-row">
+            <span class="tl-dot done"><span>✓</span></span>
+            <div class="tl-content">
+              <div class="tl-name">1. Desain</div>
+              <div class="tl-time">09 Sep · Selesai</div>
+            </div>
+          </div>
+          <div class="tl-row done-row">
+            <span class="tl-dot done"><span>✓</span></span>
+            <div class="tl-content">
+              <div class="tl-name">2. Layout</div>
+              <div class="tl-time">09 Sep · Selesai</div>
+            </div>
+          </div>
+          <div class="tl-row done-row">
+            <span class="tl-dot done"><span>✓</span></span>
+            <div class="tl-content">
+              <div class="tl-name">3. Acc Desain</div>
+              <div class="tl-time">10 Sep · Selesai</div>
+            </div>
+          </div>
+          <div class="tl-row done-row">
+            <span class="tl-dot done"><span>✓</span></span>
+            <div class="tl-content">
+              <div class="tl-name">4. Cetak</div>
+              <div class="tl-time">10 Sep · Selesai</div>
+            </div>
+          </div>
+          <div class="tl-row cur-row">
+            <span class="tl-dot cur"><span>5</span></span>
+            <div class="tl-content">
+              <div class="tl-name">5. Profing Warna</div>
+              <div class="tl-time">Sedang dikerjakan</div>
+            </div>
+          </div>
+          <div class="tl-row">
+            <span class="tl-dot"><span>6</span></span>
+            <div class="tl-content"><div class="tl-name">6. Jahit</div></div>
+          </div>
+          <div class="tl-row">
+            <span class="tl-dot"><span>7</span></span>
+            <div class="tl-content"><div class="tl-name">7. QC</div></div>
+          </div>
+          <div class="tl-row">
+            <span class="tl-dot"><span>8</span></span>
+            <div class="tl-content"><div class="tl-name">8. Packing</div></div>
+          </div>
+          <div class="tl-row">
+            <span class="tl-dot"><span>9</span></span>
+            <div class="tl-content"><div class="tl-name">9. Kirim</div></div>
+          </div>
+          <div class="tl-row">
+            <span class="tl-dot"><span>10</span></span>
+            <div class="tl-content"><div class="tl-name">10. Selesai Produksi</div></div>
+          </div>
+          <div class="tl-row">
+            <span class="tl-dot"><span>11</span></span>
+            <div class="tl-content"><div class="tl-name">11. Diterima</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- INFO -->
+    <div class="section anim d5">
+      <div class="section-header"><span class="stencil">Informasi Pesanan</span></div>
+      <div class="info-card">
+        <div class="info-head"><span class="stencil">Data Order</span></div>
+        <div class="info-grid">
+          <div class="info-cell">
+            <span class="stencil">Tanggal Order</span>
+            <div class="v">09 Sep 2026</div>
+          </div>
+          <div class="info-cell">
+            <span class="stencil">Deadline</span>
+            <div class="v" style="color:var(--pas-orange)">17 Sep 2026</div>
+          </div>
+          <div class="info-cell">
+            <span class="stencil">Status Produksi</span>
+            <div class="v">Profing Warna</div>
+          </div>
+          <div class="info-cell">
+            <span class="stencil">Progress</span>
+            <div class="v">45%</div>
+          </div>
+          <div class="info-cell full">
+            <span class="stencil">Produk</span>
+            <div class="chips">
+              <span class="chip"><b>Atasan Lengan Pendek</b> <span style="color:var(--pas-muted);font-weight:400">– 120 pcs</span></span>
+              <span class="chip"><b>Setelan Lengan Panjang</b> <span style="color:var(--pas-muted);font-weight:400">– 80 pcs</span></span>
+            </div>
+          </div>
+          <div class="info-cell">
+            <span class="stencil">Jumlah</span>
+            <div class="v">200 pcs</div>
+          </div>
+          <div class="info-cell">
+            <span class="stencil">Ekspedisi / Resi</span>
+            <div class="v" style="font-family:ui-monospace,SFMono-Regular,Menlo;font-size:13px">JNE · JP1234567890</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- MEDIA -->
+    <div class="section anim d6">
+      <div class="section-header"><span class="stencil">Media</span></div>
+      <div class="media-card">
+        <div class="media-head"><span class="stencil">File & Foto</span></div>
+        <div class="media-body">
+          <div>
+            <span class="stencil" style="display:block;margin-bottom:10px">Preview Design</span>
+            <div style="display:flex;gap:8px">
+              <div class="thumb-wrap"><img src="https://picsum.photos/seed/tntdesign1/160" alt="Design 1" /></div>
+              <div class="thumb-wrap"><img src="https://picsum.photos/seed/tntdesign2/160" alt="Design 2" /></div>
+            </div>
+            <p class="muted" style="font-size:11px;margin:8px 0 0;opacity:.6">Read-only · klik untuk zoom</p>
+          </div>
+          <div>
+            <span class="stencil" style="display:block;margin-bottom:10px">WO</span>
+            <div style="display:flex;gap:8px">
+              <div class="thumb-wrap"><img src="https://picsum.photos/seed/tntwo1/160" alt="WO 1" /></div>
+              <button class="add-btn" aria-label="Tambah foto WO">+</button>
+            </div>
+            <p class="muted" style="font-size:11px;margin:8px 0 0;opacity:.6">Bisa tambah · tidak bisa hapus</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- NOTE -->
+    <div class="section anim d7">
+      <div class="section-header"><span class="stencil">Catatan untuk Customer</span></div>
+      <div class="note-card">
+        <textarea placeholder="Tulis catatan untuk customer...">Warna merah bagian lengan sudah disesuaikan sesuai revisi terakhir.</textarea>
+      </div>
+    </div>
+
+    <!-- FOOTER -->
+    <div class="foot anim d8">
+      <button class="btn primary">Simpan Perubahan</button>
+      <button class="btn ghost">Tandai Selesai</button>
+    </div>
+
+  </div>
+</div>
+</body>
+</html>

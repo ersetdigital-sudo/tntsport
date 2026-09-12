@@ -42,5 +42,8 @@ supabase/.temp/
 jersey-futsal-custom---landing-page/
 .commandcode/
 
+# agent / tooling scratch (harness lokal, log preview)
+.freebuff/
+
 .vercel
 .env*

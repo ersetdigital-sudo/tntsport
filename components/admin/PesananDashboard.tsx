@@ -2772,9 +2772,7 @@ function DetailSheet({
     setUploadingWo(true);
     setKirimError("");
     try {
-      console.log("[Detail WO] file", file.name, file.type, file.size);
       const result = await uploadToCloudinary(file, { folder: "tnt-design-preview" });
-      console.log("[Detail WO] upload ok", result.url);
       setWoPhotos((prev) => [...prev, optimizeDesignUrl(result.url)]);
     } catch (e) { console.error("[Detail WO] exception", e); setKirimError(e instanceof Error ? e.message : "Upload gagal"); } finally { setUploadingWo(false); }
   };
@@ -3813,9 +3811,7 @@ function AddForm({
             setUploadingDesign(true);
             try {
               for (const file of files) {
-                console.log("[upload Design] file", file.name, file.type, file.size);
                 const result = await uploadToCloudinary(file, { folder: "tnt-design-preview" });
-                console.log("[upload Design] upload ok", result.url);
                 setDesignPhotos((ps) => [...ps, optimizeDesignUrl(result.url)]);
               }
             } catch (e) { console.error("[upload Design] exception", e); setError(e instanceof Error ? e.message : "Upload gagal. Coba lagi."); } finally { setUploadingDesign(false); }
@@ -3846,9 +3842,7 @@ function AddForm({
             setUploadingWo(true);
             try {
               for (const file of files) {
-                console.log("[upload Wo] file", file.name, file.type, file.size);
                 const result = await uploadToCloudinary(file, { folder: "tnt-design-preview" });
-                console.log("[upload Wo] upload ok", result.url);
                 setWoPhotos((ps) => [...ps, optimizeDesignUrl(result.url)]);
               }
             } catch (e) { console.error("[upload Wo] exception", e); setError(e instanceof Error ? e.message : "Upload gagal. Coba lagi."); } finally { setUploadingWo(false); }
