@@ -11,6 +11,9 @@ const STATUS_FROM_STEP = [
   "kirim",
 ];
 
+/** Tahap terakhir (6, "Kirim") = tahap yang bikin order langsung tuntas. */
+const FINAL_STEP = STATUS_FROM_STEP.length;
+
 function statusFromStep(step: number): string {
   return STATUS_FROM_STEP[Math.min(Math.max(step, 1), 6) - 1] || "layout";
 }
@@ -26,7 +29,6 @@ export async function PATCH(
     note,
     courier,
     tracking_number,
-    is_done,
     deadline,
     wo_photos,
     customer_name,
@@ -60,13 +62,10 @@ export async function PATCH(
   if (current_step !== undefined) {
     const newStage = Math.min(Math.max(Number(current_step), 1), 6);
     updateData.current_stage = newStage;
-    if (newStage === 6 && is_done) {
-      if (!tracking_number && !existing.tracking_number) {
-        return NextResponse.json(
-          { error: "Untuk menandai selesai, nomor resi dan ekspedisi harus diisi." },
-          { status: 400 }
-        );
-      }
+    // Tahap akhir = maklon TUNTAS: status langsung "selesai", tanpa wajib nomor
+    // resi. Resi/ekspedisi tetap opsional — kalau diisi, halaman tracking maklon
+    // tetap menampilkan baris pengirimannya.
+    if (newStage === FINAL_STEP) {
       updateData.current_status = "selesai";
     } else {
       updateData.current_status = statusFromStep(newStage);
@@ -98,7 +97,9 @@ export async function PATCH(
   }
 
   if (current_step !== undefined && updatedOrder) {
-    const statusValue = is_done && Number(current_step) === 6 ? "selesai" : statusFromStep(Number(current_step));
+    // History harus sama persis dengan status yang tersimpan
+    // (tahap akhir = "selesai").
+    const statusValue = updateData.current_status ?? statusFromStep(Number(current_step));
     await supabase.from("maklon_status_history").insert({
       order_id: updatedOrder.id,
       status: statusValue,

@@ -26,7 +26,7 @@ export async function PATCH(
 ) {
   const { id } = await params;
   const body = await request.json();
-  const { current_step, note, courier, tracking_number, is_done, deadline, wo_photos, customer_name, customer_phone, design_photos } = body;
+  const { current_step, note, courier, tracking_number, deadline, wo_photos, customer_name, customer_phone, design_photos } = body;
 
   const supabase = createClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
@@ -97,16 +97,15 @@ export async function PATCH(
 
   if (current_step !== undefined) {
     updateData.current_stage = newStage;
-    // Order yang sudah selesai lalu di-save ulang di tahap akhir tetap "selesai"
-    // (mis. admin cuma mengubah catatan/foto), kecuali reopen diminta.
-    const keepDone = isAlreadyDone && !reopen && newStage === 11;
-    if ((current_step === 11 && is_done) || keepDone) {
-      if (!tracking_number || !courier) {
-        return NextResponse.json(
-          { error: "Untuk menandai selesai, nomor resi dan ekspedisi harus diisi." },
-          { status: 400 }
-        );
-      }
+    // Tahap akhir (11, "Kirim") = order TUNTAS: status langsung "selesai" dan
+    // progress 100%. Nomor resi/ekspedisi jadi OPSIONAL — kalau admin mengisinya,
+    // halaman customer tetap menampilkan tombol lacak; kalau kosong, customer
+    // hanya melihat status "Selesai" tanpa blok pengiriman.
+    // Order yang sudah selesai lalu di-save ulang di tahap akhir tetap "selesai",
+    // kecuali `reopen: true` dikirim (satu-satunya jalan menurunkan tahap).
+    const isFinalStage = newStage === ORDER_STATUS_LIST.length;
+    const keepDone = isAlreadyDone && !reopen && isFinalStage;
+    if (isFinalStage || keepDone) {
       effectiveStatus = "selesai";
     } else {
       effectiveStatus = statusFromStep(current_step);

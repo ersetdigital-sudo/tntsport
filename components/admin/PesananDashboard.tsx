@@ -1234,12 +1234,15 @@ function ViewKirim({
   openDetail: (id: string) => void;
   steps: StepRow[];
 }) {
-  const siap = orders.filter((o) => o.current_step >= steps.length);
+  // Antrian "siap kirim" = tahap sebelum terakhir (Packing) yang belum tuntas.
+  // Order lama yang masih nyangkut di tahap akhir tapi belum selesai ikut
+  // ditampilkan supaya tetap bisa diklik jadi Selesai.
+  const siap = orders.filter((o) => !o.is_done && o.current_step >= steps.length - 1);
 
   return (
     <>
       <p className="text-[14px] text-[var(--pas-muted)] mb-5">
-        Pesanan tahap 10 - lengkapi ekspedisi dan nomor resi supaya tampil ke customer.
+        Pesanan tahap {steps.length - 1} (siap dikirim) - klik tahap Kirim untuk menandai pesanan selesai. Nomor resi opsional.
       </p>
       {siap.length === 0 ? (
         <p className="text-[14px] text-[var(--pas-muted)]">
@@ -1260,7 +1263,7 @@ function ViewKirim({
                   {FILTER_LABEL[statusOf(o, steps.length)]}
                 </span>
               </div>
-              <div className="grid sm:grid-cols-3 gap-3 mt-4 text-[13.5px]">
+              <div className="grid sm:grid-cols-2 gap-3 mt-4 text-[13.5px]">
                 <div>
                   <p className="text-[12px] text-[var(--pas-muted)]">Isi Paket</p>
                   <p className="mt-1">
@@ -1275,21 +1278,13 @@ function ViewKirim({
                     )}
                   </p>
                 </div>
-                <div>
-                  <p className="text-[12px] text-[var(--pas-muted)]">No. Resi</p>
-                  <p className="mt-1 pas-num">
-                    {o.tracking_number || (
-                      <span className="text-[var(--pas-muted)]">belum diisi</span>
-                    )}
-                  </p>
-                </div>
               </div>
               <div className="flex gap-2 mt-4">
                 <button
                   className="pas-btn-ghost px-4 py-2 text-[13.5px]"
                   onClick={() => openDetail(o.id)}
                 >
-                  Isi / Ubah Resi
+                  Buka Detail Pesanan
                 </button>
               </div>
             </div>
@@ -2800,10 +2795,6 @@ function DetailSheet({
 
   const save = async () => {
     setKirimError("");
-    if (step === 11 && (!courier || !resi)) {
-      setKirimError("Untuk tahap Kirim, nomor resi dan ekspedisi harus diisi.");
-      return;
-    }
     const validEditRows = editProductRows.filter((p) => p.product.trim() && p.qty.trim());
     if (validEditRows.length === 0) {
       setKirimError("Isi minimal 1 produk & qty.");
@@ -2820,6 +2811,9 @@ function DetailSheet({
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           current_step: step,
+          // Admin memilih tahap lebih rendah dari order yang sudah Selesai = sengaja
+          // dibuka ulang, pakai escape hatch `reopen` yang sudah ada di API.
+          reopen: order.is_done && step < 11 ? true : undefined,
           note,
           courier,
           tracking_number: resi,
@@ -2847,10 +2841,6 @@ function DetailSheet({
 
   const markDone = async () => {
     setKirimError("");
-    if (!courier || !resi) {
-      setKirimError("Untuk menandai selesai, nomor resi dan ekspedisi harus diisi.");
-      return;
-    }
     setSaving(true);
     try {
       const res = await fetch(`/api/pesanan/orders/${order.id}/status`, {
@@ -3103,7 +3093,7 @@ function DetailSheet({
             </div>
             {step < 9 && (
               <p className="text-[11px] text-[var(--pas-muted)] mt-2 opacity-70">
-                Tampil ke customer setelah tahap 9 (Kirim).
+                Opsional - kalau diisi, nomor resi tampil di halaman tracking customer.
               </p>
             )}
           </div>

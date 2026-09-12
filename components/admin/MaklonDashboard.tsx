@@ -1059,9 +1059,7 @@ function DetailSheet({
           note,
           courier,
           tracking_number: resi,
-          // Tahap 6 = "Siap Dikirim". Status selesai HANYA via Tandai Selesai,
-          // tapi jangan turunkan order yang sudah selesai saat masih di tahap akhir.
-          is_done: order.is_done && step >= totalSteps,
+          // Tahap akhir otomatis jadi Selesai di server - nomor resi opsional.
           wo_photos: woPhotos,
         }),
       });
@@ -1092,10 +1090,6 @@ function DetailSheet({
 
   const markDone = async () => {
     setError("");
-    if (!courier.trim() || !resi.trim()) {
-      setError("Untuk menandai selesai, nomor resi dan ekspedisi harus diisi.");
-      return;
-    }
     setSaving(true);
     try {
       const res = await fetch(`/api/pesanan/maklon/${order.id}/status`, {
@@ -1401,7 +1395,7 @@ function DetailSheet({
             </div>
             {step < totalSteps && (
               <p className="text-[11px] text-[var(--pas-muted)] mt-2 opacity-70">
-                Diperlukan saat tahap {totalSteps} (Kirim) atau saat menandai selesai.
+                Opsional - kalau diisi, nomor resi tampil di halaman tracking maklon.
               </p>
             )}
           </div>

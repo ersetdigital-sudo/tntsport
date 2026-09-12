@@ -448,7 +448,8 @@ export default async function MaklonStatusPage({
             </div>
           )}
 
-          {(hasTracking || isDone) && (
+          {/* Baris pengiriman hanya muncul kalau resinya memang ada. */}
+          {hasTracking && (
             <div className="grid grid-cols-2 border-b border-white/[.07]">
               <div className="trk-cell border-r border-white/[.07]">
                 <p className="trk-cell-label">Ekspedisi</p>

@@ -445,7 +445,10 @@ function StatusContent() {
   const totalSteps = steps.length || 11;
   const hasTracking = !!(order.tracking_number && order.courier);
   const normalizedStatus = normalizeStepName(order.current_status);
-  const isShipped = normalizedStatus === "kirim" && hasTracking;
+  // Blok pengiriman cuma muncul kalau resinya ADA. Order yang langsung tuntas
+  // ("selesai") tanpa resi cukup menampilkan status Selesai, tanpa tombol lacak.
+  const isShipped =
+    (normalizedStatus === "kirim" || normalizedStatus === "selesai") && hasTracking;
   const pct = getProgress(step, hasTracking);
   const lastUpdate = history.length > 0 ? history[history.length - 1] : null;
   const rawPhone = brand.whatsapp_number.replace(/[^0-9]/g, "");
