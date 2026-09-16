@@ -968,7 +968,7 @@ function ViewPesanan({
                 }
               >
                 {deadlineInfo.level === "overdue"
-                  ? `lewat ${Math.abs(deadlineInfo.diffDays)}h`
+                  ? `lewat ${Math.abs(deadlineInfo.diffDays)} hari`
                   : `H-${deadlineInfo.diffDays}`}
               </span>
             )}
@@ -1096,7 +1096,7 @@ function ViewPesanan({
                         {dlStatus.level === "approaching" && <span className="text-[11px] ml-1 opacity-80">(H-3)</span>}
                         {dlStatus.level === "warning" && <span className="text-[11px] ml-1 opacity-80">(H-2)</span>}
                         {dlStatus.level === "critical" && <span className="text-[11px] ml-1 opacity-80">(H-1)</span>}
-                        {dlStatus.level === "overdue" && <span className="text-[11px] ml-1 opacity-80">(lewat {Math.abs(dlStatus.diffDays)}h)</span>}
+                        {dlStatus.level === "overdue" && <span className="text-[11px] ml-1 opacity-80">(lewat {Math.abs(dlStatus.diffDays)} hari)</span>}
                       </span>
                     ) : (
                       <span className="text-[var(--pas-muted)]">-</span>
@@ -1246,7 +1246,7 @@ function ViewPesanan({
                     {dlStatus.level === "approaching" && <span className="text-[11px] ml-1 opacity-80">(H-3)</span>}
                     {dlStatus.level === "warning" && <span className="text-[11px] ml-1 opacity-80">(H-2)</span>}
                     {dlStatus.level === "critical" && <span className="text-[11px] ml-1 opacity-80">(H-1)</span>}
-                    {dlStatus.level === "overdue" && <span className="text-[11px] ml-1 opacity-80">(lewat {Math.abs(dlStatus.diffDays)}h)</span>}
+                    {dlStatus.level === "overdue" && <span className="text-[11px] ml-1 opacity-80">(lewat {Math.abs(dlStatus.diffDays)} hari)</span>}
                   </p>
                 ) : (
                   <p className="text-[12px] text-[var(--pas-muted)]">Deadline: -</p>
