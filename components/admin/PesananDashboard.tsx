@@ -3089,6 +3089,19 @@ function ViewNotif({ showToast, orders }: { showToast: (msg: string) => void; or
     return diff >= 0 && diff <= Math.max(...activeDays.map(Number), 0);
   }).length;
 
+  // Order yang sudah melewati deadline. Sengaja memakai deadlineStatus() yang
+  // sama dengan ViewPesanan supaya angka di tab ini tidak pernah berbeda
+  // dengan KPI "Deadline" di tab Pesanan.
+  const overdueOrders = orders
+    .filter((o) => !o.is_done && o.deadline)
+    .map((o) => ({ order: o, dl: deadlineStatus(o.deadline, false) }))
+    .filter((x) => x.dl.level === "overdue");
+  const worstOverdue = overdueOrders.reduce<{ id: string; days: number } | null>((worst, x) => {
+    const days = Math.abs(x.dl.diffDays);
+    return !worst || days > worst.days ? { id: x.order.id, days } : worst;
+  }, null);
+  const hasOverdue = overdueOrders.length > 0;
+
   useEffect(() => {
     fetch("/api/admin/settings/deadline-notif")
       .then((r) => (r.ok ? r.json() : null))
@@ -3187,7 +3200,7 @@ function ViewNotif({ showToast, orders }: { showToast: (msg: string) => void; or
     <>
       {/* â”€â”€ CSS VARS (cream design system) â”€â”€ */}
       <style>{`
-        .notif-wrap{--cream:#f7f4ee;--cream-2:#f0ebe1;--paper:#ffffff;--ink:#141d17;--ink-2:#3c4a41;--ink-soft:#77857b;--line:#e6e0d4;--line-2:#efe9dd;--green:#0f3a21;--green-2:#19582f;--accent:#2c7a4b;--mint:#e7f2ea;--mint-line:#cbe2d1}
+        .notif-wrap{--cream:#f7f4ee;--cream-2:#f0ebe1;--paper:#ffffff;--ink:#141d17;--ink-2:#3c4a41;--ink-soft:#77857b;--line:#e6e0d4;--line-2:#efe9dd;--green:#0f3a21;--green-2:#19582f;--accent:#2c7a4b;--mint:#e7f2ea;--mint-line:#cbe2d1;--danger:#dc2626;--danger-bg:#fee2e2;--danger-line:#fecaca}
         .notif-wrap .n-card{background:var(--paper);border:1px solid var(--line);border-radius:22px;box-shadow:0 1px 1px rgba(20,29,23,.03),0 22px 44px -32px rgba(20,29,23,.28)}
         .notif-wrap .n-eyebrow{font-size:10.5px;text-transform:uppercase;letter-spacing:.2em;color:var(--ink-soft);font-family:var(--font-geist-mono),ui-monospace,monospace}
         .notif-wrap .n-hero{position:relative;overflow:hidden;border-radius:26px;background:linear-gradient(145deg,#0c3119 0%,#16512c 52%,#1d6836 100%);box-shadow:0 30px 70px -40px rgba(15,58,33,.75),inset 0 1px 0 rgba(255,255,255,.1)}
@@ -3225,14 +3238,32 @@ function ViewNotif({ showToast, orders }: { showToast: (msg: string) => void; or
       <div className="notif-wrap">
         {/* â”€â”€ INTRO â”€â”€ */}
         <div className="max-w-2xl">
-          <span className="n-eyebrow inline-flex items-center gap-2 rounded-full px-3 py-1" style={{ background: "var(--mint)", border: "1px solid var(--mint-line)", color: "var(--green)" }}>
-            <i className="n-pulse" /> Sistem berjalan
+          <span
+            className="n-eyebrow inline-flex items-center gap-2 rounded-full px-3 py-1"
+            style={
+              hasOverdue
+                ? { background: "var(--danger-bg)", border: "1px solid var(--danger-line)", color: "var(--danger)" }
+                : { background: "var(--mint)", border: "1px solid var(--mint-line)", color: "var(--green)" }
+            }
+          >
+            {hasOverdue ? (
+              <i style={{ display: "inline-block", width: 7, height: 7, borderRadius: 999, background: "var(--danger)" }} />
+            ) : (
+              <i className="n-pulse" />
+            )}
+            {hasOverdue ? "Perlu tindakan" : "Sistem berjalan"}
           </span>
           <h2 className="mt-5 text-[36px] leading-[1.04] sm:text-[50px]" style={{ fontFamily: 'var(--font-geist),system-ui,sans-serif', fontWeight: 600, letterSpacing: "-.038em", color: "var(--ink)" }}>
-            Tidak ada deadline<br /><span style={{ color: "var(--accent)" }}>yang terlewat.</span>
+            {hasOverdue ? (
+              <>{overdueOrders.length} deadline<br /><span style={{ color: "var(--danger)" }}>sudah terlewat.</span></>
+            ) : (
+              <>Tidak ada deadline<br /><span style={{ color: "var(--accent)" }}>yang terlewat.</span></>
+            )}
           </h2>
           <p className="mt-4 max-w-lg text-[15px] leading-relaxed" style={{ color: "var(--ink-2)" }}>
-            Sistem otomatis mengingatkan admin lewat WhatsApp sesuai jadwal produksi, mulai dari H-3, H-2, hingga H-1 sebelum deadline.
+            {hasOverdue && worstOverdue
+              ? `Paling lama ${worstOverdue.days} hari — ${worstOverdue.id}. Cek tab Pesanan untuk detailnya.`
+              : "Sistem otomatis mengingatkan admin lewat WhatsApp sesuai jadwal produksi, mulai dari H-3, H-2, hingga H-1 sebelum deadline."}
           </p>
         </div>
 
