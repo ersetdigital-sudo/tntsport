@@ -2723,3 +2723,95 @@ table.pas-tbl tbody tr:hover { background: rgba(63,86,59,.03); }
     border-radius: 16px;
   }
 }
+
+/* ═══════════════════════════════════════════════
+   LAPORAN — filter bulan, penjualan per kategori, kapasitas produksi
+   ═══════════════════════════════════════════════ */
+.pas-picker {
+  background: var(--pas-surface); border: 1px solid var(--pas-line);
+  border-radius: var(--pas-radius); box-shadow: 0 2px 8px rgba(0,0,0,.04);
+  padding: 14px 18px; display: flex; align-items: center; gap: 16px; flex-wrap: wrap;
+}
+.pas-picker-ic {
+  width: 34px; height: 34px; border-radius: 11px; flex: none;
+  background: var(--pas-accent-soft); color: var(--pas-green);
+  display: grid; place-items: center;
+}
+.pas-select-wrap { position: relative; display: inline-flex; align-items: center; }
+.pas-select-wrap > svg {
+  position: absolute; right: 12px; width: 15px; height: 15px;
+  color: var(--pas-muted); pointer-events: none;
+}
+
+/* donut + legenda proporsi kategori */
+.pas-donut-wrap { display: flex; align-items: center; gap: 22px; flex-wrap: wrap; padding: 6px 0 2px; }
+.pas-donut { position: relative; flex: 0 0 168px; height: 168px; }
+.pas-donut circle { transition: stroke-dasharray .45s ease; }
+.pas-donut-center {
+  position: absolute; inset: 0; display: flex; flex-direction: column;
+  align-items: center; justify-content: center; pointer-events: none;
+}
+.pas-donut-center b { font-size: 26px; font-weight: 800; letter-spacing: -.03em; line-height: 1; }
+.pas-donut-center small { font-size: 10.5px; color: var(--pas-muted); margin-top: 4px; font-weight: 600; }
+.pas-legend { flex: 1; min-width: 170px; display: flex; flex-direction: column; gap: 8px; }
+.pas-legend-row {
+  display: flex; align-items: center; gap: 10px; font-size: 13px; font-weight: 600;
+  padding: 9px 12px; border-radius: 10px; background: var(--pas-surface-2);
+}
+.pas-legend-row .sw { width: 10px; height: 10px; border-radius: 3px; flex: none; }
+.pas-legend-row .q { color: var(--pas-muted); font-size: 11.5px; font-weight: 600; margin-left: auto; }
+.pas-legend-row b { min-width: 48px; text-align: right; font-weight: 800; }
+
+.pas-cbar { margin-top: 12px; }
+.pas-cbar .top {
+  display: flex; justify-content: space-between; margin-bottom: 6px;
+  font-size: 12.5px; color: var(--pas-ink-2); font-weight: 600;
+}
+.pas-cbar .tr { height: 10px; background: var(--pas-line); border-radius: 99px; overflow: hidden; }
+.pas-cbar .tr > i { display: block; height: 100%; border-radius: 99px; transition: width .45s ease; }
+
+/* kapasitas produksi */
+.pas-cap-track { position: relative; height: 16px; background: var(--pas-light); border-radius: 99px; margin: 16px 0 9px; }
+.pas-cap-track > i { display: block; height: 100%; background: var(--pas-green); border-radius: 99px; transition: width .45s ease; }
+.pas-cap-track.warn { background: #F3E7CF; }
+.pas-cap-track.warn > i { background: var(--pas-yellow); }
+.pas-cap-track.over { background: rgba(203,86,57,.14); }
+.pas-cap-track.over > i { background: repeating-linear-gradient(45deg, var(--pas-orange) 0 9px, #A8472F 9px 18px); }
+.pas-cap-mark { position: absolute; top: -5px; bottom: -5px; width: 2px; background: var(--pas-orange); border-radius: 2px; }
+.pas-cap-big { font-size: 28px; font-weight: 800; letter-spacing: -.035em; display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+.pas-cap-big small { font-size: 15px; font-weight: 700; color: var(--pas-muted); }
+.pas-cap-row { display: flex; justify-content: space-between; font-size: 11.5px; color: var(--pas-muted); font-weight: 600; }
+.pas-over { color: #A8472F; font-weight: 800; }
+
+/* banner peringatan kapasitas */
+.pas-alert {
+  display: flex; gap: 13px; align-items: flex-start; border-radius: var(--pas-radius);
+  padding: 15px 17px; font-size: 12.5px; line-height: 1.6;
+  border: 1px solid var(--pas-line); background: var(--pas-surface);
+}
+.pas-alert .ic {
+  width: 26px; height: 26px; border-radius: 99px; flex: none;
+  display: grid; place-items: center; font-weight: 800; font-size: 14px;
+  color: #fff; background: var(--pas-muted);
+}
+.pas-alert b { display: block; font-size: 13.5px; margin-bottom: 4px; letter-spacing: -.01em; }
+.pas-alert ul { margin: 7px 0 0; padding-left: 18px; }
+.pas-alert li { margin-bottom: 2px; }
+.pas-alert.warn { background: #FBF3E4; border-color: #EBD9B8; color: #7A5A1C; }
+.pas-alert.warn .ic { background: var(--pas-yellow); }
+.pas-alert.over { background: rgba(203,86,57,.08); border-color: rgba(203,86,57,.28); color: #A8472F; }
+.pas-alert.over .ic { background: var(--pas-orange); }
+
+/* varian pill untuk status kapasitas */
+.pas-pill.warn { background: rgba(221,179,57,.18); color: #8A6A16; }
+.pas-pill.danger { background: rgba(203,86,57,.14); color: #A8472F; }
+
+/* tabel statis (rincian laporan) — tanpa affordance klik */
+table.pas-tbl.pas-tbl-static tbody tr { cursor: default; }
+table.pas-tbl.pas-tbl-static tbody tr:hover { background: transparent; }
+
+@media (max-width: 640px) {
+  .pas-donut { flex: 0 0 140px; height: 140px; }
+  .pas-legend { min-width: 100%; }
+  .pas-select-wrap, .pas-select-wrap .pas-field { width: 100%; }
+}

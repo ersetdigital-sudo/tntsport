@@ -1,6 +1,6 @@
 ﻿"use client";
 
-import { useState, useEffect, useCallback, useRef, type ReactNode } from "react";
+import { useState, useEffect, useCallback, useMemo, useRef, type ReactNode } from "react";
 import { useRouter } from "next/navigation";
 import { uploadToCloudinary } from "@/lib/cloudinary";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
@@ -88,6 +88,83 @@ const VIEW_META: Record<ViewKey, { crumb: string; title: string }> = {
   notif: { crumb: "Data", title: "Notifikasi" },
   setting: { crumb: "Data", title: "Pengaturan" },
 };
+
+/* ── Laporan: filter bulan, kategori & kapasitas ───────────────────────── */
+
+const DEFAULT_KAPASITAS = 2500;
+const MONTH_NAMES = [
+  "Januari", "Februari", "Maret", "April", "Mei", "Juni",
+  "Juli", "Agustus", "September", "Oktober", "November", "Desember",
+];
+/** Urutan tetap di chart/tabel; kategori lain menyusul di bawahnya. */
+const CAT_ORDER = ["Atasan", "Setelan"];
+const CAT_COLORS = ["#3F563B", "#7FA37B", "#DDB339", "#8C857E"];
+
+/** "2026-09" dari created_at (waktu lokal browser). */
+function monthKeyOf(iso: string): string {
+  const d = new Date(iso);
+  if (isNaN(d.getTime())) return "";
+  return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}`;
+}
+
+function monthLabelOf(key: string): string {
+  const [y, m] = key.split("-");
+  const idx = parseInt(m, 10) - 1;
+  if (!y || isNaN(idx) || idx < 0 || idx > 11) return key;
+  return `${MONTH_NAMES[idx]} ${y}`;
+}
+
+/**
+ * Jumlah pcs per order. `quantity` dari API berbentuk string ("12 pcs"),
+ * jadi digit-nya diambil langsung — parseInt("12 pcs") = 12.
+ */
+function orderPcs(o: OrderData): number {
+  const n = parseInt(o.quantity, 10);
+  return isNaN(n) ? 0 : n;
+}
+
+/**
+ * Pecah satu order jadi bucket kategori (Atasan / Setelan / Lainnya).
+ *
+ * Sumber utama adalah `products[]` karena satu order bisa berisi campuran
+ * Atasan + Setelan. Kalau `products` kosong (order lama), fallback ke prefix
+ * `product_name`. Order yang tidak bisa diklasifikasikan masuk "Lainnya"
+ * supaya total pcs tetap utuh dan tidak ada angka yang hilang.
+ */
+function bucketOrder(o: OrderData): Record<string, number> {
+  const out: Record<string, number> = {};
+  let assigned = 0;
+
+  const products = Array.isArray(o.products) ? o.products : [];
+  for (const p of products) {
+    const qty = (p.sizes || []).reduce((a, s) => a + (Number(s.qty) || 0), 0);
+    if (!qty) continue;
+    const name = (p.name || "").toLowerCase();
+    const label = name.startsWith("atasan")
+      ? "Atasan"
+      : name.startsWith("setelan")
+        ? "Setelan"
+        : "Lainnya";
+    out[label] = (out[label] || 0) + qty;
+    assigned += qty;
+  }
+  if (assigned > 0) return out;
+
+  const total = orderPcs(o);
+  if (total <= 0) return out;
+
+  const type = (o.product_name || "").toLowerCase();
+  const hasAtasan = type.includes("atasan");
+  const hasSetelan = type.includes("setelan");
+  // Kalau product_name memuat keduanya, qty-nya tidak bisa dipecah → Lainnya.
+  if (hasAtasan !== hasSetelan) {
+    const label = hasAtasan ? "Atasan" : "Setelan";
+    out[label] = (out[label] || 0) + total;
+  } else {
+    out.Lainnya = (out.Lainnya || 0) + total;
+  }
+  return out;
+}
 
 function statusOf(o: OrderData, totalSteps: number): FilterKey {
   if (o.is_done) return "selesai";
@@ -1577,6 +1654,116 @@ function ViewCustomer({
    VIEW: LAPORAN
    â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
 function ViewLaporan({ orders }: { orders: OrderData[] }) {
+  const [selectedMonth, setSelectedMonth] = useState(() =>
+    monthKeyOf(new Date().toISOString())
+  );
+  const [capacity, setCapacity] = useState(DEFAULT_KAPASITAS);
+
+  useEffect(() => {
+    fetch("/api/pesanan/settings")
+      .then((r) => (r.ok ? r.json() : null))
+      .then((d) => {
+        if (d && typeof d.capacity === "number") setCapacity(d.capacity);
+      })
+      .catch(() => {});
+  }, []);
+
+  // Bulan yang tersedia — dari data order, plus bulan berjalan.
+  const monthOptions = useMemo(() => {
+    const keys = new Set<string>();
+    orders.forEach((o) => {
+      const k = monthKeyOf(o.created_at);
+      if (k) keys.add(k);
+    });
+    keys.add(monthKeyOf(new Date().toISOString()));
+    return Array.from(keys).sort().reverse();
+  }, [orders]);
+
+  const monthOrders = useMemo(
+    () => orders.filter((o) => monthKeyOf(o.created_at) === selectedMonth),
+    [orders, selectedMonth]
+  );
+
+  const totalOrders = monthOrders.length;
+  const totalPcs = monthOrders.reduce((a, o) => a + orderPcs(o), 0);
+  const avgTime = 8;
+
+  // Kapasitas produksi — beban bulan terpilih vs setting
+  const capPct = capacity > 0 ? Math.round((totalPcs / capacity) * 100) : 0;
+  const isOver = totalPcs > capacity;
+  const isWarn = !isOver && capPct >= 85;
+  const excess = Math.max(totalPcs - capacity, 0);
+  const capClass = isOver ? "danger" : isWarn ? "warn" : "produksi";
+
+  // Penjualan per kategori (Atasan / Setelan / Lainnya)
+  const cats = useMemo(() => {
+    const acc: Record<string, number> = {};
+    monthOrders.forEach((o) => {
+      const b = bucketOrder(o);
+      Object.keys(b).forEach((k) => {
+        acc[k] = (acc[k] || 0) + b[k];
+      });
+    });
+    const head = CAT_ORDER.filter((c) => (acc[c] || 0) > 0);
+    const tail = Object.keys(acc)
+      .filter((c) => CAT_ORDER.indexOf(c) < 0 && acc[c] > 0)
+      .sort((a, b) => acc[b] - acc[a]);
+    return head.concat(tail).map((label, i) => ({
+      label,
+      pcs: acc[label],
+      color: CAT_COLORS[i % CAT_COLORS.length],
+    }));
+  }, [monthOrders]);
+
+  const catTotal = cats.reduce((a, c) => a + c.pcs, 0);
+  const catMax = Math.max(...cats.map((c) => c.pcs), 1);
+  const CIRC = 2 * Math.PI * 46;
+
+  // Segmen donut dihitung berurutan — dashoffset bergantung akumulasi share
+  let accShare = 0;
+  const donutSegments = cats.map((c) => {
+    const share = catTotal > 0 ? c.pcs / catTotal : 0;
+    const len = share * CIRC;
+    const seg = (
+      <circle
+        key={c.label}
+        cx="60"
+        cy="60"
+        r="46"
+        fill="none"
+        stroke={c.color}
+        strokeWidth="15"
+        strokeDasharray={`${len.toFixed(2)} ${(CIRC - len).toFixed(2)}`}
+        strokeDashoffset={(-accShare * CIRC).toFixed(2)}
+      >
+        <title>{`${c.label}: ${c.pcs.toLocaleString("id-ID")} pcs`}</title>
+      </circle>
+    );
+    accShare += share;
+    return seg;
+  });
+
+  // Order per minggu pada bulan terpilih (W1 = tgl 1-7, dst)
+  const weeks = useMemo(() => {
+    const [ys, ms] = selectedMonth.split("-");
+    const y = parseInt(ys, 10);
+    const m = parseInt(ms, 10) - 1;
+    if (isNaN(y) || isNaN(m)) return [];
+    const buckets = [0, 0, 0, 0, 0];
+    monthOrders.forEach((o) => {
+      const d = new Date(o.created_at);
+      if (isNaN(d.getTime())) return;
+      buckets[Math.min(Math.floor((d.getDate() - 1) / 7), 4)] += 1;
+    });
+    return buckets
+      .map((value, i) => ({ label: `W${i + 1}`, value }))
+      .filter((w, i) => !(i === 4 && w.value === 0));
+  }, [monthOrders, selectedMonth]);
+
+  const weekMax = Math.max(...weeks.map((w) => w.value), 1);
+  const weekTotal = weeks.reduce((a, w) => a + w.value, 0);
+
+  // Beban per fase — real-time, tidak ikut filter bulan
   const byStage = LANES.map((l) => ({
     name: l.name,
     n: orders.filter(
@@ -1584,100 +1771,439 @@ function ViewLaporan({ orders }: { orders: OrderData[] }) {
     ).length,
   }));
   const max = Math.max(...byStage.map((b) => b.n), 1);
-  const pcs = orders.reduce((a, o) => {
-    const n = parseInt(o.quantity, 10);
-    return a + (isNaN(n) ? 0 : n);
-  }, 0);
-  // Hitung data real order per minggu (7 minggu terakhir)
-  const now = new Date();
-  const weeks: number[] = [];
-  const weekLabels: string[] = [];
-  for (let i = 6; i >= 0; i--) {
-    const start = new Date(now);
-    start.setDate(now.getDate() - (i * 7) - now.getDay());
-    const end = new Date(start);
-    end.setDate(start.getDate() + 6);
-    const count = orders.filter(o => {
-      const d = new Date(o.created_at);
-      return d >= start && d <= end;
-    }).length;
-    weeks.push(count);
-    const label = `M${i + 1}`;
-    weekLabels.push(label);
-  }
-  const wmax = Math.max(...weeks, 1);
-  const totalOrders = orders.length;
-  const avgTime = 8;
+
+  const periode = monthLabelOf(selectedMonth);
+  const nf = (n: number) => n.toLocaleString("id-ID");
+  const pctOf = (v: number, t: number) => (t > 0 ? ((v / t) * 100).toFixed(1) : "0.0");
 
   return (
     <div className="space-y-6">
-      <div className="flex items-center justify-between">
-        <h2 className="text-[18px] font-semibold text-ink">Ringkasan Operasional</h2>
-        <span className="text-[13px] text-[var(--pas-muted)]">Data real-time</span>
+      {/* Peringatan kapasitas */}
+      {isOver && (
+        <div className="pas-alert over">
+          <span className="ic">!</span>
+          <div>
+            <b>
+              Kapasitas produksi terlampaui — {capPct}% ({nf(totalPcs)} / {nf(capacity)} pcs)
+            </b>
+            Beban bulan ini melebihi kapasitas sebesar <b>+{nf(excess)} pcs</b>. Risiko
+            keterlambatan SLA 7-10 hari.
+            <ul>
+              <li>Tahan atau jadwalkan ulang order baru ke bulan berikutnya</li>
+              <li>Tambah shift, atau alihkan sebagian ke maklon</li>
+              <li>Cek fase dengan beban tertinggi di &ldquo;Beban per Fase Produksi&rdquo;</li>
+            </ul>
+          </div>
+        </div>
+      )}
+      {isWarn && (
+        <div className="pas-alert warn">
+          <span className="ic">!</span>
+          <div>
+            <b>
+              Kapasitas hampir penuh — {capPct}% ({nf(totalPcs)} / {nf(capacity)} pcs)
+            </b>
+            Sisa kapasitas tinggal <b>{nf(capacity - totalPcs)} pcs</b>. Pantau order masuk
+            sebelum melewati batas.
+          </div>
+        </div>
+      )}
+
+      {/* Pilih bulan */}
+      <div className="pas-picker">
+        <div className="flex items-center gap-2.5">
+          <span className="pas-picker-ic">
+            <svg
+              width="17"
+              height="17"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+              strokeLinecap="round"
+            >
+              <rect x="3" y="4" width="18" height="18" rx="3" />
+              <path d="M8 2v4M16 2v4M3 10h18" />
+            </svg>
+          </span>
+          <b className="text-[13.5px] font-bold text-ink">Pilih Bulan</b>
+        </div>
+        <div className="pas-select-wrap">
+          <select
+            className="pas-field appearance-none text-[13.5px] font-semibold pl-3.5 pr-9 py-2.5 cursor-pointer"
+            value={selectedMonth}
+            onChange={(e) => setSelectedMonth(e.target.value)}
+            aria-label="Pilih bulan laporan"
+          >
+            {monthOptions.map((k) => (
+              <option key={k} value={k}>
+                {monthLabelOf(k)}
+              </option>
+            ))}
+          </select>
+          <svg
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2.2"
+            strokeLinecap="round"
+          >
+            <path d="m6 9 6 6 6-6" />
+          </svg>
+        </div>
+        <span className="flex-1" />
+        <span className="text-[11.5px] text-[var(--pas-muted)] font-medium">
+          Berlaku untuk Ringkasan, Penjualan per Kategori, Kapasitas &amp; Order per Minggu
+        </span>
       </div>
 
-      {/* KPI Cards */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-        <div className="pas-card p-5 flex flex-col">
-          <div className="flex items-center gap-2 text-[var(--pas-muted)] text-[13px]">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg>
-            Total Pesanan
-          </div>
-          <p className="pas-display pas-num text-[32px] mt-1">{totalOrders}</p>
-          <p className="text-[12px] text-[var(--pas-muted)] mt-0.5">semua status</p>
+      {/* Ringkasan Operasional */}
+      <div>
+        <div className="flex items-center justify-between mb-3">
+          <h2 className="text-[18px] font-semibold text-ink">Ringkasan Operasional</h2>
+          <span className="text-[13px] text-[var(--pas-muted)]">
+            Periode: <b>{periode}</b>
+          </span>
         </div>
 
-        <div className="pas-card p-5 flex flex-col">
-          <div className="flex items-center gap-2 text-[var(--pas-muted)] text-[13px]">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
-            Total Item
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+          <div className="pas-card p-5 flex flex-col">
+            <div className="flex items-center gap-2 text-[var(--pas-muted)] text-[13px]">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg>
+              Total Pesanan
+            </div>
+            <p className="pas-display pas-num text-[32px] mt-1">{totalOrders}</p>
+            <p className="text-[12px] text-[var(--pas-muted)] mt-0.5">semua status</p>
           </div>
-          <p className="pas-display pas-num text-[32px] mt-1">{pcs} pcs</p>
-          <p className="text-[12px] text-[var(--pas-muted)] mt-0.5">dari {totalOrders} pesanan</p>
-        </div>
 
-        <div className="pas-card p-5 flex flex-col">
-          <div className="flex items-center gap-2 text-[var(--pas-muted)] text-[13px]">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
-            Rata-rata Waktu
+          <div className="pas-card p-5 flex flex-col">
+            <div className="flex items-center gap-2 text-[var(--pas-muted)] text-[13px]">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+              Total Item
+            </div>
+            <p className="pas-display pas-num text-[32px] mt-1">
+              {nf(totalPcs)} <span className="text-[16px]">pcs</span>
+            </p>
+            <p className="text-[12px] text-[var(--pas-muted)] mt-0.5">dari {totalOrders} pesanan</p>
           </div>
-          <p className="pas-display pas-num text-[32px] mt-1">{avgTime} hari</p>
-          <p className="text-[12px] text-[var(--pas-muted)] mt-0.5">SLA 7-10 hari</p>
-        </div>
 
-        <div className="pas-card p-5 flex flex-col">
-          <div className="flex items-center gap-2 text-[var(--pas-muted)] text-[13px]">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>
-            Aktif Produksi
+          <div className="pas-card p-5 flex flex-col">
+            <div className="flex items-center gap-2 text-[var(--pas-muted)] text-[13px]">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+              Rata-rata Waktu
+            </div>
+            <p className="pas-display pas-num text-[32px] mt-1">
+              {avgTime} <span className="text-[16px]">hari</span>
+            </p>
+            <p className="text-[12px] text-[var(--pas-muted)] mt-0.5">SLA 7-10 hari</p>
           </div>
-          <p className="pas-display pas-num text-[32px] mt-1">{orders.filter(o => !o.is_done).length}</p>
-          <p className="text-[12px] text-[var(--pas-muted)] mt-0.5">pesanan dalam proses</p>
+
+          <div className="pas-card p-5 flex flex-col">
+            <div className="flex items-center gap-2 text-[var(--pas-muted)] text-[13px]">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>
+              Aktif Produksi
+            </div>
+            <p className="pas-display pas-num text-[32px] mt-1">
+              {orders.filter((o) => !o.is_done).length}
+            </p>
+            <p className="text-[12px] text-[var(--pas-muted)] mt-0.5">pesanan dalam proses</p>
+            <span className="pas-pill warn mt-1.5 self-start">real-time · tidak ikut filter bulan</span>
+          </div>
         </div>
       </div>
 
-      {/* Charts */}
+      {/* Penjualan per Kategori */}
+      <div>
+        <div className="flex items-center justify-between mb-3">
+          <h2 className="text-[18px] font-semibold text-ink">Penjualan per Kategori</h2>
+          <span className="text-[13px] text-[var(--pas-muted)]">
+            Total terjual — <b>{periode}</b>
+          </span>
+        </div>
+
+        <div className="grid lg:grid-cols-2 gap-4 items-start">
+          <div className="pas-card p-5">
+            <div className="flex items-center justify-between mb-1.5">
+              <p className="text-[13px] font-semibold text-ink">Proporsi Kategori</p>
+              <span className="text-[11px] text-[var(--pas-muted)]">Atasan vs Setelan</span>
+            </div>
+
+            {catTotal === 0 ? (
+              <p className="text-[12.5px] text-[var(--pas-muted)] py-10 text-center">
+                Belum ada penjualan pada periode ini.
+              </p>
+            ) : (
+              <>
+                <div className="pas-donut-wrap">
+                  <div className="pas-donut">
+                    <svg
+                      viewBox="0 0 120 120"
+                      width="100%"
+                      height="100%"
+                      role="img"
+                      aria-label="Donut proporsi kategori"
+                    >
+                      <circle cx="60" cy="60" r="46" fill="none" stroke="#E3D7CC" strokeWidth="15" />
+                      <g transform="rotate(-90 60 60)">{donutSegments}</g>
+                    </svg>
+                    <div className="pas-donut-center">
+                      <b className="pas-num">{nf(catTotal)}</b>
+                      <small>total pcs</small>
+                    </div>
+                  </div>
+
+                  <div className="pas-legend">
+                    {cats.map((c) => (
+                      <div key={c.label} className="pas-legend-row">
+                        <span className="sw" style={{ background: c.color }} />
+                        {c.label}
+                        <span className="q pas-num">{nf(c.pcs)} pcs</span>
+                        <b className="pas-num">{pctOf(c.pcs, catTotal)}%</b>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+
+                <div className="mt-1.5">
+                  {cats.map((c) => (
+                    <div key={c.label} className="pas-cbar">
+                      <div className="top">
+                        <span>{c.label}</span>
+                        <b className="pas-num">
+                          {nf(c.pcs)} pcs · {pctOf(c.pcs, catTotal)}%
+                        </b>
+                      </div>
+                      <div className="tr">
+                        <i
+                          style={{
+                            width: `${(c.pcs / catMax) * 100}%`,
+                            background: c.color,
+                          }}
+                        />
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </>
+            )}
+          </div>
+
+          <div className="flex flex-col gap-4 min-w-0">
+            <div className="grid sm:grid-cols-2 gap-4">
+              {cats.map((c) => (
+                <div key={c.label} className="pas-card pas-kpi p-5">
+                  <div className="flex items-center gap-2 text-[var(--pas-muted)] text-[12px] font-semibold">
+                    <span
+                      className="w-[11px] h-[11px] rounded-[3px] flex-none"
+                      style={{ background: c.color }}
+                    />
+                    {c.label}
+                  </div>
+                  <p className="pas-display pas-num text-[28px] mt-1.5">
+                    {nf(c.pcs)} <span className="text-[15px]">pcs</span>
+                  </p>
+                  <p className="text-[11.5px] text-[var(--pas-muted)] mt-1">
+                    <b>{pctOf(c.pcs, catTotal)}%</b> dari total item
+                  </p>
+                </div>
+              ))}
+            </div>
+
+            <div className="pas-card p-5">
+              <p className="text-[13px] font-semibold text-ink mb-2">Rincian</p>
+              <div className="overflow-x-auto">
+                <table className="pas-tbl pas-tbl-static">
+                  <thead>
+                    <tr>
+                      <th>Kategori</th>
+                      <th className="num">Pcs</th>
+                      <th className="num">% total</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {cats.length === 0 && (
+                      <tr>
+                        <td colSpan={3} style={{ textAlign: "center", color: "var(--pas-muted)" }}>
+                          Belum ada penjualan pada periode ini.
+                        </td>
+                      </tr>
+                    )}
+                    {cats.map((c) => (
+                      <tr key={c.label}>
+                        <td>{CAT_ORDER.indexOf(c.label) >= 0 ? <b>{c.label}</b> : c.label}</td>
+                        <td className="num">{nf(c.pcs)}</td>
+                        <td className="num">{pctOf(c.pcs, catTotal)}%</td>
+                      </tr>
+                    ))}
+                    {cats.length > 0 && (
+                      <tr>
+                        <td><b>Total</b></td>
+                        <td className="num"><b>{nf(catTotal)}</b></td>
+                        <td className="num"><b>100%</b></td>
+                      </tr>
+                    )}
+                  </tbody>
+                </table>
+              </div>
+              <p className="text-[11px] text-[var(--pas-muted)] mt-3">
+                Hanya kategori yang ada di data pesanan yang ditampilkan. Order tanpa rincian
+                produk dihitung sebagai &ldquo;Lainnya&rdquo; agar total tetap utuh.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Kapasitas Produksi */}
+      <div>
+        <div className="flex items-center justify-between mb-3">
+          <h2 className="text-[18px] font-semibold text-ink">Kapasitas Produksi</h2>
+        </div>
+
+        <div className="grid lg:grid-cols-2 gap-4 items-start">
+          <div className="pas-card p-5">
+            <div className="flex items-center justify-between mb-0.5">
+              <p className="text-[13px] font-semibold text-ink">Kapasitas terpakai</p>
+              <span className="text-[11px] text-[var(--pas-muted)]">{periode}</span>
+            </div>
+
+            <div className="pas-cap-big pas-num mt-3">
+              <span>
+                <span className={isOver ? "pas-over" : ""}>{nf(totalPcs)}</span>{" "}
+                <small>/ {nf(capacity)} pcs</small>
+              </span>
+              <span className={`pas-pill ${capClass}`}>{capPct}%</span>
+            </div>
+
+            <div className={`pas-cap-track ${isOver ? "over" : isWarn ? "warn" : ""}`}>
+              <i style={{ width: `${isOver ? 100 : Math.min(capPct, 100)}%` }} />
+              {isOver && totalPcs > 0 && (
+                <span className="pas-cap-mark" style={{ left: `${(capacity / totalPcs) * 100}%` }} />
+              )}
+            </div>
+
+            <div className="pas-cap-row">
+              <span>0</span>
+              {isOver ? (
+                <span>
+                  Kelebihan: <b className="pas-over">+{nf(excess)} pcs</b>
+                </span>
+              ) : (
+                <span>
+                  Sisa: <b>{nf(capacity - totalPcs)} pcs</b>
+                </span>
+              )}
+              <span>{nf(capacity)}</span>
+            </div>
+
+            {isOver ? (
+              <p className="text-[11.5px] text-[var(--pas-muted)] mt-3">
+                Garis merah = batas kapasitas ({nf(capacity)} pcs). Bar penuh karena beban
+                melewati batas.
+              </p>
+            ) : isWarn ? (
+              <p className="text-[11.5px] text-[var(--pas-muted)] mt-3">
+                Sisa kapasitas menipis — pertimbangkan tahan order baru atau tambah shift.
+              </p>
+            ) : null}
+          </div>
+
+          <div className="pas-card p-5">
+            <p className="text-[13px] font-semibold text-ink mb-2">Detail</p>
+            <table className="pas-tbl pas-tbl-static">
+              <tbody>
+                <tr>
+                  <td>Kapasitas/bulan (setting)</td>
+                  <td className="num"><b>{nf(capacity)} pcs</b></td>
+                </tr>
+                <tr>
+                  <td>Masuk/diproses bulan ini</td>
+                  <td className="num">
+                    <b className={isOver ? "pas-over" : ""}>{nf(totalPcs)} pcs</b>
+                  </td>
+                </tr>
+                <tr>
+                  <td>Utilisasi</td>
+                  <td className="num">
+                    <b className={isOver ? "pas-over" : ""}>{capPct}%</b>
+                  </td>
+                </tr>
+                <tr>
+                  <td>{isOver ? "Kelebihan beban" : "Sisa kapasitas"}</td>
+                  <td className="num">
+                    {isOver ? (
+                      <b className="pas-over">+{nf(excess)} pcs</b>
+                    ) : (
+                      <b>{nf(capacity - totalPcs)} pcs</b>
+                    )}
+                  </td>
+                </tr>
+                <tr>
+                  <td>Status</td>
+                  <td className="num">
+                    <span className={`pas-pill ${capClass}`}>
+                      {isOver ? "Over kapasitas" : isWarn ? "Hampir penuh" : "Aman"}
+                    </span>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+            <p className="text-[11px] text-[var(--pas-muted)] mt-3">
+              Kapasitas per bulan diatur di halaman <b>Pengaturan</b> · default{" "}
+              {nf(DEFAULT_KAPASITAS)} pcs
+            </p>
+          </div>
+        </div>
+      </div>
+
+      {/* Chart + fase */}
       <div className="grid lg:grid-cols-2 gap-4">
         <div className="pas-card p-5">
           <div className="flex items-center justify-between">
             <p className="text-[13px] font-semibold text-ink">Order per Minggu</p>
-            <span className="text-[10px] text-[var(--pas-muted)]">Berdasarkan data real</span>
+            <span className="text-[10px] text-[var(--pas-muted)]">
+              {weekTotal} pesanan · {periode}
+            </span>
           </div>
-          <div className="flex items-end gap-2 mt-4" style={{ height: 120 }}>
-            {weeks.map((v, i) => (
-              <div key={i} className="flex flex-col items-center gap-2" style={{ flex: 1 }}>
+          <p className="text-[11.5px] text-[var(--pas-muted)] mt-1.5">
+            Jumlah <b>pesanan masuk</b> tiap minggu pada bulan terpilih (W1 = tanggal 1-7, dst).
+          </p>
+          <div className="flex items-end gap-2 mt-4" style={{ height: 150 }}>
+            {weeks.map((w) => (
+              <div key={w.label} className="flex flex-col items-center gap-2" style={{ flex: 1 }}>
+                <span className="pas-num text-[12px] font-semibold" style={{ color: "var(--pas-ink-2)" }}>
+                  {w.value}
+                </span>
                 <div
                   style={{
                     width: "100%",
-                    height: `${(v / wmax) * 90}px`,
-                    background: i === weeks.length - 1 ? "var(--pas-accent)" : "var(--pas-accent-soft)",
-                    opacity: i === weeks.length - 1 ? 1 : 0.6,
+                    height: `${Math.max((w.value / weekMax) * 90, 4)}px`,
+                    background: "var(--pas-accent)",
+                    opacity: w.value === weekMax ? 1 : 0.45,
                     borderRadius: "6px 6px 0 0",
                     transition: "height 0.3s ease",
                   }}
                 />
-                <span className="text-[11px] text-[var(--pas-muted)]">{weekLabels[i]}</span>
+                <span className="text-[11px] text-[var(--pas-muted)]">{w.label}</span>
               </div>
             ))}
+          </div>
+          <div
+            className="flex items-center justify-between gap-2 flex-wrap mt-3 pt-3 text-[11.5px] text-[var(--pas-muted)] font-semibold"
+            style={{ borderTop: "1px solid var(--pas-line)" }}
+          >
+            <span>
+              <span
+                className="inline-block w-[9px] h-[9px] rounded-[3px] mr-1.5"
+                style={{ background: "var(--pas-accent)" }}
+              />
+              Minggu tertinggi
+            </span>
+            <span>
+              Rata-rata{" "}
+              {weeks.length ? (weekTotal / weeks.length).toFixed(1).replace(".", ",") : "0"}{" "}
+              pesanan/minggu
+            </span>
           </div>
         </div>
 
@@ -1699,11 +2225,15 @@ function ViewLaporan({ orders }: { orders: OrderData[] }) {
               </div>
             ))}
           </div>
-          <p className="text-[11px] text-[var(--pas-muted)] mt-4 text-center">Jumlah pesanan aktif per fase</p>
+          <p className="text-[11px] text-[var(--pas-muted)] mt-4 text-center">
+            Jumlah pesanan aktif per fase (real-time)
+          </p>
         </div>
       </div>
 
-      <p className="text-[12px] text-[var(--pas-muted)] text-center">* Data diperbarui secara otomatis. Angka contoh untuk mockup.</p>
+      <p className="text-[12px] text-[var(--pas-muted)] text-center">
+        * Angka dihitung dari data order. Kapasitas produksi per bulan diatur di halaman Pengaturan.
+      </p>
     </div>
   );
 }
@@ -1749,6 +2279,10 @@ function ViewSetting({
   const [deadlinePhone3, setDeadlinePhone3] = useState("");
   const [savingDeadline, setSavingDeadline] = useState(false);
 
+  // Kapasitas Produksi (dipakai halaman Laporan)
+  const [capacity, setCapacity] = useState(String(DEFAULT_KAPASITAS));
+  const [savingCapacity, setSavingCapacity] = useState(false);
+
   useEffect(() => {
     fetch("/api/admin/profil-toko")
       .then((r) => (r.ok ? r.json() : null))
@@ -1789,6 +2323,15 @@ function ViewSetting({
           setDeadlinePhone2(ph[1] || "");
           setDeadlinePhone3(ph[2] || "");
         }
+      })
+      .catch(() => {});
+  }, []);
+
+  useEffect(() => {
+    fetch("/api/pesanan/settings")
+      .then((r) => (r.ok ? r.json() : null))
+      .then((d) => {
+        if (d && typeof d.capacity === "number") setCapacity(String(d.capacity));
       })
       .catch(() => {});
   }, []);
@@ -1870,6 +2413,33 @@ function ViewSetting({
       showToast("Gagal menyimpan pengaturan deadline");
     } finally {
       setSavingDeadline(false);
+    }
+  };
+
+  const saveCapacity = async () => {
+    const value = parseInt(capacity, 10);
+    if (isNaN(value) || value < 1) {
+      showToast("Kapasitas harus angka lebih dari 0");
+      return;
+    }
+    setSavingCapacity(true);
+    try {
+      const res = await fetch("/api/pesanan/settings", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ capacity: value }),
+      });
+      const data = await res.json();
+      if (!res.ok) {
+        showToast(data.error || "Gagal menyimpan kapasitas produksi");
+        return;
+      }
+      setCapacity(String(data.capacity ?? value));
+      showToast("Kapasitas produksi tersimpan");
+    } catch {
+      showToast("Gagal menyimpan kapasitas produksi");
+    } finally {
+      setSavingCapacity(false);
     }
   };
 
@@ -2259,6 +2829,44 @@ function ViewSetting({
         <p className="text-[12px] text-[var(--pas-muted)] mt-3">
           Notifikasi akan dikirim otomatis setiap hari pada jam yang ditentukan (hanya jika ada order yang mendekati deadline). Gunakan GitHub Actions atau cron job eksternal untuk menjalankan endpoint.
         </p>
+      </div>
+
+      {/* Kapasitas Produksi */}
+      <div className="pas-card p-5">
+        <div className="flex items-center justify-between gap-3">
+          <div>
+            <p className="font-semibold text-[15px]">Kapasitas Produksi</p>
+            <p className="text-[12.5px] text-[var(--pas-muted)] mt-1">
+              Batas jumlah pcs yang diproses per bulan. Dipakai halaman Laporan untuk menghitung
+              utilisasi dan peringatan over kapasitas.
+            </p>
+          </div>
+        </div>
+
+        <div className="flex flex-wrap items-end gap-4 mt-5">
+          <label className="block flex-1 min-w-[240px]">
+            <span className="text-[13px] text-[var(--pas-muted)]">Kapasitas per Bulan (pcs)</span>
+            <input
+              type="number"
+              min={1}
+              step={50}
+              className="pas-field w-full px-4 py-2.5 mt-1.5 text-[15px] pas-num"
+              value={capacity}
+              onChange={(e) => setCapacity(e.target.value)}
+            />
+            <p className="text-[11px] text-[var(--pas-muted)] mt-1">
+              Default {DEFAULT_KAPASITAS.toLocaleString("id-ID")} pcs. Di halaman Laporan, beban
+              di atas 85% ditandai hampir penuh dan di atas 100% ditandai over kapasitas.
+            </p>
+          </label>
+          <button
+            className="pas-btn-accent px-6 py-2.5 text-[13px]"
+            disabled={savingCapacity}
+            onClick={saveCapacity}
+          >
+            {savingCapacity ? "Menyimpan..." : "Simpan Kapasitas"}
+          </button>
+        </div>
       </div>
 
       {/* Delete confirmation modal */}
