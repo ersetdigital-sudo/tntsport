@@ -1012,12 +1012,12 @@ function ViewPesanan({
         <table className="pas-tbl w-full">
           <thead>
             <tr>
-              <th className="w-[18%]">Pesanan</th>
+              <th className="w-[16%]">Pesanan</th>
               <th className="w-[18%]">Customer</th>
               <th className="w-[16%]">Produk</th>
-              <th className="w-[18%]">Progres</th>
+              <th className="w-[16%]">Progres</th>
               <th className="w-[10%]">Order</th>
-              <th className="w-[10%]">Deadline</th>
+              <th className="w-[14%]">Deadline</th>
               <th className="w-[10%]">Status</th>
               <th className="w-[5%]"></th>
             </tr>
@@ -1084,19 +1084,21 @@ function ViewPesanan({
                         dlStatus.level === "approaching" ? "text-amber-500 font-medium" :
                         "text-[var(--pas-muted)]"
                       }>
-                        {(dlStatus.level === "overdue" || dlStatus.level === "critical" || dlStatus.level === "warning" || dlStatus.level === "approaching") && (
-                          <AlertTriangle size={11} className={`inline-block mr-1 -mt-px ${
-                            dlStatus.level === "overdue" ? "text-red-700" :
-                            dlStatus.level === "critical" ? "text-red-500" :
-                            dlStatus.level === "warning" ? "text-[var(--pas-orange)]" :
-                            "text-amber-500"
-                          }`} />
-                        )}
-                        {formatDate(o.deadline)}
-                        {dlStatus.level === "approaching" && <span className="text-[11px] ml-1 opacity-80">(H-3)</span>}
-                        {dlStatus.level === "warning" && <span className="text-[11px] ml-1 opacity-80">(H-2)</span>}
-                        {dlStatus.level === "critical" && <span className="text-[11px] ml-1 opacity-80">(H-1)</span>}
-                        {dlStatus.level === "overdue" && <span className="text-[11px] ml-1 opacity-80">(lewat {Math.abs(dlStatus.diffDays)} hari)</span>}
+                        <span className="block">
+                          {(dlStatus.level === "overdue" || dlStatus.level === "critical" || dlStatus.level === "warning" || dlStatus.level === "approaching") && (
+                            <AlertTriangle size={11} className={`inline-block mr-1 -mt-px ${
+                              dlStatus.level === "overdue" ? "text-red-700" :
+                              dlStatus.level === "critical" ? "text-red-500" :
+                              dlStatus.level === "warning" ? "text-[var(--pas-orange)]" :
+                              "text-amber-500"
+                            }`} />
+                          )}
+                          {formatDate(o.deadline)}
+                        </span>
+                        {dlStatus.level === "approaching" && <span className="block text-[11px] mt-0.5 opacity-80">(H-3)</span>}
+                        {dlStatus.level === "warning" && <span className="block text-[11px] mt-0.5 opacity-80">(H-2)</span>}
+                        {dlStatus.level === "critical" && <span className="block text-[11px] mt-0.5 opacity-80">(H-1)</span>}
+                        {dlStatus.level === "overdue" && <span className="block text-[11px] mt-0.5 opacity-80">(lewat {Math.abs(dlStatus.diffDays)} hari)</span>}
                       </span>
                     ) : (
                       <span className="text-[var(--pas-muted)]">-</span>
