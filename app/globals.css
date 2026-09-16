@@ -2744,8 +2744,8 @@ table.pas-tbl tbody tr:hover { background: rgba(63,86,59,.03); }
 }
 
 /* donut + legenda proporsi kategori */
-.pas-donut-wrap { display: flex; align-items: center; gap: 22px; flex-wrap: wrap; padding: 6px 0 2px; }
-.pas-donut { position: relative; flex: 0 0 168px; height: 168px; }
+.pas-donut-wrap { display: flex; align-items: center; gap: 24px; flex-wrap: wrap; padding: 8px 0 2px; }
+.pas-donut { position: relative; flex: 0 0 190px; height: 190px; }
 .pas-donut circle { transition: stroke-dasharray .45s ease; }
 .pas-donut-center {
   position: absolute; inset: 0; display: flex; flex-direction: column;
@@ -2753,7 +2753,7 @@ table.pas-tbl tbody tr:hover { background: rgba(63,86,59,.03); }
 }
 .pas-donut-center b { font-size: 26px; font-weight: 800; letter-spacing: -.03em; line-height: 1; }
 .pas-donut-center small { font-size: 10.5px; color: var(--pas-muted); margin-top: 4px; font-weight: 600; }
-.pas-legend { flex: 1; min-width: 170px; display: flex; flex-direction: column; gap: 8px; }
+.pas-legend { flex: 1; min-width: 170px; display: flex; flex-direction: column; gap: 10px; }
 .pas-legend-row {
   display: flex; align-items: center; gap: 10px; font-size: 13px; font-weight: 600;
   padding: 9px 12px; border-radius: 10px; background: var(--pas-surface-2);
@@ -2762,7 +2762,7 @@ table.pas-tbl tbody tr:hover { background: rgba(63,86,59,.03); }
 .pas-legend-row .q { color: var(--pas-muted); font-size: 11.5px; font-weight: 600; margin-left: auto; }
 .pas-legend-row b { min-width: 48px; text-align: right; font-weight: 800; }
 
-.pas-cbar { margin-top: 12px; }
+.pas-cbar { margin-top: 14px; }
 .pas-cbar .top {
   display: flex; justify-content: space-between; margin-bottom: 6px;
   font-size: 12.5px; color: var(--pas-ink-2); font-weight: 600;

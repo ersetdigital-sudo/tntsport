@@ -1894,32 +1894,32 @@ function ViewLaporan({ orders }: { orders: OrderData[] }) {
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-          <div className="pas-card p-5 flex flex-col">
+          <div className="pas-card p-[18px] flex flex-col">
             <div className="flex items-center gap-2 text-[var(--pas-muted)] text-[13px]">
               <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg>
               Total Pesanan
             </div>
-            <p className="pas-display pas-num text-[32px] mt-1">{totalOrders}</p>
+            <p className="pas-display pas-num text-[32px] mt-auto pt-1">{totalOrders}</p>
             <p className="text-[12px] text-[var(--pas-muted)] mt-0.5">semua status</p>
           </div>
 
-          <div className="pas-card p-5 flex flex-col">
+          <div className="pas-card p-[18px] flex flex-col">
             <div className="flex items-center gap-2 text-[var(--pas-muted)] text-[13px]">
               <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
               Total Item
             </div>
-            <p className="pas-display pas-num text-[32px] mt-1">
+            <p className="pas-display pas-num text-[32px] mt-auto pt-1">
               {nf(totalPcs)} <span className="text-[16px]">pcs</span>
             </p>
             <p className="text-[12px] text-[var(--pas-muted)] mt-0.5">dari {totalOrders} pesanan</p>
           </div>
 
-          <div className="pas-card p-5 flex flex-col">
+          <div className="pas-card p-[18px] flex flex-col">
             <div className="flex items-center gap-2 text-[var(--pas-muted)] text-[13px]">
               <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
               Rata-rata Waktu
             </div>
-            <p className="pas-display pas-num text-[32px] mt-1">
+            <p className="pas-display pas-num text-[32px] mt-auto pt-1">
               {avgTime === null ? (
                 "–"
               ) : (
@@ -1936,12 +1936,12 @@ function ViewLaporan({ orders }: { orders: OrderData[] }) {
             </p>
           </div>
 
-          <div className="pas-card p-5 flex flex-col">
+          <div className="pas-card p-[18px] flex flex-col">
             <div className="flex items-center gap-2 text-[var(--pas-muted)] text-[13px]">
               <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>
               Aktif Produksi
             </div>
-            <p className="pas-display pas-num text-[32px] mt-1">
+            <p className="pas-display pas-num text-[32px] mt-auto pt-1">
               {orders.filter((o) => !o.is_done).length}
             </p>
             <p className="text-[12px] text-[var(--pas-muted)] mt-0.5">pesanan dalam proses</p>
@@ -1959,8 +1959,8 @@ function ViewLaporan({ orders }: { orders: OrderData[] }) {
           </span>
         </div>
 
-        <div className="grid lg:grid-cols-2 gap-4 items-start">
-          <div className="pas-card p-5">
+        <div className="grid lg:grid-cols-[1.05fr_1fr] gap-4">
+          <div className="pas-card p-[18px] flex flex-col">
             <div className="flex items-center justify-between mb-1.5">
               <p className="text-[13px] font-semibold text-ink">Proporsi Kategori</p>
               <span className="text-[11px] text-[var(--pas-muted)]">Atasan vs Setelan</span>
@@ -2002,7 +2002,7 @@ function ViewLaporan({ orders }: { orders: OrderData[] }) {
                   </div>
                 </div>
 
-                <div className="mt-1.5">
+                <div className="mt-auto pt-3">
                   {cats.map((c) => (
                     <div key={c.label} className="pas-cbar">
                       <div className="top">
@@ -2021,6 +2021,9 @@ function ViewLaporan({ orders }: { orders: OrderData[] }) {
                       </div>
                     </div>
                   ))}
+                  <p className="text-[11.5px] text-[var(--pas-muted)] mt-3.5">
+                    {cats.length} kategori aktif dari {monthOrders.length} pesanan pada periode ini.
+                  </p>
                 </div>
               </>
             )}
@@ -2029,7 +2032,7 @@ function ViewLaporan({ orders }: { orders: OrderData[] }) {
           <div className="flex flex-col gap-4 min-w-0">
             <div className="grid sm:grid-cols-2 gap-4">
               {cats.map((c) => (
-                <div key={c.label} className="pas-card pas-kpi p-5">
+                <div key={c.label} className="pas-card pas-kpi p-4">
                   <div className="flex items-center gap-2 text-[var(--pas-muted)] text-[12px] font-semibold">
                     <span
                       className="w-[11px] h-[11px] rounded-[3px] flex-none"
@@ -2037,17 +2040,17 @@ function ViewLaporan({ orders }: { orders: OrderData[] }) {
                     />
                     {c.label}
                   </div>
-                  <p className="pas-display pas-num text-[28px] mt-1.5">
-                    {nf(c.pcs)} <span className="text-[15px]">pcs</span>
+                  <p className="pas-display pas-num text-[26px] mt-1">
+                    {nf(c.pcs)} <span className="text-[14px]">pcs</span>
                   </p>
-                  <p className="text-[11.5px] text-[var(--pas-muted)] mt-1">
+                  <p className="text-[11.5px] text-[var(--pas-muted)] mt-0.5">
                     <b>{pctOf(c.pcs, catTotal)}%</b> dari total item
                   </p>
                 </div>
               ))}
             </div>
 
-            <div className="pas-card p-5">
+            <div className="pas-card p-[18px]">
               <p className="text-[13px] font-semibold text-ink mb-2">Rincian</p>
               <div className="overflow-x-auto">
                 <table className="pas-tbl pas-tbl-static">
@@ -2098,8 +2101,8 @@ function ViewLaporan({ orders }: { orders: OrderData[] }) {
           <h2 className="text-[18px] font-semibold text-ink">Kapasitas Produksi</h2>
         </div>
 
-        <div className="grid lg:grid-cols-2 gap-4 items-start">
-          <div className="pas-card p-5">
+        <div className="grid lg:grid-cols-[1.25fr_1fr] gap-4 items-start">
+          <div className="pas-card p-[18px]">
             <div className="flex items-center justify-between mb-0.5">
               <p className="text-[13px] font-semibold text-ink">Kapasitas terpakai</p>
               <span className="text-[11px] text-[var(--pas-muted)]">{periode}</span>
@@ -2134,36 +2137,34 @@ function ViewLaporan({ orders }: { orders: OrderData[] }) {
               <span>{nf(capacity)}</span>
             </div>
 
-            {isOver ? (
-              <p className="text-[11.5px] text-[var(--pas-muted)] mt-3">
-                Garis merah = batas kapasitas ({nf(capacity)} pcs). Bar penuh karena beban
-                melewati batas.
-              </p>
-            ) : isWarn ? (
-              <p className="text-[11.5px] text-[var(--pas-muted)] mt-3">
-                Sisa kapasitas menipis — pertimbangkan tahan order baru atau tambah shift.
-              </p>
-            ) : null}
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5 mt-3.5">
+              <div className="pas-legend-row">
+                Kapasitas/bulan
+                <b className="pas-num q">{nf(capacity)} pcs</b>
+              </div>
+              <div className="pas-legend-row">
+                Utilisasi
+                <b className={`pas-num q ${isOver ? "pas-over" : ""}`}>{capPct}%</b>
+              </div>
+            </div>
+
+            <p className="text-[11.5px] text-[var(--pas-muted)] mt-3">
+              {isOver
+                ? `Garis merah = batas kapasitas (${nf(capacity)} pcs). Bar penuh karena beban melewati batas.`
+                : isWarn
+                  ? "Sisa kapasitas menipis — pertimbangkan tahan order baru atau tambah shift."
+                  : `Kapasitas masih longgar — sisa ${nf(capacity - totalPcs)} pcs untuk order baru bulan ini.`}
+            </p>
           </div>
 
-          <div className="pas-card p-5">
+          <div className="pas-card p-[18px]">
             <p className="text-[13px] font-semibold text-ink mb-2">Detail</p>
             <table className="pas-tbl pas-tbl-static">
               <tbody>
                 <tr>
-                  <td>Kapasitas/bulan (setting)</td>
-                  <td className="num"><b>{nf(capacity)} pcs</b></td>
-                </tr>
-                <tr>
                   <td>Masuk/diproses bulan ini</td>
                   <td className="num">
                     <b className={isOver ? "pas-over" : ""}>{nf(totalPcs)} pcs</b>
-                  </td>
-                </tr>
-                <tr>
-                  <td>Utilisasi</td>
-                  <td className="num">
-                    <b className={isOver ? "pas-over" : ""}>{capPct}%</b>
                   </td>
                 </tr>
                 <tr>
@@ -2195,8 +2196,8 @@ function ViewLaporan({ orders }: { orders: OrderData[] }) {
       </div>
 
       {/* Chart + fase */}
-      <div className="grid lg:grid-cols-2 gap-4">
-        <div className="pas-card p-5">
+      <div className="grid lg:grid-cols-[1.25fr_1fr] gap-4">
+        <div className="pas-card p-[18px]">
           <div className="flex items-center justify-between">
             <p className="text-[13px] font-semibold text-ink">Order per Minggu</p>
             <span className="text-[10px] text-[var(--pas-muted)]">
@@ -2206,23 +2207,28 @@ function ViewLaporan({ orders }: { orders: OrderData[] }) {
           <p className="text-[11.5px] text-[var(--pas-muted)] mt-1.5">
             Jumlah <b>pesanan masuk</b> tiap minggu pada bulan terpilih (W1 = tanggal 1-7, dst).
           </p>
-          <div className="flex items-end gap-2 mt-4" style={{ height: 150 }}>
+          <div className="flex gap-2.5 mt-4" style={{ height: 180 }}>
             {weeks.map((w) => (
-              <div key={w.label} className="flex flex-col items-center gap-2" style={{ flex: 1 }}>
+              <div key={w.label} className="flex flex-col items-center" style={{ flex: 1, minWidth: 0 }}>
                 <span className="pas-num text-[12px] font-semibold" style={{ color: "var(--pas-ink-2)" }}>
                   {w.value}
                 </span>
-                <div
-                  style={{
-                    width: "100%",
-                    height: `${Math.max((w.value / weekMax) * 90, 4)}px`,
-                    background: "var(--pas-accent)",
-                    opacity: w.value === weekMax ? 1 : 0.45,
-                    borderRadius: "6px 6px 0 0",
-                    transition: "height 0.3s ease",
-                  }}
-                />
-                <span className="text-[11px] text-[var(--pas-muted)]">{w.label}</span>
+                <div className="relative w-full flex-1 min-h-0 mt-1.5">
+                  <div
+                    style={{
+                      position: "absolute",
+                      left: 0,
+                      right: 0,
+                      bottom: 0,
+                      height: `${Math.max((w.value / weekMax) * 100, 3)}%`,
+                      background: "var(--pas-accent)",
+                      opacity: w.value === weekMax ? 1 : 0.45,
+                      borderRadius: "6px 6px 3px 3px",
+                      transition: "height 0.3s ease",
+                    }}
+                  />
+                </div>
+                <span className="text-[11px] text-[var(--pas-muted)] mt-2">{w.label}</span>
               </div>
             ))}
           </div>
@@ -2245,17 +2251,17 @@ function ViewLaporan({ orders }: { orders: OrderData[] }) {
           </div>
         </div>
 
-        <div className="pas-card p-5">
+        <div className="pas-card p-[18px] flex flex-col">
           <p className="text-[13px] font-semibold text-ink">Beban per Fase Produksi</p>
-          <div className="flex flex-col gap-3 mt-4">
+          <div className="flex-1 flex flex-col justify-between gap-[13px] mt-4">
             {byStage.map((b) => (
               <div key={b.name} className="flex items-center gap-3">
-                <span className="text-[13px] w-[130px] text-[var(--pas-muted)] flex-none">
+                <span className="text-[12.5px] w-[148px] text-[var(--pas-muted)] flex-none">
                   {b.name}
                 </span>
                 <span
                   className="pas-mini"
-                  style={{ flex: 1, width: "auto", height: 9 }}
+                  style={{ flex: 1, width: "auto", height: 8 }}
                 >
                   <i style={{ width: `${(b.n / max) * 100}%` }} />
                 </span>
