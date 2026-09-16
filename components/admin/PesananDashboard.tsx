@@ -3,7 +3,7 @@
 import { useState, useEffect, useCallback, useMemo, useRef, type ReactNode } from "react";
 import { useRouter } from "next/navigation";
 import { uploadToCloudinary } from "@/lib/cloudinary";
-import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
+import { Sheet, SheetContent, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
 import { Search, AlertTriangle } from "lucide-react";
 
 // Same delivery optimization the old /api/upload/design route applied (f_auto,q_auto)
@@ -166,6 +166,111 @@ function bucketOrder(o: OrderData): Record<string, number> {
   return out;
 }
 
+/* ── Customer: identitas berdasarkan nomor HP ──────────────────────────── */
+
+/**
+ * Bentuk kanonik nomor HP untuk pengelompokan customer.
+ * Buang semua non-digit → buang kode negara 62 → buang sisa 0 di depan.
+ *
+ * Ini perlu karena data di database masih campur: ada yang tersimpan
+ * `" 085731275451"` (spasi di depan) dan ada yang `"085731275451"`.
+ * Tanpa normalisasi, satu orang bisa kepecah jadi dua baris customer.
+ *
+ * HANYA dipakai untuk menampilkan/mengelompokkan di browser — nilai
+ * `customer_phone` di database tidak pernah diubah.
+ */
+function normalizePhone(raw: string | null | undefined): string {
+  const digits = String(raw ?? "").replace(/\D/g, "");
+  if (!digits) return "";
+  if (digits.startsWith("62")) return digits.slice(2).replace(/^0+/, "");
+  return digits.replace(/^0+/, "");
+}
+
+/** Rapikan spasi berlebih + buang spasi di ujung. Isi label tidak diubah. */
+function cleanName(name: string | null | undefined): string {
+  return String(name ?? "").replace(/\s+/g, " ").trim();
+}
+
+/**
+ * Label pendek untuk ringkasan alias: ambil teks setelah kurung pertama
+ * kalau ada ("Bangkit (ardesko)" → "Ardesko"), kalau tidak pakai nama utuh.
+ * Nama asli tetap ditampilkan apa adanya di tiap baris riwayat pesanan.
+ */
+function aliasOf(name: string): string {
+  const n = cleanName(name);
+  const open = n.indexOf("(");
+  const raw = open >= 0 ? n.slice(open + 1) : n;
+  const cleaned = raw.replace(/[()]/g, " ").replace(/\s+/g, " ").trim();
+  if (!cleaned) return n;
+  return cleaned.replace(/\b\w/g, (c) => c.toUpperCase());
+}
+
+type CustomerGroup = {
+  /** Kunci grup = nomor HP ternormalisasi. */
+  key: string;
+  /** Nomor HP seperti yang terakhir tercatat, untuk ditampilkan. */
+  phone: string;
+  /** Nama dari pesanan paling baru. */
+  displayName: string;
+  /** Label pendek unik, urut dari yang paling baru. */
+  aliases: string[];
+  /** Semua pesanan grup ini, urut dari yang paling baru. */
+  orders: OrderData[];
+  aktif: number;
+  totalPcs: number;
+  lastOrderAt: string;
+};
+
+/**
+ * Kelompokkan pesanan jadi satu baris per customer, kuncinya NOMOR HP —
+ * bukan nama — supaya satu orang yang menulis nama tim/komunitas berbeda
+ * tiap order tetap dihitung sebagai satu customer.
+ */
+function groupCustomers(orders: OrderData[]): CustomerGroup[] {
+  const map = new Map<string, OrderData[]>();
+
+  orders.forEach((o) => {
+    const phone = normalizePhone(o.customer_phone);
+    // Nomor kosong tidak boleh semuanya dianggap satu orang.
+    const key = phone || `nama:${cleanName(o.customer_name).toLowerCase()}`;
+    const list = map.get(key);
+    if (list) list.push(o);
+    else map.set(key, [o]);
+  });
+
+  const groups: CustomerGroup[] = [];
+  map.forEach((list, key) => {
+    const sorted = [...list].sort((a, b) => {
+      const diff = new Date(b.created_at).getTime() - new Date(a.created_at).getTime();
+      if (diff !== 0) return diff;
+      return b.id.localeCompare(a.id);
+    });
+
+    const aliases: string[] = [];
+    sorted.forEach((o) => {
+      const a = aliasOf(o.customer_name);
+      if (a && aliases.indexOf(a) < 0) aliases.push(a);
+    });
+
+    groups.push({
+      key,
+      phone: cleanName(sorted[0].customer_phone),
+      displayName: cleanName(sorted[0].customer_name) || "(tanpa nama)",
+      aliases,
+      orders: sorted,
+      aktif: sorted.filter((o) => !o.is_done).length,
+      totalPcs: sorted.reduce((a, o) => a + orderPcs(o), 0),
+      lastOrderAt: sorted[0].created_at,
+    });
+  });
+
+  return groups.sort((a, b) => {
+    const diff = new Date(b.lastOrderAt).getTime() - new Date(a.lastOrderAt).getTime();
+    if (diff !== 0) return diff;
+    return a.displayName.localeCompare(b.displayName);
+  });
+}
+
 function statusOf(o: OrderData, totalSteps: number): FilterKey {
   if (o.is_done) return "selesai";
   if (o.current_step >= totalSteps) return "kirim";
@@ -293,11 +398,20 @@ export default function PesananDashboard() {
   const [query, setQuery] = useState("");
   const [openId, setOpenId] = useState<string | null>(null);
   const [editId, setEditId] = useState<string | null>(null);
-  const [openCustomer, setOpenCustomer] = useState<string | null>(null);
+  const [openCustomerKey, setOpenCustomerKey] = useState<string | null>(null);
   const [showAdd, setShowAdd] = useState(false);
   const [showMobileNav, setShowMobileNav] = useState(false);
   const [currentView, setCurrentView] = useState<ViewKey>("pesanan");
   const [toast, setToast] = useState("");
+
+  // Grup customer untuk drawer detail — dicari dari kunci (nomor HP ternormalisasi).
+  const openCustomerGroup = useMemo(
+    () =>
+      openCustomerKey
+        ? groupCustomers(orders).find((g) => g.key === openCustomerKey) ?? null
+        : null,
+    [orders, openCustomerKey]
+  );
   const toastTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
   const [steps, setSteps] = useState<StepRow[]>(DEFAULT_STEPS);
 
@@ -491,18 +605,6 @@ export default function PesananDashboard() {
         </header>
 
         <main className="px-5 sm:px-8 py-7 sm:py-9 w-full">
-          {openCustomer ? (
-            <CustomerDetail
-              customerName={openCustomer}
-              orders={orders}
-              steps={steps}
-              onBack={() => setOpenCustomer(null)}
-              onOpenOrder={(id) => {
-                setOpenCustomer(null);
-                setOpenId(id);
-              }}
-            />
-          ) : (
           <>
           {currentView === "pesanan" && (
             <ViewPesanan
@@ -520,12 +622,11 @@ export default function PesananDashboard() {
           )}
           {currentView === "jadwal" && <ViewJadwal orders={orders} openDetail={setOpenId} steps={steps} onMoved={fetchOrders} showToast={showToast} />}
           {currentView === "kirim" && <ViewKirim orders={orders} openDetail={setOpenId} steps={steps} />}
-          {currentView === "customer" && <ViewCustomer orders={orders} onSelectCustomer={setOpenCustomer} steps={steps} />}
+          {currentView === "customer" && <ViewCustomer orders={orders} onSelectCustomer={setOpenCustomerKey} steps={steps} />}
           {currentView === "laporan" && <ViewLaporan orders={orders} />}
           {currentView === "setting" && <ViewSetting showToast={showToast} steps={steps} onStepsSaved={fetchSteps} />}
           {currentView === "notif" && <ViewNotif showToast={showToast} orders={orders} />}
           </>
-          )}
         </main>
       </div>
 
@@ -617,6 +718,33 @@ export default function PesananDashboard() {
       )}
 
       {/* â”€â”€ ADD SHEET â”€â”€ */}
+      {/* ── DRAWER DETAIL CUSTOMER ── */}
+      <Sheet
+        open={!!openCustomerKey}
+        onOpenChange={(o) => {
+          if (!o) setOpenCustomerKey(null);
+        }}
+      >
+        <SheetContent
+          side="right"
+          className="p-0 w-full sm:max-w-md bg-[var(--pas-surface)] border-l border-[var(--pas-line)] [&>button]:text-[var(--pas-muted)] [&>button]:hover:text-[var(--pas-ink-1)]"
+        >
+          <SheetTitle className="sr-only">Detail Customer</SheetTitle>
+          {openCustomerGroup ? (
+            <CustomerPanel
+              group={openCustomerGroup}
+              steps={steps}
+              onOpenOrder={(id) => {
+                setOpenCustomerKey(null);
+                setOpenId(id);
+              }}
+            />
+          ) : (
+            <p className="p-5 text-[13px] text-[var(--pas-muted)]">Customer tidak ditemukan.</p>
+          )}
+        </SheetContent>
+      </Sheet>
+
       {showAdd && (
         <div className="pas-sheet open">
           <div className="pas-veil" onClick={closeAll} />
@@ -1392,140 +1520,97 @@ function ViewKirim({
 }
 
 /* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
-   VIEW: CUSTOMER DETAIL (per-customer page)
+   VIEW: CUSTOMER PANEL (isi drawer detail customer)
    â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
-function CustomerDetail({
-  customerName,
-  orders,
+function CustomerPanel({
+  group,
   steps,
-  onBack,
   onOpenOrder,
 }: {
-  customerName: string;
-  orders: OrderData[];
+  group: CustomerGroup;
   steps: StepRow[];
-  onBack: () => void;
   onOpenOrder: (id: string) => void;
 }) {
-  const customerOrders = orders.filter((o) => o.customer_name === customerName);
-  const first = customerOrders[0];
-  const totalPcs = customerOrders.reduce((a, o) => a + (parseInt(o.quantity, 10) || 0), 0);
-  const aktif = customerOrders.filter((o) => !o.is_done).length;
-
   return (
-    <>
-      {/* Back button */}
-      <button
-        onClick={onBack}
-        className="flex items-center gap-2 text-[13px] text-[var(--pas-muted)] hover:text-[var(--pas-ink-1)] transition mb-5"
-      >
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-          <path d="M19 12H5M12 19l-7-7 7-7" />
-        </svg>
-        Kembali ke Daftar Customer
-      </button>
-
-      {/* Contact info card */}
-      <div className="pas-card p-5 sm:p-6">
-        <div className="flex items-start gap-4">
-          <span className="pas-avatar text-[18px] w-12 h-12 flex items-center justify-center">{initials(customerName)}</span>
-          <div className="flex-1 min-w-0">
-            <p className="pas-display text-[18px]">{customerName}</p>
-            <p className="text-[13px] text-[var(--pas-muted)] mt-1">{first?.customer_city || "-"}</p>
-            <p className="text-[13px] text-[var(--pas-muted)] pas-num mt-0.5">{first?.customer_phone || "-"}</p>
-          </div>
-          <span className={`pas-pill ${aktif > 0 ? "produksi" : "selesai"}`}>
-            {aktif > 0 ? `${aktif} aktif` : "selesai"}
+    <div className="flex flex-col h-full">
+      {/* Header */}
+      <div className="p-[18px] pb-4 border-b border-[var(--pas-line)]">
+        <div className="flex items-start gap-3 pr-8">
+          <span className="pas-avatar text-[16px] w-11 h-11 flex items-center justify-center flex-none">
+            {initials(group.displayName)}
           </span>
+          <div className="flex-1 min-w-0">
+            <p className="pas-display text-[17px] truncate">{group.displayName}</p>
+            <p className="text-[13px] text-[var(--pas-muted)] pas-num mt-0.5">
+              {group.phone || "tanpa nomor HP"}
+            </p>
+          </div>
         </div>
 
-        {/* Summary */}
-        <div className="grid grid-cols-2 gap-3 mt-5 pt-5 border-t border-[var(--pas-line)]">
-          <div>
-            <p className="text-[12px] text-[var(--pas-muted)]">Total Pesanan</p>
-            <p className="pas-display text-[22px] mt-1">{customerOrders.length}</p>
+        <div className="grid grid-cols-3 gap-2.5 mt-4">
+          <div className="pas-legend-row">
+            Order
+            <b className="pas-num q">{group.orders.length}</b>
           </div>
-          <div>
-            <p className="text-[12px] text-[var(--pas-muted)]">Total PCS</p>
-            <p className="pas-display text-[22px] mt-1">{totalPcs}</p>
+          <div className="pas-legend-row">
+            PCS
+            <b className="pas-num q">{group.totalPcs}</b>
+          </div>
+          <div className="pas-legend-row">
+            Aktif
+            <b className="pas-num q">{group.aktif}</b>
           </div>
         </div>
+
+        {group.aliases.length > 1 && (
+          <p className="text-[11.5px] text-[var(--pas-muted)] mt-3">
+            <b>{group.orders.length} pesanan</b> — {group.aliases.join(", ")}
+          </p>
+        )}
       </div>
 
-      {/* Order history */}
-      <div className="pas-card mt-4 p-2 sm:p-4 overflow-x-auto">
-        <p className="text-[13px] text-[var(--pas-muted)] px-3 pt-2 pb-3">Riwayat Pesanan</p>
-        {customerOrders.length === 0 ? (
-          <p className="text-[13px] text-[var(--pas-muted)] px-3 pb-4">Belum ada pesanan.</p>
-        ) : (
-          <table className="pas-tbl w-full">
-            <thead>
-              <tr>
-                <th>Nomor Pesanan</th>
-                <th>Produk</th>
-                <th>Tanggal</th>
-                <th>Progres</th>
-                <th>Status</th>
-              </tr>
-            </thead>
-            <tbody>
-              {customerOrders.map((o) => {
-                const st = statusOf(o, steps.length);
-                return (
-                  <tr
-                    key={o.id}
-                    className="cursor-pointer hover:bg-[var(--pas-surface-2)] transition"
-                    onClick={() => onOpenOrder(o.id)}
-                  >
-                    <td className="pas-num font-semibold">{o.id}</td>
-                    <td>{o.product_name || "-"}</td>
-                    <td className="text-[var(--pas-muted)]">{formatDate(o.created_at)}</td>
-                    <td>
-                      <div className="flex items-center gap-2">
-                        <span className="pas-mini" style={{ width: 60 }}>
-                          <i style={{ width: `${o.pct}%` }} />
-                        </span>
-                        <span className="text-[12px] text-[var(--pas-muted)]">{o.pct}%</span>
-                      </div>
-                    </td>
-                    <td>
-                      <span className={`pas-pill ${st}`}>{FILTER_LABEL[st]}</span>
-                    </td>
-                  </tr>
-                );
-              })}
-            </tbody>
-          </table>
-        )}
-        {/* Mobile card list */}
-        {customerOrders.length > 0 && (
-          <div className="flex flex-col gap-2 sm:hidden px-1 pb-2">
-            {customerOrders.map((o) => {
-              const st = statusOf(o, steps.length);
-              return (
-                <div
-                  key={o.id}
-                  className="pas-card p-3.5 cursor-pointer hover:bg-[var(--pas-surface-2)] transition"
-                  onClick={() => onOpenOrder(o.id)}
-                >
-                  <div className="flex items-start justify-between gap-3">
-                    <div>
-                      <p className="font-semibold text-[14px] pas-num">{o.id}</p>
-                      <p className="text-[12px] text-[var(--pas-muted)] mt-0.5">{o.product_name || "-"}</p>
-                      <p className="text-[12px] text-[var(--pas-muted)]">{formatDate(o.created_at)}</p>
-                    </div>
-                    <div className="flex flex-col items-end gap-1.5">
-                      <span className={`pas-pill ${st}`}>{FILTER_LABEL[st]}</span>
-                      <span className="text-[11px] text-[var(--pas-muted)]">{o.pct}%</span>
-                    </div>
+      {/* Riwayat pesanan */}
+      <div className="flex-1 overflow-y-auto p-[18px] pt-4">
+        <p className="text-[13px] font-semibold text-ink mb-3">Riwayat Pesanan</p>
+        <div className="flex flex-col gap-2.5">
+          {group.orders.map((o) => {
+            const st = statusOf(o, steps.length);
+            return (
+              <button
+                key={o.id}
+                type="button"
+                onClick={() => onOpenOrder(o.id)}
+                className="pas-card p-3.5 text-left w-full"
+              >
+                <div className="flex items-start justify-between gap-3">
+                  <div className="min-w-0">
+                    <p className="font-semibold text-[13.5px] pas-num">{o.id}</p>
+                    <p className="text-[12px] text-[var(--pas-muted)] mt-0.5 truncate">
+                      {cleanName(o.customer_name) || "-"}
+                    </p>
                   </div>
+                  <span className={`pas-pill ${st} shrink-0`}>{FILTER_LABEL[st]}</span>
                 </div>
-              );
-            })}
-          </div>
-        )}
+                <div className="flex items-center justify-between gap-3 mt-2.5">
+                  <span className="text-[11.5px] text-[var(--pas-muted)]">
+                    {formatDate(o.created_at)}
+                  </span>
+                  <span className="flex items-center gap-2">
+                    <span className="pas-mini" style={{ width: 56 }}>
+                      <i style={{ width: `${o.pct}%` }} />
+                    </span>
+                    <span className="text-[11.5px] text-[var(--pas-muted)] pas-num">{o.pct}%</span>
+                  </span>
+                </div>
+              </button>
+            );
+          })}
+        </div>
+        <p className="text-[11px] text-[var(--pas-muted)] mt-3">
+          Nama di setiap kartu adalah label yang tercatat pada pesanan aslinya.
+        </p>
       </div>
-    </>
+    </div>
   );
 }
 
@@ -1538,113 +1623,141 @@ function ViewCustomer({
   steps,
 }: {
   orders: OrderData[];
-  onSelectCustomer: (name: string) => void;
+  onSelectCustomer: (key: string) => void;
   steps: StepRow[];
 }) {
-  const map: Record<string, { city: string; phone: string; orders: string[]; aktif: number }> = {};
-  orders.forEach((o) => {
-    const k = o.customer_name;
-    if (!map[k]) map[k] = { city: o.customer_city, phone: o.customer_phone, orders: [], aktif: 0 };
-    map[k].orders.push(o.id);
-    if (!o.is_done) map[k].aktif++;
-  });
+  const groups = useMemo(() => groupCustomers(orders), [orders]);
+  const aktifCount = groups.filter((g) => g.aktif > 0).length;
 
   return (
     <>
       <p className="text-[14px] text-[var(--pas-muted)] mb-5">
-        Daftar customer beserta jumlah pesanan yang pernah masuk.
+        Satu baris = satu customer, digabung berdasarkan nomor HP. Nama berbeda yang ditulis di
+        tiap pesanan tetap disimpan sebagai alias.
       </p>
 
-      {/* table (desktop) */}
+      {/* Ringkasan */}
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-4">
+        <div className="pas-card p-[18px]">
+          <p className="text-[12px] text-[var(--pas-muted)] font-semibold">Total Customer</p>
+          <p className="pas-display pas-num text-[26px] mt-1">{groups.length}</p>
+          <p className="text-[11.5px] text-[var(--pas-muted)] mt-0.5">nomor HP unik</p>
+        </div>
+        <div className="pas-card p-[18px]">
+          <p className="text-[12px] text-[var(--pas-muted)] font-semibold">Sedang Aktif</p>
+          <p className="pas-display pas-num text-[26px] mt-1">{aktifCount}</p>
+          <p className="text-[11.5px] text-[var(--pas-muted)] mt-0.5">punya pesanan berjalan</p>
+        </div>
+        <div className="pas-card p-[18px]">
+          <p className="text-[12px] text-[var(--pas-muted)] font-semibold">Total Pesanan</p>
+          <p className="pas-display pas-num text-[26px] mt-1">{orders.length}</p>
+          <p className="text-[11.5px] text-[var(--pas-muted)] mt-0.5">seluruh periode</p>
+        </div>
+      </div>
+
+      {/* tabel (desktop) */}
       <div className="pas-card p-2 sm:p-4 overflow-x-auto hidden md:block">
         <table className="pas-tbl">
           <thead>
             <tr>
-              <th>Customer</th>
-              <th>Nomor HP</th>
-              <th>Total Order</th>
-              <th>Status</th>
+              <th className="w-[36%]">Customer</th>
+              <th className="w-[20%]">Nomor HP</th>
+              <th className="num w-[13%]">Total Order</th>
+              <th className="w-[14%]">Status</th>
+              <th className="w-[17%]">Terakhir Order</th>
             </tr>
           </thead>
           <tbody>
-            {Object.keys(map).map((k) => {
-              const c = map[k];
-              return (
-                <tr key={k} onClick={() => onSelectCustomer(k)}>
-                  <td>
-                    <div className="flex items-center gap-2.5">
-                      <span className="pas-avatar">{initials(k)}</span>
-                      <span>
-                        {k}
-                        <br />
-                        <span className="text-[12.5px] text-[var(--pas-muted)]">{c.city}</span>
+            {groups.map((g) => (
+              <tr key={g.key} onClick={() => onSelectCustomer(g.key)}>
+                <td>
+                  <div className="flex items-center gap-2.5 min-w-0">
+                    <span className="pas-avatar shrink-0">{initials(g.displayName)}</span>
+                    <span className="min-w-0">
+                      <span className="block truncate">{g.displayName}</span>
+                      <span className="block text-[12px] text-[var(--pas-muted)] mt-0.5">
+                        {g.aliases.length > 1
+                          ? `${g.orders.length} pesanan · ${g.aliases.length} nama berbeda`
+                          : `${g.orders.length} pesanan`}
                       </span>
-                    </div>
-                  </td>
-                  <td className="pas-num text-[var(--pas-muted)]">{c.phone}</td>
-                  <td className="pas-num">{c.orders.length}</td>
-                  <td>
-                    {c.aktif ? (
-                      <span className="pas-pill produksi">{c.aktif} aktif</span>
-                    ) : (
-                      <span className="pas-pill selesai">selesai</span>
-                    )}
-                  </td>
-                </tr>
-              );
-            })}
+                    </span>
+                  </div>
+                </td>
+                <td className="pas-num text-[var(--pas-muted)]">{g.phone || "-"}</td>
+                <td className="num pas-num font-semibold">{g.orders.length}</td>
+                <td>
+                  {g.aktif ? (
+                    <span className="pas-pill produksi">{g.aktif} aktif</span>
+                  ) : (
+                    <span className="pas-pill selesai">selesai</span>
+                  )}
+                </td>
+                <td className="text-[var(--pas-muted)]">{formatDate(g.lastOrderAt)}</td>
+              </tr>
+            ))}
           </tbody>
         </table>
+        {groups.length === 0 && (
+          <p className="text-[13px] text-[var(--pas-muted)] px-3 py-6 text-center">
+            Belum ada customer.
+          </p>
+        )}
       </div>
 
       {/* cards (mobile) */}
       <div className="flex flex-col gap-3 md:hidden">
-        {Object.keys(map).length === 0 && (
-          <div className="flex flex-col items-center justify-center py-16 gap-3">
-            <span className="text-[40px] opacity-30">ðŸ‘¤</span>
-            <p className="text-[var(--pas-muted)] text-[15px] font-medium">Belum ada customer</p>
+        {groups.length === 0 && (
+          <div className="pas-card p-[18px] text-center">
+            <p className="text-[var(--pas-muted)] text-[14px] font-medium">Belum ada customer</p>
           </div>
         )}
-        {Object.keys(map).map((k) => {
-          const c = map[k];
-          return (
-            <div
-              key={k}
-              className="pas-bento-card cursor-pointer"
-              onClick={() => onSelectCustomer(k)}
-            >
-              {/* Baris 1: Avatar + Nama + Badge status */}
-              <div className="flex items-center justify-between gap-3">
-                <div className="flex items-center gap-3 min-w-0">
-                  <span className="pas-bento-avatar">{initials(k)}</span>
-                  <div className="min-w-0">
-                    <p className="text-[15px] font-semibold truncate">{k}</p>
-                    <p className="text-[12px] text-[var(--pas-muted)] truncate">{c.city}</p>
-                  </div>
+        {groups.map((g) => (
+          <div
+            key={g.key}
+            className="pas-card p-[18px] cursor-pointer"
+            onClick={() => onSelectCustomer(g.key)}
+          >
+            <div className="flex items-center justify-between gap-3">
+              <div className="flex items-center gap-3 min-w-0">
+                <span className="pas-avatar shrink-0">{initials(g.displayName)}</span>
+                <div className="min-w-0">
+                  <p className="text-[15px] font-semibold truncate">{g.displayName}</p>
+                  <p className="text-[12px] text-[var(--pas-muted)] pas-num truncate mt-0.5">
+                    {g.phone || "-"}
+                  </p>
                 </div>
-                {c.aktif ? (
-                  <span className="pas-pill produksi shrink-0">{c.aktif} aktif</span>
-                ) : (
-                  <span className="pas-pill selesai shrink-0">selesai</span>
-                )}
               </div>
+              {g.aktif ? (
+                <span className="pas-pill produksi shrink-0">{g.aktif} aktif</span>
+              ) : (
+                <span className="pas-pill selesai shrink-0">selesai</span>
+              )}
+            </div>
 
-              {/* Baris 2: Nomor HP */}
-              <div className="flex items-center gap-2 mt-3">
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-[var(--pas-muted)] shrink-0">
-                  <path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6 19.79 19.79 0 01-3.07-8.67A2 2 0 014.11 2h3a2 2 0 012 1.72 12.84 12.84 0 00.7 2.81 2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45 12.84 12.84 0 002.81.7A2 2 0 0122 16.92z"/>
-                </svg>
-                <p className="text-[13px] text-[var(--pas-muted)] pas-num">{c.phone || "-"}</p>
+            <div className="flex items-end justify-between gap-3 mt-3 pt-3 border-t border-[var(--pas-line)]">
+              <div>
+                <p className="text-[11px] text-[var(--pas-muted)] uppercase tracking-wider font-semibold">
+                  Total Order
+                </p>
+                <p className="pas-display pas-num text-[20px] mt-0.5">{g.orders.length}</p>
               </div>
-
-              {/* Baris 3: Total Order */}
-              <div className="mt-3 pt-3 border-t border-[var(--pas-line)]">
-                <p className="text-[12px] text-[var(--pas-muted)] uppercase tracking-wider font-semibold">Total Order</p>
-                <p className="pas-display text-[22px] mt-0.5">{c.orders.length}</p>
+              <div className="text-right">
+                <p className="text-[11px] text-[var(--pas-muted)] uppercase tracking-wider font-semibold">
+                  Terakhir
+                </p>
+                <p className="text-[12.5px] mt-0.5" style={{ color: "var(--pas-ink-2)" }}>
+                  {formatDate(g.lastOrderAt)}
+                </p>
               </div>
             </div>
-          );
-        })}
+
+            {g.aliases.length > 1 && (
+              <p className="text-[11.5px] text-[var(--pas-muted)] mt-2.5">
+                {g.aliases.length} nama: {g.aliases.join(", ")}
+              </p>
+            )}
+          </div>
+        ))}
       </div>
     </>
   );
