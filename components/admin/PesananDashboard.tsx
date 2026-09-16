@@ -821,8 +821,23 @@ function ViewPesanan({
 }) {
   const [confirmDelete, setConfirmDelete] = useState<OrderData | null>(null);
   const [deleting, setDeleting] = useState(false);
+
+  // Filter bulan. Default bulan berjalan; "all" = tampilkan semua bulan.
+  const [selectedMonth, setSelectedMonth] = useState(() => monthKeyOf(new Date().toISOString()));
+
+  const monthOptions = useMemo(() => {
+    const keys = new Set<string>();
+    orders.forEach((o) => {
+      const k = monthKeyOf(o.created_at);
+      if (k) keys.add(k);
+    });
+    keys.add(monthKeyOf(new Date().toISOString()));
+    return Array.from(keys).sort().reverse();
+  }, [orders]);
+
   const filtered = orders
     .filter((o) => {
+      if (selectedMonth !== "all" && monthKeyOf(o.created_at) !== selectedMonth) return false;
       if (filter !== "all" && statusOf(o, steps.length) !== filter) return false;
       if (!query) return true;
       const s = (
@@ -985,15 +1000,35 @@ function ViewPesanan({
 
       {/* toolbar */}
       <section className="mt-7 flex flex-col lg:flex-row lg:items-center gap-3 lg:justify-between">
-<div className="pas-search w-full lg:max-w-[400px]">
-  <Search className="pas-mag" size={16} />
-  <input
-    className="pas-field w-full py-2.5 pr-4 text-[14px]"
-    placeholder="Cari pesanan, nama, kota..."
-    value={query}
-    onChange={(e) => setQuery(e.target.value)}
-  />
-</div>
+        <div className="flex flex-col sm:flex-row gap-3 w-full lg:max-w-[620px]">
+          <div className="pas-search w-full sm:max-w-[340px]">
+            <Search className="pas-mag" size={16} />
+            <input
+              className="pas-field w-full py-2.5 pr-4 text-[14px]"
+              placeholder="Cari pesanan, nama, kota..."
+              value={query}
+              onChange={(e) => setQuery(e.target.value)}
+            />
+          </div>
+          <div className="pas-select-wrap shrink-0">
+            <select
+              className="pas-field appearance-none text-[13.5px] font-semibold pl-3.5 pr-9 py-2.5 cursor-pointer"
+              value={selectedMonth}
+              onChange={(e) => setSelectedMonth(e.target.value)}
+              aria-label="Filter bulan pesanan"
+            >
+              <option value="all">Semua bulan</option>
+              {monthOptions.map((k) => (
+                <option key={k} value={k}>
+                  {monthLabelOf(k)}
+                </option>
+              ))}
+            </select>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round">
+              <path d="m6 9 6 6 6-6" />
+            </svg>
+          </div>
+        </div>
         <div className="pas-seg pas-bento-chip-scroll">
           {(["all", "baru", "produksi", "kirim", "selesai"] as FilterKey[]).map((f) => (
             <button
@@ -1006,6 +1041,12 @@ function ViewPesanan({
           ))}
         </div>
       </section>
+
+      {/* jumlah yang tampil setelah filter */}
+      <p className="mt-2.5 text-[12.5px] text-[var(--pas-muted)]">
+        Menampilkan <b className="text-[var(--pas-ink-1)]">{filtered.length}</b> dari {orders.length} pesanan
+        <span> · {selectedMonth === "all" ? "semua bulan" : monthLabelOf(selectedMonth)}</span>
+      </p>
 
       {/* table (desktop) */}
       <section className="pas-card mt-4 p-2 sm:p-4 hidden md:block w-full overflow-x-auto">
