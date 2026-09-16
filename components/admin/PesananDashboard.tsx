@@ -727,7 +727,7 @@ export default function PesananDashboard() {
       >
         <SheetContent
           side="right"
-          className="p-0 w-full sm:max-w-md bg-[var(--pas-surface)] border-l border-[var(--pas-line)] [&>button]:text-[var(--pas-muted)] [&>button]:hover:text-[var(--pas-ink-1)]"
+          className="pas-light p-0 w-full sm:max-w-md bg-[var(--pas-surface)] border-l border-[var(--pas-line)] [&>button]:text-[var(--pas-muted)] [&>button]:hover:text-[var(--pas-ink-1)]"
         >
           <SheetTitle className="sr-only">Detail Customer</SheetTitle>
           {openCustomerGroup ? (

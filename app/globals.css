@@ -2118,8 +2118,14 @@
    jadi semua teks tanpa warna eksplisit di admin mewarisi putih
    → invisible di atas card putih/krem. Reset token warna global
    di dalam .pas-shell supaya admin selalu light.
+
+   .pas-light = override token yang sama TANPA layout shell. Dipakai
+   untuk konten yang dirender lewat portal (mis. Sheet/Dialog Radix)
+   karena portal-nya keluar dari .pas-shell, sehingga tanpa ini teks
+   di dalamnya mewarisi putih lagi dan hilang di atas background terang.
    ═══════════════════════════════════════════════ */
-.pas-shell {
+.pas-shell,
+.pas-light {
   --color-ink: #304230;
   --color-foreground: #304230;
   --color-body: #304230;
