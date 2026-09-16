@@ -1658,12 +1658,22 @@ function ViewLaporan({ orders }: { orders: OrderData[] }) {
     monthKeyOf(new Date().toISOString())
   );
   const [capacity, setCapacity] = useState(DEFAULT_KAPASITAS);
+  const [completedMap, setCompletedMap] = useState<Record<string, string>>({});
 
   useEffect(() => {
     fetch("/api/pesanan/settings")
       .then((r) => (r.ok ? r.json() : null))
       .then((d) => {
         if (d && typeof d.capacity === "number") setCapacity(d.capacity);
+      })
+      .catch(() => {});
+  }, []);
+
+  useEffect(() => {
+    fetch("/api/pesanan/laporan")
+      .then((r) => (r.ok ? r.json() : null))
+      .then((d) => {
+        if (d && d.completed) setCompletedMap(d.completed);
       })
       .catch(() => {});
   }, []);
@@ -1686,7 +1696,24 @@ function ViewLaporan({ orders }: { orders: OrderData[] }) {
 
   const totalOrders = monthOrders.length;
   const totalPcs = monthOrders.reduce((a, o) => a + orderPcs(o), 0);
-  const avgTime = 8;
+
+  // Rata-rata waktu produksi = selisih created_at sampai order menyentuh
+  // tahap akhir. Hanya order bulan terpilih yang benar-benar sudah selesai
+  // yang ikut dihitung; kalau belum ada, hasilnya null (bukan angka karangan).
+  const durations = monthOrders
+    .map((o) => {
+      const done = completedMap[o.id];
+      if (!done) return null;
+      const start = new Date(o.created_at).getTime();
+      const end = new Date(done).getTime();
+      if (isNaN(start) || isNaN(end) || end < start) return null;
+      return (end - start) / 86400000;
+    })
+    .filter((v): v is number => v !== null);
+
+  const avgTime = durations.length
+    ? durations.reduce((a, b) => a + b, 0) / durations.length
+    : null;
 
   // Kapasitas produksi — beban bulan terpilih vs setting
   const capPct = capacity > 0 ? Math.round((totalPcs / capacity) * 100) : 0;
@@ -1893,9 +1920,20 @@ function ViewLaporan({ orders }: { orders: OrderData[] }) {
               Rata-rata Waktu
             </div>
             <p className="pas-display pas-num text-[32px] mt-1">
-              {avgTime} <span className="text-[16px]">hari</span>
+              {avgTime === null ? (
+                "–"
+              ) : (
+                <>
+                  {avgTime.toFixed(1).replace(".", ",")}{" "}
+                  <span className="text-[16px]">hari</span>
+                </>
+              )}
             </p>
-            <p className="text-[12px] text-[var(--pas-muted)] mt-0.5">SLA 7-10 hari</p>
+            <p className="text-[12px] text-[var(--pas-muted)] mt-0.5">
+              {durations.length > 0
+                ? `dari ${durations.length} order selesai · SLA 7-10 hari`
+                : "belum ada order selesai di periode ini"}
+            </p>
           </div>
 
           <div className="pas-card p-5 flex flex-col">
