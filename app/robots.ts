@@ -14,9 +14,10 @@ export default async function robots(): Promise<MetadataRoute.Robots> {
       allow: "/",
     },
   };
-  if (brand.url) {
-    base.sitemap = `${brand.url}/sitemap.xml`;
-    base.host = brand.url;
+  const siteUrl = brand.url ? brand.url.replace(/\/+$/, "") : "";
+  if (siteUrl) {
+    base.sitemap = `${siteUrl}/sitemap.xml`;
+    base.host = siteUrl.replace(/^https?:\/\//i, "");
   }
   return base;
 }
