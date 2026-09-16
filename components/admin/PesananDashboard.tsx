@@ -2256,8 +2256,10 @@ function ViewLaporan({ orders }: { orders: OrderData[] }) {
                 <b className="pas-num q">{nf(capacity)} pcs</b>
               </div>
               <div className="pas-legend-row">
-                Utilisasi
-                <b className={`pas-num q ${isOver ? "pas-over" : ""}`}>{capPct}%</b>
+                Rata-rata pcs/order
+                <b className="pas-num q">
+                  {totalOrders > 0 ? `${nf(Math.round(totalPcs / totalOrders))} pcs` : "–"}
+                </b>
               </div>
             </div>
 
