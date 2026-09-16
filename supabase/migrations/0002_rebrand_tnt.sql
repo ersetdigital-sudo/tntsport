@@ -16,7 +16,7 @@ update public.brand set
   monogram        = 'TNT',
   tagline         = 'Pabrik Jersey Custom Full Printing.
 Desain bebas, harga pabrik, kirim se-Indonesia.',
-  url             = 'https://tntsport.id',
+  url             = 'https://www.tntsportapparel.id',
   description     = 'TNT SPORT — pabrik jersey custom full printing. Desain bebas, harga mulai 85rb, kirim se-Indonesia. Konsultasi gratis via WhatsApp.',
   whatsapp_number = '6281234567890',
   logo_path       = '/logo.jpg',
@@ -40,7 +40,7 @@ insert into public.cta_links (title, description, href, accent, icon, sort_order
    'https://wa.me/6281234567890?text=Halo%20TNT%20SPORT%2C%20saya%20mau%20konsultasi%20soal%20jersey%20custom.',
    'whatsapp', 'WhatsAppIcon', 1),
   ('Lihat Katalog & Harga', 'Pilihan model, bahan, dan harga terbaru',
-   'https://tntsport.id/katalog',
+   'https://www.tntsportapparel.id/katalog',
    'neutral', 'GridIcon', 2),
   ('Klaim Promo', 'Cek promo aktif & penawaran terbaik hari ini',
    'https://wa.me/6281234567890?text=Halo%20TNT%20SPORT%2C%20saya%20mau%20klaim%20promo%20terbaik.',
