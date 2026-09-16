@@ -38,6 +38,20 @@ function buildJsonLd(brandName: string, brandUrl: string, reviews: { quote: stri
     ? (reviews.reduce((s, r) => s + (r.rating ?? 5), 0) / reviews.length).toFixed(1)
     : "5.0";
 
+  // Reviews are nested inside the Product so `itemReviewed` is omitted — a
+  // standalone Product node without offers/review/aggregateRating is a critical
+  // error in Search Console.
+  const reviewNodes = reviews.slice(0, 5).map((review) => ({
+    "@type": "Review",
+    reviewBody: review.quote,
+    author: { "@type": "Person", name: review.name },
+    reviewRating: {
+      "@type": "Rating",
+      ratingValue: review.rating ?? 5,
+      bestRating: 5,
+    },
+  }));
+
   return [
     {
       "@context": "https://schema.org",
@@ -63,29 +77,7 @@ function buildJsonLd(brandName: string, brandUrl: string, reviews: { quote: stri
         bestRating: "5",
         reviewCount: String(reviews.length || 3),
       },
-    },
-    {
-      "@context": "https://schema.org",
-      "@type": "ItemList",
-      itemListElement: reviews.slice(0, 5).map((review, index) => ({
-        "@type": "ListItem",
-        position: index + 1,
-        item: {
-          "@type": "Review",
-          itemReviewed: {
-            "@type": "Product",
-            name: "Jersey Voli Custom",
-            url: "https://www.tntsportapparel.id/jersey-voli",
-          },
-          reviewBody: review.quote,
-          author: { "@type": "Person", name: review.name },
-          reviewRating: {
-            "@type": "Rating",
-            ratingValue: review.rating ?? 5,
-            bestRating: 5,
-          },
-        },
-      })),
+      ...(reviewNodes.length ? { review: reviewNodes } : {}),
     },
     {
       "@context": "https://schema.org",

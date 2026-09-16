@@ -23,6 +23,20 @@ function buildJsonLd(brand: Brand, socialLinks: SocialLink[], reviews: Review[])
     ? (reviews.reduce((s, r) => s + r.rating, 0) / reviews.length).toFixed(1)
     : "5.0";
 
+  // Reviews are nested inside the Product so `itemReviewed` is omitted — a
+  // standalone Product node without offers/review/aggregateRating is a critical
+  // error in Search Console.
+  const reviewNodes = reviews.map((review) => ({
+    "@type": "Review",
+    reviewBody: review.quote,
+    author: { "@type": "Person", name: review.name },
+    reviewRating: {
+      "@type": "Rating",
+      ratingValue: review.rating,
+      bestRating: 5,
+    },
+  }));
+
   return [
     // 1. Organization
     {
@@ -42,7 +56,7 @@ function buildJsonLd(brand: Brand, socialLinks: SocialLink[], reviews: Review[])
       url: brand.url,
       inLanguage: "id-ID",
     },
-    // 3. Product with AggregateRating
+    // 3. Product with AggregateRating + nested reviews
     {
       "@context": "https://schema.org",
       "@type": "Product",
@@ -67,32 +81,9 @@ function buildJsonLd(brand: Brand, socialLinks: SocialLink[], reviews: Review[])
         bestRating: "5",
         reviewCount: String(reviews.length || 3),
       },
+      ...(reviewNodes.length ? { review: reviewNodes } : {}),
     },
-    // 4. ItemList of Reviews
-    {
-      "@context": "https://schema.org",
-      "@type": "ItemList",
-      itemListElement: reviews.map((review, index) => ({
-        "@type": "ListItem",
-        position: index + 1,
-        item: {
-          "@type": "Review",
-          itemReviewed: {
-            "@type": "Product",
-            name: "Jersey Custom Full Printing",
-            url: brand.url,
-          },
-          reviewBody: review.quote,
-          author: { "@type": "Person", name: review.name },
-          reviewRating: {
-            "@type": "Rating",
-            ratingValue: review.rating,
-            bestRating: 5,
-          },
-        },
-      })),
-    },
-    // 5. FAQPage
+    // 4. FAQPage
     {
       "@context": "https://schema.org",
       "@type": "FAQPage",
