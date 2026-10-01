@@ -378,11 +378,11 @@ function StatusContent({ initial }: { initial?: StatusInitial | null }) {
 
   if (!orderId) {
     return (
-      <div className="trk-bg min-h-screen">
+      <div className="trk-bg trk-brand min-h-screen">
         <div className="trk-grid min-h-screen">
           <div className="trk-glow min-h-screen flex items-center justify-center px-5">
             <div className="text-center">
-              <p className="text-[#9aa0aa] text-[16px]">Nomor pesanan tidak ditemukan.</p>
+              <p className="text-[var(--trk-muted)] text-[16px]">Nomor pesanan tidak ditemukan.</p>
               <button
                 onClick={() => router.push("/track")}
                 className="trk-btn-accent mt-6 px-6 py-3 text-[14px]"
@@ -398,11 +398,11 @@ function StatusContent({ initial }: { initial?: StatusInitial | null }) {
 
   if (!loaded) {
     return (
-      <div className="trk-bg min-h-screen">
+      <div className="trk-bg trk-brand min-h-screen">
         <div className="trk-grid min-h-screen">
           <div className="trk-glow min-h-screen">
             {/* Header */}
-            <header className="sticky top-0 z-30 backdrop-blur-md bg-[rgba(10,10,11,.78)] border-b border-[#26282e]">
+            <header className="sticky top-0 z-30 backdrop-blur-md bg-[var(--trk-header-bg)] border-b border-[var(--trk-line)]">
               <div className="max-w-3xl mx-auto px-5 sm:px-8 py-4 flex items-center gap-3">
                 <a
                   href="/track"
@@ -414,7 +414,7 @@ function StatusContent({ initial }: { initial?: StatusInitial | null }) {
                   </svg>
                 </a>
                 <div className="leading-none">
-                  <p className="trk-stencil text-[9px] text-[#9aa0aa]">TNT Sport Apparel</p>
+                  <p className="trk-stencil text-[9px] text-[var(--trk-muted)]">TNT Sport Apparel</p>
                   <p className="trk-display text-[15px] mt-1">Detail Progres Pesanan</p>
                 </div>
               </div>
@@ -425,14 +425,14 @@ function StatusContent({ initial }: { initial?: StatusInitial | null }) {
               <main className="max-w-3xl mx-auto px-5 sm:px-8 pt-10">
                 <div className="trk-card p-5 sm:p-7 max-w-md mx-auto">
                   <p className="trk-display text-[20px] text-center mb-2">Verifikasi Pesanan</p>
-                  <p className="text-[14px] text-[#9aa0aa] text-center mb-6">
+                  <p className="text-[14px] text-[var(--trk-muted)] text-center mb-6">
                     Masukkan nomor HP untuk melihat{" "}
                     <span className="text-white font-semibold">{orderId}</span>
                   </p>
 
                   <form onSubmit={handleVerify}>
                     <label className="block">
-                      <span className="trk-stencil text-[10px] text-[#9aa0aa]">Nomor HP</span>
+                      <span className="trk-stencil text-[10px] text-[var(--trk-muted)]">Nomor HP</span>
                       <input
                         required
                         type="tel"
@@ -449,7 +449,7 @@ function StatusContent({ initial }: { initial?: StatusInitial | null }) {
                     </label>
 
                     {verifyError && (
-                      <p className="mt-4 text-[13.5px] leading-relaxed rounded-xl border border-[rgba(255,59,47,.45)] bg-[rgba(255,59,47,.1)] text-[#ff8b83] px-4 py-3">
+                      <p className="mt-4 text-[13.5px] leading-relaxed rounded-xl border border-[rgba(255,59,47,.45)] bg-[rgba(255,59,47,.1)] text-[var(--trk-danger)] px-4 py-3">
                         {verifyError}
                       </p>
                     )}
@@ -508,11 +508,11 @@ function StatusContent({ initial }: { initial?: StatusInitial | null }) {
   const allSizes = Array.from(new Set(products.flatMap((p) => p.sizes.map((s) => s.size))));
 
   return (
-    <div className="trk-bg min-h-screen">
+    <div className="trk-bg trk-brand min-h-screen">
       <div className="trk-grid min-h-screen">
         <div className="trk-glow">
           {/* Header */}
-          <header className="sticky top-0 z-30 border-b border-white/[.07] bg-[rgba(10,10,11,.72)] backdrop-blur-xl">
+          <header className="sticky top-0 z-30 border-b border-[var(--trk-line)] bg-[var(--trk-header-bg)] backdrop-blur-xl">
             <div className="mx-auto flex w-full max-w-3xl items-center justify-between gap-3 px-4 py-3 sm:px-6 sm:py-3.5">
               <div className="flex items-center gap-3">
 <a
@@ -529,7 +529,7 @@ function StatusContent({ initial }: { initial?: StatusInitial | null }) {
 </a>
                 <div className="leading-tight">
                   <p className="trk-display text-[14.5px] font-semibold uppercase tracking-wide sm:text-[15px]">TNT Sport Apparel</p>
-                  <p className="text-[10.5px] text-[#6f757c] sm:text-[11px]">Pabrik Jersey Custom Full Printing</p>
+                  <p className="text-[10.5px] text-[var(--trk-muted-2)] sm:text-[11px]">Pabrik Jersey Custom Full Printing</p>
                 </div>
               </div>
             </div>
@@ -549,7 +549,7 @@ function StatusContent({ initial }: { initial?: StatusInitial | null }) {
                   <>Pesanan kamu sedang kami kerjakan</>
                 )}
                 <br className="hidden sm:block" />{" "}
-                <span className="text-[#22c55e]">sesuai jadwal</span>
+                <span className="text-[var(--trk-accent)]">sesuai jadwal</span>
               </h1>
 
               <div className="mt-5 flex flex-wrap items-center gap-2">
@@ -564,11 +564,11 @@ function StatusContent({ initial }: { initial?: StatusInitial | null }) {
                       setTimeout(() => (btn.textContent = o), 1400);
                     }
                   }}
-                  className="dpo-meta dpo-mono tracking-wider text-[#e8ebe9] hover:bg-white/[.08] transition"
+                  className="dpo-meta dpo-mono tracking-wider text-[var(--trk-ink-2)] hover:bg-white/[.08] transition"
                   title="Salin nomor pesanan"
                 >
                   <span id="dpoCopyLabel">{orderId}</span>
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" className="h-3.5 w-3.5 text-[#6f757c]" aria-hidden="true">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" className="h-3.5 w-3.5 text-[var(--trk-muted-2)]" aria-hidden="true">
                     <rect x="9" y="9" width="11" height="11" rx="2"></rect>
                     <path d="M5 15V5a2 2 0 0 1 2-2h8"></path>
                   </svg>
@@ -583,11 +583,11 @@ function StatusContent({ initial }: { initial?: StatusInitial | null }) {
                     title="Perkiraan tanggal pesanan selesai diproduksi (WIB)"
                   >
                     Target selesai
-                    <span className="dpo-mono ml-1 text-[#e8ebe9]">
+                    <span className="dpo-mono ml-1 text-[var(--trk-ink-2)]">
                       {formatTargetDate(order.deadline)}
                     </span>
                     {deadlineNote && (
-                      <span className="ml-1 text-[#6f757c]">· {deadlineNote}</span>
+                      <span className="ml-1 text-[var(--trk-muted-2)]">· {deadlineNote}</span>
                     )}
                   </span>
                 )}
@@ -600,13 +600,13 @@ function StatusContent({ initial }: { initial?: StatusInitial | null }) {
                     <p className="dpo-kicker">Progres keseluruhan</p>
                     <p className="mt-1.5 font-bold leading-none text-[34px] dpo-h1 sm:text-[40px]">
                       <span ref={pctRef}>0</span>
-                      <span className="ml-0.5 text-[20px] text-[#6f757c]">%</span>
+                      <span className="ml-0.5 text-[20px] text-[var(--trk-muted-2)]">%</span>
                     </p>
                   </div>
                   <div className="text-right">
-                    <p className="dpo-h2 text-[15px]">Tahap {step} <span className="text-[#6f757c]">/ {totalSteps}</span></p>
+                    <p className="dpo-h2 text-[15px]">Tahap {step} <span className="text-[var(--trk-muted-2)]">/ {totalSteps}</span></p>
                     {lastUpdate && (
-                      <p className="dpo-mono mt-1 text-[10.5px] leading-tight text-[#6f757c]">
+                      <p className="dpo-mono mt-1 text-[10.5px] leading-tight text-[var(--trk-muted-2)]">
                         Update {formatShortDate(lastUpdate.created_at)}
                       </p>
                     )}
@@ -617,7 +617,7 @@ function StatusContent({ initial }: { initial?: StatusInitial | null }) {
                     <span key={i} className={i + 1 < step ? "on" : i + 1 === step ? "cur" : ""}></span>
                   ))}
                 </div>
-                <div className="dpo-mono mt-2.5 flex justify-between text-[10px] uppercase tracking-wider text-[#6f757c]">
+                <div className="dpo-mono mt-2.5 flex justify-between text-[10px] uppercase tracking-wider text-[var(--trk-muted-2)]">
                   <span>{currentStageName}</span>
                   <span>{isOrderDone ? "Selesai" : lastStageName}</span>
                 </div>
@@ -628,7 +628,7 @@ function StatusContent({ initial }: { initial?: StatusInitial | null }) {
             <section className="dpo-reveal mt-9 sm:mt-12">
               <div className="flex items-end justify-between gap-3">
                 <h2 className="dpo-h2">Tahap Produksi</h2>
-                <span className="text-[12px] text-[#6f757c]">{step} dari {totalSteps} tahap</span>
+                <span className="text-[12px] text-[var(--trk-muted-2)]">{step} dari {totalSteps} tahap</span>
               </div>
 
               <ol className="dpo-steps mt-4">
@@ -666,7 +666,7 @@ function StatusContent({ initial }: { initial?: StatusInitial | null }) {
                       </span>
                       <div className="min-w-0 flex-1">
                         <div className="flex flex-wrap items-center gap-x-2 gap-y-1">
-                          <span className="dpo-mono text-[11px] text-[#6f757c]">{String(n).padStart(2, "0")}</span>
+                          <span className="dpo-mono text-[11px] text-[var(--trk-muted-2)]">{String(n).padStart(2, "0")}</span>
                           <h3 className="dpo-step-title">{stepDef.name}</h3>
                           {st === "done" && <span className="dpo-chip dpo-chip-done">Selesai</span>}
                           {st === "now" && (
@@ -725,8 +725,8 @@ function StatusContent({ initial }: { initial?: StatusInitial | null }) {
                 <div className="flex flex-wrap items-end justify-between gap-2">
                   <h2 className="dpo-h2">Rincian Pesanan</h2>
                   {totalPcs > 0 && (
-                    <span className="text-[12px] text-[#6f757c]">
-                      Total <span className="dpo-mono text-[#e8ebe9]">{fmtQty(totalPcs)}</span> pcs
+                    <span className="text-[12px] text-[var(--trk-muted-2)]">
+                      Total <span className="dpo-mono text-[var(--trk-ink-2)]">{fmtQty(totalPcs)}</span> pcs
                     </span>
                   )}
                 </div>
@@ -737,7 +737,7 @@ function StatusContent({ initial }: { initial?: StatusInitial | null }) {
                       {products.map((p, i) => (
                         <div key={i} className="flex items-center justify-between gap-3 rounded-xl border border-white/10 bg-white/[.03] px-4 py-3.5">
                           <p className="text-[14.5px] font-medium">{p.name}</p>
-                          <p className="dpo-mono text-[15px] flex-none text-[#22c55e]">
+                          <p className="dpo-mono text-[15px] flex-none text-[var(--trk-accent)]">
                             {fmtQty(p.sizes.reduce((a, s) => a + (s.qty || 0), 0))}
                           </p>
                         </div>
@@ -750,7 +750,7 @@ function StatusContent({ initial }: { initial?: StatusInitial | null }) {
                         <div className="mt-3 overflow-x-auto rounded-xl border border-white/10">
                           <table className="w-full text-[13px]">
                             <thead>
-                              <tr className="bg-white/[.05] text-[11px] uppercase tracking-wider text-[#6f757c]">
+                              <tr className="bg-white/[.05] text-[11px] uppercase tracking-wider text-[var(--trk-muted-2)]">
                                 <th className="px-2 py-2.5 text-left font-medium w-[31%]">Ukuran</th>
                                 {products.map((p) => (
                                   <th key={p.name} className="px-2 py-2.5 text-center font-medium">{p.name}</th>
@@ -769,25 +769,25 @@ function StatusContent({ initial }: { initial?: StatusInitial | null }) {
                                     {products.map((p) => {
                                       const qty = p.sizes.find((s) => s.size === sz)?.qty || 0;
                                       return (
-                                        <td key={p.name} className={`dpo-mono px-2 py-2.5 text-center text-[14px] ${qty ? "" : "text-[#6f757c]"}`}>
+                                        <td key={p.name} className={`dpo-mono px-2 py-2.5 text-center text-[14px] ${qty ? "" : "text-[var(--trk-muted-2)]"}`}>
                                           {qty ? fmtQty(qty) : "–"}
                                         </td>
                                       );
                                     })}
-                                    <td className="dpo-mono px-2 py-2.5 text-right text-[14px] font-semibold text-[#22c55e]">{fmtQty(rowTotal)}</td>
+                                    <td className="dpo-mono px-2 py-2.5 text-right text-[14px] font-semibold text-[var(--trk-accent)]">{fmtQty(rowTotal)}</td>
                                   </tr>
                                 );
                               })}
                             </tbody>
                             <tfoot>
                               <tr className="border-t border-white/15 bg-white/[.04] font-semibold">
-                                <td className="px-2 py-3 text-left text-[12px] uppercase tracking-wider text-[#6f757c]">Total</td>
+                                <td className="px-2 py-3 text-left text-[12px] uppercase tracking-wider text-[var(--trk-muted-2)]">Total</td>
                                 {products.map((p) => (
                                   <td key={p.name} className="dpo-mono px-2 py-3 text-center text-[14px]">
                                     {fmtQty(p.sizes.reduce((a, s) => a + (s.qty || 0), 0))}
                                   </td>
                                 ))}
-                                <td className="dpo-mono px-2 py-3 text-right text-[14px] text-[#22c55e]">{fmtQty(totalPcs)}</td>
+                                <td className="dpo-mono px-2 py-3 text-right text-[14px] text-[var(--trk-accent)]">{fmtQty(totalPcs)}</td>
                               </tr>
                             </tfoot>
                           </table>
@@ -821,14 +821,14 @@ function StatusContent({ initial }: { initial?: StatusInitial | null }) {
                   <div className="mt-4 rounded-xl border border-white/10 bg-white/[.03] px-4 py-3.5">
                     <div className="flex flex-wrap items-center justify-between gap-x-3 gap-y-1.5">
                       <p className="dpo-kicker">Target Selesai</p>
-                      <p className="dpo-mono text-[14px] text-[#e8ebe9]">
+                      <p className="dpo-mono text-[14px] text-[var(--trk-ink-2)]">
                         {formatTargetDate(order.deadline)}
                         {deadlineNote && (
-                          <span className="ml-2 text-[#6f757c]">· {deadlineNote}</span>
+                          <span className="ml-2 text-[var(--trk-muted-2)]">· {deadlineNote}</span>
                         )}
                       </p>
                     </div>
-                    <p className="mt-1.5 text-[12.5px] leading-relaxed text-[#6f757c]">
+                    <p className="mt-1.5 text-[12.5px] leading-relaxed text-[var(--trk-muted-2)]">
                       Perkiraan tanggal pesanan kamu selesai diproduksi (WIB), bukan jadwal kirim ekspedisi.
                     </p>
                   </div>
@@ -838,11 +838,11 @@ function StatusContent({ initial }: { initial?: StatusInitial | null }) {
                   <details className="mt-5 group">
                     <summary className="cursor-pointer list-none flex items-center justify-between rounded-xl border border-white/10 bg-white/[.03] px-4 py-3 text-[14px] hover:bg-white/[.06] transition">
                       <span>Catatan Desain</span>
-                      <svg className="group-open:rotate-180 transition-transform" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#979ba4" strokeWidth="2.2" strokeLinecap="round">
+                      <svg className="group-open:rotate-180 transition-transform" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--trk-muted)" strokeWidth="2.2" strokeLinecap="round">
                         <path d="M6 9l6 6 6-6" />
                       </svg>
                     </summary>
-                    <p className="mt-3 px-1 text-[14px] text-[#979ba4] leading-relaxed">{order.design_notes}</p>
+                    <p className="mt-3 px-1 text-[14px] text-[var(--trk-muted)] leading-relaxed">{order.design_notes}</p>
                   </details>
                 )}
               </div>
@@ -875,7 +875,7 @@ function StatusContent({ initial }: { initial?: StatusInitial | null }) {
                     }
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="flex-1 rounded-full bg-[#22c55e] px-6 py-3 text-center text-[14px] font-semibold text-black hover:bg-[#2ee06b] transition"
+                    className="flex-1 rounded-full bg-[var(--trk-accent)] px-6 py-3 text-center text-[14px] font-semibold text-[var(--trk-accent-ink)] hover:brightness-105 transition"
                   >
                     Lacak Pengiriman
                   </a>
@@ -886,7 +886,7 @@ function StatusContent({ initial }: { initial?: StatusInitial | null }) {
                       btn.textContent = "Tersalin ✓";
                       setTimeout(() => (btn.textContent = "Salin Resi"), 1600);
                     }}
-                    className="rounded-full border border-white/[.12] bg-white/5 px-5 py-3 text-[14px] text-[#979ba4] hover:bg-white/10 hover:text-white transition"
+                    className="rounded-full border border-white/[.12] bg-white/5 px-5 py-3 text-[14px] text-[var(--trk-muted)] hover:bg-white/10 hover:text-white transition"
                   >
                     Salin Resi
                   </button>
@@ -894,7 +894,7 @@ function StatusContent({ initial }: { initial?: StatusInitial | null }) {
               </section>
             )}
 
-            <footer className="mt-10 text-center text-[12px] text-[#6f757c]">
+            <footer className="mt-10 text-center text-[12px] text-[var(--trk-muted-2)]">
               <p>© 2026 TNT Sport Apparel — Pabrik Jersey Custom Full Printing</p>
             </footer>
           </main>
