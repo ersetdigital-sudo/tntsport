@@ -574,21 +574,13 @@ export default function PesananDashboard({
       {/* â”€â”€ MAIN â”€â”€ */}
       <div className="flex-1 min-w-0">
         <header className="pas-topbar">
-          <div className="px-5 sm:px-8 h-16 flex items-center justify-between gap-4">
-            <div className="flex items-center gap-3 min-w-0">
-<img src="/logo-tnt-baru.png" alt="TNT Sport" className="pas-mark w-12 h-12 rounded-[9px] object-contain lg:hidden" />
-              <div className="min-w-0">
-                <p className="text-[11px] text-[var(--pas-muted)] leading-none">
-                  {meta.crumb}
-                </p>
-                <h1 className="pas-display text-[17px] leading-tight mt-1 truncate">
-                  {meta.title}
-                </h1>
-              </div>
-            </div>
-            <div className="flex items-center gap-2">
+          <div className="px-4 sm:px-8 h-16 flex items-center justify-between gap-3">
+            <div className="flex items-center gap-2.5 min-w-0">
+              {/* Logo tidak dipakai lagi di topbar ponsel (terlalu sempit) —
+                  logo brand hidup di menu/drawer. Hamburger pindah ke kiri
+                  supaya judul halaman dapat ruang selebar mungkin. */}
               <button
-                className="lg:hidden p-2.5 rounded-lg border border-[var(--pas-line)] text-[var(--pas-muted)] hover:text-[var(--pas-ink-1)] hover:bg-[var(--pas-surface-2)] transition"
+                className="lg:hidden -ml-1.5 shrink-0 p-2.5 rounded-lg border border-[var(--pas-line)] text-[var(--pas-muted)] hover:text-[var(--pas-ink-1)] hover:bg-[var(--pas-surface-2)] transition"
                 onClick={() => setShowMobileNav(true)}
                 aria-label="Buka menu"
               >
@@ -596,6 +588,16 @@ export default function PesananDashboard({
                   <path d="M4 6h16M4 12h16M4 18h16" />
                 </svg>
               </button>
+              <div className="min-w-0">
+                <p className="text-[11px] text-[var(--pas-muted)] leading-none truncate">
+                  {meta.crumb}
+                </p>
+                <h1 className="pas-display text-[17px] leading-tight mt-1 truncate">
+                  {meta.title}
+                </h1>
+              </div>
+            </div>
+            <div className="flex items-center gap-2 shrink-0">
               <span className="hidden lg:inline text-[12.5px] text-[var(--pas-muted)]">
                 {new Date().toLocaleDateString("id-ID", {
                   day: "numeric",
@@ -606,14 +608,15 @@ export default function PesananDashboard({
               {currentView === "pesanan" && (
                 <button
                   onClick={() => setShowAdd(true)}
-                  className="pas-btn-accent px-3.5 py-2.5 text-[14px] sm:px-4"
+                  className="pas-btn-accent whitespace-nowrap px-3 py-2.5 text-[13px] sm:px-4 sm:text-[14px]"
                 >
                   <span className="sm:inline">+ </span>Pesanan
                 </button>
               )}
+              {/* "Keluar" pindah ke menu di ponsel supaya topbar tidak berjejal */}
               <button
                 onClick={handleLogout}
-                className="pas-btn-ghost px-3 py-2 text-[13px] text-[var(--pas-muted)]"
+                className="pas-btn-ghost hidden lg:inline-block px-3 py-2 text-[13px] text-[var(--pas-muted)]"
               >
                 Keluar
               </button>
@@ -649,7 +652,7 @@ export default function PesananDashboard({
 
       {/* â”€â”€ MOBILE NAV DRAWER â”€â”€ */}
       <Sheet open={showMobileNav} onOpenChange={setShowMobileNav}>
-        <SheetContent side="left" className="p-5 bg-[#0D3934] text-white border-r border-white/10 w-[280px] [&>button]:text-white/50 [&>button]:hover:text-white [&>button]:hover:bg-white/10 [&>button]:rounded-lg [&>button]:p-2 [&>button]:transition">
+        <SheetContent side="left" className="p-5 bg-[#0D3934] text-white border-r border-white/10 w-[280px] overflow-y-auto flex flex-col [&>button]:text-white/50 [&>button]:hover:text-white [&>button]:hover:bg-white/10 [&>button]:rounded-lg [&>button]:p-2 [&>button]:transition">
           {/* Drawer header */}
           <div className="flex items-center mb-2">
             <a href="/" className="flex items-center gap-2.5">
@@ -704,6 +707,25 @@ export default function PesananDashboard({
               </a>
             ))}
           </nav>
+
+          {/* Akun + Keluar: di ponsel tombol Keluar pindah ke sini dari topbar,
+              supaya bar atasnya tidak berjejal dan tidak terpotong. */}
+          <div className="pas-userbox mt-6 p-3 flex items-center gap-3">
+            <span className="pas-avatar">AD</span>
+            <span className="leading-tight min-w-0">
+              <span className="block text-[13.5px] font-semibold truncate">Admin TNT</span>
+              <span className="block text-[11.5px] text-white/65 truncate">admin@tntsport.id</span>
+            </span>
+          </div>
+          <button
+            onClick={() => {
+              setShowMobileNav(false);
+              handleLogout();
+            }}
+            className="pas-btn-ghost mt-3 w-full px-3 py-3 text-[13.5px] text-[var(--pas-muted)]"
+          >
+            Keluar
+          </button>
         </SheetContent>
       </Sheet>
 
@@ -972,16 +994,16 @@ function ViewPesanan({
       )}
       {/* KPI */}
       <section className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 w-full">
-        <div className="pas-card pas-kpi pas-bento-kpi p-4 sm:p-5">
-          <p className="text-[13px] text-[var(--pas-muted)]">Total Pesanan</p>
-          <div className="flex items-end gap-2.5 mt-2.5">
-            <p className="pas-display pas-num text-[30px] leading-none">{stats.total}</p>
+        <div className="pas-card pas-kpi pas-kpi-hero pas-bento-kpi p-4 sm:p-5">
+          <p className="pas-kpi-label">Total Pesanan</p>
+          <div className="mt-2.5 flex flex-wrap items-end gap-x-2.5 gap-y-1.5">
+            <p className="pas-display pas-num text-[34px] leading-none">{stats.total}</p>
             <span className="pas-delta up mb-0.5">+2 minggu ini</span>
           </div>
         </div>
         <div className="pas-card pas-kpi pas-bento-kpi p-4 sm:p-5">
-          <p className="text-[13px] text-[var(--pas-muted)]">Sedang Produksi</p>
-          <div className="flex items-end gap-2.5 mt-2.5">
+          <p className="pas-kpi-label">Sedang Produksi</p>
+          <div className="mt-2.5 flex flex-wrap items-end gap-x-2.5 gap-y-1.5">
             <p className="pas-display pas-num text-[30px] leading-none text-[var(--pas-accent)]">
               {stats.produksi}
             </p>
@@ -989,8 +1011,8 @@ function ViewPesanan({
           </div>
         </div>
         <div className="pas-card pas-kpi pas-bento-kpi p-4 sm:p-5">
-          <p className="text-[13px] text-[var(--pas-muted)]">Deadline</p>
-          <div className="flex items-end gap-2.5 mt-2.5">
+          <p className="pas-kpi-label">Deadline</p>
+          <div className="mt-2.5 flex flex-wrap items-end gap-x-2.5 gap-y-1.5">
             <p
               className={
                 hasOverdue
@@ -1018,8 +1040,8 @@ function ViewPesanan({
           </div>
         </div>
         <div className="pas-card pas-kpi pas-bento-kpi p-4 sm:p-5">
-          <p className="text-[13px] text-[var(--pas-muted)]">Selesai</p>
-          <div className="flex items-end gap-2.5 mt-2.5">
+          <p className="pas-kpi-label">Selesai</p>
+          <div className="mt-2.5 flex flex-wrap items-end gap-x-2.5 gap-y-1.5">
             <p className="pas-display pas-num text-[30px] leading-none">{stats.selesai}</p>
             <span className="pas-delta flat mb-0.5">bulan ini</span>
           </div>

@@ -2400,9 +2400,30 @@
   border-color: var(--pas-sage);
   box-shadow: 0 1px 2px rgba(13,57,52,.05), 0 10px 26px rgba(13,57,52,.09);
 }
-.pas-delta { font-size: 11.5px; font-weight: 600; padding: 2px 7px; border-radius: 6px; }
+.pas-delta {
+  font-size: 11.5px; font-weight: 600; padding: 2px 7px; border-radius: 6px;
+  /* Jangan biarkan badge ini pecah dua baris di ponsel ("+2 minggu / ini");
+     kalau ruangnya sempit, yang turun ke baris baru adalah badge-nya sendiri. */
+  white-space: nowrap;
+}
 .pas-delta.up { background: var(--pas-sage-soft); color: var(--pas-sage-ink); }
 .pas-delta.flat { background: var(--pas-line); color: var(--pas-muted); }
+
+/* Label kartu KPI. Dipisah jadi kelas supaya kartu unggulan (.pas-kpi-hero)
+   bisa mengganti warnanya tanpa menimpa utility di komponen. */
+.pas-kpi-label { font-size: 13px; font-weight: 600; color: var(--pas-muted); }
+
+/* KPI unggulan: kartu hijau brand bergradasi. Di ponsel ia harus tetap menang
+   atas .pas-bento-kpi — lihat override-nya di media query mobile. */
+.pas-kpi-hero,
+.pas-kpi-hero:hover {
+  background: linear-gradient(150deg, #1B5C52 0%, #12463F 52%, #0D3934 100%);
+  border-color: var(--pas-green); color: #fff;
+  box-shadow: 0 12px 28px -12px rgba(13,57,52,.55);
+}
+.pas-kpi-hero .pas-num { color: #fff; }
+.pas-kpi-hero .pas-kpi-label { color: var(--pas-light); }
+.pas-kpi-hero .pas-delta { background: rgba(233,239,220,.92); color: var(--pas-green); }
 
 .pas-field {
   background: var(--pas-surface); border: 1px solid var(--pas-line);
@@ -2487,6 +2508,12 @@ table.pas-tbl tbody tr:hover { background: rgba(13,57,52,.035); }
   width: 32px; height: 32px; border-radius: 9px; flex: none;
   display: grid; place-items: center; font-size: 12px; font-weight: 700;
   background: var(--pas-light); color: var(--pas-green); border: 1px solid var(--pas-line);
+}
+
+/* Kotak akun di dalam panel/drawer gelap (sidebar & menu ponsel). */
+.pas-userbox {
+  background: rgba(255,255,255,.10); border: 1px solid rgba(255,255,255,.10);
+  color: #fff; border-radius: 12px;
 }
 
 .pas-mini {
@@ -2626,6 +2653,14 @@ table.pas-tbl tbody tr:hover { background: rgba(13,57,52,.035); }
     box-shadow: 0 6px 20px rgba(13,57,52,.14);
   }
 
+  /* Kartu KPI unggulan tetap hijau brand di ponsel (menang atas .pas-bento-kpi). */
+  .pas-bento-kpi.pas-kpi-hero,
+  .pas-bento-kpi.pas-kpi-hero:hover {
+    background: linear-gradient(150deg, #1B5C52 0%, #12463F 52%, #0D3934 100%);
+    border-color: var(--pas-green);
+    box-shadow: 0 12px 28px -12px rgba(13,57,52,.55);
+  }
+
   .pas-bento-card {
     background: var(--pas-surface);
     border: 1px solid var(--pas-line);
@@ -2658,8 +2693,10 @@ table.pas-tbl tbody tr:hover { background: rgba(13,57,52,.035); }
     border: none !important;
     border-radius: 0 !important;
     position: relative;
-    mask-image: linear-gradient(to right, #000 calc(100% - 32px), transparent 100%);
-    -webkit-mask-image: linear-gradient(to right, #000 calc(100% - 32px), transparent 100%);
+    /* Fade kanan ditarik lebih lebar: chip terakhir (“Siap Dikirim”) tadinya
+       terpotong di tengah kata tanpa petunjuk bahwa barisnya bisa digeser. */
+    mask-image: linear-gradient(to right, #000 calc(100% - 48px), transparent 100%);
+    -webkit-mask-image: linear-gradient(to right, #000 calc(100% - 48px), transparent 100%);
   }
   .pas-bento-chip-scroll::-webkit-scrollbar { display: none; }
   .pas-bento-chip-scroll > * { scroll-snap-align: start; flex-shrink: 0; }
@@ -2669,9 +2706,11 @@ table.pas-tbl tbody tr:hover { background: rgba(13,57,52,.035); }
     background: var(--pas-surface) !important;
     color: var(--pas-muted) !important;
     font-weight: 600;
-    border-radius: 9999px !important;
-    padding: 10px 20px !important;
-    font-size: 13px !important;
+    /* Lebih ringkas dari pil desktop: lima filter harus terbaca sekaligus
+       tanpa ada yang terpotong di tepi kanan. */
+    border-radius: 8px !important;
+    padding: 8px 12px !important;
+    font-size: 12px !important;
     transition: all .18s ease;
     white-space: nowrap;
     box-shadow: 0 2px 6px rgba(13,57,52,.04) !important;
