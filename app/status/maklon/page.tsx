@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { createClient } from "@supabase/supabase-js";
 import { verifyToken } from "@/lib/verify-token";
+import { formatDeadlineNote } from "@/lib/deadline";
 
 /**
  * Halaman tracking publik untuk pesanan MAKLON.
@@ -328,6 +329,8 @@ export default async function MaklonStatusPage({
     ? 100
     : STEP_PROGRESS[step] ?? 0;
   const stageName = stepNames[step - 1] || `Tahap ${step}`;
+  // Keterangan "3 hari lagi" / "lewat 2 hari" untuk tanggal deadline.
+  const deadlineNote = formatDeadlineNote(order.deadline);
   const designPhotos = photoUrls(order.design_photos);
 
   return (
@@ -411,7 +414,12 @@ export default async function MaklonStatusPage({
             </div>
             <div className="trk-cell">
               <p className="trk-cell-label">Deadline</p>
-              <p className="trk-cell-value">{formatDate(order.deadline)}</p>
+              <p className="trk-cell-value">
+                {formatDate(order.deadline)}
+                {deadlineNote && (
+                  <span className="ml-1.5 text-[12px] font-normal text-[#6f757c]">· {deadlineNote}</span>
+                )}
+              </p>
             </div>
           </div>
 

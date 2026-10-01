@@ -16,6 +16,7 @@ import {
   TOTAL_STAGES,
 } from "@/lib/order-status";
 import { optimizeImageUrl } from "@/lib/cloudinary";
+import { formatTargetDate, formatDeadlineNote } from "@/lib/deadline";
 
 /** Lebar gambar thumbnail di daftar tahap. Foto aslinya bisa 1600px; mengirim
  *  versi penuh untuk kotak selebar 280px cuma membakar bandwidth. */
@@ -495,6 +496,8 @@ function StatusContent({ initial }: { initial?: StatusInitial | null }) {
   const currentStageName = stageNames[step - 1] || stageNames[0] || "Desain";
   const lastStageName = stageNames[stageNames.length - 1] || "Kirim";
   const lastUpdate = history.length > 0 ? history[history.length - 1] : null;
+  // Keterangan "3 hari lagi" / "lewat 2 hari" untuk chip "Target selesai".
+  const deadlineNote = formatDeadlineNote(order.deadline);
   const rawPhone = brand.whatsapp_number.replace(/[^0-9]/g, "");
   const waPhone = rawPhone.startsWith("0") ? "62" + rawPhone.slice(1) : rawPhone;
   const waLink = `https://wa.me/${waPhone}?text=${encodeURIComponent(`Halo ${brand.name}, saya mau tanya order ${orderId}`)}`;
@@ -588,9 +591,19 @@ function StatusContent({ initial }: { initial?: StatusInitial | null }) {
                 <span className="dpo-meta dpo-meta-acc">
                   <span className="dpo-live"></span> {stepHighlight(order.current_status, hasTracking)}
                 </span>
+                {/* Tanggalnya saja, tanpa jam — lihat lib/deadline.ts kenapa. */}
                 {order.deadline && (
-                  <span className="dpo-meta">
-                    Target <span className="dpo-mono ml-1 text-[#e8ebe9]">{formatShortDate(order.deadline)}</span>
+                  <span
+                    className="dpo-meta"
+                    title="Perkiraan tanggal pesanan selesai diproduksi (WIB)"
+                  >
+                    Target selesai
+                    <span className="dpo-mono ml-1 text-[#e8ebe9]">
+                      {formatTargetDate(order.deadline)}
+                    </span>
+                    {deadlineNote && (
+                      <span className="ml-1 text-[#6f757c]">· {deadlineNote}</span>
+                    )}
                   </span>
                 )}
               </div>
@@ -814,6 +827,25 @@ function StatusContent({ initial }: { initial?: StatusInitial | null }) {
                         <p className="mt-1 text-[14.5px] font-medium">{order.sizes}</p>
                       </div>
                     )}
+                  </div>
+                )}
+
+                {/* "Target" di header chip sering bikin bingung, jadi tanggalnya
+                    diulang di sini lengkap dengan penjelasannya. */}
+                {order.deadline && (
+                  <div className="mt-4 rounded-xl border border-white/10 bg-white/[.03] px-4 py-3.5">
+                    <div className="flex flex-wrap items-center justify-between gap-x-3 gap-y-1.5">
+                      <p className="dpo-kicker">Target Selesai</p>
+                      <p className="dpo-mono text-[14px] text-[#e8ebe9]">
+                        {formatTargetDate(order.deadline)}
+                        {deadlineNote && (
+                          <span className="ml-2 text-[#6f757c]">· {deadlineNote}</span>
+                        )}
+                      </p>
+                    </div>
+                    <p className="mt-1.5 text-[12.5px] leading-relaxed text-[#6f757c]">
+                      Perkiraan tanggal pesanan kamu selesai diproduksi (WIB), bukan jadwal kirim ekspedisi.
+                    </p>
                   </div>
                 )}
 
