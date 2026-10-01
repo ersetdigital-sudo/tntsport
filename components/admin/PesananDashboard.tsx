@@ -6,6 +6,7 @@ import { uploadToCloudinary } from "@/lib/cloudinary";
 import { Sheet, SheetContent, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
 import { pcsLabel } from "@/lib/utils";
 import { buildWhatsAppLink } from "@/lib/wa";
+import UploadIndicator from "@/components/admin/UploadIndicator";
 import { Search, AlertTriangle } from "lucide-react";
 
 // Same delivery optimization the old /api/upload/design route applied (f_auto,q_auto)
@@ -805,6 +806,10 @@ export default function PesananDashboard({
 
       {/* â”€â”€ TOAST â”€â”€ */}
       <div className={`pas-toast ${toast ? "on" : ""}`}>{toast}</div>
+
+      {/* Satu indikator untuk semua upload foto (desain & WO), sumbernya
+          lib/upload-progress.ts yang diisi uploadToCloudinary(). */}
+      <UploadIndicator />
     </div>
   );
 }
@@ -3979,7 +3984,7 @@ function DetailSheet({
             </div>
             <div className="grid grid-cols-2 gap-4 p-4">
               <div>
-                <span className="pas-stencil text-[9px] text-[var(--pas-muted)] block mb-2">Preview Design</span>
+                <span className="pas-stencil text-[9px] text-[var(--pas-muted)] block mb-2">Desain</span>
                 <div className="flex flex-wrap gap-2">
                   {(order.design_photos?.length ?? 0) > 0 ? order.design_photos!.map((url, i) => (
                     <button key={i} type="button" onClick={() => setZoomUrl(url)} className="group relative w-[72px] h-[72px] rounded-xl overflow-hidden border border-[var(--pas-line)] hover:border-[var(--pas-accent)] transition" title="Klik untuk memperbesar" aria-label={`Perbesar design ${i + 1}`}>
@@ -4351,7 +4356,7 @@ function EditSheet({
 
           <div className="grid grid-cols-2 gap-4">
             <div>
-              <span className="text-[13px] text-[var(--pas-muted)]">Preview Design</span>
+              <span className="text-[13px] text-[var(--pas-muted)]">Desain</span>
               <div className="flex flex-wrap gap-2.5 mt-1.5">
                 {designPhotos.map((url, i) => (
                   <div key={i} className="relative w-[76px] h-[76px] group">
@@ -4747,7 +4752,8 @@ function AddForm({
 
       <div className="grid grid-cols-2 gap-4">
       <div>
-        <span className="text-[13px] text-[var(--pas-muted)]">Preview Design</span>
+        <span className="text-[13px] text-[var(--pas-muted)]">Desain</span>
+        <p className="text-[11px] text-[var(--pas-muted)] -mt-0.5">Jadi foto tahap Desain</p>
         <div className="flex flex-wrap gap-2.5 mt-1.5">
           {designPhotos.map((url, i) => (
             <div key={i} className="relative w-[76px] h-[76px] group">

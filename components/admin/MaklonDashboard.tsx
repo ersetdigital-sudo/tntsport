@@ -3,6 +3,7 @@
 import { useState, useEffect, useCallback, useRef, type ReactNode } from "react";
 import { uploadToCloudinary } from "@/lib/cloudinary";
 import { pcsLabel } from "@/lib/utils";
+import UploadIndicator from "@/components/admin/UploadIndicator";
 import { Search, AlertTriangle } from "lucide-react";
 
 // Optimasi delivery yang sama seperti upload design lama (f_auto,q_auto)
@@ -530,6 +531,10 @@ export default function MaklonDashboard() {
       )}
 
       <div className={`pas-toast ${toast ? "on" : ""}`}>{toast}</div>
+
+      {/* Satu indikator untuk semua upload foto, sumbernya lib/upload-progress.ts
+          yang diisi uploadToCloudinary(). */}
+      <UploadIndicator />
     </div>
   );
 }
@@ -843,7 +848,7 @@ function AddForm({
 
       <div className="grid grid-cols-2 gap-4">
       <div>
-        <span className="text-[13px] text-[var(--pas-muted)]">Preview Design</span>
+        <span className="text-[13px] text-[var(--pas-muted)]">Desain</span>
         <div className="flex flex-wrap gap-2.5 mt-1.5">
           {designPhotos.map((url, i) => (
             <div key={i} className="relative w-[76px] h-[76px] group">
@@ -1379,7 +1384,7 @@ function DetailSheet({
             </div>
             <div className="grid grid-cols-2 gap-4 p-4">
               <div>
-                <span className="pas-stencil text-[9px] text-[var(--pas-muted)] block mb-2">Preview Design</span>
+                <span className="pas-stencil text-[9px] text-[var(--pas-muted)] block mb-2">Desain</span>
                 <div className="flex flex-wrap gap-2">
                   {(order.design_photos?.length ?? 0) > 0 ? order.design_photos!.map((url, i) => (
                     <button key={i} type="button" onClick={() => setZoomUrl(url)} className="group relative w-[72px] h-[72px] rounded-xl overflow-hidden border border-[var(--pas-line)] hover:border-[var(--pas-accent)] transition" title="Klik untuk memperbesar" aria-label={`Perbesar design ${i + 1}`}>

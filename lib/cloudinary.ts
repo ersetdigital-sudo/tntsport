@@ -1,3 +1,11 @@
+import {
+  beginUpload,
+  failUpload,
+  finishUpload,
+  markUploadReady,
+  setUploadPercent,
+} from "@/lib/upload-progress";
+
 export function cloudinaryUrl(
   url: string,
   transformations?: { width?: number; quality?: string }
@@ -155,6 +163,10 @@ async function downscaleImage(file: File): Promise<{ blob: Blob; filename: strin
  *
  * Foto diperkecil dulu di browser (lihat downscaleImage) supaya yang dikirim —
  * dan yang tersimpan permanen — bukan berkas 4-6 MB dari kamera HP.
+ *
+ * Setiap tahapnya dilaporkan ke lib/upload-progress.ts, sehingga dashboard bisa
+ * menampilkan "2,4 MB → 320 KB · 45%" tanpa satu pun pemanggil upload ini perlu
+ * menambah parameter.
  */
 export async function uploadToCloudinary(
   file: File,
@@ -167,24 +179,77 @@ export async function uploadToCloudinary(
     throw new Error("Cloudinary belum dikonfigurasi");
   }
 
-  const upload = await downscaleImage(file);
+  // Diumumkan ke indikator upload di dashboard; lihat lib/upload-progress.ts.
+  const jobId = beginUpload(file.name || "foto", file.size);
 
-  const formData = new FormData();
-  formData.append("file", upload.blob, upload.filename);
-  formData.append("upload_preset", uploadPreset);
-  formData.append("folder", params.folder);
+  try {
+    const upload = await downscaleImage(file);
 
-  const res = await fetch(
-    `https://api.cloudinary.com/v1_1/${cloudName}/image/upload`,
-    { method: "POST", body: formData }
-  );
+    // Sejak titik ini ukurannya sudah pasti — inilah angka yang dikirim ke
+    // Cloudinary, dan itulah yang ditampilkan ke operator.
+    markUploadReady(jobId, upload.blob.size);
 
-  if (!res.ok) {
-    const data = await res.json().catch(() => null);
-    throw new Error(data?.error?.message || "Upload failed");
+    const formData = new FormData();
+    formData.append("file", upload.blob, upload.filename);
+    formData.append("upload_preset", uploadPreset);
+    formData.append("folder", params.folder);
+
+    const data = await postToCloudinary(
+      `https://api.cloudinary.com/v1_1/${cloudName}/image/upload`,
+      formData,
+      jobId
+    );
+    finishUpload(jobId);
+    return { url: data.secure_url, public_id: data.public_id };
+  } catch (e) {
+    failUpload(jobId);
+    throw e;
   }
-  const data = await res.json();
-  return { url: data.secure_url, public_id: data.public_id };
+}
+
+/**
+ * Kirim berkas ke Cloudinary sambil melaporkan persentasenya.
+ *
+ * Memakai XMLHttpRequest, bukan fetch: hanya XHR yang memberi event progres
+ * pengiriman (`upload.onprogress`). Dengan `fetch`, satu-satunya kabar yang
+ * bisa ditampilkan adalah "sedang mengunggah" tanpa angka — dan untuk foto
+ * 300 KB di jaringan seluler, menunggu tanpa angka itulah yang terasa lambat.
+ * Pesan kesalahannya sengaja sama dengan versi fetch sebelumnya supaya teks di
+ * dashboard tidak berubah.
+ */
+function postToCloudinary(
+  url: string,
+  formData: FormData,
+  jobId: number
+): Promise<any> {
+  return new Promise((resolve, reject) => {
+    const xhr = new XMLHttpRequest();
+    xhr.open("POST", url);
+    // Tanpa batas waktu, koneksi yang macet membuat indikatornya berputar
+    // selamanya tanpa kabar apa pun.
+    xhr.timeout = 120_000;
+
+    xhr.upload.onprogress = (e) => {
+      if (e.lengthComputable) setUploadPercent(jobId, e.loaded, e.total);
+    };
+    xhr.onload = () => {
+      let data: any = null;
+      try {
+        data = JSON.parse(xhr.responseText);
+      } catch {
+        data = null;
+      }
+      if (xhr.status >= 200 && xhr.status < 300 && data) {
+        resolve(data);
+        return;
+      }
+      reject(new Error(data?.error?.message || "Upload failed"));
+    };
+    xhr.onerror = () => reject(new Error("Koneksi terputus saat upload. Coba lagi."));
+    xhr.ontimeout = () => reject(new Error("Upload terlalu lama. Coba lagi."));
+
+    xhr.send(formData);
+  });
 }
 
 const UPLOAD_MARK = "/upload/";

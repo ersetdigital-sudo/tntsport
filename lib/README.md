@@ -46,7 +46,8 @@ dan nama tahap di `fonnte.ts` (template WA).
 | `supabase/server.ts` | Supabase client untuk server (cookie session mengalir otomatis) |
 | `supabase/middleware.ts` | Refresh session Supabase, dipanggil dari `middleware.ts` di root |
 | `admin-auth.ts` | `hasAdminAccess()` — cek akses dashboard: cookie `pesanan_auth` (shared password) **atau** user Supabase terautentikasi (CMS `/admin`) |
-| `cloudinary.ts` | Helper Cloudinary: `uploadToCloudinary` (unsigned upload — foto diperkecil dulu di browser jadi WebP maks 1600px), `cloudinaryUrl` (transformasi `f_auto,q_auto`), dan `optimizeImageUrl` (URL thumbnail/lightbox dengan `w_`) |
+| `cloudinary.ts` | Helper Cloudinary: `uploadToCloudinary` (unsigned upload — foto diperkecil dulu di browser jadi WebP maks 1600px, progres dilaporkan ke `upload-progress.ts`), `cloudinaryUrl` (transformasi `f_auto,q_auto`), dan `optimizeImageUrl` (URL thumbnail/lightbox dengan `w_`) |
+| `upload-progress.ts` | Papan pengumuman progres upload (`beginUpload` / `markUploadReady` / `setUploadPercent` / `finishUpload` / `failUpload`, plus `formatBytes`). Dipakai `UploadIndicator.tsx`; tanpa DOM di top-level karena ikut ter-import server-side |
 
 ## Lain-lain
 

@@ -39,6 +39,7 @@ pasangannya.
 | `CrudManager.tsx` | CRUD generik untuk konten sederhana |
 | `BrandEditor.tsx` | Pengaturan brand (nama, tagline, nomor WhatsApp, URL) |
 | `MetricCard.tsx`, `SalesChart.tsx`, `RecentOrdersTable.tsx` | Ringkasan & statistik |
+| `UploadIndicator.tsx` | Kartu mengambang "Mengunggah 320 KB · 45%" saat upload foto. Satu indikator untuk semua tempat upload — sumbernya `lib/upload-progress.ts`, yang diisi `uploadToCloudinary()` |
 | `ComingSoon.tsx`, `ThemeToggle.tsx` | Helper UI |
 
 > `PesananDashboard.tsx` dan `MaklonDashboard.tsx` adalah dua file terbesar di repo ini. Kalau
