@@ -1,9 +1,11 @@
 "use client";
 
 import { useState, useEffect, useCallback, useRef, type ReactNode } from "react";
+import { useRouter } from "next/navigation";
 import { uploadToCloudinary } from "@/lib/cloudinary";
 import { pcsLabel } from "@/lib/utils";
 import UploadIndicator from "@/components/admin/UploadIndicator";
+import { Sheet, SheetContent, SheetTitle } from "@/components/ui/sheet";
 import { Search, AlertTriangle } from "lucide-react";
 
 // Optimasi delivery yang sama seperti upload design lama (f_auto,q_auto)
@@ -168,15 +170,22 @@ function NavIcon({ name, size = 18 }: { name: string; size?: number }) {
 }
 
 export default function MaklonDashboard() {
+  const router = useRouter();
   const [orders, setOrders] = useState<OrderData[]>([]);
   const [loading, setLoading] = useState(true);
   const [filter, setFilter] = useState<FilterKey>("all");
   const [query, setQuery] = useState("");
   const [openId, setOpenId] = useState<string | null>(null);
   const [showAdd, setShowAdd] = useState(false);
+  const [showMobileNav, setShowMobileNav] = useState(false);
   const [toast, setToast] = useState("");
   const toastTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
   const [steps, setSteps] = useState<StepRow[]>(DEFAULT_STEPS);
+
+  const handleLogout = async () => {
+    await fetch("/api/pesanan/auth", { method: "DELETE" });
+    router.push("/pesanan/login");
+  };
 
   const fetchOrders = useCallback(async () => {
     try {
@@ -295,8 +304,18 @@ export default function MaklonDashboard() {
       <div className="flex-1 min-w-0">
         <header className="pas-topbar">
           <div className="px-5 sm:px-8 h-16 flex items-center justify-between gap-4">
-            <div className="flex items-center gap-3 min-w-0">
-              <img src="/logo-tnt-baru.png" alt="TNT Sport" className="pas-mark w-12 h-12 rounded-[9px] object-contain lg:hidden" />
+            <div className="flex items-center gap-2.5 min-w-0">
+              {/* Logo tidak dipakai di topbar ponsel — logo brand hidup di
+                  menu/drawer, sama seperti dashboard Pesanan. */}
+              <button
+                className="lg:hidden -ml-1.5 shrink-0 p-2.5 rounded-lg border border-[var(--pas-line)] text-[var(--pas-muted)] hover:text-[var(--pas-ink-1)] hover:bg-[var(--pas-surface-2)] transition"
+                onClick={() => setShowMobileNav(true)}
+                aria-label="Buka menu"
+              >
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round">
+                  <path d="M4 6h16M4 12h16M4 18h16" />
+                </svg>
+              </button>
               <div className="min-w-0">
                 <p className="text-[11px] text-[var(--pas-muted)] leading-none">Operasional</p>
                 <h1 className="pas-display text-[17px] leading-tight mt-1 truncate">Maklon</h1>
@@ -490,6 +509,74 @@ export default function MaklonDashboard() {
           )}
         </main>
       </div>
+
+      {/* ── MOBILE NAV DRAWER ── */}
+      <Sheet open={showMobileNav} onOpenChange={setShowMobileNav}>
+        <SheetContent side="left" className="p-5 bg-[#0D3934] text-white border-r border-white/10 w-[280px] overflow-y-auto flex flex-col [&>button]:text-white/50 [&>button]:hover:text-white [&>button]:hover:bg-white/10 [&>button]:rounded-lg [&>button]:p-2 [&>button]:transition">
+          <SheetTitle className="sr-only">Menu</SheetTitle>
+          {/* Drawer header */}
+          <div className="flex items-center mb-2">
+            <a href="/" className="flex items-center gap-3">
+              <img
+                src="/logo-tnt-baru.png"
+                alt="TNT Sport"
+                className="w-12 h-12 rounded-[10px] object-contain"
+              />
+              <span className="leading-none">
+                <span className="block pas-display text-[15px] !text-white">TNT Sport</span>
+                <span className="block text-[11px] !text-white/70 mt-[3px]">Admin Panel</span>
+              </span>
+            </a>
+          </div>
+          <p className="pas-navsec">Operasional</p>
+          <nav className="flex flex-col gap-1">
+            <a className="pas-navlink" href="/pesanan/orders">
+              <span className="pas-ic"><NavIcon name="pesanan" /></span> Pesanan
+            </a>
+            <a className="pas-navlink on" href="/pesanan/maklon">
+              <span className="pas-ic"><NavIcon name="maklon" /></span> Maklon
+            </a>
+            <a className="pas-navlink" href="/pesanan/orders#jadwal">
+              <span className="pas-ic"><NavIcon name="jadwal" /></span> Jadwal Produksi
+            </a>
+            <a className="pas-navlink" href="/pesanan/orders#kirim">
+              <span className="pas-ic"><NavIcon name="kirim" /></span> Pengiriman
+            </a>
+          </nav>
+          <p className="pas-navsec">Data</p>
+          <nav className="flex flex-col gap-1">
+            <a className="pas-navlink" href="/pesanan/orders#customer">
+              <span className="pas-ic"><NavIcon name="customer" /></span> Customer
+            </a>
+            <a className="pas-navlink" href="/pesanan/orders#laporan">
+              <span className="pas-ic"><NavIcon name="laporan" /></span> Laporan
+            </a>
+            <a className="pas-navlink" href="/pesanan/orders#notif">
+              <span className="pas-ic"><NavIcon name="notif" /></span> Notifikasi
+            </a>
+            <a className="pas-navlink" href="/pesanan/orders#setting">
+              <span className="pas-ic"><NavIcon name="setting" /></span> Pengaturan
+            </a>
+          </nav>
+
+          <div className="pas-userbox mt-6 p-3 flex items-center gap-3">
+            <span className="pas-avatar">AD</span>
+            <span className="leading-tight min-w-0">
+              <span className="block text-[13.5px] font-semibold truncate">Admin TNT</span>
+              <span className="block text-[11.5px] text-white/65 truncate">admin@tntsport.id</span>
+            </span>
+          </div>
+          <button
+            onClick={() => {
+              setShowMobileNav(false);
+              handleLogout();
+            }}
+            className="pas-btn-ghost mt-3 w-full px-3 py-3 text-[13.5px] text-[var(--pas-muted)]"
+          >
+            Keluar
+          </button>
+        </SheetContent>
+      </Sheet>
 
       {openId && (
         <DetailSheet
