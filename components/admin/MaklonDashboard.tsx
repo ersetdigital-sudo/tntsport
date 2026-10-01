@@ -330,7 +330,7 @@ export default function MaklonDashboard() {
             <div className="pas-card pas-kpi p-4 sm:p-5">
               <p className="text-[13px] text-[var(--pas-muted)]">Siap Dikirim</p>
               <div className="flex items-end gap-2.5 mt-2.5">
-                <p className="pas-display pas-num text-[30px] leading-none text-[#8fb0f7]">{stats.kirim}</p>
+                <p className="pas-display pas-num text-[30px] leading-none text-[var(--pas-green)]">{stats.kirim}</p>
               </div>
             </div>
             <div className="pas-card pas-kpi p-4 sm:p-5">
@@ -1174,10 +1174,10 @@ function DetailSheet({
         {/* TOPBAR */}
         <div
           className="sticky top-0 z-10 flex items-center gap-3 px-5 py-3.5 border-b border-[var(--pas-line)]"
-          style={{ background: "rgba(245,235,225,.85)", backdropFilter: "blur(14px)", WebkitBackdropFilter: "blur(14px)" }}
+          style={{ background: "rgba(241,232,216,.85)", backdropFilter: "blur(14px)", WebkitBackdropFilter: "blur(14px)" }}
         >
           <button
-            className="w-9 h-9 rounded-[10px] border border-[var(--pas-line)] bg-[var(--pas-surface)] grid place-items-center text-[var(--pas-muted)] hover:text-[var(--pas-ink-1)] hover:border-[rgba(63,86,59,.22)] transition shrink-0"
+            className="w-9 h-9 rounded-[10px] border border-[var(--pas-line)] bg-[var(--pas-surface)] grid place-items-center text-[var(--pas-muted)] hover:text-[var(--pas-ink-1)] hover:border-[rgba(13,57,52,.22)] transition shrink-0"
             onClick={onClose}
             aria-label="Kembali"
           >
@@ -1202,7 +1202,7 @@ function DetailSheet({
         <div className="flex-1 overflow-y-auto px-5 pt-5 pb-28" style={{ scrollbarColor: "var(--pas-line) transparent" }}>
           {/* STATUS HERO */}
           <div className="rounded-2xl border border-[var(--pas-line)] bg-[var(--pas-surface)] shadow-[0_1px_3px_rgba(0,0,0,.04),0_4px_12px_rgba(0,0,0,.04)] p-6 flex flex-col items-center text-center gap-3">
-            <div className="w-14 h-14 rounded-full bg-[rgba(63,86,59,.10)] grid place-items-center text-[var(--pas-accent)] text-[22px]">
+            <div className="w-14 h-14 rounded-full bg-[rgba(13,57,52,.10)] grid place-items-center text-[var(--pas-accent)] text-[22px]">
               {order.is_done ? (
                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M20 6L9 17l-5-5" /></svg>
               ) : (
@@ -1226,7 +1226,7 @@ function DetailSheet({
               <div className="pas-display text-[28px] leading-none pas-num text-[var(--pas-accent)]">{pct}%</div>
               <div className="text-[13px] font-semibold text-[var(--pas-ink-2)]">Tahap {step} dari {totalSteps}</div>
             </div>
-            <div className="h-[6px] rounded-full bg-[rgba(63,86,59,.08)] overflow-hidden">
+            <div className="h-[6px] rounded-full bg-[rgba(13,57,52,.08)] overflow-hidden">
               <div className="h-full rounded-full bg-[var(--pas-accent)]" style={{ width: `${pct}%`, transition: "width .6s cubic-bezier(.22,1,.36,1)" }} />
             </div>
           </div>
@@ -1257,7 +1257,7 @@ function DetailSheet({
                           background: isDone ? "var(--pas-accent)" : "var(--pas-surface)",
                           border: isDone || isCur ? "2px solid var(--pas-accent)" : "2px solid var(--pas-line)",
                           color: isDone ? "#fff" : isCur ? "var(--pas-accent)" : "var(--pas-muted)",
-                          boxShadow: isDone ? "none" : isCur ? "0 0 0 4px rgba(63,86,59,.10)" : "none",
+                          boxShadow: isDone ? "none" : isCur ? "0 0 0 4px rgba(13,57,52,.10)" : "none",
                         }}
                       >
                         {isDone ? "" : i + 1}
@@ -1279,7 +1279,7 @@ function DetailSheet({
           {/* INFO MAKLON */}
           <p className="pas-stencil text-[9px] text-[var(--pas-muted)] mt-6 mb-2">Informasi Maklon</p>
           <div className="rounded-2xl border border-[var(--pas-line)] bg-[var(--pas-surface)] shadow-[0_1px_3px_rgba(0,0,0,.04)] overflow-hidden">
-            <div className="px-4 py-2.5 border-b border-[var(--pas-line)]" style={{ background: "rgba(63,86,59,.03)" }}>
+            <div className="px-4 py-2.5 border-b border-[var(--pas-line)]" style={{ background: "rgba(13,57,52,.03)" }}>
               <span className="pas-stencil text-[9px] text-[var(--pas-muted)]">Data Order</span>
             </div>
             <div className="grid grid-cols-2">
@@ -1302,7 +1302,7 @@ function DetailSheet({
                     <button
                       type="button"
                       onClick={copyPhone}
-                      className={`w-6 h-6 rounded-md border grid place-items-center transition shrink-0 ${copiedPhone ? "border-[rgba(34,197,94,.45)] bg-[rgba(34,197,94,.10)] text-[#16a34a]" : "border-[var(--pas-line)] bg-[var(--pas-surface)] text-[var(--pas-muted)] hover:text-[var(--pas-ink-1)] hover:border-[rgba(63,86,59,.22)]"}`}
+                      className={`w-6 h-6 rounded-md border grid place-items-center transition shrink-0 ${copiedPhone ? "border-[rgba(34,197,94,.45)] bg-[rgba(34,197,94,.10)] text-[#16a34a]" : "border-[var(--pas-line)] bg-[var(--pas-surface)] text-[var(--pas-muted)] hover:text-[var(--pas-ink-1)] hover:border-[rgba(13,57,52,.22)]"}`}
                       aria-label="Salin nomor HP"
                       title={copiedPhone ? "Tersalin" : "Salin nomor HP"}
                     >
@@ -1339,7 +1339,7 @@ function DetailSheet({
                   <span className="pas-stencil text-[9px] text-[var(--pas-muted)]">Produk</span>
                   <div className="flex flex-wrap gap-1.5 mt-2">
                     {order.products!.map((p, pi) => (
-                      <span key={pi} className="inline-flex items-center gap-1 px-2.5 py-1.5 rounded-lg text-[12.5px] font-semibold bg-[rgba(63,86,59,.06)] border border-[rgba(63,86,59,.12)] text-[var(--pas-ink-1)]">
+                      <span key={pi} className="inline-flex items-center gap-1 px-2.5 py-1.5 rounded-lg text-[12.5px] font-semibold bg-[rgba(13,57,52,.06)] border border-[rgba(13,57,52,.12)] text-[var(--pas-ink-1)]">
                         {p.name} <span className="text-[var(--pas-muted)] font-normal">- {p.sizes.reduce((a, s) => a + (s.qty || 0), 0)} pcs</span>
                       </span>
                     ))}
@@ -1379,7 +1379,7 @@ function DetailSheet({
           {/* MEDIA */}
           <p className="pas-stencil text-[9px] text-[var(--pas-muted)] mt-6 mb-2">Media</p>
           <div className="rounded-2xl border border-[var(--pas-line)] bg-[var(--pas-surface)] shadow-[0_1px_3px_rgba(0,0,0,.04)] overflow-hidden">
-            <div className="px-4 py-2.5 border-b border-[var(--pas-line)]" style={{ background: "rgba(63,86,59,.03)" }}>
+            <div className="px-4 py-2.5 border-b border-[var(--pas-line)]" style={{ background: "rgba(13,57,52,.03)" }}>
               <span className="pas-stencil text-[9px] text-[var(--pas-muted)]">File & Foto</span>
             </div>
             <div className="grid grid-cols-2 gap-4 p-4">
@@ -1412,7 +1412,7 @@ function DetailSheet({
                       </button>
                     </div>
                   ))}
-                  <label className="w-[72px] h-[72px] grid place-items-center rounded-xl border-[1.5px] border-dashed border-[var(--pas-line)] hover:border-[var(--pas-accent)] cursor-pointer transition text-[var(--pas-muted)] hover:text-[var(--pas-accent)] hover:bg-[rgba(63,86,59,.04)]">
+                  <label className="w-[72px] h-[72px] grid place-items-center rounded-xl border-[1.5px] border-dashed border-[var(--pas-line)] hover:border-[var(--pas-accent)] cursor-pointer transition text-[var(--pas-muted)] hover:text-[var(--pas-accent)] hover:bg-[rgba(13,57,52,.04)]">
                     <input type="file" accept="image/*" className="hidden" disabled={uploadingWo} onChange={(e) => { const f = e.target.files?.[0]; if (f) handleWoUpload(f); e.currentTarget.value = ""; }} />
                     <span className="text-[20px] leading-none">{uploadingWo ? "..." : "+"}</span>
                   </label>
@@ -1467,10 +1467,10 @@ function DetailSheet({
         </div>
 
         {/* FOOTER */}
-        <div className="sticky bottom-0 flex gap-2.5 px-5 py-4 border-t border-[var(--pas-line)]" style={{ background: "linear-gradient(180deg,rgba(245,235,225,0),var(--pas-bg) 30%)" }}>
+        <div className="sticky bottom-0 flex gap-2.5 px-5 py-4 border-t border-[var(--pas-line)]" style={{ background: "linear-gradient(180deg,rgba(241,232,216,0),var(--pas-bg) 30%)" }}>
           <button
             className="flex-1 py-3.5 rounded-[10px] text-[12px] font-bold text-white border-0 cursor-pointer transition-all"
-            style={{ fontFamily: "var(--font-display), system-ui, sans-serif", letterSpacing: ".04em", textTransform: "uppercase", background: "var(--pas-accent)", boxShadow: "0 2px 8px rgba(63,86,59,.18)" }}
+            style={{ fontFamily: "var(--font-display), system-ui, sans-serif", letterSpacing: ".04em", textTransform: "uppercase", background: "var(--pas-accent)", boxShadow: "0 2px 8px rgba(13,57,52,.18)" }}
             onClick={save}
             disabled={saving}
           >

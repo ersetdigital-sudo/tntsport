@@ -2126,10 +2126,10 @@
    ═══════════════════════════════════════════════ */
 .pas-shell,
 .pas-light {
-  --color-ink: #304230;
-  --color-foreground: #304230;
-  --color-body: #304230;
-  --color-background: #F5EBE1;
+  --color-ink: #1E2A26;
+  --color-foreground: #1E2A26;
+  --color-body: #1E2A26;
+  --color-background: #F1E8D8;
   --color-surface: #FFFFFF;
   --color-surface-card: #FFFFFF;
   color-scheme: light;
@@ -2138,22 +2138,36 @@
 
 :root {
   color-scheme: light;
-  --pas-bg: #F5EBE1;
+  /* Palet dashboard Pesanan & Maklon. Tiga warna utamanya dikumpulkan di sini
+     supaya mudah dikelola:
+       Primary Dark Green  #0D3934  --pas-green / --pas-accent
+       Accent Sage Green   #A9C475  --pas-sage
+       Warm Ivory          #F1E8D8  --pas-bg
+     Semua warna turunan (border, muted, surface) diturunkan dari ketiganya,
+     jadi tidak ada nilai hijau/ivory yang ditulis ulang di komponen. */
+  --pas-bg: #F1E8D8;
   --pas-surface: #FFFFFF;
-  --pas-surface-2: #F5EBE1;
-  --pas-line: #E3D7CC;
-  --pas-line-2: #E3D7CC;
-  --pas-muted: #8C857E;
-  --pas-ink-1: #304230;
-  --pas-ink-2: #5A6B5A;
-  --pas-accent: #3F563B;
-  --pas-accent-soft: rgba(63,86,59,.1);
+  --pas-surface-2: #FAF5EA;
+  --pas-line: #E4DAC7;
+  --pas-line-2: #EDE5D5;
+  --pas-muted: #776F62;
+  --pas-ink-1: #1E2A26;
+  --pas-ink-2: #4E5A53;
+  --pas-accent: #0D3934;
+  --pas-accent-soft: rgba(13,57,52,.08);
   --pas-radius: 14px;
 
-  --pas-green: #3F563B;
+  --pas-green: #0D3934;
+  /* Variasi hijau yang lebih terang — dipakai untuk state aktif/hover di atas
+     dark green supaya terlihat "menyala" tanpa perlu warna tambahan. */
+  --pas-green-lift: #15544C;
+  --pas-sage: #A9C475;
+  --pas-sage-soft: rgba(169,196,117,.22);
+  --pas-sage-ink: #3E5A22;
   --pas-orange: #CB5639;
   --pas-yellow: #DDB339;
-  --pas-light: #DFE9DE;
+  --pas-red: #C0392B;
+  --pas-light: #E9EFDC;
 }
 
 .pas-shell { display: flex; min-height: 100vh; background: var(--pas-bg); }
@@ -2167,13 +2181,19 @@
 .pas-side .pas-display { color: #FFFFFF !important; }
 .pas-side .pas-stencil { color: rgba(255,255,255,.7) !important; }
 .pas-navlink {
+  position: relative;
   display: flex; align-items: center; gap: 11px; padding: 10px 12px;
-  border-radius: 10px; font-size: 14px; color: rgba(255,255,255,.6); transition: .16s;
+  border-radius: 10px; font-size: 14px; color: rgba(255,255,255,.62); transition: .16s;
 }
-.pas-navlink:hover { background: rgba(255,255,255,.1); color: #fff; }
-.pas-navlink.on { background: rgba(255,255,255,.12); color: #fff; font-weight: 600; }
-.pas-navlink.on .pas-ic { color: #DDB339; }
-.pas-ic { width: 18px; text-align: center; font-size: 15px; opacity: .9; }
+.pas-navlink:hover { background: rgba(255,255,255,.08); color: #fff; }
+/* Menu aktif: hijau yang lebih terang + indikator aksen sage di tepi kiri. */
+.pas-navlink.on { background: var(--pas-green-lift); color: #fff; font-weight: 600; }
+.pas-navlink.on::before {
+  content: ""; position: absolute; left: 0; top: 9px; bottom: 9px; width: 3px;
+  border-radius: 99px; background: var(--pas-sage);
+}
+.pas-navlink.on .pas-ic { color: var(--pas-sage); }
+.pas-ic { width: 18px; text-align: center; font-size: 15px; opacity: .95; }
 
 /* Drawer menu (dark panel, premium feel) — HANYA untuk nav drawer (slide-left) */
 .pas-panel.slide-left {
@@ -2182,8 +2202,8 @@
 }
 .pas-panel.slide-left .pas-navlink { color: rgba(255,255,255,.65) !important; background: transparent !important; }
 .pas-panel.slide-left .pas-navlink:hover { background: rgba(255,255,255,.08) !important; color: #fff !important; }
-.pas-panel.slide-left .pas-navlink.on { background: rgba(255,255,255,.1) !important; color: #fff !important; font-weight: 600; }
-.pas-panel.slide-left .pas-navlink.on .pas-ic { color: var(--pas-yellow) !important; }
+.pas-panel.slide-left .pas-navlink.on { background: var(--pas-green-lift) !important; color: #fff !important; font-weight: 600; }
+.pas-panel.slide-left .pas-navlink.on .pas-ic { color: var(--pas-sage) !important; }
 .pas-panel.slide-left .pas-navsec { color: rgba(255,255,255,.35) !important; }
 .pas-panel.slide-left .pas-display { color: #fff !important; }
 .pas-panel.slide-left .pas-mark { background: #fff; color: var(--pas-green); }
@@ -2195,28 +2215,33 @@
 
 .pas-topbar {
   position: sticky; top: 0; z-index: 30;
-  background: rgba(245,235,225,.88); backdrop-filter: blur(12px);
+  background: rgba(241,232,216,.88); backdrop-filter: blur(12px);
   border-bottom: 1px solid var(--pas-line);
 }
 
 .pas-card {
   background: var(--pas-surface); border: 1px solid var(--pas-line);
-  border-radius: var(--pas-radius); box-shadow: 0 2px 8px rgba(0,0,0,.04);
-  transition: border-color .18s, transform .18s;
+  border-radius: var(--pas-radius);
+  /* Bayangan sangat halus — cukup untuk mengangkat card, tidak sampai berbayang. */
+  box-shadow: 0 1px 2px rgba(13,57,52,.04), 0 6px 18px rgba(13,57,52,.05);
+  transition: border-color .18s, transform .18s, box-shadow .18s;
 }
 .pas-kpi { position: relative; overflow: hidden; }
-.pas-kpi:hover { border-color: #c4b8a8; }
+.pas-kpi:hover {
+  border-color: var(--pas-sage);
+  box-shadow: 0 1px 2px rgba(13,57,52,.05), 0 10px 26px rgba(13,57,52,.09);
+}
 .pas-delta { font-size: 11.5px; font-weight: 600; padding: 2px 7px; border-radius: 6px; }
-.pas-delta.up { background: rgba(63,86,59,.12); color: #3F563B; }
-.pas-delta.flat { background: #E3D7CC; color: #8C857E; }
+.pas-delta.up { background: var(--pas-sage-soft); color: var(--pas-sage-ink); }
+.pas-delta.flat { background: var(--pas-line); color: var(--pas-muted); }
 
 .pas-field {
   background: var(--pas-surface); border: 1px solid var(--pas-line);
   border-radius: 10px; color: var(--pas-ink-1);
 }
-.pas-field::placeholder { color: #8C857E; }
+.pas-field::placeholder { color: var(--pas-muted); }
 .pas-field:focus {
-  border-color: #3F563B; box-shadow: 0 0 0 3px rgba(63,86,59,.1);
+  border-color: var(--pas-green); box-shadow: 0 0 0 3px var(--pas-sage-soft);
   background: var(--pas-surface);
 }
 /* pastikan dropdown option selalu terang (bukan ikut dark-mode OS) */
@@ -2232,7 +2257,7 @@
 .pas-search input { padding-left: 38px; }
 .pas-search .pas-mag {
   position: absolute; left: 13px; top: 50%; transform: translateY(-50%);
-  color: #8C857E; font-size: 14px; pointer-events: none;
+  color: var(--pas-muted); font-size: 14px; pointer-events: none;
 }
 
 .pas-btn-accent {
@@ -2240,12 +2265,12 @@
   letter-spacing: 0; text-transform: none;
   font-family: "Barlow", sans-serif; font-weight: 700; box-shadow: none;
 }
-.pas-btn-accent:hover { transform: none; filter: brightness(1.08); }
+.pas-btn-accent:hover { transform: none; filter: none; background: var(--pas-green-lift); }
 .pas-btn-ghost {
   border: 1px solid var(--pas-line); border-radius: 10px;
   background: var(--pas-surface); color: var(--pas-ink-1);
 }
-.pas-btn-ghost:hover { background: #F5EBE1; border-color: #c4b8a8; }
+.pas-btn-ghost:hover { background: var(--pas-surface-2); border-color: var(--pas-green); }
 
 .pas-seg {
   display: inline-flex; background: var(--pas-surface);
@@ -2255,26 +2280,27 @@
   border: none; background: transparent; color: var(--pas-muted);
   font-weight: 500; border-radius: 8px; padding: 7px 13px; font-size: 13.5px;
 }
-.pas-chip:hover { background: rgba(63,86,59,.06); color: var(--pas-ink-1); }
+.pas-chip:hover { background: var(--pas-accent-soft); color: var(--pas-ink-1); }
 .pas-chip.on {
   background: var(--pas-green); color: #fff;
-  box-shadow: 0 1px 3px rgba(63,86,59,.2);
+  box-shadow: 0 1px 3px rgba(13,57,52,.22);
 }
 
 .pas-pill {
   display: inline-flex; align-items: center; gap: 6px; border-radius: 7px;
   font-size: 11.5px; font-weight: 600; letter-spacing: 0; text-transform: none;
-  padding: 4px 9px; background: #E3D7CC; color: #8C857E;
+  padding: 4px 9px; background: var(--pas-line); color: var(--pas-muted);
 }
 .pas-pill::before { content: ""; width: 6px; height: 6px; border-radius: 99px; background: currentColor; }
-.pas-pill.baru { background: #E3D7CC; color: #8C857E; }
-.pas-pill.produksi { background: rgba(63,86,59,.12); color: #3F563B; }
-.pas-pill.kirim { background: rgba(59,130,246,.12); color: #3b82f6; }
-.pas-pill.selesai { background: rgba(148,163,184,.14); color: #64748b; }
+.pas-pill.baru { background: var(--pas-line); color: var(--pas-muted); }
+.pas-pill.produksi { background: var(--pas-accent-soft); color: var(--pas-green); }
+.pas-pill.kirim { background: rgba(59,130,246,.12); color: #2f6fd0; }
+/* Selesai = hijau, sesuai makna statusnya. */
+.pas-pill.selesai { background: var(--pas-sage-soft); color: var(--pas-sage-ink); }
 
 table.pas-tbl { width: 100%; border-collapse: separate; border-spacing: 0; table-layout: fixed; }
 table.pas-tbl th {
-  color: #8C857E; font-size: 11px; letter-spacing: .07em; text-transform: uppercase;
+  color: var(--pas-ink-2); font-size: 11px; letter-spacing: .07em; text-transform: uppercase;
   font-weight: 600; padding: 0 16px 12px; text-align: left;
 }
 table.pas-tbl td {
@@ -2283,7 +2309,7 @@ table.pas-tbl td {
   overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
 }
 table.pas-tbl tbody tr { transition: background .16s; cursor: pointer; }
-table.pas-tbl tbody tr:hover { background: rgba(63,86,59,.03); }
+table.pas-tbl tbody tr:hover { background: rgba(13,57,52,.035); }
 @media (max-width: 1024px) {
   table.pas-tbl { table-layout: auto; }
   table.pas-tbl th, table.pas-tbl td { padding: 12px 10px; font-size: 13px; }
@@ -2295,19 +2321,19 @@ table.pas-tbl tbody tr:hover { background: rgba(63,86,59,.03); }
 }
 
 .pas-mini {
-  background: #E3D7CC; height: 5px; border-radius: 99px;
+  background: var(--pas-light); height: 5px; border-radius: 99px;
   display: block; overflow: hidden; min-width: 60px;
 }
-.pas-mini > i { display: block; height: 100%; background: var(--pas-green); border-radius: 99px; transition: width .8s cubic-bezier(.22,1,.36,1); }
+.pas-mini > i { display: block; height: 100%; background: linear-gradient(90deg, var(--pas-green), var(--pas-sage)); border-radius: 99px; transition: width .8s cubic-bezier(.22,1,.36,1); }
 .pas-bar {
-  background: #E3D7CC; height: 6px; border-radius: 99px; display: block; overflow: hidden;
+  background: var(--pas-light); height: 6px; border-radius: 99px; display: block; overflow: hidden;
 }
-.pas-bar > i { display: block; height: 100%; background: var(--pas-green); border-radius: 99px; transition: width .8s cubic-bezier(.22,1,.36,1); }
+.pas-bar > i { display: block; height: 100%; background: linear-gradient(90deg, var(--pas-green), var(--pas-sage)); border-radius: 99px; transition: width .8s cubic-bezier(.22,1,.36,1); }
 
 .pas-sheet { position: fixed; inset: 0; z-index: 60; display: none; }
 .pas-sheet.open { display: block; }
 .pas-sheet .pas-veil {
-  position: absolute; inset: 0; background: rgba(48,66,48,.35);
+  position: absolute; inset: 0; background: rgba(13,57,52,.35);
   backdrop-filter: blur(3px);
 }
 .pas-sheet .pas-panel {
@@ -2345,17 +2371,17 @@ table.pas-tbl tbody tr:hover { background: rgba(63,86,59,.03); }
 .pas-stepbtn {
   display: flex; align-items: center; gap: 12px; width: 100%; text-align: left;
   padding: 10px 12px; border-radius: 12px; border: 1px solid transparent;
-  transition: all .18s; font-size: 14px; color: #8C857E;
+  transition: all .18s; font-size: 14px; color: var(--pas-muted);
 }
 .pas-stepbtn:hover { background: var(--pas-light); color: var(--pas-ink-1); }
 .pas-stepbtn .pas-num {
   width: 24px; height: 24px; border-radius: 99px; display: grid; place-items: center;
-  font-size: 11px; font-weight: 700; background: #E3D7CC; color: #8C857E; flex: none;
+  font-size: 11px; font-weight: 700; background: var(--pas-line); color: var(--pas-muted); flex: none;
 }
 .pas-stepbtn.done { color: var(--pas-ink-1); }
-.pas-stepbtn.done .pas-num { background: rgba(63,86,59,.12); color: var(--pas-green); }
+.pas-stepbtn.done .pas-num { background: var(--pas-sage-soft); color: var(--pas-sage-ink); }
 .pas-stepbtn.cur {
-  background: rgba(63,86,59,.08); border-color: rgba(63,86,59,.25); color: var(--pas-ink-1);
+  background: var(--pas-accent-soft); border-color: var(--pas-sage); color: var(--pas-ink-1);
 }
 .pas-stepbtn.cur .pas-num { background: var(--pas-green); color: #fff; }
 
@@ -2379,7 +2405,7 @@ table.pas-tbl tbody tr:hover { background: rgba(63,86,59,.03); }
   width: calc(100% - 32px); max-width: 340px;
   padding: 14px 16px; border-radius: 16px; z-index: 85; pointer-events: none;
   background: var(--pas-green);
-  box-shadow: 0 12px 32px rgba(10,10,10,.28), 0 2px 8px rgba(0,0,0,.18);
+  box-shadow: 0 12px 32px rgba(13,57,52,.26), 0 2px 8px rgba(13,57,52,.14);
   animation: pas-upload-in .22s ease-out;
 }
 @media (max-width: 1023px) { .pas-upload-pop { bottom: 96px; } }
@@ -2422,13 +2448,13 @@ table.pas-tbl tbody tr:hover { background: rgba(63,86,59,.03); }
     padding: 20px;
     position: relative;
     overflow: hidden;
-    box-shadow: 0 4px 16px rgba(0,0,0,.06);
+    box-shadow: 0 4px 16px rgba(13,57,52,.06);
     transition: all .2s ease;
   }
   .pas-bento-kpi:hover {
-    border-color: #c4b8a8;
+    border-color: var(--pas-sage);
     transform: translateY(-2px);
-    box-shadow: 0 6px 20px rgba(0,0,0,.16);
+    box-shadow: 0 6px 20px rgba(13,57,52,.14);
   }
 
   .pas-bento-card {
@@ -2437,13 +2463,13 @@ table.pas-tbl tbody tr:hover { background: rgba(63,86,59,.03); }
     border-radius: 20px;
     padding: 20px;
     position: relative;
-    box-shadow: 0 4px 16px rgba(0,0,0,.06);
+    box-shadow: 0 4px 16px rgba(13,57,52,.06);
     transition: all .2s ease;
   }
   .pas-bento-card:hover {
-    border-color: #c4b8a8;
+    border-color: var(--pas-sage);
     transform: translateY(-2px);
-    box-shadow: 0 6px 20px rgba(0,0,0,.16);
+    box-shadow: 0 6px 20px rgba(13,57,52,.14);
   }
 
   .pas-bento-avatar {
@@ -2479,10 +2505,10 @@ table.pas-tbl tbody tr:hover { background: rgba(63,86,59,.03); }
     font-size: 13px !important;
     transition: all .18s ease;
     white-space: nowrap;
-    box-shadow: 0 2px 6px rgba(0,0,0,.04) !important;
+    box-shadow: 0 2px 6px rgba(13,57,52,.04) !important;
   }
   .pas-bento-chip:hover {
-    background: #F5EBE1 !important;
+    background: var(--pas-surface-2) !important;
     color: var(--pas-ink-1) !important;
     border-color: var(--pas-green) !important;
     transform: translateY(-1px);
@@ -2491,7 +2517,7 @@ table.pas-tbl tbody tr:hover { background: rgba(63,86,59,.03); }
     background: var(--pas-green) !important;
     color: #fff !important;
     border-color: var(--pas-green) !important;
-    box-shadow: 0 4px 14px rgba(63,86,59,.25) !important;
+    box-shadow: 0 4px 14px rgba(13,57,52,.25) !important;
   }
 
   .pas-bento-divider {
@@ -2514,7 +2540,7 @@ table.pas-tbl tbody tr:hover { background: rgba(63,86,59,.03); }
     display: flex;
     align-items: center;
     justify-content: space-between;
-    box-shadow: 0 8px 32px rgba(63,86,59,.3), 0 2px 8px rgba(0,0,0,.12);
+    box-shadow: 0 8px 32px rgba(13,57,52,.3), 0 2px 8px rgba(13,57,52,.12);
     z-index: 50;
   }
   .pas-bottom-nav-item {
@@ -2525,11 +2551,11 @@ table.pas-tbl tbody tr:hover { background: rgba(63,86,59,.03); }
     transition: all .18s ease; cursor: pointer;
   }
   .pas-bottom-nav-item:hover { color: #fff; background: rgba(255,255,255,.1); }
-  .pas-bottom-nav-item.on { color: #DDB339; background: rgba(255,255,255,.12); }
+  .pas-bottom-nav-item.on { color: var(--pas-sage); background: var(--pas-green-lift); }
   .pas-bottom-nav-dot {
     position: absolute; bottom: 2px; left: 50%; transform: translateX(-50%);
     width: 5px; height: 5px; border-radius: 99px;
-    background: #DDB339;
+    background: var(--pas-sage);
   }
 
   /* Push content up so bottom nav doesn't overlap */
@@ -2548,12 +2574,14 @@ table.pas-tbl tbody tr:hover { background: rgba(63,86,59,.03); }
    JADWAL PRODUKSI — KANBAN BOARD REDESIGN
    ═══════════════════════════════════════════════ */
 
-/* Lane accent colors */
+/* Warna aksen tiap lane Kanban — semuanya masih satu keluarga dengan palet
+   (sage → dark green → teal gelap), jadi board-nya tetap bisa dibedakan tanpa
+   menambah warna aksen baru. */
 :root {
-  --lane-desain: #CB5639;
-  --lane-produksi: #3F563B;
-  --lane-finishing: #DDB339;
-  --lane-kirim: #5B8DEF;
+  --lane-desain: #A9C475;
+  --lane-produksi: #0D3934;
+  --lane-finishing: #7F9E4E;
+  --lane-kirim: #3B7C6E;
 }
 
 /* Board container — horizontal scroll on desktop */
@@ -2615,8 +2643,8 @@ table.pas-tbl tbody tr:hover { background: rgba(63,86,59,.03); }
   scrollbar-width: thin;
   scrollbar-color: var(--pas-line) transparent;
 }
-.pas-lane-over { outline: 2px dashed var(--pas-green); outline-offset: -2px; background: rgba(63,86,59,.06); }
-.pas-dragging { transform: rotate(1deg) scale(1.01); box-shadow: 0 10px 28px rgba(0,0,0,.18); }
+.pas-lane-over { outline: 2px dashed var(--pas-green); outline-offset: -2px; background: rgba(13,57,52,.06); }
+.pas-dragging { transform: rotate(1deg) scale(1.01); box-shadow: 0 10px 28px rgba(13,57,52,.16); }
 .pas-lane-body::-webkit-scrollbar { width: 4px; }
 .pas-lane-body::-webkit-scrollbar-thumb { background: var(--pas-line); border-radius: 99px; }
 
@@ -2631,13 +2659,13 @@ table.pas-tbl tbody tr:hover { background: rgba(63,86,59,.03); }
   position: relative;
 }
 .pas-order-card:hover {
-  border-color: #c4b8a8;
-  box-shadow: 0 4px 16px rgba(0,0,0,.06);
+  border-color: var(--pas-sage);
+  box-shadow: 0 4px 16px rgba(13,57,52,.06);
   transform: translateY(-1px);
 }
 .pas-order-card:active {
   transform: translateY(0);
-  box-shadow: 0 2px 8px rgba(0,0,0,.04);
+  box-shadow: 0 2px 8px rgba(13,57,52,.04);
 }
 
 /* Card — top accent border per lane */
@@ -2698,7 +2726,7 @@ table.pas-tbl tbody tr:hover { background: rgba(63,86,59,.03); }
 .pas-card-bar-fill.low    { background: var(--lane-desain); }
 .pas-card-bar-fill.mid    { background: var(--lane-produksi); }
 .pas-card-bar-fill.high   { background: var(--lane-finishing); }
-.pas-card-bar-fill.done   { background: var(--lane-produksi); }
+.pas-card-bar-fill.done   { background: var(--pas-sage); }
 .pas-card-pct {
   font-size: 11px; font-weight: 700; color: var(--pas-ink-2);
   font-variant-numeric: tabular-nums; min-width: 32px; text-align: right;
@@ -2768,7 +2796,7 @@ table.pas-tbl tbody tr:hover { background: rgba(63,86,59,.03); }
    ═══════════════════════════════════════════════ */
 .pas-picker {
   background: var(--pas-surface); border: 1px solid var(--pas-line);
-  border-radius: var(--pas-radius); box-shadow: 0 2px 8px rgba(0,0,0,.04);
+  border-radius: var(--pas-radius); box-shadow: 0 2px 8px rgba(13,57,52,.04);
   padding: 14px 18px; display: flex; align-items: center; gap: 16px; flex-wrap: wrap;
 }
 .pas-picker-ic {
@@ -2843,7 +2871,7 @@ table.pas-tbl tbody tr:hover { background: rgba(63,86,59,.03); }
 
 /* varian pill untuk status kapasitas */
 .pas-pill.warn { background: rgba(221,179,57,.18); color: #8A6A16; }
-.pas-pill.danger { background: rgba(203,86,57,.14); color: #A8472F; }
+.pas-pill.danger { background: rgba(192,57,43,.12); color: var(--pas-red); }
 
 /* tabel statis (rincian laporan) — tanpa affordance klik */
 table.pas-tbl.pas-tbl-static tbody tr { cursor: default; }

@@ -39,7 +39,7 @@ export default function UploadIndicator() {
               ? "Menyiapkan foto…"
               : `Mengunggah ${formatBytes(job.uploadBytes)}`}
           </p>
-          <p className="mt-0.5 truncate text-[11.5px] text-[#DFE9DE]">
+          <p className="mt-0.5 truncate text-[11.5px] text-[#E9EFDC]">
             {job.name} · {formatBytes(job.originalBytes)}
             {!compressing && saved > 0 && ` → ${formatBytes(job.uploadBytes)}`}
           </p>
@@ -47,14 +47,14 @@ export default function UploadIndicator() {
             <i
               className={
                 compressing
-                  ? "pas-upload-indeterminate block h-full rounded-full bg-[#DFE9DE]"
-                  : "block h-full rounded-full bg-[#DFE9DE] transition-[width] duration-200 ease-out"
+                  ? "pas-upload-indeterminate block h-full rounded-full bg-[var(--pas-sage)]"
+                  : "block h-full rounded-full bg-[var(--pas-sage)] transition-[width] duration-200 ease-out"
               }
               style={compressing ? undefined : { width: `${percent}%` }}
             />
           </div>
         </div>
-        <span className="pas-num shrink-0 pt-0.5 text-[12.5px] font-bold text-[#DFE9DE]">
+        <span className="pas-num shrink-0 pt-0.5 text-[12.5px] font-bold text-[#E9EFDC]">
           {compressing ? "…" : `${percent}%`}
         </span>
       </div>

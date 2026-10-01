@@ -101,7 +101,7 @@ const MONTH_NAMES = [
 ];
 /** Urutan tetap di chart/tabel; kategori lain menyusul di bawahnya. */
 const CAT_ORDER = ["Atasan", "Setelan"];
-const CAT_COLORS = ["#3F563B", "#7FA37B", "#DDB339", "#8C857E"];
+const CAT_COLORS = ["#0D3934", "#3B7C6E", "#A9C475", "#776F62"];
 
 /** "2026-09" dari created_at (waktu lokal browser). */
 function monthKeyOf(iso: string): string {
@@ -649,7 +649,7 @@ export default function PesananDashboard({
 
       {/* â”€â”€ MOBILE NAV DRAWER â”€â”€ */}
       <Sheet open={showMobileNav} onOpenChange={setShowMobileNav}>
-        <SheetContent side="left" className="p-5 bg-[#0f3a21] text-white border-r border-white/10 w-[280px] [&>button]:text-white/50 [&>button]:hover:text-white [&>button]:hover:bg-white/10 [&>button]:rounded-lg [&>button]:p-2 [&>button]:transition">
+        <SheetContent side="left" className="p-5 bg-[#0D3934] text-white border-r border-white/10 w-[280px] [&>button]:text-white/50 [&>button]:hover:text-white [&>button]:hover:bg-white/10 [&>button]:rounded-lg [&>button]:p-2 [&>button]:transition">
           {/* Drawer header */}
           <div className="flex items-center mb-2">
             <a href="/" className="flex items-center gap-2.5">
@@ -997,7 +997,7 @@ function ViewPesanan({
                   ? "pas-display pas-num text-[30px] leading-none text-red-500"
                   : hasWarning
                     ? "pas-display pas-num text-[30px] leading-none text-[var(--pas-orange)]"
-                    : "pas-display pas-num text-[30px] leading-none text-[#8fb0f7]"
+                    : "pas-display pas-num text-[30px] leading-none text-[var(--pas-green)]"
               }
             >
               {deadlineAlertCount}
@@ -2165,7 +2165,7 @@ function ViewLaporan({ orders }: { orders: OrderData[] }) {
                       role="img"
                       aria-label="Donut proporsi kategori"
                     >
-                      <circle cx="60" cy="60" r="46" fill="none" stroke="#E3D7CC" strokeWidth="15" />
+                      <circle cx="60" cy="60" r="46" fill="none" stroke="#E4DAC7" strokeWidth="15" />
                       <g transform="rotate(-90 60 60)">{donutSegments}</g>
                     </svg>
                     <div className="pas-donut-center">
@@ -3269,37 +3269,37 @@ function ViewNotif({ showToast, orders }: { showToast: (msg: string) => void; or
     <>
       {/* â”€â”€ CSS VARS (cream design system) â”€â”€ */}
       <style>{`
-        .notif-wrap{--cream:#f7f4ee;--cream-2:#f0ebe1;--paper:#ffffff;--ink:#141d17;--ink-2:#3c4a41;--ink-soft:#77857b;--line:#e6e0d4;--line-2:#efe9dd;--green:#0f3a21;--green-2:#19582f;--accent:#2c7a4b;--mint:#e7f2ea;--mint-line:#cbe2d1;--danger:#dc2626;--danger-bg:#fee2e2;--danger-line:#fecaca}
-        .notif-wrap .n-card{background:var(--paper);border:1px solid var(--line);border-radius:22px;box-shadow:0 1px 1px rgba(20,29,23,.03),0 22px 44px -32px rgba(20,29,23,.28)}
+        .notif-wrap{--cream:#F1E8D8;--cream-2:#FAF5EA;--paper:#ffffff;--ink:#1E2A26;--ink-2:#4E5A53;--ink-soft:#776F62;--line:#E4DAC7;--line-2:#EDE5D5;--green:#0D3934;--green-2:#15544C;--accent:#0D3934;--mint:#E9EFDC;--mint-line:#D8E4C4;--danger:#C0392B;--danger-bg:#FBE9E5;--danger-line:#F3CDC4}
+        .notif-wrap .n-card{background:var(--paper);border:1px solid var(--line);border-radius:22px;box-shadow:0 1px 1px rgba(13,57,52,.03),0 22px 44px -32px rgba(13,57,52,.28)}
         .notif-wrap .n-eyebrow{font-size:10.5px;text-transform:uppercase;letter-spacing:.2em;color:var(--ink-soft);font-family:var(--font-geist-mono),ui-monospace,monospace}
-        .notif-wrap .n-hero{position:relative;overflow:hidden;border-radius:26px;background:linear-gradient(145deg,#0c3119 0%,#16512c 52%,#1d6836 100%);box-shadow:0 30px 70px -40px rgba(15,58,33,.75),inset 0 1px 0 rgba(255,255,255,.1)}
-        .notif-wrap .n-hero-glow{position:absolute;inset:auto -8% 40% auto;width:520px;height:520px;background:radial-gradient(circle,rgba(160,235,187,.20),transparent 62%);pointer-events:none}
+        .notif-wrap .n-hero{position:relative;overflow:hidden;border-radius:26px;background:linear-gradient(145deg,#0D3934 0%,#12463F 52%,#15544C 100%);box-shadow:0 30px 70px -40px rgba(13,57,52,.75),inset 0 1px 0 rgba(255,255,255,.1)}
+        .notif-wrap .n-hero-glow{position:absolute;inset:auto -8% 40% auto;width:520px;height:520px;background:radial-gradient(circle,rgba(169,196,117,.22),transparent 62%);pointer-events:none}
         .notif-wrap .n-hero-grid{position:absolute;inset:0;pointer-events:none;background-image:linear-gradient(rgba(255,255,255,.045) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.045) 1px,transparent 1px);background-size:100% 36px,36px 100%;mask-image:radial-gradient(120% 90% at 70% 0%,#000 25%,transparent 75%)}
-        .notif-wrap .n-stat{border:1px solid var(--line);border-radius:18px;background:linear-gradient(180deg,#fff,#fcfbf7);padding:18px 18px 16px;transition:transform .22s ease,box-shadow .22s ease}
-        .notif-wrap .n-stat:hover{transform:translateY(-2px);box-shadow:0 18px 34px -26px rgba(20,29,23,.32)}
-        .notif-wrap .n-field{width:100%;background:#fbfaf6;border:1px solid var(--line);border-radius:14px;padding:22px 14px 9px;font-size:15px;color:var(--ink);transition:border-color .18s ease,box-shadow .18s ease,background .18s ease;font-family:var(--font-geist),system-ui,sans-serif}
-        .notif-wrap .n-field:focus{outline:none;background:#fff;border-color:var(--accent);box-shadow:0 0 0 4px rgba(44,122,75,.11)}
+        .notif-wrap .n-stat{border:1px solid var(--line);border-radius:18px;background:linear-gradient(180deg,#fff,#FDFAF3);padding:18px 18px 16px;transition:transform .22s ease,box-shadow .22s ease}
+        .notif-wrap .n-stat:hover{transform:translateY(-2px);box-shadow:0 18px 34px -26px rgba(13,57,52,.32)}
+        .notif-wrap .n-field{width:100%;background:#FDFBF5;border:1px solid var(--line);border-radius:14px;padding:22px 14px 9px;font-size:15px;color:var(--ink);transition:border-color .18s ease,box-shadow .18s ease,background .18s ease;font-family:var(--font-geist),system-ui,sans-serif}
+        .notif-wrap .n-field:focus{outline:none;background:#fff;border-color:var(--accent);box-shadow:0 0 0 4px rgba(13,57,52,.12)}
         .notif-wrap .n-fw{position:relative}
         .notif-wrap .n-fw label{position:absolute;left:14px;top:8px;font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-soft);pointer-events:none;transition:color .18s ease;font-family:var(--font-geist-mono),ui-monospace,monospace}
         .notif-wrap .n-fw .n-field:focus + label{color:var(--accent)}
-        .notif-wrap .n-chip{position:relative;border:1px solid var(--line);background:#fbfaf6;color:var(--ink-2);border-radius:12px;padding:10px 16px;font-size:13px;font-weight:600;cursor:pointer;transition:all .18s cubic-bezier(.2,.85,.25,1);font-family:var(--font-geist-mono),ui-monospace,monospace}
-        .notif-wrap .n-chip:hover{transform:translateY(-1px);border-color:#d6cebd}
-        .notif-wrap .n-chip.on{background:var(--green);border-color:var(--green);color:#eef5f0;box-shadow:0 8px 18px -12px rgba(15,58,33,.7)}
+        .notif-wrap .n-chip{position:relative;border:1px solid var(--line);background:#FDFBF5;color:var(--ink-2);border-radius:12px;padding:10px 16px;font-size:13px;font-weight:600;cursor:pointer;transition:all .18s cubic-bezier(.2,.85,.25,1);font-family:var(--font-geist-mono),ui-monospace,monospace}
+        .notif-wrap .n-chip:hover{transform:translateY(-1px);border-color:#D8CCB4}
+        .notif-wrap .n-chip.on{background:var(--green);border-color:var(--green);color:#E9EFDC;box-shadow:0 8px 18px -12px rgba(13,57,52,.7)}
         .notif-wrap .n-btn{border-radius:13px;font-size:14px;font-weight:600;transition:transform .16s ease,background .2s ease,box-shadow .2s ease;font-family:var(--font-geist),system-ui,sans-serif}
-        .notif-wrap .n-btn-primary{background:var(--green);color:#f2f7f3;box-shadow:0 12px 26px -16px rgba(15,58,33,.85)}
+        .notif-wrap .n-btn-primary{background:var(--green);color:#E9EFDC;box-shadow:0 12px 26px -16px rgba(13,57,52,.85)}
         .notif-wrap .n-btn-primary:hover{background:var(--green-2);transform:translateY(-1px)}
         .notif-wrap .n-btn-ghost{background:#fff;color:var(--ink);border:1px solid var(--line);font-weight:500}
-        .notif-wrap .n-btn-ghost:hover{background:var(--cream-2);border-color:#d6cebd}
+        .notif-wrap .n-btn-ghost:hover{background:var(--cream-2);border-color:#D8CCB4}
         .notif-wrap .n-divider{height:1px;background:linear-gradient(90deg,transparent,var(--line),transparent)}
         .notif-wrap .n-dt{position:relative;min-width:72px;padding:12px 4px 10px;border-radius:14px;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.14);backdrop-filter:blur(6px);text-align:center;overflow:hidden}
         .notif-wrap .n-dt::before{content:"";position:absolute;inset:0 0 auto 0;height:1px;background:linear-gradient(90deg,transparent,rgba(255,255,255,.45),transparent)}
         .notif-wrap .n-dt b{display:block;font-family:var(--font-geist-mono),monospace;font-size:38px;line-height:1;font-weight:700;color:#fff;font-variant-numeric:tabular-nums}
         .notif-wrap .n-dt i{display:block;margin-top:7px;font-style:normal;font-size:9.5px;letter-spacing:.18em;text-transform:uppercase;color:rgba(255,255,255,.5)}
         .notif-wrap .n-colon{align-self:center;font-family:var(--font-geist-mono),monospace;font-size:26px;color:rgba(255,255,255,.3);padding-bottom:14px}
-        .notif-wrap .n-pulse{width:7px;height:7px;border-radius:999px;background:#8ce8ae;box-shadow:0 0 0 0 rgba(140,232,174,.7);animation:npulse 2.2s infinite}
-        @keyframes npulse{0%{box-shadow:0 0 0 0 rgba(140,232,174,.55)}70%{box-shadow:0 0 0 11px rgba(140,232,174,0)}100%{box-shadow:0 0 0 0 rgba(140,232,174,0)}}
+        .notif-wrap .n-pulse{width:7px;height:7px;border-radius:999px;background:#A9C475;box-shadow:0 0 0 0 rgba(169,196,117,.7);animation:npulse 2.2s infinite}
+        @keyframes npulse{0%{box-shadow:0 0 0 0 rgba(169,196,117,.55)}70%{box-shadow:0 0 0 11px rgba(169,196,117,0)}100%{box-shadow:0 0 0 0 rgba(169,196,117,0)}}
         .notif-wrap .n-switch{width:50px;height:28px;border-radius:999px;background:rgba(255,255,255,.22);position:relative;cursor:pointer;flex:none;transition:background .24s ease;border:1px solid rgba(255,255,255,.2)}
-        .notif-wrap .n-switch.on{background:#3ea364;border-color:rgba(255,255,255,.35)}
+        .notif-wrap .n-switch.on{background:#A9C475;border-color:rgba(255,255,255,.35)}
         .notif-wrap .n-switch span{position:absolute;top:3px;left:3px;width:20px;height:20px;border-radius:999px;background:#fff;box-shadow:0 2px 6px rgba(0,0,0,.28);transition:transform .26s cubic-bezier(.2,.85,.25,1)}
         .notif-wrap .n-switch.on span{transform:translateX(22px)}
       `}</style>
@@ -3389,7 +3389,7 @@ function ViewNotif({ showToast, orders }: { showToast: (msg: string) => void; or
                 <p className="mt-1 text-[12px]" style={{ color: "var(--ink-soft)" }}>30 hari terakhir</p>
               </div>
               <span className="grid h-8 w-8 place-items-center rounded-[10px]" style={{ background: "var(--mint)", border: "1px solid var(--mint-line)" }}>
-                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#1c5c33" strokeWidth="1.9" strokeLinecap="round" strokeLinejoin="round"><path d="m22 2-7 20-4-9-9-4Z" /><path d="M22 2 11 13" /></svg>
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#0D3934" strokeWidth="1.9" strokeLinecap="round" strokeLinejoin="round"><path d="m22 2-7 20-4-9-9-4Z" /><path d="M22 2 11 13" /></svg>
               </span>
             </div>
             <p className="mt-4" style={{ fontFamily: 'var(--font-geist-mono),monospace', fontSize: 27, fontWeight: 700, letterSpacing: "-.02em" }}>
@@ -3406,7 +3406,7 @@ function ViewNotif({ showToast, orders }: { showToast: (msg: string) => void; or
                 <p className="mt-1 text-[12px]" style={{ color: "var(--ink-soft)" }}>masih berjalan</p>
               </div>
               <span className="grid h-8 w-8 place-items-center rounded-[10px]" style={{ background: "var(--mint)", border: "1px solid var(--mint-line)" }}>
-                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#1c5c33" strokeWidth="1.9" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="4" width="18" height="17" rx="2.5" /><path d="M8 2v4M16 2v4M3 10h18" /></svg>
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#0D3934" strokeWidth="1.9" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="4" width="18" height="17" rx="2.5" /><path d="M8 2v4M16 2v4M3 10h18" /></svg>
               </span>
             </div>
             <p className="mt-4" style={{ fontFamily: 'var(--font-geist-mono),monospace', fontSize: 27, fontWeight: 700, letterSpacing: "-.02em" }}>
@@ -3423,7 +3423,7 @@ function ViewNotif({ showToast, orders }: { showToast: (msg: string) => void; or
                 <p className="mt-1 text-[12px]" style={{ color: "var(--ink-soft)" }}>admin internal</p>
               </div>
               <span className="grid h-8 w-8 place-items-center rounded-[10px]" style={{ background: "var(--mint)", border: "1px solid var(--mint-line)" }}>
-                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#1c5c33" strokeWidth="1.9" strokeLinecap="round" strokeLinejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" /><circle cx="9" cy="7" r="4" /><path d="M22 21v-2a4 4 0 0 0-3-3.87" /></svg>
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#0D3934" strokeWidth="1.9" strokeLinecap="round" strokeLinejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" /><circle cx="9" cy="7" r="4" /><path d="M22 21v-2a4 4 0 0 0-3-3.87" /></svg>
               </span>
             </div>
             <p className="mt-4" style={{ fontFamily: 'var(--font-geist-mono),monospace', fontSize: 27, fontWeight: 700, letterSpacing: "-.02em" }}>
@@ -3436,7 +3436,7 @@ function ViewNotif({ showToast, orders }: { showToast: (msg: string) => void; or
         </section>
 
         {/* â”€â”€ SETTINGS â”€â”€ */}
-        <section className="n-card mt-6 p-7 sm:p-9" style={{ background: "linear-gradient(180deg,#fff,#fdfcf9)" }}>
+        <section className="n-card mt-6 p-7 sm:p-9" style={{ background: "linear-gradient(180deg,#fff,#FDFAF3)" }}>
           <div className="flex flex-wrap items-end justify-between gap-3">
             <div>
               <p className="n-eyebrow">Konfigurasi</p>
@@ -3785,8 +3785,8 @@ function DetailSheet({
       <div className="pas-veil" onClick={onClose} />
       <div className="pas-panel p-0" style={{ display: "flex", flexDirection: "column" }}>
         {/* ── TOPBAR ── */}
-        <div className="sticky top-0 z-10 flex items-center gap-3 px-5 py-3.5 border-b border-[var(--pas-line)]" style={{ background: "rgba(245,235,225,.85)", backdropFilter: "blur(14px)", WebkitBackdropFilter: "blur(14px)" }}>
-          <button className="w-9 h-9 rounded-[10px] border border-[var(--pas-line)] bg-[var(--pas-surface)] grid place-items-center text-[var(--pas-muted)] hover:text-[var(--pas-ink-1)] hover:border-[rgba(63,86,59,.22)] transition shrink-0" onClick={onClose} aria-label="Kembali">
+        <div className="sticky top-0 z-10 flex items-center gap-3 px-5 py-3.5 border-b border-[var(--pas-line)]" style={{ background: "rgba(241,232,216,.85)", backdropFilter: "blur(14px)", WebkitBackdropFilter: "blur(14px)" }}>
+          <button className="w-9 h-9 rounded-[10px] border border-[var(--pas-line)] bg-[var(--pas-surface)] grid place-items-center text-[var(--pas-muted)] hover:text-[var(--pas-ink-1)] hover:border-[rgba(13,57,52,.22)] transition shrink-0" onClick={onClose} aria-label="Kembali">
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round"><path d="M19 12H5M12 19l-7-7 7-7" /></svg>
           </button>
           <div className="min-w-0 flex-1">
@@ -3821,7 +3821,7 @@ function DetailSheet({
                   <button
                     type="button"
                     onClick={copyPhone}
-                    className={`w-9 h-9 rounded-[10px] border grid place-items-center transition shrink-0 ${copiedPhone ? "border-[rgba(34,197,94,.45)] bg-[rgba(34,197,94,.10)] text-[#16a34a]" : "border-[var(--pas-line)] bg-[var(--pas-surface)] text-[var(--pas-muted)] hover:text-[var(--pas-ink-1)] hover:border-[rgba(63,86,59,.22)]"}`}
+                    className={`w-9 h-9 rounded-[10px] border grid place-items-center transition shrink-0 ${copiedPhone ? "border-[rgba(34,197,94,.45)] bg-[rgba(34,197,94,.10)] text-[#16a34a]" : "border-[var(--pas-line)] bg-[var(--pas-surface)] text-[var(--pas-muted)] hover:text-[var(--pas-ink-1)] hover:border-[rgba(13,57,52,.22)]"}`}
                     aria-label="Salin nomor HP"
                     title={copiedPhone ? "Tersalin" : "Salin nomor HP"}
                   >
@@ -3835,7 +3835,7 @@ function DetailSheet({
                     href={buildWhatsAppLink(order.customer_phone, `Halo ${cleanName(order.customer_name)}, saya dari TNT Sport Apparel soal pesanan ${order.id}.`)}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="w-9 h-9 rounded-[10px] border border-[var(--pas-line)] bg-[var(--pas-surface)] grid place-items-center text-[var(--pas-muted)] hover:text-[var(--pas-ink-1)] hover:border-[rgba(63,86,59,.22)] transition shrink-0"
+                    className="w-9 h-9 rounded-[10px] border border-[var(--pas-line)] bg-[var(--pas-surface)] grid place-items-center text-[var(--pas-muted)] hover:text-[var(--pas-ink-1)] hover:border-[rgba(13,57,52,.22)] transition shrink-0"
                     aria-label="Chat WhatsApp"
                     title="Chat WhatsApp"
                   >
@@ -3848,7 +3848,7 @@ function DetailSheet({
 
           {/* ── STATUS HERO ── */}
           <div className="rounded-2xl border border-[var(--pas-line)] bg-[var(--pas-surface)] shadow-[0_1px_3px_rgba(0,0,0,.04),0_4px_12px_rgba(0,0,0,.04)] p-6 flex flex-col items-center text-center gap-3">
-            <div className="w-14 h-14 rounded-full bg-[rgba(63,86,59,.10)] grid place-items-center text-[var(--pas-accent)] text-[22px]">
+            <div className="w-14 h-14 rounded-full bg-[rgba(13,57,52,.10)] grid place-items-center text-[var(--pas-accent)] text-[22px]">
               {order.is_done ? (
                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M20 6L9 17l-5-5" /></svg>
               ) : (
@@ -3868,7 +3868,7 @@ function DetailSheet({
               <div className="pas-display text-[28px] leading-none pas-num text-[var(--pas-accent)]">{pct}%</div>
               <div className="text-[13px] font-semibold text-[var(--pas-ink-2)]">Tahap {step} dari {steps.length}</div>
             </div>
-            <div className="h-[6px] rounded-full bg-[rgba(63,86,59,.08)] overflow-hidden">
+            <div className="h-[6px] rounded-full bg-[rgba(13,57,52,.08)] overflow-hidden">
               <div className="h-full rounded-full bg-[var(--pas-accent)]" style={{ width: `${pct}%`, transition: "width .6s cubic-bezier(.22,1,.36,1)" }} />
             </div>
           </div>
@@ -3899,7 +3899,7 @@ function DetailSheet({
                           background: isDone ? "var(--pas-accent)" : isCur ? "var(--pas-surface)" : "var(--pas-surface)",
                           border: isDone ? "2px solid var(--pas-accent)" : isCur ? "2px solid var(--pas-accent)" : "2px solid var(--pas-line)",
                           color: isDone ? "#fff" : isCur ? "var(--pas-accent)" : "var(--pas-muted)",
-                          boxShadow: isDone ? "none" : isCur ? "0 0 0 4px rgba(63,86,59,.10)" : "none",
+                          boxShadow: isDone ? "none" : isCur ? "0 0 0 4px rgba(13,57,52,.10)" : "none",
                         }}
                       >
                         {isDone ? "" : i + 1}
@@ -3921,7 +3921,7 @@ function DetailSheet({
           {/* ── INFO PESANAN ── */}
           <p className="pas-stencil text-[9px] text-[var(--pas-muted)] mt-6 mb-2">Informasi Pesanan</p>
           <div className="rounded-2xl border border-[var(--pas-line)] bg-[var(--pas-surface)] shadow-[0_1px_3px_rgba(0,0,0,.04)] overflow-hidden">
-            <div className="px-4 py-2.5 border-b border-[var(--pas-line)]" style={{ background: "rgba(63,86,59,.03)" }}>
+            <div className="px-4 py-2.5 border-b border-[var(--pas-line)]" style={{ background: "rgba(13,57,52,.03)" }}>
               <span className="pas-stencil text-[9px] text-[var(--pas-muted)]">Data Order</span>
             </div>
             <div className="grid grid-cols-2">
@@ -3946,7 +3946,7 @@ function DetailSheet({
                   <span className="pas-stencil text-[9px] text-[var(--pas-muted)]">Produk</span>
                   <div className="flex flex-wrap gap-1.5 mt-2">
                     {order.products!.map((p, pi) => (
-                      <span key={pi} className="inline-flex items-center gap-1 px-2.5 py-1.5 rounded-lg text-[12.5px] font-semibold bg-[rgba(63,86,59,.06)] border border-[rgba(63,86,59,.12)] text-[var(--pas-ink-1)]">
+                      <span key={pi} className="inline-flex items-center gap-1 px-2.5 py-1.5 rounded-lg text-[12.5px] font-semibold bg-[rgba(13,57,52,.06)] border border-[rgba(13,57,52,.12)] text-[var(--pas-ink-1)]">
                         {p.name} <span className="text-[var(--pas-muted)] font-normal">- {p.sizes.reduce((a, s) => a + (s.qty || 0), 0)} pcs</span>
                       </span>
                     ))}
@@ -3979,7 +3979,7 @@ function DetailSheet({
           {/* ── MEDIA ── */}
           <p className="pas-stencil text-[9px] text-[var(--pas-muted)] mt-6 mb-2">Media</p>
           <div className="rounded-2xl border border-[var(--pas-line)] bg-[var(--pas-surface)] shadow-[0_1px_3px_rgba(0,0,0,.04)] overflow-hidden">
-            <div className="px-4 py-2.5 border-b border-[var(--pas-line)]" style={{ background: "rgba(63,86,59,.03)" }}>
+            <div className="px-4 py-2.5 border-b border-[var(--pas-line)]" style={{ background: "rgba(13,57,52,.03)" }}>
               <span className="pas-stencil text-[9px] text-[var(--pas-muted)]">File & Foto</span>
             </div>
             <div className="grid grid-cols-2 gap-4 p-4">
@@ -4012,7 +4012,7 @@ function DetailSheet({
                       </button>
                     </div>
                   ))}
-                  <label className="w-[72px] h-[72px] grid place-items-center rounded-xl border-[1.5px] border-dashed border-[var(--pas-line)] hover:border-[var(--pas-accent)] cursor-pointer transition text-[var(--pas-muted)] hover:text-[var(--pas-accent)] hover:bg-[rgba(63,86,59,.04)]">
+                  <label className="w-[72px] h-[72px] grid place-items-center rounded-xl border-[1.5px] border-dashed border-[var(--pas-line)] hover:border-[var(--pas-accent)] cursor-pointer transition text-[var(--pas-muted)] hover:text-[var(--pas-accent)] hover:bg-[rgba(13,57,52,.04)]">
                     <input type="file" accept="image/*" className="hidden" disabled={uploadingWo} onChange={(e) => { const f = e.target.files?.[0]; if (f) handleWoUpload(f); e.currentTarget.value = ""; }} />
                     <span className="text-[20px] leading-none">{uploadingWo ? "..." : "+"}</span>
                   </label>
@@ -4073,10 +4073,10 @@ function DetailSheet({
         </div>
 
         {/* ── FOOTER ── */}
-        <div className="sticky bottom-0 flex gap-2.5 px-5 py-4 border-t border-[var(--pas-line)]" style={{ background: "linear-gradient(180deg,rgba(245,235,225,0),var(--pas-bg) 30%)" }}>
+        <div className="sticky bottom-0 flex gap-2.5 px-5 py-4 border-t border-[var(--pas-line)]" style={{ background: "linear-gradient(180deg,rgba(241,232,216,0),var(--pas-bg) 30%)" }}>
           <button
             className="flex-1 py-3.5 rounded-[10px] text-[12px] font-bold text-white border-0 cursor-pointer transition-all"
-            style={{ fontFamily: "var(--font-display), system-ui, sans-serif", letterSpacing: ".04em", textTransform: "uppercase", background: "var(--pas-accent)", boxShadow: "0 2px 8px rgba(63,86,59,.18)" }}
+            style={{ fontFamily: "var(--font-display), system-ui, sans-serif", letterSpacing: ".04em", textTransform: "uppercase", background: "var(--pas-accent)", boxShadow: "0 2px 8px rgba(13,57,52,.18)" }}
             onClick={save}
             disabled={saving}
           >
