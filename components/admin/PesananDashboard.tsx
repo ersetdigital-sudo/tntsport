@@ -656,10 +656,10 @@ export default function PesananDashboard({
           {/* Drawer header */}
           <div className="flex items-center mb-2">
             <a href="/" className="flex items-center gap-2.5">
-              <span className="pas-mark w-8 h-8 rounded-[9px] grid place-items-center pas-display text-[13px] bg-white/10">
+              <span className="pas-mark w-8 h-8 rounded-[9px] grid place-items-center pas-display text-[13px] !bg-white/10 !text-white">
                 T
               </span>
-              <span className="pas-display text-[15px] text-white">TNT Sport</span>
+              <span className="pas-display text-[15px] !text-white">TNT Sport</span>
             </a>
           </div>
           <p className="pas-navsec">Operasional</p>
