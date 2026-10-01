@@ -392,10 +392,19 @@ function NavIcon({ name, size = 18 }: { name: string; size?: number }) {
   );
 }
 
-export default function PesananDashboard() {
+export default function PesananDashboard({
+  initial,
+}: {
+  /**
+   * Data yang sudah dibaca server (lihat lib/pesanan-server.ts). Kalau terisi,
+   * HTML pertama sudah berisi daftar pesanan — dulu tabelnya kosong sampai
+   * fetch pertama selesai.
+   */
+  initial?: { orders: OrderData[]; steps: StepRow[] } | null;
+} = {}) {
   const router = useRouter();
-  const [orders, setOrders] = useState<OrderData[]>([]);
-  const [loading, setLoading] = useState(true);
+  const [orders, setOrders] = useState<OrderData[]>(initial?.orders ?? []);
+  const [loading, setLoading] = useState(!initial);
   const [filter, setFilter] = useState<FilterKey>("all");
   const [query, setQuery] = useState("");
   const [openId, setOpenId] = useState<string | null>(null);
@@ -415,7 +424,9 @@ export default function PesananDashboard() {
     [orders, openCustomerKey]
   );
   const toastTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
-  const [steps, setSteps] = useState<StepRow[]>(DEFAULT_STEPS);
+  const [steps, setSteps] = useState<StepRow[]>(
+    initial?.steps?.length ? initial.steps : DEFAULT_STEPS
+  );
 
   const fetchOrders = useCallback(async () => {
     try {
@@ -446,9 +457,12 @@ export default function PesananDashboard() {
   }, []);
 
   useEffect(() => {
+    // Sudah dirender server — jangan langsung ditimpa fetch ulang. Penyegaran
+    // sesudah aksi (simpan tahap, tambah order) tetap jalan lewat fetchOrders.
+    if (initial) return;
     fetchOrders();
     fetchSteps();
-  }, [fetchOrders, fetchSteps]);
+  }, [initial, fetchOrders, fetchSteps]);
 
   useEffect(() => {
     const h = window.location.hash.replace("#", "") as ViewKey;
@@ -837,23 +851,30 @@ function ViewPesanan({
     return Array.from(keys).sort().reverse();
   }, [orders]);
 
-  const filtered = orders
-    .filter((o) => {
-      if (selectedMonth !== "all" && monthKeyOf(o.created_at) !== selectedMonth) return false;
-      if (filter !== "all" && statusOf(o, steps.length) !== filter) return false;
-      if (!query) return true;
-      const s = (
-        o.id +
-        " " +
-        o.customer_name +
-        " " +
-        o.customer_city +
-        " " +
-        o.product_name
-      ).toLowerCase();
-      return s.includes(query.toLowerCase());
-    })
-    .sort((a, b) => (a.id < b.id ? 1 : -1));
+  // Dihitung ulang hanya kalau sumbernya berubah. Sebelumnya rantai filter +
+  // sort ini jalan di setiap render (tiap ketikan di kotak cari), dan hasilnya
+  // ikut dipakai beberapa blok di bawah.
+  const filtered = useMemo(
+    () =>
+      orders
+        .filter((o) => {
+          if (selectedMonth !== "all" && monthKeyOf(o.created_at) !== selectedMonth) return false;
+          if (filter !== "all" && statusOf(o, steps.length) !== filter) return false;
+          if (!query) return true;
+          const s = (
+            o.id +
+            " " +
+            o.customer_name +
+            " " +
+            o.customer_city +
+            " " +
+            o.product_name
+          ).toLowerCase();
+          return s.includes(query.toLowerCase());
+        })
+        .sort((a, b) => (a.id < b.id ? 1 : -1)),
+    [orders, selectedMonth, filter, query, steps.length]
+  );
 
   const stats = {
     total: orders.length,

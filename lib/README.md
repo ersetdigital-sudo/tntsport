@@ -10,6 +10,8 @@ halaman (server component) dan API routes.
 | `types.ts` | Definisi tipe + konstanta domain: `ORDER_STATUS_LIST` (11 tahap produksi), `ORDER_STATUS_LABELS`, `STEP_PROGRESS` (persentase per tahap), `ORDER_PHOTO_STAGES`, tipe `Order` |
 | `order-status.ts` | **Satu sumber kebenaran** aturan "status → tahap → progress": `stepFromStatus`, `progressPercentFromStatus`, `isOrderCompleted`, `nextStageLabel`, `statusFromStep`, normalisasi status/tahap lama (`print` → `cetak_print`, dst.) |
 | `queries-orders.ts` | Akses data order: `getOrderByTracking` (memverifikasi nomor HP sebelum mengembalikan data), `getAllOrders`, `getOrderById`, `generateOrderNumber`, `stripWoPhoto` |
+| `order-map.ts` | `mapOrderRow()` — pemetaan baris tabel `orders` → bentuk yang dipakai dashboard. Dipakai bersama oleh `/api/pesanan/orders` dan render server |
+| `pesanan-server.ts` | Data awal Dashboard Pesanan dibaca di server (`loadPesananDashboardInitial`) supaya daftar order sudah ada di HTML pertama; hanya jalan kalau cookie login `pesanan_auth` ada |
 | `status-server.ts` | Pembacaan data halaman `/status` **langsung di server** (`loadStatusInitial`) supaya HTML pertama sudah berisi progres pesanan; dipakai `app/status/page.tsx`. Cuma jalan kalau token link WA / cookie perangkat ada |
 
 Kalau menambah atau mengubah tahap produksi, mulai dari `types.ts` lalu sesuaikan `order-status.ts`

@@ -34,7 +34,7 @@ berlaku 30 hari (`lib/verify-token.ts`). Jangan mengubah format token tanpa meny
 
 | Route | Isi |
 | --- | --- |
-| `/pesanan/orders` | **Dashboard Pesanan** — daftar order jersey, update tahap produksi (memicu WA), edit data order, foto design/WO |
+| `/pesanan/orders` | **Dashboard Pesanan** — daftar order jersey, update tahap produksi (memicu WA), edit data order, foto design/WO. Order + tahap produksi dibaca **server** (`lib/pesanan-server.ts`) supaya daftar sudah ada di HTML pertama |
 | `/pesanan/maklon` | **Dashboard Maklon** — order maklon, 6 tahap produksi (memicu WA) |
 | `/pesanan/login` | Login shared password (cookie `pesanan_auth`) |
 
