@@ -149,7 +149,7 @@ function ProductList({ products, fallbackName, fallbackQty }: {
             className="flex items-center justify-between gap-3 rounded-xl border border-white/10 bg-white/[.03] px-3.5 py-2.5"
           >
             <span className="text-[14px] font-medium">{p.name || "-"}</span>
-            <span className="dpo-mono text-[14px] text-[var(--trk-accent)]">{qty} pcs</span>
+            <span className="dpo-mono text-[14px] text-[#22c55e]">{qty} pcs</span>
           </div>
         );
       })}
@@ -168,10 +168,10 @@ function InfoCard({ title, children }: { title: string; children: React.ReactNod
 
 function Shell({ children }: { children: React.ReactNode }) {
   return (
-    <div className="trk-bg trk-brand min-h-screen">
+    <div className="trk-bg min-h-screen">
       <div className="trk-grid min-h-screen">
         <div className="trk-glow">
-          <header className="sticky top-0 z-30 border-b border-[var(--trk-line)] bg-[var(--trk-header-bg)] backdrop-blur-xl">
+          <header className="sticky top-0 z-30 border-b border-white/[.07] bg-[rgba(10,10,11,.72)] backdrop-blur-xl">
             <div className="mx-auto flex w-full max-w-3xl items-center justify-between gap-3 px-4 py-3 sm:px-6 sm:py-3.5">
               <div className="flex items-center gap-3">
                 <a href="/" className="shrink-0" aria-label="Kembali ke beranda">
@@ -187,7 +187,7 @@ function Shell({ children }: { children: React.ReactNode }) {
                   <p className="trk-display text-[14.5px] font-semibold uppercase tracking-wide sm:text-[15px]">
                     TNT Sport Apparel
                   </p>
-                  <p className="text-[10.5px] text-[var(--trk-muted-2)] sm:text-[11px]">
+                  <p className="text-[10.5px] text-[#6f757c] sm:text-[11px]">
                     Pabrik Jersey Custom Full Printing
                   </p>
                 </div>
@@ -250,7 +250,7 @@ export default async function MaklonStatusPage({
         <div className="pt-7 sm:pt-12">
           <InfoCard title="Status Pesanan Maklon">
             <h1 className="trk-display text-[22px] leading-tight">Link tidak valid atau kedaluwarsa</h1>
-            <p className="mt-3 text-[14px] leading-relaxed text-[var(--trk-muted)]">
+            <p className="mt-3 text-[14px] leading-relaxed text-[#979ba4]">
               Link ini cuma bisa dibuka dari pesan WhatsApp resmi kami dan berlaku 30 hari.
               Kalau link-nya sudah lama, minta link baru lewat WhatsApp ke nomor resmi kami ya.
             </p>
@@ -266,8 +266,8 @@ export default async function MaklonStatusPage({
         <div className="pt-7 sm:pt-12">
           <InfoCard title="Status Pesanan Maklon">
             <h1 className="trk-display text-[22px] leading-tight">Pesanan tidak ditemukan</h1>
-            <p className="mt-3 text-[14px] leading-relaxed text-[var(--trk-muted)]">
-              Pesanan <span className="dpo-mono text-[var(--trk-ink-2)]">{orderNumber}</span> tidak ada di
+            <p className="mt-3 text-[14px] leading-relaxed text-[#979ba4]">
+              Pesanan <span className="dpo-mono text-[#e8ebe9]">{orderNumber}</span> tidak ada di
               sistem kami. Pastikan nomor pesanannya sudah benar.
             </p>
           </InfoCard>
@@ -300,8 +300,8 @@ export default async function MaklonStatusPage({
               ? "Pesanan maklon kamu siap dikirim"
               : "Pesanan maklon kamu sedang kami kerjakan"}
         </h1>
-        <p className="mt-3 text-[14px] text-[var(--trk-muted)]">
-          Nomor <span className="dpo-mono text-[var(--trk-ink-2)]">{order.order_number}</span> -{" "}
+        <p className="mt-3 text-[14px] text-[#979ba4]">
+          Nomor <span className="dpo-mono text-[#e8ebe9]">{order.order_number}</span> -{" "}
           {order.customer_name}
         </p>
         <div className="mt-4 flex flex-wrap items-center gap-2.5">
@@ -317,7 +317,7 @@ export default async function MaklonStatusPage({
             />
             {isDone ? "Selesai" : stageName}
           </span>
-          <span className="text-[12.5px] text-[var(--trk-muted-2)]">
+          <span className="text-[12.5px] text-[#6f757c]">
             Tahap {step} dari {totalSteps}
           </span>
         </div>
@@ -325,7 +325,7 @@ export default async function MaklonStatusPage({
         <div className="trk-bar mt-6">
           <i style={{ width: `${pct}%` }} />
         </div>
-        <div className="mt-2 flex items-center justify-between text-[12.5px] text-[var(--trk-muted-2)]">
+        <div className="mt-2 flex items-center justify-between text-[12.5px] text-[#6f757c]">
           <span className="dpo-mono">{pct}%</span>
           <span>Update terakhir {formatDateTime(order.updated_at)}</span>
         </div>
@@ -350,7 +350,7 @@ export default async function MaklonStatusPage({
                   )}
                 </div>
                 <p className="trk-label text-[15px]">{name}</p>
-                <p className="mt-1 text-[12.5px] text-[var(--trk-muted-2)]">
+                <p className="mt-1 text-[12.5px] text-[#6f757c]">
                   {pos < step ? "Selesai" : pos === step ? (isDone ? "Selesai" : "Sedang dikerjakan") : "Menunggu"}
                 </p>
               </div>
@@ -363,8 +363,8 @@ export default async function MaklonStatusPage({
       <section className="mt-10">
         <p className="dpo-kicker">Rincian Pesanan</p>
         <div className="trk-card mt-3 overflow-hidden">
-          <div className="grid grid-cols-2 border-b border-[var(--trk-line)]">
-            <div className="trk-cell border-r border-[var(--trk-line)]">
+          <div className="grid grid-cols-2 border-b border-white/[.07]">
+            <div className="trk-cell border-r border-white/[.07]">
               <p className="trk-cell-label">Tahap Sekarang</p>
               <p className="trk-cell-value">{isDone ? "Selesai" : stageName}</p>
             </div>
@@ -373,13 +373,13 @@ export default async function MaklonStatusPage({
               <p className="trk-cell-value">
                 {formatDate(order.deadline)}
                 {deadlineNote && (
-                  <span className="ml-1.5 text-[12px] font-normal text-[var(--trk-muted-2)]">· {deadlineNote}</span>
+                  <span className="ml-1.5 text-[12px] font-normal text-[#6f757c]">· {deadlineNote}</span>
                 )}
               </p>
             </div>
           </div>
 
-          <div className="trk-cell border-b border-[var(--trk-line)]">
+          <div className="trk-cell border-b border-white/[.07]">
             <p className="trk-cell-label">Produk</p>
             <ProductList
               products={order.products}
@@ -388,8 +388,8 @@ export default async function MaklonStatusPage({
             />
           </div>
 
-          <div className="grid grid-cols-2 border-b border-[var(--trk-line)]">
-            <div className="trk-cell border-r border-[var(--trk-line)]">
+          <div className="grid grid-cols-2 border-b border-white/[.07]">
+            <div className="trk-cell border-r border-white/[.07]">
               <p className="trk-cell-label">Jumlah</p>
               <p className="trk-cell-value dpo-mono">{order.quantity ?? "-"} pcs</p>
             </div>
@@ -401,8 +401,8 @@ export default async function MaklonStatusPage({
 
           {/* Baris pengiriman hanya muncul kalau resinya memang ada. */}
           {hasTracking && (
-            <div className="grid grid-cols-2 border-b border-[var(--trk-line)]">
-              <div className="trk-cell border-r border-[var(--trk-line)]">
+            <div className="grid grid-cols-2 border-b border-white/[.07]">
+              <div className="trk-cell border-r border-white/[.07]">
                 <p className="trk-cell-label">Ekspedisi</p>
                 <p className="trk-cell-value">{order.courier || "-"}</p>
               </div>
@@ -448,7 +448,7 @@ export default async function MaklonStatusPage({
         <section className="mt-10">
           <p className="dpo-kicker">Catatan untuk Kamu</p>
           <div className="trk-update-box mt-3">
-            <p className="text-[14px] leading-relaxed text-[var(--trk-ink-2)]">{order.design_notes}</p>
+            <p className="text-[14px] leading-relaxed text-[#e8ebe9]">{order.design_notes}</p>
           </div>
         </section>
       )}
