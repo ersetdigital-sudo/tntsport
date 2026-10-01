@@ -139,6 +139,13 @@ type StatusInitial = {
   steps: { name: string; position: number }[];
 };
 
+/**
+ * Halaman status pesanan (client component).
+ *
+ * Sengaja TIDAK ada tombol "Hubungi CS"/WhatsApp di halaman ini: fungsinya
+ * murni melihat progres pesanan, dan kanal komunikasi sudah lewat pesan
+ * WhatsApp yang dikirim otomatis tiap tahap. Sama seperti TAFF dan Menara.
+ */
 export default function StatusClient({
   initial,
 }: {
@@ -171,7 +178,6 @@ function StatusContent({ initial }: { initial?: StatusInitial | null }) {
   const [order, setOrder] = useState<any>(initial?.order ?? null);
   const [history, setHistory] = useState<any[]>(initial?.history ?? []);
   const [loaded, setLoaded] = useState(!!initial?.order);
-  const [brand, setBrand] = useState<{ name: string; whatsapp_number: string; tagline: string }>({ name: "TNT Sport Apparel", whatsapp_number: "628115491117", tagline: "" });
   const [steps, setSteps] = useState<{ name: string; position: number }[]>(
     initial?.steps ?? []
   );
@@ -290,16 +296,6 @@ function StatusContent({ initial }: { initial?: StatusInitial | null }) {
       })
       .catch(() => {});
   }, [initial]);
-
-  // Fetch brand settings (WA number, nama toko)
-  useEffect(() => {
-    fetch("/api/brand")
-      .then((r) => r.json())
-      .then((d) => {
-        if (d?.whatsapp_number) setBrand(d);
-      })
-      .catch(() => {});
-  }, []);
 
   useEffect(() => {
     if (!lightboxUrl) return;
@@ -498,9 +494,6 @@ function StatusContent({ initial }: { initial?: StatusInitial | null }) {
   const lastUpdate = history.length > 0 ? history[history.length - 1] : null;
   // Keterangan "3 hari lagi" / "lewat 2 hari" untuk chip "Target selesai".
   const deadlineNote = formatDeadlineNote(order.deadline);
-  const rawPhone = brand.whatsapp_number.replace(/[^0-9]/g, "");
-  const waPhone = rawPhone.startsWith("0") ? "62" + rawPhone.slice(1) : rawPhone;
-  const waLink = `https://wa.me/${waPhone}?text=${encodeURIComponent(`Halo ${brand.name}, saya mau tanya order ${orderId}`)}`;
 
   // Product data (new structured format) with fallback to legacy fields
   const products: { name: string; sizes: { size: string; qty: number }[] }[] =
@@ -539,18 +532,10 @@ function StatusContent({ initial }: { initial?: StatusInitial | null }) {
                   <p className="text-[10.5px] text-[#6f757c] sm:text-[11px]">Pabrik Jersey Custom Full Printing</p>
                 </div>
               </div>
-              <a
-                href={waLink}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="hidden sm:inline-flex items-center gap-2 rounded-full border border-white/[.12] bg-white/5 px-4 py-2 text-[13px] font-medium text-[#979ba4] hover:bg-white/10 hover:text-white transition"
-              >
-                Hubungi CS
-              </a>
             </div>
           </header>
 
-          <main className="mx-auto w-full max-w-3xl px-4 pb-28 sm:px-6 sm:pb-20">
+          <main className="mx-auto w-full max-w-3xl px-4 pb-16 sm:px-6 sm:pb-20">
 
             {/* HERO / STATUS */}
             <section className="dpo-reveal pt-7 sm:pt-12">
@@ -909,42 +894,10 @@ function StatusContent({ initial }: { initial?: StatusInitial | null }) {
               </section>
             )}
 
-            {/* CTA */}
-            <section className="dpo-card mt-8 p-6 sm:p-8 text-center">
-              <h2 className="dpo-h1 text-2xl sm:text-3xl">Ada yang mau ditanyakan?</h2>
-              <p className="mt-2 text-[14px] text-[#979ba4]">Tim CS kami siap bantu, Senin–Sabtu 08.00–20.00 WIB.</p>
-              <div className="mt-5 flex justify-center">
-                <a
-                  href={waLink}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex w-full sm:w-auto items-center justify-center gap-2 rounded-full bg-[#22c55e] px-8 py-3.5 text-[15px] font-semibold text-black hover:bg-[#2ee06b] transition hover:-translate-y-px"
-                >
-                  Chat CS via WhatsApp
-                </a>
-              </div>
-              <p className="mt-4 text-[12px] text-[#6f757c]">Semua komunikasi order ditangani lewat WhatsApp resmi TNT Sport Apparel.</p>
-            </section>
-
             <footer className="mt-10 text-center text-[12px] text-[#6f757c]">
               <p>© 2026 TNT Sport Apparel — Pabrik Jersey Custom Full Printing</p>
             </footer>
           </main>
-
-          {/* STICKY CTA MOBILE */}
-          <div className="dpo-stickycta">
-            <a
-              href={waLink}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="flex w-full items-center justify-center gap-2 rounded-full bg-[#22c55e] px-6 py-3.5 text-[15px] font-semibold text-black"
-            >
-              <svg viewBox="0 0 24 24" fill="currentColor" style={{ width: 18, height: 18, flex: "none" }} aria-hidden="true">
-                <path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2zm0 2a8 8 0 1 1-4.1 14.9l-.4-.2-2.7.7.7-2.6-.2-.4A8 8 0 0 1 12 4z"></path>
-              </svg>
-              Chat CS via WhatsApp
-            </a>
-          </div>
 
           {lightboxUrl && (
             <div
