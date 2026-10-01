@@ -655,11 +655,16 @@ export default function PesananDashboard({
         <SheetContent side="left" className="p-5 bg-[#0D3934] text-white border-r border-white/10 w-[280px] overflow-y-auto flex flex-col [&>button]:text-white/50 [&>button]:hover:text-white [&>button]:hover:bg-white/10 [&>button]:rounded-lg [&>button]:p-2 [&>button]:transition">
           {/* Drawer header */}
           <div className="flex items-center mb-2">
-            <a href="/" className="flex items-center gap-2.5">
-              <span className="pas-mark w-8 h-8 rounded-[9px] grid place-items-center pas-display text-[13px] !bg-white/10 !text-white">
-                T
+            <a href="/" className="flex items-center gap-3">
+              <img
+                src="/logo-tnt-baru.png"
+                alt="TNT Sport"
+                className="w-12 h-12 rounded-[10px] object-contain"
+              />
+              <span className="leading-none">
+                <span className="block pas-display text-[15px] !text-white">TNT Sport</span>
+                <span className="block text-[11px] !text-white/70 mt-[3px]">Admin Panel</span>
               </span>
-              <span className="pas-display text-[15px] !text-white">TNT Sport</span>
             </a>
           </div>
           <p className="pas-navsec">Operasional</p>
