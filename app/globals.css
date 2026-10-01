@@ -1650,8 +1650,33 @@
    TRACKING PAGES — matches reference HTML design system
    ================================================================ */
 .trk-bg {
+  position: relative;
+  isolation: isolate;
   background-color: #0a0a0b;
   color: #fff;
+}
+
+/* ── Lapisan glow yang bergerak pelan di belakang seluruh halaman ──
+   Dipisah dari .trk-glow sebab .trk-glow ikut MEMBUNGKUS konten: kalau
+   transform/opacity-nya dianimasikan, seluruh isi halaman ikut bergerak
+   dan pudar. Lapisan ini tidak memuat konten, jadi aman.
+   z-index -1 tetap terlihat karena .trk-bg membentuk stacking context. */
+.trk-aurora {
+  position: fixed;
+  inset: -8%;
+  z-index: -1;
+  pointer-events: none;
+  background:
+    radial-gradient(34% 30% at 20% 16%, rgba(62,232,107,.22), transparent 66%),
+    radial-gradient(30% 26% at 80% 24%, rgba(34,197,94,.18), transparent 68%),
+    radial-gradient(26% 22% at 55% 6%, rgba(167,243,180,.16), transparent 68%);
+  animation: trk-aurora-drift 20s ease-in-out infinite alternate;
+  will-change: transform, opacity;
+}
+@keyframes trk-aurora-drift {
+  0%   { transform: translate3d(-3%, -2%, 0) scale(1);   opacity: .8; }
+  50%  { transform: translate3d(2%, 1%, 0) scale(1.07);  opacity: 1; }
+  100% { transform: translate3d(-1%, 3%, 0) scale(1.03); opacity: .88; }
 }
 
 .trk-bg .trk-grid {
@@ -1663,8 +1688,9 @@
 
 .trk-bg .trk-glow {
   background:
-    radial-gradient(60% 55% at 50% 0%, rgba(62,232,107,.18), transparent 70%),
-    radial-gradient(45% 40% at 85% 20%, rgba(167,243,180,.10), transparent 70%);
+    radial-gradient(62% 56% at 50% -2%, rgba(62,232,107,.26), transparent 72%),
+    radial-gradient(46% 40% at 86% 18%, rgba(167,243,180,.16), transparent 70%),
+    radial-gradient(38% 32% at 8% 28%, rgba(34,197,94,.13), transparent 70%);
 }
 
 .trk-display {
@@ -1684,6 +1710,12 @@
   background: linear-gradient(180deg, rgba(255,255,255,.05), rgba(255,255,255,.02));
   border: 1px solid #26282e;
   border-radius: 20px;
+  transition: transform .35s cubic-bezier(.2,.75,.2,1), border-color .3s ease, box-shadow .35s ease;
+}
+.trk-card:hover {
+  transform: translateY(-2px);
+  border-color: rgba(62,232,107,.38);
+  box-shadow: 0 0 0 1px rgba(62,232,107,.14), 0 26px 60px -34px rgba(62,232,107,.5);
 }
 
 .trk-field {
@@ -1702,6 +1734,8 @@
 }
 
 .trk-btn-accent {
+  position: relative;
+  overflow: hidden;
   background: #3ee86b;
   color: #0a0a0b;
   border-radius: 14px;
@@ -1710,10 +1744,38 @@
   letter-spacing: .04em;
   text-transform: uppercase;
   transition: transform .15s ease, box-shadow .2s ease, filter .2s ease;
-  box-shadow: 0 10px 30px -12px rgba(62,232,107,.7);
+  box-shadow: 0 10px 30px -12px rgba(62,232,107,.75), 0 0 24px -6px rgba(62,232,107,.5);
 }
-.trk-btn-accent:hover { transform: translateY(-2px); filter: brightness(1.05); }
+.trk-btn-accent:hover {
+  transform: translateY(-2px);
+  filter: brightness(1.05);
+  box-shadow: 0 14px 36px -12px rgba(62,232,107,.95), 0 0 34px -4px rgba(62,232,107,.65);
+}
 .trk-btn-accent:active { transform: translateY(0) scale(.985); }
+/* Kilau melintas — hanya saat hover, jadi tombolnya tidak berkedip sendiri. */
+.trk-btn-accent::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  width: 38%;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,.6), transparent);
+  transform: translate3d(-180%, 0, 0) skewX(-18deg);
+  pointer-events: none;
+}
+.trk-btn-accent:hover::after { animation: trk-sweep .85s ease-out; }
+@keyframes trk-sweep {
+  0%   { transform: translate3d(-180%, 0, 0) skewX(-18deg); }
+  100% { transform: translate3d(340%, 0, 0) skewX(-18deg); }
+}
+
+/* Tombol pil yang menyala pelan (mis. "Lacak Pengiriman"). */
+.trk-glow-pulse { animation: trk-btn-glow 2.8s ease-in-out infinite; }
+@keyframes trk-btn-glow {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(62,232,107,.35), 0 10px 30px -14px rgba(62,232,107,.7); }
+  50%      { box-shadow: 0 0 0 7px rgba(62,232,107,0), 0 16px 40px -10px rgba(62,232,107,.95); }
+}
 
 .trk-btn-ghost {
   border: 1px solid #26282e;
@@ -1730,6 +1792,8 @@
   position: relative;
   padding-left: 56px;
   padding-bottom: 26px;
+  /* Muncul berurutan; jeda per baris diatur inline dari komponennya. */
+  animation: dpo-up .5s cubic-bezier(.2,.75,.2,1) both;
 }
 .trk-step:last-child { padding-bottom: 0; }
 .trk-step::before {
@@ -1775,7 +1839,21 @@
   background: rgba(62,232,107,.14);
   border-color: #3ee86b;
   color: #3ee86b;
+  box-shadow: 0 0 20px rgba(62,232,107,.45);
   animation: trk-pulse 1.8s ease-out infinite;
+}
+/* Cincin kedua yang melebar — titik "sedang jalan" jadi terasa hidup. */
+.trk-step.trk-current .trk-dot::after {
+  content: "";
+  position: absolute;
+  inset: -3px;
+  border-radius: inherit;
+  border: 1px solid rgba(62,232,107,.55);
+  animation: trk-ring 1.8s ease-out infinite;
+}
+@keyframes trk-ring {
+  0%   { transform: scale(.86); opacity: .9; }
+  100% { transform: scale(1.5); opacity: 0; }
 }
 .trk-step.trk-current .trk-dot svg {
   animation: trk-spin 2.4s linear infinite;
@@ -1794,18 +1872,40 @@
 .trk-step.trk-current .trk-label { color: #fff; }
 
 .trk-bar {
+  position: relative;
   height: 8px;
   border-radius: 999px;
   background: #1c1e23;
-  overflow: hidden;
+  box-shadow: inset 0 0 0 1px rgba(255,255,255,.03);
 }
 .trk-bar > i {
+  position: relative;
   display: block;
   height: 100%;
   border-radius: 999px;
   background: linear-gradient(90deg, #22c55e, #3ee86b);
+  box-shadow: 0 0 14px rgba(62,232,107,.65), 0 0 28px rgba(62,232,107,.3);
   width: 0;
+  overflow: hidden;
   transition: width 1.2s cubic-bezier(.22,1,.36,1);
+}
+/* Cahaya yang menyapu isi bar terus-menerus. bukan sekadar dekorasi:
+   menandakan progresnya masih berjalan. (overflow hanya di isinya, supaya
+   glow di luar bar tidak ikut terpotong.) */
+.trk-bar > i::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  width: 45%;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,.6), transparent);
+  animation: trk-bar-shine 2.6s ease-in-out infinite;
+}
+@keyframes trk-bar-shine {
+  0%   { transform: translate3d(-160%, 0, 0); }
+  60%  { transform: translate3d(260%, 0, 0); }
+  100% { transform: translate3d(260%, 0, 0); }
 }
 
 /* Reveal on scroll */
@@ -1886,7 +1986,45 @@
   border: 1px solid #232a26;
   border-radius: 20px;
   backdrop-filter: blur(8px);
-  box-shadow: 0 1px 0 rgba(255,255,255,.05) inset, 0 24px 60px -40px rgba(0,0,0,.9);
+  box-shadow: 0 1px 0 rgba(255,255,255,.05) inset, 0 24px 60px -40px rgba(0,0,0,.9), 0 0 0 1px rgba(62,232,107,.04);
+  transition: transform .35s cubic-bezier(.2,.75,.2,1), border-color .3s ease, box-shadow .35s ease;
+}
+.dpo-card:hover {
+  transform: translateY(-2px);
+  border-color: rgba(62,232,107,.34);
+  box-shadow:
+    0 1px 0 rgba(255,255,255,.06) inset,
+    0 30px 66px -40px rgba(62,232,107,.45),
+    0 0 0 1px rgba(62,232,107,.16);
+}
+
+/* Label aksen yang menyala (mis. "sesuai jadwal" di judul). */
+.dpo-accent {
+  color: #3ee86b;
+  animation: dpo-accent-pulse 3.4s ease-in-out infinite;
+}
+@keyframes dpo-accent-pulse {
+  0%, 100% { text-shadow: 0 0 18px rgba(62,232,107,.4), 0 0 40px rgba(62,232,107,.18); }
+  50%      { text-shadow: 0 0 30px rgba(62,232,107,.75), 0 0 66px rgba(62,232,107,.35); }
+}
+
+/* Foto desain: naik sedikit dan menyala saat disentuh. */
+.dpo-thumb {
+  overflow: hidden;
+  border-radius: 12px;
+  border: 1px solid rgba(255,255,255,.10);
+  background: #000;
+  transition: transform .3s cubic-bezier(.2,.75,.2,1), border-color .3s ease, box-shadow .3s ease;
+}
+.dpo-thumb:hover {
+  transform: translateY(-2px);
+  border-color: rgba(62,232,107,.5);
+  box-shadow: 0 0 30px -6px rgba(62,232,107,.6);
+}
+
+/* Garis glow tipis di bawah header sticky. */
+.dpo-topbar {
+  box-shadow: 0 1px 0 rgba(62,232,107,.16), 0 12px 34px -24px rgba(62,232,107,.8);
 }
 .dpo-kicker {
   letter-spacing: .22em;
@@ -1926,10 +2064,11 @@
   color: #979ba4;
 }
 .dpo-meta-acc {
-  border-color: rgba(34,197,94,.40);
+  border-color: rgba(62,232,107,.45);
   background: rgba(34,197,94,.12);
-  color: #22c55e;
+  color: #3ee86b;
   font-weight: 600;
+  box-shadow: 0 0 22px -6px rgba(62,232,107,.65);
 }
 .dpo-live {
   position: relative;
@@ -1959,13 +2098,13 @@
   background: rgba(255,255,255,.07);
 }
 .dpo-segs > span.on {
-  background: linear-gradient(180deg, #22c55e, #16a34a);
-  box-shadow: 0 0 12px rgba(34,197,94,.5);
+  background: linear-gradient(180deg, #3ee86b, #22c55e);
+  box-shadow: 0 0 10px rgba(62,232,107,.55), 0 0 20px rgba(62,232,107,.25);
 }
 .dpo-segs > span.cur {
-  background: #22c55e;
-  box-shadow: 0 0 16px rgba(34,197,94,.85);
-  animation: dpo-seg 1.8s ease-in-out infinite;
+  background: #3ee86b;
+  box-shadow: 0 0 16px rgba(62,232,107,.9), 0 0 30px rgba(62,232,107,.45);
+  animation: dpo-seg 1.6s ease-in-out infinite;
 }
 @keyframes dpo-seg { 0%,100% { opacity: 1 } 50% { opacity: .5 } }
 
@@ -1980,6 +2119,10 @@
   transition: border-color .2s ease, background .2s ease;
   background: linear-gradient(180deg, rgba(255,255,255,.045), rgba(255,255,255,.015));
   border: 1px solid #232a26;
+  /* Muncul berurutan saat halaman dibuka (jeda per kartu diatur inline).
+     Sengaja CSS murni, bukan observer — kalau JS-nya telat/gagal, isinya
+     tetap terlihat, bukan kartu kosong. */
+  animation: dpo-up .5s cubic-bezier(.2,.75,.2,1) both;
 }
 .dpo-step::after {
   content: "";
@@ -1992,14 +2135,29 @@
 }
 .dpo-step.is-todo::after { background: #313743; }
 .dpo-step.is-last::after { display: none; }
+/* Penghubung antar tahap yang sudah lewat: menyala pelan, seperti aliran
+   progres yang masih jalan. */
+.dpo-step:not(.is-todo):not(.is-last)::after {
+  background: linear-gradient(180deg, rgba(62,232,107,.75), rgba(62,232,107,.14));
+  box-shadow: 0 0 10px rgba(62,232,107,.55);
+  animation: dpo-conn 2.2s ease-in-out infinite;
+}
+@keyframes dpo-conn {
+  0%, 100% { opacity: .55; }
+  50%      { opacity: 1; }
+}
 .dpo-step.is-todo {
   background: transparent;
   border-color: rgba(255,255,255,.06);
 }
 .dpo-step.is-now {
-  border-color: rgba(34,197,94,.45);
-  background: linear-gradient(135deg, rgba(34,197,94,.14), rgba(34,197,94,.02) 55%, rgba(255,255,255,.02));
-  box-shadow: 0 0 0 1px rgba(34,197,94,.10), 0 14px 40px -18px rgba(34,197,94,.65);
+  border-color: rgba(62,232,107,.5);
+  background: linear-gradient(135deg, rgba(34,197,94,.16), rgba(34,197,94,.03) 55%, rgba(255,255,255,.02));
+  animation: dpo-now-glow 3.2s ease-in-out infinite;
+}
+@keyframes dpo-now-glow {
+  0%, 100% { box-shadow: 0 0 0 1px rgba(34,197,94,.12), 0 14px 40px -18px rgba(34,197,94,.6); }
+  50%      { box-shadow: 0 0 0 1px rgba(62,232,107,.30), 0 20px 52px -16px rgba(62,232,107,.9); }
 }
 .dpo-dot {
   position: relative;
@@ -2021,12 +2179,13 @@
   background: rgba(34,197,94,.14);
   border-color: rgba(34,197,94,.5);
   color: #22c55e;
+  box-shadow: 0 0 14px rgba(34,197,94,.3);
 }
 .dpo-dot.now {
   color: #04120a;
   background: #22c55e;
-  border-color: #22c55e;
-  box-shadow: 0 0 22px rgba(34,197,94,.55);
+  border-color: #3ee86b;
+  box-shadow: 0 0 18px rgba(62,232,107,.7), 0 0 36px rgba(62,232,107,.35);
 }
 .dpo-dot.now::after {
   content: "";
@@ -2094,7 +2253,28 @@
   .dpo-dot { width: 34px; height: 34px; }
 }
 @media (prefers-reduced-motion: reduce) {
-  .dpo-* { animation: none !important; }
+  .trk-aurora,
+  .trk-btn-accent::after,
+  .trk-glow-pulse,
+  .trk-step.trk-current .trk-dot,
+  .trk-step.trk-current .trk-dot::after,
+  .trk-bar > i::after,
+  .dpo-accent,
+  .dpo-segs > span.cur,
+  .dpo-step,
+  .dpo-step::after,
+  .dpo-step.is-now,
+  .dpo-dot.now::after,
+  .dpo-reveal { animation: none !important; }
+
+  .trk-reveal { opacity: 1 !important; transform: none !important; }
+  .trk-card,
+  .dpo-card,
+  .dpo-thumb { transition: none !important; }
+  .trk-card:hover,
+  .dpo-card:hover,
+  .dpo-thumb:hover { transform: none !important; }
+  .trk-bar > i { transition: none !important; }
 }
 
 

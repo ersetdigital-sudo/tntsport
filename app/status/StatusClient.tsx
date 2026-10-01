@@ -379,6 +379,7 @@ function StatusContent({ initial }: { initial?: StatusInitial | null }) {
   if (!orderId) {
     return (
       <div className="trk-bg min-h-screen">
+        <div className="trk-aurora" aria-hidden="true" />
         <div className="trk-grid min-h-screen">
           <div className="trk-glow min-h-screen flex items-center justify-center px-5">
             <div className="text-center">
@@ -399,10 +400,11 @@ function StatusContent({ initial }: { initial?: StatusInitial | null }) {
   if (!loaded) {
     return (
       <div className="trk-bg min-h-screen">
+        <div className="trk-aurora" aria-hidden="true" />
         <div className="trk-grid min-h-screen">
           <div className="trk-glow min-h-screen">
             {/* Header */}
-            <header className="sticky top-0 z-30 backdrop-blur-md bg-[rgba(10,10,11,.78)] border-b border-[#26282e]">
+            <header className="dpo-topbar sticky top-0 z-30 backdrop-blur-md bg-[rgba(10,10,11,.78)] border-b border-[#26282e]">
               <div className="max-w-3xl mx-auto px-5 sm:px-8 py-4 flex items-center gap-3">
                 <a
                   href="/track"
@@ -509,10 +511,11 @@ function StatusContent({ initial }: { initial?: StatusInitial | null }) {
 
   return (
     <div className="trk-bg min-h-screen">
+      <div className="trk-aurora" aria-hidden="true" />
       <div className="trk-grid min-h-screen">
         <div className="trk-glow">
           {/* Header */}
-          <header className="sticky top-0 z-30 border-b border-white/[.07] bg-[rgba(10,10,11,.72)] backdrop-blur-xl">
+          <header className="dpo-topbar sticky top-0 z-30 border-b border-white/[.07] bg-[rgba(10,10,11,.72)] backdrop-blur-xl">
             <div className="mx-auto flex w-full max-w-3xl items-center justify-between gap-3 px-4 py-3 sm:px-6 sm:py-3.5">
               <div className="flex items-center gap-3">
 <a
@@ -549,7 +552,7 @@ function StatusContent({ initial }: { initial?: StatusInitial | null }) {
                   <>Pesanan kamu sedang kami kerjakan</>
                 )}
                 <br className="hidden sm:block" />{" "}
-                <span className="text-[#22c55e]">sesuai jadwal</span>
+                <span className="dpo-accent">sesuai jadwal</span>
               </h1>
 
               <div className="mt-5 flex flex-wrap items-center gap-2">
@@ -648,6 +651,7 @@ function StatusContent({ initial }: { initial?: StatusInitial | null }) {
                     <li
                       key={stepDef.name}
                       className={`dpo-step ${st === "todo" ? "is-todo" : ""} ${st === "now" ? "is-now" : ""} ${n === totalSteps ? "is-last" : ""}`}
+                      style={{ animationDelay: `${Math.min(idx, 8) * 45}ms` }}
                     >
                       <span className={`dpo-dot ${st === "done" ? "done" : st === "now" ? "now" : ""}`}>
                         {st === "done" ? (
@@ -692,7 +696,7 @@ function StatusContent({ initial }: { initial?: StatusInitial | null }) {
                                 key={di}
                                 type="button"
                                 onClick={() => setLightboxUrl(url)}
-                                className="group relative block overflow-hidden rounded-xl border border-white/10 bg-black"
+                                className="dpo-thumb group relative block"
                                 title="Klik untuk memperbesar"
                                 aria-label={`Perbesar preview desain ${di + 1}`}
                               >
@@ -875,7 +879,7 @@ function StatusContent({ initial }: { initial?: StatusInitial | null }) {
                     }
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="flex-1 rounded-full bg-[#22c55e] px-6 py-3 text-center text-[14px] font-semibold text-black hover:bg-[#2ee06b] transition"
+                    className="trk-glow-pulse flex-1 rounded-full bg-[#22c55e] px-6 py-3 text-center text-[14px] font-semibold text-black hover:bg-[#2ee06b] transition"
                   >
                     Lacak Pengiriman
                   </a>

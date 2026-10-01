@@ -169,9 +169,10 @@ function InfoCard({ title, children }: { title: string; children: React.ReactNod
 function Shell({ children }: { children: React.ReactNode }) {
   return (
     <div className="trk-bg min-h-screen">
+      <div className="trk-aurora" aria-hidden="true" />
       <div className="trk-grid min-h-screen">
         <div className="trk-glow">
-          <header className="sticky top-0 z-30 border-b border-white/[.07] bg-[rgba(10,10,11,.72)] backdrop-blur-xl">
+          <header className="dpo-topbar sticky top-0 z-30 border-b border-white/[.07] bg-[rgba(10,10,11,.72)] backdrop-blur-xl">
             <div className="mx-auto flex w-full max-w-3xl items-center justify-between gap-3 px-4 py-3 sm:px-6 sm:py-3.5">
               <div className="flex items-center gap-3">
                 <a href="/" className="shrink-0" aria-label="Kembali ke beranda">
@@ -339,7 +340,7 @@ export default async function MaklonStatusPage({
             const pos = i + 1;
             const state = pos < step ? "trk-done" : pos === step ? "trk-current" : "trk-todo";
             return (
-              <div key={pos} className={`trk-step ${state}`}>
+              <div key={pos} className={`trk-step ${state}`} style={{ animationDelay: `${Math.min(i, 8) * 45}ms` }}>
                 <div className="trk-dot">
                   {pos < step ? (
                     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
