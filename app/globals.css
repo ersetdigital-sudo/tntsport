@@ -2298,7 +2298,7 @@
   --color-ink: #1E2A26;
   --color-foreground: #1E2A26;
   --color-body: #1E2A26;
-  --color-background: #F1E8D8;
+  --color-background: #F6F6F5;
   --color-surface: #FFFFFF;
   --color-surface-card: #FFFFFF;
   color-scheme: light;
@@ -2311,14 +2311,14 @@
      supaya mudah dikelola:
        Primary Dark Green  #0D3934  --pas-green / --pas-accent
        Accent Sage Green   #A9C475  --pas-sage
-       Warm Ivory          #F1E8D8  --pas-bg
+       Off-White           #F6F6F5  --pas-bg
      Semua warna turunan (border, muted, surface) diturunkan dari ketiganya,
-     jadi tidak ada nilai hijau/ivory yang ditulis ulang di komponen. */
-  --pas-bg: #F1E8D8;
+     jadi tidak ada nilai hijau/putih yang ditulis ulang di komponen. */
+  --pas-bg: #F6F6F5;
   --pas-surface: #FFFFFF;
-  --pas-surface-2: #FAF5EA;
-  --pas-line: #E4DAC7;
-  --pas-line-2: #EDE5D5;
+  --pas-surface-2: #F2F2F1;
+  --pas-line: #E5E5E3;
+  --pas-line-2: #EDEDEB;
   --pas-muted: #776F62;
   --pas-ink-1: #1E2A26;
   --pas-ink-2: #4E5A53;
@@ -2384,7 +2384,7 @@
 
 .pas-topbar {
   position: sticky; top: 0; z-index: 30;
-  background: rgba(241,232,216,.88); backdrop-filter: blur(12px);
+  background: rgba(246,246,245,.88); backdrop-filter: blur(12px);
   border-bottom: 1px solid var(--pas-line);
 }
 

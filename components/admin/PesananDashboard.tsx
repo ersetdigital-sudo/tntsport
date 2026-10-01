@@ -2192,7 +2192,7 @@ function ViewLaporan({ orders }: { orders: OrderData[] }) {
                       role="img"
                       aria-label="Donut proporsi kategori"
                     >
-                      <circle cx="60" cy="60" r="46" fill="none" stroke="#E4DAC7" strokeWidth="15" />
+                      <circle cx="60" cy="60" r="46" fill="none" stroke="#E5E5E3" strokeWidth="15" />
                       <g transform="rotate(-90 60 60)">{donutSegments}</g>
                     </svg>
                     <div className="pas-donut-center">
@@ -3296,27 +3296,27 @@ function ViewNotif({ showToast, orders }: { showToast: (msg: string) => void; or
     <>
       {/* â”€â”€ CSS VARS (cream design system) â”€â”€ */}
       <style>{`
-        .notif-wrap{--cream:#F1E8D8;--cream-2:#FAF5EA;--paper:#ffffff;--ink:#1E2A26;--ink-2:#4E5A53;--ink-soft:#776F62;--line:#E4DAC7;--line-2:#EDE5D5;--green:#0D3934;--green-2:#15544C;--accent:#0D3934;--mint:#E9EFDC;--mint-line:#D8E4C4;--danger:#C0392B;--danger-bg:#FBE9E5;--danger-line:#F3CDC4}
+        .notif-wrap{--cream:#F6F6F5;--cream-2:#F2F2F1;--paper:#ffffff;--ink:#1E2A26;--ink-2:#4E5A53;--ink-soft:#776F62;--line:#E5E5E3;--line-2:#EDEDEB;--green:#0D3934;--green-2:#15544C;--accent:#0D3934;--mint:#E9EFDC;--mint-line:#D8E4C4;--danger:#C0392B;--danger-bg:#FBE9E5;--danger-line:#F3CDC4}
         .notif-wrap .n-card{background:var(--paper);border:1px solid var(--line);border-radius:22px;box-shadow:0 1px 1px rgba(13,57,52,.03),0 22px 44px -32px rgba(13,57,52,.28)}
         .notif-wrap .n-eyebrow{font-size:10.5px;text-transform:uppercase;letter-spacing:.2em;color:var(--ink-soft);font-family:var(--font-geist-mono),ui-monospace,monospace}
         .notif-wrap .n-hero{position:relative;overflow:hidden;border-radius:26px;background:linear-gradient(145deg,#0D3934 0%,#12463F 52%,#15544C 100%);box-shadow:0 30px 70px -40px rgba(13,57,52,.75),inset 0 1px 0 rgba(255,255,255,.1)}
         .notif-wrap .n-hero-glow{position:absolute;inset:auto -8% 40% auto;width:520px;height:520px;background:radial-gradient(circle,rgba(169,196,117,.22),transparent 62%);pointer-events:none}
         .notif-wrap .n-hero-grid{position:absolute;inset:0;pointer-events:none;background-image:linear-gradient(rgba(255,255,255,.045) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.045) 1px,transparent 1px);background-size:100% 36px,36px 100%;mask-image:radial-gradient(120% 90% at 70% 0%,#000 25%,transparent 75%)}
-        .notif-wrap .n-stat{border:1px solid var(--line);border-radius:18px;background:linear-gradient(180deg,#fff,#FDFAF3);padding:18px 18px 16px;transition:transform .22s ease,box-shadow .22s ease}
+        .notif-wrap .n-stat{border:1px solid var(--line);border-radius:18px;background:linear-gradient(180deg,#fff,#FAFAFA);padding:18px 18px 16px;transition:transform .22s ease,box-shadow .22s ease}
         .notif-wrap .n-stat:hover{transform:translateY(-2px);box-shadow:0 18px 34px -26px rgba(13,57,52,.32)}
-        .notif-wrap .n-field{width:100%;background:#FDFBF5;border:1px solid var(--line);border-radius:14px;padding:22px 14px 9px;font-size:15px;color:var(--ink);transition:border-color .18s ease,box-shadow .18s ease,background .18s ease;font-family:var(--font-geist),system-ui,sans-serif}
+        .notif-wrap .n-field{width:100%;background:#F7F7F6;border:1px solid var(--line);border-radius:14px;padding:22px 14px 9px;font-size:15px;color:var(--ink);transition:border-color .18s ease,box-shadow .18s ease,background .18s ease;font-family:var(--font-geist),system-ui,sans-serif}
         .notif-wrap .n-field:focus{outline:none;background:#fff;border-color:var(--accent);box-shadow:0 0 0 4px rgba(13,57,52,.12)}
         .notif-wrap .n-fw{position:relative}
         .notif-wrap .n-fw label{position:absolute;left:14px;top:8px;font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-soft);pointer-events:none;transition:color .18s ease;font-family:var(--font-geist-mono),ui-monospace,monospace}
         .notif-wrap .n-fw .n-field:focus + label{color:var(--accent)}
-        .notif-wrap .n-chip{position:relative;border:1px solid var(--line);background:#FDFBF5;color:var(--ink-2);border-radius:12px;padding:10px 16px;font-size:13px;font-weight:600;cursor:pointer;transition:all .18s cubic-bezier(.2,.85,.25,1);font-family:var(--font-geist-mono),ui-monospace,monospace}
-        .notif-wrap .n-chip:hover{transform:translateY(-1px);border-color:#D8CCB4}
+        .notif-wrap .n-chip{position:relative;border:1px solid var(--line);background:#F7F7F6;color:var(--ink-2);border-radius:12px;padding:10px 16px;font-size:13px;font-weight:600;cursor:pointer;transition:all .18s cubic-bezier(.2,.85,.25,1);font-family:var(--font-geist-mono),ui-monospace,monospace}
+        .notif-wrap .n-chip:hover{transform:translateY(-1px);border-color:#D4D4D1}
         .notif-wrap .n-chip.on{background:var(--green);border-color:var(--green);color:#E9EFDC;box-shadow:0 8px 18px -12px rgba(13,57,52,.7)}
         .notif-wrap .n-btn{border-radius:13px;font-size:14px;font-weight:600;transition:transform .16s ease,background .2s ease,box-shadow .2s ease;font-family:var(--font-geist),system-ui,sans-serif}
         .notif-wrap .n-btn-primary{background:var(--green);color:#E9EFDC;box-shadow:0 12px 26px -16px rgba(13,57,52,.85)}
         .notif-wrap .n-btn-primary:hover{background:var(--green-2);transform:translateY(-1px)}
         .notif-wrap .n-btn-ghost{background:#fff;color:var(--ink);border:1px solid var(--line);font-weight:500}
-        .notif-wrap .n-btn-ghost:hover{background:var(--cream-2);border-color:#D8CCB4}
+        .notif-wrap .n-btn-ghost:hover{background:var(--cream-2);border-color:#D4D4D1}
         .notif-wrap .n-divider{height:1px;background:linear-gradient(90deg,transparent,var(--line),transparent)}
         .notif-wrap .n-dt{position:relative;min-width:72px;padding:12px 4px 10px;border-radius:14px;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.14);backdrop-filter:blur(6px);text-align:center;overflow:hidden}
         .notif-wrap .n-dt::before{content:"";position:absolute;inset:0 0 auto 0;height:1px;background:linear-gradient(90deg,transparent,rgba(255,255,255,.45),transparent)}
@@ -3463,7 +3463,7 @@ function ViewNotif({ showToast, orders }: { showToast: (msg: string) => void; or
         </section>
 
         {/* â”€â”€ SETTINGS â”€â”€ */}
-        <section className="n-card mt-6 p-7 sm:p-9" style={{ background: "linear-gradient(180deg,#fff,#FDFAF3)" }}>
+        <section className="n-card mt-6 p-7 sm:p-9" style={{ background: "linear-gradient(180deg,#fff,#FAFAFA)" }}>
           <div className="flex flex-wrap items-end justify-between gap-3">
             <div>
               <p className="n-eyebrow">Konfigurasi</p>
@@ -3812,7 +3812,7 @@ function DetailSheet({
       <div className="pas-veil" onClick={onClose} />
       <div className="pas-panel p-0" style={{ display: "flex", flexDirection: "column" }}>
         {/* ── TOPBAR ── */}
-        <div className="sticky top-0 z-10 flex items-center gap-3 px-5 py-3.5 border-b border-[var(--pas-line)]" style={{ background: "rgba(241,232,216,.85)", backdropFilter: "blur(14px)", WebkitBackdropFilter: "blur(14px)" }}>
+        <div className="sticky top-0 z-10 flex items-center gap-3 px-5 py-3.5 border-b border-[var(--pas-line)]" style={{ background: "rgba(246,246,245,.85)", backdropFilter: "blur(14px)", WebkitBackdropFilter: "blur(14px)" }}>
           <button className="w-9 h-9 rounded-[10px] border border-[var(--pas-line)] bg-[var(--pas-surface)] grid place-items-center text-[var(--pas-muted)] hover:text-[var(--pas-ink-1)] hover:border-[rgba(13,57,52,.22)] transition shrink-0" onClick={onClose} aria-label="Kembali">
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round"><path d="M19 12H5M12 19l-7-7 7-7" /></svg>
           </button>
@@ -4100,7 +4100,7 @@ function DetailSheet({
         </div>
 
         {/* ── FOOTER ── */}
-        <div className="sticky bottom-0 flex gap-2.5 px-5 py-4 border-t border-[var(--pas-line)]" style={{ background: "linear-gradient(180deg,rgba(241,232,216,0),var(--pas-bg) 30%)" }}>
+        <div className="sticky bottom-0 flex gap-2.5 px-5 py-4 border-t border-[var(--pas-line)]" style={{ background: "linear-gradient(180deg,rgba(246,246,245,0),var(--pas-bg) 30%)" }}>
           <button
             className="flex-1 py-3.5 rounded-[10px] text-[12px] font-bold text-white border-0 cursor-pointer transition-all"
             style={{ fontFamily: "var(--font-display), system-ui, sans-serif", letterSpacing: ".04em", textTransform: "uppercase", background: "var(--pas-accent)", boxShadow: "0 2px 8px rgba(13,57,52,.18)" }}

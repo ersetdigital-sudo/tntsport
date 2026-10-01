@@ -1261,7 +1261,7 @@ function DetailSheet({
         {/* TOPBAR */}
         <div
           className="sticky top-0 z-10 flex items-center gap-3 px-5 py-3.5 border-b border-[var(--pas-line)]"
-          style={{ background: "rgba(241,232,216,.85)", backdropFilter: "blur(14px)", WebkitBackdropFilter: "blur(14px)" }}
+          style={{ background: "rgba(246,246,245,.85)", backdropFilter: "blur(14px)", WebkitBackdropFilter: "blur(14px)" }}
         >
           <button
             className="w-9 h-9 rounded-[10px] border border-[var(--pas-line)] bg-[var(--pas-surface)] grid place-items-center text-[var(--pas-muted)] hover:text-[var(--pas-ink-1)] hover:border-[rgba(13,57,52,.22)] transition shrink-0"
@@ -1554,7 +1554,7 @@ function DetailSheet({
         </div>
 
         {/* FOOTER */}
-        <div className="sticky bottom-0 flex gap-2.5 px-5 py-4 border-t border-[var(--pas-line)]" style={{ background: "linear-gradient(180deg,rgba(241,232,216,0),var(--pas-bg) 30%)" }}>
+        <div className="sticky bottom-0 flex gap-2.5 px-5 py-4 border-t border-[var(--pas-line)]" style={{ background: "linear-gradient(180deg,rgba(246,246,245,0),var(--pas-bg) 30%)" }}>
           <button
             className="flex-1 py-3.5 rounded-[10px] text-[12px] font-bold text-white border-0 cursor-pointer transition-all"
             style={{ fontFamily: "var(--font-display), system-ui, sans-serif", letterSpacing: ".04em", textTransform: "uppercase", background: "var(--pas-accent)", boxShadow: "0 2px 8px rgba(13,57,52,.18)" }}
