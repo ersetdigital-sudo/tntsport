@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useCallback, useRef, type ReactNode } from "react";
 import { uploadToCloudinary } from "@/lib/cloudinary";
+import { pcsLabel } from "@/lib/utils";
 import { Search, AlertTriangle } from "lucide-react";
 
 // Optimasi delivery yang sama seperti upload design lama (f_auto,q_auto)
@@ -452,9 +453,9 @@ export default function MaklonDashboard() {
                   const stageName = steps[o.current_step - 1]?.name || `Tahap ${o.current_step}`;
                   return (
                     <div key={o.id} className="pas-bento-card cursor-pointer" onClick={() => setOpenId(o.id)}>
-                      <div className="flex items-center justify-between pr-2">
-                        <p className="font-bold text-[16px] pas-num">{o.id}</p>
-                        <span className={`pas-pill ${st}`}>{FILTER_LABEL[st]}</span>
+                      <div className="flex flex-wrap items-center gap-x-3 gap-y-1.5 pr-2">
+                        <p className="font-bold text-[16px] pas-num break-all">{o.id}</p>
+                        <span className={`pas-pill ${st} ml-auto`}>{FILTER_LABEL[st]}</span>
                       </div>
                       <div className="flex items-center justify-between mt-3">
                         <div className="flex items-center gap-3 min-w-0">
@@ -464,7 +465,7 @@ export default function MaklonDashboard() {
                             <p className="text-[12px] text-[var(--pas-muted)] truncate">{o.customer_city}</p>
                           </div>
                         </div>
-                        <p className="text-[14px] font-semibold pas-num shrink-0 ml-3">{o.quantity} pcs</p>
+                        <p className="text-[14px] font-semibold pas-num shrink-0 ml-3">{pcsLabel(o.quantity)}</p>
                       </div>
                       <p className="text-[13px] text-[var(--pas-muted)] mt-3">{o.product_name}</p>
                       <div className="mt-3">
@@ -987,6 +988,32 @@ function DetailSheet({
   const [confirmDelete, setConfirmDelete] = useState(false);
   const [error, setError] = useState("");
   const [zoomUrl, setZoomUrl] = useState<string | null>(null);
+  const [copiedPhone, setCopiedPhone] = useState(false);
+
+  // Nomor HP mentah (cuma digit) untuk tel: — nomor yang tampil tetap apa adanya.
+  const phoneDigits = String(order?.customer_phone || "").replace(/[^\d+]/g, "");
+
+  /** Salin nomor HP; Clipboard API bisa ditolak (browser lama / non-HTTPS), jadi
+   *  ada fallback textarea + execCommand. */
+  const copyPhone = async () => {
+    const value = order?.customer_phone || "";
+    if (!value) return;
+    try {
+      await navigator.clipboard.writeText(value);
+    } catch {
+      const el = document.createElement("textarea");
+      el.value = value;
+      el.setAttribute("readonly", "");
+      el.style.position = "fixed";
+      el.style.opacity = "0";
+      document.body.appendChild(el);
+      el.select();
+      document.execCommand("copy");
+      document.body.removeChild(el);
+    }
+    setCopiedPhone(true);
+    setTimeout(() => setCopiedPhone(false), 2000);
+  };
 
   useEffect(() => {
     if (order) {
@@ -1254,10 +1281,37 @@ function DetailSheet({
               <div className="col-span-2 px-4 py-3 border-b border-[var(--pas-line)]">
                 <span className="pas-stencil text-[9px] text-[var(--pas-muted)]">Customer</span>
                 <p className="mt-1 text-[14px] font-semibold">{order.customer_name}</p>
-                <p className="text-[12px] text-[var(--pas-muted)] mt-0.5 pas-num">
-                  {order.customer_phone}
-                  {order.customer_city ? ` - ${order.customer_city}` : ""}
-                </p>
+                <div className="mt-0.5 flex flex-wrap items-center gap-x-1.5 gap-y-1">
+                  {order.customer_phone ? (
+                    <a
+                      href={`tel:${phoneDigits}`}
+                      className="text-[12px] text-[var(--pas-muted)] pas-num hover:text-[var(--pas-ink-1)] transition"
+                      title="Telepon nomor ini"
+                    >
+                      {order.customer_phone}
+                    </a>
+                  ) : (
+                    <span className="text-[12px] text-[var(--pas-muted)] pas-num">-</span>
+                  )}
+                  {order.customer_phone && (
+                    <button
+                      type="button"
+                      onClick={copyPhone}
+                      className={`w-6 h-6 rounded-md border grid place-items-center transition shrink-0 ${copiedPhone ? "border-[rgba(34,197,94,.45)] bg-[rgba(34,197,94,.10)] text-[#16a34a]" : "border-[var(--pas-line)] bg-[var(--pas-surface)] text-[var(--pas-muted)] hover:text-[var(--pas-ink-1)] hover:border-[rgba(63,86,59,.22)]"}`}
+                      aria-label="Salin nomor HP"
+                      title={copiedPhone ? "Tersalin" : "Salin nomor HP"}
+                    >
+                      {copiedPhone ? (
+                        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.6" strokeLinecap="round" strokeLinejoin="round"><path d="M20 6L9 17l-5-5" /></svg>
+                      ) : (
+                        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.9" strokeLinecap="round" strokeLinejoin="round"><rect x="9" y="9" width="11" height="11" rx="2" /><path d="M5 15V5a2 2 0 0 1 2-2h8" /></svg>
+                      )}
+                    </button>
+                  )}
+                  {order.customer_city && (
+                    <span className="text-[12px] text-[var(--pas-muted)]">- {order.customer_city}</span>
+                  )}
+                </div>
               </div>
               <div className="px-4 py-3 border-b border-r border-[var(--pas-line)]">
                 <span className="pas-stencil text-[9px] text-[var(--pas-muted)]">Tanggal Order</span>
@@ -1294,7 +1348,7 @@ function DetailSheet({
               )}
               <div className="px-4 py-3 border-b border-r border-[var(--pas-line)]">
                 <span className="pas-stencil text-[9px] text-[var(--pas-muted)]">Jumlah</span>
-                <p className="mt-1 text-[14px] font-semibold">{order.quantity} pcs</p>
+                <p className="mt-1 text-[14px] font-semibold">{pcsLabel(order.quantity)}</p>
               </div>
               <div className="px-4 py-3 border-b border-[var(--pas-line)]">
                 <span className="pas-stencil text-[9px] text-[var(--pas-muted)]">Ekspedisi / Resi</span>

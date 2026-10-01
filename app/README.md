@@ -24,7 +24,7 @@ Halaman kategori di atas memakai template dan config yang sama, lihat
 | --- | --- |
 | `/track` | Form verifikasi (nomor order + nomor HP), lalu dapat token sesi |
 | `/track/[orderNumber]` | Detail tracking per order (`TrackDetailClient.tsx` untuk UI-nya) |
-| `/status` | Halaman status yang dibuka dari link WhatsApp — pakai `?order=...&token=...` supaya tidak perlu verifikasi ulang |
+| `/status` | Halaman status yang dibuka dari link WhatsApp — pakai `?order=...&token=...` supaya tidak perlu verifikasi ulang. Dirender **server** (`app/status/page.tsx` + `lib/status-server.ts`), jadi progres sudah ada di HTML pertama; interaksinya di `app/status/StatusClient.tsx` |
 | `/status/maklon` | Halaman tracking khusus pesanan maklon (6 tahap) |
 
 **Penting:** link tracking yang dikirim lewat WhatsApp memakai token HMAC bertanda tangan yang
@@ -57,7 +57,7 @@ Semua halaman ini mengelola konten yang dibaca halaman publik lewat `lib/queries
 
 | Endpoint | Fungsi |
 | --- | --- |
-| `GET/POST /api/pesanan/orders` | Daftar & tambah order jersey |
+| `GET/POST /api/pesanan/orders` | Daftar & tambah order jersey. POST juga menulis riwayat tahap Desain kalau ada foto desain, lalu mengirim notifikasi WA tahap 1 lewat `after()` |
 | `PATCH /api/pesanan/orders/[id]/status` | **Update tahap produksi jersey** — menulis status, riwayat, dan memicu notifikasi WA |
 | `GET/PATCH/DELETE /api/pesanan/orders/[id]` | Detail / ubah / hapus order |
 | `GET/POST /api/pesanan/maklon` | Daftar & tambah order maklon |

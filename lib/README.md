@@ -10,6 +10,7 @@ halaman (server component) dan API routes.
 | `types.ts` | Definisi tipe + konstanta domain: `ORDER_STATUS_LIST` (11 tahap produksi), `ORDER_STATUS_LABELS`, `STEP_PROGRESS` (persentase per tahap), `ORDER_PHOTO_STAGES`, tipe `Order` |
 | `order-status.ts` | **Satu sumber kebenaran** aturan "status → tahap → progress": `stepFromStatus`, `progressPercentFromStatus`, `isOrderCompleted`, `nextStageLabel`, `statusFromStep`, normalisasi status/tahap lama (`print` → `cetak_print`, dst.) |
 | `queries-orders.ts` | Akses data order: `getOrderByTracking` (memverifikasi nomor HP sebelum mengembalikan data), `getAllOrders`, `getOrderById`, `generateOrderNumber`, `stripWoPhoto` |
+| `status-server.ts` | Pembacaan data halaman `/status` **langsung di server** (`loadStatusInitial`) supaya HTML pertama sudah berisi progres pesanan; dipakai `app/status/page.tsx`. Cuma jalan kalau token link WA / cookie perangkat ada |
 
 Kalau menambah atau mengubah tahap produksi, mulai dari `types.ts` lalu sesuaikan `order-status.ts`
 dan nama tahap di `fonnte.ts` (template WA).
@@ -21,7 +22,7 @@ dan nama tahap di `fonnte.ts` (template WA).
 | `fonnte.ts` | Integrasi Fonnte: nama tahap jersey & maklon, template pesan (`buildWhatsAppMessage`, `buildMaklonWhatsAppMessage`), URL tracking publik, `sendFonnteMessage` (timeout 10 detik), `triggerStageNotification` & `triggerMaklonStageNotification`, ambil token dari `app_settings` |
 | `fonnte-crypto.ts` | Enkripsi/dekripsi token Fonnte (AES-256-GCM, key dari `SETTINGS_ENCRYPTION_KEY`). Token tidak pernah dikirim ke browser |
 | `wa.ts` | Normalisasi & validasi nomor WhatsApp + `buildWhatsAppLink` (satu tempat untuk aturan format internasional) |
-| `verify-token.ts` | Token tracking bertanda tangan HMAC: `signToken`, `verifyToken`, `signTrackingToken` (berlaku 30 hari), `buildSetCookie` |
+| `verify-token.ts` | Token tracking bertanda tangan HMAC: `signToken`, `verifyToken`, `signTrackingToken` (berlaku 30 hari), `buildSetCookie`, `getSessionFromCookie`, `getTokenFromCookie` |
 | `rate-limit.ts` | Rate limiter in-memory sliding window (`checkRateLimit`) untuk endpoint admin/update tahap. Per-instance server, bukan global |
 
 ## Data & konten
@@ -43,10 +44,10 @@ dan nama tahap di `fonnte.ts` (template WA).
 | `supabase/server.ts` | Supabase client untuk server (cookie session mengalir otomatis) |
 | `supabase/middleware.ts` | Refresh session Supabase, dipanggil dari `middleware.ts` di root |
 | `admin-auth.ts` | `hasAdminAccess()` — cek akses dashboard: cookie `pesanan_auth` (shared password) **atau** user Supabase terautentikasi (CMS `/admin`) |
-| `cloudinary.ts` | Helper Cloudinary: `uploadToCloudinary` (unsigned upload) dan `cloudinaryUrl` (transformasi `f_auto,q_auto`) |
+| `cloudinary.ts` | Helper Cloudinary: `uploadToCloudinary` (unsigned upload — foto diperkecil dulu di browser jadi WebP maks 1600px), `cloudinaryUrl` (transformasi `f_auto,q_auto`), dan `optimizeImageUrl` (URL thumbnail/lightbox dengan `w_`) |
 
 ## Lain-lain
 
 | File | Isi |
 | --- | --- |
-| `utils.ts` | `cn()` — penggabung className (`clsx` + `tailwind-merge`) |
+| `utils.ts` | `cn()` — penggabung className (`clsx` + `tailwind-merge`); `pcsLabel()` — label jumlah pcs yang tidak menulis satuan dua kali (`"12 pcs"`, bukan `"12 pcs pcs"`) |

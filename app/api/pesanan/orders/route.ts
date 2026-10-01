@@ -1,7 +1,17 @@
-import { NextResponse } from "next/server";
+import { after, NextResponse } from "next/server";
 import { createClient } from "@supabase/supabase-js";
 import { generateOrderNumber } from "@/lib/queries-orders";
-import { isOrderCompleted, progressPercentFromStatus, stepFromStatus } from "@/lib/order-status";
+import { triggerStageNotification } from "@/lib/fonnte";
+import {
+  isOrderCompleted,
+  progressPercentFromStatus,
+  statusFromStep,
+  stepFromStatus,
+} from "@/lib/order-status";
+
+// Kirim notifikasi WhatsApp tahap 1 setelah response dikirim (lihat `after()`
+// di POST) — Fonnte butuh waktu, dan customer tidak perlu menunggu itu.
+export const maxDuration = 30;
 
 function mapOrder(row: any) {
   const hasTracking = !!(row.tracking_number && row.courier);
@@ -124,5 +134,39 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: error.message }, { status: 500 });
   }
 
-  return NextResponse.json({ order: mapOrder(data) }, { status: 201 });
+  // Foto desain pertama = bukti tahap Desain. Tanpa baris history, halaman
+  // customer menampilkan foto desain tanpa tanggal, dan tahap Desain terbaca
+  // "belum dikerjakan" walau ordernya memang mulai dari situ.
+  const firstStage = statusFromStep(1);
+  const designPhoto = Array.isArray(design_photos) ? design_photos[0] : "";
+  if (designPhoto) {
+    const { error: histErr } = await supabase.from("order_status_history").insert({
+      order_id: data.id,
+      status: firstStage,
+      note: "",
+      photo_url: designPhoto,
+    });
+    if (histErr) {
+      // Kegagalan catat history tidak boleh menggagalkan order yang sudah masuk.
+      console.error("History insert (create) failed:", histErr.message, { order_id: data.id });
+    }
+  }
+
+  // Notifikasi tahap 1 ke customer — dikirim SETELAH response, karena
+  // kegagalan WhatsApp tidak boleh menggagalkan pembuatan order.
+  after(async () => {
+    try {
+      await triggerStageNotification(supabase, data.id, data, 1);
+    } catch (err) {
+      console.error(
+        "WA notification (create) failed:",
+        err instanceof Error ? err.message : err
+      );
+    }
+  });
+
+  return NextResponse.json(
+    { order: mapOrder(data), notification: { stage: 1, status: "queued" } },
+    { status: 201 }
+  );
 }

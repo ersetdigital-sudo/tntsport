@@ -59,6 +59,23 @@ export function buildSetCookie(orderId: string): string {
   ].join("; ");
 }
 
+/**
+ * Token MENTAH dari cookie `track_session`, atau null.
+ *
+ * Dipakai halaman /status yang dirender server: cookie-nya masih perlu
+ * diverifikasi ulang terhadap nomor pesanan, jadi yang dibutuhkan tokennya —
+ * bukan langsung sesinya (lihat lib/status-server.ts).
+ */
+export function getTokenFromCookie(cookieHeader: string | null): string | null {
+  if (!cookieHeader) return null;
+  const match = cookieHeader
+    .split(";")
+    .find((c) => c.trim().startsWith(`${COOKIE_NAME}=`));
+  if (!match) return null;
+  const token = match.trim().slice(COOKIE_NAME.length + 1);
+  return token || null;
+}
+
 export function getSessionFromCookie(cookieHeader: string | null): TrackSession | null {
   if (!cookieHeader) return null;
   const match = cookieHeader.split(";").find((c) => c.trim().startsWith(`${COOKIE_NAME}=`));

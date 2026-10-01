@@ -4,6 +4,8 @@ import { useState, useEffect, useCallback, useMemo, useRef, type ReactNode } fro
 import { useRouter } from "next/navigation";
 import { uploadToCloudinary } from "@/lib/cloudinary";
 import { Sheet, SheetContent, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
+import { pcsLabel } from "@/lib/utils";
+import { buildWhatsAppLink } from "@/lib/wa";
 import { Search, AlertTriangle } from "lucide-react";
 
 // Same delivery optimization the old /api/upload/design route applied (f_auto,q_auto)
@@ -1233,9 +1235,9 @@ function ViewPesanan({
               </div>
 
               {/* Baris 1: Nomor pesanan + badge status */}
-              <div className="flex items-center justify-between pr-10">
-                <p className="font-bold text-[16px] pas-num">{o.id}</p>
-                <span className={`pas-pill ${st}`}>{FILTER_LABEL[st]}</span>
+              <div className="flex flex-wrap items-center gap-x-3 gap-y-1.5 pr-10">
+                <p className="font-bold text-[16px] pas-num break-all">{o.id}</p>
+                <span className={`pas-pill ${st} ml-auto`}>{FILTER_LABEL[st]}</span>
               </div>
 
               {/* Baris 2: Avatar + Nama customer + Jumlah pcs */}
@@ -1247,7 +1249,7 @@ function ViewPesanan({
                     <p className="text-[12px] text-[var(--pas-muted)] truncate">{o.customer_city}</p>
                   </div>
                 </div>
-                <p className="text-[14px] font-semibold pas-num shrink-0 ml-3">{o.quantity} pcs</p>
+                <p className="text-[14px] font-semibold pas-num shrink-0 ml-3">{pcsLabel(o.quantity)}</p>
               </div>
 
               {/* Baris 3: Nama produk */}
@@ -3568,6 +3570,7 @@ function DetailSheet({
   const [uploadingWo, setUploadingWo] = useState(false);
   const [saving, setSaving] = useState(false);
   const [kirimError, setKirimError] = useState("");
+  const [copiedPhone, setCopiedPhone] = useState(false);
   const DEFAULT_EDIT_PRODUCTS = ["Atasan Lengan Pendek", "Atasan Lengan Panjang", "Setelan Lengan Pendek", "Setelan Lengan Panjang"];
   const [editProductOptions, setEditProductOptions] = useState<string[]>(DEFAULT_EDIT_PRODUCTS);
   const [editProductRows, setEditProductRows] = useState<{ product: string; custom: boolean; qty: string }[]>(() => {
@@ -3726,6 +3729,31 @@ function DetailSheet({
     }
   };
 
+  // Nomor HP mentah (cuma digit) untuk tel: — nomor yang tampil tetap apa adanya.
+  const phoneDigits = String(order?.customer_phone || "").replace(/[^\d+]/g, "");
+
+  /** Salin nomor HP; Clipboard API bisa ditolak (browser lama / non-HTTPS), jadi
+   *  ada fallback textarea + execCommand. */
+  const copyPhone = async () => {
+    const value = order?.customer_phone || "";
+    if (!value) return;
+    try {
+      await navigator.clipboard.writeText(value);
+    } catch {
+      const el = document.createElement("textarea");
+      el.value = value;
+      el.setAttribute("readonly", "");
+      el.style.position = "fixed";
+      el.style.opacity = "0";
+      document.body.appendChild(el);
+      el.select();
+      document.execCommand("copy");
+      document.body.removeChild(el);
+    }
+    setCopiedPhone(true);
+    setTimeout(() => setCopiedPhone(false), 2000);
+  };
+
   return (
     <div className="pas-sheet open">
       <div className="pas-veil" onClick={onClose} />
@@ -3743,6 +3771,55 @@ function DetailSheet({
         </div>
 
         <div className="flex-1 overflow-y-auto px-5 pt-5 pb-28" style={{ scrollbarColor: "var(--pas-line) transparent" }}>
+          {/* ── PEMBELI ── */}
+          <div className="rounded-2xl border border-[var(--pas-line)] bg-[var(--pas-surface)] shadow-[0_1px_3px_rgba(0,0,0,.04),0_4px_12px_rgba(0,0,0,.04)] p-4">
+            <span className="pas-stencil text-[9px] text-[var(--pas-muted)]">Pembeli</span>
+            <div className="mt-3 flex items-center gap-3">
+              <span className="pas-bento-avatar shrink-0">{initials(order.customer_name)}</span>
+              <div className="min-w-0 flex-1">
+                <p className="text-[14px] font-semibold truncate">{cleanName(order.customer_name) || "-"}</p>
+                {phoneDigits ? (
+                  <a
+                    href={`tel:${phoneDigits}`}
+                    className="text-[12.5px] text-[var(--pas-muted)] pas-num hover:text-[var(--pas-ink-1)] transition"
+                    title="Telepon nomor ini"
+                  >
+                    {order.customer_phone}
+                  </a>
+                ) : (
+                  <span className="text-[12.5px] text-[var(--pas-muted)]">-</span>
+                )}
+              </div>
+              {order.customer_phone && (
+                <>
+                  <button
+                    type="button"
+                    onClick={copyPhone}
+                    className={`w-9 h-9 rounded-[10px] border grid place-items-center transition shrink-0 ${copiedPhone ? "border-[rgba(34,197,94,.45)] bg-[rgba(34,197,94,.10)] text-[#16a34a]" : "border-[var(--pas-line)] bg-[var(--pas-surface)] text-[var(--pas-muted)] hover:text-[var(--pas-ink-1)] hover:border-[rgba(63,86,59,.22)]"}`}
+                    aria-label="Salin nomor HP"
+                    title={copiedPhone ? "Tersalin" : "Salin nomor HP"}
+                  >
+                    {copiedPhone ? (
+                      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.6" strokeLinecap="round" strokeLinejoin="round"><path d="M20 6L9 17l-5-5" /></svg>
+                    ) : (
+                      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.9" strokeLinecap="round" strokeLinejoin="round"><rect x="9" y="9" width="11" height="11" rx="2" /><path d="M5 15V5a2 2 0 0 1 2-2h8" /></svg>
+                    )}
+                  </button>
+                  <a
+                    href={buildWhatsAppLink(order.customer_phone, `Halo ${cleanName(order.customer_name)}, saya dari TNT Sport Apparel soal pesanan ${order.id}.`)}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="w-9 h-9 rounded-[10px] border border-[var(--pas-line)] bg-[var(--pas-surface)] grid place-items-center text-[var(--pas-muted)] hover:text-[var(--pas-ink-1)] hover:border-[rgba(63,86,59,.22)] transition shrink-0"
+                    aria-label="Chat WhatsApp"
+                    title="Chat WhatsApp"
+                  >
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2 22l5.25-1.38a9.9 9.9 0 0 0 4.79 1.22h.01c5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.82 9.82 0 0 0 12.04 2Zm5.8 14.06c-.24.68-1.4 1.3-1.93 1.35-.53.05-1.03.24-3.48-.72-2.95-1.16-4.83-4.2-4.98-4.4-.15-.2-1.2-1.6-1.2-3.05 0-1.45.76-2.16 1.03-2.46.27-.3.59-.37.78-.37.19 0 .39 0 .56.01.18.01.42-.07.66.5.24.58.83 2.02.9 2.17.07.14.12.31.02.5-.1.2-.15.32-.29.49-.15.17-.31.39-.44.52-.15.15-.3.31-.13.61.17.29.76 1.25 1.63 2.03 1.12 1 2.06 1.31 2.36 1.46.29.15.46.12.63-.07.17-.2.73-.85.93-1.14.19-.29.39-.24.66-.15.27.1 1.7.8 1.99.95.29.15.49.22.56.34.07.13.07.73-.17 1.41Z" /></svg>
+                  </a>
+                </>
+              )}
+            </div>
+          </div>
+
           {/* ── STATUS HERO ── */}
           <div className="rounded-2xl border border-[var(--pas-line)] bg-[var(--pas-surface)] shadow-[0_1px_3px_rgba(0,0,0,.04),0_4px_12px_rgba(0,0,0,.04)] p-6 flex flex-col items-center text-center gap-3">
             <div className="w-14 h-14 rounded-full bg-[rgba(63,86,59,.10)] grid place-items-center text-[var(--pas-accent)] text-[22px]">
@@ -3857,7 +3934,7 @@ function DetailSheet({
               )}
               <div className="px-4 py-3 border-b border-r border-[var(--pas-line)]">
                 <span className="pas-stencil text-[9px] text-[var(--pas-muted)]">Jumlah</span>
-                <p className="mt-1 text-[14px] font-semibold">{order.quantity} pcs</p>
+                <p className="mt-1 text-[14px] font-semibold">{pcsLabel(order.quantity)}</p>
               </div>
               {step === 11 && (courier || resi) ? (
                 <div className="px-4 py-3 border-b border-[var(--pas-line)]">
