@@ -373,6 +373,12 @@ function NavIcon({ name, size = 18 }: { name: string; size?: number }) {
         <path d="M18 20V10M12 20V4M6 20v-6" />
       </>
     ),
+    hpp: (
+      <>
+        <rect x="4" y="2" width="16" height="20" rx="2" />
+        <path d="M8 6h8M8 11h2m3 0h3M8 16h2m3 0h3" />
+      </>
+    ),
     setting: (
       <>
         <circle cx="12" cy="12" r="3" />
@@ -530,6 +536,9 @@ export default function PesananDashboard({
           <a className="pas-navlink" href="/pesanan/maklon">
             <span className="pas-ic"><NavIcon name="maklon" /></span> Maklon
           </a>
+          <a className="pas-navlink" href="/pesanan/hpp">
+            <span className="pas-ic"><NavIcon name="hpp" /></span> Kalkulator HPP
+          </a>
           {(["jadwal", "kirim"] as ViewKey[]).map((key) => (
             <a
               key={key}
@@ -681,6 +690,9 @@ export default function PesananDashboard({
             </a>
             <a className="pas-navlink" href="/pesanan/maklon">
               <span className="pas-ic"><NavIcon name="maklon" /></span> Maklon
+            </a>
+            <a className="pas-navlink" href="/pesanan/hpp">
+              <span className="pas-ic"><NavIcon name="hpp" /></span> Kalkulator HPP
             </a>
             {(["jadwal", "kirim"] as ViewKey[]).map((key) => (
               <a
