@@ -201,7 +201,7 @@ export default function DaftarKain({ fabrics }: { fabrics: KainFabric[] | null }
   return (
     <div>
       <div className="pas-card overflow-hidden mb-5">
-        <div className="bg-gradient-to-r from-[#04123F] via-[#0A2465] to-[#123A8F] px-5 py-4 flex items-center justify-between gap-3 flex-wrap">
+        <div className="bg-gradient-to-r from-[#0D3934] via-[#114B43] to-[#15544C] px-5 py-4 flex items-center justify-between gap-3 flex-wrap">
           <div className="min-w-0">
             <h2 className="text-white font-bold text-[15px] leading-tight">
               Daftar Kain
@@ -395,7 +395,7 @@ export default function DaftarKain({ fabrics }: { fabrics: KainFabric[] | null }
       </p>
 
       {toast && (
-        <div className="fixed bottom-6 left-1/2 -translate-x-1/2 rounded-xl bg-[#04123F] text-white text-[13px] px-4 py-2.5 shadow-lg z-50">
+        <div className="fixed bottom-6 left-1/2 -translate-x-1/2 rounded-xl bg-[#0D3934] text-white text-[13px] px-4 py-2.5 shadow-lg z-50">
           {toast}
         </div>
       )}

@@ -41,7 +41,7 @@ export default function RupiahInput({
   return (
     <span
       className={
-        "inline-flex items-center rounded-lg border border-[#E3E7EE] bg-white transition-colors focus-within:border-[#04123F] " +
+        "inline-flex items-center rounded-lg border border-[#E3E7EE] bg-white transition-colors focus-within:border-[#0D3934] " +
         className
       }
     >

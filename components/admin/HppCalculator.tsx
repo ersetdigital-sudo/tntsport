@@ -234,7 +234,7 @@ export default function HppCalculator({
               className={
                 "rounded-xl px-2 py-3 sm:px-4 sm:py-2 text-[13px] font-semibold transition text-center whitespace-nowrap touch-manipulation active:scale-[0.97] " +
                 (tab === t.key
-                  ? "bg-gradient-to-b from-[#04123F] to-[#0A2465] text-white shadow-sm"
+                  ? "bg-gradient-to-b from-[#0D3934] to-[#114B43] text-white shadow-sm"
                   : "text-[var(--pas-muted)] hover:text-[var(--pas-ink-1)]")
               }
             >
@@ -344,7 +344,7 @@ export default function HppCalculator({
                 />
               </td>
             </tr>
-            <tr className="bg-[#FEC40B]/10">
+            <tr className="bg-[#DDB339]/10">
               <td className="px-4 py-3 font-bold" colSpan={2}>
                 HARGA JUAL
               </td>
@@ -381,7 +381,7 @@ export default function HppCalculator({
                 </div>
                 {rowDef && options.length > 0 ? (
                   <select
-                    className="w-full rounded-xl border border-[#E3E7EE] bg-[#F7F8FA] px-3 py-2.5 text-sm outline-none transition-colors focus:border-[#04123F] focus:bg-white"
+                    className="w-full rounded-xl border border-[#E3E7EE] bg-[#F7F8FA] px-3 py-2.5 text-sm outline-none transition-colors focus:border-[#0D3934] focus:bg-white"
                     value={line.variasi}
                     onChange={(e) =>
                       setSelected((prev) => ({
@@ -415,7 +415,7 @@ export default function HppCalculator({
               onValueChange={setMargin}
             />
           </div>
-          <div className="flex items-center justify-between font-bold rounded-xl bg-[#FEC40B]/10 px-3 py-3">
+          <div className="flex items-center justify-between font-bold rounded-xl bg-[#DDB339]/10 px-3 py-3">
             <span>HARGA JUAL</span>
             <span className="text-[15px]">{rupiah(hargaJual)}</span>
           </div>
@@ -466,7 +466,7 @@ export default function HppCalculator({
       )}
 
       {toast && (
-        <div className="fixed bottom-6 left-1/2 -translate-x-1/2 rounded-xl bg-[#04123F] text-white text-[13px] px-4 py-2.5 shadow-lg z-50">
+        <div className="fixed bottom-6 left-1/2 -translate-x-1/2 rounded-xl bg-[#0D3934] text-white text-[13px] px-4 py-2.5 shadow-lg z-50">
           {toast}
         </div>
       )}

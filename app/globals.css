@@ -2408,6 +2408,17 @@
 }
 .pas-delta.up { background: var(--pas-sage-soft); color: var(--pas-sage-ink); }
 .pas-delta.flat { background: var(--pas-line); color: var(--pas-muted); }
+.pas-delta.ok { background: var(--pas-sage-soft); color: var(--pas-sage-ink); }
+.pas-delta.good { background: var(--pas-sage-soft); color: var(--pas-sage-ink); }
+.pas-delta.bad { background: rgba(192,57,43,.12); color: var(--pas-red); }
+
+/* Chip ikon di pojok kanan kartu KPI (komponen KpiCard). */
+.pas-kpi-ic {
+  width: 34px; height: 34px; flex: none; border-radius: 11px;
+  display: grid; place-items: center;
+  background: rgba(13,57,52,.08); color: var(--pas-green);
+}
+.pas-kpi-hero .pas-kpi-ic { background: rgba(233,239,220,.18); color: var(--pas-yellow); }
 
 /* Label kartu KPI. Dipisah jadi kelas supaya kartu unggulan (.pas-kpi-hero)
    bisa mengganti warnanya tanpa menimpa utility di komponen. */

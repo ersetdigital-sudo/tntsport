@@ -7,6 +7,7 @@ import { Sheet, SheetContent, SheetTitle, SheetTrigger } from "@/components/ui/s
 import { pcsLabel } from "@/lib/utils";
 import { buildWhatsAppLink } from "@/lib/wa";
 import UploadIndicator from "@/components/admin/UploadIndicator";
+import KpiCard from "@/components/KpiCard";
 import { Search, AlertTriangle } from "lucide-react";
 
 // Same delivery optimization the old /api/upload/design route applied (f_auto,q_auto)
@@ -1011,58 +1012,49 @@ function ViewPesanan({
       )}
       {/* KPI */}
       <section className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 w-full">
-        <div className="pas-card pas-kpi pas-kpi-hero pas-bento-kpi p-4 sm:p-5">
-          <p className="pas-kpi-label">Total Pesanan</p>
-          <div className="mt-2.5 flex flex-wrap items-end gap-x-2.5 gap-y-1.5">
-            <p className="pas-display pas-num text-[34px] leading-none">{stats.total}</p>
-            <span className="pas-delta up mb-0.5">+2 minggu ini</span>
-          </div>
-        </div>
-        <div className="pas-card pas-kpi pas-bento-kpi p-4 sm:p-5">
-          <p className="pas-kpi-label">Sedang Produksi</p>
-          <div className="mt-2.5 flex flex-wrap items-end gap-x-2.5 gap-y-1.5">
-            <p className="pas-display pas-num text-[30px] leading-none text-[var(--pas-accent)]">
-              {stats.produksi}
-            </p>
-            <span className="pas-delta flat mb-0.5">on track</span>
-          </div>
-        </div>
-        <div className="pas-card pas-kpi pas-bento-kpi p-4 sm:p-5">
-          <p className="pas-kpi-label">Deadline</p>
-          <div className="mt-2.5 flex flex-wrap items-end gap-x-2.5 gap-y-1.5">
-            <p
-              className={
-                hasOverdue
-                  ? "pas-display pas-num text-[30px] leading-none text-red-500"
-                  : hasWarning
-                    ? "pas-display pas-num text-[30px] leading-none text-[var(--pas-orange)]"
-                    : "pas-display pas-num text-[30px] leading-none text-[var(--pas-green)]"
-              }
-            >
-              {deadlineAlertCount}
-            </p>
-            {nextDeadline && deadlineInfo.level && (
-              <span
-                className={
-                  deadlineInfo.level === "overdue"
-                    ? "pas-delta mb-0.5 bg-red-100 text-red-600"
-                    : "pas-delta mb-0.5 bg-[#CB5639]/10 text-[#CB5639]"
-                }
-              >
-                {deadlineInfo.level === "overdue"
-                  ? `lewat ${Math.abs(deadlineInfo.diffDays)} hari`
-                  : `H-${deadlineInfo.diffDays}`}
-              </span>
-            )}
-          </div>
-        </div>
-        <div className="pas-card pas-kpi pas-bento-kpi p-4 sm:p-5">
-          <p className="pas-kpi-label">Selesai</p>
-          <div className="mt-2.5 flex flex-wrap items-end gap-x-2.5 gap-y-1.5">
-            <p className="pas-display pas-num text-[30px] leading-none">{stats.selesai}</p>
-            <span className="pas-delta flat mb-0.5">bulan ini</span>
-          </div>
-        </div>
+        <KpiCard
+          hero
+          icon="total"
+          label="Total Pesanan"
+          value={stats.total}
+          badge={<span className="pas-delta up mb-0.5">+2 minggu ini</span>}
+        />
+        <KpiCard
+          icon="produksi"
+          label="Sedang Produksi"
+          value={stats.produksi}
+          badge={<span className="pas-delta flat mb-0.5">on track</span>}
+        />
+        <KpiCard
+          icon="deadline"
+          label="Deadline"
+          value={deadlineAlertCount}
+          valueClass={
+            hasOverdue
+              ? "text-red-500"
+              : hasWarning
+                ? "text-[var(--pas-orange)]"
+                : "text-[var(--pas-green)]"
+          }
+          badge={
+            nextDeadline && deadlineInfo.level ? (
+              deadlineInfo.level === "overdue" ? (
+                <span className="pas-delta bad mb-0.5">
+                  lewat {Math.abs(deadlineInfo.diffDays)} hari
+                </span>
+              ) : (
+                <span className="pas-delta ok mb-0.5">H-{deadlineInfo.diffDays}</span>
+              )
+            ) : undefined
+          }
+          note={nextDeadline ? `Terdekat: ${formatDatePretty(nextDeadline)}` : "Tidak ada pesanan aktif"}
+        />
+        <KpiCard
+          icon="selesai"
+          label="Selesai"
+          value={stats.selesai}
+          badge={<span className="pas-delta flat mb-0.5">bulan ini</span>}
+        />
       </section>
 
       {/* toolbar */}

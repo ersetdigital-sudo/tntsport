@@ -35,7 +35,7 @@ const FALLBACK_META = { dot: "bg-[#94A3B8]", chip: "bg-[#F1F5F9] text-[#334155]"
 const KATEGORI_BARU = "__kategori_baru__";
 
 const INPUT_KELAS =
-  "rounded-lg border border-[#E3E7EE] bg-white px-3 py-2.5 text-sm outline-none focus:border-[#04123F]";
+  "rounded-lg border border-[#E3E7EE] bg-white px-3 py-2.5 text-sm outline-none focus:border-[#0D3934]";
 
 export default function HppDatabase({
   items,
@@ -230,7 +230,7 @@ export default function HppDatabase({
     <div>
       {/* ── HEADER + FILTER ── */}
       <div className="pas-card overflow-hidden mb-5">
-        <div className="bg-gradient-to-r from-[#04123F] via-[#0A2465] to-[#123A8F] px-5 py-4 flex items-center justify-between gap-3 flex-wrap">
+        <div className="bg-gradient-to-r from-[#0D3934] via-[#114B43] to-[#15544C] px-5 py-4 flex items-center justify-between gap-3 flex-wrap">
           <div className="min-w-0">
             <h2 className="text-white font-bold text-[15px] leading-tight">
               Database HPP
@@ -254,7 +254,7 @@ export default function HppDatabase({
             value={query}
             onChange={(e) => setQuery(e.target.value)}
             placeholder="Cari item atau variasi…"
-            className="w-full sm:w-80 rounded-xl border border-[var(--pas-line)] bg-[#F7F8FA] px-3.5 py-2.5 text-sm outline-none focus:bg-white focus:border-[#04123F]"
+            className="w-full sm:w-80 rounded-xl border border-[var(--pas-line)] bg-[#F7F8FA] px-3.5 py-2.5 text-sm outline-none focus:bg-white focus:border-[#0D3934]"
           />
           <div className="flex gap-1.5 overflow-x-auto pb-1 sm:flex-wrap sm:overflow-visible sm:pb-0">
             <FilterChip
@@ -389,7 +389,7 @@ export default function HppDatabase({
       <div className="pas-card overflow-hidden hidden sm:block">
         <table className="w-full text-sm">
           <thead>
-            <tr className="bg-[#04123F] text-white text-left text-[11.5px] uppercase tracking-wide">
+            <tr className="bg-[#0D3934] text-white text-left text-[11.5px] uppercase tracking-wide">
               <th className="px-4 py-3 font-semibold w-14">No</th>
               <th className="px-2 py-3 font-semibold">Kategori</th>
               <th className="px-2 py-3 font-semibold">Item</th>
@@ -478,7 +478,7 @@ export default function HppDatabase({
       </p>
 
       {toast && (
-        <div className="fixed bottom-6 left-1/2 -translate-x-1/2 rounded-xl bg-[#04123F] text-white text-[13px] px-4 py-2.5 shadow-lg z-50">
+        <div className="fixed bottom-6 left-1/2 -translate-x-1/2 rounded-xl bg-[#0D3934] text-white text-[13px] px-4 py-2.5 shadow-lg z-50">
           {toast}
         </div>
       )}
@@ -506,7 +506,7 @@ function FilterChip({
       className={
         "inline-flex shrink-0 items-center gap-1.5 whitespace-nowrap rounded-full border px-3 py-1.5 text-[12.5px] font-medium transition " +
         (active
-          ? "bg-[#04123F] text-white border-[#04123F]"
+          ? "bg-[#0D3934] text-white border-[#0D3934]"
           : "bg-white text-[var(--pas-muted)] border-[var(--pas-line)] hover:text-[var(--pas-ink-1)] hover:border-[#CBD2DD]")
       }
     >

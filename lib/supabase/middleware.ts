@@ -25,6 +25,10 @@ export async function updateSession(request: NextRequest) {
     !process.env.NEXT_PUBLIC_SUPABASE_URL ||
     !process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
   ) {
+    // Still stamp the pathname — the pesanan layout reads this header to
+    // detect /pesanan/login and skip its auth guard there. Without it the
+    // layout redirects the login page to itself in an infinite loop.
+    response.headers.set("x-pathname", request.nextUrl.pathname);
     return response;
   }
 
